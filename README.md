@@ -1,5 +1,5 @@
 # 技术选型 #
- ![](http://i.imgur.com/c45BDH9.png)
+ ![](http://static.battcn.com/battcn3.0/battcn3.0-framework.png)
 ------
 ## 基础框架 ##
 	Spring4.3 Spring MVC4.3 Mybatis3.3.8
