@@ -1,0 +1,13 @@
+/target/
+/bin/
+/.settings/
+/.idea/
+.project
+/*.iml
+/battcn-entity.iml/
+/battcn-face.iml/
+battcn-entity.iml,battcn-face.iml
+battcn-parent.iml
+battcn-service.iml
+battcn-service-system.iml
+battcn-service-parent.iml

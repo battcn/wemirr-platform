@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context/spring-context-4.2.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.2.xsd"
+       default-lazy-init="false">
+
+    <tx:annotation-driven/>
+    <context:component-scan base-package="com.battcn.platform.system"/>
+    <context:property-placeholder location="classpath*:*.properties"/>
+
+    <!-- 阿里巴巴druid连接池 -->
+    <bean id="dataSourceProxool" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${database.driverClassName}"/>
+        <property name="url" value="${database.url}"/>
+        <property name="username" value="${database.username}"/>
+        <property name="password" value="${database.password}"/>
+        <property name="initialSize" value="${database.initialSize}"/>
+        <property name="maxActive" value="${database.maxActive}"/>
+        <property name="minIdle" value="${database.minIdle}"/>
+        <property name="maxWait" value="${database.maxWait}"/>
+        <property name="validationQuery" value="${database.validationQuery}"/>
+        <property name="testOnBorrow" value="${database.testOnBorrow}"/>
+        <property name="testOnReturn" value="${database.testOnReturn}"/>
+        <property name="testWhileIdle" value="${database.testWhileIdle}"/>
+        <property name="timeBetweenEvictionRunsMillis" value="${database.timeBetweenEvictionRunsMillis}"/>
+        <property name="filters" value="${database.filters}"/>
+        <!-- 配置监控统计拦截的filters -->
+        <property name="proxyFilters">
+            <list>
+                <ref bean="stat-filter"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+        <!--慢SQL统计，如果SQL执行时间超过一定时间则记录为慢SQL -->
+        <property name="slowSqlMillis" value="3000"/>
+        <!--慢SQL统计日志输出 -->
+        <property name="logSlowSql" value="true"/>
+        <!--合并SQL统计 例如select * from table t where t.id =1，会被变为select * from table t where t.id =？来统计 -->
+        <property name="mergeSql" value="true"/>
+    </bean>
+
+
+    <bean id="druid-stat-interceptor"
+          class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+    </bean>
+    <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+          scope="prototype">
+        <property name="patterns">
+            <list>
+                <value>com.battcn.platform.service.system.*</value>
+                <value>com.battcn.platform.service.system.mapper.*</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceProxool"/>
+        <property name="mapperLocations">
+            <array>
+                <value>classpath:mapper/*.xml</value>
+            </array>
+        </property>
+        <property name="typeAliasesPackage" value="com.battcn.platform.entity.system"/>
+        <property name="configLocation" value="classpath:mybatis.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.battcn.platform.system.mapper"/>
+    </bean>
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
+          scope="prototype">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+    <bean name="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceProxool"/>
+    </bean>
+    <!-- 标注类型 的事务配置 如果使用注解事务。就放开 -->
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+    <import resource="classpath:spring/spring-dubbo.xml"/>
+</beans>
