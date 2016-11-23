@@ -1,3 +1,3 @@
-#battcn3.0
+#battcn3.0 测试GIT#
 
 
