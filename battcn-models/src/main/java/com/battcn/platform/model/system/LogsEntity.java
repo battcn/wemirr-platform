@@ -1,4 +1,4 @@
-package com.battcn.platform.entity.system;
+package com.battcn.platform.model.system;
 
 
 import javax.persistence.*;

@@ -1,6 +1,6 @@
-package com.battcn.platform.face.system;
+package com.battcn.platform.facade.system;
 
-import com.battcn.platform.entity.system.LogsEntity;
+import com.battcn.platform.model.system.LogsEntity;
 
 import java.util.List;
 
