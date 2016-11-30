@@ -12,6 +12,7 @@ public class DubboProvider {
 	
 	private static final Logger log = LoggerFactory.getLogger(DubboProvider.class);
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		try {
 			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/spring-application.xml");
