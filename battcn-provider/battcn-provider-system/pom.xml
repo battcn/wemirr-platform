@@ -21,5 +21,20 @@
 		</dependency>
 	</dependencies>
 
+	<build>
+		<filters>
+			<filter>${runtime.evn}/jdbc.properties</filter>
+		</filters>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>${runtime.evn}</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
 
 </project>

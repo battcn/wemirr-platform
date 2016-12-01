@@ -25,7 +25,7 @@
 
 
 	<dependencies>
-		<!-- <dependency>
+		<dependency>
 			<groupId>battcn</groupId>
 			<artifactId>battcn-framework</artifactId>
 			<version>1.0-SNAPSHOT</version>
@@ -35,13 +35,13 @@
 					<artifactId>slf4j-log4j12</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>battcn</groupId>
 			<artifactId>battcn-facades</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>battcn</groupId>
 			<artifactId>battcn-utils</artifactId>
 			<version>1.0-SNAPSHOT</version>
@@ -51,7 +51,7 @@
 					<groupId>org.slf4j</groupId>
 				</exclusion>
 			</exclusions>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>com.github.sgroschupf</groupId>
 			<artifactId>zkclient</artifactId>

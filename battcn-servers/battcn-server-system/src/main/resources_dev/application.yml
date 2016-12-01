@@ -1,0 +1,31 @@
+server:
+  port: 9090
+
+spring:
+  aop:
+    proxy-target-class: true
+
+dubbo:
+  application:
+      name: order_parser_consumer
+  registry:
+      address: 192.168.122.191:2181
+
+rabbit:
+  host: 192.168.122.175
+  username: sto_dev
+  password: sto_dev
+  port: 5672
+
+
+order:
+  redis:
+    host: 192.168.122.175
+    port: 8884
+    timeout: 3000
+    maxidle: 5
+
+
+
+
+

@@ -5,7 +5,10 @@ import com.battcn.platform.model.system.LogsEntity;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016-11-22.
+ * 
+ * @author 唐亚峰
+ * @desc 日志查询
+ *
  */
 public interface LogsService
 {

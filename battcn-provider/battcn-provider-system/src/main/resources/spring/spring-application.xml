@@ -57,8 +57,8 @@
           scope="prototype">
         <property name="patterns">
             <list>
-                <value>com.battcn.platform.service.system.*</value>
-                <value>com.battcn.platform.service.system.mapper.*</value>
+                <value>com.battcn.platform.system.*</value>
+                <value>com.battcn.platform.system.mapper.*</value>
             </list>
         </property>
     </bean>
@@ -70,12 +70,17 @@
                 <value>classpath:mapper/*.xml</value>
             </array>
         </property>
-        <property name="typeAliasesPackage" value="com.battcn.platform.entity.system"/>
+        <property name="typeAliasesPackage" value="com.battcn.platform.model.system"/>
         <property name="configLocation" value="classpath:mybatis.xml"/>
     </bean>
 
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.battcn.platform.system.mapper"/>
+        <property name="properties">
+			<value>
+				mappers=tk.mybatis.mapper.common.Mapper
+			</value>
+		</property>
     </bean>
 
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"

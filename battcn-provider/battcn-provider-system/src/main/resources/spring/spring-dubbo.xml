@@ -9,7 +9,7 @@
        default-lazy-init="false">
 
 
-    <dubbo:service interface="com.battcn.platform.face.system.LogsService" ref="logsService" version="1.0.0"/>
+    <dubbo:service interface="com.battcn.platform.facade.system.LogsService" ref="logsService" version="1.0.0"/>
 
 
 

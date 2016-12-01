@@ -1,3 +1,4 @@
+package com.battcn.platform.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,7 @@ public class DubboProvider {
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		try {
-			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/spring-application.xml");
+			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath*:spring/spring-application.xml");
 			context.start();
 		} catch (Exception e) {
 			log.error("== DubboProvider context start error:",e);

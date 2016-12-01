@@ -19,4 +19,7 @@ public class LogsServiceImpl implements LogsService
     {
         return this.logsMapper.selectAll();
     }
+    
+    
+    
 }
