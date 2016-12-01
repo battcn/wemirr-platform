@@ -4,8 +4,8 @@ package com.battcn.platform.system;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.battcn.platform.face.system.LogsService;
-import com.battcn.platform.models.system.LogsEntity;
+import com.battcn.platform.facade.system.LogsService;
+import com.battcn.platform.model.system.LogsEntity;
 import com.battcn.platform.system.mapper.LogsMapper;
 
 @Service("logsService")

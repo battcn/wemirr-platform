@@ -11,8 +11,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.battcn.platform.face</groupId>
-			<artifactId>battcn-face</artifactId>
+			<groupId>battcn</groupId>
+			<artifactId>battcn-facades</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
