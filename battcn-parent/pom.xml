@@ -46,6 +46,7 @@
 		<commons-logging.version>1.1.1</commons-logging.version>
 		<persistence.version>1.0</persistence.version>
 		<guava.version>19.0</guava.version>
+		<logback.version>1.1.7</logback.version>
 		<!-- 这里一定要配置上java的版本，如果是1.7版本的可不用配置 -->
 		<!-- 配置你的tomcat版本 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -80,6 +81,11 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.github.sgroschupf</groupId>
 				<artifactId>zkclient</artifactId>
@@ -131,6 +137,11 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
 			<dependency>

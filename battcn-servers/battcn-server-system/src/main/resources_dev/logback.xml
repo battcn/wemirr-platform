@@ -10,7 +10,7 @@
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily 配置日志所生成的目录以及生成文件名的规则 -->
-			<fileNamePattern>logs/order-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<fileNamePattern>logs/system-consumer-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>128 MB</maxFileSize>

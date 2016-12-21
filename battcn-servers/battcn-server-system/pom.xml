@@ -6,4 +6,14 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>battcn-server-system</artifactId>
+  
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>battcn-facades</groupId>
+  		<artifactId>battcn-facade-system</artifactId>
+  		<version>1.0-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+  
 </project>

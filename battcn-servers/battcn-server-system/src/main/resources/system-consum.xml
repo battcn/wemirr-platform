@@ -11,9 +11,8 @@
 	<dubbo:application name="${dubbo.application.name}" />
 	<!-- 使用zookeeper注册中心暴露服务地址 -->
 	<dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}" />
-	<!-- 声明需要暴露的服务接口 -->
-	<dubbo:reference interface="com.battcn.platform.facade.system.LogsService" id="logsService" version="1.0.0" />
-
+	
+	<dubbo:reference interface="com.battcn.platform.system.service.LogsService" id="logsService" version="1.0.0" />
 
 
 </beans>

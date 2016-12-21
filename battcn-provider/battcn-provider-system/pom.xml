@@ -11,20 +11,109 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>battcn</groupId>
-			<artifactId>battcn-facades</artifactId>
+			<groupId>battcn-facades</groupId>
+			<artifactId>battcn-facade-system</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>tk.mybatis</groupId>
 			<artifactId>mapper</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-log4j12</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>log4j</artifactId>
+					<groupId>log4j</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<build.type>dev</build.type>
+				<runtime.evn>src/main/resources_dev</runtime.evn>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>${project.basedir}/../../battcn-config/src/main/resources</directory>
+						<includes>
+							<include>**/*.*</include>
+						</includes>
+					</resource>
+					<resource>
+						<directory>${project.basedir}/../../battcn-config/src/main/resources_dev</directory>
+						<includes>
+							<include>**/*.*</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<build.type>test</build.type>
+				<runtime.evn>src/main/resources_test</runtime.evn>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>${project.basedir}/../../battcn-config/src/main/resources</directory>
+						<includes>
+							<include>**/*.*</include>
+						</includes>
+					</resource>
+					<resource>
+						<directory>${project.basedir}/../../battcn-config/src/main/resources_test</directory>
+						<includes>
+							<include>**/*.*</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<build.type>prod</build.type>
+				<runtime.evn>src/main/resources_prod</runtime.evn>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>${project.basedir}/../../battcn-config/src/main/resources</directory>
+						<includes>
+							<include>**/*.*</include>
+						</includes>
+					</resource>
+					<resource>
+						<directory>${project.basedir}/../../battcn-config/src/main/resources_prod</directory>
+						<includes>
+							<include>**/*.*</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
+
+
 	<build>
-		<filters>
-			<filter>${runtime.evn}/jdbc.properties</filter>
-		</filters>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -35,6 +124,19 @@
 				<filtering>true</filtering>
 			</resource>
 		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<configuration>
+					<webAppConfig>
+						<contextPath>${project.artifactId}</contextPath>
+					</webAppConfig>
+					<!-- 每3秒的间隔扫描一次,实现热部署 -->
+					<scanIntervalSeconds>3</scanIntervalSeconds>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>

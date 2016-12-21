@@ -1,0 +1,120 @@
+2016-12-21 17:15:05,569 [main] INFO  com.alibaba.dubbo.container.Main (Main.java:81) -  [DUBBO] Dubbo Log4jContainer started!, dubbo version: 2.5.3, current host: 127.0.0.1
+2016-12-21 17:15:05,701 [main] INFO  org.springframework.context.support.AbstractApplicationContext (AbstractApplicationContext.java:573) - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@2280cdac: startup date [Wed Dec 21 17:15:05 CST 2016]; root of context hierarchy
+2016-12-21 17:15:05,750 [main] INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader (XmlBeanDefinitionReader.java:317) - Loading XML bean definitions from class path resource [spring/spring-application.xml]
+2016-12-21 17:15:06,236 [main] INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader (XmlBeanDefinitionReader.java:317) - Loading XML bean definitions from class path resource [spring/spring-dubbo.xml]
+2016-12-21 17:15:06,720 [main] INFO  org.springframework.core.io.support.PropertiesLoaderSupport (PropertiesLoaderSupport.java:172) - Loading properties file from file [E:\battcn-git\battcn3.0\battcn-provider\battcn-provider-system\target\classes\config.properties]
+2016-12-21 17:15:06,721 [main] INFO  org.springframework.core.io.support.PropertiesLoaderSupport (PropertiesLoaderSupport.java:172) - Loading properties file from file [E:\battcn-git\battcn3.0\battcn-provider\battcn-provider-system\target\classes\dubbo.properties]
+2016-12-21 17:15:06,721 [main] INFO  org.springframework.core.io.support.PropertiesLoaderSupport (PropertiesLoaderSupport.java:172) - Loading properties file from file [E:\battcn-git\battcn3.0\battcn-provider\battcn-provider-system\target\classes\jdbc.properties]
+2016-12-21 17:15:06,721 [main] INFO  org.springframework.core.io.support.PropertiesLoaderSupport (PropertiesLoaderSupport.java:172) - Loading properties file from file [E:\battcn-git\battcn3.0\battcn-provider\battcn-provider-system\target\classes\log4j.properties]
+2016-12-21 17:15:06,732 [main] WARN  org.springframework.context.support.AbstractApplicationContext (AbstractApplicationContext.java:544) - Exception encountered during context initialization - cancelling refresh attempt
+org.springframework.beans.factory.BeanDefinitionStoreException: Invalid bean definition with name 'com.alibaba.dubbo.config.ProviderConfig' defined in null: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"
+	at org.springframework.beans.factory.config.PlaceholderConfigurerSupport.doProcessProperties(PlaceholderConfigurerSupport.java:211)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.processProperties(PropertySourcesPlaceholderConfigurer.java:180)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.postProcessBeanFactory(PropertySourcesPlaceholderConfigurer.java:155)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:284)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:166)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:673)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:519)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:139)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:93)
+	at com.alibaba.dubbo.container.spring.SpringContainer.start(SpringContainer.java:50)
+	at com.alibaba.dubbo.container.Main.main(Main.java:80)
+	at com.battcn.platform.test.DubboProvider.main(DubboProvider.java:12)
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:174)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:204)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:178)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer$2.resolveStringValue(PropertySourcesPlaceholderConfigurer.java:175)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.resolveStringValue(BeanDefinitionVisitor.java:282)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.resolveValue(BeanDefinitionVisitor.java:209)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.visitPropertyValues(BeanDefinitionVisitor.java:141)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.visitBeanDefinition(BeanDefinitionVisitor.java:82)
+	at org.springframework.beans.factory.config.PlaceholderConfigurerSupport.doProcessProperties(PlaceholderConfigurerSupport.java:208)
+	... 11 more
+2016-12-21 17:15:06,738 [main] ERROR com.alibaba.dubbo.container.Main (Main.java:86) -  [DUBBO] Invalid bean definition with name 'com.alibaba.dubbo.config.ProviderConfig' defined in null: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}", dubbo version: 2.5.3, current host: 127.0.0.1
+org.springframework.beans.factory.BeanDefinitionStoreException: Invalid bean definition with name 'com.alibaba.dubbo.config.ProviderConfig' defined in null: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"
+	at org.springframework.beans.factory.config.PlaceholderConfigurerSupport.doProcessProperties(PlaceholderConfigurerSupport.java:211)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.processProperties(PropertySourcesPlaceholderConfigurer.java:180)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.postProcessBeanFactory(PropertySourcesPlaceholderConfigurer.java:155)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:284)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:166)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:673)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:519)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:139)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:93)
+	at com.alibaba.dubbo.container.spring.SpringContainer.start(SpringContainer.java:50)
+	at com.alibaba.dubbo.container.Main.main(Main.java:80)
+	at com.battcn.platform.test.DubboProvider.main(DubboProvider.java:12)
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:174)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:204)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:178)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer$2.resolveStringValue(PropertySourcesPlaceholderConfigurer.java:175)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.resolveStringValue(BeanDefinitionVisitor.java:282)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.resolveValue(BeanDefinitionVisitor.java:209)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.visitPropertyValues(BeanDefinitionVisitor.java:141)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.visitBeanDefinition(BeanDefinitionVisitor.java:82)
+	at org.springframework.beans.factory.config.PlaceholderConfigurerSupport.doProcessProperties(PlaceholderConfigurerSupport.java:208)
+	... 11 more
+2016-12-21 17:19:11,007 [main] INFO  com.alibaba.dubbo.container.Main (Main.java:81) -  [DUBBO] Dubbo Log4jContainer started!, dubbo version: 2.5.3, current host: 127.0.0.1
+2016-12-21 17:19:11,130 [main] INFO  org.springframework.context.support.AbstractApplicationContext (AbstractApplicationContext.java:573) - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@2280cdac: startup date [Wed Dec 21 17:19:11 CST 2016]; root of context hierarchy
+2016-12-21 17:19:11,171 [main] INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader (XmlBeanDefinitionReader.java:317) - Loading XML bean definitions from class path resource [spring/spring-application.xml]
+2016-12-21 17:19:11,530 [main] INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader (XmlBeanDefinitionReader.java:317) - Loading XML bean definitions from class path resource [spring/spring-dubbo.xml]
+2016-12-21 17:19:12,067 [main] INFO  org.springframework.core.io.support.PropertiesLoaderSupport (PropertiesLoaderSupport.java:172) - Loading properties file from file [E:\battcn-git\battcn3.0\battcn-provider\battcn-provider-system\target\classes\config.properties]
+2016-12-21 17:19:12,068 [main] INFO  org.springframework.core.io.support.PropertiesLoaderSupport (PropertiesLoaderSupport.java:172) - Loading properties file from file [E:\battcn-git\battcn3.0\battcn-provider\battcn-provider-system\target\classes\dubbo.properties]
+2016-12-21 17:19:12,069 [main] INFO  org.springframework.core.io.support.PropertiesLoaderSupport (PropertiesLoaderSupport.java:172) - Loading properties file from file [E:\battcn-git\battcn3.0\battcn-provider\battcn-provider-system\target\classes\jdbc.properties]
+2016-12-21 17:19:12,069 [main] INFO  org.springframework.core.io.support.PropertiesLoaderSupport (PropertiesLoaderSupport.java:172) - Loading properties file from file [E:\battcn-git\battcn3.0\battcn-provider\battcn-provider-system\target\classes\log4j.properties]
+2016-12-21 17:19:12,078 [main] WARN  org.springframework.context.support.AbstractApplicationContext (AbstractApplicationContext.java:544) - Exception encountered during context initialization - cancelling refresh attempt
+org.springframework.beans.factory.BeanDefinitionStoreException: Invalid bean definition with name 'com.alibaba.dubbo.config.ProviderConfig' defined in null: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"
+	at org.springframework.beans.factory.config.PlaceholderConfigurerSupport.doProcessProperties(PlaceholderConfigurerSupport.java:211)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.processProperties(PropertySourcesPlaceholderConfigurer.java:180)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.postProcessBeanFactory(PropertySourcesPlaceholderConfigurer.java:155)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:284)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:166)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:673)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:519)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:139)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:93)
+	at com.alibaba.dubbo.container.spring.SpringContainer.start(SpringContainer.java:50)
+	at com.alibaba.dubbo.container.Main.main(Main.java:80)
+	at com.battcn.platform.test.DubboProvider.main(DubboProvider.java:12)
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:174)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:204)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:178)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer$2.resolveStringValue(PropertySourcesPlaceholderConfigurer.java:175)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.resolveStringValue(BeanDefinitionVisitor.java:282)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.resolveValue(BeanDefinitionVisitor.java:209)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.visitPropertyValues(BeanDefinitionVisitor.java:141)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.visitBeanDefinition(BeanDefinitionVisitor.java:82)
+	at org.springframework.beans.factory.config.PlaceholderConfigurerSupport.doProcessProperties(PlaceholderConfigurerSupport.java:208)
+	... 11 more
+2016-12-21 17:19:12,083 [main] ERROR com.alibaba.dubbo.container.Main (Main.java:86) -  [DUBBO] Invalid bean definition with name 'com.alibaba.dubbo.config.ProviderConfig' defined in null: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}", dubbo version: 2.5.3, current host: 127.0.0.1
+org.springframework.beans.factory.BeanDefinitionStoreException: Invalid bean definition with name 'com.alibaba.dubbo.config.ProviderConfig' defined in null: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"
+	at org.springframework.beans.factory.config.PlaceholderConfigurerSupport.doProcessProperties(PlaceholderConfigurerSupport.java:211)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.processProperties(PropertySourcesPlaceholderConfigurer.java:180)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.postProcessBeanFactory(PropertySourcesPlaceholderConfigurer.java:155)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:284)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:166)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:673)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:519)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:139)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:93)
+	at com.alibaba.dubbo.container.spring.SpringContainer.start(SpringContainer.java:50)
+	at com.alibaba.dubbo.container.Main.main(Main.java:80)
+	at com.battcn.platform.test.DubboProvider.main(DubboProvider.java:12)
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'dubbo.service.timeout' in string value "${dubbo.service.timeout}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:174)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:204)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:178)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer$2.resolveStringValue(PropertySourcesPlaceholderConfigurer.java:175)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.resolveStringValue(BeanDefinitionVisitor.java:282)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.resolveValue(BeanDefinitionVisitor.java:209)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.visitPropertyValues(BeanDefinitionVisitor.java:141)
+	at org.springframework.beans.factory.config.BeanDefinitionVisitor.visitBeanDefinition(BeanDefinitionVisitor.java:82)
+	at org.springframework.beans.factory.config.PlaceholderConfigurerSupport.doProcessProperties(PlaceholderConfigurerSupport.java:208)
+	... 11 more

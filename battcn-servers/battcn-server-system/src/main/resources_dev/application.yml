@@ -7,9 +7,9 @@ spring:
 
 dubbo:
   application:
-      name: order_parser_consumer
+      name: system-consumer
   registry:
-      address: 192.168.122.191:2181
+      address: 127.0.0.1:2181
 
 rabbit:
   host: 192.168.122.175

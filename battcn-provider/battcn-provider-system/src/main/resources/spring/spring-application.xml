@@ -12,7 +12,7 @@
        default-lazy-init="false">
 
     <tx:annotation-driven/>
-    <context:component-scan base-package="com.battcn.platform.system"/>
+    <context:component-scan base-package="com.battcn.platform"/>
     <context:property-placeholder location="classpath*:*.properties"/>
 
     <!-- 阿里巴巴druid连接池 -->
@@ -32,35 +32,6 @@
         <property name="testWhileIdle" value="${database.testWhileIdle}"/>
         <property name="timeBetweenEvictionRunsMillis" value="${database.timeBetweenEvictionRunsMillis}"/>
         <property name="filters" value="${database.filters}"/>
-        <!-- 配置监控统计拦截的filters -->
-        <property name="proxyFilters">
-            <list>
-                <ref bean="stat-filter"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
-        <!--慢SQL统计，如果SQL执行时间超过一定时间则记录为慢SQL -->
-        <property name="slowSqlMillis" value="3000"/>
-        <!--慢SQL统计日志输出 -->
-        <property name="logSlowSql" value="true"/>
-        <!--合并SQL统计 例如select * from table t where t.id =1，会被变为select * from table t where t.id =？来统计 -->
-        <property name="mergeSql" value="true"/>
-    </bean>
-
-
-    <bean id="druid-stat-interceptor"
-          class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
-    </bean>
-    <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
-          scope="prototype">
-        <property name="patterns">
-            <list>
-                <value>com.battcn.platform.system.*</value>
-                <value>com.battcn.platform.system.mapper.*</value>
-            </list>
-        </property>
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
