@@ -3,7 +3,6 @@
 ------
 ## 目录结构 ##
 	battcn-parent：Jar包版本管理的工程->下载需首先install一下
-	battcn-models：实体类工程,需要install
 	battcn-facades：接口文件,需要install
 	battcn-provider：服务提供者
 		battcn-provider-parent：服务提供者的公共类,这样多个提供者只需要在pom.xml配置下parent即可
