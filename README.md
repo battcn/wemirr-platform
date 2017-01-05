@@ -18,6 +18,7 @@
 
 ## 测试 ##
 	因部分童鞋无法看到效果,故而写了个小案例,只需要配置上 zookeeper 
+        (可以看看附件上传的zookeeper 启动bin/zkServer.cmd  或者 zkServer.sh即可)
 	1.修改battcn-config项目中的jdbc.properties 地址改成自己的
 	2.修改battcn-server-system application.yml zookeeper 地址改为自己的
 	3.启动:battcn-provider-system (jetty:run) 默认 dev环境
