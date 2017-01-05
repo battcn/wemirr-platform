@@ -16,6 +16,17 @@
 	battcn-utils：工具类
 	battcn-framework：WEB工具类,如MQ，Redis，Spring
 
+## 测试 ##
+	因部分童鞋无法看到效果,故而写了个小案例,只需要配置上 zookeeper 
+	1.修改battcn-config项目中的jdbc.properties 地址改成自己的
+	2.修改battcn-server-system application.yml zookeeper 地址改为自己的
+	3.启动:battcn-provider-system (jetty:run) 默认 dev环境
+	4.启动:battcn-server-system ApplicationRun (boot项目,专门做接口开发)
+	5.地址:http://localhost:9090/logs/query
+	
+	
+	
+	
 ## 致歉 ##
 	因为作者也需要工作,只能在业余之时加快进度的code,现阶段开发也许比较缓慢,请各位看官谅解,
 	不过本人承诺保证,在工作之余主要精力就是放在battcn的项目上,这是battcn的第三个版本,

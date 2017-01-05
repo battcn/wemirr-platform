@@ -10,13 +10,13 @@ import com.battcn.platform.framework.redis.impl.RedisOperatorImpl;
 @Component
 public class RedisConfig {
 
-	@Value("${order.redis.host}")
+	@Value("${redis.host}")
 	public String host;
-	@Value("${order.redis.port}")
+	@Value("${redis.port}")
 	public Integer port;
-	@Value("${order.redis.timeout}")
+	@Value("${redis.timeout}")
 	public Integer timeout;
-	@Value("${order.redis.maxidle}")
+	@Value("${redis.maxidle}")
 	public Integer maxidle;
 
 	// @Bean

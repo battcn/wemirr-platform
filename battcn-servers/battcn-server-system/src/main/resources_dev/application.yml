@@ -4,28 +4,22 @@ server:
 spring:
   aop:
     proxy-target-class: true
-
+    
 dubbo:
   application:
       name: system-consumer
   registry:
-      address: 127.0.0.1:2181
-
-rabbit:
+      address: 192.168.122.191:2181
+    
+redis:
   host: 192.168.122.175
-  username: sto_dev
-  password: sto_dev
-  port: 5672
+  port: 8884
+  timeout: 3000
+  maxidle: 5
 
-
-order:
-  redis:
-    host: 192.168.122.175
-    port: 8884
-    timeout: 3000
-    maxidle: 5
-
-
+service:
+  push:
+    automatic: http://www.battcn.com/
 
 
 
