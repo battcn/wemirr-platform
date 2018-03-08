@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<link rel="stylesheet" type="text/css" th:href="@{/resource/permissions/permissions.css}"></link>
+<script th:inline="javascript">
+/*<![CDATA[*/
+  $(function(){
+	  $.ajax({
+			type : "GET",
+			url :  'sys/role/operate/'+$("#menu[[${OP.menuId}]]Form").find("#roleId").val(),
+			dataType : 'json',
+			success : function(result) {
+				var operate = result.data;
+				for (index in operate) {
+					$("input[name='operateId']:checkbox[value='" + operate[index].operateId+ "']").prop('checked', 'true');
+				}
+			}
+		}); 
+	  battcn.admin.menu[[${OP.menuId}]].permissions.save = function(obj) {
+		var $form = $("#menu[[${OP.menuId}]]Form");  		
+  		if($form.valid()){
+  			battcn.ajaxJson({url:"sys/role/operate/permissions",data:$form.serializeArray()},function(){
+  				battcn.closeWindow();
+				$('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable('refresh');
+    		});
+  		}; 
+	};	 
+  });
+	
+/*]]>*/
+</script>
+<style type="text/css">
+label i {font-size:12px;font-style:normal;display:inline-block;width:12px;height:12px;text-align:center;line-height:12px;color:#fff;vertical-align:middle;margin:-2px 2px 1px 0px;border:#2489c5 1px solid;}
+input[type="checkbox"] {display:none;}
+input[type="checkbox"]:checked + i,input[type="radio"]:checked + i {background:#2489c5;}
+</style>
+
+<div class="ibox float-e-margins animated fadeInRight">
+	<div class="ibox-content">
+		<form class="form-horizontal m-t required-validate" th:id="@{menu{menuId}Form(menuId=${OP.menuId})}" method="POST" >
+			<input type="hidden" th:value="${roleId}" name="roleId" id="roleId"/><!-- th:value="${roleId}" -->
+			<table>
+				<tr>
+					<th scope="row" class="specalt">一级菜单</th>
+					<th scope="row" class="specalt"><span>二级菜单</span>
+					<span style="padding-left: 200px;"></span> 按钮 </th>
+				</tr>
+				<tr th:each="m1 : ${permissions}">
+					<th scope="row" class="specalt">
+						<label><input type="checkbox" name="operateId" th:attr="_key='menu_'+${m1.id}"
+						th:onclick="'javascript:clickAll(this,'+${m1.id}+');'" th:value="${m1?.id}" /> 
+						<i>✓</i><font th:text="${m1.menuName}"></font></label>
+					</th>
+					<th scope="row"  class="specalt">
+						<table>
+							<tr th:each="m2 : ${m1.children}">
+								<th scope="row"  class="specalt">
+									<label><input type="checkbox" name="operateId" th:attr="_key='menu_1_'+${m1.id},_key_1='menu_1_1_'+${m2.id}"
+									th:onclick="'javascript:clickByMenuId(this,'+${m2.id}+','+${m1.id}+');'" th:value="${m2?.id}"/><i>✓</i><font th:text="${m2.menuName}"></font></label>
+								</th>
+								<th th:if="${m2.children != null}">
+									<table>
+										<th th:each="op : ${m2.children}" scope="row" class="specalt">
+											<label><input type="checkbox" name="operateId"
+												th:attr="_key='menu_1_1_'+${m1.id},_key_2='menu_1_1_'+${m2.id}"
+												th:onclick="'javascript:clickButton(this,'+${m2.id}+','+${m1.id}+')'"
+												th:value="${op.id}" />
+												<i>✓</i><font th:text="${op.name}"></font></label>
+										</th>
+									</table>
+								</th>
+							</tr>
+						</table>
+					</th>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+</html>
+<script type="text/javascript" th:src="@{/resource/permissions/permissions.js}"></script>	

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<script th:inline="javascript">
+/*<![CDATA[*/
+$(function(){
+	battcn.ns('battcn.admin.menu[[${OP.menuId}]]');
+	$('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable({ 
+           url:[[${MENU.channel}]]+'/query',
+             height: '100%',
+             sortName: 'name',
+             sortOrder: 'desc',
+             striped: true,
+             pagination: true,
+             pageSize: 10,
+             pageList: [10, 25, 50, 100, 200],
+             search: false,
+             sidePagination:'server',
+             idField: 'id',
+             uniqueId: 'id',
+             responseHandler: responseHandler,
+             queryParams: queryParams,
+             minimumCountColumns: 2,
+             clickToSelect: true,
+             columns: [{checkbox: true
+           	 }, {
+                 field: 'name',
+                 title: '角色名称',
+                 align: 'center',
+                 valign: 'middle'
+             }, {
+                 field: 'code',
+                 title: '角色代码',
+                 align: 'center',
+                 valign: 'middle',
+                 sortable: true
+             },{
+                 field: 'remark',
+                 title: '备注',
+                 align: 'center',
+                 valign: 'top'
+             },{
+                 field: 'gmtCreate',
+                 title: '备注',
+                 align: 'center',
+                 valign: 'top',
+                 formatter:function(value,row,index){return new Date(value).pattern("yyyy-MM-dd HH:mm:ss")}
+             },{
+                 field: 'gmtModified',
+                 title: '备注',
+                 align: 'center',
+                 valign: 'top',
+                 formatter:function(value,row,index){return new Date(value).pattern("yyyy-MM-dd HH:mm:ss")}
+             } ]
+     	});
+    })
+    
+ battcn.admin.menu[[${OP.menuId}]].permissions = function(){
+	var rows =$('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable('getSelections');
+	if(rows.length==0){
+		 battcn.toastrsAlert({
+		     code:'info',
+		     msg:'请选择你要授权得角色'
+		});
+		return;
+	}
+	if(rows.length > 1){
+		 battcn.toastrsAlert({
+		     code:'warning',
+		     msg:'sorry , 只能选择一个角色'
+		});
+		return;
+	}
+   	battcn.showWindow({
+   			title:'分配权限',
+   			href:'op_permissions_[[${OP.menuId}]]?roleId='+rows[0].id,
+   			width:'50%',
+   			height:'40%',
+   			okhandler:function(){
+   				battcn.admin.menu[[${OP.menuId}]].permissions.save();
+   			},
+   			cancelhandler:function(){
+   				battcn.closeWindow();
+   			}
+   		});
+    }    
+//新增
+battcn.admin.menu[[${OP.menuId}]].add = function(){
+	battcn.showWindow({
+			title:'增加角色',
+			href:'op_edit_[[${OP.menuId}]]',
+			width:'50%',
+			height:'40%',
+			okhandler:function(){
+				battcn.admin.menu[[${OP.menuId}]].save();
+			},
+			cancelhandler:function(){
+				battcn.closeWindow();
+			}
+		});
+}
+
+	//编辑
+battcn.admin.menu[[${OP.menuId}]].edit = function(){
+	var rows =$('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable('getSelections');
+	if(rows.length==0){
+		 battcn.toastrsAlert({
+		     code:'info',
+		     msg:'请选择你要编辑的记录'
+		});
+		return;
+	}
+	if(rows.length > 1){
+		 battcn.toastrsAlert({
+		     code:'warning',
+		     msg:'sorry , 只能选择一条进行编辑'
+		});
+		return;
+	}
+	battcn.showWindow({
+			title:'编辑管理员',
+			href: '/op_edit_[[${OP.menuId}]]?id='+rows[0].id,
+			width:'50%',
+			height:'60%',
+			okhandler:function(){
+				battcn.admin.menu[[${OP.menuId}]].save();
+			},
+			cancelhandler:function(){
+				battcn.closeWindow();
+			}
+		});
+}
+
+	
+	//删除
+	battcn.admin.menu[[${OP.menuId}]].remove = function(){
+		var rows = $('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable('getSelections');
+		if(rows.length==0){
+			 battcn.toastrsAlert({
+			     code:'info',
+			     msg:'请选择你要删除的记录'
+			});
+			return;
+		}
+		battcn.confirm(function(){
+			var rows =$('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable('getSelections');
+			var ps = [];
+		  	$.each(rows,function(i,n){
+		  		ps.push(n.id);
+		  	});
+		  	battcn.ajaxJson({url:'/op_remove_[[${OP.menuId}]]',data:{"ids":ps.join(",")}},function(){
+	    		$('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable('refresh');
+	    	});
+		});
+	}
+	/*]]>*/
+	</script>
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="ibox float-e-margins">
+		<div class="ibox-content">
+			<div th:include="toolbar :: toolbar-operate"></div>
+			<div class="table-responsive">
+				<table th:id="@{admin_menu{menuId}_datagrid(menuId=${OP.menuId})}"
+					data-toolbar="#toolbar" data-show-refresh="true"
+					data-show-toggle="true" data-show-columns="true"
+					data-show-footer="false" data-mobile-responsive="true">
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</html>

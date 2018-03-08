@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<script th:inline="javascript">
+/*<![CDATA[*/
+   $(function(){
+   	 battcn.ns('battcn.admin.menu[[${OP.menuId}]]');
+   	 $('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable({ 
+		  url:[[${MENU.channel}]]+'/query',
+          height: '100%',
+          sortName: 'name',
+          sortOrder: 'desc',
+          striped: true,
+          pagination: true,
+          pageSize: 10,
+          pageList: [10, 25, 50, 100, 200],
+          search: false,
+          sidePagination:'server',
+          idField: 'id',
+          uniqueId: 'id',
+          responseHandler: responseHandler,
+          queryParams: queryParams,
+          minimumCountColumns: 2,
+          clickToSelect: true,
+          searchAlign: 'left',
+          columns: [{
+              checkbox: true
+          }, {
+              field: 'name',
+              title: '姓名',
+              align: 'center',
+              valign: 'middle'
+          },
+          {
+              field: 'account',
+              title: '帐号',
+              align: 'center',
+              valign: 'middle'
+          },{
+              field: 'roleName',
+              title: '角色名称',
+              align: 'left',
+              valign: 'top'
+          }, {
+              field: 'roleCode',
+              title: '角色代码',
+              align: 'center',
+              valign: 'middle'
+          }, {
+              field: 'locked',
+              title: '状态',
+              align: 'center',
+              valign: 'middle',
+              sortable: true,
+              formatter: function(value,row,index){return value == 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>'}
+          } , {
+              field: 'gmtCreate',
+              title: '时间',
+              align: 'center',
+              valign: 'middle',
+              sortable: true,
+              formatter:function(value,row,index){return new Date(value).pattern("yyyy-MM-dd HH:mm:ss")}
+          }, {
+              field: 'gmtModified',
+              title: '时间',
+              align: 'center',
+              valign: 'middle',
+              sortable: true,
+              formatter:function(value,row,index){return new Date(value).pattern("yyyy-MM-dd HH:mm:ss")}
+          }  ]
+    });
+})
+    
+// 传递的参数
+function queryParams(params) {
+	return {
+		pageSize : params.limit,
+		pageNum : params.offset / params.limit + 1,
+		sort : params.sort,
+		order : params.order,
+		name:$("#name").val(),
+		account:$("#account").val()
+	}
+}
+//查询
+var search = 0;
+battcn.admin.menu[[${OP.menuId}]].search = function(){
+	 if($("#name").val() !='' || $("#account").val() !=''){
+		 $('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable('refresh');
+		 search++;
+	 } else {
+		 if(search != 0) {
+			 $('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable('refresh');
+			 search = 0;
+		}
+	}
+ }
+ 
+
+//新增
+battcn.admin.menu[[${OP.menuId}]].add = function(){
+	battcn.showWindow({
+			title:'增加管理员',
+			href:'/op_edit_[[${OP.menuId}]]',
+			width:'50%',
+			height:'50%',
+			okhandler:function(){
+				battcn.admin.menu[[${OP.menuId}]].save();
+			},
+			cancelhandler:function(){ 
+				battcn.closeWindow();
+			}
+		}); 
+	
+}
+
+	//编辑
+battcn.admin.menu[[${OP.menuId}]].edit = function(){
+	var rows = $('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable('getSelections');
+	if(rows.length == 0){
+		battcn.toastrsAlert({
+		     code:'info',
+		     msg:'请选择你要编辑的记录'
+		});
+		return;
+	}
+	if(rows.length > 1){
+		battcn.toastrsAlert({
+		     code:'warning',
+		     msg:'sorry , 只能选择一条进行编辑'
+		});
+		return;
+	}
+	battcn.showWindow({
+		title:'编辑管理员',
+		href: '/op_edit_[[${OP.menuId}]]?id='+rows[0].id,
+		width:'50%',
+		height:'50%',
+		okhandler:function(){
+			battcn.admin.menu[[${OP.menuId}]].save();
+		},
+		cancelhandler:function(){
+			battcn.closeWindow();
+		}
+	});
+}
+ 
+	
+	//删除
+battcn.admin.menu[[${OP.menuId}]].remove = function(){ 
+	var rows =$('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable('getSelections');
+	if(rows.length==0){
+		battcn.toastrsAlert({
+		     code:'info',
+		     msg:'请选择你要删除的记录'
+		});
+		return;
+	}
+	battcn.confirm(function(){
+		var ps = [];
+    	$.each(rows,function(i,n){
+    		ps.push(n.id);
+    	});
+    	battcn.ajaxJson({url:'/op_remove_[[${OP.menuId}]]',data:{"ids":ps.join(",")}},function(){
+    		$('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable('refresh');
+    	});
+	});
+}
+	/*]]>*/
+</script>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="ibox float-e-margins">
+		<div class="ibox-content">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<form id="formSearch" class="form-horizontal">
+						<div class="form-group" style="margin-top: 15px">
+							<label class="control-label col-sm-1">账号</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="account" />
+							</div>
+							<label class="control-label col-sm-1">名称</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="name" />
+							</div>
+							<div class="col-sm-4" style="text-align: left;">
+								<button type="button"
+									th:onclick="@{battcn.admin.menu{menuId}.search()(menuId=${OP.menuId})}"
+									class="btn btn-primary">查询</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div th:include="toolbar :: toolbar-operate"></div>
+			<div class="table-responsive">
+				<table th:id="@{admin_menu{menuId}_datagrid(menuId=${OP.menuId})}"
+					data-toolbar="#toolbar" data-show-refresh="true"
+					data-show-toggle="true" data-show-columns="true"
+					data-show-footer="false" data-mobile-responsive="true">
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</html>
