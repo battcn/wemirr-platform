@@ -1,7 +1,7 @@
 package com.battcn.framework.mybatis.service;
 
-import com.github.pagehelper.PageInfo;
 import com.battcn.framework.mybatis.pojo.DataGrid;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
