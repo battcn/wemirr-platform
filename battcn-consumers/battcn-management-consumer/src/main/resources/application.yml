@@ -2,7 +2,7 @@ server:
   port: 8082
 spring:
   application:
-    name: battcn-manage
+    name: battcn-managent-consumer
   swagger:
     base-package: com.battcn
   thymeleaf:
@@ -18,6 +18,22 @@ mybatis:
   type-aliases-package: com.battcn.model
   configuration:
     map-underscore-to-camel-case: true
+
+management:
+  port: 8083
+  health:
+    dubbo:
+      status:
+        defaults: memory
+dubbo:
+  application:
+    id: battcn-demo-consumer
+    name: battcn-demo-consumer
+    qos-port: 22223
+endpoints:
+  dubbo:
+    enabled: true
+
 
 mapper:
   identity: MYSQL

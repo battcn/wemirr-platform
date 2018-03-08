@@ -7,6 +7,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>battcn-demo-consumer</module>
-        <module>battcn-managent-cunsumer</module>
+        <module>battcn-management-consumer</module>
     </modules>
 </project>

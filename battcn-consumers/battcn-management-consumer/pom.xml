@@ -6,7 +6,7 @@
         <artifactId>battcn-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>battcn-managent-cunsumer</artifactId>
+    <artifactId>battcn-management-consumer</artifactId>
 
     <properties>
         <shiro.version>1.4.0</shiro.version>
@@ -15,11 +15,11 @@
     </properties>
 
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>com.battcn.framework</groupId>
             <artifactId>battcn-framework-core</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-actuator</artifactId>

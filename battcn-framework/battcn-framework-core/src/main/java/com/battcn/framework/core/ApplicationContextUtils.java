@@ -11,12 +11,11 @@ import org.springframework.context.ApplicationContextAware;
  * @author Levin
  * @since 2018/03/07
  */
-public class ApplicationContextUtils implements ApplicationContextAware {
+public class ApplicationContextUtils {
 
     private static ApplicationContext applicationContext = null;
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public static void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         ApplicationContextUtils.applicationContext = applicationContext;
     }
 

@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.battcn.managent.consumer.annotation.BattcnLog;
 import com.battcn.managent.consumer.controller.BaseController;
+import com.battcn.managent.consumer.util.ApiResult;
 import com.battcn.system.facade.MenuService;
 import com.battcn.system.facade.OperateService;
 import com.battcn.system.pojo.dto.OperateDto;
@@ -63,19 +64,19 @@ public class OperateController extends BaseController {
     @BattcnLog(module = "操作管理", methods = "保存操作", description = "添加/修改操作信息")
     @PostMapping(value = "/save")
     @ResponseBody
-    public void save(Operate dto) {
-        /*if (dto != null && dto.getId() != null) {
+    public ApiResult save(Operate dto) {
+        if (dto != null && dto.getId() != null) {
             return ApiResult.getResponse(this.operateService.updateSelectiveById(dto));
         }
-        return ApiResult.getResponse(this.operateService.insertSelective(dto));*/
+        return ApiResult.getResponse(this.operateService.insertSelective(dto));
     }
 
     @BattcnLog(module = "操作管理", methods = "移除操作", description = "删除操作信息")
     @PostMapping(value = "/remove")
     @ResponseBody
-    public void del(Integer[] ids) {
+    public ApiResult<String> del(Integer[] ids) {
         Lists.newArrayList(ids).forEach(this.operateService::deleteById);
-        //return ApiResult.SUCCESS;
+        return ApiResult.SUCCESS;
     }
 
 }
