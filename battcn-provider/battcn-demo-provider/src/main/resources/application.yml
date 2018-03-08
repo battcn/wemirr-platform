@@ -2,9 +2,9 @@ spring:
   application:
     name: battcn-demo-provider
 server:
-  port: 9090
+  port: 10010
 management:
-  port: 9091
+  port: 10011
   health:
     dubbo:
       status:
@@ -16,7 +16,7 @@ dubbo:
   application:
     id: battcn-demo-provider
     name: battcn-demo-provider
-    qos-port: 22222
+    qos-port: 10012
     qos-enable: true
   registry:
     address: N/A

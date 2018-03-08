@@ -11,7 +11,8 @@
 
    	<modules>
    		<module>battcn-demo-facade</module>
-   	</modules>
+        <module>battcn-movie-facade</module>
+    </modules>
 
 
 </project>

@@ -8,11 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 2018/3/8 0008
  */
 @SpringBootApplication
-public class DubboProviderDemo {
+public class ProviderDemo {
 
     public static void main(String[] args) {
-
-        SpringApplication.run(DubboProviderDemo.class, args);
-
+        SpringApplication.run(ProviderDemo.class, args);
     }
 }
