@@ -7,9 +7,9 @@
     <artifactId>battcn-provider</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <modules>
-        <module>battcn-provider-parent</module>
-        <module>battcn-provider-system</module>
+        <module>battcn-demo-provider</module>
     </modules>
 
 </project>
