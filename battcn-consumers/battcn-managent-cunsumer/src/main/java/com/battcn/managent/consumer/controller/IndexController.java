@@ -32,17 +32,12 @@ public class IndexController extends BaseController {
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880")
+            url = "dubbo://localhost:20880", check = false)
     private MenuService menuService;
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880")
+            url = "dubbo://localhost:20880", check = false)
     private OperateService operateService;
-
-    /*public IndexController(MenuService menuService, OperateService operateService) {
-        this.menuService = menuService;
-        this.operateService = operateService;
-    }*/
 
 
     @ApiIgnore

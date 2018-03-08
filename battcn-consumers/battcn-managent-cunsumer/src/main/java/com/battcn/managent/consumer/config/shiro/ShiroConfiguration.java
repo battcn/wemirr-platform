@@ -2,6 +2,7 @@ package com.battcn.managent.consumer.config.shiro;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.battcn.framework.core.ApplicationContextUtils;
 import com.battcn.system.facade.OperateService;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import java.util.Map;
 
@@ -23,21 +25,14 @@ import java.util.Map;
  * @author Levin
  */
 @Slf4j
-//@Configuration
+@Configuration
 public class ShiroConfiguration {
 
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880")
-    private final OperateService operateService;
-    private final AuthRealm authRealm;
-
-    @Autowired
-    public ShiroConfiguration(OperateService operateService, AuthRealm authRealm) {
-        this.operateService = operateService;
-        this.authRealm = authRealm;
-    }
+            url = "dubbo://localhost:20880", check = false, init = true)
+    private OperateService operateService;
 
 
     @Bean
@@ -94,7 +89,7 @@ public class ShiroConfiguration {
         // anon：它对应的过滤器里面是空的,什么都没做
         log.info("##################从数据库读取权限规则，加载到shiroFilter中##################");
         Map<String, String> permissions = Maps.newLinkedHashMap();
-        operateService.listShiroPermissions(null).forEach(pms -> {
+        this.operateService.listShiroPermissions(null).forEach(pms -> {
             log.info("perms[" + pms.getPerms() + "]");
             permissions.put(pms.getPath(), "authc,perms[" + pms.getPerms() + "]");
         });
