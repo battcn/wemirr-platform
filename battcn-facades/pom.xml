@@ -6,13 +6,23 @@
     <groupId>com.battcn</groupId>
     <artifactId>battcn-facades</artifactId>
     <version>1.0-SNAPSHOT</version>
-   	<packaging>pom</packaging>
+    <packaging>pom</packaging>
 
 
-   	<modules>
-   		<module>battcn-demo-facade</module>
+    <modules>
+        <module>battcn-demo-facade</module>
         <module>battcn-movie-facade</module>
+        <module>battcn-system-facade</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.18</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 
 </project>

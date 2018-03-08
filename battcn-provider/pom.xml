@@ -10,6 +10,8 @@
 
     <modules>
         <module>battcn-demo-provider</module>
+        <module>battcn-system-provider</module>
+        <module>battcn-movie-provider</module>
     </modules>
 
 </project>
