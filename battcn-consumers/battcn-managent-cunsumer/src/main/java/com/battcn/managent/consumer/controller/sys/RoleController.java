@@ -1,5 +1,6 @@
 package com.battcn.managent.consumer.controller.sys;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.battcn.managent.consumer.annotation.BattcnLog;
 import com.battcn.managent.consumer.controller.BaseController;
@@ -27,14 +28,14 @@ import static com.battcn.framework.exception.CustomException.notFound;
 @ApiIgnore
 public class RoleController extends BaseController {
 
-    private final RoleService roleService;
-    private final MenuService menuService;
-
-    public RoleController(RoleService roleService, MenuService menuService) {
-        this.roleService = roleService;
-        this.menuService = menuService;
-    }
-
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880")
+    private RoleService roleService;
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880")
+    private MenuService menuService;
 
     @GetMapping("/list")
     public String list() {

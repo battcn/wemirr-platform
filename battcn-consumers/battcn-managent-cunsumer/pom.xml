@@ -16,6 +16,20 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.boot</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>${dubbo.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>com.battcn.framework</groupId>
             <artifactId>battcn-framework-exception</artifactId>
             <version>1.0-SNAPSHOT</version>
@@ -23,6 +37,12 @@
         <dependency>
             <groupId>com.battcn.facades</groupId>
             <artifactId>battcn-system-facade</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                </exclusion>
+            </exclusions>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -122,6 +142,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.5.4.RELEASE</version>
                 <configuration>
                     <mainClass>com.battcn.managent.consumer.ManagementApplication</mainClass>
                 </configuration>

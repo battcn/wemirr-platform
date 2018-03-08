@@ -19,7 +19,12 @@ import java.util.List;
 /**
  * @author Levin
  */
-@Service
+@com.alibaba.dubbo.config.annotation.Service(
+        version = "1.0.0",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
 public class OperateServiceImpl extends BaseServiceImpl<Operate> implements OperateService {
 
     private final OperateMapper operateMapper;

@@ -1,5 +1,6 @@
 package com.battcn.managent.consumer.config;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.battcn.framework.commons.utils.IpAddress;
 import com.battcn.framework.exception.CustomException;
@@ -17,6 +18,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,13 +36,15 @@ import java.lang.reflect.Method;
 public class BattcnLogAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(BattcnLogAspect.class);
-    private final LogService logsService;
-    private final HttpServletRequest request;
 
-    public BattcnLogAspect(LogService logsService, HttpServletRequest request) {
-        this.logsService = logsService;
-        this.request = request;
-    }
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880")
+    private LogService logsService;
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880")
+    private HttpServletRequest request;
 
 
     /**

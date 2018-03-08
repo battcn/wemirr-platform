@@ -1,5 +1,6 @@
 package com.battcn.managent.consumer.controller.sys;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.framework.exception.CustomException;
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.battcn.managent.consumer.annotation.BattcnLog;
@@ -30,13 +31,15 @@ import java.util.Optional;
 @Api(value = "用户管理", description = "用户管理", tags = "1.2")
 public class ManagerController extends BaseController {
 
-    private final ManagerService managerService;
-    private final RoleService roleService;
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880")
+    private ManagerService managerService;
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880")
+    private RoleService roleService;
 
-    public ManagerController(ManagerService managerService, RoleService roleService) {
-        this.managerService = managerService;
-        this.roleService = roleService;
-    }
 
     @ApiIgnore
     @GetMapping("/list")

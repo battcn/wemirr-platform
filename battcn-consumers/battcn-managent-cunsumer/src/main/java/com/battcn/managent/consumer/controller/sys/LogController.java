@@ -2,6 +2,7 @@ package com.battcn.managent.consumer.controller.sys;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.framework.exception.CustomException;
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.battcn.managent.consumer.annotation.BattcnLog;
@@ -12,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,11 +31,11 @@ import java.io.OutputStream;
 @ApiIgnore
 public class LogController {
 
-    private final LogService logService;
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880")
+    private LogService logService;
 
-    public LogController(LogService logService) {
-        this.logService = logService;
-    }
 
     @RequestMapping(value = "/list")
     @BattcnLog(description = "进入日志查询的页面", module = "日志模块", methods = "日志list")

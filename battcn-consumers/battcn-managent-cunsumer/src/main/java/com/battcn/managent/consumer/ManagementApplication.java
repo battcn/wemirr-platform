@@ -2,8 +2,9 @@ package com.battcn.managent.consumer;
 
 import com.battcn.swagger.annotation.EnableSwagger2Doc;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 /**
  * 主程序启动类
@@ -14,10 +15,11 @@ import org.springframework.context.ApplicationContext;
  */
 @EnableSwagger2Doc
 @SpringBootApplication
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class ManagementApplication {
 
     public static void main(String[] args) {
-        ApplicationContext context = SpringApplication.run(ManagementApplication.class, args);
+        SpringApplication.run(ManagementApplication.class, args);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.battcn.managent.consumer.config.shiro;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.managent.consumer.util.SessionUtil;
 import com.battcn.system.facade.ManagerService;
 import com.battcn.system.facade.OperateService;
@@ -10,6 +11,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Optional;
 
@@ -20,15 +22,18 @@ import java.util.Optional;
  * @version 2.5.1
  * @since 2018-01-10
  */
+@Configuration
 public class AuthRealm extends AuthorizingRealm {
 
-    private final ManagerService managerService;
-    private final OperateService operateService;
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880")
+    private ManagerService managerService;
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880")
+    private OperateService operateService;
 
-    public AuthRealm(ManagerService managerService, OperateService operateService) {
-        this.managerService = managerService;
-        this.operateService = operateService;
-    }
 
     /**
      * 认证回调函数,登录时调用

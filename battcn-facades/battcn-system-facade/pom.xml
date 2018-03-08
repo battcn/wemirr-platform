@@ -16,6 +16,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.battcn.framework</groupId>
             <artifactId>battcn-framework-mybatis</artifactId>
             <version>1.0-SNAPSHOT</version>

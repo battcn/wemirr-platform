@@ -1,30 +1,25 @@
 package com.battcn.managent.consumer.controller;
 
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.framework.exception.CustomException;
 import com.battcn.managent.consumer.util.SessionUtil;
 import com.battcn.system.facade.MenuService;
 import com.battcn.system.facade.OperateService;
 import com.battcn.system.pojo.po.Menu;
 import com.battcn.system.pojo.po.Operate;
-import com.mysql.jdbc.Connection;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.ibatis.jdbc.ScriptRunner;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.io.InputStreamReader;
-import java.sql.DriverManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,14 +30,19 @@ import java.util.Optional;
 @Controller
 public class IndexController extends BaseController {
 
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880")
+    private MenuService menuService;
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880")
+    private OperateService operateService;
 
-    private final MenuService menuService;
-    private final OperateService operateService;
-
-    public IndexController(MenuService menuService, OperateService operateService) {
+    /*public IndexController(MenuService menuService, OperateService operateService) {
         this.menuService = menuService;
         this.operateService = operateService;
-    }
+    }*/
 
 
     @ApiIgnore
@@ -63,32 +63,6 @@ public class IndexController extends BaseController {
     @GetMapping(value = "main")
     public String main() {
         return PATH_MAIN;
-    }
-
-    @Value("${spring.datasource.url}")
-    private String url;
-    @Value("${spring.datasource.driver-class-name}")
-    private String driver;
-    @Value("${spring.datasource.username}")
-    private String username;
-    @Value("${spring.datasource.password}")
-    private String password;
-
-    @ApiIgnore
-    @GetMapping("install")
-    @ResponseBody
-    public void install() {
-        try {
-            Class.forName(driver).newInstance();
-            Connection conn = (Connection) DriverManager.getConnection(url, username, password);
-            ScriptRunner runner = new ScriptRunner(conn);
-            runner.setErrorLogWriter(null);
-            runner.setLogWriter(null);
-            runner.runScript((new InputStreamReader(getClass().getResourceAsStream("/使用须知/install.sql"), "UTF-8")));
-        } catch (Exception e) {
-            //return ApiResult.getFailure("初始化失败！请联系管理员");
-        }
-        // return ApiResult.getSuccess("初始化成功");
     }
 
     @RequestMapping("op_{oper}_{menuId}")

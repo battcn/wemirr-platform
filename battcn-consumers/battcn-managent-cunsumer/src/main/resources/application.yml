@@ -1,6 +1,5 @@
 server:
   port: 8082
-
 spring:
   application:
     name: battcn-manage
@@ -13,15 +12,6 @@ spring:
     mode: HTML5
     prefix: classpath:/templates/  
     suffix: .html
-  datasource:
-    url: jdbc:mysql://localhost:3306/battcn-plus?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
-    username: root
-    password: root
-    driver-class-name: com.mysql.jdbc.Driver
-    hikari:
-      max-lifetime: 1765000 #一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒以上  
-      maximum-pool-size:  15 #连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count)  
-      
 mybatis:
   mapper-locations:
   - classpath:com/battcn/mapper/*.xml
@@ -39,6 +29,6 @@ pagehelper:
   helper-dialect: mysql
   params: count=countSql
   reasonable: true
-  support-methods-arguments: true   
+  support-methods-arguments: true
 
   

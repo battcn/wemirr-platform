@@ -95,5 +95,4 @@ public class Manager extends RecordEntity {
         super();
         this.name = name;
     }
-
 }

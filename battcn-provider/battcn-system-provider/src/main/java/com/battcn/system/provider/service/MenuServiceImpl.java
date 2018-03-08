@@ -26,7 +26,12 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author Levin
  */
-@Service
+@com.alibaba.dubbo.config.annotation.Service(
+        version = "1.0.0",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
 public class MenuServiceImpl extends BaseServiceImpl<Menu> implements MenuService {
 
     private final AuthMapper authMapper;

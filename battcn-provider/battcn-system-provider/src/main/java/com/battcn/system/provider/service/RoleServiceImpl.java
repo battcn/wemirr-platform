@@ -16,7 +16,12 @@ import java.util.List;
 /**
  * @author Levin
  */
-@Service
+@com.alibaba.dubbo.config.annotation.Service(
+        version = "1.0.0",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
 public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleService {
 
     private final RoleMapper roleMapper;

@@ -1,5 +1,6 @@
 package com.battcn.managent.consumer.controller.sys;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.battcn.managent.consumer.annotation.BattcnLog;
 import com.battcn.managent.consumer.controller.BaseController;
@@ -28,11 +29,11 @@ import static com.battcn.framework.exception.CustomException.notFound;
 @ApiIgnore
 public class MenuController extends BaseController {
 
-    private final MenuService menuService;
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880")
+    private MenuService menuService;
 
-    public MenuController(MenuService menuService) {
-        this.menuService = menuService;
-    }
 
     @GetMapping("/list")
     public String list(DataGrid grid) {

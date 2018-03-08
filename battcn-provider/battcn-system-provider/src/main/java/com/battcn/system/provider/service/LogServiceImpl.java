@@ -15,7 +15,12 @@ import tk.mybatis.mapper.entity.Example;
 /**
  * @author Levin
  */
-@Service
+@com.alibaba.dubbo.config.annotation.Service(
+        version = "1.0.0",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
 public class LogServiceImpl extends BaseServiceImpl<Log> implements LogService {
 
     private final LogMapper logMapper;
