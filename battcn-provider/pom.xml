@@ -8,8 +8,15 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+    </properties>
+
     <modules>
         <module>battcn-demo-provider</module>
+        <module>battcn-system-provider</module>
+        <module>battcn-movie-provider</module>
     </modules>
 
 </project>

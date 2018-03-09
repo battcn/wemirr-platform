@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: battcn-demo-provider
+  datasource:
+    password: root
+    username: root
+    url: jdbc:mysql://localhost:3306/battcn3.0?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      maximum-pool-size: 15
+      max-lifetime: 1765000
+server:
+  port: 10030
+management:
+  port: 10031
+  health:
+    dubbo:
+      status:
+        defaults: memory
+        extras: load,threadpool
+dubbo:
+  scan:
+    base-packages: com.battcn.system.provider.service
+  application:
+    id: battcn-system-provider
+    name: battcn-system-provider
+    qos-port: 10031
+    qos-enable: true
+  registry:
+    address: N/A
+    id: my-registry
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 20880
+    status: server
+endpoints:
+  dubbo:
+    enabled: true
+
+mybatis:
+  mapper-locations:
+  - classpath:com/battcn/system/provider/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+mapper:
+  identity: MYSQL
+  mappers:
+  - com.battcn.framework.mybatis.mapper.BaseMapper
+  not-empty: false
+
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: true
+  support-methods-arguments: true
+
+logging:
+  level:
+    com.battcn: DEBUG

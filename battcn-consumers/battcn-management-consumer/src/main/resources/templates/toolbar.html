@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<div class="doc-buttons" th:fragment="toolbar-operate">
+	<button th:each="operate : ${operates}"
+		th:if="${operate.display and operate.op != 'list'}"
+		th:onclick="@{battcn.admin.menu{menuId}.{op}()(menuId=${OP.menuId},op=${operate.op})}"
+		class="btn btn-primary" type="button">
+		<i th:class="@{fa fa-{icon}(icon=${operate.icon})}"></i> <font
+			th:text="${operate.name}"></font>
+	</button>
+</div>
+</html>

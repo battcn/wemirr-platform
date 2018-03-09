@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<script th:inline="javascript">
+    $(function () {
+        /*<![CDATA[*/
+        battcn.ns('battcn.admin.menu[[${OP.menuId}]]');
+        $('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable({
+            url: [[${MENU.channel}]] + '/query',
+            height: '100%',
+            sortName: 'account',
+            sortOrder: 'desc',
+            striped: true,
+            pagination: true,
+            pageSize: 10,
+            pageList: [10, 25, 50, 100, 200],
+            search: false,
+            sidePagination: 'server',
+            idField: 'id',
+            uniqueId: 'id',
+            responseHandler: responseHandler,
+            queryParams: queryParams,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            columns: [{
+                checkbox: true
+            }, {
+                field: 'account',
+                title: '账号',
+                align: 'center',
+                valign: 'middle',
+                sortable: true
+            }, {
+                field: 'title',
+                title: '操作项',
+                align: 'center',
+                valign: 'middle'
+            },
+                {
+                    field: 'message',
+                    title: '消息',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'duration',
+                    title: '操作时间',
+                    align: 'left',
+                    valign: 'top',
+                    sortable: true
+                }, {
+                    field: 'ip',
+                    title: 'IP',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'url',
+                    title: '跳转地址',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true
+                }]
+
+        });
+
+        //导出日志
+        battcn.admin.menu[[${OP.menuId}]].export = function () {
+            battcn.confirm(function () {
+                location.href = "/op_export_[[${OP.menuId}]]";
+            });
+        };
+
+        // 传递的参数
+        function queryParams(params) {
+            return {
+                pageSize: params.limit,
+                pageNum: params.offset / params.limit + 1,
+                sort: params.sort,
+                order: params.order,
+                datetime: $("#datetime").val()
+            }
+        }
+
+        //查询
+        var search = 0;
+        battcn.admin.menu[[${OP.menuId}]].search = function () {
+            if ($("#datetime").val() !== '') {
+                $('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable('refresh');
+                search++;
+            } else {
+                if (search !== 0) {
+                    $('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable('refresh');
+                    search = 0;
+                }
+            }
+        };
+
+        //日期时间范围
+        laydate.render({
+            elem: '#datetime'
+            , type: 'datetime'
+            , range: true
+        });
+        /*]]>*/
+
+    });
+</script>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form id="formSearch" class="form-horizontal">
+                        <div class="form-group" style="margin-top: 15px">
+                            <label class="control-label col-sm-1">账号</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="datetime"/>
+                            </div>
+                            <div class="col-sm-4" style="text-align: left;">
+                                <button type="button"
+                                        th:onclick="@{battcn.admin.menu{menuId}.search()(menuId=${OP.menuId})}"
+                                        class="btn btn-primary">查询
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div th:include="toolbar :: toolbar-operate"></div>
+            <div class="table-responsive">
+                <table th:id="@{admin_menu{menuId}_datagrid(menuId=${OP.menuId})}"
+                       data-toolbar="#toolbar" data-show-refresh="true"
+                       data-show-toggle="true" data-show-columns="true"
+                       data-show-footer="false" data-mobile-responsive="true">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

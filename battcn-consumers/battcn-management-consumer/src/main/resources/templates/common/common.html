@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>鏖战八方</title>
+<meta name="viewport"	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="Pragma" CONTENT="no-cache">
+<meta http-equiv="Cache-Control" CONTENT="no-cache">
+<meta HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE"> 
+<meta HTTP-EQUIV="Expires" CONTENT="-1">
+<meta http-equiv="Expires" CONTENT="0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" type="image/png"	href="http://static.battcn.com/common/favicon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="battcn" />
+<link rel="apple-touch-icon-precomposed" href="http://static.battcn.com/common/favicon.png">
+<meta name="msapplication-TileImage" content="http://static.battcn.com/common/favicon.png">
+
+
+<!-- 重要部分：不可删除  -->
+<link href="http://static.battcn.com/back/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+<link href="http://static.battcn.com/back/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="http://static.battcn.com/back/css/animate.min.css" rel="stylesheet">
+<link href="http://static.battcn.com/back/css/style.min.css?v=4.0.0" rel="stylesheet">
+<link href="http://static.battcn.com/back/css/plugins/iCheck/custom.css" rel="stylesheet">
+<link href="http://static.battcn.com/back/css/smartMenu/smartMenu.css" rel="stylesheet">
+<link href="http://static.battcn.com/back/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+<link href="http://static.battcn.com/back/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+
+<script src="http://static.battcn.com/back/js/jquery.min.js?v=2.1.4"></script>
+<script src="http://static.battcn.com/back/js/bootstrap.min.js?v=3.3.5"></script>
+<script src="http://static.battcn.com/back/js/content.min.js?v=1.0.0"></script>
+
+<script src="http://static.battcn.com/back/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="http://static.battcn.com/back/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="http://static.battcn.com/back/js/plugins/toastr/toastr.min.js"></script>
+<script src="http://static.battcn.com/back/js/plugins/iCheck/icheck.min.js"></script>
+
+<script src="http://static.battcn.com/back/js/plugins/toastr/toastr.min.js"></script>
+<script src="http://static.battcn.com/back/js/plugins/layer/layer.min.js"></script>
+<script src="http://static.battcn.com/back/js/smartMenu/jquery-smartMenu.js"></script>
+<script src="http://static.battcn.com/back/js/hplus.min.js?v=4.0.0"></script>
+<script src="http://static.battcn.com/back/js/jquery-validation/jquery.validate.min.js"></script>
+<script src="http://static.battcn.com/back/js/jquery.metadata.js"></script>
+<!-- 重要部分：不可删除 -->
+<script type="text/javascript" src="http://static.battcn.com/back/js/init/index.min.js"></script>
+<script type="text/javascript" src="http://static.battcn.com/back/js/init/IN.core.js"></script>
+<script type="text/javascript" src="http://static.battcn.com/back/js/init/IN.init.js"></script>
+
+
+<script src="http://static.battcn.com/back/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="http://static.battcn.com/back/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+
+<script src="http://static.battcn.com/back/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript" src="${ctx}/common/common.js"></script>
+<script type="text/javascript" src="${ctx}/common/msg.js"></script>
+<!-- tree：重要  -->
+<link rel="stylesheet" href="http://static.battcn.com/back/treegrid/css/jquery.treegrid.css">
+<script type="text/javascript" src="http://static.battcn.com/back/treegrid/js/jquery.treegrid.js"></script>
+<script type="text/javascript" src="http://static.battcn.com/back/treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+
+<link rel="stylesheet" type="text/css"	href="http://static.battcn.com/back/ztree/css/style.css">
+<script type="text/javascript" src="http://static.battcn.com/back/ztree/jquery.ztree.all.js"></script>
+<style>
+body{overflow: hidden !important; height: 100%;}
+#wrapper{overflow-y: hidden;}
+#page-wrapper .slimScrollDiv {height: calc(100% - 80px) !important;}
+.pull-left, .pull-right {margin-top: 50px !important;}
+.my-pull-left{float:left;}
+.my-pull-right{float:right;}
+.bootstrap-table{margin-top: -50px;} 
+form .input-group{margin-top: 4px;}
+.skin-1 .navbar-minimalize {color: #262626;text-decoration: none;background-color: #FFF;}    
+textarea {resize: vertical;}
+</style>
+
+
+
+<script>
+	$(function(){
+		//首页框架布局代码
+		initUI();
+		 var $index = $("div#content-main div.index");
+		 var o = layer.load();
+		 var href = $index.attr("data-id") ;
+		 $index.html('<div class="loading">加载中,请稍等。。<div>');
+		 $index.loadUrl(href,'get',{},function(data) {
+			layer.close(o);
+			$index.find("div.loading").remove();
+		});
+	})
+	function queryParams(params) {
+		var pageSize = params.limit;
+		var sort = params.sort;
+		var offset = params.offset;
+		var order = params.order;
+		var pageNum = offset / pageSize + 1;
+		return {
+			pageSize : pageSize,
+			pageNum : pageNum,
+			sort : sort,
+			order : order
+		}
+	}
+	function responseHandler(res) {
+		return {
+			"rows" : res.list,
+			"total" : res.total
+		}
+	}
+	function onloadurl(){
+		$("[data-url]").each(function () {
+			var tb = $(this);
+			tb.html(CommnUtil.loadingImg());
+			tb.load(rootPath+tb.attr("data-url"));
+	    });
+	}
+	//var rootPath = "${ctx}";
+	var rootPath = "<%=basePath%>";
+</script>
+

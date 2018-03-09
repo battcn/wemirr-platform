@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.battcn.system.provider.mapper.RoleOperateMapper">
+
+	<insert id="batchInsertRoleOperate" parameterType="java.util.List">
+		insert into t_sys_role_operate (role_id,operate_id)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.roleId},#{item.operateId})
+		</foreach>
+	</insert>
+
+</mapper>

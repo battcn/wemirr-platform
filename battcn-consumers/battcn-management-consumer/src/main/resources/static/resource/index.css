@@ -1,0 +1,42 @@
+body {
+	overflow: hidden !important;
+	height: 100%;
+}
+
+#wrapper {
+	overflow-y: hidden;
+}
+
+#page-wrapper .slimScrollDiv {
+	height: calc(100% - 80px) !important;
+}
+
+.pull-left, .pull-right {
+	margin-top: 50px !important;
+}
+
+.my-pull-left {
+	float: left;
+}
+
+.my-pull-right {
+	float: right;
+}
+
+.bootstrap-table {
+	margin-top: -50px;
+}
+
+form .input-group {
+	margin-top: 4px;
+}
+
+.skin-1 .navbar-minimalize {
+	color: #262626;
+	text-decoration: none;
+	background-color: #FFF;
+}
+
+textarea {
+	resize: vertical;
+}
