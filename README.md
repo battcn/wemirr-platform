@@ -4,7 +4,7 @@
 
 鉴于 `dubbo` 已经开始维护了 , 本项目也即将开启维护之旅
 
-坐等 `apache-dubbo` 与 `dubbo-spring-boot-starter（现在还是开发版）` 
+坐等 `apache-dubbo` 与 `dubbo-spring-boot-starter（现在还是开发版）`，所以暂未升级 `spring-boot2.x`,依旧采用的`1.5.10.RELEASE` 版本
 
 
 ## 技术栈
