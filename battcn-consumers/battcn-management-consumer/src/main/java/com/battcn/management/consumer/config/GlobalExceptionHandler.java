@@ -17,12 +17,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * ClassName:GrobalExceptionHandler <br/>
+ * ClassName:GlobalExceptionHandler <br/>
  *
  * @author Levin
  * @version 1.0
- * @see
- * @since 2017年06月15日
  */
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
