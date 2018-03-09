@@ -11,8 +11,9 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
 
@@ -22,13 +23,13 @@ import java.util.Map;
  * @author Levin
  */
 @Slf4j
-@Configuration
+//@Configuration
 public class ShiroConfiguration {
-
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
             url = "dubbo://localhost:20880", init = true)
+    @Autowired(required = false)
     private OperateService operateService;
 
 
@@ -39,12 +40,6 @@ public class ShiroConfiguration {
         return em;
     }
 
-    @Bean(name = "authRealm")
-    public AuthRealm authRealm(EhCacheManager cacheManager) {
-        AuthRealm authRealm = new AuthRealm();
-        authRealm.setCacheManager(cacheManager);
-        return authRealm;
-    }
 
     @Bean(name = "lifecycleBeanPostProcessor")
     public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
@@ -53,13 +48,20 @@ public class ShiroConfiguration {
 
     @Bean
     public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
-        DefaultAdvisorAutoProxyCreator daap = new DefaultAdvisorAutoProxyCreator();
-        daap.setProxyTargetClass(true);
-        return daap;
+        DefaultAdvisorAutoProxyCreator autoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        autoProxyCreator.setProxyTargetClass(true);
+        return autoProxyCreator;
+    }
+
+    @Bean(name = "authRealm")
+    public AuthRealm authRealm(EhCacheManager cacheManager) {
+        AuthRealm authRealm = new AuthRealm();
+        authRealm.setCacheManager(cacheManager);
+        return authRealm;
     }
 
     @Bean(name = "securityManager")
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(AuthRealm authRealm) {
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("authRealm") AuthRealm authRealm) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setRealm(authRealm);
         // <!-- 用户授权/认证信息Cache, 采用EhCache 缓存 -->
@@ -76,9 +78,31 @@ public class ShiroConfiguration {
     }
 
     /**
+     * ShiroFilter<br/>
+     * 注意这里参数中的 StudentService 和 IScoreDao 只是一个例子，因为我们在这里可以用这样的方式获取到相关访问数据库的对象，
+     * 然后读取数据库相关配置，配置到 shiroFilterFactoryBean 的访问规则中。实际项目中，请使用自己的Service来处理业务逻辑。
+     *
+     * @param securityManager 安全管理器
+     * @return ShiroFilterFactoryBean
+     */
+    @Bean(name = "shiroFilter")
+    public ShiroFilterFactoryBean getShiroFilterFactoryBean(DefaultWebSecurityManager securityManager, OperateService operateService) {
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        // 必须设置 SecurityManager
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
+        shiroFilterFactoryBean.setLoginUrl("/login");
+        // 登录成功后要跳转的连接
+        shiroFilterFactoryBean.setSuccessUrl("/index");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/denied");
+        loadShiroFilterChain(shiroFilterFactoryBean, operateService);
+        return shiroFilterFactoryBean;
+    }
+
+    /**
      * 加载shiroFilter权限控制规则（从数据库读取然后配置）
      */
-    private void loadShiroFilterChain(ShiroFilterFactoryBean shiroFilterFactoryBean) {
+    private void loadShiroFilterChain(ShiroFilterFactoryBean shiroFilterFactoryBean, OperateService operateService) {
         /////////////////////// 下面这些规则配置最好配置到配置文件中 ///////////////////////
         Map<String, String> filterChainDefinitionMap = Maps.newLinkedHashMap();
         filterChainDefinitionMap.put("/resource/**", "anon");
@@ -96,27 +120,5 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
     }
 
-
-    /**
-     * ShiroFilter<br/>
-     * 注意这里参数中的 StudentService 和 IScoreDao 只是一个例子，因为我们在这里可以用这样的方式获取到相关访问数据库的对象，
-     * 然后读取数据库相关配置，配置到 shiroFilterFactoryBean 的访问规则中。实际项目中，请使用自己的Service来处理业务逻辑。
-     *
-     * @param securityManager 安全管理器
-     * @return ShiroFilterFactoryBean
-     */
-    @Bean(name = "shiroFilter")
-    public ShiroFilterFactoryBean getShiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
-        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        // 必须设置 SecurityManager
-        shiroFilterFactoryBean.setSecurityManager(securityManager);
-        // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-        shiroFilterFactoryBean.setLoginUrl("/login");
-        // 登录成功后要跳转的连接
-        shiroFilterFactoryBean.setSuccessUrl("/index");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/denied");
-        loadShiroFilterChain(shiroFilterFactoryBean);
-        return shiroFilterFactoryBean;
-    }
 
 }

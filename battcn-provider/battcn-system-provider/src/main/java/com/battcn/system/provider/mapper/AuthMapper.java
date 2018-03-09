@@ -1,7 +1,6 @@
 package com.battcn.system.provider.mapper;
 
 import com.battcn.system.pojo.po.Menu;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

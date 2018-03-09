@@ -22,7 +22,7 @@ import java.util.List;
         version = "1.0.0",
         application = "${dubbo.application.id}",
         protocol = "${dubbo.protocol.id}",
-        registry = "${dubbo.registry.id}"
+        registry = "${dubbo.registry.id}", timeout = 10000
 )
 public class OperateServiceImpl extends BaseServiceImpl<Operate> implements OperateService {
 
