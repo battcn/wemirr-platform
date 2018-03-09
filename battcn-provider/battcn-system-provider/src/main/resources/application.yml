@@ -41,6 +41,7 @@ endpoints:
 mybatis:
   mapper-locations:
   - classpath:com/battcn/system/provider/mapper/*.xml
+  type-aliases-package: com.battcn.system.pojo
   configuration:
     map-underscore-to-camel-case: true
 
@@ -48,6 +49,7 @@ mapper:
   identity: MYSQL
   mappers:
   - com.battcn.framework.mybatis.mapper.BaseMapper
+
   not-empty: false
 
 pagehelper:
