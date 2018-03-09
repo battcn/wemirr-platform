@@ -18,6 +18,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,10 +42,12 @@ public class BattcnLogAspect {
             application = "${dubbo.application.id}",
             url = "dubbo://localhost:20880")
     private LogService logsService;
-    @Reference(version = "1.0.0",
-            application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880")
-    private HttpServletRequest request;
+
+    private final HttpServletRequest request;
+
+    public BattcnLogAspect(@Qualifier HttpServletRequest request) {
+        this.request = request;
+    }
 
 
     /**

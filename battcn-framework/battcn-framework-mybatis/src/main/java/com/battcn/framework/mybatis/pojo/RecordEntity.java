@@ -13,50 +13,25 @@ public class RecordEntity implements Serializable {
 
     private static final long serialVersionUID = 7026470724648329551L;
 
-    @Column(name = "created_time", insertable = false, updatable = false)
-    private Date createdTime;
+    @Column(name = "gmt_create", insertable = false, updatable = false)
+    private Date gmtCreate;
 
-    @Column(name = "created_by")
-    private Long createdBy;
+    @Column(name = "gmt_modified", insertable = false, updatable = false)
+    private Date gmtModified;
 
-    @Column(name = "last_modified_time", insertable = false, updatable = false)
-    private Date lastModifiedTime;
-
-    @Column(name = "last_modified_by")
-    private Long lastModifiedBy;
-
-    public RecordEntity() {
+    public Date getGmtCreate() {
+        return gmtCreate;
     }
 
-    public Date getCreatedTime() {
-        return createdTime;
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
+    public Date getGmtModified() {
+        return gmtModified;
     }
 
-    public Long getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Long createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getLastModifiedTime() {
-        return lastModifiedTime;
-    }
-
-    public void setLastModifiedTime(Date lastModifiedTime) {
-        this.lastModifiedTime = lastModifiedTime;
-    }
-
-    public Long getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(Long lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
     }
 }

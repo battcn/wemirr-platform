@@ -96,7 +96,6 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements MenuServic
 
     @Override
     public void saveOrUpdate(Menu menu) {
-        menu.setLastModifiedTime(new Date());
         if (menu.getId() != null) {
             super.updateSelectiveById(menu);
         } else {
