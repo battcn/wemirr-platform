@@ -149,7 +149,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.5.4.RELEASE</version>
                 <configuration>
-                    <mainClass>com.battcn.managent.consumer.ManagementApplication</mainClass>
+                    <mainClass>com.battcn.management.consumer.ManagementApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

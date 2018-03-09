@@ -1,4 +1,4 @@
-package com.battcn.managent.consumer.controller;
+package com.battcn.management.consumer.controller;
 
 import com.battcn.system.pojo.po.Manager;
 import io.swagger.annotations.Api;

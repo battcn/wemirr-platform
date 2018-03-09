@@ -1,9 +1,9 @@
-package com.battcn.managent.consumer.controller.sys;
+package com.battcn.management.consumer.controller.sys;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.battcn.managent.consumer.controller.BaseController;
-import com.battcn.managent.consumer.util.ApiResult;
+import com.battcn.management.consumer.controller.BaseController;
+import com.battcn.management.consumer.util.ApiResult;
 import com.battcn.system.facade.RoleOperateService;
 import com.battcn.system.pojo.po.RoleOperate;
 import org.springframework.stereotype.Controller;

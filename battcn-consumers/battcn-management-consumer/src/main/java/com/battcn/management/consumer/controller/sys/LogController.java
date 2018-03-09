@@ -1,11 +1,11 @@
-package com.battcn.managent.consumer.controller.sys;
+package com.battcn.management.consumer.controller.sys;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.framework.exception.CustomException;
 import com.battcn.framework.mybatis.pojo.DataGrid;
-import com.battcn.managent.consumer.annotation.BattcnLog;
+import com.battcn.management.consumer.annotation.BattcnLog;
 import com.battcn.system.facade.LogService;
 import com.battcn.system.pojo.po.Log;
 import com.github.pagehelper.PageInfo;
@@ -13,7 +13,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

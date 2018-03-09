@@ -1,9 +1,9 @@
-package com.battcn.managent.consumer.controller;
+package com.battcn.management.consumer.controller;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.framework.exception.CustomException;
-import com.battcn.managent.consumer.util.SessionUtil;
+import com.battcn.management.consumer.util.SessionUtil;
 import com.battcn.system.facade.MenuService;
 import com.battcn.system.facade.OperateService;
 import com.battcn.system.pojo.po.Menu;

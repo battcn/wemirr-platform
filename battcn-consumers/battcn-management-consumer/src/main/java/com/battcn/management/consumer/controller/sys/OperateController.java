@@ -1,10 +1,10 @@
-package com.battcn.managent.consumer.controller.sys;
+package com.battcn.management.consumer.controller.sys;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.framework.mybatis.pojo.DataGrid;
-import com.battcn.managent.consumer.annotation.BattcnLog;
-import com.battcn.managent.consumer.controller.BaseController;
-import com.battcn.managent.consumer.util.ApiResult;
+import com.battcn.management.consumer.annotation.BattcnLog;
+import com.battcn.management.consumer.controller.BaseController;
+import com.battcn.management.consumer.util.ApiResult;
 import com.battcn.system.facade.MenuService;
 import com.battcn.system.facade.OperateService;
 import com.battcn.system.pojo.dto.OperateDto;

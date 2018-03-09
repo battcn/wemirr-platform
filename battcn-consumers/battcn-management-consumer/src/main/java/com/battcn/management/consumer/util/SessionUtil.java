@@ -1,4 +1,4 @@
-package com.battcn.managent.consumer.util;
+package com.battcn.management.consumer.util;
 
 import com.battcn.system.pojo.dto.ManagerDto;
 import org.apache.shiro.SecurityUtils;

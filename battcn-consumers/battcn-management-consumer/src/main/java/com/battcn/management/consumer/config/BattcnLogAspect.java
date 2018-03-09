@@ -1,11 +1,11 @@
-package com.battcn.managent.consumer.config;
+package com.battcn.management.consumer.config;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.battcn.framework.commons.utils.IpAddress;
 import com.battcn.framework.exception.CustomException;
-import com.battcn.managent.consumer.annotation.BattcnLog;
-import com.battcn.managent.consumer.util.SessionUtil;
+import com.battcn.management.consumer.annotation.BattcnLog;
+import com.battcn.management.consumer.util.SessionUtil;
 import com.battcn.system.facade.LogService;
 import com.battcn.system.pojo.dto.ManagerDto;
 import com.battcn.system.pojo.po.Log;
@@ -18,7 +18,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +49,7 @@ public class BattcnLogAspect {
     /**
      * Controller 拦截点,前置通知
      */
-    @Pointcut("@annotation(com.battcn.managent.consumer.annotation.BattcnLog)")
+    @Pointcut("@annotation(com.battcn.management.consumer.annotation.BattcnLog)")
     public void beforeController() {
     }
 

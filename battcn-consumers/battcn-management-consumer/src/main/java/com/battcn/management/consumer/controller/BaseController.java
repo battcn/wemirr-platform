@@ -1,4 +1,4 @@
-package com.battcn.managent.consumer.controller;
+package com.battcn.management.consumer.controller;
 
 
 import org.slf4j.Logger;

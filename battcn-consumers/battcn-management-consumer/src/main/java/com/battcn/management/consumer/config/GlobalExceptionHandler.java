@@ -1,7 +1,7 @@
-package com.battcn.managent.consumer.config;
+package com.battcn.management.consumer.config;
 
 import com.battcn.framework.exception.CustomException;
-import com.battcn.managent.consumer.util.ApiResult;
+import com.battcn.management.consumer.util.ApiResult;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

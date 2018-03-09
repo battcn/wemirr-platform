@@ -2,7 +2,7 @@ server:
   port: 8082
 spring:
   application:
-    name: battcn-managent-consumer
+    name: battcn-management-consumer
   swagger:
     base-package: com.battcn
   thymeleaf:
@@ -12,39 +12,21 @@ spring:
     mode: HTML5
     prefix: classpath:/templates/  
     suffix: .html
-mybatis:
-  mapper-locations:
-  - classpath:com/battcn/mapper/*.xml
-  type-aliases-package: com.battcn.model
-  configuration:
-    map-underscore-to-camel-case: true
 
 management:
   port: 8083
   health:
+    db:
+      enabled: false
     dubbo:
       status:
         defaults: memory
 dubbo:
   application:
-    id: battcn-demo-consumer
-    name: battcn-demo-consumer
+    id: battcn-management-consumer
+    name: battcn-management-consumer
     qos-port: 22223
 endpoints:
   dubbo:
     enabled: true
-
-
-mapper:
-  identity: MYSQL
-  mappers:
-  - com.battcn.framework.mybatis.mapper.BaseMapper
-  not-empty: false
-  
-pagehelper:
-  helper-dialect: mysql
-  params: count=countSql
-  reasonable: true
-  support-methods-arguments: true
-
   

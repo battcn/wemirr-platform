@@ -1,8 +1,7 @@
-package com.battcn.managent.consumer.config.shiro;
+package com.battcn.management.consumer.config.shiro;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.battcn.managent.consumer.ManagementApplication;
 import com.battcn.system.facade.OperateService;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;

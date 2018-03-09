@@ -1,4 +1,4 @@
-package com.battcn.managent.consumer.util;
+package com.battcn.management.consumer.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

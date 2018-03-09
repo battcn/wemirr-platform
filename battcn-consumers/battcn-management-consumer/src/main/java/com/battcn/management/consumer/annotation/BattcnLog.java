@@ -1,4 +1,4 @@
-package com.battcn.managent.consumer.annotation;
+package com.battcn.management.consumer.annotation;
 
 import java.lang.annotation.*;
 

@@ -1,7 +1,7 @@
-package com.battcn.managent.consumer.config.shiro;
+package com.battcn.management.consumer.config.shiro;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.battcn.managent.consumer.util.SessionUtil;
+import com.battcn.management.consumer.util.SessionUtil;
 import com.battcn.system.facade.ManagerService;
 import com.battcn.system.facade.OperateService;
 import com.battcn.system.pojo.dto.ManagerDto;
