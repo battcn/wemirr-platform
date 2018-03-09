@@ -1,6 +1,5 @@
 package com.battcn.management.consumer.config.shiro;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.battcn.system.facade.OperateService;
 import com.google.common.collect.Maps;
@@ -11,9 +10,9 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 
 import java.util.Map;
 
@@ -22,16 +21,10 @@ import java.util.Map;
  *
  * @author Levin
  */
+@ImportResource("classpath:dubbo.xml")
 @Slf4j
-//@Configuration
+@Configuration
 public class ShiroConfiguration {
-
-    @Reference(version = "1.0.0",
-            application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880", init = true)
-    @Autowired(required = false)
-    private OperateService operateService;
-
 
     @Bean
     public EhCacheManager getEhCacheManager() {
@@ -61,7 +54,7 @@ public class ShiroConfiguration {
     }
 
     @Bean(name = "securityManager")
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("authRealm") AuthRealm authRealm) {
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(AuthRealm authRealm) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setRealm(authRealm);
         // <!-- 用户授权/认证信息Cache, 采用EhCache 缓存 -->
