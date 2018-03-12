@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 /**
  * @author Levin
  * @since 2018/03/09
@@ -15,6 +16,6 @@ public class BookLabel {
 
     private String link;
     private String title;
-
+    private String content;
 }
 

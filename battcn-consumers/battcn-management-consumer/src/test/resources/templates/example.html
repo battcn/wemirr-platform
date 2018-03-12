@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title th:text="${book.labels[0].title}">标题</title>
+</head>
+<body>
+<h3 th:text="${book.name}">名称</h3> ===== <h4 th:text="${book.labels[0].title}">章节</h4>
+<h2 th:text="${book.type}">类型</h2>
+<img th:src="${book.cover}"/>
+<h2 th:text="${book.author}">作者</h2>
+<h2 th:text="${book.info}">简介</h2>
+<div th:utext="${book.labels[0].content}"></div>
+</body>
+</html>

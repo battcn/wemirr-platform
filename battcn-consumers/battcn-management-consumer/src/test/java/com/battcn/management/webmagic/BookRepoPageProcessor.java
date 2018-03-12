@@ -1,19 +1,31 @@
 package com.battcn.management.webmagic;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.battcn.management.webmagic.entity.Book;
+import com.battcn.management.webmagic.pipeline.BookPipeline;
+import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.pipeline.JsonFilePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Selectable;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+
 
 /**
- * 读取GIT信息
+ * 读取 http://www.biquge5200.com/ 网站的书籍信息
  *
  * @author Levin
  * @since 2018/3/9 0009
@@ -22,55 +34,48 @@ public class BookRepoPageProcessor implements PageProcessor {
 
     private Site site = Site.me().setRetryTimes(3).setSleepTime(100);
 
+    private Book bookCache = new Book();
+    private JSONObject labelCache = new JSONObject();
+    private AtomicInteger count = new AtomicInteger(1);
+
     @Override
     public void process(Page page) {
-        //   http://www.biquge5200\\.com/0_844
-        //page.addTargetRequests(page.getHtml().links().all());
+        page.addTargetRequests(Lists.newArrayList("http://www.biquge5200.com/0_844/638404.html", "http://www.biquge5200.com/0_844/636721.html", "http://www.biquge5200.com/0_844/636722.html"));
         //List<String> all1 = page.getHtml().links().regex("http://www.biquge5200\\.com/0_844/\\.*\\.html").all();
-        Book book = new Book();
-        String bookType = page.getHtml().xpath("//div[@class='con_top']/a[2]/text()").get();
-        //System.out.println("bookType===" + bookType);
-        Selectable info = page.getHtml().css("#maininfo");
-        String bookAuthor = info.xpath("//h1/text()").get();
-        String bookName = info.xpath("//p[1]/text()").get();
-        //System.out.println("bookAuthor===" + info.xpath("//h1/text()"));
-        //System.out.println("bookName===" + info.xpath("//p[1]/text()"));
-        String bookInfo = page.getHtml().css("#intro").xpath("//p/text()").get();
-        //System.out.println("bookInfo===" + page.getHtml().css("#intro").xpath("//p/text()"));
-        String bookCover = page.getHtml().css("#fmimg").xpath("//img").$("img", "src").get();
-        //System.out.println("bookCover===" + bookCover);
-        book.setType(bookType);
-        book.setAuthor(bookAuthor);
-        book.setInfo(bookInfo);
-        book.setCover(bookCover);
-        List<BookLabel> labels = Lists.newArrayList();
-        List<Selectable> nodes = page.getHtml().css("#list").xpath("//dd/a").nodes();
-        int i = 0;
-        for (Selectable node : nodes) {
-            i++;
-            if (i > 10) {
-                continue;
-            }
-            //System.out.println("bookLink===" + node.links());
-            //System.out.println("bookTitle" + node.xpath("//a/text()"));
-            labels.add(new BookLabel(node.links().get(), node.xpath("//a/text()").get()));
-        }
-        book.setLabels(labels);
-        System.out.println("=--=============================="+JSON.toJSONString(book));
-        //List<Selectable> nodes = xpath.nodes();
-        //System.out.println(page.getHtml().css("#list").xpath("//dd/a").toString());
-//        nodes.forEach(node -> {
-//            System.out.println(node.links());
-//            System.out.println(node.xpath("//a/text()"));
-//        });
-        /*List<String> all = page.getHtml().links().regex("http://www.biquge5200\\.com/0_844/\\.html").all();
-        System.out.println(all);
-        System.out.println(page.getHtml().css("#list").xpath("//dd/a").toString());
-        System.out.println(page.getHtml().css("#list").xpath("//dd/a/text()").toString());*/
-        //page.putField("title", page.getHtml().css("#list").xpath("//dd/a/text()"));
-        //System.out.println(page.getHtml().toString());
+        if (page.getUrl().get().equals("http://www.biquge5200.com/0_844")) {
+            // 这里解析出了 列表页的 基本信息
+            String bookType = page.getHtml().xpath("//div[@class='con_top']/a[2]/text()").get();
+            Selectable info = page.getHtml().css("#maininfo");
+            String bookAuthor = info.xpath("//h1/text()").get();
+            String bookName = info.xpath("//p[1]/text()").get();
+            String bookInfo = page.getHtml().xpath("//div[@id='intro']//p/text()]").get();
+            String bookCover = page.getHtml().xpath("//div[@id='fmimg']//img").$("img", "src").get();
+            bookCache.setName(bookName);
+            bookCache.setType(bookType);
+            bookCache.setAuthor(bookAuthor);
+            bookCache.setInfo(bookInfo);
+            bookCache.setCover(bookCover);
+            page.putField("bookName", bookName);
+            page.putField("bookType", bookType);
+            page.putField("bookAuthor", bookAuthor);
+            page.putField("bookInfo", bookInfo);
+            page.putField("bookCover", bookCover);
 
-        //page.putField("author", page.getUrl().regex("http://www\\.biquge5200\\.com/0_844\\.com/(\\\\w+)/.*").toString());
+            List<Selectable> nodes = page.getHtml().xpath("//div[@id='list']//dd/a").nodes();
+            for (Selectable node : nodes) {
+                String link = node.links().get();
+                String title = node.xpath("//a/text()").get();
+                labelCache.put(link, new BookLabel(link, title, null));
+            }
+        }
+        List<BookLabel> labels = Lists.newArrayList();
+        if (count.getAndAdd(1) < 20 && page.getUrl().regex("http://www\\.biquge5200\\.com/0_844/\\w+\\.html").match()) {
+            String content = page.getHtml().xpath("//div[@id='content']/html()").get();
+            BookLabel label = labelCache.getObject(page.getUrl().get(), BookLabel.class);
+            label.setContent(content);
+            labels.add(label);
+            page.putField("labels", labels);
+        }
     }
 
     @Override
@@ -78,7 +83,37 @@ public class BookRepoPageProcessor implements PageProcessor {
         return site;
     }
 
-    public static void main(String[] args) {
-        Spider.create(new BookRepoPageProcessor()).addUrl("http://www.biquge5200.com/0_844").addPipeline(new JsonFilePipeline("E:\\webmagic")).thread(5).run();
+    public static void main(String[] args) throws IOException {
+        //Spider.create(new BookRepoPageProcessor()).addUrl("http://www.biquge5200.com/0_844").addPipeline(new JsonFilePipeline("E:\\webmagic")).thread(5).run();
+        Spider.create(new BookRepoPageProcessor()).addUrl("http://www.biquge5200.com/0_844").addPipeline(new BookPipeline()).thread(5).run();
+        String json = "{\n" +
+                "  \"author\": \"斗破苍穹\",\n" +
+                "  \"cover\": \"http://r.i.biquge5200.com/files/article/image/0/844/844s.jpg\",\n" +
+                "  \"info\": \"这里是属于斗气的世界，没有花俏艳丽的魔法，有的，仅仅是繁衍到巅峰的斗气！想要知道异界的斗气在发展到巅峰之后是何种境地吗？请观斗破苍穹^^据调查，斗气，并非是国外产品，而是正宗的国产货，虽然斗气基本上已经泛滥在异界小说之中，不过土豆相信，斗破苍穹，能写出一些属于斗气的特色。\",\n" +
+                "  \"labels\": [\n" +
+                "    {\n" +
+                "      \"content\": \"一场旷世之战落幕，然而却是留下了一个满目疮痍的中州，原本的繁华不在，甚至整个中州，都是在此刻被一分为二，一条数万丈庞大的深渊，将两地分割而开，而这条深渊，在日后，也被人称为双帝渊，谁也无法忘记那天的那一场惊天之战…\\n<br> 中州因此而损落了繁华，不过所幸，劫难就此而止，伴随着其他地方的人涌进这里，不久的将来，这中州，依然会成为斗气大6的中心，因为，这里，爆了决定斗气大6命运的决战。\\n<br> 而伴随着魂天帝的封印，决战自然便是以联军的胜利而告终，至于魂族，虽说因为魂天帝晋入了斗帝，不少人实力都是大涨，但奈何还未展现威力，他们之中的十之七八，便都是尽数被魂天帝拿去祭了血刃，余下的那些人，也是失魂落魄，面对着联军的追捕，并未有太多的抵抗，便是束手就擒。\\n<br> 在大战落幕后不久，联军也算是这么多年第一次攻进了魂界之中，然而意料之中的繁盛并未看见，在进入魂界后，他们所见到的，依然是满眼的赤红，整个空间，死气沉沉，罕有人迹。\\n<br> 在魂界的中央位置，联军现了一个近十万丈庞大的血池，其中的血液粘稠无比，在那血池中，漂浮着密密麻麻的尸体与白骨，而在见到这一幕时，他们方才明白，为何魂界会如此的空空荡荡。\\n<br> 因为，这里的人，似乎已是尽数被投入了这个血池，魂天帝为了达到目标，果然是倾尽了一切…\\n<br> 这种人，让得人心寒与恐惧，但让得人感到庆幸的人，这种疯子，总算是有着人能够将其降服。\\n<br> 魂界之中的一些残余之人，也是被尽数带走，而后古元等人联手，将这片魂族的老巢，彻底的毁灭，从此以后，中州之上，将不会再有所谓的魂族…\\n<br> 远古八族，唯有古族，炎族，雷族依旧尚存，哦，对了，当然不能忘记，还有着那因为萧炎晋入斗帝，而再度激斗帝血脉的萧族\\n<br> 所谓的斗帝血脉，血缘越是与萧炎亲近者，所受到的好处便是越大，而其中最明显的，自然便是萧炎的女儿萧潇，她几乎直接就是在萧炎踏入斗帝的那一霎，狂飙到了八星斗圣的层次，那种度，看得人简直就有种昏厥的冲动，虽说萧潇天赋极佳，但这种天赋还没有彻底的展现出来，她便是因为种种缘故，直接一跃成为了斗气大6上的顶尖强者，这种情况，让得雷赢炎烬这种修炼了数百上千年的人，简直就是有着一口鲜血喷出来的冲动，这就是第一代享受斗帝血脉的好处么？\\n<br> 斗帝血脉，正是如此变态的东西，不然的话，又如何能够以一人之力，振兴整个种族。\\n<br> 可以想象，整个萧家，都会彻彻底底的享受到斗帝血脉所带来的好处，他们的实力，也将会在以后的时间中，得到一个巨大的飞跃，到时候，要重返萧族当年强盛之时，也仅仅只是时间的问题而已。\\n<br> …\\n<br> 大战结束，联军自然也是宣告解散，不过很显然，以后的斗气大6，若是没有特别的情况的话，将很难会爆如此恐怖的大战，因为，现在的大6，有了一位至尊强者的制衡。\\n<br> 炎帝，萧炎\\n<br> 一个响彻了斗气大6每一个角落的名字，一个被无数人尊崇的名字，在很多人的心中，那是一道宛如神灵般的存在，他庇护着斗气大6\\n<br> 联军解散，但天府联盟却依旧尚存，而且如今的联盟，不再有着任何的势力宗派之分，现在的他们，非常的明白，能够在这个联盟之中存在，将会是一种无比璀璨的荣耀。\\n<br> 而那种荣耀，也是来自于那位站在了斗气大6顶点的人\\n<br> …\\n<br> 距那场惊天大战过去后的两年，中州也是66续续的再度繁华起来，众多的宗派势力如雨后春笋般的冒出，令得中州，再度变得如火如荼。\\n<br> 当然，对于这些，天府联盟却是再没有插过手，他们保持着然的地位，静静的看着中州的展与衍变，而对于这毫无疑问的霸主，也自然是不会有任何的势力，胆敢有丝毫的挑衅。\\n<br> 在与魂天帝交战后所造成的伤势，萧炎借助着异火之力，仅仅两年时间，便是再度成功修炼出了身体，而所幸，并未留下什么后遗症。\\n<br> 而在这两年中，萧炎与薰儿，彩鳞，举办了一场异常盛大的婚礼，那次的婚礼，有着天地以及无数人的见证…而这，也是萧炎给予两女曾经的承喏。\\n<br> 在婚礼后不久，萧炎便是再度将天府的盟主之位，转交给了药老，按照他的话来说，现在的天府联盟，已经不再需要他来顶抗….\\n<br> 对于萧炎的这般举动，药老也是无奈，他知道这小子又是想要当甩手掌柜，不过在一想到这些年他所背负的那些重担，心中也是不免有些心疼，所以也只能再度出任盟主之位，替萧炎将这个担子接过。\\n<br> 而将这个担子卸下，萧炎这才悠哉悠哉的潇洒而去，这天地之间，方才是任其逍遥自在。\\n<br> …\\n<br> 时间流逝，春去秋来，年许时间，又是悄然而过。\\n<br> 东中州，北离城数十里之外的一座凉亭，三道人影坐于其中，举目间，略微的有些迫不及待。\\n<br> “柳擎，他真会来么？”凉亭中，一道身着灰衣，面色有些凌厉的男子，舔了舔嘴，开口道。\\n<br> “林焱，这么多年了，你还是这么急脾气。”在一旁，一位身着青衣的男子，微微一笑，显得颇为的温雅的道。\\n<br> “林修崖，听说你在青天城建了一个崖帮啊？”身材高壮的柳擎，笑着道，如今的他，也是柳家的掌舵人，眉宇间，倒是有着不少的威严。\\n<br> “玩玩罢了。”林修崖轻笑道：“难登大雅之堂，跟那个家伙相比，连根毛都不算…”\\n<br> “呵呵，林修崖，这话可不像是你能说的哦…”林修崖的话音刚刚落下，凉亭中便是响起一道熟悉的笑声，旋即一道身影，便是这般毫无征兆的出现在了凉亭之中，一身黑衫，赫然便是萧炎\\n<br> “哈哈，你这家伙，总算是现身了。”见到萧炎出现，三人脸庞上都是涌现喜色，快步走上，一人一拳打再前者胸膛上。\\n<br> “嘿嘿，我竟然打了炎帝一拳，真他娘的威风。”林焱大笑道。\\n<br> 见到这分别数年的好友，萧炎也是爽朗一笑，手一抓，数坛烈酒便是出现在亭中：“别说废话，不醉不归。”\\n<br> “好，今日就陪你”\\n<br> 三人也是大笑出声，毫不客气的接过，仰头猛灌。\\n<br> 凉亭中，四人大笑对饮，笑声传出，在这亭间显得分外的洒脱。\\n<br> 月色攀爬而上，林焱与柳擎都是烂醉如泥，不顾风度的躺在地上，他们并没有使用斗气抵御酒气，他们想要畅快淋漓的醉上一场。\\n<br> “接下来打算去哪里？”林修崖脸颊有些泛红，他望着萧炎，笑着道。\\n<br> “逛了这么久，也有些累了…”萧炎笑了笑，抬起头，望着那轮明月，道：“想回加玛帝国了…”\\n<br> “以后有事情，就去天府联盟，我已经关注过他们…”\\n<br> “呵呵，这个背景可有些骇人啊，看来当年跟你去加玛帝国，还真是选对了路啊…”\\n<br> “哈哈…”\\n<br> ……\\n<br> 花宗旧址。\\n<br> 因为联盟同化的缘故，如今的花宗，也算是彻底融入了联盟，不过一些花宗的老人，依然是喜欢留在这个安静的地方。\\n<br> 花宗后山，一道倩影雍容而立，月白色的裙袍勾勒出那动人的曲线，显得分外的诱人。\\n<br> “老师…”在女子身后，一道身着浅色衣衫的女子轻声叫道。\\n<br> “嫣然，有什么事么？”身着月白色裙袍的女子偏过头来，露出一张噙着雍容优雅的美丽俏脸，正是云韵。\\n<br> 望着那张美丽而充满着韵味的俏脸，纳兰嫣然心中轻叹了一声，这些年不乏诸多在中州大6上颇为名望的强者以及势力领对云韵表露过爱意，不过可惜，却无一人能够有着半点的进展，她心中清楚，在云韵的心中，那个人的影子，恐怕极难根除，即便如今的他，已经有了妻室…\\n<br> “萧炎送来了一句话…”纳兰嫣然轻声道。\\n<br> 她的话音刚刚落下，那一直都是平淡如水的云韵，却是骤然转身，那般反应，看得她再度苦笑一声。\\n<br> “什么？”云韵的声音，不知觉的有着点点颤抖。\\n<br> “他说…你可愿意再回加玛帝国…”纳兰嫣然微微一笑，笑容有些酸涩。\\n<br> 云韵也是怔了下来，贝齿紧咬着红唇，美眸突然的有些湿润，那里，一直都是她最为怀念的地方。\\n<br> 那里，不是云岚山，而是魔兽山脉…\\n<br> …………\\n<br> 加玛帝国，青山镇。\\n<br> 如今的青山镇，比起当年，无疑是要繁华许多，借助着魔兽山脉的地势，倒是有着越来越多的佣兵驻扎在这里，而这之中，除了因为此地进入魔兽山脉容易之外，便是另外在那青山镇中，有着一个医馆。\\n<br> 医馆并不大，但在那里，只要你还有一口气，便是能够让你继续活蹦乱跳的出来，而这里，也几乎是所有青山镇人最为敬畏的地方…\\n<br> 医馆之前，终年都是被拥挤的人群所挤满，这些人有的是受伤的佣兵，有的则是从外地赶来的伤员，不过在这里，有着一条铁一般的规矩，不论你的身份如何的高贵，在这里，只能领号排队。\\n<br> 当然，这般有些嚣张的规矩，在初始时，自然是引来了不少冷笑与不屑，不过在当一位违规的斗皇强者当着众人的面，莫名其妙的开始身体融化时，所有人方才明白，那一位身着白色衣裙，看上去善良清纯的女孩，拥有着何等可怕的手段…\\n<br> 至此以后，再无人将这里的规矩，视为无物。\\n<br> 医馆之中，有着一方简单而整洁的木桌，在那木桌之后，有着一道身着白色衣裙的女孩安静的端坐着，阳光从屋顶倾斜而下，照耀在那张噙着轻柔微笑的脸颊上，那般美景，看得面前所坐的伤员呆了下来。\\n<br> “回家将药熬成汁液，敷在伤口便好。”白衣女子轻柔一笑，将手中的药包轻放在桌上，青丝如瀑般的倾泻而下，显得清纯动人，那般气质，让得那些来到这里满身血气的人有些自惭形秽。\\n<br> 伤员拿着药包，失魂落魄的离去，脑海中，始终都是浮现着那温柔的笑容，如此女子，那般温柔，光是看着，心中的烦躁，仿佛都是会淡下。\\n<br> 见到前一位伤员离去，后面所排的人，顿时大喜，然而就在他要上前时，一道身影突然从一旁走过，先一步的便是坐在了椅子上。\\n<br> “你找死!”\\n<br> 见到居然有人插队，所有人都是愣了好片刻，然后个个都是暴怒了起来，面带杀气的望着那道人影，敢在这里捣乱，这家伙找死不成？\\n<br> “请先排队吧。”\\n<br> 白衣女子偏着身子，头也不抬的整理着一旁的药蒲，轻柔的嗓音，让得人如沐春风。\\n<br> 见到她这般反应，后面不少人都是暗自冷笑，这家伙，再不走就要倒霉了…\\n<br> 不过，就在他们冷笑时，那如同无赖一般坐在椅子上的人，却是突然嘿嘿笑道：“关系这么好，排队就不必了吧？”\\n<br> “这个混蛋，竟然敢出言调戏？”\\n<br> 听得这句轻薄的话，所有人都是目瞪口呆了起来，这家伙，真是蠢货不成？他还真以为这看起来柔弱的女子，是寻常女子么？\\n<br> 一道道目光，开始带着怜悯的盯着那道身影，一些人，甚至都是低叹摇头，当然，自然也少不了一些因为此人冒犯心中的不可亵渎的仙子，眼中充满着愤怒之人。\\n<br> 然而，就在这些人准备等待着看一场悲剧生时，那偏头整理着药蒲的白衣女孩如白玉般的素手，却是突然一抖，怔了一瞬，俏脸急忙转移而过，顿时，一张泛着笑容的熟悉脸庞，便是出现在了她的眼中，当下贝齿便是轻咬上了红唇。\\n<br> “一个人走了，也不怕孤单啊？”身着黑衫的男子，轻笑道。\\n<br> 他的话，让得后方愤怒的众人突然一愣，而还不待他们回过神，白衣女子的轻灵嗓音，便是俏皮的响起，让得所有人，都是如遭雷击的呆滞了下来。\\n<br> “你不肯陪我，我只好自己走了啊。”\\n<br> 黑衫男子捎了捎头，望着那灵动双眸中有着点点黯淡的白衣女子，苦笑了片刻，终于是道：“那跟我住到乌坦城去？”\\n<br> 白衣女子掩嘴轻笑，美眸却是泛起点点红润，唇角有着一抹温暖柔和的弧度扬起。\\n<br> 见到她这般反应，那排队的众人，一颗心顿时摔成数瓣，瞬间挖凉哇凉的…\\n<br> …………….\\n<br> 加玛帝国帝都，加玛圣城。\\n<br> 今日对于加玛帝国甚至整个西北地域，都算是一个颇为重要的日子，因为炎盟两年一度的拍卖会，将会在加玛圣城展开。\\n<br> 这拍卖会，极其盛大，而其中所拍卖的物品，也是属于顶尖层次，每一次的拍卖会，不仅会吸引来西北地域各方势力以及强者，甚至连其他地域的人，都是慕名而来。\\n<br> 而拍卖会的地点，则正是在加玛圣城中央位置，那里，是以往米特尔家族的总部所在。\\n<br> 高高达数百丈的水晶天穹之下，坐满着密密麻麻的人影，火暴的气氛，一直将拍卖会维持在**，当然，气氛之所以会这般热烈，倒并非全是因为拍卖物品的缘故，而与人，也是有着很大的关系。\\n<br> 那是一位身着红色旗袍的妖娆女子，合体的裙袍，将那丰满成熟的曲线，凸显得淋漓尽致，其一颦一笑间，也是展露着无尽的成熟风情。\\n<br> 当然，在座的人虽然不少都对台上的尤物美人有着一些念想，但他们却是明白，此女可并非是什么花瓶，炎盟之所以能够在西北地域如此强盛，不少功劳，都是倚仗着她的经济手段，她手下的产业，遍布着整个西北大6，而且，她心中的情报系统，也是能够将你所做得任何事情，调查得一清二楚。\\n<br> 这个女人，虽说修炼天赋并非很强，依靠着丹药，方才达到斗皇层次，但在她的手下，却是有着无数的斗宗强者誓死效命，这等本事，谁敢说其是花瓶？\\n<br> 这个女人，在西北地域，有着一个特别的称呼，金之女皇，另外，她的名字，叫做米特尔.雅妃。\\n<br> 拍卖台上，雅妃略带一丝慵懒的望着那花费了物品数倍价格将其拍卖到手的人，不由得轻笑摇头，旋即从纳戒中取出一卷泛着古气的卷轴，酥麻的声音中，透着无尽的妖娆。\\n<br> “天阶低级功法，雷动决，三十亿起拍…”\\n<br> 她的话，立刻便是在拍卖场中引起了一些骚动，不少人目光都是有些火热，不过也不知道那火热究竟是因为卷轴还是因为人…\\n<br> 不过天阶低级的功法，在这里显然还是拥有着不小的重量，因此不少宗派势力，都是跃跃欲试，有着想要争抢的架势。\\n<br> “三十亿…能不能便宜点？”\\n<br> 然而，就在即将起拍时，一道不合时宜的笑声，突然的响起，让得所有人都是愣了一愣，旋即失笑出声，谁这么蠢？当这里是菜场么？还讨价还价？\\n<br> 一道道目光顺着声音移动，最后停留在了前排的一处地方，那里原本空着的椅子上，不知道何时出现了一位身着黑衫的青年。\\n<br> 台上的雅妃，同样是因为这突然的声音怔了怔，美眸转向那椅子处，然而，当其目光望着那一道噙着笑容的熟悉脸庞时，手中那卷价格不菲的天阶低级功法，便是在啪的一声，掉落下地。\\n<br> “三十亿，再加个人的话，行不行？”\\n<br> 黑衫青年望着那比起当年显得越成熟的绝世尤物，笑吟吟的道。\\n<br> 这话一出，不少人面色都是微沉了下来，拍卖场的一些护卫，已经面色阴沉的迅靠拢，然后对着那黑衫青年而去，他们已认定，此人是来捣乱的。\\n<br> 然而，就在不少人坐着看好戏时，那台上的雅妃，却是怔怔的望着那对与当年相比，依然清澈的黑色双眸，半晌后，她轻咬着红唇，脸颊上，浮现一抹魅惑众生的妩媚笑容。\\n<br> “可以考虑啊…”\\n<br> 她的声音，在拍卖场中回荡着，而后，那原本沸腾的拍卖场，便是瞬间鸦雀无声，那些护卫，也是在此刻僵了脚步，一脸的木然…\\n<br> …\\n<br> 岁月如梭，时间未曾因为任何人而有所停留，不知不觉，距离当年的双帝之战，已是过去了十数年的时间。\\n<br> 在这十数年中，斗气大6之上，也是人才辈出，不断有着新的强者崭露头角，为这片大6，添上几分精彩。\\n<br> 而至于炎帝萧炎，则是在这十多年中，完全的淡出了人们的视线，但那种种传说，却依然并未消逝，反而是在口口相传中，变得越的神化以及让人敬畏。\\n<br> 加玛帝国，乌坦城。\\n<br> 对于加玛帝国的人来说，乌坦城俨然是圣地般的存在，因为那里，是萧家的总部，而萧家，这些年强者辈出，就算是放眼斗气大6，能够与其匹敌者，都是寥寥可数。\\n<br> 在乌坦城中心的位置，一座庄园矗立，隐隐间，有着小孩的嬉闹声从中传出。\\n<br> 视线越过高墙，只见得在那其中的庭院中，几道小孩在其中翻滚嬉耍，咯咯的笑声，响个不停。\\n<br> 在庭院的石椅上，青年双臂枕着后脑，嘴中挑着草根，微眯着眼睛，享受着那温暖的日光浴。\\n<br> 在青年身旁，身着淡青色衣衫的女孩，一对如玉般的修长素手灵巧的剥开一颗水果，然后轻轻的放进青年嘴中，做完这些，女孩刚欲起身，却是被一只手臂直接揽住纤腰，在其一声娇呼声中，扯进了怀中，然后狠狠的在女孩脸颊上吻了一口，让得她脸颊顿时绯红了起来。\\n<br> “霖儿他们还在呢…”青衣女子娇羞的嗔道。\\n<br> “看见就看见呗，都老夫老妻了…”萧炎撇了撇嘴，笑道。\\n<br> “爹，你又在欺负娘我要告诉彩鳞娘”他的话音刚刚落下，一旁便是窜出一个虎头虎脑的小男孩，双手叉腰，大声道。\\n<br> “小兔崽子，还敢威胁你爹，一边玩着去。”\\n<br> 萧炎翻了翻白眼，随手一挥，一股劲风便是吹拂而出，见状，小男孩体内顿时爆出一股极强的斗气光柱，不过可惜，当那股劲风吹来时，依然是直接将其吹翻而去，然后软软的落在了地面上。\\n<br> “你啊…”\\n<br> 见状，薰儿不由得轻拍了萧炎一下，嗔道。\\n<br> 萧炎笑了笑，抬起双眸，望着天空，脸庞上的笑容，突然徐徐收敛，他轻声道：“这段时间，我有些比较奇特的感觉…”\\n<br> “什么？”薰儿怔问道。\\n<br> “薰儿，你知道为什么以往斗气大6上的斗帝强者，后来为什么全部失踪了么？”萧炎道。\\n<br> “为什么？”闻言，薰儿也是微微一怔，道。\\n<br> “或许…他们是离开这个斗气大6。”萧炎双眸中，有着淡淡的光泽闪动，他轻声道。\\n<br> “不会吧？”薰儿一惊，喃喃道。\\n<br> “那种感觉，越来越强烈了，顶多半年，或许便是会有答案了…”萧炎拥着薰儿，道。\\n<br> 闻言，薰儿也是微微点了点头，环在萧炎腰际的玉臂，不自觉的加深了力道。\\n<br> …\\n<br> 半年时间，眨眼便过。\\n<br> 中州，天府联盟总部，一座高耸的石塔上。\\n<br> 在石塔周围，有着无数的强者悬浮，他们的目光，皆是泛着狂热的望着石塔顶部，那里，一道黑衫青年安静的盘坐着，这是他们十年之内，第一次见到那传说中的人物。\\n<br> 炎帝，萧炎\\n<br> “你认为萧炎所说，究竟是真还是假？”烛坤望着萧炎，偏头对着一旁的古元道。\\n<br> “这个…我也不知道，不过，似乎也只能这样，才能解释为什么斗气大6上的斗帝强者会消失得那么干净，那种等级的人，想要斩杀，可并不容易啊…”古元迟疑了一下，道。\\n<br> “唉…”\\n<br> 烛坤叹息了一声，心头很是复杂，若真是那样的话，那他们就真是井底之蛙了啊…\\n<br> 天空上的平静，持续了整整半日时间，终于是在夕阳斜落时，突然泛起了阵阵奇异的波动。\\n<br> 无数人屏住呼吸，目光震惊的望着这一幕。\\n<br> 那种波动，伴随着时间的推移，越来越浓烈，到得后来，萧炎双眸也是陡然睁开，一道贯穿天地般的气柱，从其天灵盖暴射而出，最后在整个中州的目光注视下，直接冲进了那遥远的天空上。\\n<br> “嗡嗡”\\n<br> 随着这道气柱冲出，那波荡的天空，也是变得极端激烈了起来，半晌后，一个泛着淡淡光泽的光芒通道，仿佛是破开了位面空间的束缚，出现在了那天地间无数道目光的注视下。\\n<br> 在那通道出现时，萧炎也是豁然起身，面色凝重的望着这一幕，从那通道中，他感觉到了一种熟悉的味道。\\n<br> 源气\\n<br> 那早已在斗气大6上消失的源气，也是晋入斗帝强者的关键之物\\n<br> 整个天地，都是在此刻安静了下来，烛坤与古元张着嘴，心头如同泛起了惊涛骇浪一般，那道通道在出现的时候，他们分明的感觉到，那驻步上千年的实力，居然有了涨动的趋势\\n<br> “咕噜…”\\n<br> 两人的目光，无比火热的望着那个光芒通道，灵魂深处传出了一种极端强烈的悸动，那种悸动，告诉他们，若是进入其中，他们的实力，必然能够突破\\n<br> “呼…”\\n<br> 萧炎深深的吐了一口气，平静了多年的漆黑双眸中，也是在此刻涌上了火热，原本冷却的血液，仿佛都是在现在沸腾了起来。\\n<br> “结束，果然也是一种开始……”\\n<br> 萧炎嘴角掀起一抹微笑，或许，这也会是一种其他的开始。\",\n" +
+                "      \"link\": \"http://www.biquge5200.com/0_844/638404.html\",\n" +
+                "      \"title\": \"第一千六百二十四章结束，也是开始 大结局\"\n" +
+                "    }\n" +
+                "  ],\n" +
+                "  \"name\": \"作    者：天蚕土豆\",\n" +
+                "  \"type\": \"玄幻小说\"\n" +
+                "}";
+        Book book = JSON.parseObject(json, Book.class);
+        ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
+        resolver.setPrefix("templates/");//模板所在目录，相对于当前classloader的classpath。
+        resolver.setSuffix(".html");//模板文件后缀
+        TemplateEngine templateEngine = new TemplateEngine();
+        templateEngine.setTemplateResolver(resolver);
+
+        //构造上下文(Model)
+        Context context = new Context();
+        context.setVariable("book", book);
+        //渲染模板
+        FileWriter write = new FileWriter(StringUtils.join(UUID.randomUUID().toString(), String.valueOf(System.nanoTime()), ".html"));
+        templateEngine.process("example", context, write);
+
+
     }
 }
