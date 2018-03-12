@@ -17,6 +17,7 @@
         <module>battcn-demo-provider</module>
         <module>battcn-system-provider</module>
         <module>battcn-movie-provider</module>
+        <module>battcn-book-provider</module>
     </modules>
 
 </project>
