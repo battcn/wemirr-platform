@@ -1,6 +1,6 @@
 package com.battcn.management.webmagic.pipeline;
 
-import com.battcn.management.webmagic.entity.ProxyIp;
+import com.battcn.management.webmagic.entity.ProxyPool;
 import com.battcn.management.webmagic.mapper.ProxyIpMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,9 +27,9 @@ public class IPSpiderPipeline implements Pipeline {
         }
         for (Map.Entry<String, Object> entry : resultItems.getAll().entrySet()) {
             if (entry.getKey().equals("result")) {
-                List<ProxyIp> ipList = (List<ProxyIp>) entry.getValue();
-                for (ProxyIp proxyIp : ipList) {
-                    proxyIpMapper.insert(proxyIp);
+                List<ProxyPool> ipList = (List<ProxyPool>) entry.getValue();
+                for (ProxyPool proxyPool : ipList) {
+                    proxyIpMapper.insert(proxyPool);
                 }
             }
         }

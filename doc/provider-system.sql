@@ -59,6 +59,25 @@ CREATE TABLE `t_sys_log` (
 -- Records of t_sys_log
 -- ----------------------------
 
+
+DROP TABLE IF EXISTS `t_sys_proxy_pool`;
+CREATE TABLE `ip_pool` (
+  `id` int(8) NOT NULL AUTO_INCREMENT COMMENT 'ID自增',
+  `ip` varchar(20) DEFAULT NULL COMMENT '代理IP',
+  `port` int(8) DEFAULT NULL COMMENT '代理端口',
+  `source` varchar(128) DEFAULT NULL COMMENT 'IP来源',
+  `locked` BIT(1)  DEFAULT b'1' COMMENT '是否启用 0=禁用 1=启用',
+  `gmt_create`    DATETIME  DEFAULT CURRENT_TIMESTAMP
+  COMMENT '创建时间',
+  `gmt_modified`  TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  COMMENT '最后修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT  '代理IP池';
+
+
+
+
+
 -- ----------------------------
 -- Table structure for t_sys_manager
 -- ----------------------------

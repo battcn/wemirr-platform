@@ -2,7 +2,7 @@ package com.battcn.management.webmagic.entity;
 
 import java.io.Serializable;
 
-public class ProxyIp implements Serializable{
+public class ProxyPool implements Serializable{
 	private static final long serialVersionUID = -3699072211264713025L;
 
 	private Long id;

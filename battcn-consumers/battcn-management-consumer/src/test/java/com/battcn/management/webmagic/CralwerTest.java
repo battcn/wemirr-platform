@@ -2,7 +2,7 @@ package com.battcn.management.webmagic;
 
 import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
 import com.battcn.framework.webmagic.downloader.CrowProxyProvider;
-import com.battcn.management.webmagic.entity.ProxyIp;
+import com.battcn.management.webmagic.entity.ProxyPool;
 import com.battcn.management.webmagic.mapper.ProxyIpMapper;
 import com.battcn.management.webmagic.pageprocessor.MovieProcessor;
 import com.battcn.management.webmagic.pageprocessor.ProxyPoolProcessor;
@@ -43,10 +43,10 @@ public class CralwerTest {
      */
     public void proxyExample() {
         int threadNum = 5;
-        List<ProxyIp> proxyList = proxyIpMapper.findAllProxies();
+        List<ProxyPool> proxyList = proxyIpMapper.findAllProxies();
         List<Proxy> proxies = new ArrayList<>(proxyList.size());
-        for (ProxyIp proxyIp : proxyList) {
-            proxies.add(new Proxy(proxyIp.getIp(), proxyIp.getPort()));
+        for (ProxyPool proxyPool : proxyList) {
+            proxies.add(new Proxy(proxyPool.getIp(), proxyPool.getPort()));
         }
 
         threadNum = proxies.size();
