@@ -1,6 +1,5 @@
 package com.battcn.management.webmagic.pipeline;
 
-import com.alibaba.fastjson.JSON;
 import com.battcn.management.webmagic.BookLabel;
 import com.battcn.management.webmagic.entity.Book;
 import org.apache.commons.lang3.StringUtils;
@@ -14,8 +13,7 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -24,23 +22,34 @@ import java.util.UUID;
  */
 public class BookPipeline implements Pipeline {
 
+    private static final Book book = new Book();
+    private static final Context context = new Context();
+
     @Override
     public void process(ResultItems resultItems, Task task) {
-        final Set<Map.Entry<String, Object>> entries = resultItems.getAll().entrySet();
-        final String json = JSON.toJSONString(entries);
-        final Book book = JSON.parseObject(json, Book.class);
 
+        String bookName = resultItems.get("bookName");
+        String bookType = resultItems.get("bookType");
+        String bookAuthor = resultItems.get("bookAuthor");
+        String bookInfo = resultItems.get("bookInfo");
+        String bookCover = resultItems.get("bookCover");
+        if (StringUtils.isNoneBlank(bookName, bookType, bookAuthor, bookInfo, bookCover)) {
+            book.setAuthor(bookAuthor);
+            book.setCover(bookCover);
+            book.setInfo(bookInfo);
+            book.setType(bookType);
+            book.setName(bookName);
+        }
+        List<BookLabel> labels = resultItems.get("labels");
         ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
         resolver.setPrefix("templates/");//模板所在目录，相对于当前classloader的classpath。
         resolver.setSuffix(".html");//模板文件后缀
         TemplateEngine templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(resolver);
-        //构造上下文(Model)
-        Context context = new Context();
         //渲染模板
         FileWriter write = null;
         try {
-            for (BookLabel label : book.getLabels()) {
+            for (BookLabel label : labels) {
                 Book bk = book;
                 bk.setLabels(Lists.newArrayList(label));
                 context.setVariable("book", bk);
@@ -49,6 +58,14 @@ public class BookPipeline implements Pipeline {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (write != null) {
+                    write.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }

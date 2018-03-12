@@ -1,26 +1,17 @@
 package com.battcn.management.webmagic;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.battcn.management.webmagic.entity.Book;
 import com.battcn.management.webmagic.pipeline.BookPipeline;
-import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
-import us.codecraft.webmagic.pipeline.ConsolePipeline;
-import us.codecraft.webmagic.pipeline.JsonFilePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Selectable;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -48,7 +39,7 @@ public class BookRepoPageProcessor implements PageProcessor {
             Selectable info = page.getHtml().css("#maininfo");
             String bookAuthor = info.xpath("//h1/text()").get();
             String bookName = info.xpath("//p[1]/text()").get();
-            String bookInfo = page.getHtml().xpath("//div[@id='intro']//p/text()]").get();
+            String bookInfo = page.getHtml().xpath("//div[@id='intro']/p/text()").get();
             String bookCover = page.getHtml().xpath("//div[@id='fmimg']//img").$("img", "src").get();
             bookCache.setName(bookName);
             bookCache.setType(bookType);
@@ -86,7 +77,7 @@ public class BookRepoPageProcessor implements PageProcessor {
     public static void main(String[] args) throws IOException {
         //Spider.create(new BookRepoPageProcessor()).addUrl("http://www.biquge5200.com/0_844").addPipeline(new JsonFilePipeline("E:\\webmagic")).thread(5).run();
         Spider.create(new BookRepoPageProcessor()).addUrl("http://www.biquge5200.com/0_844").addPipeline(new BookPipeline()).thread(5).run();
-        String json = "{\n" +
+        /*String json = "{\n" +
                 "  \"author\": \"斗破苍穹\",\n" +
                 "  \"cover\": \"http://r.i.biquge5200.com/files/article/image/0/844/844s.jpg\",\n" +
                 "  \"info\": \"这里是属于斗气的世界，没有花俏艳丽的魔法，有的，仅仅是繁衍到巅峰的斗气！想要知道异界的斗气在发展到巅峰之后是何种境地吗？请观斗破苍穹^^据调查，斗气，并非是国外产品，而是正宗的国产货，虽然斗气基本上已经泛滥在异界小说之中，不过土豆相信，斗破苍穹，能写出一些属于斗气的特色。\",\n" +
@@ -112,7 +103,7 @@ public class BookRepoPageProcessor implements PageProcessor {
         context.setVariable("book", book);
         //渲染模板
         FileWriter write = new FileWriter(StringUtils.join(UUID.randomUUID().toString(), String.valueOf(System.nanoTime()), ".html"));
-        templateEngine.process("example", context, write);
+        templateEngine.process("example", context, write);*/
 
 
     }
