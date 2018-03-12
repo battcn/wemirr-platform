@@ -21,6 +21,7 @@
         <module>battcn-framework-mq</module>
         <module>battcn-framework-core</module>
         <module>battcn-framework-mybatis</module>
+        <module>battcn-framework-webmagic</module>
     </modules>
 
     <build>

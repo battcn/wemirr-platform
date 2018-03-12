@@ -1,4 +1,4 @@
-package com.battcn.management.webmagic.utils;
+package com.battcn.framework.webmagic.utils;
 
 
 /**
@@ -14,7 +14,6 @@ public class ProxyGeneratedUtil {
         String sign = org.apache.commons.codec.digest.DigestUtils.md5Hex(planText).toUpperCase();
 
         //拼装请求头Proxy-Authorization的值
-        String authHeader = String.format("sign=%s&orderno=%s&timestamp=%d", sign, orderno, timestamp);
-        return authHeader;
+        return String.format("sign=%s&orderno=%s&timestamp=%d", sign, orderno, timestamp);
     }
 }

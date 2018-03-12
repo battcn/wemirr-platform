@@ -1,9 +1,9 @@
 package com.battcn.management.webmagic.pageprocessor;
 
+import com.battcn.framework.webmagic.utils.BrowserAgentUtil;
 import com.battcn.management.webmagic.entity.Actor;
 import com.battcn.management.webmagic.entity.Director;
 import com.battcn.management.webmagic.entity.Movie;
-import com.battcn.management.webmagic.utils.UserAgentUtil;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.util.StringUtils;
 import us.codecraft.webmagic.Page;
@@ -42,7 +42,7 @@ public class MovieProcessor implements PageProcessor {
             .setDisableCookieManagement(true).setCharset("UTF-8").setTimeOut(30000).setRetryTimes(6).setCycleRetryTimes(6)
             .setSleepTime(new Random().nextInt(20) * 100)
             //.setSleepTime(new Random().nextInt(5) * 700)
-            .setUserAgent(UserAgentUtil.getRandomUserAgent());
+            .setUserAgent(BrowserAgentUtil.getBrowserAgent());
 
     @Override
     public void process(Page page) {

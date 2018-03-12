@@ -1,13 +1,13 @@
-package com.battcn.management.webmagic.downloader;
+package com.battcn.framework.webmagic.downloader;
 
-import com.battcn.management.webmagic.utils.IPCheckUtil;
+import com.battcn.framework.webmagic.utils.ProxyCheckUtils;
 import com.google.common.collect.ImmutableList;
+import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.proxy.ProxyProvider;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -34,13 +34,13 @@ public class CrowProxyProvider implements ProxyProvider {
     }
 
     private CrowProxyProvider(List<Proxy> proxies, AtomicInteger pointer) {
-        List<Proxy> ProxyList = new ArrayList<>();
+        List<Proxy> proxyList = Lists.newArrayList();
         for (Proxy proxy : proxies) {
-            if (IPCheckUtil.checkValidIP(proxy.getHost(), proxy.getPort())) {
-                ProxyList.add(proxy);
+            if (ProxyCheckUtils.validIpAddress(proxy.getHost(), proxy.getPort())) {
+                proxyList.add(proxy);
             }
         }
-        this.proxies = ProxyList;
+        this.proxies = proxyList;
         this.pointer = pointer;
     }
 
@@ -49,11 +49,13 @@ public class CrowProxyProvider implements ProxyProvider {
         return new CrowProxyProvider(immutableList);
     }
 
+    @Override
     public void returnProxy(Proxy proxy, Page page, Task task) {
 
 
     }
 
+    @Override
     public Proxy getProxy(Task task) {
         return this.proxies.get(this.incrForLoop());
     }

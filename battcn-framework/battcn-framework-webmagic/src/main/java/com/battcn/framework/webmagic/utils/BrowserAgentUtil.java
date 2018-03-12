@@ -1,16 +1,17 @@
-package com.battcn.management.webmagic.utils;
+package com.battcn.framework.webmagic.utils;
 
 import java.util.Random;
 
 /**
  * @author CrowHawk
+ * @since 2018/03/09
  */
-public class UserAgentUtil {
+public final class BrowserAgentUtil {
 
     /**
      * 爬虫为什么要换不同的User-Agent呢，无非就是为了模拟浏览器，让服务器不容易识别出自己是爬虫。
      */
-    public static final String[] AGENTS = new String[]{
+    private static final String[] AGENTS = new String[]{
             "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.75 Safari/537.36",
             "Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.04",
             "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36",
@@ -34,7 +35,7 @@ public class UserAgentUtil {
             "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)",
             "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"};
 
-    public static String getRandomUserAgent() {
+    public static String getBrowserAgent() {
         return AGENTS[new Random().nextInt(AGENTS.length)];
     }
 
