@@ -1,6 +1,7 @@
 package com.battcn.management.webmagic.pipeline;
 
-import com.battcn.management.webmagic.mapper.ProxyIpMapper;
+import com.battcn.system.facade.ProxyPoolService;
+import com.battcn.system.pojo.po.ProxyPool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.ResultItems;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class IPSpiderPipeline implements Pipeline {
 
     @Autowired
-    private ProxyIpMapper proxyIpMapper;
+    private ProxyPoolService proxyPoolService;
 
     @Override
     public void process(ResultItems resultItems, Task task) {
@@ -28,7 +29,7 @@ public class IPSpiderPipeline implements Pipeline {
             if (entry.getKey().equals("result")) {
                 List<ProxyPool> ipList = (List<ProxyPool>) entry.getValue();
                 for (ProxyPool proxyPool : ipList) {
-                    proxyIpMapper.insert(proxyPool);
+                    proxyPoolService.insert(proxyPool);
                 }
             }
         }

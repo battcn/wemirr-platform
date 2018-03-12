@@ -149,22 +149,22 @@ public class MovieProcessor implements PageProcessor {
         if (!StringUtils.isEmpty(directorId)) {
             directorObj.setId(Integer.parseInt(directorId));
         }
-        directorObj.setDirectorname(getMatcher(regEx, director, 1));
+        directorObj.setDirectorName(getMatcher(regEx, director, 1));
         List<String> movieList = page.getHtml().xpath("//ul[@class='me1 clearfix']").links().all();
         if (movieList != null && movieList.size() > 0) {
             Map<String, String> movieIdMap = new HashMap<>();
             //如果把它用于多线程中将会涉及异步访问的安全性，这是可以用StringBuffer类来进行操作
-            StringBuffer movieids = new StringBuffer();
+            StringBuffer movieIds = new StringBuffer();
             for (String movie : movieList) {
-                String movieid = getMatcher("\\d+", movie);
-                if (movieIdMap.get(movieid) == null) {
-                    movieIdMap.put(movieid, movieid);
-                    movieids.append(movieid + ",");
+                String movieId = getMatcher("\\d+", movie);
+                if (movieIdMap.get(movieId) == null) {
+                    movieIdMap.put(movieId, movieId);
+                    movieIds.append(movieId).append(",");
                 }
             }
             //删除最后一个逗号
-            movieids.deleteCharAt(movieids.length() - 1);
-            directorObj.setMovieids(movieids.toString());
+            movieIds.deleteCharAt(movieIds.length() - 1);
+            directorObj.setMovieIds(movieIds.toString());
         }
         page.putField("directorObj", directorObj);
     }
@@ -211,7 +211,7 @@ public class MovieProcessor implements PageProcessor {
             String releaseDate = new Html(movieInfo).xpath("//div[@class='clearfix']/span/tidyText()").regex("上映日期：(.+)", 1).toString();
             if (!StringUtils.isEmpty(releaseDate)) {
                 try {
-                    movieObj.setReleasedate(DateUtils.parseDate(releaseDate, "yyyy-MM-dd"));
+                    movieObj.setReleaseDate(DateUtils.parseDate(releaseDate, "yyyy-MM-dd"));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
