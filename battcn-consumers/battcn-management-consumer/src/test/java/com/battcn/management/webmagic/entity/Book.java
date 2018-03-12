@@ -1,11 +1,10 @@
 package com.battcn.management.webmagic.entity;
 
 
-import java.util.List;
-
 import com.battcn.management.webmagic.BookLabel;
-
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author Levin

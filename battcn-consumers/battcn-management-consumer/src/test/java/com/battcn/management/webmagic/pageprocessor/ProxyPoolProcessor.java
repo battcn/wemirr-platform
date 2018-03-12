@@ -1,16 +1,15 @@
 package com.battcn.management.webmagic.pageprocessor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.battcn.management.webmagic.entity.ProxyIp;
 import com.battcn.management.webmagic.utils.IPCheckUtil;
 import com.battcn.management.webmagic.utils.UserAgentUtil;
-
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by CrowHawk on 17/10/16.

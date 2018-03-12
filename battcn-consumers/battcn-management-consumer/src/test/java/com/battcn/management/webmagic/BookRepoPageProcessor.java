@@ -1,18 +1,16 @@
 package com.battcn.management.webmagic;
 
-import java.util.List;
-
-import org.assertj.core.util.Lists;
-
 import com.alibaba.fastjson.JSON;
 import com.battcn.management.webmagic.entity.Book;
-
+import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.JsonFilePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Selectable;
+
+import java.util.List;
 
 /**
  * 读取GIT信息

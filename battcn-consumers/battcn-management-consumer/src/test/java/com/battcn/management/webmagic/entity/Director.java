@@ -1,7 +1,6 @@
 package com.battcn.management.webmagic.entity;
 
 import java.util.Date;
-import java.util.List;
 
 public class Director {
     private Integer id;

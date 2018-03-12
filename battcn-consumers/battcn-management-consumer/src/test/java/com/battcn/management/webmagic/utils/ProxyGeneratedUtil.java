@@ -1,10 +1,12 @@
 package com.battcn.management.webmagic.utils;
 
+
 /**
- * Created by CrowHawk on 17/10/16.
+ * @author yanglei
  */
 public class ProxyGeneratedUtil {
-    public static String authHeader(String orderno, String secret, int timestamp){
+
+    public static String authHeader(String orderno, String secret, int timestamp) {
         //拼装签名字符串
         String planText = String.format("orderno=%s,secret=%s,timestamp=%d", orderno, secret, timestamp);
 
