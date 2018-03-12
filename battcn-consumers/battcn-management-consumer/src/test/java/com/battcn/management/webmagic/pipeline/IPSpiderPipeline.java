@@ -1,6 +1,5 @@
 package com.battcn.management.webmagic.pipeline;
 
-import com.battcn.management.webmagic.entity.ProxyPool;
 import com.battcn.management.webmagic.mapper.ProxyIpMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

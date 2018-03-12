@@ -2,13 +2,13 @@ package com.battcn.management.webmagic.pageprocessor;
 
 import com.battcn.framework.webmagic.utils.BrowserAgentUtil;
 import com.battcn.framework.webmagic.utils.ProxyCheckUtils;
-import com.battcn.management.webmagic.entity.ProxyPool;
+import com.battcn.system.pojo.po.ProxyPool;
+import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +23,7 @@ public class ProxyPoolProcessor implements PageProcessor {
     @Override
     public void process(Page page) {
         List<String> ipList = page.getHtml().xpath("//table[@id='ip_list']/tbody/tr").all();
-        List<ProxyPool> result = new ArrayList<>();
+        List<ProxyPool> result = Lists.newArrayList();
         if (ipList != null && ipList.size() > 0) {
             ipList.remove(0); // 移除表头
             for (String tmp : ipList) {

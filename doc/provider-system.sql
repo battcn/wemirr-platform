@@ -61,7 +61,7 @@ CREATE TABLE `t_sys_log` (
 
 
 DROP TABLE IF EXISTS `t_sys_proxy_pool`;
-CREATE TABLE `ip_pool` (
+CREATE TABLE `t_sys_proxy_pool` (
   `id` int(8) NOT NULL AUTO_INCREMENT COMMENT 'ID自增',
   `ip` varchar(20) DEFAULT NULL COMMENT '代理IP',
   `port` int(8) DEFAULT NULL COMMENT '代理端口',

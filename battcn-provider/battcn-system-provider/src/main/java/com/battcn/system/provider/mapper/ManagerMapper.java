@@ -22,7 +22,7 @@ public interface ManagerMapper extends BaseMapper<Manager> {
      *
      * @param name    名称
      * @param account 账号
-     * @return
+     * @return 查询结果
      */
     List<ManagerDto> listManagerByName(@Param("name") String name, @Param("account") String account);
 
