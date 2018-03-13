@@ -1,7 +1,6 @@
 package com.battcn.management.consumer.webmagic.pageprocessor;
 
 import com.battcn.framework.webmagic.utils.BrowserAgentUtil;
-import com.battcn.framework.webmagic.utils.ProxyCheckUtils;
 import com.battcn.system.pojo.po.ProxyPool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -9,7 +8,9 @@ import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.selector.Html;
+import us.codecraft.webmagic.utils.ProxyUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -45,19 +46,18 @@ public class ProxyPoolProcessor implements PageProcessor {
         List<ProxyPool> result = ips.stream().skip(1).map(ip -> {
             Html html = Html.create(ip);
             ProxyPool proxyPool = new ProxyPool();
-            String[] data = html.xpath("//body/text()").toString().trim().split("\\s+");
+            String[] data = html.xpath("//body/text()").get().trim().split("\\s+");
             // 初步筛选 筛选https 速度小于2秒的
             String ipType = data[3];
-            String ipSpeed = html.xpath("//div[@class='bar']/@title").toString();
+            String ipSpeed = html.xpath("//div[@class='bar']/@title").get();
             ipSpeed = ipSpeed.substring(0, ipSpeed.indexOf('秒'));
             double speed = Double.parseDouble(ipSpeed);
-            proxyPool.setIp(data[0]);
+            proxyPool.setHost(data[0]);
             proxyPool.setPort(Integer.valueOf(data[1]));
-            System.out.println(proxyPool.getIp() + "  " + proxyPool.getPort());
+            System.out.println(proxyPool.getHost() + "  " + proxyPool.getPort());
             log.debug("[抓取数据] - [{}] - [{}]", proxyPool.getId(), proxyPool.getPort());
-            if (ipType.equals(HTTPS) && speed <= SPEED && ProxyCheckUtils.validIpAddress(proxyPool.getIp(), proxyPool.getPort())) {
+            if (ipType.equals(HTTPS) && speed <= SPEED && ProxyUtils.validateProxy(new Proxy(proxyPool.getHost(), proxyPool.getPort()))) {
                 // 质量ip检验
-                System.out.println("有效ip" + proxyPool.getIp() + "  " + proxyPool.getPort());
                 log.info("[有效数据] - [{}] - [{}]", proxyPool.getId(), proxyPool.getPort());
                 return proxyPool;
             }

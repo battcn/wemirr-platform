@@ -44,7 +44,7 @@ public class CrawlerTest {
         List<ProxyPool> proxyList = proxyPoolService.listAll();
         List<Proxy> proxies = new ArrayList<>(proxyList.size());
         for (ProxyPool proxyPool : proxyList) {
-            proxies.add(new Proxy(proxyPool.getIp(), proxyPool.getPort()));
+            proxies.add(new Proxy(proxyPool.getHost(), proxyPool.getPort()));
         }
 
         threadNum = proxies.size();

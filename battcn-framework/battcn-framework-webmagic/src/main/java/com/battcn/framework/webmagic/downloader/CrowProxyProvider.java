@@ -1,12 +1,12 @@
 package com.battcn.framework.webmagic.downloader;
 
-import com.battcn.framework.webmagic.utils.ProxyCheckUtils;
 import com.google.common.collect.ImmutableList;
 import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.proxy.ProxyProvider;
+import us.codecraft.webmagic.utils.ProxyUtils;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -36,7 +36,7 @@ public class CrowProxyProvider implements ProxyProvider {
     private CrowProxyProvider(List<Proxy> proxies, AtomicInteger pointer) {
         List<Proxy> proxyList = Lists.newArrayList();
         for (Proxy proxy : proxies) {
-            if (ProxyCheckUtils.validIpAddress(proxy.getHost(), proxy.getPort())) {
+            if (ProxyUtils.validateProxy(new Proxy(proxy.getHost(), proxy.getPort()))) {
                 proxyList.add(proxy);
             }
         }
