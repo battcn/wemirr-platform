@@ -1,8 +1,6 @@
 package com.battcn.management.consumer.webmagic.pageprocessor;
 
 import com.alibaba.fastjson.JSON;
-import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
-import com.battcn.framework.webmagic.downloader.CrowProxyProvider;
 import com.battcn.framework.webmagic.utils.BrowserAgentUtil;
 import com.battcn.system.pojo.po.ProxyPool;
 import lombok.extern.slf4j.Slf4j;
@@ -12,11 +10,8 @@ import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
-import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.proxy.Proxy;
-import us.codecraft.webmagic.proxy.SimpleProxyProvider;
-import us.codecraft.webmagic.selector.Html;
 import us.codecraft.webmagic.selector.Selectable;
 import us.codecraft.webmagic.utils.ProxyUtils;
 
