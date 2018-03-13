@@ -2,8 +2,8 @@ package com.battcn.management.webmagic;
 
 import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
 import com.battcn.framework.webmagic.downloader.CrowProxyProvider;
+import com.battcn.management.consumer.webmagic.pageprocessor.ProxyPoolProcessor;
 import com.battcn.management.webmagic.pageprocessor.MovieProcessor;
-import com.battcn.management.webmagic.pageprocessor.ProxyPoolProcessor;
 import com.battcn.system.facade.ProxyPoolService;
 import com.battcn.system.pojo.po.ProxyPool;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +58,7 @@ public class CrawlerTest {
                 .setDownloader(new CrawlerDownloader()).addUrl("http://www.80s.tw/")
                 .addPipeline(new ConsolePipeline()).thread(executorService, threadNum).run();
         System.out.println("----------------------getMovies----------------------------end");
+
+
     }
 }

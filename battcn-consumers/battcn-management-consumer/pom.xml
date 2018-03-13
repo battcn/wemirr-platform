@@ -43,12 +43,11 @@
         <dependency>
             <groupId>com.battcn.facades</groupId>
             <artifactId>battcn-system-facade</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>mysql</groupId>
-                    <artifactId>mysql-connector-java</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.battcn.facades</groupId>
+            <artifactId>battcn-book-facade</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

@@ -1,8 +1,9 @@
-package com.battcn.management.webmagic;
+package com.battcn.management.consumer.webmagic.pageprocessor;
 
 import com.alibaba.fastjson.JSONObject;
-import com.battcn.management.webmagic.entity.Book;
-import com.battcn.management.webmagic.pipeline.BookPipeline;
+import com.battcn.book.pojo.po.Book;
+import com.battcn.book.pojo.po.BookChapter;
+import com.battcn.management.consumer.webmagic.pipeline.BookPipeline;
 import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -21,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Levin
  * @since 2018/3/9 0009
  */
-public class BookRepoPageProcessor implements PageProcessor {
+public class BookProcessor implements PageProcessor {
 
     private Site site = Site.me().setRetryTimes(3).setSleepTime(100);
 
@@ -44,7 +45,7 @@ public class BookRepoPageProcessor implements PageProcessor {
             bookCache.setName(bookName);
             bookCache.setType(bookType);
             bookCache.setAuthor(bookAuthor);
-            bookCache.setInfo(bookInfo);
+            bookCache.setDescription(bookInfo);
             bookCache.setCover(bookCover);
             page.putField("bookName", bookName);
             page.putField("bookType", bookType);
@@ -56,13 +57,13 @@ public class BookRepoPageProcessor implements PageProcessor {
             for (Selectable node : nodes) {
                 String link = node.links().get();
                 String title = node.xpath("//a/text()").get();
-                labelCache.put(link, new BookLabel(link, title, null));
+                //labelCache.put(link, new BookChapter(link, title, null));
             }
         }
-        List<BookLabel> labels = Lists.newArrayList();
+        List<BookChapter> labels = Lists.newArrayList();
         if (count.getAndAdd(1) < 20 && page.getUrl().regex("http://www\\.biquge5200\\.com/0_844/\\w+\\.html").match()) {
             String content = page.getHtml().xpath("//div[@id='content']/html()").get();
-            BookLabel label = labelCache.getObject(page.getUrl().get(), BookLabel.class);
+            BookChapter label = labelCache.getObject(page.getUrl().get(), BookChapter.class);
             label.setContent(content);
             labels.add(label);
             page.putField("labels", labels);
@@ -75,8 +76,7 @@ public class BookRepoPageProcessor implements PageProcessor {
     }
 
     public static void main(String[] args) throws IOException {
-        //Spider.create(new BookRepoPageProcessor()).addUrl("http://www.biquge5200.com/0_844").addPipeline(new JsonFilePipeline("E:\\webmagic")).thread(5).run();
-        Spider.create(new BookRepoPageProcessor()).addUrl("http://www.biquge5200.com/0_844").addPipeline(new BookPipeline()).thread(5).run();
+        Spider.create(new BookProcessor()).addUrl("http://www.biquge5200.com/0_844").addPipeline(new BookPipeline()).thread(5).run();
         /*String json = "{\n" +
                 "  \"author\": \"斗破苍穹\",\n" +
                 "  \"cover\": \"http://r.i.biquge5200.com/files/article/image/0/844/844s.jpg\",\n" +

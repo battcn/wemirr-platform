@@ -1,9 +1,8 @@
-package com.battcn.management.webmagic.pipeline;
+package com.battcn.management.consumer.webmagic.pipeline;
 
-import com.battcn.management.webmagic.BookLabel;
-import com.battcn.management.webmagic.entity.Book;
+import com.battcn.book.pojo.po.Book;
+import com.battcn.book.pojo.po.BookChapter;
 import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.util.Lists;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
@@ -36,23 +35,24 @@ public class BookPipeline implements Pipeline {
         if (StringUtils.isNoneBlank(bookName, bookType, bookAuthor, bookInfo, bookCover)) {
             book.setAuthor(bookAuthor);
             book.setCover(bookCover);
-            book.setInfo(bookInfo);
+            book.setDescription(bookInfo);
             book.setType(bookType);
             book.setName(bookName);
+            context.setVariable("book", book);
         }
-        List<BookLabel> labels = resultItems.get("labels");
+        List<BookChapter> chapters = resultItems.get("chapters");
         ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
-        resolver.setPrefix("templates/");//模板所在目录，相对于当前classloader的classpath。
-        resolver.setSuffix(".html");//模板文件后缀
+        //模板所在目录，相对于当前ClassLoader的ClassPath
+        resolver.setPrefix("templates/");
+        //模板文件后缀
+        resolver.setSuffix(".html");
         TemplateEngine templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(resolver);
         //渲染模板
         FileWriter write = null;
         try {
-            for (BookLabel label : labels) {
-                Book bk = book;
-                bk.setLabels(Lists.newArrayList(label));
-                context.setVariable("book", bk);
+            for (BookChapter chapter : chapters) {
+                context.setVariable("chapter", chapter);
                 write = new FileWriter(StringUtils.join(UUID.randomUUID().toString(), String.valueOf(System.nanoTime()), ".html"));
                 templateEngine.process("example", context, write);
             }
