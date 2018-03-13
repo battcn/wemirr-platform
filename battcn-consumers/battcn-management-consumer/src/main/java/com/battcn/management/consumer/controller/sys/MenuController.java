@@ -50,7 +50,7 @@ public class MenuController extends BaseController {
         return "sys/menu/edit";
     }
 
-    @BattcnLog(module = "菜单管理", methods = "保存菜单", description = "添加/修改菜单信息")
+    @BattcnLog(module = "菜单管理", method = "保存菜单", description = "添加/修改菜单信息")
     @PostMapping(value = "/save")
     @ResponseBody
     public void save(Menu menu) {
@@ -60,7 +60,7 @@ public class MenuController extends BaseController {
         //return ApiResult.SUCCESS;
     }
 
-    @BattcnLog(module = "菜单管理", methods = "移除菜单", description = "删除菜单信息")
+    @BattcnLog(module = "菜单管理", method = "移除菜单", description = "删除菜单信息")
     @PostMapping(value = "/remove")
     @ResponseBody
     public void del(Integer[] ids) {

@@ -36,7 +36,7 @@ public class Log extends RecordEntity {
     /**
      * 执行的方法
      */
-    private String methods;
+    private String method;
 
     /**
      * 消息
@@ -66,10 +66,10 @@ public class Log extends RecordEntity {
     public Log() {
     }
 
-    public Log(String title, String methods, String message) {
+    public Log(String title, String method, String message) {
         super();
         this.title = title;
-        this.methods = methods;
+        this.method = method;
         this.message = message;
     }
 

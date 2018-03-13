@@ -3,12 +3,14 @@ package com.battcn.system.provider.service;
 import com.battcn.framework.mybatis.service.impl.BaseServiceImpl;
 import com.battcn.system.facade.RoleService;
 import com.battcn.system.pojo.po.Role;
+import com.battcn.system.pojo.po.RoleOperate;
 import com.battcn.system.provider.mapper.RoleMapper;
 import com.battcn.system.provider.mapper.RoleOperateMapper;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -43,7 +45,9 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     public void deleteRoleAndOperate(Integer[] ids) {
         Lists.newArrayList(ids).forEach(id -> {
             super.deleteById(id);
-            this.roleOperateMapper.deleteRoleOperateByRoleId(id);
+            Example example = new Example(RoleOperate.class);
+            example.createCriteria().andEqualTo("roleId", id);
+            this.roleOperateMapper.deleteByExample(example);
         });
     }
 

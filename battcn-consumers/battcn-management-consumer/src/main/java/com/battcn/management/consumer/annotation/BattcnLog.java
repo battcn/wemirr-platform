@@ -25,7 +25,7 @@ public @interface BattcnLog {
      *
      * @return 方法名
      */
-    String methods() default "";
+    String method() default "";
 
     /**
      * 描述

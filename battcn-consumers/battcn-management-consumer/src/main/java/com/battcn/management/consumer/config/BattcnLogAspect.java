@@ -177,7 +177,7 @@ public class BattcnLogAspect {
         for (Method method : methods) {
             if (method.getName().equals(methodName) && method.getParameterTypes().length == arguments.length) {
                 BattcnLog bl = method.getAnnotation(BattcnLog.class);
-                return new Log(bl.module(), bl.methods(), StringUtils.defaultString(bl.description(), "执行成功!"));
+                return new Log(bl.module(), bl.method(), StringUtils.defaultString(bl.description(), "执行成功!"));
             }
         }
         return null;

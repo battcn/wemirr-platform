@@ -61,17 +61,17 @@ public class OperateController extends BaseController {
         return this.operateService.listOperateByPage(grid);
     }
 
-    @BattcnLog(module = "操作管理", methods = "保存操作", description = "添加/修改操作信息")
+    @BattcnLog(module = "操作管理", method = "保存操作", description = "添加/修改操作信息")
     @PostMapping(value = "/save")
     @ResponseBody
-    public ApiResult save(Operate dto) {
-        if (dto != null && dto.getId() != null) {
-            return ApiResult.getResponse(this.operateService.updateSelectiveById(dto));
+    public ApiResult save(Operate operate) {
+        if (operate != null && operate.getId() != null) {
+            return ApiResult.getResponse(this.operateService.updateSelectiveById(operate));
         }
-        return ApiResult.getResponse(this.operateService.insertSelective(dto));
+        return ApiResult.getResponse(this.operateService.insertSelective(operate));
     }
 
-    @BattcnLog(module = "操作管理", methods = "移除操作", description = "删除操作信息")
+    @BattcnLog(module = "操作管理", method = "移除操作", description = "删除操作信息")
     @PostMapping(value = "/remove")
     @ResponseBody
     public ApiResult<String> del(Integer[] ids) {

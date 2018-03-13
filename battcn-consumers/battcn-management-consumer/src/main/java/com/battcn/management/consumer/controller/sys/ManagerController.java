@@ -65,7 +65,7 @@ public class ManagerController extends BaseController {
     }
 
     @ApiOperation(value = "添加/修改用户信息")
-    @BattcnLog(module = "用户管理", methods = "保存用户", description = "添加/修改用户信息")
+    @BattcnLog(module = "用户管理", method = "保存用户", description = "添加/修改用户信息")
     @PostMapping(value = "/save")
     @ResponseBody
     public void save(Manager dto) {
@@ -77,7 +77,7 @@ public class ManagerController extends BaseController {
     }
 
     @ApiOperation(value = "删除用户信息")
-    @BattcnLog(module = "用户管理", methods = "移除用户", description = "删除用户信息")
+    @BattcnLog(module = "用户管理", method = "移除用户", description = "删除用户信息")
     @PostMapping(value = "/remove")
     @ResponseBody
     public void del(Integer[] ids) {

@@ -56,7 +56,7 @@ public class Operate extends RecordEntity {
     /**
      * 排序号
      */
-    private Integer ordno;
+    private Integer sequence;
 
     /**
      * 是否显示出来

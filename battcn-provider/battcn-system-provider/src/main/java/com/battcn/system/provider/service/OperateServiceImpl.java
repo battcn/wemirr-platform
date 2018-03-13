@@ -42,7 +42,7 @@ public class OperateServiceImpl extends BaseServiceImpl<Operate> implements Oper
     @Override
     public PageInfo<OperateDto> listOperateByPage(DataGrid grid) {
         return PageHelper.startPage(grid.getPageNum(), grid.getPageSize()).setOrderBy(grid.getSort() + " " + grid.getOrder())
-                .doSelectPageInfo(this.operateMapper::listOperateByPage);
+                .doSelectPageInfo(this.operateMapper::listOperate);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class LogController {
 
 
     @RequestMapping(value = "/list")
-    @BattcnLog(description = "进入日志查询的页面", module = "日志模块", methods = "日志list")
+    @BattcnLog(description = "进入日志查询的页面", module = "日志模块", method = "日志list")
     @ApiOperation(value = "跳转日志页面", hidden = true)
     public String list() throws CustomException {
         return "sys/log/list";

@@ -12,7 +12,6 @@ import com.battcn.system.provider.mapper.MenuMapper;
 import com.battcn.system.provider.mapper.OperateMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,51 +44,48 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements MenuServic
     }
 
     private List<TreeNode> createTree(List<Menu> menus, Integer pid) {
-        return menus.stream().filter(m -> m.getPaterId() != null && Objects.equals(pid, m.getPaterId()))
+        return menus.stream().filter(m -> m.getParentId() != null && Objects.equals(pid, m.getParentId()))
                 .map(m -> new TreeNode(m.getId(), m.getName(), m.getIcon())).collect(toList());
     }
 
     @Override
     public List<TreeNode> listTree(Integer roleId) {
-        List<TreeNode> trees = Lists.newArrayList();
         List<Menu> menus = this.authMapper.listMenuByRoleId(roleId);
-        menus.stream().filter(m -> m.getPaterId() == null).forEach(m -> {
+        return menus.stream().filter(m -> m.getParentId() == null).map(m -> {
             List<TreeNode> tree = createTree(menus, m.getId());
             if (CollectionUtils.isNotEmpty(tree)) {
-                trees.add(new TreeNode(m.getId(), m.getName(), m.getIcon(), tree));
+                return new TreeNode(m.getId(), m.getName(), m.getIcon(), tree);
             }
-        });
-        return trees;
+            return null;
+        }).filter(Objects::nonNull).collect(toList());
     }
 
     @Override
     public List<PermissionDto> listPermissions() {
         List<PermissionDto> list = operateMapper.listPermissions();
-        // 根目录
-        List<PermissionDto> trees = list.stream().filter(m1 -> m1.getPaterId() == null).collect(toList());
-        trees.forEach(m2 -> {
-            List<PermissionDto> permissions = list.stream()
-                    .filter(p1 -> StringUtils.equals(p1.getOp(), "list") && Objects.equals(p1.getPaterId(), m2.getMenuId()))
-                    .collect(toList());
-            permissions.forEach(m3 -> {
-                m3.setChildren(list.stream()
-                        .filter(b1 -> !StringUtils.equals(b1.getOp(), "list") && Objects.equals(b1.getMenuId(), m3.getMenuId()))
-                        .collect(toList()));
-            });
-            m2.setChildren(permissions);
-        });
-        return trees;
+        return list.stream().filter(m1 -> m1.getParentId() == null).map(m2 -> {
+            m2.setChildren(list.stream()
+                    .filter(p1 -> StringUtils.equals(p1.getOption(), "list") && Objects.equals(p1.getParentId(), m2.getMenuId()))
+                    .map(m3 -> {
+                        m3.setChildren(list.stream()
+                                .filter(b1 -> !StringUtils.equals(b1.getOption(), "list") && Objects.equals(b1.getMenuId(), m3.getMenuId()))
+                                .collect(toList()));
+                        return m3;
+                    }).collect(toList()));
+            return m2;
+        }).collect(toList());
     }
 
     @Override
     public PageInfo<Menu> listMenuForDataGrid(DataGrid grid) {
-        return PageHelper.startPage(grid.getPageNum(), grid.getPageSize()).doSelectPageInfo(this.menuMapper::listMenu);
+        return PageHelper.startPage(grid.getPageNum(), grid.getPageSize()).setOrderBy("sort ASC").doSelectPageInfo(this.menuMapper::selectAll);
     }
 
     @Override
     public List<Menu> listMenu() {
-        List<Menu> menus = this.menuMapper.listMenu();
-        menus.forEach(m -> m.setName(m.getPaterId() == null ? "－－" + m.getName() : "－－－－" + m.getName()));
+        PageHelper.orderBy("sort ASC");
+        List<Menu> menus = this.menuMapper.selectAll();
+        menus.forEach(m -> m.setName(m.getParentId() == null ? "－－" + m.getName() : "－－－－" + m.getName()));
         return menus;
     }
 

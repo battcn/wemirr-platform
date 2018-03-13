@@ -8,6 +8,7 @@ import com.battcn.system.provider.mapper.RoleOperateMapper;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -33,8 +34,10 @@ public class RoleOperateServiceImpl extends BaseServiceImpl<RoleOperate> impleme
 
     @Override
     public List<RoleOperate> listRoleOperateByRoleId(Integer roleId) {
-
-        return this.roleOperateMapper.listRoleOperateByRoleId(roleId);
+        Example example = new Example(RoleOperate.class);
+        example.createCriteria().andEqualTo("roleId", roleId);
+        this.roleOperateMapper.selectByExample(example);
+        return this.roleOperateMapper.selectByExample(example);
     }
 
     @Transactional(rollbackFor = Exception.class)

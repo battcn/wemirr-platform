@@ -47,34 +47,35 @@ public class Menu extends RecordEntity {
      */
     private String channel;
 
-    private String param;
+    private String permissions;
 
     /**
      * 是否启用 0=禁用 1=启用
      */
+    @Column(name = "locked")
     private Boolean locked;
 
     /**
      * 父级编号
      */
-    @Column(name = "pater_id")
-    private Integer paterId;
+    @Column(name = "parent_id")
+    private Integer parentId;
 
     /**
      * 排序编号
      */
-    private Integer ordno;
+    private Integer sequence;
 
     /**
      * 级别
      */
-    @Column(name = "n_level")
-    private Integer nLevel;
+    @Column(name = "level")
+    private Integer level;
 
     /**
      * tree所需
      */
-    private String scort;
+    private String sort;
 
 
     public Menu() {
