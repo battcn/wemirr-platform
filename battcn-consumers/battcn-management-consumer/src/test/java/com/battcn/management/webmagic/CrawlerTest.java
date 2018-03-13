@@ -2,7 +2,7 @@ package com.battcn.management.webmagic;
 
 import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
 import com.battcn.framework.webmagic.downloader.CrowProxyProvider;
-import com.battcn.management.consumer.webmagic.pageprocessor.ProxyPoolProcessor;
+import com.battcn.management.consumer.webmagic.pageprocessor.ProxyProcessor;
 import com.battcn.management.webmagic.pageprocessor.MovieProcessor;
 import com.battcn.system.facade.ProxyPoolService;
 import com.battcn.system.pojo.po.ProxyPool;
@@ -33,7 +33,7 @@ public class CrawlerTest {
         CrawlerTest cralwerTest = new CrawlerTest();
         cralwerTest.proxyExample();
         //爬代理ip网站获取代理ip
-        Spider.create(new ProxyPoolProcessor()).addUrl("http://www.xicidaili.com/nn").addPipeline(new ConsolePipeline()).thread(4).run();
+        Spider.create(new ProxyProcessor()).addUrl("http://www.xicidaili.com/nn").addPipeline(new ConsolePipeline()).thread(4).run();
     }
 
     /**
@@ -55,7 +55,7 @@ public class CrawlerTest {
         httpClientDownloader.setProxyProvider(new CrowProxyProvider(proxies));
 
         Spider.create(new MovieProcessor())
-                .setDownloader(new CrawlerDownloader()).addUrl("http://www.80s.tw/")
+                .setDownloader(httpClientDownloader).addUrl("http://www.80s.tw/")
                 .addPipeline(new ConsolePipeline()).thread(executorService, threadNum).run();
         System.out.println("----------------------getMovies----------------------------end");
 
