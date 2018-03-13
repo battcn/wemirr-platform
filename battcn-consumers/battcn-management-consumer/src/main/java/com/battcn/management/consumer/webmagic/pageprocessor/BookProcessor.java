@@ -3,11 +3,13 @@ package com.battcn.management.consumer.webmagic.pageprocessor;
 import com.alibaba.fastjson.JSONObject;
 import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
+import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
 import com.battcn.management.consumer.webmagic.pipeline.BookPipeline;
 import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Selectable;
 
@@ -77,6 +79,7 @@ public class BookProcessor implements PageProcessor {
 
     public static void main(String[] args) throws IOException {
         Spider.create(new BookProcessor()).addUrl("http://www.biquge5200.com/0_844").addPipeline(new BookPipeline()).thread(5).run();
+        OOSpider.create(null, Book.class).setDownloader(new CrawlerDownloader()).addPipeline(new BookPipeline()).thread(5).run();
         /*String json = "{\n" +
                 "  \"author\": \"斗破苍穹\",\n" +
                 "  \"cover\": \"http://r.i.biquge5200.com/files/article/image/0/844/844s.jpg\",\n" +
