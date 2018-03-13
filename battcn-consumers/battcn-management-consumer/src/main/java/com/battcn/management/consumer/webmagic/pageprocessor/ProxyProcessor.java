@@ -31,7 +31,6 @@ public class ProxyProcessor implements PageProcessor {
     private static final Site DEFAULT_SITE = Site.me()
             .setTimeOut(6000).setRetryTimes(3)
             .setSleepTime(1000).setCharset("UTF-8")
-            .addHeader("Accept-Encoding", "/")
             .setUserAgent(BrowserAgentUtil.getBrowserAgent());
     private static final String HTTPS = "HTTPS";
     private static final double SPEED = 2.0;
