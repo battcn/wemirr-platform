@@ -28,7 +28,7 @@ public class ProxyProcessor implements PageProcessor {
 
     private static final Site DEFAULT_SITE = Site.me()
             .setTimeOut(6000).setRetryTimes(3)
-            .setSleepTime(1000).setCharset("UTF-8").addHeader("Accept-Language", "zh-CN,zh;q=0.9")
+            .setSleepTime(1000).setCharset("GBK").addHeader("Accept-Language", "zh-CN,zh;q=0.9")
             .setUserAgent(BrowserAgentUtil.getBrowserAgent());
     private static final String HTTPS = "HTTPS";
     private static final List<String> TARGET_REQUESTS = Lists.newArrayList("http://www.xicidaili.com/nt/1",
