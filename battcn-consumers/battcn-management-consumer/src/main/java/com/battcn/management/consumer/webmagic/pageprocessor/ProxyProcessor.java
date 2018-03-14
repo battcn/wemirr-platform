@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
+import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -26,6 +27,7 @@ import static java.util.stream.Collectors.toList;
  * @since 2018/3/13 0013
  */
 @Slf4j
+@Component
 public class ProxyProcessor implements PageProcessor {
 
     private static final Site DEFAULT_SITE = Site.me()
@@ -46,22 +48,22 @@ public class ProxyProcessor implements PageProcessor {
         String proxyLink = page.getUrl().get();
         List<ProxyPool> proxies = Lists.newArrayList();
         if (proxyLink.contains("crossincode")) {
+            List<Selectable> trs = page.getHtml().xpath("//table[@class='table table-bordered proxy-index-table']/tbody/tr").nodes();
             // Crossin 编程实验室 代理IP
-            proxies = resolveCrossionProxy(page);
+            proxies = resolveBaseProxy(trs);
         } else if (proxyLink.contains("xicidaili")) {
             // 大象代理
             proxies = resolveXicidailiProxy(page);
             page.addTargetRequests(TARGET_REQUESTS);
         } else if (proxyLink.contains("ip181")) {
+            List<Selectable> trs = page.getHtml().xpath("//table[@class='table table-hover panel-default panel ctable']/tbody/tr").nodes();
             // ip181 代理
-            proxies = resolveIp181Proxy(page);
+            proxies = resolveBaseProxy(trs);
         }
-        System.out.println(JSON.toJSONString(proxies));
-
+        log.info("[ip pool] - [{}]", JSON.toJSONString(proxies));
     }
 
-    private static List<ProxyPool> resolveIp181Proxy(Page page) {
-        List<Selectable> trs = page.getHtml().xpath("//table[@class='table table-hover panel-default panel ctable']/tbody/tr").nodes();
+    private static List<ProxyPool> resolveBaseProxy(List<Selectable> trs) {
         if (CollectionUtils.isEmpty(trs)) {
             return null;
         }
@@ -97,30 +99,12 @@ public class ProxyProcessor implements PageProcessor {
         }).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
-    private static List<ProxyPool> resolveCrossionProxy(Page page) {
-        List<Selectable> trs = page.getHtml().xpath("//table[@class='table table-bordered proxy-index-table']/tbody/tr").nodes();
-        if (CollectionUtils.isEmpty(trs)) {
-            return null;
-        }
-        return trs.stream().skip(1).map(node -> {
-            final String host = node.xpath("//td[1]/text()").get();
-            final int port = Integer.parseInt(node.xpath("//td[2]/text()").get());
-            final String anonymity = node.xpath("//td[3]/text()").get();
-            final String type = node.xpath("//td[4]/text()").get();
-            final String location = node.xpath("//td[5]/text()").get();
-            final String validateTime = node.xpath("//td[6]/text()").get();
-            final boolean locked = ProxyUtils.validateProxy(new Proxy(host, port));
-            return new ProxyPool(null, host, port, anonymity, type, location, validateTime, locked);
-        }).collect(toList());
-    }
-
     @Override
     public Site getSite() {
         return DEFAULT_SITE;
     }
 
     public static void main(String[] args) {
-        //Spider.create(new ProxyProcessor()).addUrl("http://lab.crossincode.com/proxy/", "http://www.xicidaili.com/nn", "http://www.ip181.com/").thread(10).run();
-        Spider.create(new ProxyProcessor()).addUrl("http://www.ip181.com/").thread(5).run();
+        Spider.create(new ProxyProcessor()).addUrl("http://lab.crossincode.com/proxy/", "http://www.xicidaili.com/nn", "http://www.ip181.com/").thread(10).run();
     }
 }

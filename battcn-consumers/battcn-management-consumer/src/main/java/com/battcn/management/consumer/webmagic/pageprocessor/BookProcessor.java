@@ -36,7 +36,7 @@ public class BookProcessor implements PageProcessor {
     public void process(Page page) {
         page.addTargetRequests(Lists.newArrayList("http://www.biquge5200.com/0_844/638404.html", "http://www.biquge5200.com/0_844/636721.html", "http://www.biquge5200.com/0_844/636722.html"));
         //List<String> all1 = page.getHtml().links().regex("http://www.biquge5200\\.com/0_844/\\.*\\.html").all();
-        if (page.getUrl().get().equals("http://www.biquge5200.com/0_844")) {
+        if ("http://www.biquge5200.com/0_844".equals(page.getUrl().get())) {
             // 这里解析出了 列表页的 基本信息
             String bookType = page.getHtml().xpath("//div[@class='con_top']/a[2]/text()").get();
             Selectable info = page.getHtml().css("#maininfo");
