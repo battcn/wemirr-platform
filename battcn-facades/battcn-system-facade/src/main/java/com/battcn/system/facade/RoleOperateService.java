@@ -23,7 +23,8 @@ public interface RoleOperateService extends BaseService<RoleOperate> {
      *
      * @param operateId 操作ID
      * @param roleId    角色ID
+     * @return 成功 1 失败 0
      */
-    void batchInsertRoleOperate(Integer[] operateId, Integer roleId);
+    int batchInsertRoleOperate(Integer[] operateId, Integer roleId);
 
 }

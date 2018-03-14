@@ -35,35 +35,37 @@
             layer.alert("请输入battcn.ajax的URL地址");
             return;
         }
-        ;
+
         var url = options.url;
         if (url.indexOf("?") > -1) {
-            url = url + "&_t=" + new Date();
+            url = url + "&_t=" + new Date().getTime();
         } else {
-            url = url + "?_t=" + new Date();
+            url = url + "?_t=" + new Date().getTime();
         }
-        ;
+
         $.ajax({
             type: 'POST',
             url: url,
             data: options.data,
             dataType: dataType,
             success: function (data) {
-                console.info(data);
-                if (data.messageId === 200) {
-                    if (typeof callback === "function") {
-                        callback();
-                    };
-                };
-                battcn.toastrsAlert({
-                    code: data.messageId === 200 ? 'success' : 'error',
-                    msg: data.message
-                });
+                if (data !== null) {
+                    var status = data.messageId >= 200 && data.messageId <= 299;
+                    if (data.messageId >= 200 && data.messageId <= 299) {
+                        if (typeof callback === "function") {
+                            callback();
+                        }
+                    }
+                    battcn.toastrsAlert({
+                        code: status ? 'success' : 'error',
+                        msg: data.message
+                    });
+                }
             },
             error: function (xhr) {
                 console.info(xhr.responseText);
-                var result = eval("("+xhr.responseText+")");//转换为json对象
-                layer.alert(result.message,{closeBtn : false});
+                var result = eval("(" + xhr.responseText + ")");//转换为json对象
+                layer.alert(result.message, {closeBtn: false});
             }
         });
     });

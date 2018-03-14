@@ -34,9 +34,10 @@ public class RoleOperateController extends BaseController {
 
     @PostMapping("permissions")
     @ResponseBody
-    public void savePermissions(Integer[] operateId, Integer roleId) {
+    public ApiResult<String> savePermissions(Integer[] operateId, Integer roleId) {
         logger.debug("[数据] - [{}] - [{}]", JSON.toJSONString(operateId), roleId);
-        this.roleOperateService.batchInsertRoleOperate(operateId, roleId);
+        int rows = this.roleOperateService.batchInsertRoleOperate(operateId, roleId);
+        return ApiResult.getResponse(rows > 0);
     }
 
 }

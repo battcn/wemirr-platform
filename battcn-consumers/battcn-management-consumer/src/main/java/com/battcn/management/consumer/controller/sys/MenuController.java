@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.battcn.management.consumer.annotation.BattcnLog;
 import com.battcn.management.consumer.controller.BaseController;
+import com.battcn.management.consumer.util.ApiResult;
 import com.battcn.system.facade.MenuService;
 import com.battcn.system.pojo.po.Menu;
 import com.google.common.collect.Lists;
@@ -53,19 +54,19 @@ public class MenuController extends BaseController {
     @BattcnLog(module = "菜单管理", method = "保存菜单", description = "添加/修改菜单信息")
     @PostMapping(value = "/save")
     @ResponseBody
-    public void save(Menu menu) {
+    public ApiResult<String> save(Menu menu) {
         if (menu != null) {
             this.menuService.saveOrUpdate(menu);
         }
-        //return ApiResult.SUCCESS;
+        return ApiResult.SUCCESS;
     }
 
     @BattcnLog(module = "菜单管理", method = "移除菜单", description = "删除菜单信息")
     @PostMapping(value = "/remove")
     @ResponseBody
-    public void del(Integer[] ids) {
+    public ApiResult<String> del(Integer[] ids) {
         Lists.newArrayList(ids).forEach(this.menuService::deleteById);
-        //return ApiResult.SUCCESS;
+        return ApiResult.SUCCESS;
     }
 
 

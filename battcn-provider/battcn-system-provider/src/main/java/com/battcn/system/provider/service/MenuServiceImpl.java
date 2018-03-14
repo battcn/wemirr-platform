@@ -65,10 +65,10 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements MenuServic
         List<PermissionDto> list = operateMapper.listPermissions();
         return list.stream().filter(m1 -> m1.getParentId() == null).map(m2 -> {
             m2.setChildren(list.stream()
-                    .filter(p1 -> StringUtils.equals(p1.getOption(), "list") && Objects.equals(p1.getParentId(), m2.getMenuId()))
+                    .filter(p1 -> StringUtils.equals(p1.getOp(), "list") && Objects.equals(p1.getParentId(), m2.getMenuId()))
                     .map(m3 -> {
                         m3.setChildren(list.stream()
-                                .filter(b1 -> !StringUtils.equals(b1.getOption(), "list") && Objects.equals(b1.getMenuId(), m3.getMenuId()))
+                                .filter(b1 -> !StringUtils.equals(b1.getOp(), "list") && Objects.equals(b1.getMenuId(), m3.getMenuId()))
                                 .collect(toList()));
                         return m3;
                     }).collect(toList()));

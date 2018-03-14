@@ -18,7 +18,7 @@ public class PermissionDto implements java.io.Serializable {
     private String name;
     private String menuName;
     private Integer parentId;
-    private String option;
+    private String op;
     private List<PermissionDto> children = Lists.newArrayList();
 
 }

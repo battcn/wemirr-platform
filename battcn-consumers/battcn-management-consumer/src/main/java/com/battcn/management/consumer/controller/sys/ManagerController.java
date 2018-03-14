@@ -5,6 +5,7 @@ import com.battcn.framework.exception.CustomException;
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.battcn.management.consumer.annotation.BattcnLog;
 import com.battcn.management.consumer.controller.BaseController;
+import com.battcn.management.consumer.util.ApiResult;
 import com.battcn.system.facade.ManagerService;
 import com.battcn.system.facade.RoleService;
 import com.battcn.system.pojo.dto.ManagerDto;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.Date;
 import java.util.Optional;
 
 
@@ -68,21 +70,21 @@ public class ManagerController extends BaseController {
     @BattcnLog(module = "用户管理", method = "保存用户", description = "添加/修改用户信息")
     @PostMapping(value = "/save")
     @ResponseBody
-    public void save(Manager dto) {
-        /*dto.setGmtModified(new Date());
+    public ApiResult<String> save(Manager dto) {
+        dto.setGmtModified(new Date());
         if (dto.getId() != null) {
             return ApiResult.getResponse(this.managerService.updateSelectiveById(dto));
         }
-        return ApiResult.getResponse(this.managerService.insertSelective(dto));*/
+        return ApiResult.getResponse(this.managerService.insertSelective(dto));
     }
 
     @ApiOperation(value = "删除用户信息")
     @BattcnLog(module = "用户管理", method = "移除用户", description = "删除用户信息")
     @PostMapping(value = "/remove")
     @ResponseBody
-    public void del(Integer[] ids) {
+    public ApiResult<String> del(Integer[] ids) {
         Lists.newArrayList(ids).forEach(this.managerService::deleteById);
-        //return ApiResult.SUCCESS;
+        return ApiResult.SUCCESS;
     }
 
 }

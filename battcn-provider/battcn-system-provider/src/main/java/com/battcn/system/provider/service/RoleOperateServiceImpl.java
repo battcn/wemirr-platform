@@ -42,10 +42,10 @@ public class RoleOperateServiceImpl extends BaseServiceImpl<RoleOperate> impleme
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void batchInsertRoleOperate(Integer[] operateIds, Integer roleId) {
+    public int batchInsertRoleOperate(Integer[] operateIds, Integer roleId) {
         this.roleOperateMapper.delete(new RoleOperate(roleId));
         List<RoleOperate> ops = Lists.newArrayList(operateIds).stream().map(id -> new RoleOperate(roleId, id)).collect(toList());
-        int result = this.roleOperateMapper.batchInsertRoleOperate(ops);
+        return this.roleOperateMapper.batchInsertRoleOperate(ops);
     }
 
 }

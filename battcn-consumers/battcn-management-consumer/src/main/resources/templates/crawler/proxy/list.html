@@ -27,7 +27,7 @@
                 {
                     checkbox: true
                 }, {
-                    field: 'ip',
+                    field: 'host',
                     title: '代理IP',
                     align: 'center',
                     valign: 'middle',
@@ -39,8 +39,26 @@
                     valign: 'middle'
                 },
                 {
-                    field: 'source',
-                    title: 'IP来源',
+                    field: 'anonymity',
+                    title: '匿名度',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    field: 'type',
+                    title: '类型',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    field: 'location',
+                    title: '归属地',
+                    align: 'center',
+                    valign: 'middle'
+                },
+                {
+                    field: 'validateTime',
+                    title: '验证时间',
                     align: 'center',
                     valign: 'middle'
                 }, {
@@ -61,6 +79,13 @@
                 }]
 
         });
+
+        //更新代理
+        battcn.admin.menu[[${OP.menuId}]].crawler = function () {
+            battcn.confirm(function () {
+                location.href = "/op_crawler_[[${OP.menuId}]]";
+            });
+        };
 
         /*]]>*/
 

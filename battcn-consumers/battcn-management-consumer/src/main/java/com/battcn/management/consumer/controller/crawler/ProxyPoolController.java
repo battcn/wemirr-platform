@@ -3,7 +3,9 @@ package com.battcn.management.consumer.controller.crawler;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.battcn.management.consumer.annotation.BattcnLog;
+import com.battcn.management.consumer.util.ApiResult;
 import com.battcn.management.consumer.webmagic.pageprocessor.ProxyProcessor;
+import com.battcn.management.consumer.webmagic.pipeline.ProxyPipeline;
 import com.battcn.system.facade.ProxyPoolService;
 import com.battcn.system.pojo.po.ProxyPool;
 import com.github.pagehelper.PageInfo;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import us.codecraft.webmagic.Spider;
+
+import java.util.concurrent.Executors;
 
 
 /**
@@ -29,11 +33,11 @@ public class ProxyPoolController {
             url = "dubbo://localhost:20880")
     private ProxyPoolService proxyPoolService;
 
-    private final ProxyProcessor proxyProcessor;
+    private final ProxyPipeline proxyPipeline;
 
     @Autowired
-    public ProxyPoolController(ProxyProcessor proxyProcessor) {
-        this.proxyProcessor = proxyProcessor;
+    public ProxyPoolController(ProxyPipeline proxyPipeline) {
+        this.proxyPipeline = proxyPipeline;
     }
 
 
@@ -53,8 +57,11 @@ public class ProxyPoolController {
 
     @GetMapping(value = "/crawler")
     @ResponseBody
-    public void crawler() {
-        Spider.create(proxyProcessor).addUrl("http://lab.crossincode.com/proxy/", "http://www.xicidaili.com/nn", "http://www.ip181.com/").thread(10).run();
+    public ApiResult<String> crawler() {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            Spider.create(new ProxyProcessor()).addUrl("http://lab.crossincode.com/proxy/", "http://www.xicidaili.com/nn", "http://www.ip181.com/").addPipeline(proxyPipeline).thread(10).run();
+        });
+        return ApiResult.getSuccess("已进入后台处理,先干点别的吧");
     }
 
 }

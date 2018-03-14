@@ -1,13 +1,10 @@
 package com.battcn.management.consumer.webmagic.pageprocessor;
 
-import com.alibaba.fastjson.JSON;
 import com.battcn.framework.webmagic.utils.BrowserAgentUtil;
 import com.battcn.system.pojo.po.ProxyPool;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
-import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
@@ -26,16 +23,14 @@ import static java.util.stream.Collectors.toList;
  * @author Levin
  * @since 2018/3/13 0013
  */
-@Slf4j
-@Component
 public class ProxyProcessor implements PageProcessor {
+
 
     private static final Site DEFAULT_SITE = Site.me()
             .setTimeOut(6000).setRetryTimes(3)
             .setSleepTime(1000).setCharset("UTF-8")
             .setUserAgent(BrowserAgentUtil.getBrowserAgent());
     private static final String HTTPS = "HTTPS";
-    private static final double SPEED = 2.0;
     private static final List<String> TARGET_REQUESTS = Lists.newArrayList("http://www.xicidaili.com/nt/1",
             "http://www.xicidaili.com/nt/2",
             "http://www.xicidaili.com/nt/3",
@@ -46,21 +41,19 @@ public class ProxyProcessor implements PageProcessor {
     @Override
     public void process(Page page) {
         String proxyLink = page.getUrl().get();
-        List<ProxyPool> proxies = Lists.newArrayList();
         if (proxyLink.contains("crossincode")) {
             List<Selectable> trs = page.getHtml().xpath("//table[@class='table table-bordered proxy-index-table']/tbody/tr").nodes();
             // Crossin 编程实验室 代理IP
-            proxies = resolveBaseProxy(trs);
+            page.putField("proxies", resolveBaseProxy(trs));
         } else if (proxyLink.contains("xicidaili")) {
             // 大象代理
-            proxies = resolveXicidailiProxy(page);
+            page.putField("proxies", resolveXicidailiProxy(page));
             page.addTargetRequests(TARGET_REQUESTS);
         } else if (proxyLink.contains("ip181")) {
             List<Selectable> trs = page.getHtml().xpath("//table[@class='table table-hover panel-default panel ctable']/tbody/tr").nodes();
             // ip181 代理
-            proxies = resolveBaseProxy(trs);
+            page.putField("proxies", resolveBaseProxy(trs));
         }
-        log.info("[ip pool] - [{}]", JSON.toJSONString(proxies));
     }
 
     private static List<ProxyPool> resolveBaseProxy(List<Selectable> trs) {
