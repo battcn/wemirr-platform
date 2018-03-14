@@ -134,6 +134,9 @@ public class CrawlerDownloader extends AbstractDownloader {
             if (charset == null) {
                 charset = getHtmlCharset(contentType, bytes);
             }
+            if(!contentType.contains("utf-8")){
+            	charset="GBK";
+            }
             page.setCharset(charset);
             page.setRawText(new String(bytes, charset));
         }
