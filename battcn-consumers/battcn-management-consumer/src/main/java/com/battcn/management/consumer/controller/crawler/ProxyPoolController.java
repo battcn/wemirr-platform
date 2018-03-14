@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import us.codecraft.webmagic.Spider;
@@ -55,12 +56,10 @@ public class ProxyPoolController {
         return this.proxyPoolService.listForDataGrid(grid);
     }
 
-    @GetMapping(value = "/crawler")
+    @PostMapping("/crawler")
     @ResponseBody
     public ApiResult<String> crawler() {
-        Executors.newSingleThreadExecutor().execute(() -> {
-            Spider.create(new ProxyProcessor()).addUrl("http://lab.crossincode.com/proxy/", "http://www.xicidaili.com/nn", "http://www.ip181.com/").addPipeline(proxyPipeline).thread(10).run();
-        });
+        Executors.newSingleThreadExecutor().execute(() -> Spider.create(new ProxyProcessor()).addUrl("http://lab.crossincode.com/proxy/", "http://www.xicidaili.com/nn", "http://www.ip181.com/").addPipeline(proxyPipeline).thread(10).run());
         return ApiResult.getSuccess("已进入后台处理,先干点别的吧");
     }
 

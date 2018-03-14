@@ -98,6 +98,6 @@ public class ProxyProcessor implements PageProcessor {
     }
 
     public static void main(String[] args) {
-        Spider.create(new ProxyProcessor()).addUrl("http://lab.crossincode.com/proxy/", "http://www.xicidaili.com/nn", "http://www.ip181.com/").thread(10).run();
+        Spider.create(new ProxyProcessor()).addUrl("http://www.ip181.com/").thread(10).run();
     }
 }
