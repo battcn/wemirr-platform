@@ -7,7 +7,6 @@ import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;

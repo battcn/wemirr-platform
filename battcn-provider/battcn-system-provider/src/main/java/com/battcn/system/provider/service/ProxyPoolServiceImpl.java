@@ -1,6 +1,5 @@
 package com.battcn.system.provider.service;
 
-import com.alibaba.fastjson.JSON;
 import com.battcn.framework.mybatis.service.impl.BaseServiceImpl;
 import com.battcn.system.facade.ProxyPoolService;
 import com.battcn.system.pojo.po.ProxyPool;
