@@ -27,4 +27,14 @@
 **后续引入 redis、rabbitmq 等技术栈**
 
 
+# 启动
 
+- **将 `doc/battcn3.0.sql` 导入到 `version >= mysql5.6`的数据库中,如果版本低于 `5.6` 请仔细看 sql 文件的注释部分**
+- 将 `battcn-parent` 转换成 `Maven Project` 然后 执行 **`install`** 
+- 启动 `battcn-provider/battcn-system-provider/SystemProvider.java`   
+- 启动 `battcn-consumers/battcn-system-consumer/ManagementApplication.java`
+- **以上步骤成功后,访问 http://localhost:8082/ 即可** 
+
+# 存在缺陷
+
+**`由于 dubbo` 对 yml 配置存在缺陷,所以该阶段只能启动一个 provider 做测试,根据官方 issues 该问题应该会在下一个版本得到解决**
