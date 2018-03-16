@@ -2,6 +2,7 @@ package com.battcn.framework.webmagic.downloader;
 
 import com.google.common.collect.Maps;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.annotation.Contract;
 import org.apache.http.annotation.ThreadingBehavior;
@@ -38,6 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Contract(threading = ThreadingBehavior.SAFE)
 public class CrawlerDownloader extends AbstractDownloader {
 
+    private static final String DEFAULT_CHARSET = "utf-8";
     /**
      * 错误地址
      */
@@ -134,8 +136,9 @@ public class CrawlerDownloader extends AbstractDownloader {
             if (charset == null) {
                 charset = getHtmlCharset(contentType, bytes);
             }
-            if(!contentType.contains("utf-8")){
-            	charset="GBK";
+
+            if (!StringUtils.containsIgnoreCase(contentType, DEFAULT_CHARSET)) {
+                charset = "GBK";
             }
             page.setCharset(charset);
             page.setRawText(new String(bytes, charset));

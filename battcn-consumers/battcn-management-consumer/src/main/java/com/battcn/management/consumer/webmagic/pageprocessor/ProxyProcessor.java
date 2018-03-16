@@ -1,5 +1,6 @@
 package com.battcn.management.consumer.webmagic.pageprocessor;
 
+import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
 import com.battcn.framework.webmagic.utils.BrowserAgentUtil;
 import com.battcn.system.pojo.po.ProxyPool;
 import org.apache.commons.collections4.CollectionUtils;
