@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/app/books")
-@Api(value = "图书管理")
+@Api(value = "图书管理", description = "图书管理", tags = "1.0")
 public class BookController {
 
     @Reference(version = "1.0.0",
