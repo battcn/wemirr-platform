@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
 import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
+import com.battcn.framework.webmagic.utils.BrowserAgentUtil;
 import com.battcn.management.consumer.webmagic.pipeline.BookPipeline;
+import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -26,17 +28,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class BookProcessor implements PageProcessor {
 
-    private Site site = Site.me().setRetryTimes(3).setSleepTime(100);
-
-    private Book bookCache = new Book();
-    private JSONObject labelCache = new JSONObject();
-    private AtomicInteger count = new AtomicInteger(1);
-
+    private static final Site DEFAULT_SITE = Site.me()
+            .setTimeOut(6000).setRetryTimes(3)
+            .setSleepTime(1000).setCharset("utf-8").addHeader("Accept-Language", "zh-CN,zh;q=0.9")
+            .setUserAgent(BrowserAgentUtil.getBrowserAgent());
     @Override
     public void process(Page page) {
-        page.addTargetRequests(Lists.newArrayList("http://www.biquge5200.com/0_844/638404.html", "http://www.biquge5200.com/0_844/636721.html", "http://www.biquge5200.com/0_844/636722.html"));
-        //List<String> all1 = page.getHtml().links().regex("http://www.biquge5200\\.com/0_844/\\.*\\.html").all();
-        if ("http://www.biquge5200.com/0_844".equals(page.getUrl().get())) {
+        page.addTargetRequests(page.getHtml().links().regex("http://www.biquge5200\\.com/0_844/\\.*\\.html").all());
+        // 单本书的信息
+        if (StringUtils.equalsAnyIgnoreCase(page.getUrl().get(), "http://www.biquge5200.com/0_844")) {
             // 这里解析出了 列表页的 基本信息
             String bookType = page.getHtml().xpath("//div[@class='con_top']/a[2]/text()").get();
             Selectable info = page.getHtml().css("#maininfo");
@@ -44,27 +44,32 @@ public class BookProcessor implements PageProcessor {
             String bookName = info.xpath("//p[1]/text()").get();
             String bookInfo = page.getHtml().xpath("//div[@id='intro']/p/text()").get();
             String bookCover = page.getHtml().xpath("//div[@id='fmimg']//img").$("img", "src").get();
-            bookCache.setName(bookName);
-            bookCache.setType(bookType);
-            bookCache.setAuthor(bookAuthor);
-            bookCache.setDescription(bookInfo);
-            bookCache.setCover(bookCover);
-            page.putField("bookName", bookName);
-            page.putField("bookType", bookType);
-            page.putField("bookAuthor", bookAuthor);
-            page.putField("bookInfo", bookInfo);
-            page.putField("bookCover", bookCover);
-
+            Book book = new Book();
+            book.setName(bookName);
+            book.setSource(page.getUrl().get());
+            book.setType(bookType);
+            book.setAuthor(bookAuthor);
+            book.setDescription(bookInfo);
+            book.setCover(bookCover);
+            String bookNo = StringUtils.join("NO", System.currentTimeMillis());
+            book.setBookNo(bookNo);
             List<Selectable> nodes = page.getHtml().xpath("//div[@id='list']//dd/a").nodes();
+            List<BookChapter> chapters = Lists.newArrayList();
             for (Selectable node : nodes) {
                 String link = node.links().get();
                 String title = node.xpath("//a/text()").get();
-                //labelCache.put(link, new BookChapter(link, title, null));
+                BookChapter chapter = new BookChapter();
+                chapter.setLink(link);
+                chapter.setBookNo(bookNo);
+                chapter.setTitle(title);
+                chapters.add(chapter);
             }
-        }
-        List<BookChapter> labels = Lists.newArrayList();
-        if (count.getAndAdd(1) < 20 && page.getUrl().regex("http://www\\.biquge5200\\.com/0_844/\\w+\\.html").match()) {
+            page.putField("book", book);
+            page.putField("chapters", chapters);
+        } else if (page.getUrl().regex("http://www\\.biquge5200\\.com/0_844/\\w+\\.html").match()) {
+            List<BookChapter> labels = Lists.newArrayList();
             String content = page.getHtml().xpath("//div[@id='content']/html()").get();
+            JSONObject labelCache = new JSONObject();
             BookChapter label = labelCache.getObject(page.getUrl().get(), BookChapter.class);
             label.setContent(content);
             labels.add(label);
@@ -74,12 +79,12 @@ public class BookProcessor implements PageProcessor {
 
     @Override
     public Site getSite() {
-        return site;
+        return DEFAULT_SITE;
     }
 
     public static void main(String[] args) throws IOException {
-        Spider.create(new BookProcessor()).addUrl("http://www.biquge5200.com/0_844").addPipeline(new BookPipeline()).thread(5).run();
-        OOSpider.create(null, Book.class).setDownloader(new CrawlerDownloader()).addPipeline(new BookPipeline()).thread(5).run();
+        Spider.create(new BookProcessor()).addUrl("http://www.biquge5200.com/0_844").setDownloader(new CrawlerDownloader()).addPipeline(new BookPipeline()).thread(5).run();
+        //OOSpider.create(null, Book.class).setDownloader(new CrawlerDownloader()).addPipeline(new BookPipeline()).thread(5).run();
         /*String json = "{\n" +
                 "  \"author\": \"斗破苍穹\",\n" +
                 "  \"cover\": \"http://r.i.biquge5200.com/files/article/image/0/844/844s.jpg\",\n" +

@@ -2,6 +2,7 @@ package com.battcn.management.consumer.controller.crawler;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.framework.mybatis.pojo.DataGrid;
+import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
 import com.battcn.management.consumer.annotation.BattcnLog;
 import com.battcn.management.consumer.util.ApiResult;
 import com.battcn.management.consumer.webmagic.pageprocessor.ProxyProcessor;
@@ -59,7 +60,7 @@ public class ProxyPoolController {
     @PostMapping("/crawler")
     @ResponseBody
     public ApiResult<String> crawler() {
-        Executors.newSingleThreadExecutor().execute(() -> Spider.create(new ProxyProcessor()).addUrl("http://lab.crossincode.com/proxy/", "http://www.xicidaili.com/nn", "http://www.ip181.com/").addPipeline(proxyPipeline).thread(10).run());
+        Executors.newSingleThreadExecutor().execute(() -> Spider.create(new ProxyProcessor()).setDownloader(new CrawlerDownloader()).addUrl("http://lab.crossincode.com/proxy/", "http://www.xicidaili.com/nn", "http://www.ip181.com/").addPipeline(proxyPipeline).thread(10).run());
         return ApiResult.getSuccess("已进入后台处理,先干点别的吧");
     }
 
