@@ -67,10 +67,9 @@ public class Menu extends RecordEntity {
     private Integer sequence;
 
     /**
-     * 级别
+     * 层级
      */
-    @Column(name = "level")
-    private Integer level;
+    private Integer rank;
 
     /**
      * tree所需
