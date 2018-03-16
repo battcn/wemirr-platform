@@ -35,7 +35,8 @@
                     field: 'name',
                     title: '名称',
                     align: 'center',
-                    valign: 'middle'
+                    valign: 'middle',
+                    width: '80px'
                 },
                 {
                     field: 'source',
@@ -47,19 +48,15 @@
                     field: 'type',
                     title: '类型',
                     align: 'center',
-                    valign: 'middle'
+                    valign: 'middle',
+                    width: '80px'
                 },
                 {
                     field: 'author',
                     title: '作者',
                     align: 'center',
-                    valign: 'middle'
-                },
-                {
-                    field: 'description',
-                    title: '描述',
-                    align: 'center',
-                    valign: 'middle'
+                    valign: 'middle',
+                    width: '80px'
                 }, {
                     field: 'status',
                     title: '是否完结',
@@ -70,13 +67,19 @@
                         return value === 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>'
                     }
                 }, {
+                    field: 'description',
+                    title: '描述',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
                     field: 'gmtCreate',
                     title: '时间',
                     align: 'center',
                     valign: 'middle',
                     sortable: true,
+                    width: '140px',
                     formatter: function (value, row, index) {
-                        return new Date(value).pattern("yyyy-MM-dd HH:mm:ss")
+                        return new Date(value).pattern("yyyy-MM-dd HH:mm")
                     }
                 }]
 
