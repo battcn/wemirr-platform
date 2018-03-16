@@ -21,6 +21,7 @@
 - **shiro**
 - **zookeeper**
 - **swagger**
+- **bootstarp table：** [bootstrap table 技术文档](http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation "技术文档")
 
 ----------
 
