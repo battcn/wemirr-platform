@@ -30,7 +30,10 @@
                     field: 'bookNo',
                     title: '编号',
                     align: 'center',
-                    valign: 'middle'
+                    valign: 'middle',
+                    formatter: function (value, row, index) {
+                        return '<a href="javascript:void(0)">' + value + '</a>';
+                    }
                 }, {
                     field: 'name',
                     title: '名称',
@@ -58,15 +61,6 @@
                     valign: 'middle',
                     width: '80px'
                 }, {
-                    field: 'status',
-                    title: '是否完结',
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: true,
-                    formatter: function (value, row, index) {
-                        return value === 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>'
-                    }
-                }, {
                     field: 'description',
                     title: '描述',
                     align: 'center',
@@ -76,15 +70,32 @@
                     title: '时间',
                     align: 'center',
                     valign: 'middle',
-                    sortable: true,
                     width: '140px',
                     formatter: function (value, row, index) {
                         return new Date(value).pattern("yyyy-MM-dd HH:mm")
                     }
-                }]
+                }, {
+                    field: 'status',
+                    title: '是否完结',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: true,
+                    formatter: function (value, row, index) {
+                        return value === 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>'
+                    }
+                }/*, {
+                 field: 'operate',
+                 title: '操作',
+                 formatter: operateFormatter //自定义方法，添加操作按钮
+                 }*/]
+            ,
+            onClickRow: function (row, $element, field) {
+                if (field === 'bookNo') {
+                    // 弹出章节列表
+                }
+            }
 
         });
-
         //更新代理
         battcn.admin.menu[[${OP.menuId}]].crawler = function () {
             battcn.confirm(function () {
