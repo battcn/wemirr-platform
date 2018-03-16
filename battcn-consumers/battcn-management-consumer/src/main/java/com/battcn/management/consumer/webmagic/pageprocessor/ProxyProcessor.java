@@ -39,18 +39,22 @@ public class ProxyProcessor implements PageProcessor {
             "http://www.xicidaili.com/nt/5",
             "http://www.xicidaili.com/nt/6");
 
+    private static final String CROSSINCODE = "crossincode";
+    private static final String XICIDAILI = "xicidaili";
+    private static final String IP181 = "ip181";
+
     @Override
     public void process(Page page) {
         String proxyLink = page.getUrl().get();
-        if (proxyLink.contains("crossincode")) {
+        if (proxyLink.contains(CROSSINCODE)) {
             List<Selectable> trs = page.getHtml().xpath("//table[@class='table table-bordered proxy-index-table']/tbody/tr").nodes();
             // Crossin 编程实验室 代理IP
             page.putField("proxies", resolveBaseProxy(trs));
-        } else if (proxyLink.contains("xicidaili")) {
+        } else if (proxyLink.contains(XICIDAILI)) {
             // 大象代理
             page.putField("proxies", resolveXicidailiProxy(page));
             page.addTargetRequests(TARGET_REQUESTS);
-        } else if (proxyLink.contains("ip181")) {
+        } else if (proxyLink.contains(IP181)) {
             List<Selectable> trs = page.getHtml().xpath("//table[@class='table table-hover panel-default panel ctable']/tbody/tr").nodes();
             // ip181 代理
             page.putField("proxies", resolveBaseProxy(trs));
