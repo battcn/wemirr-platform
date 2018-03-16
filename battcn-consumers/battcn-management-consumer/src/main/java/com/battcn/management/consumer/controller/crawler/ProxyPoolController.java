@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
  * @author Levin
  */
 @Controller
-@RequestMapping("/crawler/proxy")
+@RequestMapping("/crawler/proxies")
 public class ProxyPoolController {
 
     @Reference(version = "1.0.0",
