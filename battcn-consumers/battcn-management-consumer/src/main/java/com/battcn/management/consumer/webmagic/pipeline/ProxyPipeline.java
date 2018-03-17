@@ -35,7 +35,10 @@ public class ProxyPipeline implements Pipeline {
         if (CollectionUtils.isEmpty(proxies)) {
             return;
         }
-        final List<ProxyPool> proxyPools = proxies.stream().filter(proxy -> {
+        // 过滤掉无效代理
+        final List<ProxyPool> proxyPools = proxies.stream()
+                .filter(ProxyPool::getLocked)
+                .filter(proxy -> {
             ProxyPool record = new ProxyPool();
             record.setHost(proxy.getHost());
             record.setPort(proxy.getPort());
