@@ -55,7 +55,7 @@ public class BookProcessor implements PageProcessor {
             }
             book.setDescription(bookInfo);
             book.setCover(bookCover);
-            String bookNo = StringUtils.join("NO", System.currentTimeMillis());
+            String bookNo = StringUtils.join("NO", System.nanoTime());
             book.setBookNo(bookNo);
             List<Selectable> nodes = page.getHtml().xpath("//div[@id='list']//dd/a").nodes();
             List<BookChapter> chapters = Lists.newArrayList();
@@ -122,4 +122,5 @@ public class BookProcessor implements PageProcessor {
         templateEngine.process("example", context, write);*/
 
     //}
+
 }
