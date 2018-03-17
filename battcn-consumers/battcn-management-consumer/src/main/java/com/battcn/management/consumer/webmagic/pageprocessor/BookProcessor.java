@@ -3,18 +3,14 @@ package com.battcn.management.consumer.webmagic.pageprocessor;
 import com.alibaba.fastjson.JSONObject;
 import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
-import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
 import com.battcn.framework.webmagic.utils.BrowserAgentUtil;
-import com.battcn.management.consumer.webmagic.pipeline.BookPipeline;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Selectable;
 
-import java.io.IOException;
 import java.util.List;
 
 
@@ -59,7 +55,7 @@ public class BookProcessor implements PageProcessor {
             }
             book.setDescription(bookInfo);
             book.setCover(bookCover);
-            String bookNo = StringUtils.join("NO", System.currentTimeMillis());
+            String bookNo = StringUtils.join("NO", System.nanoTime());
             book.setBookNo(bookNo);
             List<Selectable> nodes = page.getHtml().xpath("//div[@id='list']//dd/a").nodes();
             List<BookChapter> chapters = Lists.newArrayList();
@@ -90,7 +86,7 @@ public class BookProcessor implements PageProcessor {
         return DEFAULT_SITE;
     }
 
-    public static void main(String[] args) throws IOException {
+    //public static void main(String[] args) throws IOException {
         // 搜索地址
         // http://www.biquge5200.com/modules/article/search.php?searchkey=斗破苍穹
         // 小说大全：http://www.biquge5200.com/xiaoshuodaquan/
@@ -125,5 +121,6 @@ public class BookProcessor implements PageProcessor {
         FileWriter write = new FileWriter(StringUtils.join(UUID.randomUUID().toString(), String.valueOf(System.nanoTime()), ".html"));
         templateEngine.process("example", context, write);*/
 
-    }
+    //}
+
 }
