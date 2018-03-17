@@ -178,6 +178,7 @@ public class CrawlerDownloader extends AbstractDownloader {
     protected void onError(Request request) {
         String url = request.getUrl();
         ERROR_REQUEST_URL.putIfAbsent(url, url);
+        logger.info("现在有 {} 条链接跳转失败", ERROR_REQUEST_URL.toString());
         logger.info("现在有 {} 条链接跳转失败", ERROR_REQUEST_URL.size());
     }
 

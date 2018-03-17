@@ -30,6 +30,14 @@ public interface BaseService<T> {
     boolean insertSelective(T entity);
 
     /**
+     * 批量添加
+     *
+     * @param recordList 批量添加
+     * @return 添加结果
+     */
+    boolean insertList(List<T> recordList);
+
+    /**
      * 根据主键删除一个实体
      *
      * @param key 主键

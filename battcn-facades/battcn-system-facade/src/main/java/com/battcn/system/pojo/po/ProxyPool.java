@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
@@ -21,6 +22,7 @@ public class ProxyPool extends RecordEntity implements Serializable {
 
     private static final long serialVersionUID = -3699072211264713025L;
 
+    @Id
     private Integer id;
     private String host;
     private Integer port;

@@ -30,6 +30,12 @@ public abstract class BaseServiceImpl<T> implements com.battcn.framework.mybatis
 
     @Transactional(rollbackFor = Exception.class)
     @Override
+    public boolean insertList(List<T> recordList) {
+        return mapper.insertList(recordList) > 0;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
     public boolean insertSelective(T entity) {
         return mapper.insertSelective(entity) > 0;
     }

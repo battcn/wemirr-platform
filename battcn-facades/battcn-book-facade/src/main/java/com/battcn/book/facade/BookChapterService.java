@@ -9,4 +9,8 @@ import com.battcn.framework.mybatis.service.BaseService;
  * @since 2018/03/08
  */
 public interface BookChapterService extends BaseService<BookChapter> {
+
+
+
+
 }
