@@ -29,5 +29,6 @@ public class ProxyPool extends RecordEntity implements Serializable {
     private String location;
     private String validateTime;
     private Boolean locked;
+    private String source;
 
 }

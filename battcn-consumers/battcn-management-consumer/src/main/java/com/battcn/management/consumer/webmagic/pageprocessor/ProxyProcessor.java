@@ -49,19 +49,19 @@ public class ProxyProcessor implements PageProcessor {
         if (proxyLink.contains(CROSSINCODE)) {
             List<Selectable> trs = page.getHtml().xpath("//table[@class='table table-bordered proxy-index-table']/tbody/tr").nodes();
             // Crossin 编程实验室 代理IP
-            page.putField("proxies", resolveBaseProxy(trs));
+            page.putField("proxies", resolveBaseProxy(CROSSINCODE, trs));
         } else if (proxyLink.contains(XICIDAILI)) {
             // 大象代理
-            page.putField("proxies", resolveXicidailiProxy(page));
+            page.putField("proxies", resolveXicidailiProxy(XICIDAILI, page));
             page.addTargetRequests(TARGET_REQUESTS);
         } else if (proxyLink.contains(IP181)) {
             List<Selectable> trs = page.getHtml().xpath("//table[@class='table table-hover panel-default panel ctable']/tbody/tr").nodes();
             // ip181 代理
-            page.putField("proxies", resolveBaseProxy(trs));
+            page.putField("proxies", resolveBaseProxy(IP181, trs));
         }
     }
 
-    private static List<ProxyPool> resolveBaseProxy(List<Selectable> trs) {
+    private static List<ProxyPool> resolveBaseProxy(String source, List<Selectable> trs) {
         if (CollectionUtils.isEmpty(trs)) {
             return null;
         }
@@ -73,11 +73,11 @@ public class ProxyProcessor implements PageProcessor {
             final String location = node.xpath("//td[5]/text()").get();
             final String validateTime = node.xpath("//td[6]/text()").get();
             final boolean locked = ProxyUtils.validateProxy(new Proxy(host, port));
-            return new ProxyPool(null, host, port, anonymity, type, location, validateTime, locked);
+            return new ProxyPool(null, host, port, anonymity, type, location, validateTime, locked, source);
         }).collect(toList());
     }
 
-    private static List<ProxyPool> resolveXicidailiProxy(Page page) {
+    private static List<ProxyPool> resolveXicidailiProxy(String source, Page page) {
         List<Selectable> trs = page.getHtml().xpath("//table[@id='ip_list']/tbody/tr").nodes();
         if (CollectionUtils.isEmpty(trs)) {
             return null;
@@ -91,7 +91,7 @@ public class ProxyProcessor implements PageProcessor {
                 final String anonymity = node.xpath("//td[5]/text()").get();
                 final String validateTime = StringUtils.join("20", node.xpath("//td[10]/text()").get());
                 final boolean locked = ProxyUtils.validateProxy(new Proxy(host, port));
-                return new ProxyPool(null, host, port, anonymity, type, location, validateTime, locked);
+                return new ProxyPool(null, host, port, anonymity, type, location, validateTime, locked, source);
             }
             return null;
         }).filter(Objects::nonNull).collect(Collectors.toList());
