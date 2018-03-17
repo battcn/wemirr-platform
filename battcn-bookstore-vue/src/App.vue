@@ -75,11 +75,11 @@ export default {
   color: #2c3e50;
 }
 /* 左侧路由动画 */
-  fade-enter-active,.fade-leave-active{/* fade为transition标签上的name */
+  .fade-enter-active,.fade-leave-active{/* fade为transition标签上的name */
     transition:all .5s;/* 在此状态下运用css动画更改opacity属性 */
   }
   .fade-enter,.fade-leave-active{
-    transform: translate(0, 0);
+    opacity: 0;
   }
 
   /* 头部 */
