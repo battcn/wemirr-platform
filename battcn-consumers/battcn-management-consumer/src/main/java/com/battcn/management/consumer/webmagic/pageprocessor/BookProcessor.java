@@ -3,18 +3,14 @@ package com.battcn.management.consumer.webmagic.pageprocessor;
 import com.alibaba.fastjson.JSONObject;
 import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
-import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
 import com.battcn.framework.webmagic.utils.BrowserAgentUtil;
-import com.battcn.management.consumer.webmagic.pipeline.BookPipeline;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Selectable;
 
-import java.io.IOException;
 import java.util.List;
 
 

@@ -1,6 +1,5 @@
 package com.battcn.management.consumer.webmagic.pageprocessor;
 
-import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
 import com.battcn.framework.webmagic.utils.BrowserAgentUtil;
 import com.battcn.system.pojo.po.ProxyPool;
 import org.apache.commons.collections4.CollectionUtils;
@@ -8,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.selector.Selectable;

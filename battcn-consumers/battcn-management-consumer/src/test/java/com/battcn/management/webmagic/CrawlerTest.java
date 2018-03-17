@@ -2,7 +2,6 @@ package com.battcn.management.webmagic;
 
 import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
 import com.battcn.framework.webmagic.downloader.CrowProxyProvider;
-import com.battcn.management.consumer.webmagic.pageprocessor.ProxyProcessor;
 import com.battcn.management.webmagic.pageprocessor.MovieProcessor;
 import com.battcn.system.facade.ProxyPoolService;
 import com.battcn.system.pojo.po.ProxyPool;
