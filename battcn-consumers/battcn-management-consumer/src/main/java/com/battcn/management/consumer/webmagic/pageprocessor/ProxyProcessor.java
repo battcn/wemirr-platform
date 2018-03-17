@@ -70,10 +70,17 @@ public class ProxyProcessor implements PageProcessor {
             final int port = Integer.parseInt(node.xpath("//td[2]/text()").get());
             final String anonymity = node.xpath("//td[3]/text()").get();
             final String type = node.xpath("//td[4]/text()").get();
-            final String location = node.xpath("//td[5]/text()").get();
-            final String validateTime = node.xpath("//td[6]/text()").get();
-            final boolean locked = ProxyUtils.validateProxy(new Proxy(host, port));
-            return new ProxyPool(null, host, port, anonymity, type, location, validateTime, locked, source);
+            if (StringUtils.equalsIgnoreCase(source, IP181)) {
+                final String validateTime = node.xpath("//td[5]/text()").get();
+                final String location = node.xpath("//td[6]/text()").get();
+                final boolean locked = ProxyUtils.validateProxy(new Proxy(host, port));
+                return new ProxyPool(null, host, port, anonymity, type, location, validateTime, locked, source);
+            } else {
+                final String location = node.xpath("//td[5]/text()").get();
+                final String validateTime = node.xpath("//td[6]/text()").get();
+                final boolean locked = ProxyUtils.validateProxy(new Proxy(host, port));
+                return new ProxyPool(null, host, port, anonymity, type, location, validateTime, locked, source);
+            }
         }).collect(toList());
     }
 
