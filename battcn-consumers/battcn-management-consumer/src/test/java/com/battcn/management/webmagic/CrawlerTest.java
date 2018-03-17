@@ -29,12 +29,12 @@ public class CrawlerTest {
     /**
      * @param args
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         CrawlerTest cralwerTest = new CrawlerTest();
         cralwerTest.proxyExample();
         //爬代理ip网站获取代理ip
         Spider.create(new ProxyProcessor()).addUrl("http://www.xicidaili.com/nn").addPipeline(new ConsolePipeline()).thread(4).run();
-    }
+    }*/
 
     /**
      * 代理ip使用样例

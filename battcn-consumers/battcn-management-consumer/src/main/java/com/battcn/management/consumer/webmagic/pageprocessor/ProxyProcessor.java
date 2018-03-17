@@ -109,7 +109,7 @@ public class ProxyProcessor implements PageProcessor {
         return DEFAULT_SITE;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Spider.create(new ProxyProcessor()).setDownloader(new CrawlerDownloader()).addUrl("http://www.ip181.com/").thread(10).run();
-    }
+    }*/
 }

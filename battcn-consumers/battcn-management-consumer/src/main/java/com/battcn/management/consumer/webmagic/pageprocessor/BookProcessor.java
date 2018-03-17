@@ -90,7 +90,7 @@ public class BookProcessor implements PageProcessor {
         return DEFAULT_SITE;
     }
 
-    public static void main(String[] args) throws IOException {
+    //public static void main(String[] args) throws IOException {
         // 搜索地址
         // http://www.biquge5200.com/modules/article/search.php?searchkey=斗破苍穹
         // 小说大全：http://www.biquge5200.com/xiaoshuodaquan/
@@ -125,5 +125,5 @@ public class BookProcessor implements PageProcessor {
         FileWriter write = new FileWriter(StringUtils.join(UUID.randomUUID().toString(), String.valueOf(System.nanoTime()), ".html"));
         templateEngine.process("example", context, write);*/
 
-    }
+    //}
 }

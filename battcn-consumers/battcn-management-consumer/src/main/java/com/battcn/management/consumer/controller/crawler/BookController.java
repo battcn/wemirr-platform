@@ -108,13 +108,13 @@ public class BookController extends BaseController {
     @GetMapping("/crawler")
     @ResponseBody
     public ApiResult<String> crawler() {
-//        CrawlerDownloader crawlerDownloader = new CrawlerDownloader();
-//        final List<ProxyPool> proxyPools = this.proxyPoolService.listAll();
-//        if (CollectionUtils.isNotEmpty(proxyPools)) {
-//            List<Proxy> proxies = proxyPools.stream().map(proxy -> new Proxy(proxy.getHost(), proxy.getPort(), null, null)).collect(toList());
-//            crawlerDownloader.setProxyProvider(new CrowProxyProvider(proxies));
-//        }
-        Executors.newSingleThreadExecutor().execute(() -> Spider.create(new BookProcessor()).setDownloader(new CrawlerDownloader()).addUrl(BookProcessor.ALL_BOOK_LINK).addPipeline(bookPipeline).thread(5).run());
+        CrawlerDownloader crawlerDownloader = new CrawlerDownloader();
+        final List<ProxyPool> proxyPools = this.proxyPoolService.listAll();
+        if (CollectionUtils.isNotEmpty(proxyPools)) {
+            List<Proxy> proxies = proxyPools.stream().map(proxy -> new Proxy(proxy.getHost(), proxy.getPort(), null, null)).collect(toList());
+            crawlerDownloader.setProxyProvider(new CrowProxyProvider(proxies));
+        }
+        Executors.newSingleThreadExecutor().execute(() -> Spider.create(new BookProcessor()).setDownloader(crawlerDownloader).addUrl(BookProcessor.ALL_BOOK_LINK).addPipeline(bookPipeline).thread(30).run());
         return ApiResult.getSuccess("已进入后台处理,先干点别的吧");
     }
 
