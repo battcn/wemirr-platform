@@ -108,6 +108,7 @@ public class ProxyProcessor implements PageProcessor {
     }
 
     /*public static void main(String[] args) {
+        // https://proxy.coderbusy.com/classical/anonymous-type/highanonymous.aspx
         Spider.create(new ProxyProcessor()).setDownloader(new CrawlerDownloader()).addUrl("http://www.ip181.com/").thread(10).run();
     }*/
 }

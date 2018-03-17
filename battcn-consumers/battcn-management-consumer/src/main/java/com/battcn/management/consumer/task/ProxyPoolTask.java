@@ -39,7 +39,7 @@ public class ProxyPoolTask {
     }
 
     /**
-     * 每隔10分钟抓取一次代理
+     * 每隔20分钟检查一次代理池
      */
     @Scheduled(cron = "0 0/20 * * * ?")
     public void updateProxies() {
@@ -57,10 +57,10 @@ public class ProxyPoolTask {
     }
 
     /**
-     * 每隔20分钟检查一次代理池
+     * 每隔10分钟抓取一次代理
      */
-    @Scheduled(cron = "0 0/20 * * * ?")
-    public void settlement() {
+    @Scheduled(cron = "0 0/10 * * * ?")
+    public void proxies() {
         Executors.newSingleThreadExecutor().execute(() -> Spider.create(new ProxyProcessor()).setDownloader(new CrawlerDownloader()).addUrl("http://lab.crossincode.com/proxy/", "http://www.xicidaili.com/nn", "http://www.ip181.com/").addPipeline(proxyPipeline).thread(10).run());
     }
 

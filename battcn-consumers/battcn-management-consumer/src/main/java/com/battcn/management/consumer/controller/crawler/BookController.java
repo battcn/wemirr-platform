@@ -5,18 +5,21 @@ import com.battcn.book.facade.BookService;
 import com.battcn.book.pojo.po.Book;
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
+import com.battcn.framework.webmagic.downloader.CrowProxyProvider;
 import com.battcn.management.consumer.annotation.BattcnLog;
 import com.battcn.management.consumer.controller.BaseController;
 import com.battcn.management.consumer.util.ApiResult;
 import com.battcn.management.consumer.webmagic.pageprocessor.BookProcessor;
 import com.battcn.management.consumer.webmagic.pipeline.BookPipeline;
 import com.battcn.system.facade.ProxyPoolService;
+import com.battcn.system.pojo.po.ProxyPool;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -26,11 +29,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import springfox.documentation.annotations.ApiIgnore;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.proxy.Proxy;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 
 import static com.battcn.framework.exception.CustomException.notFound;
+import static java.util.stream.Collectors.toList;
 
 
 /**
@@ -101,11 +107,11 @@ public class BookController extends BaseController {
     @ResponseBody
     public ApiResult<String> crawler() {
         CrawlerDownloader crawlerDownloader = new CrawlerDownloader();
-        /*final List<ProxyPool> proxyPools = this.proxyPoolService.listAll();
+        final List<ProxyPool> proxyPools = this.proxyPoolService.listAll();
         if (CollectionUtils.isNotEmpty(proxyPools)) {
             List<Proxy> proxies = proxyPools.stream().map(proxy -> new Proxy(proxy.getHost(), proxy.getPort(), null, null)).collect(toList());
             crawlerDownloader.setProxyProvider(new CrowProxyProvider(proxies));
-        }*/
+        }
         Executors.newSingleThreadExecutor().execute(() -> Spider.create(new BookProcessor()).setDownloader(crawlerDownloader).addUrl(BookProcessor.ALL_BOOK_LINK).addPipeline(bookPipeline).thread(30).run());
         return ApiResult.getSuccess("已进入后台处理,先干点别的吧");
     }
