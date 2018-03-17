@@ -5,10 +5,10 @@
 
 
     <insert id="batchInsertProxies" parameterType="java.util.List">
-        insert into t_sys_proxy_pool (host,port,anonymity,`type`,`location`,`validate_time`,`locked`)
+        insert into t_sys_proxy_pool (host,port,anonymity,`type`,`location`,`validate_time`,`locked`,`source`)
         values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.host},#{item.port},#{item.anonymity},#{item.type},#{item.location},#{item.validateTime},#{item.locked})
+            (#{item.host},#{item.port},#{item.anonymity},#{item.type},#{item.location},#{item.validateTime},#{item.locked},#{item.source})
         </foreach>
     </insert>
 
