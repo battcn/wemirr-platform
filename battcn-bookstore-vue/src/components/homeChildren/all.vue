@@ -1,6 +1,6 @@
 <template>
   <div class="book-content">
-    <ul style="overflow: hidden;margin-right: -15px;">
+    <ul style="overflow: hidden;">
       <li class="single-content">
         <img src="./../../assets/bookcover/bookCover.png" alt=""/>
         <h3 class="title">梦中神树</h3>
@@ -86,7 +86,6 @@
 
   .single-content > .author {
   }
-
   /* 响应式样式 */
   @media (min-width: 0) {
     /* 单本小容器 */
@@ -95,16 +94,38 @@
       float: left;
       margin-right: 10px;
       margin-bottom: 10px;
+      text-align: center;
     }
     .single-content > img{
-      height: 170px;
+      height: 210px;
+      width: 180px;
+      margin:auto;
     }
     .single-content > .title{
       font-size: 15px;
     }
   }
+  @media (max-width: 480px) {
+    .book-content > ul{
+      margin-right: -10px;
+    }
+    .single-content{
+      width: calc(50% - 10px);
+    }
+  }
+  @media (max-width: 410px) {
+    .single-content{
+      width: calc(100% - 10px);
+    }
+    .book-content > ul{
+      margin-right: -10px;
+    }
+  }
   /* 大于等于 530px */
   @media (min-width: 530px) {
+    .book-content > ul{
+      margin-right: -10px;
+    }
     /* 单本小容器 */
     .single-content {
       width: calc(50% - 10px);
@@ -113,7 +134,8 @@
       margin-bottom: 10px;
     }
     .single-content > img{
-      height: 170px;
+      height: 210px;
+      width: 180px;
     }
     .single-content > .title{
       font-size: 15px;
@@ -121,6 +143,9 @@
   }
   /* 超小屏幕（手机，大于等于 630px） */
   @media (min-width: 630px) {
+    .book-content > ul{
+      margin-right: -10px;
+    }
     /* 单本小容器 */
     .single-content {
       width: calc(33.333% - 10px);
@@ -129,7 +154,8 @@
       margin-bottom: 15px;
     }
     .single-content > img{
-      height: 170px;
+      height: 150px;
+      width: 120px;
     }
     .single-content > .title{
       font-size: 15px;
@@ -138,6 +164,9 @@
 
   /* 小屏幕（平板，大于等于 768px） */
   @media (min-width: 768px) {
+    .book-content > ul{
+      margin-right: -15px;
+    }
     /* 单本小容器 */
     .single-content {
       width: calc(25% - 15px);
@@ -146,7 +175,8 @@
       margin-bottom: 20px;
     }
     .single-content > img{
-      height: 210px;
+      height: 150px;
+      width: 120px;
     }
     .single-content > .title{
       font-size: 17px;
@@ -155,6 +185,9 @@
 
   /* 中等屏幕（桌面显示器，大于等于 992px） */
   @media (min-width: 992px) {
+    .book-content > ul{
+      margin-right: -15px;
+    }
     /* 单本小容器 */
     .single-content {
       width: calc(25% - 15px);
@@ -163,6 +196,7 @@
       margin-bottom: 20px;
     }
     .single-content > img{
+      width: 180px;
       height: 210px;
     }
     .single-content > .title{
@@ -172,6 +206,9 @@
 
   /* 大屏幕（大桌面显示器，大于等于 1200px） */
   @media (min-width: 1200px) {
+    .book-content > ul{
+      margin-right: -15px;
+    }
     /* 单本小容器 */
     .single-content {
       width: calc(20% - 15px);

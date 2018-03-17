@@ -1,6 +1,10 @@
 <template xmlns: xmlns:>
   <div id="app">
-    <div class="left-side">
+    <div class="header">
+      <i v-show="fullWidth<480" @click="show=!show" class="fa fa-navicon"></i>
+    </div>
+    <transition name="fade">
+    <div v-if="show|fullWidth>480" class="left-side">
       <div class="features"> <!-- 功能区 -->
         <ul>
           <li><router-link to="/"><i class="fa  fa-book" aria-hidden="true"></i>我的阅读</router-link></li>
@@ -22,6 +26,7 @@
       <div  class="recording"><!-- 历史记录 -->
       </div>
     </div>
+    </transition>
     <div id="content">
     <router-view></router-view>
     </div>
@@ -32,7 +37,29 @@
 export default {
   name: 'App',
   data(){
-    return {options:'home',childrenOptions:'all'}
+    return {fullWidth:document.documentElement.clientWidth,show:false,options:'home',childrenOptions:'all'}
+  },
+  mounted() {
+    const that = this;
+    window.onresize = () => {
+      return (() => {
+        window.fullWidth = document.documentElement.clientWidth;
+        that.fullWidth = window.fullWidth;
+        this.fullWidth>480&&this.show===true?this.show=false:'';
+      })()
+    }
+  },
+  watch:{
+    fullWidth(val) {
+      if(!this.timer) {
+        this.fullWidth = val;
+        this.timer = true;
+        let that = this;
+        setTimeout(function (){
+          that.timer = false;
+        },400)
+      }
+    }
   }
 }
 </script>
@@ -47,13 +74,33 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+/* 左侧路由动画 */
+  fade-enter-active,.fade-leave-active{/* fade为transition标签上的name */
+    transition:all .5s;/* 在此状态下运用css动画更改opacity属性 */
+  }
+  .fade-enter,.fade-leave-active{
+    transform: translate(0, 0);
+  }
+
+  /* 头部 */
+  .header{
+    background-color: #2F3649;
+    height: 35px;text-align: left;
+  }
+  .header > i{
+    line-height: 35px;
+    font-size: 25px;
+    cursor: pointer;
+    margin-left: 10px;    color: #fff;
+  }
   /* 左侧功能区 */
   .left-side{
+    z-index: 99;
     height:100%;
     width: 250px;
     overflow:hidden ;
     position: fixed;
-    top:0;
+    top:35px;
     bottom: 0;
     left:0;
     background-color: #1F2638;
@@ -118,4 +165,26 @@ export default {
 #content{
   margin-left: 250px;
 }
+  /* 响应式样式 */
+  /* 超小屏幕（手机，大于等于 630px） */
+  @media (max-width: 630px) {
+    /* 左侧功能区  */
+    .left-side {
+      width:150px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    #content{
+      margin-left:150px;
+    }
+
+  }
+  @media (max-width: 480px) {/* 此分辨率下隐藏左侧功能栏 */
+    .left-side {
+
+    }
+    #content{
+      margin-left:0;
+    }
+  }
 </style>

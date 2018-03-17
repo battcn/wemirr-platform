@@ -17,14 +17,7 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home,
-      children:[
-        {path:'/', component:all},
-        {path:'all',component:all},
-        {path:'recent',component:recent},
-        {path:'recommend',component:recommend},
-        {path:'free',component:free}
-      ]
+      component: Home
     },
     {
       path: '/ShoppingCart',

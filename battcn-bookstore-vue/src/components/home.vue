@@ -1,19 +1,20 @@
 <template>
   <div class="home">
     <header>
+      <!--<i class="fa fa-navicon"></i>-->
       <span>某某APP所有书本</span>
       <ul>
         <li @click="homeOptions='all'">
-          <router-link :class="{active:homeOptions=='all'}" to="/all" href="">所有书本</router-link>
+          <a  :class="{active:homeOptions=='all'}"  href="javascript:">所有书本</a>
         </li>
         <li @click="homeOptions='recent'">
-          <router-link :class="{active:homeOptions=='recent'}" to="/recent" href="">最近新书</router-link>
+          <a :class="{active:homeOptions=='recent'}"  href="javascript:">最近新书</a>
         </li>
         <li @click="homeOptions='recommend'">
-          <router-link  :class="{active:homeOptions=='recommend'}" to="/recommend" href="">热销推荐</router-link>
+          <a  :class="{active:homeOptions=='recommend'}"  href="javascript:">热销推荐</a>
         </li>
         <li @click="homeOptions='free'">
-          <router-link :class="{active:homeOptions=='free'}" to="/free" href="">免费书本</router-link>
+          <a :class="{active:homeOptions=='free'}"  href="javascript:">免费书本</a>
         </li>
         <li>
           <div class="search">
@@ -24,7 +25,7 @@
       </ul>
     </header>
     <section>
-        <router-view></router-view>
+      <all :homeOptions="homeOptions"></all>
     </section>
     <footer>
 
@@ -32,8 +33,10 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
+  import all from './homeChildren/all.vue';
   export default {
     name: 'Home',
+    components:{all},
     data(){
       return {homeOptions:'all'}
     }
@@ -48,7 +51,12 @@
     top: 0;
     background-color: #EEF1F8;
   }
-
+  header > i{
+    position: absolute;
+    top: 22px;
+    left: 3px;
+    cursor: pointer;
+  }
   header > span {
     padding: 20px 20px;
     display: block;
@@ -122,11 +130,12 @@
 
   /* 内容 */
   section {
+    z-index: -1;
     position: fixed;
     right: 0;
     left: 250px;
     bottom: 0;
-    top: 120px;
+    top: 155px;
     padding: 20px 20px 0 15px;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -144,6 +153,22 @@
   section::-webkit-scrollbar {
     width: 5px;
     height: 1px;
+  }
+  /* 响应式样式 */
+  /* 超小屏幕（手机，大于等于 630px） */
+  @media (max-width: 630px) {
+    section{
+      left:150px;
+      top: 175px;
+    }
+    header ul{
+      padding: 15px 5px;
+    }
+  }
+  @media (max-width: 480px) {
+    section{
+      left:0;
+    }
   }
 
 </style>
