@@ -26,15 +26,20 @@ import java.util.List;
  */
 public class BookProcessor implements PageProcessor {
 
+    public static final String ALL_BOOK_LINK = "http://www.biquge5200.com/xiaoshuodaquan/";
+    private static final String BOOK_REGEX = "http://www.biquge5200\\.com/\\w+/";
+    private static final String CHAPTER_REGEX = "http://www\\.biquge5200\\.com/\\w+/\\w+\\.html";
+
     private static final Site DEFAULT_SITE = Site.me()
-            .setTimeOut(6000).setRetryTimes(3)
-            .setSleepTime(1000).setCharset("utf-8").addHeader("Accept-Language", "zh-CN,zh;q=0.9")
+            .setTimeOut(30000).setRetryTimes(3)
+            .setSleepTime(10000).setCharset("utf-8").addHeader("Accept-Language", "zh-CN,zh;q=0.9")
             .setUserAgent(BrowserAgentUtil.getBrowserAgent());
+
     @Override
     public void process(Page page) {
-        page.addTargetRequests(page.getHtml().links().regex("http://www.biquge5200\\.com/0_844/\\.*\\.html").all());
+        page.addTargetRequests(page.getHtml().css("#main").links().regex(BOOK_REGEX).all());
         // 单本书的信息
-        if (StringUtils.equalsAnyIgnoreCase(page.getUrl().get(), "http://www.biquge5200.com/0_844")) {
+        if (page.getUrl().regex(BOOK_REGEX).match()) {
             // 这里解析出了 列表页的 基本信息
             String bookType = page.getHtml().xpath("//div[@class='con_top']/a[2]/text()").get();
             Selectable info = page.getHtml().css("#maininfo");
@@ -46,7 +51,7 @@ public class BookProcessor implements PageProcessor {
             book.setName(bookName);
             book.setSource(page.getUrl().get());
             book.setType(bookType);
-            book.setAuthor(bookAuthor);
+            book.setAuthor(StringUtils.replace(bookAuthor, "作    者：", ""));
             book.setDescription(bookInfo);
             book.setCover(bookCover);
             String bookNo = StringUtils.join("NO", System.currentTimeMillis());
@@ -64,7 +69,7 @@ public class BookProcessor implements PageProcessor {
             }
             page.putField("book", book);
             page.putField("chapters", chapters);
-        } else if (page.getUrl().regex("http://www\\.biquge5200\\.com/0_844/\\w+\\.html").match()) {
+        } else if (page.getUrl().regex(CHAPTER_REGEX).match()) {
             List<BookChapter> labels = Lists.newArrayList();
             String content = page.getHtml().xpath("//div[@id='content']/html()").get();
             JSONObject labelCache = new JSONObject();
@@ -81,7 +86,11 @@ public class BookProcessor implements PageProcessor {
     }
 
     public static void main(String[] args) throws IOException {
-        Spider.create(new BookProcessor()).addUrl("http://www.biquge5200.com/0_844").setDownloader(new CrawlerDownloader()).addPipeline(new BookPipeline()).thread(5).run();
+        // 搜索地址
+        // http://www.biquge5200.com/modules/article/search.php?searchkey=斗破苍穹
+        // 小说大全：http://www.biquge5200.com/xiaoshuodaquan/
+
+        Spider.create(new BookProcessor()).addUrl(ALL_BOOK_LINK).setDownloader(new CrawlerDownloader()).addPipeline(new BookPipeline()).thread(5).run();
         //OOSpider.create(null, Book.class).setDownloader(new CrawlerDownloader()).addPipeline(new BookPipeline()).thread(5).run();
         /*String json = "{\n" +
                 "  \"author\": \"斗破苍穹\",\n" +

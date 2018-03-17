@@ -44,7 +44,13 @@ public class BookPipeline implements Pipeline {
         Book book = resultItems.get("book");
         List<BookChapter> chapters = resultItems.get("chapters");
         if (book != null) {
-            this.bookService.insertSelective(book);
+            Book record = new Book();
+            record.setName(book.getName());
+            record.setSource(book.getSource());
+            final List<Book> books = this.bookService.select(record);
+            if (CollectionUtils.isNotEmpty(books)) {
+                this.bookService.insertSelective(book);
+            }
         }
         if (CollectionUtils.isNotEmpty(chapters)) {
             chapters.forEach(chapter -> bookChapterService.insertSelective(chapter));
