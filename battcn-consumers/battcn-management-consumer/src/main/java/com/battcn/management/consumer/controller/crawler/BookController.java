@@ -130,11 +130,10 @@ public class BookController extends BaseController {
     @GetMapping("/{book_no}/chapters")
     @ResponseBody
     @ApiOperation(value = "根据图书编号查询书籍章节信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public String query(@PathVariable("book_no") String bookNo, DataGrid grid) {
+    public PageInfo<BookChapter> query(@PathVariable("book_no") String bookNo, DataGrid grid) {
         BookChapter record = new BookChapter();
         record.setBookNo(bookNo);
-        this.bookChapterService.listForDataGrid(grid, record);
-        return "crawler/chapter/list";
+        return this.bookChapterService.listForDataGrid(grid, record);
     }
 
 

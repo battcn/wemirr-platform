@@ -5,7 +5,7 @@
 <script th:inline="javascript">
     $(function () {
         /*<![CDATA[*/
-        $('#crawler_books_[[${bookNo}]]_chapter_datagrid').bootstrapTable({
+        $('#crawler_books_chapter_datagrid').bootstrapTable({
             url: '/crawler/books/' + [[${bookNo}]] + '/chapters',
             height: '100%',
             sortName: 'gmt_create',
@@ -29,14 +29,12 @@
                     title: '编号',
                     align: 'center',
                     valign: 'middle'
-                },
-                {
+                }, {
                     field: 'link',
                     title: '文章链接',
                     align: 'center',
                     valign: 'middle'
-                },
-                {
+                }, {
                     field: 'title',
                     title: '标题',
                     align: 'center',
@@ -71,7 +69,7 @@
     <div class="ibox float-e-margins">
         <div class="ibox-content">
             <div class="table-responsive">
-                <table th:id="@{crawler_books_{bookNo}_chapter_datagrid(bookNo=${bookNo})}"
+                <table id="crawler_books_chapter_datagrid"
                        data-toolbar="#toolbar" data-show-refresh="true"
                        data-show-toggle="true" data-show-columns="true"
                        data-show-footer="false" data-mobile-responsive="true">
