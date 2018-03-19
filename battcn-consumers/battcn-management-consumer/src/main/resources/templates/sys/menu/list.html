@@ -143,10 +143,10 @@
             href: 'op_edit_[[${OP.menuId}]]',
             width: '50%',
             height: '70%',
-            okhandler: function () {
+            successHandler: function () {
                 battcn.admin.menu[[${OP.menuId}]].save();
             },
-            cancelhandler: function () {
+            cancelHandler: function () {
                 battcn.closeWindow();
             }
         });
@@ -170,10 +170,10 @@
             href: 'op_edit_[[${OP.menuId}]]?id=' + cbox,
             width: '50%',
             height: '70%',
-            okhandler: function () {
+            successHandler: function () {
                 battcn.admin.menu[[${OP.menuId}]].save();
             },
-            cancelhandler: function () {
+            cancelHandler: function () {
                 battcn.closeWindow();
             }
         });

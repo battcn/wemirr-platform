@@ -10,7 +10,7 @@
     battcn = {};
 
     battcn.lockedFormat = (function (value, row, index) {
-        return value == 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>';
+        return value === 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>';
     });
 
     battcn.ajax = (function (params) {
@@ -94,8 +94,10 @@
         var width = options.width;
         var height = options.height;
         var type = options.type === undefined ? 1 : options.type;
-        var buttons = [];
+        var buttons = options.buttons;
         if (buttons.length === 0) {
+            buttons = ['提交', '取消'];
+        } else if (options.noButtons) {
             buttons = null;
         }
         if (type === 1) {
@@ -110,8 +112,8 @@
                     area: [width, height],
                     content: str,
                     btn: buttons,
-                    yes: options.okhandler,
-                    chanel: options.cancelhandler
+                    yes: options.successHandler,
+                    chanel: options.cancelHandler
                 });
                 initUI();
             });
@@ -127,8 +129,8 @@
                 area: [width, height],
                 content: href,
                 btn: buttons,
-                yes: options.okhandler,
-                chanel: options.cancelhandler
+                yes: options.successHandler,
+                chanel: options.cancelHandler
 
             });
 
