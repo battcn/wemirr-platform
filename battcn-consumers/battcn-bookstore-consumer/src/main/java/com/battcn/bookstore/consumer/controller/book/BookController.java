@@ -26,7 +26,7 @@ public class BookController {
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880")
+            url = "dubbo://localhost:20880",timeout = 10000)
     private BookService bookService;
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",

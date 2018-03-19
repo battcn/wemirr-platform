@@ -13,6 +13,7 @@ import free from '@/components/homeChildren/free';
 import ShoppingCart from '@/components/shoppingCart';
 import Collection from '@/components/collection';
 export default new Router({
+  linkActiveClass: 'active',
   routes: [
     {
       path: '/',

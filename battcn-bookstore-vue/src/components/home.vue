@@ -58,7 +58,7 @@
     cursor: pointer;
   }
   header > span {
-    padding: 20px 20px;
+    padding: 12px 20px ;
     display: block;
     text-align: left;
     font-size: 20px;
@@ -69,7 +69,7 @@
 
   header ul {
     overflow: hidden;
-    padding: 15px 20px;
+    padding: 11px 20px;
     border-bottom: 1px solid #dadfea;
   }
 
@@ -86,8 +86,8 @@
     text-decoration: none;
     display: block;
     width: 72px;
-    height: 20px;
-    line-height: 20px;
+    height: 25px;
+    line-height: 25px;
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
@@ -135,7 +135,7 @@
     right: 0;
     left: 250px;
     bottom: 0;
-    top: 155px;
+    top: 131px;
     padding: 20px 20px 0 15px;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -155,11 +155,19 @@
     height: 1px;
   }
   /* 响应式样式 */
+  @media (max-width: 803px) {
+    section{
+      top: 164px;
+    }
+    header ul{
+      padding: 11px 20px;
+    }
+  }
   /* 超小屏幕（手机，大于等于 630px） */
   @media (max-width: 630px) {
     section{
       left:150px;
-      top: 175px;
+      top: 164px;
     }
     header ul{
       padding: 15px 5px;
