@@ -54,11 +54,49 @@
                     align: 'center',
                     valign: 'middle',
                     sortable: true,
-                    formatter: function (value, row, index) {
-                        return value === 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>'
+                    formatter: battcn.lockedFormat
+                }, {
+                    field: 'id',
+                    title: '操作',
+                    width: 120,
+                    align: 'center',
+                    valign: 'middle',
+                    formatter: operateFormatter,
+                    events: {
+                        'click #generate': function (e, value, row, index) {
+                            // 调用后端生成工作
+                        },
+                        'click .edit': function (e, value, row, index) {
+
+                        },
+                        'click .remove': function (e, value, row, index) {
+                            remove(value, row, index);
+                        }
                     }
                 }]
         });
+
+        //指定操作组
+        function operateFormatter(value, row, index) {
+            return [
+                '<a id="generate" href="javascript:void(0);" title="generate"><i class="fa fa-cloud-upload"></i></a>&nbsp;&nbsp;&nbsp;',
+                '<a id="remove" href="javascript:void(0);" onclick="javascript:layer.msg(\'暂未实现\')" title="remove"><i class="glyphicon glyphicon-remove"></i></a>'
+            ].join('');
+        }
+
+        function remove(value, row, index) {
+            console.log(value, row, index);
+        }
+
+        function actionFormatter(value, row, index) {
+            var id = value;
+            var result = "";
+            result += "<a href='javascript:void(0);' onclick='generate('" + id + "')'><i class='fa fa-cloud-upload'></i> cloud-upload</a>";
+            result += "<a href='javascript:void(0);' class='btn btn-xs green' onclick=\"editViewById('" + id + "')\" title='查看'><span class='glyphicon glyphicon-search'></span></a>";
+            result += "<a href='javascript:void(0);' class='btn btn-xs blue' onclick=\"javascrpit:layer.msg('暂未实现')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+            result += "<a href='javascript:void(0);' class='btn btn-xs red' onclick=\"deleteById('" + id + "')\" title='删除'><span class='glyphicon glyphicon-remove'></span></a>";
+            return result;
+        }
 
         /*]]>*/
 
