@@ -95,10 +95,10 @@
         var height = options.height;
         var type = options.type === undefined ? 1 : options.type;
         var buttons = options.buttons;
-        if (buttons.length === 0) {
-            buttons = ['提交', '取消'];
-        } else if (options.noButtons) {
+        if (options.noButtons) {
             buttons = null;
+        } else if (buttons === null || buttons === undefined || buttons.length === 0) {
+            buttons = ['提交', '取消'];
         }
         if (type === 1) {
             $.get(href, {}, function (str) {
