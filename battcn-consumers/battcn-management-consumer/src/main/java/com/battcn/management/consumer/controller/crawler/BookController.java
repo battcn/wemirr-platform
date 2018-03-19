@@ -1,8 +1,10 @@
 package com.battcn.management.consumer.controller.crawler;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.battcn.book.facade.BookChapterService;
 import com.battcn.book.facade.BookService;
 import com.battcn.book.pojo.po.Book;
+import com.battcn.book.pojo.po.BookChapter;
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
 import com.battcn.framework.webmagic.downloader.CrowProxyProvider;
@@ -23,10 +25,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.proxy.Proxy;
@@ -50,8 +49,13 @@ public class BookController extends BaseController {
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880")
+            url = "dubbo://localhost:20880", timeout = 10000)
     private BookService bookService;
+
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880", timeout = 10000)
+    private BookChapterService bookChapterService;
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
@@ -114,6 +118,23 @@ public class BookController extends BaseController {
         }
         Executors.newSingleThreadExecutor().execute(() -> Spider.create(new BookProcessor()).setDownloader(crawlerDownloader).addUrl(BookProcessor.ALL_BOOK_LINK).addPipeline(bookPipeline).thread(30).run());
         return ApiResult.getSuccess("已进入后台处理,先干点别的吧");
+    }
+
+    @GetMapping("/chapter/list")
+    @ApiOperation(value = "根据图书编号查询书籍章节信息")
+    public String chapters(@RequestParam("book_no") String bookNo) {
+        request.setAttribute("bookNo", bookNo);
+        return "crawler/chapter/list";
+    }
+
+    @GetMapping("/{book_no}/chapters")
+    @ResponseBody
+    @ApiOperation(value = "根据图书编号查询书籍章节信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public String query(@PathVariable("book_no") String bookNo, DataGrid grid) {
+        BookChapter record = new BookChapter();
+        record.setBookNo(bookNo);
+        this.bookChapterService.listForDataGrid(grid, record);
+        return "crawler/chapter/list";
     }
 
 

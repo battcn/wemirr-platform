@@ -5,9 +5,8 @@
 <script th:inline="javascript">
     $(function () {
         /*<![CDATA[*/
-        battcn.ns('battcn.admin.menu[[${OP.menuId}]]');
-        $('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable({
-            url: [[${MENU.channel}]] + '/query',
+        $('#crawler_books_[[${bookNo}]]_chapter_datagrid').bootstrapTable({
+            url: '/crawler/books/' + [[${bookNo}]] + '/chapters',
             height: '100%',
             sortName: 'gmt_create',
             sortOrder: 'desc',
@@ -29,41 +28,20 @@
                     field: 'bookNo',
                     title: '编号',
                     align: 'center',
-                    valign: 'middle',
-                    formatter: function (value, row, index) {
-                        return '<a href="javascript:void(0)">' + value + '</a>';
-                    }
-                }, {
-                    field: 'name',
-                    title: '名称',
-                    align: 'center',
-                    valign: 'middle',
-                    width: '80px'
+                    valign: 'middle'
                 },
                 {
-                    field: 'source',
-                    title: '来源',
+                    field: 'link',
+                    title: '文章链接',
                     align: 'center',
                     valign: 'middle'
                 },
                 {
-                    field: 'type',
-                    title: '类型',
+                    field: 'title',
+                    title: '标题',
                     align: 'center',
                     valign: 'middle',
                     width: '80px'
-                },
-                {
-                    field: 'author',
-                    title: '作者',
-                    align: 'center',
-                    valign: 'middle',
-                    width: '80px'
-                }, {
-                    field: 'description',
-                    title: '描述',
-                    align: 'center',
-                    valign: 'middle'
                 }, {
                     field: 'gmtCreate',
                     title: '时间',
@@ -71,32 +49,18 @@
                     valign: 'middle',
                     width: '140px',
                     formatter: function (value, row, index) {
-                        return new Date(value).pattern("yyyy-MM-dd HH:mm")
+                        return new Date(value).pattern("yyyy-MM-dd HH:mm");
                     }
                 }, {
                     field: 'status',
-                    title: '是否完结',
+                    title: '是否已生成模板',
                     align: 'center',
                     valign: 'middle',
                     sortable: true,
                     formatter: function (value, row, index) {
                         return value === 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>'
                     }
-                }],
-            onClickRow: function (row, $element, field) {
-                if (field === 'bookNo') {
-                    // 弹出章节列表
-                    battcn.showWindow({
-                        title: '章节列表',
-                        href: '/crawler/books/chapter/list?book_no=' + row.bookNo,
-                        width: '80%',
-                        height: '80%',
-                        cancelhandler: function () {
-                            battcn.closeWindow();
-                        }
-                    });
-                }
-            }
+                }]
         });
 
         /*]]>*/
@@ -106,9 +70,8 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="ibox float-e-margins">
         <div class="ibox-content">
-            <div th:include="toolbar :: toolbar-operate"></div>
             <div class="table-responsive">
-                <table th:id="@{admin_menu{menuId}_datagrid(menuId=${OP.menuId})}"
+                <table th:id="@{crawler_books_{bookNo}_chapter_datagrid(bookNo=${bookNo})}"
                        data-toolbar="#toolbar" data-show-refresh="true"
                        data-show-toggle="true" data-show-columns="true"
                        data-show-footer="false" data-mobile-responsive="true">

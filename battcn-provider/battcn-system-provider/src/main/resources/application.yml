@@ -34,6 +34,8 @@ dubbo:
     name: dubbo
     port: 20880
     status: server
+  provider:
+    timeout: 5000
 endpoints:
   dubbo:
     enabled: true

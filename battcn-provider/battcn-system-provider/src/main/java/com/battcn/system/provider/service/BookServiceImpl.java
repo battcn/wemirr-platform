@@ -8,7 +8,8 @@ import com.battcn.framework.mybatis.service.impl.BaseServiceImpl;
         version = "1.0.0",
         application = "${dubbo.application.id}",
         protocol = "${dubbo.protocol.id}",
-        registry = "${dubbo.registry.id}"
+        registry = "${dubbo.registry.id}",
+        timeout = 5000
 )
 public class BookServiceImpl extends BaseServiceImpl<Book> implements BookService {
 

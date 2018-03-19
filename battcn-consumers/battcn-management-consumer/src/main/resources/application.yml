@@ -26,6 +26,8 @@ dubbo:
     id: battcn-management-consumer
     name: battcn-management-consumer
     qos-port: 22223
+  consumer:
+    timeout: 10000
 endpoints:
   dubbo:
     enabled: true

@@ -22,6 +22,6 @@ public class BookChapter extends RecordEntity {
     private String link;
     private String title;
     private String content;
-    private boolean status;
+    private Boolean status;
 
 }
