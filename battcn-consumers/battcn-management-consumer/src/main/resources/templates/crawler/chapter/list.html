@@ -12,7 +12,7 @@
             sortOrder: 'desc',
             striped: true,
             pagination: true,
-            pageSize: 20,
+            pageSize: 15,
             search: false,
             sidePagination: 'server',
             idField: 'id',
@@ -38,8 +38,7 @@
                     field: 'title',
                     title: '标题',
                     align: 'center',
-                    valign: 'middle',
-                    width: '80px'
+                    valign: 'middle'
                 }, {
                     field: 'gmtCreate',
                     title: '时间',
@@ -65,16 +64,14 @@
 
     });
 </script>
-<div class="wrapper wrapper-content animated fadeInRight">
-    <div class="ibox float-e-margins">
-        <div class="ibox-content">
-            <div class="table-responsive">
-                <table id="crawler_books_chapter_datagrid"
-                       data-toolbar="#toolbar" data-show-refresh="true"
-                       data-show-toggle="true" data-show-columns="true"
-                       data-show-footer="false" data-mobile-responsive="true">
-                </table>
-            </div>
+<div class="ibox float-e-margins animated fadeInRight">
+    <div class="ibox-content">
+        <div class="table-responsive">
+            <table id="crawler_books_chapter_datagrid"
+                   data-toolbar="#toolbar" data-show-refresh="true"
+                   data-show-toggle="true" data-show-columns="true"
+                   data-show-footer="false" data-mobile-responsive="true">
+            </table>
         </div>
     </div>
 </div>

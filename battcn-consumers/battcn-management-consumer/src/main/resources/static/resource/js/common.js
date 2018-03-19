@@ -109,7 +109,7 @@
                     maxmin: true,
                     area: [width, height],
                     content: str,
-                    btn: ['提交', '取消'],
+                    btn: buttons,
                     yes: options.okhandler,
                     chanel: options.cancelhandler
                 });
@@ -126,7 +126,7 @@
                 maxmin: true,
                 area: [width, height],
                 content: href,
-                btn: ['提交', '取消'],
+                btn: buttons,
                 yes: options.okhandler,
                 chanel: options.cancelhandler
 
