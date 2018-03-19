@@ -10,7 +10,7 @@
     battcn = {};
 
     battcn.lockedFormat = (function (value, row, index) {
-        return value == 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>';
+        return value === 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>';
     });
 
     battcn.ajax = (function (params) {
@@ -94,9 +94,11 @@
         var width = options.width;
         var height = options.height;
         var type = options.type === undefined ? 1 : options.type;
-        var buttons = [];
-        if (buttons.length === 0) {
+        var buttons = options.buttons;
+        if (options.noButtons) {
             buttons = null;
+        } else if (buttons === null || buttons === undefined || buttons.length === 0) {
+            buttons = ['提交', '取消'];
         }
         if (type === 1) {
             $.get(href, {}, function (str) {
@@ -110,8 +112,8 @@
                     area: [width, height],
                     content: str,
                     btn: buttons,
-                    yes: options.okhandler,
-                    chanel: options.cancelhandler
+                    yes: options.successHandler,
+                    chanel: options.cancelHandler
                 });
                 initUI();
             });
@@ -127,8 +129,8 @@
                 area: [width, height],
                 content: href,
                 btn: buttons,
-                yes: options.okhandler,
-                chanel: options.cancelhandler
+                yes: options.successHandler,
+                chanel: options.cancelHandler
 
             });
 
