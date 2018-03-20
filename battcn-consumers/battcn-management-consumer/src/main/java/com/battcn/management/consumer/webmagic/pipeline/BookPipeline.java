@@ -5,12 +5,14 @@ import com.battcn.book.facade.BookChapterService;
 import com.battcn.book.facade.BookService;
 import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
+import com.battcn.framework.commons.lang.RandomUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
@@ -18,16 +20,17 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Levin
  * @since 2018/3/12 0012
  */
+@Slf4j
 @Component
 public class BookPipeline implements Pipeline {
 
 
+    private static final String TEMPLATE_NAME = "crawler/chapter/template";
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
             url = "dubbo://localhost:20880")
@@ -39,10 +42,18 @@ public class BookPipeline implements Pipeline {
     private BookChapterService bookChapterService;
 
 
+    private final TemplateEngine templateEngine;
+
+    @Autowired
+    public BookPipeline(TemplateEngine templateEngine) {
+        this.templateEngine = templateEngine;
+    }
+
     @Override
     public void process(ResultItems resultItems, Task task) {
         Book book = resultItems.get("book");
         List<BookChapter> chapters = resultItems.get("chapters");
+        BookChapter chapter = resultItems.get("chapter");
         if (book != null && book.getName() != null) {
             Book record = new Book();
             record.setName(book.getName());
@@ -55,40 +66,23 @@ public class BookPipeline implements Pipeline {
         if (CollectionUtils.isNotEmpty(chapters)) {
             this.bookChapterService.insertList(chapters);
         }
-    }
-
-    /**
-     * TODO 无效代码
-     */
-    private void createHtml() {
-        final Context context = new Context();
-        ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
-        //模板所在目录，相对于当前ClassLoader的ClassPath
-        resolver.setPrefix("templates/");
-        //模板文件后缀
-        resolver.setSuffix(".html");
-        TemplateEngine templateEngine = new TemplateEngine();
-        templateEngine.setTemplateResolver(resolver);
-        //渲染模板
-        FileWriter write = null;
-        try {
-            List<BookChapter> chapters = null;
-            for (BookChapter chapter : chapters) {
-                context.setVariable("chapter", chapter);
-                write = new FileWriter(StringUtils.join(UUID.randomUUID().toString(), String.valueOf(System.nanoTime()), ".html"));
-                templateEngine.process("example", context, write);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (write != null) {
-                    write.close();
-                }
+        if (chapter != null && StringUtils.isNotEmpty(chapter.getSource())) {
+            final BookChapter bookChapter = this.bookChapterService.selectOne(new BookChapter(chapter.getSource()));
+            final Context context = new Context();
+            context.setVariable("book", this.bookService.selectById(bookChapter.getBookNo()));
+            context.setVariable("chapter", bookChapter);
+            final String fileName = StringUtils.join(RandomUtils.generate(), ".html");
+            log.info("[模板路径] - [{}]", fileName);
+            try (FileWriter write = new FileWriter(fileName)) {
+                templateEngine.process(TEMPLATE_NAME, context, write);
+                //生成成功,修改数据状态
+                chapter.setStatus(Boolean.TRUE);
+                chapter.setSource(fileName);
+                bookChapter.setContent(chapter.getContent());
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            this.bookChapterService.updateSelectiveById(bookChapter);
         }
     }
-
 }

@@ -1,9 +1,9 @@
 package com.battcn.management.consumer.webmagic.pageprocessor;
 
-import com.alibaba.fastjson.JSONObject;
 import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
 import com.battcn.framework.webmagic.utils.BrowserAgentUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
@@ -20,6 +20,7 @@ import java.util.List;
  * @author Levin
  * @since 2018/3/9 0009
  */
+@Slf4j
 public class BookProcessor implements PageProcessor {
 
     private static final String BOOK_AUTHOR_SEPARATOR_CHARS = "：";
@@ -34,9 +35,17 @@ public class BookProcessor implements PageProcessor {
 
     @Override
     public void process(Page page) {
-        page.addTargetRequests(page.getHtml().css("#main").links().regex(BOOK_REGEX).all());
-        // 单本书的信息
-        if (page.getUrl().regex(BOOK_REGEX).match() && !StringUtils.equalsIgnoreCase(page.getUrl().get(), ALL_BOOK_LINK)) {
+        if (page.getUrl().regex(CHAPTER_REGEX).match()) {
+            log.info("===================================================================================");
+            String source = page.getUrl().get();
+            String content = page.getHtml().xpath("//div[@id='content']/html()").get();
+            BookChapter chapter = new BookChapter();
+            chapter.setSource(source);
+            chapter.setContent(content);
+            page.putField("chapter", chapter);
+            log.info("===================================================================================");
+        } else if (page.getUrl().regex(BOOK_REGEX).match() && !StringUtils.equalsIgnoreCase(page.getUrl().get(), ALL_BOOK_LINK)) {
+            // 单本书的信息
             // 这里解析出了 列表页的 基本信息
             String bookType = page.getHtml().xpath("//div[@class='con_top']/a[2]/text()").get();
             Selectable info = page.getHtml().css("#maininfo");
@@ -63,21 +72,14 @@ public class BookProcessor implements PageProcessor {
                 String link = node.links().get();
                 String title = node.xpath("//a/text()").get();
                 BookChapter chapter = new BookChapter();
-                chapter.setLink(link);
+                chapter.setSource(link);
                 chapter.setBookNo(bookNo);
                 chapter.setTitle(title);
                 chapters.add(chapter);
             }
             page.putField("book", book);
             page.putField("chapters", chapters);
-        } else if (page.getUrl().regex(CHAPTER_REGEX).match()) {
-            List<BookChapter> labels = Lists.newArrayList();
-            String content = page.getHtml().xpath("//div[@id='content']/html()").get();
-            JSONObject labelCache = new JSONObject();
-            BookChapter label = labelCache.getObject(page.getUrl().get(), BookChapter.class);
-            label.setContent(content);
-            labels.add(label);
-            page.putField("labels", labels);
+            page.addTargetRequests(page.getHtml().css("#main").links().regex(BOOK_REGEX).all());
         }
     }
 
@@ -87,12 +89,12 @@ public class BookProcessor implements PageProcessor {
     }
 
     //public static void main(String[] args) throws IOException {
-        // 搜索地址
-        // http://www.biquge5200.com/modules/article/search.php?searchkey=斗破苍穹
-        // 小说大全：http://www.biquge5200.com/xiaoshuodaquan/
+    // 搜索地址
+    // http://www.biquge5200.com/modules/article/search.php?searchkey=斗破苍穹
+    // 小说大全：http://www.biquge5200.com/xiaoshuodaquan/
 
-        //Spider.create(new BookProcessor()).addUrl(ALL_BOOK_LINK).setDownloader(new CrawlerDownloader()).addPipeline(new BookPipeline()).thread(5).run();
-        //OOSpider.create(null, Book.class).setDownloader(new CrawlerDownloader()).addPipeline(new BookPipeline()).thread(5).run();
+    //Spider.create(new BookProcessor()).addUrl(ALL_BOOK_LINK).setDownloader(new CrawlerDownloader()).addPipeline(new BookPipeline()).thread(5).run();
+    //OOSpider.create(null, Book.class).setDownloader(new CrawlerDownloader()).addPipeline(new BookPipeline()).thread(5).run();
         /*String json = "{\n" +
                 "  \"author\": \"斗破苍穹\",\n" +
                 "  \"cover\": \"http://r.i.biquge5200.com/files/article/image/0/844/844s.jpg\",\n" +

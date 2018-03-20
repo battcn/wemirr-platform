@@ -8,7 +8,8 @@
 <h3 th:text="${book?.author}">名称</h3>
 <h3 th:text="${book?.type}">描述</h3>
 <h3 th:text="${book?.description}">描述</h3>
-<h2 th:text="${chapter?.link}">章节链接地址</h2>
+<h2 th:text="${chapter?.source}">章节链接地址</h2>
+<h2 th:text="${chapter?.target}">章节链接地址</h2>
 <div th:utext="${chapter?.content}">内容</div>
 </body>
 </html>
