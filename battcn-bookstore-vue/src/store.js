@@ -11,11 +11,22 @@ function init(pageNum=1) {
   }).catch(function (error) {
     console.log("请求发送错误"+error);
   });
+}
 
-}
 const initData = {/* 数据存放 */
-  state: {data: {}}
+  state: {data: {},detailsData:{}},
+  mutations:{
+    iniBookDetails(state,bookNo) {/* 根据书号获取书详情 */
+      let url='http://localhost:9090/app/books/'+bookNo;
+      axios.get(url).then(function (response) {
+        initData.state.detailsData=response.data;
+      }).catch(function (error) {
+        console.log("请求发送错误"+error);
+      });
+    }
+  }
 }
+
 const Paging = {/* 分页跳转 */
   state:{},
   mutations:{
