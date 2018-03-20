@@ -26,11 +26,11 @@ public class BookController {
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880",timeout = 10000)
+            url = "dubbo://localhost:20880", timeout = 10000)
     private BookService bookService;
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880",timeout = 10000)
+            url = "dubbo://localhost:20880", timeout = 10000)
     private BookChapterService bookChapterService;
 
 
@@ -40,9 +40,15 @@ public class BookController {
         return this.bookService.listForDataGrid(grid);
     }
 
+    @GetMapping("/{book_no}")
+    @ApiOperation(value = "根据图书编号查询书籍信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Book queryBooks(@PathVariable("book_no") String bookNo) {
+        return this.bookService.selectById(bookNo);
+    }
+
     @GetMapping("/{book_no}/chapters")
     @ApiOperation(value = "根据图书编号查询书籍章节信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public PageInfo<BookChapter> query(@PathVariable("book_no") String bookNo, DataGrid grid) {
+    public PageInfo<BookChapter> queryChaptersByBookNo(@PathVariable("book_no") String bookNo, DataGrid grid) {
         BookChapter record = new BookChapter();
         record.setBookNo(bookNo);
         return this.bookChapterService.listForDataGrid(grid, record);
