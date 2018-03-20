@@ -2,6 +2,7 @@ package com.battcn.framework.mybatis.service;
 
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.github.pagehelper.PageInfo;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -85,6 +86,22 @@ public interface BaseService<T> {
      * @return 查询结果
      */
     List<T> select(T record);
+
+    /**
+     * 查询单条记录
+     *
+     * @param record 实体对象
+     * @return 查询结果
+     */
+    T selectOne(T record);
+
+    /**
+     * 查询单条记录
+     *
+     * @param example 对象
+     * @return 查询结果
+     */
+    T findByExample(Example example);
 
     /**
      * 分页信息查询列表

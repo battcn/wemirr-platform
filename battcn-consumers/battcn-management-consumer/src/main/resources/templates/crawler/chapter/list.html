@@ -65,6 +65,11 @@
                     events: {
                         'click #generate': function (e, value, row, index) {
                             // 调用后端生成工作
+                            battcn.confirm(function () {
+                                battcn.ajaxJson({url: '/crawler/chapters/generate'}, function () {
+                                    $('#crawler_books_chapter_datagrid').bootstrapTable('refresh');
+                                });
+                            });
                         },
                         'click .edit': function (e, value, row, index) {
 

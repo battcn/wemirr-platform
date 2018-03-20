@@ -4,9 +4,11 @@ import com.battcn.framework.mybatis.mapper.BaseMapper;
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -71,6 +73,22 @@ public abstract class BaseServiceImpl<T> implements com.battcn.framework.mybatis
     @Override
     public List<T> select(T record) {
         return this.mapper.select(record);
+    }
+
+    @Override
+    public T selectOne(T record) {
+        return this.mapper.selectOne(record);
+    }
+
+    @Override
+    public T findByExample(Example example) {
+        final List<T> records = this.mapper.selectByExample(example);
+        if (records == null) {
+            return null;
+        } else if (records.size() > 1) {
+            throw new TooManyResultsException();
+        }
+        return records.get(0);
     }
 
     @Override

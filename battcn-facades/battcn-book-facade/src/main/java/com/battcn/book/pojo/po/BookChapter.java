@@ -4,6 +4,7 @@ import com.battcn.framework.mybatis.pojo.RecordEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -17,7 +18,8 @@ public class BookChapter extends RecordEntity {
 
     private static final long serialVersionUID = -6179005893626885887L;
 
-    private Integer id;
+    @Id
+    private Long id;
     private String bookNo;
     private String link;
     private String title;
