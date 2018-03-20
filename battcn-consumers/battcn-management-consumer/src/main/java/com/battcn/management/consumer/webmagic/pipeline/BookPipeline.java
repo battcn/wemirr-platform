@@ -74,14 +74,14 @@ public class BookPipeline implements Pipeline {
             final String fileName = StringUtils.join(RandomUtils.generate(), ".html");
             log.info("[模板路径] - [{}]", fileName);
             try (FileWriter write = new FileWriter(fileName)) {
-                templateEngine.process(TEMPLATE_NAME, context, write);
-                //生成成功,修改数据状态
-                chapter.setStatus(Boolean.TRUE);
-                chapter.setSource(fileName);
+                bookChapter.setStatus(Boolean.TRUE);
+                bookChapter.setTarget(fileName);
                 bookChapter.setContent(chapter.getContent());
+                templateEngine.process(TEMPLATE_NAME, context, write);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //生成成功,修改数据状态
             this.bookChapterService.updateSelectiveById(bookChapter);
         }
     }

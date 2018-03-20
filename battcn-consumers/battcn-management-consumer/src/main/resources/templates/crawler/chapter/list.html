@@ -8,7 +8,7 @@
         $('#crawler_books_chapter_datagrid').bootstrapTable({
             url: '/crawler/books/' + [[${bookNo}]] + '/chapters',
             height: '100%',
-            sortName: 'gmt_create',
+            sortName: 'gmt_modified',
             sortOrder: 'desc',
             striped: true,
             pagination: true,
@@ -30,8 +30,13 @@
                     align: 'center',
                     valign: 'middle'
                 }, {
-                    field: 'link',
-                    title: '文章链接',
+                    field: 'source',
+                    title: '原文链接',
+                    align: 'center',
+                    valign: 'middle'
+                }, {
+                    field: 'target',
+                    title: '模板链接',
                     align: 'center',
                     valign: 'middle'
                 }, {
@@ -66,7 +71,7 @@
                         'click #generate': function (e, value, row, index) {
                             // 调用后端生成工作
                             battcn.confirm(function () {
-                                battcn.ajaxJson({url: '/crawler/chapters/generate'}, function () {
+                                battcn.ajaxJson({url: '/crawler/chapters/' + value + '/generate'}, function () {
                                     $('#crawler_books_chapter_datagrid').bootstrapTable('refresh');
                                 });
                             });

@@ -3,7 +3,6 @@ package com.battcn.management.consumer.webmagic.pageprocessor;
 import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
 import com.battcn.framework.webmagic.utils.BrowserAgentUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
 import us.codecraft.webmagic.Page;
@@ -20,7 +19,6 @@ import java.util.List;
  * @author Levin
  * @since 2018/3/9 0009
  */
-@Slf4j
 public class BookProcessor implements PageProcessor {
 
     private static final String BOOK_AUTHOR_SEPARATOR_CHARS = "：";
@@ -36,14 +34,12 @@ public class BookProcessor implements PageProcessor {
     @Override
     public void process(Page page) {
         if (page.getUrl().regex(CHAPTER_REGEX).match()) {
-            log.info("===================================================================================");
             String source = page.getUrl().get();
             String content = page.getHtml().xpath("//div[@id='content']/html()").get();
             BookChapter chapter = new BookChapter();
             chapter.setSource(source);
             chapter.setContent(content);
             page.putField("chapter", chapter);
-            log.info("===================================================================================");
         } else if (page.getUrl().regex(BOOK_REGEX).match() && !StringUtils.equalsIgnoreCase(page.getUrl().get(), ALL_BOOK_LINK)) {
             // 单本书的信息
             // 这里解析出了 列表页的 基本信息
