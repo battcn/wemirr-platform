@@ -38,7 +38,7 @@
                     title: '名称',
                     align: 'center',
                     valign: 'middle',
-                    width: '80px'
+                    width: '100px'
                 },
                 {
                     field: 'source',
@@ -58,12 +58,23 @@
                     title: '作者',
                     align: 'center',
                     valign: 'middle',
-                    width: '80px'
+                    width: '100px'
                 }, {
                     field: 'description',
                     title: '描述',
                     align: 'center',
-                    valign: 'middle'
+                    valign: 'middle',
+                    formatter: function (value, row, index) {
+                        if (value !== null && value !== undefined && value !== '' && value.length > 100) {
+                            return value.substr(0, 40) + "<a class='more' href='javascript:void(0);'>&nbsp;&nbsp;&nbsp;more...</a>";
+                        }
+                        return value;
+                    },
+                    events: {
+                        'click .more': function (e, value, row, index) {
+                            $(this).parent('td').html(value);
+                        }
+                    }
                 }, {
                     field: 'gmtCreate',
                     title: '时间',
