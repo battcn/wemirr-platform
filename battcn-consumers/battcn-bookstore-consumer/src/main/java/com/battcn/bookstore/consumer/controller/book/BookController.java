@@ -50,10 +50,8 @@ public class BookController {
 
     @GetMapping("/{book_no}/chapters")
     @ApiOperation(value = "根据图书编号查询书籍章节信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public PageInfo<BookChapter> queryChaptersByBookNo(@PathVariable("book_no") String bookNo, DataGrid grid) {
-        BookChapter record = new BookChapter();
-        record.setBookNo(bookNo);
-        return this.bookChapterService.listForDataGrid(grid, record);
+    public List<BookChapter> queryChaptersByBookNo(@PathVariable("book_no") String bookNo) {
+        return this.bookChapterService.queryChapterForList(bookNo);
     }
 
     @GetMapping("/types")

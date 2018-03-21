@@ -4,6 +4,8 @@ import com.battcn.book.facade.BookChapterService;
 import com.battcn.book.pojo.po.BookChapter;
 import com.battcn.framework.mybatis.service.impl.BaseServiceImpl;
 
+import java.util.List;
+
 
 /**
  * @author Levin
@@ -17,4 +19,8 @@ import com.battcn.framework.mybatis.service.impl.BaseServiceImpl;
 )
 public class BookChapterServiceImpl extends BaseServiceImpl<BookChapter> implements BookChapterService {
 
+    @Override
+    public List<BookChapter> queryChapterForList(String bookNo) {
+        return null;
+    }
 }

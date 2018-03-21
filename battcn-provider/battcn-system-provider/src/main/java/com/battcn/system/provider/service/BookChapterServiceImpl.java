@@ -3,6 +3,10 @@ package com.battcn.system.provider.service;
 import com.battcn.book.facade.BookChapterService;
 import com.battcn.book.pojo.po.BookChapter;
 import com.battcn.framework.mybatis.service.impl.BaseServiceImpl;
+import com.battcn.system.provider.mapper.BookChapterMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 
 /**
@@ -18,4 +22,15 @@ import com.battcn.framework.mybatis.service.impl.BaseServiceImpl;
 )
 public class BookChapterServiceImpl extends BaseServiceImpl<BookChapter> implements BookChapterService {
 
+    private final BookChapterMapper bookChapterMapper;
+
+    @Autowired
+    public BookChapterServiceImpl(BookChapterMapper bookChapterMapper) {
+        this.bookChapterMapper = bookChapterMapper;
+    }
+
+    @Override
+    public List<BookChapter> queryChapterForList(String bookNo) {
+        return this.bookChapterMapper.selectByBookNo(bookNo);
+    }
 }
