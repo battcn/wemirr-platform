@@ -51,9 +51,9 @@ public class ProxyProcessor implements PageProcessor {
     public void process(Page page) {
         String proxyLink = page.getUrl().get();
         if (proxyLink.contains(CROSSINCODE)) {
-            List<Selectable> trs = page.getHtml().xpath("//table[@class='table table-bordered proxy-index-table']/tbody/tr").nodes();
             // Crossin 编程实验室 代理IP
-            page.putField("proxies", resolveBaseProxy(CROSSINCODE, trs));
+            //List<Selectable> trs = page.getHtml().xpath("//table[@class='table table-bordered proxy-index-table']/tbody/tr").nodes();
+            //page.putField("proxies", resolveBaseProxy(CROSSINCODE, trs));
         } else if (proxyLink.contains(XICIDAILI)) {
             // 大象代理
             page.putField("proxies", resolveXicidailiProxy(XICIDAILI, page));

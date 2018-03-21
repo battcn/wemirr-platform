@@ -5,6 +5,7 @@ import com.battcn.book.facade.BookChapterService;
 import com.battcn.book.facade.BookService;
 import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
+import com.battcn.book.pojo.po.BookType;
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 /**
@@ -52,6 +55,12 @@ public class BookController {
         BookChapter record = new BookChapter();
         record.setBookNo(bookNo);
         return this.bookChapterService.listForDataGrid(grid, record);
+    }
+
+    @GetMapping("/types")
+    @ApiOperation(value = "查询书籍分类", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<BookType> queryBookTypeByGroup() {
+        return this.bookService.queryBookTypeForList();
     }
 
 
