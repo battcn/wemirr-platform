@@ -22,4 +22,10 @@ dubbo:
 endpoints:
   dubbo:
     enabled: true
-  
+
+battcn:
+  exception:
+    mvc:
+      enabled: true
+      default-message: 服务繁忙,请稍后再试
+      expose-error-class: true

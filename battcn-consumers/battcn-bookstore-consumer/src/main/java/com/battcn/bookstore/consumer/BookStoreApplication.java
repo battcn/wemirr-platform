@@ -2,6 +2,7 @@ package com.battcn.bookstore.consumer;
 
 
 import com.battcn.framework.core.cros.annotation.EnableCorsFilter;
+import com.battcn.framework.core.exception.annotation.EnableGlobalErrorResolver;
 import com.battcn.swagger.annotation.EnableSwagger2Doc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @version 2.5.1
  * @since 2018-01-10
  */
+@EnableGlobalErrorResolver
 @EnableCorsFilter
 @EnableSwagger2Doc
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
