@@ -16,7 +16,7 @@ import java.util.List;
  * service通用基类
  *
  * @param <T>
- * @author fly
+ * @author Levin
  */
 @Service
 public abstract class BaseServiceImpl<T> implements com.battcn.framework.mybatis.service.BaseService<T> {

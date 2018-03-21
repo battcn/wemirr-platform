@@ -5,6 +5,13 @@ spring:
     name: battcn-bookstore-consumer
   swagger:
     base-package: com.battcn
+  redis:
+    password: battcn
+    battcn:
+      sequence:
+        enabled: true
+        db: 2
+        profile: dev
 
 management:
   port: 9091

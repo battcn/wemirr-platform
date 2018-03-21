@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.battcn.framework.redis.sequence.RedisSequenceAutoConfiguration,\
+  com.battcn.framework.redis.limit.LimitInterceptor

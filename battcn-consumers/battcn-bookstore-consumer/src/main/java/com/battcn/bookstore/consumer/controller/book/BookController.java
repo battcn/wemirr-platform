@@ -21,7 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/app/books")
-@Api(value = "图书管理", description = "图书管理", tags = "1.0")
+@Api(value = "图书管理", description = "图书管理", tags = "2.0")
 public class BookController {
 
     @Reference(version = "1.0.0",

@@ -59,7 +59,7 @@ public interface BaseService<T> {
      *
      * @param entity 实体对象
      * @return 操作结果
-     * @author fly
+     * @author Levin
      */
     boolean updateById(T entity);
 
@@ -68,7 +68,7 @@ public interface BaseService<T> {
      *
      * @param entity 实体对象
      * @return 操作结果
-     * @author fly
+     * @author Levin
      */
     boolean updateSelectiveById(T entity);
 

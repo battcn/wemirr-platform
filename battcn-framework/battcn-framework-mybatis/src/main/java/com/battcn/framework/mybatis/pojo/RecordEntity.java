@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * 实体类通用父类
  *
- * @author fly
+ * @author Levin
  */
 public class RecordEntity implements Serializable {
 
