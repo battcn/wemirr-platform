@@ -38,7 +38,7 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import sidebar from './sidebar.vue'
+  import sidebar from './homeChildren/sidebar.vue'
   import all from './homeChildren/all.vue';
 
   export default {

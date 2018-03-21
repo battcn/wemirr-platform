@@ -14,12 +14,20 @@ function init(pageNum=1) {
 }
 
 const initData = {/* 数据存放 */
-  state: {data: {},detailsData:{}},
+  state: {data: {},detailsData:{},contentsData:{}},
   mutations:{
     iniBookDetails(state,bookNo) {/* 根据书号获取书详情 */
       let url='http://localhost:9090/app/books/'+bookNo;
       axios.get(url).then(function (response) {
         initData.state.detailsData=response.data;
+      }).catch(function (error) {
+        console.log("请求发送错误"+error);
+      });
+    },
+    iniBookContents(state,bookNo){
+      let url='http://localhost:9090/app/books/'+bookNo+'/chapters?pageSize=10';
+      axios.get(url).then(function (response) {
+        initData.state.contentsData=response.data;
       }).catch(function (error) {
         console.log("请求发送错误"+error);
       });
