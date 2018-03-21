@@ -81,10 +81,7 @@ public class ProxyProcessor implements PageProcessor {
             final String type = node.xpath("//td[5]/text()").get();
             final String validateTime = node.xpath("//td[6]/span/@title").get();
             final boolean locked = ProxyUtils.validateProxy(new Proxy(host, port));
-            if (!locked) {
-                return null;
-            }
-            return new ProxyPool(null, host, port, anonymity, type, location, validateTime, true, CODERBUSY);
+            return new ProxyPool(null, host, port, anonymity, type, location, validateTime, locked, CODERBUSY);
         }).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
@@ -101,10 +98,7 @@ public class ProxyProcessor implements PageProcessor {
                 final String validateTime = node.xpath("//td[5]/text()").get();
                 final String location = node.xpath("//td[6]/text()").get();
                 final boolean locked = ProxyUtils.validateProxy(new Proxy(host, port));
-                if (!locked) {
-                    return null;
-                }
-                return new ProxyPool(null, host, port, anonymity, type, location, validateTime, true, source);
+                return new ProxyPool(null, host, port, anonymity, type, location, validateTime, locked, source);
             }
             return null;
         }).collect(toList());
@@ -124,10 +118,7 @@ public class ProxyProcessor implements PageProcessor {
                 final String anonymity = node.xpath("//td[5]/text()").get();
                 final String validateTime = StringUtils.join("20", node.xpath("//td[10]/text()").get());
                 final boolean locked = ProxyUtils.validateProxy(new Proxy(host, port));
-                if (!locked) {
-                    return null;
-                }
-                return new ProxyPool(null, host, port, anonymity, type, location, validateTime, true, source);
+                return new ProxyPool(null, host, port, anonymity, type, location, validateTime, locked, source);
             }
             return null;
         }).filter(Objects::nonNull).collect(Collectors.toList());
