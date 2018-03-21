@@ -25,7 +25,7 @@
         <dependency>
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper-spring-boot-starter</artifactId>
-            <version>1.2.4</version>
+            <version>${mapper.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.pagehelper</groupId>

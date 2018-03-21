@@ -12,6 +12,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dubbo.boot.version>0.1.0</dubbo.boot.version>
+        <dubbo.version>2.6.1</dubbo.version>
+        <mapper.boot.version>2.0.0</mapper.boot.version>
         <!-- 这里一定要配置上java的版本，如果是1.7版本的可不用配置 -->
         <!-- 配置你的tomcat版本 -->
         <java.version>1.8</java.version>
