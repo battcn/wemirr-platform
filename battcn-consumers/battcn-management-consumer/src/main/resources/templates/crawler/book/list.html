@@ -90,8 +90,26 @@
                     align: 'center',
                     valign: 'middle',
                     sortable: true,
+                    formatter: battcn.lockedFormat
+                }, {
+                    field: 'generate',
+                    title: '操作',
+                    width: 50,
+                    align: 'center',
+                    valign: 'middle',
                     formatter: function (value, row, index) {
-                        return value === 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>'
+                        return '<a class="generate" href="javascript:void(0);" title="generate"><i class="fa fa-cloud-upload"></i></a>&nbsp;&nbsp;&nbsp;';
+                    },
+                    events: {
+                        'click .generate': function (e, value, row, index) {
+                            console.info("-=------>" + row);
+                            // 调用后端生成工作
+                            battcn.confirm(function () {
+                                battcn.ajaxJson({url: '/crawler/books/' + row.bookNo + '/generate'}, function () {
+                                    $('#crawler_books_chapter_datagrid').bootstrapTable('refresh');
+                                });
+                            });
+                        }
                     }
                 }],
             onClickRow: function (row, $element, field) {

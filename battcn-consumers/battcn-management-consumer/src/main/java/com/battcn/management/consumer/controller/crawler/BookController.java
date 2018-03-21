@@ -5,6 +5,7 @@ import com.battcn.book.facade.BookChapterService;
 import com.battcn.book.facade.BookService;
 import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
+import com.battcn.framework.exception.CustomException;
 import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
 import com.battcn.framework.webmagic.downloader.CrowProxyProvider;
@@ -22,6 +23,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -33,6 +35,7 @@ import us.codecraft.webmagic.proxy.Proxy;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import static com.battcn.framework.exception.CustomException.notFound;
 import static java.util.stream.Collectors.toList;
@@ -136,5 +139,16 @@ public class BookController extends BaseController {
         return this.bookChapterService.listForDataGrid(grid, record);
     }
 
+    @ResponseBody
+    @RequestMapping("/{book_no}/generate")
+    public ApiResult<String> generateTemplate(@PathVariable("book_no") String bookNo) {
+        BookChapter record = new BookChapter();
+        record.setBookNo(bookNo);
+        final List<BookChapter> chapters = Optional.ofNullable(bookChapterService.select(record)).orElseThrow(() -> CustomException.badRequest("未检索到章节信息"));
+        final List<String> sources = chapters.stream().map(BookChapter::getSource).collect(toList());
+        String[] array = sources.toArray(new String[0]);
+        Spider.create(new BookProcessor()).addUrl(array).setDownloader(new CrawlerDownloader()).addPipeline(bookPipeline).thread(20).run();
+        return ApiResult.SUCCESS;
+    }
 
 }
