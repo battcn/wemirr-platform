@@ -7,14 +7,13 @@ import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
 import com.battcn.book.pojo.po.BookType;
 import com.battcn.framework.mybatis.pojo.DataGrid;
+import com.battcn.swagger.properties.ApiParamType;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,8 +38,10 @@ public class BookController {
 
     @GetMapping
     @ApiOperation(value = "根据分页条件查询图书信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public PageInfo<Book> query(DataGrid grid) {
-        return this.bookService.listForDataGrid(grid);
+    public PageInfo<Book> query(DataGrid grid, @RequestParam(required = false) String type) {
+        Book record = new Book();
+        record.setType(type);
+        return this.bookService.listForDataGrid(grid, record);
     }
 
     @GetMapping("/{book_no}")
