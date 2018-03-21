@@ -61,7 +61,7 @@ public class ProxyPoolTask {
      */
     @Scheduled(cron = "0 0/10 * * * ?")
     public void proxies() {
-        Executors.newSingleThreadExecutor().execute(() -> Spider.create(new ProxyProcessor()).setDownloader(new CrawlerDownloader()).addUrl("http://lab.crossincode.com/proxy/", "http://www.xicidaili.com/nn", "http://www.ip181.com/").addPipeline(proxyPipeline).thread(10).run());
+        Executors.newSingleThreadExecutor().execute(() -> Spider.create(new ProxyProcessor()).setDownloader(new CrawlerDownloader()).addUrl("https://proxy.coderbusy.com/classical/anonymous-type/highanonymous.aspx", "http://lab.crossincode.com/proxy/", "http://www.xicidaili.com/nn", "http://www.ip181.com/").addPipeline(proxyPipeline).thread(10).run());
     }
 
 
