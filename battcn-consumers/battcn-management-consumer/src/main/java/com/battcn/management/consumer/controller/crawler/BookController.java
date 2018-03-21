@@ -23,7 +23,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -35,7 +34,6 @@ import us.codecraft.webmagic.proxy.Proxy;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 import static com.battcn.framework.exception.CustomException.notFound;
 import static java.util.stream.Collectors.toList;
@@ -146,7 +144,7 @@ public class BookController extends BaseController {
         record.setBookNo(bookNo);
         final List<BookChapter> chapters = Optional.ofNullable(bookChapterService.select(record)).orElseThrow(() -> CustomException.badRequest("未检索到章节信息"));
         final List<String> sources = chapters.stream().map(BookChapter::getSource).collect(toList());
-        String[] array = sources.toArray(new String[0]);
+        String[] array = sources.toArray(new String[sources.size()]);
         Spider.create(new BookProcessor()).addUrl(array).setDownloader(new CrawlerDownloader()).addPipeline(bookPipeline).thread(5).run();
         return ApiResult.SUCCESS;
     }

@@ -7,11 +7,9 @@ import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
 import com.battcn.book.pojo.po.BookType;
 import com.battcn.framework.mybatis.pojo.DataGrid;
-import com.battcn.swagger.properties.ApiParamType;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
