@@ -147,7 +147,7 @@ public class BookController extends BaseController {
         final List<BookChapter> chapters = Optional.ofNullable(bookChapterService.select(record)).orElseThrow(() -> CustomException.badRequest("未检索到章节信息"));
         final List<String> sources = chapters.stream().map(BookChapter::getSource).collect(toList());
         String[] array = sources.toArray(new String[0]);
-        Spider.create(new BookProcessor()).addUrl(array).setDownloader(new CrawlerDownloader()).addPipeline(bookPipeline).thread(20).run();
+        Spider.create(new BookProcessor()).addUrl(array).setDownloader(new CrawlerDownloader()).addPipeline(bookPipeline).thread(5).run();
         return ApiResult.SUCCESS;
     }
 
