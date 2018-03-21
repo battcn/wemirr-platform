@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  */
 public class SequenceRedisHelper {
 
+
     private StringRedisTemplate sequenceRedisTemplate;
 
 
