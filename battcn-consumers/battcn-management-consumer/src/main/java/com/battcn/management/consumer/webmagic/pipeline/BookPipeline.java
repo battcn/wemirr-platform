@@ -76,7 +76,7 @@ public class BookPipeline implements Pipeline {
             try (FileWriter write = new FileWriter(fileName)) {
                 bookChapter.setStatus(Boolean.TRUE);
                 bookChapter.setTarget(fileName);
-                bookChapter.setContent(chapter.getContent());
+                bookChapter.setContent(StringUtils.replaceAll(chapter.getContent(), "<br/>", "<p>"));
                 templateEngine.process(TEMPLATE_NAME, context, write);
             } catch (IOException e) {
                 e.printStackTrace();
