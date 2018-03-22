@@ -3,6 +3,7 @@ package com.battcn.framework.redis.lock;
 import com.battcn.framework.redis.annotation.CacheLock;
 import com.battcn.framework.redis.annotation.LockParam;
 import com.battcn.framework.redis.constant.RedisConstant;
+import com.battcn.framework.redis.exception.CacheLockException;
 import com.battcn.framework.redis.exception.RedisException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -53,7 +54,7 @@ public class CacheLockInterceptor {
         try {
             final Boolean success = lockRedisTemplate.opsForValue().setIfAbsent(lockKey, "1");
             if (!success) {
-                throw new RedisException("请勿重复请求");
+                throw new CacheLockException("请勿重复请求");
             }
             lockRedisTemplate.expire(lockKey, lock.expire(), lock.timeUnit());
             return pjp.proceed();
