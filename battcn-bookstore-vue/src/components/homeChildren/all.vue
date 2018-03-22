@@ -7,7 +7,7 @@
             <img  :alt="book.name" :title="book.name" src="../../../static/img/noTime.jpg" :src="book.cover"/>
           </router-link>
         </div>
-        <router-link  :to="{path:'/Details',query:{bookinfo:book.bookNo}}">
+        <router-link  :to="{path:'/Details',query:{bookNo:book.bookNo}}">
           <h3 v-text="book.name" class="title"></h3>
         </router-link>
         作者：<span v-text="book.author" class="author">未知</span>

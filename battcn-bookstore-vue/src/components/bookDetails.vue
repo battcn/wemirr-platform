@@ -3,7 +3,7 @@
     <div class="header">
     </div>
     <div class="de-content">
-      <div class="introduction-box"><!-- 书籍简介部分 -->
+      <div class="introduction-box"><!-- 书籍k简介部分 -->
         <div class="introduction-img">
           <div class="img">
             <img src="../../static/img/noTime.jpg" :src="bookInfo.cover" :title="bookInfo.name" :alt="bookInfo.name">
@@ -31,7 +31,6 @@
             <h4>简介</h4>
             <div class="i03_box">
               <p v-text="bookInfo.description" :class="{heightShow:isHeight=='show',heightHide:isHeight=='hide'}">
-                架空异界，武道百家。
                 无
               </p>
               <span v-show="isHeight=='show'" @click="isHeight='hide'">收起&nbsp;&nbsp;<i
@@ -41,8 +40,8 @@
             </div>
           </div>
           <div class="i04">
-            <a href="javascript:">立即阅读</a>
-            <a href="javascript:">目录</a>
+            <router-link :to="{path:'/Read',query:{bookNo:bookInfo.bookNo}}" href="javascript:">立即阅读</router-link>
+            <router-link :to="{path:'/Contents',query:{bookNo:bookInfo.bookNo}}" href="javascript:">目录</router-link>
           </div>
           <div class="i05">
             作品标签：
@@ -65,7 +64,7 @@
       return {isHeight: 'hide'}
     },
     computed: {
-      bookInfo() {
+      bookInfo(){
         return this.$store&&this.$store.state.initData&&this.$store.state.initData.detailsData
       }
     },
@@ -81,7 +80,7 @@
         this.$store.commit('iniBookDetails',bookNo);
       }
     },
-    created(){
+    mounted(){
       this.iniBookDetails();
     }
   }

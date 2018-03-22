@@ -1,4 +1,4 @@
-package com.battcn.framework.redis;
+package com.battcn.framework.redis.constant;
 
 /**
  * <p>redis常量</p>

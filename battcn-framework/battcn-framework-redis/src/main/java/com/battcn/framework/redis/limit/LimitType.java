@@ -14,7 +14,7 @@ public enum LimitType {
      */
     CUSTOMER,
     /**
-     * 根据当前登录用户给方法加锁，key生成规则{MethodName}_{authId}
+     * 根据当前登录用户给方法加锁，key生成规则{MethodName}:{token}
      */
     TOKEN,
     /**

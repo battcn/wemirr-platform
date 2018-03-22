@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public class LimitInterceptor {
 
 
-    @Around("execution(public * *(..)) && @annotation(com.battcn.framework.redis.limit.annotation.Limit)")
+    @Around("execution(public * *(..)) && @annotation(com.battcn.framework.redis.annotation.Limit)")
     public Object interceptor(ProceedingJoinPoint pjp) throws Throwable {
         return pjp.proceed();
     }

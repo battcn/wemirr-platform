@@ -1,4 +1,4 @@
-package com.battcn.framework.redis.limit.constant;
+package com.battcn.framework.redis.constant;
 
 /**
  * @author Levin
@@ -7,10 +7,10 @@ package com.battcn.framework.redis.limit.constant;
 public class LimitConstant {
 
     public static class KeyPrefix {
-        public static final String IP = "IP_";
+        public static final String IP = "ip:";
     }
 
     public static class Key {
-        public static final String BLACKLIST = "BLACKLIST";
+        public static final String BLACKLIST = "ip:blacklist";
     }
 }
