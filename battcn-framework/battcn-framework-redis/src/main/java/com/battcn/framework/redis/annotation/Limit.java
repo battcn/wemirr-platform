@@ -1,4 +1,4 @@
-package com.battcn.framework.redis.limit.annotation;
+package com.battcn.framework.redis.annotation;
 
 import com.battcn.framework.redis.limit.LimitType;
 

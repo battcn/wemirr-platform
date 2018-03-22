@@ -8,11 +8,22 @@ spring:
   redis:
     password: battcn
     battcn:
+      lock:
+        db: 3
+        enabled: true
       sequence:
         enabled: true
         db: 2
         profile: dev
-
+      cache:
+        enabled: true
+        db: 1
+    timeout: 10000
+    pool:
+      min-idle: 10
+      max-active: 200
+      max-idle: 100
+      max-wait: 1000
 management:
   port: 9091
   health:
