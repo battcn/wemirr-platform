@@ -1,6 +1,7 @@
 package com.battcn.bookstore.consumer.config;
 
 import com.battcn.framework.exception.ErrorResponseEntity;
+import com.battcn.framework.redis.exception.CacheLockException;
 import com.battcn.framework.redis.exception.RedisException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(RedisException.class)
+    @ExceptionHandler({RedisException.class, CacheLockException.class})
     public final ErrorResponseEntity handlerRedisException(final Exception e, HttpServletResponse response) {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         RedisException exception = (RedisException) e;
