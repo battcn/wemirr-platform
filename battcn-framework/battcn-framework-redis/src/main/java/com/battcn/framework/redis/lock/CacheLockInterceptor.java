@@ -42,7 +42,7 @@ public class CacheLockInterceptor {
     }
 
     @Around(value = "execution(public * *(..)) && @annotation(com.battcn.framework.redis.annotation.CacheLock)")
-    public Object interceptor(ProceedingJoinPoint pjp) {
+    public Object interceptor(ProceedingJoinPoint pjp) throws Throwable {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         CacheLock lock = method.getAnnotation(CacheLock.class);
@@ -50,20 +50,16 @@ public class CacheLockInterceptor {
             throw new RedisException("lock key don't null...");
         }
         final String lockKey = getLockKey(pjp, method, lock);
-        System.out.println(lockKey);
         try {
             final Boolean success = lockRedisTemplate.opsForValue().setIfAbsent(lockKey, "1");
             if (!success) {
-                throw new RuntimeException("请勿重复请求");
+                throw new RedisException("请勿重复请求");
             }
             lockRedisTemplate.expire(lockKey, lock.expire(), lock.timeUnit());
             return pjp.proceed();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
         } finally {
             lockRedisTemplate.delete(lockKey);
         }
-        return null;
     }
 
     private static String getLockKey(ProceedingJoinPoint pjp, Method method, CacheLock lock) {
