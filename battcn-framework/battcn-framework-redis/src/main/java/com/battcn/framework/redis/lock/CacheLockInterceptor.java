@@ -43,7 +43,7 @@ public class CacheLockInterceptor {
     }
 
     @Around(value = "execution(public * *(..)) && @annotation(com.battcn.framework.redis.annotation.CacheLock)")
-    public Object interceptor(ProceedingJoinPoint pjp) throws IllegalAccessException, InstantiationException, NoSuchFieldException, NoSuchMethodException, InvocationTargetException {
+    public Object interceptor(ProceedingJoinPoint pjp) {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         CacheLock lock = method.getAnnotation(CacheLock.class);
