@@ -4,7 +4,7 @@ spring:
   application:
     name: battcn-management-consumer
   profiles:
-    active: prod
+    active: dev
   swagger:
     base-package: com.battcn
   thymeleaf:
