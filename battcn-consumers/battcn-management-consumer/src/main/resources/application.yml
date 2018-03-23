@@ -39,7 +39,7 @@ endpoints:
 spring:
   profiles: dev
 template-storage-path: D:/html/
-template-domain-name: file:///
+template-domain-name: file:///${template-storage-path}
 
 ---
 # Linux部署环境

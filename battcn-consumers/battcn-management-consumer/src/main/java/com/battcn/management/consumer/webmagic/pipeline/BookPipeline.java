@@ -86,7 +86,7 @@ public class BookPipeline implements Pipeline {
                 e.printStackTrace();
             }
             final String fileName = StringUtils.join(bookChapter.getId(), ".html");
-            final String storageName = StringUtils.join(storagePath, fileName);
+            final String storageName = StringUtils.join(storagePath, SEPARATOR, fileName);
             log.info("[文件名称] - [{}]", storageName);
             try (FileWriter write = new FileWriter(storageName)) {
                 bookChapter.setStatus(Boolean.TRUE);
