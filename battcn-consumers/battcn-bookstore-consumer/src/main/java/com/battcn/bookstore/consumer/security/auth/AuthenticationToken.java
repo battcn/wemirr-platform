@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 
 /**
- * {@link org.springframework.security.core.Authentication} 核心实现。
+ * {@link org.springframework.security.core.Authentication} 核心实现。验证Token
  *
  * @author Levin
  * @since 2017-08-15
@@ -20,9 +20,9 @@ public class AuthenticationToken extends AbstractAuthenticationToken {
     private RawAccessToken rawAccessToken;
     private MemberSecurityContext memberSecurityContext;
 
-    public AuthenticationToken(RawAccessToken unsafeToken) {
+    public AuthenticationToken(RawAccessToken rawAccessToken) {
         super(null);
-        this.rawAccessToken = unsafeToken;
+        this.rawAccessToken = rawAccessToken;
         this.setAuthenticated(false);
     }
 

@@ -2,13 +2,18 @@ package com.battcn.bookstore.consumer.security.model.token;
 
 import com.battcn.bookstore.consumer.security.exceptions.ExpiredTokenException;
 import io.jsonwebtoken.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 
+/**
+ * 原授权Token
+ *
+ * @author Levin
+ * @since 2018/03/23
+ */
+@Slf4j
 public class RawAccessToken implements Token {
 
-    private static Logger logger = LoggerFactory.getLogger(RawAccessToken.class);
 
     private String token;
 
@@ -26,10 +31,10 @@ public class RawAccessToken implements Token {
         try {
             return Jwts.parser().setSigningKey(signingKey).parseClaimsJws(this.token);
         } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException | SignatureException ex) {
-            logger.error("Invalid Token", ex);
+            log.error("Invalid Token", ex);
             throw new BadCredentialsException("Invalid token: ", ex);
         } catch (ExpiredJwtException expiredEx) {
-            logger.info("Token is expired", expiredEx);
+            log.info("Token is expired", expiredEx);
             throw new ExpiredTokenException(this, "Token expired", expiredEx);
         }
     }

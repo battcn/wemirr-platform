@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * REST身份验证入口点
+ *
  * @author Levin
- *         <p>
- *         2017-05-25
+ * @since 2017-05-25
  */
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {

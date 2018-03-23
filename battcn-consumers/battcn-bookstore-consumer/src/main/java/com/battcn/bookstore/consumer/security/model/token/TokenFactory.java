@@ -38,14 +38,14 @@ public class TokenFactory {
     /**
      * 利用JJWT 生成 Token
      *
-     * @param context
-     * @return
+     * @param memberSecurityContext 上下文
+     * @return 授权的Token
      */
-    public AccessToken createAccessToken(MemberSecurityContext context) {
-        Optional.ofNullable(context.getAccountName()).orElseThrow(() -> new IllegalArgumentException("Cannot create Token without username"));
-        Optional.ofNullable(context.getAuthorities()).orElseThrow(() -> new IllegalArgumentException("User doesn't have any privileges"));
-        Claims claims = Jwts.claims().setSubject(context.getAccountName());
-        claims.put("scopes", context.getAuthorities().stream().map(Object::toString).collect(toList()));
+    public AccessToken createAccessToken(MemberSecurityContext memberSecurityContext) {
+        Optional.ofNullable(memberSecurityContext.getAccountName()).orElseThrow(() -> new IllegalArgumentException("Cannot create Token without username"));
+        Optional.ofNullable(memberSecurityContext.getAuthorities()).orElseThrow(() -> new IllegalArgumentException("User doesn't have any privileges"));
+        Claims claims = Jwts.claims().setSubject(memberSecurityContext.getAccountName());
+        claims.put("scopes", memberSecurityContext.getAuthorities().stream().map(Object::toString).collect(toList()));
         LocalDateTime currentTime = LocalDateTime.now();
         String token = Jwts.builder()
                 .setClaims(claims)
@@ -62,15 +62,15 @@ public class TokenFactory {
     /**
      * 生成 刷新 RefreshToken
      *
-     * @param securityContext
-     * @return
+     * @param memberSecurityContext 上下文
+     * @return Token
      */
-    public Token createRefreshToken(MemberSecurityContext securityContext) {
-        if (StringUtils.isBlank(securityContext.getAccountName())) {
+    public Token createRefreshToken(MemberSecurityContext memberSecurityContext) {
+        if (StringUtils.isBlank(memberSecurityContext.getAccountName())) {
             throw new IllegalArgumentException("Cannot create Token without username");
         }
         LocalDateTime currentTime = LocalDateTime.now();
-        Claims claims = Jwts.claims().setSubject(securityContext.getAccountName());
+        Claims claims = Jwts.claims().setSubject(memberSecurityContext.getAccountName());
         claims.put("scopes", Collections.singletonList(Scopes.REFRESH_TOKEN.authority()));
         String token = Jwts.builder()
                 .setClaims(claims)

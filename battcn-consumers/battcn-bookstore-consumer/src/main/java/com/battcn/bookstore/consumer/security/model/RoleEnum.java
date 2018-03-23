@@ -2,7 +2,7 @@ package com.battcn.bookstore.consumer.security.model;
 
 /**
  * @author Levin
- * @date 2017-08-15.
+ * @since 2017-08-15.
  */
 public enum RoleEnum {
     ADMIN("ADMIN"),
