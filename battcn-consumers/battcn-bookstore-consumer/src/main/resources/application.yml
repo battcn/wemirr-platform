@@ -23,7 +23,14 @@ spring:
       min-idle: 10
       max-active: 200
       max-idle: 100
-      max-wait: 1000
+      max-wait:
+  security:
+    battcn:
+      token:
+        expiration-time: 1024
+        refresh-exp-time: 2048
+        issuer: http://battcn.com
+        signing-key: battcn
 management:
   port: 9091
   health:
@@ -40,15 +47,3 @@ dubbo:
 endpoints:
   dubbo:
     enabled: true
-
-battcn:
-  exception:
-    mvc:
-      enabled: true
-      default-message: 服务繁忙,请稍后再试
-      expose-error-class: true
-    token:
-      expiration-time: 10
-      refresh-exp-time: 30
-      issuer: http://blog.battcn.com
-      signing-key: battcn

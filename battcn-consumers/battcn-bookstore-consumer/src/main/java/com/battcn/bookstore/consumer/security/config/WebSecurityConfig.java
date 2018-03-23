@@ -1,7 +1,7 @@
 package com.battcn.bookstore.consumer.security.config;
 
 
-import com.battcn.bookstore.consumer.security.RestAuthenticationEntryPoint;
+import com.battcn.bookstore.consumer.security.auth.RestAuthenticationEntryPoint;
 import com.battcn.bookstore.consumer.security.auth.login.LoginAuthenticationProvider;
 import com.battcn.bookstore.consumer.security.auth.login.LoginProcessingFilter;
 import com.battcn.bookstore.consumer.security.auth.token.SkipPathRequestMatcher;

@@ -5,7 +5,15 @@ package com.battcn.bookstore.consumer.security.model;
  * @since 2017-08-15.
  */
 public enum RoleEnum {
+
+    /**
+     * ADMIN
+     */
     ADMIN("ADMIN"),
+
+    /**
+     * MEMBER
+     */
     MEMBER("MEMBER");
 
     private String desc;

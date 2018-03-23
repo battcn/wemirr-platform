@@ -1,4 +1,4 @@
-package com.battcn.bookstore.consumer.security;
+package com.battcn.bookstore.consumer.security.auth;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;

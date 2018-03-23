@@ -29,12 +29,13 @@ import java.io.IOException;
  */
 @Component
 public class AwareAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-    private final ObjectMapper mapper;
+
+    private final ObjectMapper objectMapper;
     private final TokenFactory tokenFactory;
 
     @Autowired
-    public AwareAuthenticationSuccessHandler(final ObjectMapper mapper, final TokenFactory tokenFactory) {
-        this.mapper = mapper;
+    public AwareAuthenticationSuccessHandler(final ObjectMapper objectMapper, final TokenFactory tokenFactory) {
+        this.objectMapper = objectMapper;
         this.tokenFactory = tokenFactory;
     }
 
@@ -53,22 +54,19 @@ public class AwareAuthenticationSuccessHandler implements AuthenticationSuccessH
 
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        mapper.writeValue(response.getWriter(), tokenMap);
+        objectMapper.writeValue(response.getWriter(), tokenMap);
 
         clearAuthenticationAttributes(request);
     }
 
     /**
-     * Removes temporary authentication-related data which may have been stored
-     * in the session during the authentication process..
+     * 删除 session 中临时验证身份的相关数据
      */
-    protected final void clearAuthenticationAttributes(HttpServletRequest request) {
+    private void clearAuthenticationAttributes(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-
         if (session == null) {
             return;
         }
-
         session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
     }
 }

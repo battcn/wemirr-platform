@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "battcn.security.token")
+@ConfigurationProperties(prefix = "spring.security.battcn.token")
 public class TokenProperties {
 
     private Integer expirationTime;

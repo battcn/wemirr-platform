@@ -39,7 +39,7 @@ public class AwareAuthenticationFailureHandler implements AuthenticationFailureH
                                         AuthenticationException e) throws IOException, ServletException {
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 
         if (e instanceof BadCredentialsException) {
             objectMapper.writeValue(response.getWriter(), ErrorResponseEntity.of("Invalid username or password", HttpStatus.UNAUTHORIZED.value()));
