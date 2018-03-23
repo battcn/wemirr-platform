@@ -8,10 +8,11 @@ import io.jsonwebtoken.Claims;
  * @author Levin
  */
 public final class AccessToken implements Token {
+
     private final String rawToken;
     private Claims claims;
 
-    protected AccessToken(final String token, Claims claims) {
+    AccessToken(final String token, Claims claims) {
         this.rawToken = token;
         this.claims = claims;
     }
