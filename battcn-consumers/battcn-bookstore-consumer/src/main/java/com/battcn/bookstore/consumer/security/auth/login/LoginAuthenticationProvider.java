@@ -3,7 +3,6 @@ package com.battcn.bookstore.consumer.security.auth.login;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.battcn.bookstore.consumer.security.model.MemberSecurityContext;
-import com.battcn.framework.exception.CustomException;
 import com.battcn.member.facade.MemberService;
 import com.battcn.member.pojo.po.Member;
 import com.google.common.collect.Lists;
@@ -40,9 +39,9 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         log.debug("[authentication info] - [{}]", JSON.toJSONString(authentication));
         String username = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
-        Member member = Optional.ofNullable(memberService.findByName(username)).orElseThrow(() -> CustomException.badRequest("账号不存在"));
+        Member member = Optional.ofNullable(memberService.findByName(username)).orElseThrow(() -> new BadCredentialsException("账号不存在"));
         if (!StringUtils.equals(password, member.getPassword())) {
-            throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
+            throw new BadCredentialsException("密码错误");
         }
         final String roleName = member.getRoleName();
         MemberSecurityContext memberSecurityContext = MemberSecurityContext.create(member.getAccountName(), Lists.newArrayList(new SimpleGrantedAuthority(roleName)));

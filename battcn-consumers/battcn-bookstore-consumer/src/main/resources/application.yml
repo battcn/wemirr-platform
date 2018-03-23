@@ -5,25 +5,31 @@ spring:
     name: battcn-bookstore-consumer
   swagger:
     base-package: com.battcn
+    global-operation-parameters:
+    -   description: 'Token信息,非必填项'
+        modelRef: 'string'
+        name: 'X-Authorization'
+        parameter-type: 'header'
+        required: false
   redis:
     password: battcn
     battcn:
       lock:
         db: 3
-        enabled: true
+        enabled: false
       sequence:
-        enabled: true
+        enabled: false
         db: 2
         profile: dev
       cache:
-        enabled: true
+        enabled: false
         db: 1
     timeout: 10000
     pool:
       min-idle: 10
       max-active: 200
       max-idle: 100
-      max-wait:
+      max-wait: 1000
   security:
     battcn:
       token:
