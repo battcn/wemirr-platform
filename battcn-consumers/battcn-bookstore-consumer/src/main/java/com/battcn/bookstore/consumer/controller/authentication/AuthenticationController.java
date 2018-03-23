@@ -1,6 +1,7 @@
 package com.battcn.bookstore.consumer.controller.authentication;
 
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.bookstore.consumer.security.auth.token.extractor.TokenExtractor;
 import com.battcn.bookstore.consumer.security.auth.token.verifier.TokenVerifier;
 import com.battcn.bookstore.consumer.security.config.TokenProperties;
@@ -42,6 +43,9 @@ public class AuthenticationController {
     private final TokenFactory tokenFactory;
     private final TokenExtractor tokenExtractor;
 
+    @Reference(version = "1.0.0",
+            application = "${dubbo.application.id}",
+            url = "dubbo://localhost:20880", timeout = 10000)
     private MemberService memberService;
 
     @Autowired
