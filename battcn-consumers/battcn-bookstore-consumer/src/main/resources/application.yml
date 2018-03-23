@@ -47,3 +47,8 @@ battcn:
       enabled: true
       default-message: 服务繁忙,请稍后再试
       expose-error-class: true
+    token:
+      expiration-time: 10
+      refresh-exp-time: 30
+      issuer: http://blog.battcn.com
+      signing-key: battcn

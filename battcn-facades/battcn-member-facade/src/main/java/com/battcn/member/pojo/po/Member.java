@@ -1,4 +1,4 @@
-package com.battcn.book.pojo.po;
+package com.battcn.member.pojo.po;
 
 import com.battcn.framework.mybatis.pojo.RecordEntity;
 import lombok.Data;
@@ -11,16 +11,18 @@ import javax.persistence.Table;
  * @author Levin
  * @since 2018/3/23 0023
  */
-@Table(name = "t_book_like")
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class BookLike extends RecordEntity {
+@Table(name = "t_member")
+public class Member extends RecordEntity {
 
-    private static final long serialVersionUID = -4334133978678268945L;
+    private static final long serialVersionUID = 7611703644690711358L;
 
     @Id
-    private Long id;
-    private String bookNo;
     private String memberNo;
+    private String accountName;
+    private String password;
+    private String roleName;
+
 
 }

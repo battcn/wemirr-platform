@@ -15,6 +15,7 @@
 
     <modules>
         <module>battcn-system-provider</module>
+        <module>battcn-member-provider</module>
         <module>battcn-book-provider</module>
     </modules>
 
