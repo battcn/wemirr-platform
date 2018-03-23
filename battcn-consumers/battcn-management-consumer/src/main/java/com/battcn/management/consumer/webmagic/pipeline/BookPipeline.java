@@ -5,11 +5,12 @@ import com.battcn.book.facade.BookChapterService;
 import com.battcn.book.facade.BookService;
 import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
-import com.battcn.framework.commons.lang.RandomUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -17,6 +18,7 @@ import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -41,6 +43,11 @@ public class BookPipeline implements Pipeline {
             url = "dubbo://localhost:20880")
     private BookChapterService bookChapterService;
 
+    @Value("${template-storage-path}")
+    private String templateStoragePath;
+    @Value("${template-domain-name}")
+    private String templateDomainName;
+    private static final String SEPARATOR = "/";
 
     private final TemplateEngine templateEngine;
 
@@ -71,12 +78,20 @@ public class BookPipeline implements Pipeline {
             final Context context = new Context();
             context.setVariable("book", this.bookService.selectById(bookChapter.getBookNo()));
             context.setVariable("chapter", bookChapter);
-            final String fileName = StringUtils.join(RandomUtils.generate(), ".html");
-            log.info("[模板路径] - [{}]", fileName);
-            try (FileWriter write = new FileWriter(fileName)) {
+            String storagePath = StringUtils.join(templateStoragePath, bookChapter.getBookNo());
+            File directory = new File(storagePath);
+            try {
+                FileUtils.forceMkdir(directory);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            final String fileName = StringUtils.join(bookChapter.getId(), ".html");
+            final String storageName = StringUtils.join(storagePath, fileName);
+            log.info("[文件名称] - [{}]", storageName);
+            try (FileWriter write = new FileWriter(storageName)) {
                 bookChapter.setStatus(Boolean.TRUE);
-                bookChapter.setTarget(fileName);
-                bookChapter.setContent(StringUtils.replaceAll(chapter.getContent(), "<br/>", "<p>").replaceAll("<br>","<p>"));
+                bookChapter.setTarget(StringUtils.join(templateDomainName, bookChapter.getBookNo(), SEPARATOR, fileName));
+                bookChapter.setContent(StringUtils.replaceAll(chapter.getContent(), "<br/>", "<p>").replaceAll("<br>", "<p>"));
                 templateEngine.process(TEMPLATE_NAME, context, write);
             } catch (IOException e) {
                 e.printStackTrace();
