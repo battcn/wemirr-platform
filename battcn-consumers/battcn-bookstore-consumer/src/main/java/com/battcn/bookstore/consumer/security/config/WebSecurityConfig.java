@@ -48,31 +48,45 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     private static final String TOKEN_REFRESH_ENTRY_POINT = "/auth/token";
 
-    @Autowired
-    private RestAuthenticationEntryPoint authenticationEntryPoint;
-    @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
-    @Autowired
-    private AuthenticationFailureHandler authenticationFailureHandler;
-    @Autowired
-    private LoginAuthenticationProvider loginAuthenticationProvider;
-    @Autowired
-    private TokenAuthenticationProvider tokenAuthenticationProvider;
-    @Autowired
-    private TokenExtractor tokenExtractor;
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final RestAuthenticationEntryPoint authenticationEntryPoint;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+    private final LoginAuthenticationProvider loginAuthenticationProvider;
+    private final TokenAuthenticationProvider tokenAuthenticationProvider;
+    private final TokenExtractor tokenExtractor;
 
-    private LoginProcessingFilter buildLoginProcessingFilter() throws Exception {
+    @Autowired
+    public WebSecurityConfig(RestAuthenticationEntryPoint authenticationEntryPoint, AuthenticationSuccessHandler authenticationSuccessHandler, AuthenticationFailureHandler authenticationFailureHandler, LoginAuthenticationProvider loginAuthenticationProvider, TokenAuthenticationProvider tokenAuthenticationProvider, TokenExtractor tokenExtractor) {
+        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+        this.authenticationFailureHandler = authenticationFailureHandler;
+        this.loginAuthenticationProvider = loginAuthenticationProvider;
+        this.tokenAuthenticationProvider = tokenAuthenticationProvider;
+        this.tokenExtractor = tokenExtractor;
+    }
+
+    /**
+     * 构建登陆处理器
+     *
+     * @return 登陆处理（过滤器）
+     */
+    @Bean
+    LoginProcessingFilter buildLoginProcessingFilter() throws Exception {
         LoginProcessingFilter filter = new LoginProcessingFilter(FORM_BASED_LOGIN_ENTRY_POINT, authenticationSuccessHandler, authenticationFailureHandler);
-        filter.setAuthenticationManager(this.authenticationManager);
+        filter.setAuthenticationManager(super.authenticationManagerBean());
         return filter;
     }
 
-    private TokenAuthenticationProcessingFilter buildTokenAuthenticationProcessingFilter() throws Exception {
+    /**
+     * 构建 Token 认证过滤器
+     *
+     * @return Token 认证过滤器
+     */
+    @Bean
+    TokenAuthenticationProcessingFilter buildTokenAuthenticationProcessingFilter() throws Exception {
         SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(Lists.newArrayList(TOKEN_BASED_AUTH_ENTRY_POINT));
         TokenAuthenticationProcessingFilter filter = new TokenAuthenticationProcessingFilter(authenticationFailureHandler, tokenExtractor, matcher);
-        filter.setAuthenticationManager(this.authenticationManager);
+        filter.setAuthenticationManager(super.authenticationManagerBean());
         return filter;
     }
 

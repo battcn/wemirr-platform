@@ -11,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
  * @since 2017-05-25
  */
 public class ExpiredTokenException extends AuthenticationException {
+
     private static final long serialVersionUID = -5959543783324224864L;
 
     private Token token;
