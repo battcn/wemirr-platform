@@ -17,7 +17,7 @@ public @interface CacheLock {
      *
      * @return redis 锁key的前缀
      */
-    String lockedPrefix() default "";
+    String prefix() default "";
 
     /**
      * 过期秒数,默认为5秒

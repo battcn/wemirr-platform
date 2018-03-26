@@ -1,7 +1,7 @@
-package com.battcn.framework.redis.lock;
+package com.battcn.framework.redis.limit;
 
 import com.battcn.framework.redis.CacheKeyGenerator;
-import com.battcn.framework.redis.annotation.CacheLock;
+import com.battcn.framework.redis.annotation.CacheLimit;
 import com.battcn.framework.redis.annotation.CacheParam;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -17,14 +17,14 @@ import java.lang.reflect.Parameter;
  * @author Levin
  * @since 2018/3/26 0026
  */
-public class LockKeyGenerator implements CacheKeyGenerator {
+public class LimitKeyGenerator implements CacheKeyGenerator {
 
 
     @Override
     public String getLockKey(ProceedingJoinPoint pjp) {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
-        CacheLock lockAnnotation = method.getAnnotation(CacheLock.class);
+        CacheLimit limitAnnotation = method.getAnnotation(CacheLimit.class);
         final Object[] args = pjp.getArgs();
         final Parameter[] parameters = method.getParameters();
         StringBuilder builder = new StringBuilder();
@@ -34,7 +34,7 @@ public class LockKeyGenerator implements CacheKeyGenerator {
             if (annotation == null) {
                 continue;
             }
-            builder.append(lockAnnotation.delimiter()).append(args[i]);
+            builder.append(limitAnnotation.delimiter()).append(args[i]);
         }
         if (StringUtils.isEmpty(builder.toString())) {
             final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
@@ -47,10 +47,10 @@ public class LockKeyGenerator implements CacheKeyGenerator {
                         continue;
                     }
                     field.setAccessible(true);
-                    builder.append(lockAnnotation.delimiter()).append(ReflectionUtils.getField(field, object));
+                    builder.append(limitAnnotation.delimiter()).append(ReflectionUtils.getField(field, object));
                 }
             }
         }
-        return lockAnnotation.prefix() + builder.toString();
+        return limitAnnotation.prefix() + builder.toString();
     }
 }

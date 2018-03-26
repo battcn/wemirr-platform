@@ -1,4 +1,4 @@
-package com.battcn.framework.redis.lock;
+package com.battcn.framework.redis.limit;
 
 import com.battcn.framework.redis.CacheKeyGenerator;
 import com.battcn.framework.redis.constant.RedisConstant;
@@ -19,36 +19,36 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * @since 2018/3/22 0022
  */
 @Configuration
-@EnableConfigurationProperties(value = RedisLockProperties.class)
+@EnableConfigurationProperties(value = RedisLimitProperties.class)
 @ConditionalOnProperty(
-        prefix = "spring.redis.battcn.lock",
+        prefix = "spring.redis.battcn.limit",
         name = "enabled",
         havingValue = "true"
 )
 @AutoConfigureAfter(RedisAutoConfiguration.class)
-@Import(CacheLockInterceptor.class)
-public class RedisLockAutoConfiguration {
+@Import(CacheLimitInterceptor.class)
+public class RedisLimitAutoConfiguration {
 
-    private final RedisLockProperties redisLockProperties;
+    private final RedisLimitProperties redisLimitProperties;
     private final JedisConnectionFactory jedisConnectionFactory;
 
     @Autowired
-    public RedisLockAutoConfiguration(JedisConnectionFactory jedisConnectionFactory, RedisLockProperties redisLockProperties) {
-        this.redisLockProperties = redisLockProperties;
+    public RedisLimitAutoConfiguration(JedisConnectionFactory jedisConnectionFactory, RedisLimitProperties redisLimitProperties) {
+        this.redisLimitProperties = redisLimitProperties;
         this.jedisConnectionFactory = jedisConnectionFactory;
     }
 
-    @Bean(name = RedisConstant.LOCK_TEMPLATE_NAME)
-    public RedisTemplate<String, String> lockRedisTemplate() {
+    @Bean(name = RedisConstant.LIMIT_TEMPLATE_NAME)
+    public RedisTemplate<String, String> limitRedisTemplate() {
         RedisTemplate<String, String> temple = new StringRedisTemplate();
-        jedisConnectionFactory.setDatabase(redisLockProperties.getDb());
+        jedisConnectionFactory.setDatabase(redisLimitProperties.getDb());
         temple.setConnectionFactory(jedisConnectionFactory);
         return temple;
     }
 
-    @Bean(name = RedisConstant.LOCK_KEY_GENERATOR)
-    public CacheKeyGenerator lockKeyGenerator() {
-        return new LockKeyGenerator();
+    @Bean(name = RedisConstant.LIMIT_KEY_GENERATOR)
+    public CacheKeyGenerator limitKeyGenerator() {
+        return new LimitKeyGenerator();
     }
 
 }
