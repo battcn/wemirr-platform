@@ -41,7 +41,7 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
         RawAccessToken rawAccessToken = (RawAccessToken) authentication.getCredentials();
         long startTime = System.currentTimeMillis();
         Jws<Claims> jwsClaims = rawAccessToken.parseClaims(tokenProperties.getSigningKey());
-        log.debug("[验证Token消耗时间] - [{}]", (System.currentTimeMillis() - startTime));
+        log.info("[验证Token消耗时间] - [{}]", (System.currentTimeMillis() - startTime));
         String subject = jwsClaims.getBody().getSubject();
         @SuppressWarnings("unchecked")
         List<String> scopes = jwsClaims.getBody().get("scopes", List.class);

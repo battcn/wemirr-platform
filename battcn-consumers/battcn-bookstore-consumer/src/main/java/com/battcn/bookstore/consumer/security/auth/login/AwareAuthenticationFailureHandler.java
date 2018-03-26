@@ -40,7 +40,7 @@ public class AwareAuthenticationFailureHandler implements AuthenticationFailureH
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-
+        e.printStackTrace();
         if (e instanceof BadCredentialsException) {
             objectMapper.writeValue(response.getWriter(), ErrorResponseEntity.of(e.getMessage(), HttpStatus.UNAUTHORIZED.value()));
         } else if (e instanceof ExpiredTokenException) {
