@@ -48,6 +48,7 @@ public class AwareAuthenticationFailureHandler implements AuthenticationFailureH
         } else if (e instanceof AuthMethodNotSupportedException) {
             objectMapper.writeValue(response.getWriter(), ErrorResponseEntity.of(e.getMessage(), HttpStatus.UNAUTHORIZED.value()));
         }
+        e.printStackTrace();
         objectMapper.writeValue(response.getWriter(), ErrorResponseEntity.of("Authentication failed", HttpStatus.UNAUTHORIZED.value()));
     }
 }

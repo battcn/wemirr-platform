@@ -3,7 +3,6 @@ package com.battcn.bookstore.consumer.controller.authentication;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.bookstore.consumer.security.auth.token.extractor.TokenExtractor;
-import com.battcn.bookstore.consumer.security.auth.token.verifier.TokenVerifier;
 import com.battcn.bookstore.consumer.security.config.TokenProperties;
 import com.battcn.bookstore.consumer.security.config.WebSecurityConfig;
 import com.battcn.bookstore.consumer.security.exceptions.InvalidTokenException;
@@ -39,7 +38,6 @@ import java.util.Optional;
 public class AuthenticationController {
 
     private final TokenProperties tokenProperties;
-    private final TokenVerifier tokenVerifier;
     private final TokenFactory tokenFactory;
     private final TokenExtractor tokenExtractor;
 
@@ -49,9 +47,8 @@ public class AuthenticationController {
     private MemberService memberService;
 
     @Autowired
-    public AuthenticationController(TokenProperties tokenProperties, TokenVerifier tokenVerifier, TokenFactory tokenFactory, TokenExtractor tokenExtractor) {
+    public AuthenticationController(TokenProperties tokenProperties, TokenFactory tokenFactory, TokenExtractor tokenExtractor) {
         this.tokenProperties = tokenProperties;
-        this.tokenVerifier = tokenVerifier;
         this.tokenFactory = tokenFactory;
         this.tokenExtractor = tokenExtractor;
     }
@@ -61,12 +58,6 @@ public class AuthenticationController {
         String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.TOKEN_HEADER_PARAM));
         RawAccessToken rawToken = new RawAccessToken(tokenPayload);
         RefreshToken refreshToken = RefreshToken.create(rawToken, tokenProperties.getSigningKey()).orElseThrow(() -> new InvalidTokenException("Token验证失败"));
-
-        String jti = refreshToken.getJti();
-        if (!tokenVerifier.verify(jti)) {
-            throw new InvalidTokenException("Token验证失败");
-        }
-
         String accountName = refreshToken.getAccountName();
         Member member = Optional.ofNullable(memberService.findByName(accountName)).orElseThrow(() -> new UsernameNotFoundException("用户未找到: " + accountName));
         MemberSecurityContext memberSecurityContext = MemberSecurityContext.create(accountName, Lists.newArrayList(new SimpleGrantedAuthority(member.getRoleName())));

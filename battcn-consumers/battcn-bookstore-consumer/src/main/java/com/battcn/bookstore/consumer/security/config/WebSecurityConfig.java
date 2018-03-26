@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 刷新Token的地址
      */
-    private static final String TOKEN_REFRESH_ENTRY_POINT = "/auth/token";
+    private static final String TOKEN_REFRESH_ENTRY_POINT = "/auth/refresh";
 
     private final RestAuthenticationEntryPoint authenticationEntryPoint;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
@@ -73,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     LoginProcessingFilter buildLoginProcessingFilter() throws Exception {
         LoginProcessingFilter filter = new LoginProcessingFilter(FORM_BASED_LOGIN_ENTRY_POINT, authenticationSuccessHandler, authenticationFailureHandler);
-        filter.setAuthenticationManager(super.authenticationManagerBean());
+        filter.setAuthenticationManager(authenticationManagerBean());
         return filter;
     }
 
@@ -86,7 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     TokenAuthenticationProcessingFilter buildTokenAuthenticationProcessingFilter() throws Exception {
         SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(Lists.newArrayList(TOKEN_BASED_AUTH_ENTRY_POINT));
         TokenAuthenticationProcessingFilter filter = new TokenAuthenticationProcessingFilter(authenticationFailureHandler, tokenExtractor, matcher);
-        filter.setAuthenticationManager(super.authenticationManagerBean());
+        filter.setAuthenticationManager(authenticationManagerBean());
         return filter;
     }
 
