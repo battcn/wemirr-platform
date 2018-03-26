@@ -38,7 +38,12 @@
                     field: 'target',
                     title: '模板链接',
                     align: 'center',
-                    valign: 'middle'
+                    valign: 'middle',
+                    formatter: function (value, row, index) {
+                        if (value !== null && value !== undefined && value !== '') {
+                            return "<a target='_blank' href='" + value + "'>" + value + "</a>";
+                        }
+                    }
                 }, {
                     field: 'title',
                     title: '标题',

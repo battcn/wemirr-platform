@@ -14,7 +14,7 @@
     </properties>
 
     <modules>
-        <module>battcn-movie-facade</module>
+        <module>battcn-member-facade</module>
         <module>battcn-book-facade</module>
         <module>battcn-system-facade</module>
     </modules>

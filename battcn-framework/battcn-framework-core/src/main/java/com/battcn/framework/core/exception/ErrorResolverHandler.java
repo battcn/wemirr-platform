@@ -38,7 +38,7 @@ import static org.springframework.util.CollectionUtils.toIterator;
 @Data
 @Slf4j
 @RestControllerAdvice
-class ErrorResolverHandler {
+public class ErrorResolverHandler {
 
     private static final CharSequence JAVA = "java";
 

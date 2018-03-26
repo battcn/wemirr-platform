@@ -10,7 +10,7 @@
     battcn = {};
 
     battcn.lockedFormat = (function (value, row, index) {
-        return value === 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>';
+        return value ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>';
     });
 
     battcn.ajax = (function (params) {

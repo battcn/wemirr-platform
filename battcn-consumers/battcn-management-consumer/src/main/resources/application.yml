@@ -1,8 +1,10 @@
 server:
-  port: 8082
+  port: 8085
 spring:
   application:
     name: battcn-management-consumer
+  profiles:
+    active: dev
   swagger:
     base-package: com.battcn
   thymeleaf:
@@ -31,4 +33,17 @@ dubbo:
 endpoints:
   dubbo:
     enabled: true
-  
+
+---
+# 开发环境
+spring:
+  profiles: dev
+template-storage-path: D:/html/
+template-domain-name: file:///${template-storage-path}
+
+---
+# Linux部署环境
+spring:
+  profiles: prod
+template-storage-path: /data/battcn3.0/template/
+template-domain-name: http://book.battcn.com/template/

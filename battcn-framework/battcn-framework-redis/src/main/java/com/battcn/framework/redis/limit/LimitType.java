@@ -9,14 +9,17 @@ package com.battcn.framework.redis.limit;
  */
 
 public enum LimitType {
+
     /**
      * 自定义key
+     *
+     * @see LimitKeyGenerator
      */
     CUSTOMER,
     /**
-     * 根据当前登录用户给方法加锁，key生成规则{MethodName}_{authId}
+     * 默认生成
      */
-    TOKEN,
+    DEFAULT,
     /**
      * 根据请求者IP
      */

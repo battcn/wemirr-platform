@@ -5,14 +5,38 @@ spring:
     name: battcn-bookstore-consumer
   swagger:
     base-package: com.battcn
+    global-operation-parameters:
+    -   description: 'Token信息,非必填项'
+        modelRef: 'string'
+        name: 'X-Authorization'
+        parameter-type: 'header'
+        required: false
   redis:
     password: battcn
     battcn:
+      lock:
+        db: 3
+        enabled: false
       sequence:
-        enabled: true
+        enabled: false
         db: 2
         profile: dev
-
+      cache:
+        enabled: false
+        db: 1
+    timeout: 10000
+    pool:
+      min-idle: 10
+      max-active: 200
+      max-idle: 100
+      max-wait: 1000
+  security:
+    battcn:
+      token:
+        expiration-time: 1024
+        refresh-exp-time: 2048
+        issuer: http://battcn.com
+        signing-key: battcn
 management:
   port: 9091
   health:
@@ -29,10 +53,3 @@ dubbo:
 endpoints:
   dubbo:
     enabled: true
-
-battcn:
-  exception:
-    mvc:
-      enabled: true
-      default-message: 服务繁忙,请稍后再试
-      expose-error-class: true

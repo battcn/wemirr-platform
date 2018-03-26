@@ -33,4 +33,8 @@ public class ErrorResponseEntity {
         this.message = message;
     }
 
+    public static ErrorResponseEntity of(final String message, final Integer customCode) {
+        return new ErrorResponseEntity(customCode, message);
+    }
+
 }
