@@ -1,248 +1,776 @@
 <template>
   <div class="home">
-    <div class="header">
-      <i v-show="fullWidth<480" @click="show=!show" class="fa fa-navicon"></i>
+    <div class="f1">
+      <div class="f1_L">
+        <!-- 轮播框 -->
+        <div class="pl_pic">
+          <ul  :style="{left:pic_left+'px'}">
+            <li><a href="javascript:" class="book_cov"><img src="./../../static/img/large.jpg" alt="" class="lazyload_lb"></a></li>
+            <li><a href="javascript:" class="book_cov"><img src="./../../static/img/large.jpg" alt="" class="lazyload_lb"></a></li>
+            <li><a href="javascript:" class="book_cov"><img src="./../../static/img/large2.jpg" alt="" class="lazyload_lb"></a></li>
+            <li><a href="javascript:" class="book_cov"><img src="./../../static/img/large.jpg" alt="" class="lazyload_lb"></a></li>
+          </ul>
+        </div>
+        <div class="book_inf">
+          <h3><a class="zdz" href="">最强升级</a></h3>
+          <p class="int">
+            婚前记者采访某总裁：“慕先生，请问你到底喜欢你老婆什么地方？”慕先生一脸宠溺：“漂亮，温柔，而且十分乖巧。”
+          </p>
+        </div>
+        <div class="pl_dot">
+          <ol>
+            <li :class="{on:Carousel_pointer=='one'}" @mouseenter="Carousel_pointer='one',pic_left=0,timingCarousel(false)" @mouseleave="timingCarousel(true)"></li>
+            <li :class="{on:Carousel_pointer=='two'}" @mouseenter="Carousel_pointer='two',pic_left=-500,timingCarousel(false)" @mouseleave="timingCarousel(true)"></li>
+            <li :class="{on:Carousel_pointer=='three'}" @mouseenter="Carousel_pointer='three',pic_left=-1000,timingCarousel(false)" @mouseleave="timingCarousel(true)"></li>
+            <li :class="{on:Carousel_pointer=='four'}" @mouseenter="Carousel_pointer='four',pic_left=-1500,timingCarousel(false)" @mouseleave="timingCarousel(true)"></li>
+          </ol>
+        </div>
+      </div>
+      <ul class="f1_C">
+        <!-- 推荐 -->
+        <li>
+          <h3><a href=""> 天庭临时工</a></h3>
+          <div>
+            <a class="book_cov" href="">
+            <img class="lazyload_book_cover" src="../../static/img/small.jpg" alt="">
+          </a>
+            <div class="book_inf">
+              <span class="aut">我咬月亮</span>
+              <span class="tag"><a href="">都市异能</a></span>
+              <p class="int">仙人求我办事，美女逼我泡她，大佬给我倒茶，男神任我践踏。
+                泡妞，我人见人爱；下毒，我百毒不侵；打架，我高手寂寞；炫富，我点石成金…我是天庭第一临时工，工作内容，惹桃花…</p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <h3><a href=""> 天庭临时工</a></h3>
+          <div>
+            <a class="book_cov" href="">
+            <img class="lazyload_book_cover" src="../../static/img/small.jpg" alt="">
+          </a>
+            <div class="book_inf">
+              <span class="aut">我咬月亮</span>
+              <span class="tag"><a href="">都市异能</a></span>
+              <p class="int">仙人求我办事，美女逼我泡她，大佬给我倒茶，男神任我践踏。
+                泡妞，我人见人爱；下毒，我百毒不侵；打架，我高手寂寞；炫富，我点石成金…我是天庭第一临时工，工作内容，惹桃花…</p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <h3><a href=""> 天庭临时工</a></h3>
+          <div>
+            <a class="book_cov" href="">
+            <img class="lazyload_book_cover" src="../../static/img/small.jpg" alt="">
+          </a>
+            <div class="book_inf">
+              <span class="aut">我咬月亮</span>
+              <span class="tag"><a href="">都市异能</a></span>
+              <p class="int">仙人求我办事，美女逼我泡她，大佬给我倒茶，男神任我践踏。
+                泡妞，我人见人爱；下毒，我百毒不侵；打架，我高手寂寞；炫富，我点石成金…我是天庭第一临时工，工作内容，惹桃花…</p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <h3><a href=""> 天庭临时工</a></h3>
+          <div>
+            <a class="book_cov" href="">
+            <img class="lazyload_book_cover" src="../../static/img/small.jpg" alt="">
+          </a>
+            <div class="book_inf">
+              <span class="aut">我咬月亮</span>
+              <span class="tag"><a href="">都市异能</a></span>
+              <p class="int">仙人求我办事，美女逼我泡她，大佬给我倒茶，男神任我践踏。
+                泡妞，我人见人爱；下毒，我百毒不侵；打架，我高手寂寞；炫富，我点石成金…我是天庭第一临时工，工作内容，惹桃花…</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <leader style="padding: 0 20px 0;"></leader> <!-- 排行榜组件 -->
     </div>
-    <sidebar v-if="show|fullWidth>480" ></sidebar>
-    <div id="content">
-      <header>
-        <span>某某APP所有书本</span>
+    <strip></strip><!-- 图片长条 -->
+    <!-- 热门推荐 开始 -->
+    <div class="f2 area">
+      <area_head :title_name="'热门推荐'"></area_head>
+      <ul class="f2_list">
+        <li>
+          <a href="" class="book_cov">
+            <img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover">
+          </a>
+          <div class="book_inf">
+            <h3><a href="">将军夫人别惹火</a></h3>
+            <span class="aut">云霏霏</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov">
+            <img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover">
+          </a>
+          <div class="book_inf">
+            <h3><a href="">将军夫人别惹火</a></h3>
+            <span class="aut">云霏霏</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov">
+            <img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover">
+          </a>
+          <div class="book_inf">
+            <h3><a href="">将军夫人别惹火</a></h3>
+            <span class="aut">云霏霏</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov">
+            <img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover">
+          </a>
+          <div class="book_inf">
+            <h3><a href="">将军夫人别惹火</a></h3>
+            <span class="aut">云霏霏</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov">
+            <img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover">
+          </a>
+          <div class="book_inf">
+            <h3><a href="">将军夫人别惹火</a></h3>
+            <span class="aut">云霏霏</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov">
+            <img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover">
+          </a>
+          <div class="book_inf">
+            <h3><a href="">将军夫人别惹火</a></h3>
+            <span class="aut">云霏霏</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov">
+            <img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover">
+          </a>
+          <div class="book_inf">
+            <h3><a href="">将军夫人别惹火</a></h3>
+            <span class="aut">云霏霏</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov">
+            <img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover">
+          </a>
+          <div class="book_inf">
+            <h3><a href="">将军夫人别惹火</a></h3>
+            <span class="aut">云霏霏</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov">
+            <img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover">
+          </a>
+          <div class="book_inf">
+            <h3><a href="">将军夫人别惹火</a></h3>
+            <span class="aut">云霏霏</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov">
+            <img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover">
+          </a>
+          <div class="book_inf">
+            <h3><a href="">将军夫人别惹火</a></h3>
+            <span class="aut">云霏霏</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov">
+            <img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover">
+          </a>
+          <div class="book_inf">
+            <h3><a href="">将军夫人别惹火</a></h3>
+            <span class="aut">云霏霏</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov">
+            <img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover">
+          </a>
+          <div class="book_inf">
+            <h3><a href="">将军夫人别惹火</a></h3>
+            <span class="aut">云霏霏</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- 热门推荐 结束 -->
+    <strip></strip><!-- 图片长条 -->
+    <!-- 男生频道 开始 -->
+    <div class="f3 area">
+      <area_head :title_name="'男生频道'"></area_head>
+      <div class="f3_L">
+        <h3><a href=""> 战神升级系统</a></h3>
+        <a href=""><img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover"></a>
+        <div class="book_inf">
+          <div class="book_inf01">
+            <span class="aut">作者：七来</span>
+            <span class="fr">分类：<a href="">东方玄幻</a></span>
+            <span>字数：286万字+</span>
+            <span class="fr">进度：连载中</span>
+            <span>总点击：106508</span>
+          </div>
+          <p class="int">孙宁睡了一觉，醒来就成了大圣世界的一个太监。史上最杯具的穿越就此诞生！
+            好在手机变成了战神系统！
+            狂接任务，拼命升级，获取各种系统点数，兑换顶尖修炼资源！灵技战兵任性生产，宝丹真符批量制造。而孙宁最渴望的，还是赶紧攒够魅力值，得到还阳丹，成为正常男士……
+            超级战神，横空出世，疯狂逆袭，从此开始。横扫各路天才，专治各种不服！一段从人间界碾压到诸天的激情岁月，开始了！</p>
+        </div>
+      </div>
+      <div class="f3_C">
         <ul>
-          <li @click="homeOptions='all'">
-            <a :class="{active:homeOptions=='all'}" href="javascript:">所有书本</a>
-          </li>
-          <li @click="homeOptions='recent'">
-            <a :class="{active:homeOptions=='recent'}" href="javascript:">最近新书</a>
-          </li>
-          <li @click="homeOptions='recommend'">
-            <a :class="{active:homeOptions=='recommend'}" href="javascript:">热销推荐</a>
-          </li>
-          <li @click="homeOptions='free'">
-            <a :class="{active:homeOptions=='free'}" href="javascript:">免费书本</a>
+          <li>
+            <h3><a href=""> 九转神龙诀</a></h3>
+            <div class="book_inf">
+              <span class="aut">贪吃的地主</span>
+              <span class="tag">
+                <a href="">东方玄幻</a>
+              </span>
+              <a href="" class="book_cov">
+                <img src="./../../static/img/large.jpg" alt="">
+              </a>
+              <p class="int">何谓强者？一念可碎星河！
+                何谓弱者？一命如同蝼蚁！
+                楚轩天纵奇才，为救父亲甘愿自废武魂，断绝前路！
+                守孝三年，终得九转神龙诀，炼诸天星辰，踏万古青天，铸不朽神体！
+                任你万般法门，我一剑皆可破之！
+                剑气纵横十万里，一剑光寒三千界！
+                楚轩：“我不问前尘，不求来生，只要这一世的轰轰烈烈！”</p>
+            </div>
           </li>
           <li>
-            <div class="search">
-              <input placeholder="请输入书名" type="text"/>
-              <i class="fa fa-search" aria-hidden="true"></i>
+            <h3><a href=""> 九转神龙诀</a></h3>
+            <div class="book_inf">
+              <span class="aut">贪吃的地主</span>
+              <span class="tag">
+                <a href="">东方玄幻</a>
+              </span>
+              <a href="" class="book_cov">
+                <img src="./../../static/img/large.jpg" alt="">
+              </a>
+              <p class="int">何谓强者？一念可碎星河！
+                何谓弱者？一命如同蝼蚁！
+                楚轩天纵奇才，为救父亲甘愿自废武魂，断绝前路！
+                守孝三年，终得九转神龙诀，炼诸天星辰，踏万古青天，铸不朽神体！
+                任你万般法门，我一剑皆可破之！
+                剑气纵横十万里，一剑光寒三千界！
+                楚轩：“我不问前尘，不求来生，只要这一世的轰轰烈烈！”</p>
+            </div>
+          </li>
+          <li class="no_bor">
+            <h3><a href=""> 九转神龙诀</a></h3>
+            <div class="book_inf">
+              <span class="aut">贪吃的地主</span>
+              <span class="tag">
+                <a href="">东方玄幻</a>
+              </span>
+              <a href="" class="book_cov">
+                <img src="./../../static/img/large.jpg" alt="">
+              </a>
+              <p class="int">何谓强者？一念可碎星河！
+                何谓弱者？一命如同蝼蚁！
+                楚轩天纵奇才，为救父亲甘愿自废武魂，断绝前路！
+                守孝三年，终得九转神龙诀，炼诸天星辰，踏万古青天，铸不朽神体！
+                任你万般法门，我一剑皆可破之！
+                剑气纵横十万里，一剑光寒三千界！
+                楚轩：“我不问前尘，不求来生，只要这一世的轰轰烈烈！”</p>
+            </div>
+          </li>
+          <li class="no_bor">
+            <h3><a href=""> 九转神龙诀</a></h3>
+            <div class="book_inf">
+              <span class="aut">贪吃的地主</span>
+              <span class="tag">
+                <a href="">东方玄幻</a>
+              </span>
+              <a href="" class="book_cov">
+                <img src="./../../static/img/large.jpg" alt="">
+              </a>
+              <p class="int">何谓强者？一念可碎星河！
+                何谓弱者？一命如同蝼蚁！
+                楚轩天纵奇才，为救父亲甘愿自废武魂，断绝前路！
+                守孝三年，终得九转神龙诀，炼诸天星辰，踏万古青天，铸不朽神体！
+                任你万般法门，我一剑皆可破之！
+                剑气纵横十万里，一剑光寒三千界！
+                楚轩：“我不问前尘，不求来生，只要这一世的轰轰烈烈！”</p>
             </div>
           </li>
         </ul>
-      </header>
-      <section>
-        <all :homeOptions="homeOptions"></all>
-      </section>
-      <footer>
-
-      </footer>
+      </div>
+      <leader></leader> <!-- 排行榜组件 -->
     </div>
+    <!-- 男生频道 结束 -->
+    <strip></strip><!-- 图片长条 -->
+    <!-- 女生频道 开始 -->
+    <div class="f3 area">
+      <area_head :title_name="'女生频道'"></area_head>
+      <div class="f3_L">
+        <h3><a href=""> 战神升级系统</a></h3>
+        <a href=""><img src="./../../static/img/large.jpg" alt="" class="lazyload_book_cover"></a>
+        <div class="book_inf">
+          <div class="book_inf01">
+            <span class="aut">作者：七来</span>
+            <span class="fr">分类：<a href="">东方玄幻</a></span>
+            <span>字数：286万字+</span>
+            <span class="fr">进度：连载中</span>
+            <span>总点击：106508</span>
+          </div>
+          <p class="int">孙宁睡了一觉，醒来就成了大圣世界的一个太监。史上最杯具的穿越就此诞生！
+            好在手机变成了战神系统！
+            狂接任务，拼命升级，获取各种系统点数，兑换顶尖修炼资源！灵技战兵任性生产，宝丹真符批量制造。而孙宁最渴望的，还是赶紧攒够魅力值，得到还阳丹，成为正常男士……
+            超级战神，横空出世，疯狂逆袭，从此开始。横扫各路天才，专治各种不服！一段从人间界碾压到诸天的激情岁月，开始了！</p>
+        </div>
+      </div>
+      <div class="f3_C">
+        <ul>
+          <li>
+            <h3><a href=""> 九转神龙诀</a></h3>
+            <div class="book_inf">
+              <span class="aut">贪吃的地主</span>
+              <span class="tag">
+                <a href="">东方玄幻</a>
+              </span>
+              <a href="" class="book_cov">
+                <img src="./../../static/img/large.jpg" alt="">
+              </a>
+              <p class="int">何谓强者？一念可碎星河！
+                何谓弱者？一命如同蝼蚁！
+                楚轩天纵奇才，为救父亲甘愿自废武魂，断绝前路！
+                守孝三年，终得九转神龙诀，炼诸天星辰，踏万古青天，铸不朽神体！
+                任你万般法门，我一剑皆可破之！
+                剑气纵横十万里，一剑光寒三千界！
+                楚轩：“我不问前尘，不求来生，只要这一世的轰轰烈烈！”</p>
+            </div>
+          </li>
+          <li>
+            <h3><a href=""> 九转神龙诀</a></h3>
+            <div class="book_inf">
+              <span class="aut">贪吃的地主</span>
+              <span class="tag">
+                <a href="">东方玄幻</a>
+              </span>
+              <a href="" class="book_cov">
+                <img src="./../../static/img/large.jpg" alt="">
+              </a>
+              <p class="int">何谓强者？一念可碎星河！
+                何谓弱者？一命如同蝼蚁！
+                楚轩天纵奇才，为救父亲甘愿自废武魂，断绝前路！
+                守孝三年，终得九转神龙诀，炼诸天星辰，踏万古青天，铸不朽神体！
+                任你万般法门，我一剑皆可破之！
+                剑气纵横十万里，一剑光寒三千界！
+                楚轩：“我不问前尘，不求来生，只要这一世的轰轰烈烈！”</p>
+            </div>
+          </li>
+          <li class="no_bor">
+            <h3><a href=""> 九转神龙诀</a></h3>
+            <div class="book_inf">
+              <span class="aut">贪吃的地主</span>
+              <span class="tag">
+                <a href="">东方玄幻</a>
+              </span>
+              <a href="" class="book_cov">
+                <img src="./../../static/img/large.jpg" alt="">
+              </a>
+              <p class="int">何谓强者？一念可碎星河！
+                何谓弱者？一命如同蝼蚁！
+                楚轩天纵奇才，为救父亲甘愿自废武魂，断绝前路！
+                守孝三年，终得九转神龙诀，炼诸天星辰，踏万古青天，铸不朽神体！
+                任你万般法门，我一剑皆可破之！
+                剑气纵横十万里，一剑光寒三千界！
+                楚轩：“我不问前尘，不求来生，只要这一世的轰轰烈烈！”</p>
+            </div>
+          </li>
+          <li class="no_bor">
+            <h3><a href=""> 九转神龙诀</a></h3>
+            <div class="book_inf">
+              <span class="aut">贪吃的地主</span>
+              <span class="tag">
+                <a href="">东方玄幻</a>
+              </span>
+              <a href="" class="book_cov">
+                <img src="./../../static/img/large.jpg" alt="">
+              </a>
+              <p class="int">何谓强者？一念可碎星河！
+                何谓弱者？一命如同蝼蚁！
+                楚轩天纵奇才，为救父亲甘愿自废武魂，断绝前路！
+                守孝三年，终得九转神龙诀，炼诸天星辰，踏万古青天，铸不朽神体！
+                任你万般法门，我一剑皆可破之！
+                剑气纵横十万里，一剑光寒三千界！
+                楚轩：“我不问前尘，不求来生，只要这一世的轰轰烈烈！”</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <leader></leader> <!-- 排行榜组件 -->
+    </div>
+    <!-- 女生频道 结束 -->
+    <!--精品推荐 开始-->
+    <div class="rec">
+      <div class="rec_L">
+        <h2>精品推荐</h2>
+      </div>
+      <ul class="rec_R">
+        <li>
+          <a href="" class="book_cov"><img src="./../../static/img/large.jpg" alt=""></a>
+        <div class="book_inf">
+          <h3><a href="">我的美女董事长</a></h3>
+          <span class="aut">大侠一枝梅</span>
+        </div>
+        </li>
+        <li>
+          <a href="" class="book_cov"><img src="./../../static/img/large.jpg" alt=""></a>
+          <div class="book_inf">
+            <h3><a href="">我的美女董事长</a></h3>
+            <span class="aut">大侠一枝梅</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov"><img src="./../../static/img/large.jpg" alt=""></a>
+          <div class="book_inf">
+            <h3><a href="">我的美女董事长</a></h3>
+            <span class="aut">大侠一枝梅</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov"><img src="./../../static/img/large.jpg" alt=""></a>
+          <div class="book_inf">
+            <h3><a href="">我的美女董事长</a></h3>
+            <span class="aut">大侠一枝梅</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov"><img src="./../../static/img/large.jpg" alt=""></a>
+          <div class="book_inf">
+            <h3><a href="">我的美女董事长</a></h3>
+            <span class="aut">大侠一枝梅</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov"><img src="./../../static/img/large.jpg" alt=""></a>
+          <div class="book_inf">
+            <h3><a href="">我的美女董事长</a></h3>
+            <span class="aut">大侠一枝梅</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov"><img src="./../../static/img/large.jpg" alt=""></a>
+          <div class="book_inf">
+            <h3><a href="">我的美女董事长</a></h3>
+            <span class="aut">大侠一枝梅</span>
+          </div>
+        </li>
+        <li>
+          <a href="" class="book_cov"><img src="./../../static/img/large.jpg" alt=""></a>
+          <div class="book_inf">
+            <h3><a href="">我的美女董事长</a></h3>
+            <span class="aut">大侠一枝梅</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!--精品推荐 结束-->
   </div>
+
 </template>
 <script type="text/ecmascript-6">
-  import sidebar from './homeChildren/sidebar.vue'
-  import all from './homeChildren/all.vue';
-
+import leader from './homeChildren/leaderboard.vue' /* 排行榜 */
+import strip from './homeChildren/strip.vue' /* 图片长条 */
+import  area_head from  './homeChildren/area_head.vue'/* 方块头条 */
   export default {
     name: 'Home',
-    components: {all, sidebar},
     data() {
-      return {fullWidth: document.documentElement.clientWidth,show: false, childrenOptions: 'all', homeOptions: 'all'}
+      return {Carousel_pointer:'one',pic_left:0,Carousel_Time:"你好"}
     },
-    mounted() {
-      const that = this;
-      window.onresize = () => {
-        return (() => {
-          window.fullWidth = document.documentElement.clientWidth;
-          that.fullWidth = window.fullWidth;
-          this.fullWidth > 480 && this.show === true ? this.show = false : '';
-        })()
-      }
-    },
-    watch: {
-      fullWidth(val) {
-        if (!this.timer) {
-          this.fullWidth = val;
-          this.timer = true;
-          let that = this;
-          setTimeout(function () {
-            that.timer = false;
-          }, 400)
+    methods:{
+      timingCarousel:function (isStart) {
+        let _this=this;
+        if(isStart){
+          this.Carousel_Time= setInterval(function() {
+            switch(_this.pic_left){
+              case 0:
+                _this.pic_left = _this.pic_left - 500;
+                _this.Carousel_pointer="two";
+                break;
+              case -500:
+                _this.pic_left = _this.pic_left - 500;
+                _this.Carousel_pointer="three";
+                break;
+              case -1000:
+                _this.pic_left = _this.pic_left - 500;
+                _this.Carousel_pointer="four";
+                break;
+              case -1500:
+                _this.pic_left = 0;
+                _this.Carousel_pointer="one";
+                break;
+            }
+          },3000);
+        }else{
+          clearInterval(this.Carousel_Time);
         }
       }
-    }
+    },
+    mounted() {
+      this.timingCarousel(true);
+    },
+    components:{leader,strip,area_head},
+    watch: {}
   }
 
 </script>
-<style>
-  /* 内容主框 */
-  #content {
-    margin-left: 250px;
-  }
-  /* 头部 */
-  .header {
-    background-color: #2F3649;
-    height: 35px;
-    text-align: left;
-  }
+<style slot-scope>
 
-  .header > i {
-    line-height: 35px;
-    font-size: 25px;
-    cursor: pointer;
-    margin-left: 10px;
-    color: #fff;
-  }
-
-  /* 头部功能区 */
-  header {
-    position: relative;
-    right: 0;
-    top: 0;
-    background-color: #EEF1F8;
-  }
-
-  header > i {
-    position: absolute;
-    top: 22px;
-    left: 3px;
-    cursor: pointer;
-  }
-
-  header > span {
-    padding: 12px 20px;
-    display: block;
-    text-align: left;
-    font-size: 20px;
-    font-weight: 600;
-    color: #444c63;
-    border-bottom: 1px solid #dadfea;
-  }
-
-  header ul {
+  .f3_C {
+    width: 512px;
     overflow: hidden;
-    padding: 11px 20px;
-    border-bottom: 1px solid #dadfea;
-  }
-
-  header ul > li {
+    border-left: 1px solid #f0f0f0;
     float: left;
   }
-
-  header ul > li:last-child {
+  .f3_C ul {
+    overflow: hidden;
+    height: 554px;
+  }
+  .f3_C ul li {
+    width: 170px;
+    height: 261px;
+    padding: 16px 42px 0;
+    border-right: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    float: left;
+  }
+  .f3_C ul li h3 {
+    width: 170px;
+    height: 22px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 8px;
+  }
+  .f3_C ul li h3 a {
+    max-width: 160px;
+  }
+  .f3_C ul li .aut {
+    max-width: 108px;
+  }
+  .f3_C ul li .book_cov {
+    width: 100px;
+    height: 125px;
+    margin: 16px auto 10px;
+  }
+  .f3_C ul .no_bor {
+    border-bottom: none;
+  }
+  .f3_L {
+    float: left;
+    width: 230px;
+    padding: 5px 43px 0 25px;
+  }
+  .f3_L h3 {
+    font-size: 24px;
+    height: 80px;
+  }
+  .f3_L h3 a {
+    max-width: 230px;
+  }
+  .f3_L .book_cov {
+    width: 200px;
+    height: 254px;
+    margin: 10px auto 70px;
+  }
+  .f3_L .book_inf {
+    overflow: hidden;
+  }
+  .f3_L .book_inf .book_inf01 {
+    height: 66px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .f3_L .book_inf span {
+    width: 115px;
+    float: left;
+    margin-bottom: 6px;
+  }
+  .f3_L .book_inf .fr {
     float: right;
+    width: 84px;
+  }
+  .f2 .f2_list {
+    overflow: hidden;
+    padding: 0 10px;
+  }
+  .f2 .f2_list li {
+    overflow: hidden;
+    width: 122px;
+    margin: 6px 0;
+    float: left;
+    padding: 13px 26px;
+  }
+  .f2 .f2_list li:hover{
+    box-shadow: 0 4px 7px rgba(0,0,0,.3);
+    border-radius: 5px;
+  }
+  .f2 .f2_list li .book_cov {
+    width: 120px;
+    height: 150px;
+  }
+  .f2 .f2_list li .book_inf {
+    text-align: center;
+    margin-top: 8px;
+  }
+  .f2 .f2_list li h3 a {
+    max-width: 120px;
   }
 
-  header ul > li > a {
-    color: #8c97b2;
-    text-decoration: none;
-    display: block;
-    width: 72px;
-    height: 25px;
-    line-height: 25px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
+  .f2 .f2_list li .aut {
+    max-width: 120px;
+  }
+  .content .area {
+    width: 1064px;
+    overflow: hidden;
+    background: #fff;
+    padding: 38px 18px 40px;
   }
 
-  header ul > li > a:hover,
-  header ul > li > a.active {
-    color: #fff;
-    background-color: #97b3ce;
+  body {
+    color: #9e9e9e;
+    font: 14px "Microsoft Yahei", arial,sans-serif;
+    background: #f0f0f0;
+  }
+/* 左侧轮播部分 */
+  .home .f1{
+    width: 1100px;
+    background: #fff;    overflow: hidden;
+    padding: 20px 0 40px 0;
+  }
+.f1 .f1_L{
+  width: 500px;
+  float: left;
+  overflow: hidden;
+  padding: 0 18px 0;
+}
+.f1_L .pl_pic{
+  width: 500px;
+  height: 250px;
+  border-radius: 6px;
+  border: 1px solid #f3f3f3;
+  overflow: hidden;
+}
+.f1_L .pl_pic ul{
+  position: relative;
+  width: 2000px;
+  overflow: hidden;
+  transition: all .3s;
+}
+
+
+.f1_L .pl_pic ul li{    float: left;
+  width: 500px;}
+.f1_L .pl_pic ul li .book_cov{width: 500px;
+  height: 250px;
+  border: none;}
+.book_cov{border: 1px solid #f3f3f3;
+  overflow: hidden;
+  display: block;}
+
+  /* 轮播框下方书籍简介 */
+.f1_L .book_inf{
+  width: 450px;
+  margin: 0 auto;
+}
+.f1_L .book_inf h3{
+  height: 50px;
+  text-align: center;
+}
+.f1_L .book_inf h3 a{max-width: 280px;
+  margin-top: 26px;}
+.f1_L .book_inf p{
+  font-size: 12px;
+  line-height: 18px;
+}
+.book_inf .int{
+  height: 34px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  word-wrap: break-word;
+  text-align: left;
+}
+  /* 轮播框指示小点 */
+.f1_L .pl_dot{
+  height: 62px;
+  border-bottom: 1px solid #c6c9cc;
+}
+.f1_L .pl_dot ol {
+  width: 88px;
+  overflow: hidden;
+  padding-top: 28px;
+  margin: 0 auto;
+}
+.f1_L .pl_dot ol li {
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+  background: #d2d2d2;
+  border-radius: 50%;
+  margin: 0 4px;
+  float: left;
+}
+  .f1_L .pl_dot ol .on {
+    background: #f26552;
+  }
+  /* 推荐 */
+  .f1_C{
+    width: 262px;
+    border-left: 1px solid #f0f0f0;
+    border-right: 1px solid #f0f0f0;
+    overflow: hidden;
+    padding: 0 22px 0;
+    float: left;
+  }
+  .f1_C li {
+    overflow: hidden;
+    margin-bottom: 23px;
+  }
+  .f1_C li h3 {
+    width: 262px;
+    border-bottom: 1px solid #f0f0f0;
+    height: 24px;
+    margin-bottom: 4px;
+  }
+  .f1_C li h3 a {
+    max-width: 260px;
+  }
+  .f1_C li .book_cov {
+    float: left;
+    width: 60px;
+    height: 75px;
+    margin: 0 14px 0 4px;
   }
 
-  /* 搜索输入框 */
-  header .search {
-    position: relative;
+
+  .f1_C li .book_inf {
+    float: right;
+    width: 176px;
+    margin-right: 4px;
   }
-
-  header .search input {
-    border-radius: 20px;
-    border: none;
-    padding: 5px 26px 5px 10px;
-    height: 15px;
-    font-size: 15px;
-    color: #8c97b2;
+  .f1_C li .book_inf .aut {
+    max-width: 120px;
   }
-
-  header .search input::placeholder {
-    color: #8c97b2;
+  .f1_C li .book_inf span {
+     margin-top: 2px;
+   }
+  .f1_C li .book_inf span {
+    margin-top: 2px; text-align: left;
   }
+  .f1_C li .book_inf .int {
+    margin-top: 22px;
 
-  header .search input:focus {
-    border: none;
-    outline: none;
   }
-
-  header .search i {
-    position: absolute;
-    right: 8px;
-    top: 4px;
-  }
-
-  /* 内容 */
-  section {
-    z-index: -1;
-    position: fixed;
-    right: 0;
-    left: 250px;
-    bottom: 0;
-    top: 131px;
-    padding: 20px 20px 0 15px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-  }
-
-  section::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    background: #EDEDED;
-  }
-
-  section::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    background: #535353;
-  }
-
-  section::-webkit-scrollbar {
-    width: 5px;
-    height: 1px;
-  }
-
-  /* 响应式样式 */
-  @media (max-width: 803px) {
-    section {
-      top: 156px;
-    }
-
-    header ul {
-      padding: 11px 20px;
-    }
-  }
-
-  /* 超小屏幕（手机，大于等于 630px） */
-  @media (max-width: 630px) {
-    section {
-      left: 150px;
-      top: 164px;
-    }
-
-    header ul {
-      padding: 15px 5px;
-    }
-    #content {
-      margin-left: 150px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    section {
-      left: 0;
-    }
-    #content {
-      margin-left: 0;
-    }
-  }
-
 </style>
 
 

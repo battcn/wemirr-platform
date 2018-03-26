@@ -46,7 +46,7 @@ const Paging = {/* 分页跳转 */
 }
 
 
-init();
+//init();
 
 
 export default new Vuex.Store({
