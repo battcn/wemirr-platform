@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface LockParam {
+public @interface CacheParam {
 
     /**
      * 字段名称

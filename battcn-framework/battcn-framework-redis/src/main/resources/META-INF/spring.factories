@@ -2,4 +2,4 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.battcn.framework.redis.cache.RedisCacheAutoConfiguration,\
   com.battcn.framework.redis.sequence.RedisSequenceAutoConfiguration,\
   com.battcn.framework.redis.lock.RedisLockAutoConfiguration,\
-  com.battcn.framework.redis.limit.LimitInterceptor
+  com.battcn.framework.redis.limit.RedisLimitAutoConfiguration

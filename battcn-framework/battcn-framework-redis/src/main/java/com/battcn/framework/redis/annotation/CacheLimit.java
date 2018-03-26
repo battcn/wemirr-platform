@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-public @interface Limit {
+public @interface CacheLimit {
 
     /**
      * 资源的名字
@@ -57,5 +57,13 @@ public @interface Limit {
      *
      * @return LimitType
      */
-    LimitType limitType() default LimitType.IP;
+    LimitType limitType() default LimitType.DEFAULT;
+
+    /**
+     * <p>Key的分隔符（默认 :）</p>
+     * <p>生成的Key：N:SO1008:500</p>
+     *
+     * @return String
+     */
+    String delimiter() default ":";
 }
