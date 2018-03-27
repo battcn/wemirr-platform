@@ -11,7 +11,6 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +33,6 @@ public class BookController {
             url = "dubbo://localhost:20880", timeout = 10000)
     private BookChapterService bookChapterService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     @ApiOperation(value = "根据分页条件查询图书信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public PageInfo<Book> query(DataGrid grid, @RequestParam(required = false) String type) {
