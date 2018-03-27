@@ -10,8 +10,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "spring.security.battcn.token")
 public class SecurityTokenProperties {
 
-    private boolean enabled;
-
     private Integer expirationTime;
 
     /**

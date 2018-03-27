@@ -4,7 +4,6 @@ import com.battcn.framework.security.extractor.HeaderTokenExtractor;
 import com.battcn.framework.security.extractor.TokenExtractor;
 import com.battcn.framework.security.model.token.TokenFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,11 +18,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties(value = SecurityTokenProperties.class)
-@ConditionalOnProperty(
-        prefix = "spring.security.battcn.token",
-        name = "enabled",
-        havingValue = "true"
-)
 public class SecurityTokenAutoConfiguration {
 
     private final SecurityTokenProperties securityTokenProperties;
