@@ -1,4 +1,4 @@
-package com.battcn.bookstore.consumer.security.auth.token.extractor;
+package com.battcn.framework.security.extractor;
 
 /**
  * 实现这个接口应该返回原Base-64编码

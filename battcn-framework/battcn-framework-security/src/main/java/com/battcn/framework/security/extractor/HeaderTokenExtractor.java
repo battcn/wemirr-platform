@@ -1,6 +1,6 @@
-package com.battcn.bookstore.consumer.security.auth.token.extractor;
+package com.battcn.framework.security.extractor;
 
-import com.battcn.bookstore.consumer.security.exceptions.AuthenticationServiceException;
+import com.battcn.framework.security.exceptions.AuthenticationServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.battcn.bookstore.consumer.security.exceptions;
+package com.battcn.framework.security.exceptions;
 
 /**
  * 不支持的方法验证 / GET != POST

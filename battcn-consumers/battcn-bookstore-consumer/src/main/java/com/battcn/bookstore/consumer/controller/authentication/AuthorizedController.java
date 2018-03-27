@@ -3,13 +3,14 @@ package com.battcn.bookstore.consumer.controller.authentication;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
-import com.battcn.bookstore.consumer.security.Authentication;
-import com.battcn.bookstore.consumer.security.TokenProperties;
-import com.battcn.bookstore.consumer.security.auth.token.extractor.TokenExtractor;
-import com.battcn.bookstore.consumer.security.exceptions.InvalidTokenException;
-import com.battcn.bookstore.consumer.security.model.MemberSecurityContext;
-import com.battcn.bookstore.consumer.security.model.token.*;
+
 import com.battcn.framework.exception.CustomException;
+import com.battcn.framework.security.Authentication;
+import com.battcn.framework.security.TokenProperties;
+import com.battcn.framework.security.exceptions.InvalidTokenException;
+import com.battcn.framework.security.extractor.TokenExtractor;
+import com.battcn.framework.security.model.MemberSecurityContext;
+import com.battcn.framework.security.model.token.*;
 import com.battcn.member.facade.MemberService;
 import com.battcn.member.pojo.po.Member;
 import com.google.common.collect.Lists;
@@ -70,11 +71,11 @@ public class AuthorizedController {
         authentication.setPrincipal(member.getAccountName());
         AccessToken accessToken = tokenFactory.createAccessToken(authentication);
         Token refreshToken = tokenFactory.createRefreshToken(authentication);
-        JSONObject tokenMap = new JSONObject();
-        tokenMap.put("claims", accessToken.getClaims());
-        tokenMap.put("token", accessToken.getToken());
-        tokenMap.put("refreshToken", refreshToken.getToken());
-        return tokenMap;
+        JSONObject result = new JSONObject();
+        result.put("claims", accessToken.getClaims());
+        result.put("token", accessToken.getToken());
+        result.put("refreshToken", refreshToken.getToken());
+        return result;
     }
 
     @PutMapping("/refresh")

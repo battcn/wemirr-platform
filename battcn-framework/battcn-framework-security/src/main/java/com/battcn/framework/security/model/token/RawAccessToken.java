@@ -1,7 +1,7 @@
-package com.battcn.bookstore.consumer.security.model.token;
+package com.battcn.framework.security.model.token;
 
-import com.battcn.bookstore.consumer.security.exceptions.ExpiredTokenException;
-import com.battcn.bookstore.consumer.security.exceptions.InvalidTokenException;
+import com.battcn.framework.security.exceptions.ExpiredTokenException;
+import com.battcn.framework.security.exceptions.InvalidTokenException;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +27,7 @@ public class RawAccessToken implements Token {
      * @throws InvalidTokenException 如果验证请求被拒绝，则因为凭据无效 <br> 对于要抛出的异常，它意味着该帐户既不锁定也不禁用。 <br>
      * @throws ExpiredTokenException 过期的Token
      */
-    public Jws<Claims> parseClaims(String signingKey) {
+    Jws<Claims> parseClaims(String signingKey) {
         try {
             return Jwts.parser().setSigningKey(signingKey).parseClaimsJws(this.token);
         } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException | SignatureException ex) {

@@ -1,7 +1,7 @@
-package com.battcn.bookstore.consumer.security.exceptions;
+package com.battcn.framework.security.exceptions;
 
-import com.battcn.bookstore.consumer.security.model.token.Token;
 
+import com.battcn.framework.security.model.token.Token;
 
 /**
  * 过期的Token

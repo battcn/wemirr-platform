@@ -1,8 +1,9 @@
-package com.battcn.bookstore.consumer.security.model.token;
+package com.battcn.framework.security.model.token;
 
-import com.battcn.bookstore.consumer.security.Authentication;
-import com.battcn.bookstore.consumer.security.TokenProperties;
-import com.battcn.bookstore.consumer.security.model.Scopes;
+
+import com.battcn.framework.security.Authentication;
+import com.battcn.framework.security.TokenProperties;
+import com.battcn.framework.security.model.Scopes;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

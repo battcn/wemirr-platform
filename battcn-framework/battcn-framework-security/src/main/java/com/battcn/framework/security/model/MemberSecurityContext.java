@@ -1,4 +1,4 @@
-package com.battcn.bookstore.consumer.security.model;
+package com.battcn.framework.security.model;
 
 import lombok.Data;
 

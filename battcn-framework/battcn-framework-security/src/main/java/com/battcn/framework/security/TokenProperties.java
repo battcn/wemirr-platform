@@ -1,4 +1,4 @@
-package com.battcn.bookstore.consumer.security;
+package com.battcn.framework.security;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

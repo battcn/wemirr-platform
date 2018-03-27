@@ -1,4 +1,4 @@
-package com.battcn.bookstore.consumer.security.model.token;
+package com.battcn.framework.security.model.token;
 
 /**
  * @author Levin
