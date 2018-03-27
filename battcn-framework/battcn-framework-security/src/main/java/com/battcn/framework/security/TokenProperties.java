@@ -2,15 +2,15 @@ package com.battcn.framework.security;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Levin
  */
 @Data
-@Configuration
 @ConfigurationProperties(prefix = "spring.security.battcn.token")
 public class TokenProperties {
+
+    private boolean enabled;
 
     private Integer expirationTime;
 
