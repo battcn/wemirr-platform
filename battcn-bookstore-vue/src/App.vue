@@ -9,7 +9,7 @@
           </a>
         </h1>
         <ul class="nav_ul">
-          <li><router-link to="/home" >首页</router-link></li>
+          <li><router-link to="/" exact>首页</router-link></li>
           <li><router-link to="/library" href="javascipt:">书库</router-link></li>
           <li><router-link to="/ranking" href="javascipt:">排行</router-link></li>
           <li><a href="javascipt:">男频</a></li>
@@ -27,11 +27,11 @@
             </a>
           </div>
           <div class="login">
-            <span class="login_before" href="">
-              <a href="">
+            <span class="login_before" >
+              <router-link to="/login" >
               <i class="fa fa-user-o"></i>
                登录
-                </a>
+                </router-link>
             </span>
           </div>
         </div>

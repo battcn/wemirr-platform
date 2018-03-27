@@ -13,80 +13,79 @@
       <div class="optCl">
         <span class="optTit">所属频道</span>
         <ul>
-          <li><a class="on" href="javascript:">不限</a></li>
-          <li><a @click="channels=1" href="javascript:">男频</a></li>
-          <li><a @click="channels=2" href="javascript:">女频</a></li>
+          <li><a @click="channels='不限',category='不限'" :class="{on:channels=='不限'}" href="javascript:">不限</a></li>
+          <li><a :class="{on:channels=='男频'}" @click="channels='男频',category='不限'" href="javascript:">男频</a></li>
+          <li><a :class="{on:channels=='女频'}" @click="channels='女频',category='不限'" href="javascript:">女频</a></li>
         </ul>
       </div>
-      <div v-show="channels!==0" class="optCl">
+      <div v-show="channels!=='不限'" class="optCl">
         <span class="optTit">作品大类</span>
-        <ul v-show="channels==1">
-          <li><a class="on" href="javascript:">不限</a></li>
-          <li><a href="javascript:">都市生活</a></li>
-          <li><a href="javascript:">玄幻小说</a></li>
-          <li><a href="javascript:">历史军事</a></li>
-          <li><a href="javascript:">科幻灵异</a></li>
-          <li><a href="javascript:">武侠仙侠</a></li>
-          <li><a href="javascript:">武侠仙侠</a></li>
-          <li><a href="javascript:">综合其他</a></li>
+        <ul v-show="channels=='男频'">
+          <li><a @click="category='不限'" :class="{on:category=='不限'}" href="javascript:">不限</a></li>
+          <li><a @click="category='都市生活'" :class="{on:category=='都市生活'}" href="javascript:">都市生活</a></li>
+          <li><a @click="category='玄幻小说'" :class="{on:category=='玄幻小说'}" href="javascript:">玄幻小说</a></li>
+          <li><a @click="category='历史军事'" :class="{on:category=='历史军事'}" href="javascript:">历史军事</a></li>
+          <li><a @click="category='科幻灵异'" :class="{on:category=='科幻灵异'}" href="javascript:">科幻灵异</a></li>
+          <li><a @click="category='武侠仙侠'" :class="{on:category=='武侠仙侠'}" href="javascript:">武侠仙侠</a></li>
+          <li><a @click="category='综合其他'" :class="{on:category=='综合其他'}" href="javascript:">综合其他</a></li>
         </ul>
-        <ul v-show="channels==2">
-          <li><a class="on" href="javascript:">不限</a></li>
-          <li><a href="javascript:">女性言情</a></li>
+        <ul v-show="channels=='女频'">
+          <li><a @click="category='不限'" :class="{on:category=='不限'}" href="javascript:">不限</a></li>
+          <li><a @click="category='女性言情'" :class="{on:category=='女性言情'}" href="javascript:">女性言情</a></li>
         </ul>
       </div>
       <div class="optCl">
         <span class="optTit">是否完结</span>
         <ul>
-          <li><a class="on" href="javascript:">不限</a></li>
-          <li><a href="javascript:">连载中</a></li>
-          <li><a href="javascript:">已完结</a></li>
+          <li><a :class="{on:isend=='不限'}"  @click="isend='不限'"   href="javascript:">不限</a></li>
+          <li><a :class="{on:isend=='连载中'}"  @click="isend='连载中'" href="javascript:">连载中</a></li>
+          <li><a :class="{on:isend=='已完结'}"  @click="isend='已完结'" href="javascript:">已完结</a></li>
         </ul>
       </div>
       <div class="optCl">
         <span class="optTit">是否免费</span>
         <ul>
-          <li><a class="on" href="javascript:">不限</a></li>
-          <li><a href="javascript:">免费</a></li>
-          <li><a href="javascript:">付费</a></li>
+          <li><a :class="{on:isfree=='不限'}"  @click="isfree='不限'"  href="javascript:">不限</a></li>
+          <li><a :class="{on:isfree=='免费'}"  @click="isfree='免费'" href="javascript:">免费</a></li>
+          <li><a :class="{on:isfree=='付费'}"  @click="isfree='付费'" href="javascript:">付费</a></li>
         </ul>
       </div>
       <div class="optCl">
         <span class="optTit">作品字数</span>
         <ul>
-          <li><a class="on" href="javascript:">不限</a></li>
-          <li><a href="javascript:">30万字以下</a></li>
-          <li><a href="javascript:">30-50万字</a></li>
-          <li><a href="javascript:">50-100万字</a></li>
-          <li><a href="javascript:">50-100万字以上</a></li>
+          <li><a  :class="{on:word_count=='不限'}"  @click="word_count='不限'"  href="javascript:">不限</a></li>
+          <li><a :class="{on:word_count=='30万字以下'}"  @click="word_count='30万字以下'"  href="javascript:">30万字以下</a></li>
+          <li><a :class="{on:word_count=='30-50万字'}"  @click="word_count='30-50万字'" href="javascript:">30-50万字</a></li>
+          <li><a :class="{on:word_count=='50-100万字'}"  @click="word_count='50-100万字'" href="javascript:">50-100万字</a></li>
+          <li><a :class="{on:word_count=='50-100万字以上'}"  @click="word_count='50-100万字以上'" href="javascript:">50-100万字以上</a></li>
         </ul>
       </div>
       <div class="optCl">
         <span class="optTit">更新时间</span>
         <ul>
-          <li><a class="on" href="javascript:">不限</a></li>
-          <li><a href="javascript:">三天内</a></li>
-          <li><a href="javascript:">一周内</a></li>
-          <li><a href="javascript:">半月内</a></li>
-          <li><a href="javascript:">一个月内</a></li>
+          <li><a  :class="{on:update_time=='不限'}"  @click="update_time='不限'"  href="javascript:">不限</a></li>
+          <li><a :class="{on:update_time=='三天内'}"  @click="update_time='三天内'" href="javascript:">三天内</a></li>
+          <li><a :class="{on:update_time=='一周内'}"  @click="update_time='一周内'" href="javascript:">一周内</a></li>
+          <li><a :class="{on:update_time=='半月内'}"  @click="update_time='半月内'" href="javascript:">半月内</a></li>
+          <li><a :class="{on:update_time=='一个月内'}"  @click="update_time='一个月内'" href="javascript:">一个月内</a></li>
         </ul>
       </div>
       <div class="optCl">
         <span class="optTit">排序方式</span>
         <ul>
-          <li><a class="on" href="javascript:">默认</a></li>
-          <li><a href="javascript:">热度</a></li>
-          <li><a href="javascript:">更新时间</a></li>
-          <li><a href="javascript:">字数</a></li>
-          <li><a href="javascript:">销售</a></li>
+          <li><a :class="{on:sorting=='默认'}"  @click="sorting='默认'"  href="javascript:">默认</a></li>
+          <li><a :class="{on:sorting=='热度'}"  @click="sorting='热度'" href="javascript:">热度</a></li>
+          <li><a :class="{on:sorting=='更新时间'}"  @click="sorting='更新时间'" href="javascript:">更新时间</a></li>
+          <li><a :class="{on:sorting=='字数'}"  @click="sorting='字数'" href="javascript:">字数</a></li>
+          <li><a :class="{on:sorting=='销售'}"  @click="sorting='销售'" href="javascript:">销售</a></li>
         </ul>
       </div>
     </div>
   </div>
   <!--选择搜索 结束-->
-  <div class="yxx">
-    <span>更新时间<s></s></span>
-    <a href="javascript:">清空筛选</a>
+  <div v-show="Object.keys(find_condition).length!=0" class="yxx">
+    <span v-for="(value,key) in find_condition">{{value}}<s @click="Reset(key)"></s></span>
+    <a href="javascript:" @click="Reset()">清空筛选</a>
   </div>
     <!--搜索结果 开始-->
     <div class="result">
@@ -124,7 +123,37 @@
   export default {
     name: 'Library',
     data() {
-      return {channels:0}
+      /* 所属频道，作品大类，是否完结,是否免费，字数,更新时间,排序方式 */
+      return {channels:'不限',category:'不限',isend:'不限',isfree:'不限',word_count:'不限',update_time:'不限',sorting:'默认'}
+    },
+    computed:{
+      find_condition(){
+        let find_condition={};
+        this.channels==='不限'?'':find_condition['channels']=this.channels;
+        this.category==='不限'?'':find_condition['category']=this.category;
+        this.isfree==='不限'?'':find_condition['isfree']=this.isfree;
+        this.isend==='不限'?'':find_condition['isend']=this.isend;
+        this.word_count==='不限'?'':find_condition['word_count']=this.word_count;
+        this.update_time==='不限'?'':find_condition['update_time']=this.update_time;
+        this.sorting==='默认'?'':find_condition['sorting']=this.sorting;
+        return find_condition;
+      }
+    },
+    methods:{
+      Reset:function(key){/*重置某一项或者全部 */
+        let _this=this;
+        if(key!=undefined){
+          key=='sorting'?_this[key]='默认':_this[key]='不限';
+          return false;
+        }
+        this.channels='不限';
+        this.category='不限';
+        this.isfree='不限';
+        this.isend='不限';
+        this.word_count='不限';
+        this.update_time='不限';
+        this.sorting='默认';
+      }
     }
   }
 

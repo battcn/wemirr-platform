@@ -33,18 +33,132 @@ input {
   padding: 0;
   list-style: none;
 }
+input, textarea, select, button {
+  border: none;
+  resize: none;
+  outline: none;
+  font-family: "Microsoft Yahei";
+  color: #666;
+}
 
 li {
   list-style: none; text-align: left;
 }
 
 
+.jbcz {
+  background: #fff;
+  margin-bottom: 70px;
+}
+.jbcz .conHead {
+  width: 980px;
+  height: 54px;
+  background: #fafafa;
+  padding: 34px 50px 0 80px;
+  font-size: 20px;
+  color: #333;
+}
+.conHead .tit {
+  float: left;
+}
+.conHead .ts {
+  float: right;
+  font-size: 14px;
+  margin: 7px 0 0 0;
+}
+.conHead .ts a {
+  color: #f26552;
+}
+.coco {
+  padding: 28px 0 90px 0;
+}
+.srq {
+  margin: 0 auto;
+}
+.logTan .srq, .dlcon .srq {
+  width: 346px;
+}
+
+.srq input {
+  width: 316px;
+  height: 42px;
+  border: 1px solid #d2d2d2;
+  padding: 0 14px;
+  float: left;
+}
+.srq .difcon {
+  overflow: hidden;
+  position: relative;
+  padding-top: 24px;
+}
 
 .rec {
   width: 1100px;
   height: 230px;
   background: #fff;
   margin-top: 20px;
+}
+.srq .yzm input {
+  width: 220px;
+  border-right: none;
+}
+.srq .yzt {
+  width: 94px;
+  height: 42px;
+  border: 1px solid #d2d2d2;
+  cursor: pointer;
+}
+.srq .Btn {
+  padding: 0;
+}
+.srq .fault {
+  font-size: 12px;
+  color: #f26552;
+}
+.dlcon .fault, .logTan .fault {
+  position: absolute;
+  left: 0;
+  top: 12px;
+}
+.srq .fault i {
+  font-weight: bold;
+}
+.srq .tjbtn {
+  width: 346px;
+  height: 42px;
+  background: #f26552;
+  border-radius: 2px;
+  color: #fff;
+  font-size: 16px;
+  margin: 30px 0 16px 0;
+}
+.srq .tjbtn:hover {
+  background: #e5533f;
+}
+button {
+  cursor: pointer;
+  letter-spacing: 2px;
+}
+.srq .end {
+  width: 346px;
+  padding: 0;
+}
+.srq .for {
+  float: right;
+}
+.srq .rem, .srq .for {
+  font-size: 12px;
+  margin: -1px 0 0 0;
+}
+.srq .for a {
+  color: #9e9e9e;
+}
+.srq span {
+  float: left;
+}
+.srq .yzt img {
+  width: 100%;
+  height: 100%;
 }
 .rec .rec_L {
   width: 74px;
