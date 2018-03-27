@@ -1,8 +1,8 @@
 package com.battcn.bookstore.consumer.config.interceptor;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.battcn.bookstore.consumer.security.Environments;
-import com.battcn.bookstore.consumer.security.annotation.IgnoreAuthenticate;
+import com.battcn.framework.security.Environments;
+import com.battcn.framework.security.annotation.IgnoreAuthenticate;
 import com.battcn.member.facade.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

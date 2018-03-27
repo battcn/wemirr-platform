@@ -1,4 +1,4 @@
-package com.battcn.bookstore.consumer.security.annotation;
+package com.battcn.framework.security.annotation;
 
 import java.lang.annotation.*;
 

@@ -22,6 +22,7 @@
         <module>battcn-framework-core</module>
         <module>battcn-framework-mybatis</module>
         <module>battcn-framework-webmagic</module>
+        <module>battcn-framework-security</module>
     </modules>
 
     <build>

@@ -60,4 +60,24 @@ public class BookController {
     }
 
 
+    @GetMapping(value = "/hots", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "热门")
+    public List<String> queryHots() {
+        return null;
+    }
+
+    @GetMapping(value = "/recommends", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "首页推荐/与总点击榜")
+    public PageInfo<Book> queryRecommends() {
+        // TODO 查询 Redis 总点击榜
+        DataGrid grid = new DataGrid();
+        grid.setPageSize(10);
+        grid.setSort("gmt_modified");
+        Book record = new Book();
+        record.setRecommend(true);
+        // TODO 查询推荐的数据
+        // TODO 组装数据报文
+        return this.bookService.listForDataGrid(grid, record);
+    }
+
 }

@@ -22,6 +22,17 @@
 由于 `dubbo-spring-boot-starter（现在还是开发版）`，所以暂未升级 `spring-boot2.x`,依旧采用的`1.5.10.RELEASE` 版本
 
 
+# 模块 battcn-framework
+
+为了简化开发,提高开发效率,代码整洁,特意封装了几个组件
+
+- **`battcn-framework-commons`：** 基础工具类,不依赖`Servlet` 包
+- **`battcn-framework-core`：** 封装了*`跨域`、`RequestUtils`、`全局通用异常`、*
+- **`battcn-framework-mybatis`：** 封装了*`分页插件`、`通用Mapper`、`通用Service`、*
+- **`battcn-framework-redis`：** 封装了*`分布式限流`、`分布式锁`、`唯一序列`、*
+- **`battcn-framework-security`：** 封装了*`JWT`、`自定义权限注解`、*
+- **`battcn-framework-webmagic`：** 封装了*`webmagic` 爬虫功能*
+
 
 ## 技术栈
 

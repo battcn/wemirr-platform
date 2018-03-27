@@ -7,7 +7,6 @@
 -- ----------------------------
 
 
-
 /*
  Navicat Premium Data Transfer
 
@@ -21,7 +20,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 23/03/2018 21:50:44
+ Date: 27/03/2018 20:36:29
 */
 
 SET NAMES utf8mb4;
@@ -40,6 +39,7 @@ CREATE TABLE `t_book`  (
   `description` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述（简介）',
   `cover` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '书籍封面',
   `status` bit(1) NULL DEFAULT b'0' COMMENT '是否完结 0=未完结 1=已完结',
+  `recommend` bit(1) NULL DEFAULT b'0' COMMENT '是否完结 0=不推荐 1=推荐',
   `gmt_create` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `gmt_modified` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`book_no`) USING BTREE
@@ -48,7 +48,7 @@ CREATE TABLE `t_book`  (
 -- ----------------------------
 -- Records of t_book
 -- ----------------------------
-INSERT INTO `t_book` VALUES ('NO1521203244709', '天蚕土豆', 'http://www.biquge5200.com/0_844/', '玄幻小说', '斗破苍穹', '这里是属于斗气的世界，没有花俏艳丽的魔法，有的，仅仅是繁衍到巅峰的斗气！想要知道异界的斗气在发展到巅峰之后是何种境地吗？请观斗破苍穹^^据调查，斗气，并非是国外产品，而是正宗的国产货，虽然斗气基本上已经泛滥在异界小说之中，不过土豆相信，斗破苍穹，能写出一些属于斗气的特色。', 'http://r.i.biquge5200.com/files/article/image/0/844/844s.jpg', b'0', '2018-03-16 20:27:29', '2018-03-16 20:36:50');
+INSERT INTO `t_book` VALUES ('NO1521203244709', '天蚕土豆', 'http://www.biquge5200.com/0_844/', '玄幻小说', '斗破苍穹', '这里是属于斗气的世界，没有花俏艳丽的魔法，有的，仅仅是繁衍到巅峰的斗气！想要知道异界的斗气在发展到巅峰之后是何种境地吗？请观斗破苍穹^^据调查，斗气，并非是国外产品，而是正宗的国产货，虽然斗气基本上已经泛滥在异界小说之中，不过土豆相信，斗破苍穹，能写出一些属于斗气的特色。', 'http://r.i.biquge5200.com/files/article/image/0/844/844s.jpg', b'0', b'1', '2018-03-16 20:27:29', '2018-03-27 20:20:38');
 
 -- ----------------------------
 -- Table structure for t_book_chapter
@@ -1785,6 +1785,11 @@ CREATE TABLE `t_member`  (
   `gmt_modified` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`member_no`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '会员表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of t_member
+-- ----------------------------
+INSERT INTO `t_member` VALUES ('1', 'battcn', 'battcn', 'ADMIN', '2018-03-23 22:10:28', '2018-03-23 22:10:28');
 
 -- ----------------------------
 -- Table structure for t_sys_log
