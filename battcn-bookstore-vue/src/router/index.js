@@ -6,13 +6,19 @@ Vue.use(Router);
 import Home from '@/components/home';
 import Library from '@/components/library'
 import Ranking from '@/components/ranking'
+import login from '@/components/login'
 
 export default new Router({
   mode:'history',
   linkActiveClass: 'active',
   routes: [
     {
-      path: '/home', /* 主页 */
+      path: '/', /* 主页 */
+      name: 'Home',
+      component: Home
+    },
+    {
+      path: '/', /* 主页 */
       name: 'Home',
       component: Home
     },
@@ -25,6 +31,11 @@ export default new Router({
       path:'/ranking',
       name:'Ranking',
       component:Ranking
+    },
+    {
+      path:'/login',
+      name:'login',
+      component:login
     }
   ]
 })
