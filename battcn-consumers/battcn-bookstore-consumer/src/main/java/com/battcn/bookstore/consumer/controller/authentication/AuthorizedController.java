@@ -3,7 +3,6 @@ package com.battcn.bookstore.consumer.controller.authentication;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
-
 import com.battcn.framework.exception.CustomException;
 import com.battcn.framework.security.Authentication;
 import com.battcn.framework.security.SecurityTokenProperties;

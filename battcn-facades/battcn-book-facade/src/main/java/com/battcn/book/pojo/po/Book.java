@@ -29,4 +29,5 @@ public class Book extends RecordEntity {
     private String description;
     private String cover;
     private Boolean status;
+    private Boolean recommend;
 }
