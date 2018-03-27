@@ -329,6 +329,11 @@ em, span, i {
   padding-bottom: 10px;
   width: 132px;
 }
+.ki_li .com_R ol li .book_inf {
+  margin-left: 16px;
+  text-align: left;
+  width: 190px;
+}
 .com_R .list li .book_cov {
   width: 72px;
   height: 90px;
@@ -354,9 +359,11 @@ a:hover {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
 .com_R .list li .book_inf .aut {
   max-width: 132px;
 }
+
 .com_R .list_wrap {
   overflow: hidden;
 }

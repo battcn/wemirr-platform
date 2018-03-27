@@ -134,7 +134,7 @@
   }
 
 </script>
-<style slot-scope>
+<style scoped>
    .com_bd {
     border-left: 1px solid #f0f0f0;
     border-right: 1px solid #f0f0f0;
@@ -191,7 +191,8 @@
   .com_R ol li h3 a {
     max-width: 220px;
   }
-  .com_R ol li .open {
+
+   .ki_li .com_R ol li .open {
     width: 302px;
     height: 102px;
     padding: 10px 12px;

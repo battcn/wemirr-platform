@@ -152,7 +152,7 @@
     }
   }
 </script>
-<style slot-scope>
+<style scoped>
   .f1_R {
     width: 215px;
     float: left;
