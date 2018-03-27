@@ -9,10 +9,10 @@ import java.sql.Timestamp;
  */
 public class Environments {
 
-    private final static ThreadLocal<Authenticated> AUTHENTICATED_THREAD_LOCAL = new InheritableThreadLocal<>();
+    private final static ThreadLocal<Authentication> AUTHENTICATED_THREAD_LOCAL = new InheritableThreadLocal<>();
     private final static ThreadLocal<Timestamp> NOW = new ThreadLocal<>();
 
-    public static void set(Authenticated member) {
+    public static void set(Authentication member) {
         AUTHENTICATED_THREAD_LOCAL.set(member);
     }
 
@@ -21,7 +21,7 @@ public class Environments {
         NOW.remove();
     }
 
-    public static Authenticated get() {
+    public static Authentication get() {
         return AUTHENTICATED_THREAD_LOCAL.get();
     }
 
@@ -36,7 +36,7 @@ public class Environments {
         return NOW.get();
     }
 
-    public static Long getAuthId() {
+    public static String getAuthId() {
         if (AUTHENTICATED_THREAD_LOCAL.get() != null) {
             return AUTHENTICATED_THREAD_LOCAL.get().getAuthId();
         }
