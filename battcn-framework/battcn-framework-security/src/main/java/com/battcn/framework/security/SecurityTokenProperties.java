@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @Data
 @ConfigurationProperties(prefix = "spring.security.battcn.token")
-public class TokenProperties {
+public class SecurityTokenProperties {
 
     private boolean enabled;
 

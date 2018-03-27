@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import com.battcn.framework.exception.CustomException;
 import com.battcn.framework.security.Authentication;
-import com.battcn.framework.security.TokenProperties;
+import com.battcn.framework.security.SecurityTokenProperties;
 import com.battcn.framework.security.exceptions.InvalidTokenException;
 import com.battcn.framework.security.extractor.TokenExtractor;
 import com.battcn.framework.security.model.MemberSecurityContext;
@@ -45,13 +45,13 @@ public class AuthorizedController {
     private MemberService memberService;
 
 
-    private final TokenProperties tokenProperties;
+    private final SecurityTokenProperties securityTokenProperties;
     private final TokenFactory tokenFactory;
     private final TokenExtractor tokenExtractor;
 
     @Autowired
-    public AuthorizedController(TokenProperties tokenProperties, TokenFactory tokenFactory, TokenExtractor tokenExtractor) {
-        this.tokenProperties = tokenProperties;
+    public AuthorizedController(SecurityTokenProperties securityTokenProperties, TokenFactory tokenFactory, TokenExtractor tokenExtractor) {
+        this.securityTokenProperties = securityTokenProperties;
         this.tokenFactory = tokenFactory;
         this.tokenExtractor = tokenExtractor;
     }
@@ -83,7 +83,7 @@ public class AuthorizedController {
     public Token refreshToken(@RequestHeader(TOKEN_HEADER_PARAM) String payload) {
         String tokenPayload = tokenExtractor.extract(payload);
         RawAccessToken rawToken = new RawAccessToken(tokenPayload);
-        RefreshToken refreshToken = RefreshToken.create(rawToken, tokenProperties.getSigningKey()).orElseThrow(() -> new InvalidTokenException("Token验证失败"));
+        RefreshToken refreshToken = RefreshToken.create(rawToken, securityTokenProperties.getSigningKey()).orElseThrow(() -> new InvalidTokenException("Token验证失败"));
         String accountName = refreshToken.getAccountName();
         Member member = Optional.ofNullable(memberService.findByName(accountName)).orElseThrow(() -> CustomException.badRequest("用户未找到: " + accountName));
         Authentication authentication = Authentication.create(accountName, Lists.newArrayList(member.getRoleName()));

@@ -2,7 +2,7 @@ package com.battcn.framework.security.model.token;
 
 
 import com.battcn.framework.security.Authentication;
-import com.battcn.framework.security.TokenProperties;
+import com.battcn.framework.security.SecurityTokenProperties;
 import com.battcn.framework.security.model.Scopes;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -29,11 +29,11 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class TokenFactory {
 
-    private final TokenProperties properties;
+    private final SecurityTokenProperties securityTokenProperties;
 
     @Autowired
-    public TokenFactory(TokenProperties properties) {
-        this.properties = properties;
+    public TokenFactory(SecurityTokenProperties securityTokenProperties) {
+        this.securityTokenProperties = securityTokenProperties;
     }
 
     /**
@@ -50,12 +50,12 @@ public class TokenFactory {
         LocalDateTime currentTime = LocalDateTime.now();
         String token = Jwts.builder()
                 .setClaims(claims)
-                .setIssuer(properties.getIssuer())
+                .setIssuer(securityTokenProperties.getIssuer())
                 .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
                 .setExpiration(Date.from(currentTime
-                        .plusMinutes(properties.getExpirationTime())
+                        .plusMinutes(securityTokenProperties.getExpirationTime())
                         .atZone(ZoneId.systemDefault()).toInstant()))
-                .signWith(SignatureAlgorithm.HS512, properties.getSigningKey())
+                .signWith(SignatureAlgorithm.HS512, securityTokenProperties.getSigningKey())
                 .compact();
         return new AccessToken(token, claims);
     }
@@ -75,13 +75,13 @@ public class TokenFactory {
         claims.put("scopes", Collections.singletonList(Scopes.REFRESH_TOKEN.authority()));
         String token = Jwts.builder()
                 .setClaims(claims)
-                .setIssuer(properties.getIssuer())
+                .setIssuer(securityTokenProperties.getIssuer())
                 .setId(UUID.randomUUID().toString())
                 .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
                 .setExpiration(Date.from(currentTime
-                        .plusMinutes(properties.getRefreshExpTime())
+                        .plusMinutes(securityTokenProperties.getRefreshExpTime())
                         .atZone(ZoneId.systemDefault()).toInstant()))
-                .signWith(SignatureAlgorithm.HS512, properties.getSigningKey())
+                .signWith(SignatureAlgorithm.HS512, securityTokenProperties.getSigningKey())
                 .compact();
         return new AccessToken(token, claims);
     }
