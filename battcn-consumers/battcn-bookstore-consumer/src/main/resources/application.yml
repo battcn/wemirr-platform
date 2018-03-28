@@ -40,6 +40,11 @@ spring:
         refresh-exp-time: 2048
         issuer: http://battcn.com
         signing-key: battcn
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 192.168.0.134:9300
+
 management:
   port: 9091
   health:
