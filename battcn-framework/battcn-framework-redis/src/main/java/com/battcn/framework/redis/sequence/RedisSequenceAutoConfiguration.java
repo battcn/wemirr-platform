@@ -1,16 +1,17 @@
 package com.battcn.framework.redis.sequence;
 
+import com.battcn.framework.redis.cache.RedisCacheAutoConfiguration;
 import com.battcn.framework.redis.constant.RedisConstant;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import java.io.Serializable;
 
 
 /**
@@ -22,42 +23,18 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 @Configuration
 @EnableConfigurationProperties(value = RedisSequenceProperties.class)
-@ConditionalOnProperty(
-        prefix = "spring.redis.battcn.sequence",
-        name = "enabled",
-        havingValue = "true"
-)
-@AutoConfigureAfter(RedisAutoConfiguration.class)
+@AutoConfigureBefore(RedisCacheAutoConfiguration.class)
 public class RedisSequenceAutoConfiguration {
 
-    private final JedisConnectionFactory jedisConnectionFactory;
-    private final RedisSequenceProperties redisSequenceProperties;
-
-    @Autowired
-    public RedisSequenceAutoConfiguration(JedisConnectionFactory jedisConnectionFactory, RedisSequenceProperties redisSequenceProperties) {
-        this.redisSequenceProperties = redisSequenceProperties;
-        this.jedisConnectionFactory = jedisConnectionFactory;
-    }
-
-    @Bean(name = RedisConstant.SEQUENCE_TEMPLATE_NAME)
-    public StringRedisTemplate sequenceRedisTemplate() {
-        StringRedisTemplate temple = new StringRedisTemplate();
-        jedisConnectionFactory.setDatabase(redisSequenceProperties.getDb());
-        temple.setConnectionFactory(jedisConnectionFactory);
-        return temple;
-    }
-
-    @Bean(name = "sequenceRedisHelper")
-    public SequenceRedisHelper sequenceRedisHelper(@Qualifier(RedisConstant.SEQUENCE_TEMPLATE_NAME) StringRedisTemplate sequenceRedisTemplate) {
-        SequenceRedisHelper helper = new SequenceRedisHelper();
-        helper.setSequenceRedisTemplate(sequenceRedisTemplate);
-        return helper;
-    }
-
     @Bean(name = RedisConstant.SEQUENCE_GENERATOR)
-    public SequenceGenerator sequenceGenerator(SequenceRedisHelper sequenceRedisHelper) {
+    public SequenceGenerator sequenceGenerator(JedisConnectionFactory jedisConnectionFactory, RedisSequenceProperties redisSequenceProperties) {
+        jedisConnectionFactory.setDatabase(redisSequenceProperties.getDb());
+        RedisTemplate<String, Serializable> redisCacheTemplate = new RedisTemplate<>();
+        redisCacheTemplate.setKeySerializer(new StringRedisSerializer());
+        redisCacheTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        redisCacheTemplate.setConnectionFactory(jedisConnectionFactory);
         SequenceGenerator sequenceGenerator = new SequenceGenerator();
-        sequenceGenerator.setRedisHelper(sequenceRedisHelper);
+        sequenceGenerator.setRedisCacheTemplate(redisCacheTemplate);
         sequenceGenerator.setRedisSequenceProperties(redisSequenceProperties);
         return sequenceGenerator;
     }

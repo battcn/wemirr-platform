@@ -1,11 +1,10 @@
 package com.battcn.framework.redis.lock;
 
 import com.battcn.framework.redis.CacheKeyGenerator;
+import com.battcn.framework.redis.cache.RedisCacheAutoConfiguration;
 import com.battcn.framework.redis.constant.RedisConstant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +20,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  */
 @Configuration
 @EnableConfigurationProperties(value = RedisLockProperties.class)
-@ConditionalOnProperty(
-        prefix = "spring.redis.battcn.lock",
-        name = "enabled",
-        havingValue = "true"
-)
-@AutoConfigureAfter(RedisAutoConfiguration.class)
+@AutoConfigureBefore(RedisCacheAutoConfiguration.class)
 @Import(CacheLockInterceptor.class)
 public class RedisLockAutoConfiguration {
 

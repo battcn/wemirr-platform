@@ -11,11 +11,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "spring.redis.battcn.sequence")
 public class RedisSequenceProperties {
-
-    /**
-     * 是否开启Redis
-     */
-    private boolean enabled;
     /**
      * 默认Redis的DB
      */
@@ -26,14 +21,6 @@ public class RedisSequenceProperties {
      * <p>prod：生成的Key就是 BOprod201801032001</p>
      */
     private String profile;
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 
     public int getDb() {
         return db;

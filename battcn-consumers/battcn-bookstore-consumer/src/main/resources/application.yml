@@ -13,19 +13,15 @@ spring:
         required: false
   redis:
     battcn:
+      cache:
+        db: 0
       lock:
-        db: 3
-        enabled: true
+        db: 1
       sequence:
-        enabled: true
         db: 2
         profile: dev
-      cache:
-        enabled: true
-        db: 1
       limit:
-        enabled: true
-        db: 1
+        db: 3
     timeout: 10000
     pool:
       min-idle: 10

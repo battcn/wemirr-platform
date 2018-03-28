@@ -1,7 +1,9 @@
 package com.battcn.framework.redis.sequence;
 
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,7 +18,7 @@ import java.util.Date;
 public class SequenceGenerator {
 
     private static final String DATE_FORMAT = "YYYYMMdd";
-    private SequenceRedisHelper redisHelper;
+    private RedisTemplate<String, Serializable> redisCacheTemplate;
     private RedisSequenceProperties redisSequenceProperties;
 
     /**
@@ -38,7 +40,7 @@ public class SequenceGenerator {
     }
 
     private String generateSequence(String key) {
-        Integer value = redisHelper.incr(key);
+        Long value = redisCacheTemplate.opsForValue().increment(key, 1L);
         return key + String.format("%05d", value);
     }
 
@@ -51,8 +53,8 @@ public class SequenceGenerator {
     }
 
 
-    public void setRedisHelper(SequenceRedisHelper redisHelper) {
-        this.redisHelper = redisHelper;
+    public void setRedisCacheTemplate(RedisTemplate<String, Serializable> redisCacheTemplate) {
+        this.redisCacheTemplate = redisCacheTemplate;
     }
 
     public void setRedisSequenceProperties(RedisSequenceProperties redisSequenceProperties) {

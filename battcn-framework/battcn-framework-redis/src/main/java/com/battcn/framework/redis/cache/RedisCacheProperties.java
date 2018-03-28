@@ -12,10 +12,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class RedisCacheProperties {
 
     /**
-     * 是否开启Redis
-     */
-    private boolean enabled;
-    /**
      * 默认Redis的DB
      */
     private int db;
@@ -25,14 +21,6 @@ public class RedisCacheProperties {
      * <p>prod：生成的Key就是 BOprod201801032001</p>
      */
     private String profile;
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 
     public int getDb() {
         return db;

@@ -3,16 +3,17 @@ package com.battcn.bookstore.consumer.controller.pay;
 import com.battcn.framework.redis.annotation.CacheLimit;
 import com.battcn.framework.redis.annotation.CacheLock;
 import com.battcn.framework.redis.annotation.CacheParam;
-import com.battcn.framework.redis.cache.CacheService;
 import com.battcn.framework.redis.limit.LimitType;
 import com.battcn.framework.redis.sequence.SequenceGenerator;
 import com.battcn.framework.redis.sequence.SequenceType;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.RedisZSetCommands;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -27,12 +28,12 @@ import java.util.Set;
 public class RedisController {
 
     private final SequenceGenerator sequenceGenerator;
-    private final CacheService cacheService;
+    private final RedisTemplate<String, Serializable> redisCacheTemplate;
 
     @Autowired
-    public RedisController(SequenceGenerator sequenceGenerator, CacheService cacheService) {
+    public RedisController(SequenceGenerator sequenceGenerator, RedisTemplate<String, Serializable> redisCacheTemplate) {
         this.sequenceGenerator = sequenceGenerator;
-        this.cacheService = cacheService;
+        this.redisCacheTemplate = redisCacheTemplate;
     }
 
     @CacheLock(prefix = "book:num", expire = 100)
@@ -48,13 +49,11 @@ public class RedisController {
     }
 
     @GetMapping
-    public Set<RedisZSetCommands.Tuple> cache(String bookNo, String title) {
+    public Set<ZSetOperations.TypedTuple<Serializable>> cache(String bookNo, String title) {
         String key = StringUtils.join("books:", bookNo);
-        cacheService.hset(key, "title", title);
-        cacheService.zincrby("score", 1, key);
-        final Set<RedisZSetCommands.Tuple> score = cacheService.zrevrangeWithScores("score", 0, -1);
-
-        return cacheService.zrevrangeWithScores("score", 0, -1);
+        redisCacheTemplate.opsForHash().put(key, "title", title);
+        redisCacheTemplate.opsForZSet().incrementScore("score", key, 1);
+        return redisCacheTemplate.opsForZSet().reverseRangeWithScores("score", 0, -1);
     }
 
 

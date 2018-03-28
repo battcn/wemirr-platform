@@ -7,15 +7,12 @@ import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
 import com.battcn.book.pojo.po.BookType;
 import com.battcn.framework.mybatis.pojo.DataGrid;
-import com.battcn.framework.redis.cache.CacheService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
 import java.util.List;
 
 
@@ -36,8 +33,6 @@ public class BookController {
             url = "dubbo://localhost:20880", timeout = 10000)
     private BookChapterService bookChapterService;
 
-    @Autowired
-    private CacheService cacheService;
 
 
     @GetMapping
@@ -77,7 +72,7 @@ public class BookController {
     @ApiOperation(value = "首页推荐/与总点击榜")
     public PageInfo<Book> queryRecommends() {
         // TODO 查询 Redis 总点击榜
-        final List<Serializable> list = cacheService.getList("rankings");
+        //final List<Serializable> list = cacheService.getList("rankings");
 
         DataGrid grid = new DataGrid();
         grid.setPageSize(10);
