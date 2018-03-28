@@ -2,6 +2,7 @@ package com.battcn.framework.redis.sequence;
 
 import com.battcn.framework.redis.cache.RedisCacheAutoConfiguration;
 import com.battcn.framework.redis.constant.RedisConstant;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -26,15 +27,21 @@ import java.io.Serializable;
 @AutoConfigureBefore(RedisCacheAutoConfiguration.class)
 public class RedisSequenceAutoConfiguration {
 
-    @Bean(name = RedisConstant.SEQUENCE_GENERATOR)
-    public SequenceGenerator sequenceGenerator(JedisConnectionFactory jedisConnectionFactory, RedisSequenceProperties redisSequenceProperties) {
+
+    @Bean(name = RedisConstant.SEQUENCE_TEMPLATE_NAME)
+    public RedisTemplate<String, Serializable> lockRedisTemplate(JedisConnectionFactory jedisConnectionFactory, RedisSequenceProperties redisSequenceProperties) {
+        RedisTemplate<String, Serializable> template = new RedisTemplate<>();
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         jedisConnectionFactory.setDatabase(redisSequenceProperties.getDb());
-        RedisTemplate<String, Serializable> redisCacheTemplate = new RedisTemplate<>();
-        redisCacheTemplate.setKeySerializer(new StringRedisSerializer());
-        redisCacheTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        redisCacheTemplate.setConnectionFactory(jedisConnectionFactory);
+        template.setConnectionFactory(jedisConnectionFactory);
+        return template;
+    }
+
+    @Bean(name = RedisConstant.SEQUENCE_GENERATOR)
+    public SequenceGenerator sequenceGenerator(@Qualifier(RedisConstant.SEQUENCE_TEMPLATE_NAME) RedisTemplate<String, Serializable> lockRedisTemplate, RedisSequenceProperties redisSequenceProperties) {
         SequenceGenerator sequenceGenerator = new SequenceGenerator();
-        sequenceGenerator.setRedisCacheTemplate(redisCacheTemplate);
+        sequenceGenerator.setLockRedisTemplate(lockRedisTemplate);
         sequenceGenerator.setRedisSequenceProperties(redisSequenceProperties);
         return sequenceGenerator;
     }

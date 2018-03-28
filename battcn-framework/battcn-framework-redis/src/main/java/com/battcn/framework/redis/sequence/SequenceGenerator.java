@@ -18,7 +18,7 @@ import java.util.Date;
 public class SequenceGenerator {
 
     private static final String DATE_FORMAT = "YYYYMMdd";
-    private RedisTemplate<String, Serializable> redisCacheTemplate;
+    private RedisTemplate<String, Serializable> lockRedisTemplate;
     private RedisSequenceProperties redisSequenceProperties;
 
     /**
@@ -40,7 +40,7 @@ public class SequenceGenerator {
     }
 
     private String generateSequence(String key) {
-        Long value = redisCacheTemplate.opsForValue().increment(key, 1L);
+        Long value = lockRedisTemplate.opsForValue().increment(key, 1L);
         return key + String.format("%05d", value);
     }
 
@@ -53,8 +53,8 @@ public class SequenceGenerator {
     }
 
 
-    public void setRedisCacheTemplate(RedisTemplate<String, Serializable> redisCacheTemplate) {
-        this.redisCacheTemplate = redisCacheTemplate;
+    public void setLockRedisTemplate(RedisTemplate<String, Serializable> lockRedisTemplate) {
+        this.lockRedisTemplate = lockRedisTemplate;
     }
 
     public void setRedisSequenceProperties(RedisSequenceProperties redisSequenceProperties) {
