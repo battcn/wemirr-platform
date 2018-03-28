@@ -24,13 +24,6 @@ public @interface CacheLimit {
     String name() default "";
 
     /**
-     * 资源的key
-     *
-     * @return String
-     */
-    String key() default "";
-
-    /**
      * Key的prefix
      *
      * @return String

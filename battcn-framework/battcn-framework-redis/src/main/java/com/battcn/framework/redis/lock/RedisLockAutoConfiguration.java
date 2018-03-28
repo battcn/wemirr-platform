@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * @author Levin
@@ -39,11 +40,13 @@ public class RedisLockAutoConfiguration {
     }
 
     @Bean(name = RedisConstant.LOCK_TEMPLATE_NAME)
-    public RedisTemplate<String, String> lockRedisTemplate() {
-        RedisTemplate<String, String> temple = new StringRedisTemplate();
+    public RedisTemplate<String, Object> lockRedisTemplate() {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         jedisConnectionFactory.setDatabase(redisLockProperties.getDb());
-        temple.setConnectionFactory(jedisConnectionFactory);
-        return temple;
+        template.setConnectionFactory(jedisConnectionFactory);
+        return template;
     }
 
     @Bean(name = RedisConstant.LOCK_KEY_GENERATOR)

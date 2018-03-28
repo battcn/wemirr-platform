@@ -8,7 +8,8 @@ package com.battcn.framework.redis.constant;
  */
 public final class RedisConstant {
 
-    public final static String CACHE_TEMPLATE_NAME = "cacheRedisTemplate";
+    public final static String CACHE_SERVICE = "cacheService";
+    public final static String CACHE_TEMPLATE_NAME = "redisCacheTemplate";
     public final static String SEQUENCE_TEMPLATE_NAME = "sequenceRedisTemplate";
     public final static String LOCK_TEMPLATE_NAME = "lockRedisTemplate";
     public final static String LIMIT_TEMPLATE_NAME = "limitRedisTemplate";

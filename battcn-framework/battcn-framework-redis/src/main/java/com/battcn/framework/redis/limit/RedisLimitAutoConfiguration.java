@@ -12,7 +12,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import java.io.Serializable;
 
 /**
  * @author Levin
@@ -39,8 +42,10 @@ public class RedisLimitAutoConfiguration {
     }
 
     @Bean(name = RedisConstant.LIMIT_TEMPLATE_NAME)
-    public RedisTemplate<String, String> limitRedisTemplate() {
-        RedisTemplate<String, String> temple = new StringRedisTemplate();
+    public RedisTemplate<String, Serializable> limitRedisTemplate() {
+        RedisTemplate<String, Serializable> temple = new RedisTemplate<>();
+        temple.setKeySerializer(new StringRedisSerializer());
+        temple.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         jedisConnectionFactory.setDatabase(redisLimitProperties.getDb());
         temple.setConnectionFactory(jedisConnectionFactory);
         return temple;

@@ -4,7 +4,6 @@ import com.battcn.framework.redis.CacheKeyGenerator;
 import com.battcn.framework.redis.annotation.CacheLimit;
 import com.battcn.framework.redis.constant.RedisConstant;
 import com.battcn.framework.redis.exception.CacheLimitException;
-import com.battcn.framework.redis.exception.RedisException;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -24,6 +23,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 
 /**
@@ -43,10 +43,10 @@ public class CacheLimitInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(CacheLimitInterceptor.class);
 
     private final CacheKeyGenerator limitKeyGenerator;
-    private final RedisTemplate<String, String> limitRedisTemplate;
+    private final RedisTemplate<String, Serializable> limitRedisTemplate;
 
     @Autowired
-    public CacheLimitInterceptor(@Qualifier(RedisConstant.LIMIT_TEMPLATE_NAME) RedisTemplate<String, String> limitRedisTemplate, @Qualifier(RedisConstant.LIMIT_KEY_GENERATOR) CacheKeyGenerator limitKeyGenerator) {
+    public CacheLimitInterceptor(@Qualifier(RedisConstant.LIMIT_TEMPLATE_NAME) RedisTemplate<String, Serializable> limitRedisTemplate, @Qualifier(RedisConstant.LIMIT_KEY_GENERATOR) CacheKeyGenerator limitKeyGenerator) {
         this.limitRedisTemplate = limitRedisTemplate;
         this.limitKeyGenerator = limitKeyGenerator;
     }
@@ -61,18 +61,19 @@ public class CacheLimitInterceptor {
         String name = limitAnnotation.name();
         int limitPeriod = limitAnnotation.period();
         int limitCount = limitAnnotation.count();
-        String key;
+        String suffix;
         switch (limitType) {
             case IP:
-                key = getIpAddress();
+                suffix = getIpAddress();
                 break;
             case CUSTOMER:
-                key = limitKeyGenerator.getLockKey(pjp);
+                suffix = limitKeyGenerator.getLockKey(pjp);
                 break;
             default:
-                key = StringUtils.upperCase(method.getName());
+                suffix = StringUtils.upperCase(method.getName());
         }
-        ImmutableList<String> keys = ImmutableList.of(StringUtils.join(limitAnnotation.prefix(), key));
+        String key = StringUtils.join(limitAnnotation.prefix(), suffix);
+        ImmutableList<String> keys = ImmutableList.of(key);
         String luaScript = this.buildLuaScript();
         RedisScript<Number> redisScript = new DefaultRedisScript<>(luaScript, Number.class);
         Number count = this.limitRedisTemplate.execute(redisScript, keys, limitCount, limitPeriod);
@@ -83,6 +84,7 @@ public class CacheLimitInterceptor {
             throw new CacheLimitException("You have been dragged into the blacklist");
         }
     }
+
 
     private String buildLuaScript() {
         // 调用不超过最大值，则直接返回

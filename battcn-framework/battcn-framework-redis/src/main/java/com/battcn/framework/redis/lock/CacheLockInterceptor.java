@@ -3,8 +3,8 @@ package com.battcn.framework.redis.lock;
 import com.battcn.framework.redis.CacheKeyGenerator;
 import com.battcn.framework.redis.annotation.CacheLock;
 import com.battcn.framework.redis.constant.RedisConstant;
+import com.battcn.framework.redis.exception.CacheException;
 import com.battcn.framework.redis.exception.CacheLockException;
-import com.battcn.framework.redis.exception.RedisException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -32,10 +32,10 @@ import java.lang.reflect.Method;
 public class CacheLockInterceptor {
 
     private final CacheKeyGenerator lockKeyGenerator;
-    private final RedisTemplate<String, String> lockRedisTemplate;
+    private final RedisTemplate<String, Object> lockRedisTemplate;
 
     @Autowired
-    public CacheLockInterceptor(@Qualifier(RedisConstant.LOCK_TEMPLATE_NAME) RedisTemplate<String, String> lockRedisTemplate, @Qualifier(RedisConstant.LOCK_KEY_GENERATOR) CacheKeyGenerator lockKeyGenerator) {
+    public CacheLockInterceptor(@Qualifier(RedisConstant.LOCK_TEMPLATE_NAME) RedisTemplate<String, Object> lockRedisTemplate, @Qualifier(RedisConstant.LOCK_KEY_GENERATOR) CacheKeyGenerator lockKeyGenerator) {
         this.lockRedisTemplate = lockRedisTemplate;
         this.lockKeyGenerator = lockKeyGenerator;
     }
@@ -46,7 +46,7 @@ public class CacheLockInterceptor {
         Method method = signature.getMethod();
         CacheLock lock = method.getAnnotation(CacheLock.class);
         if (StringUtils.isEmpty(lock.prefix())) {
-            throw new RedisException("lock key don't null...");
+            throw new CacheException("lock key don't null...");
         }
         final String lockKey = lockKeyGenerator.getLockKey(pjp);
         try {

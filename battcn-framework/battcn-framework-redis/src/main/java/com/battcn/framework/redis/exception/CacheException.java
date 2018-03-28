@@ -5,23 +5,23 @@ package com.battcn.framework.redis.exception;
  *
  * @author Levin
  */
-public class RedisException extends RuntimeException {
-    
+public class CacheException extends RuntimeException {
+
     private static final long serialVersionUID = 4550515832057492430L;
 
-    public RedisException() {
+    public CacheException() {
         super();
     }
 
-    public RedisException(String message) {
+    public CacheException(String message) {
         super(message);
     }
 
-    public RedisException(String message, Throwable cause) {
+    public CacheException(Throwable cause, String message) {
         super(message, cause);
     }
 
-    public RedisException(Throwable cause) {
+    public CacheException(Throwable cause) {
         super(cause);
     }
 }

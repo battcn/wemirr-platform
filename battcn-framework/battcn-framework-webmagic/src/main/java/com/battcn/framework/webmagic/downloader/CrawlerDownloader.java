@@ -53,7 +53,7 @@ public class CrawlerDownloader extends AbstractDownloader {
     /**
      * 无效代理ip次数统计
      */
-    private AtomicInteger INVALID_PROXY_COUNT = new AtomicInteger(1);
+    private static final AtomicInteger INVALID_PROXY_COUNT = new AtomicInteger(1);
 
     private static Logger logger = LoggerFactory.getLogger(CrawlerDownloader.class);
 

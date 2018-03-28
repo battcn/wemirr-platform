@@ -13,9 +13,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
- * edit by yanglei on 17/12/25.
  * 自定义的ProxyProvider
  * 添加了代理有效性校验
+ *
+ * @author YangLei
  */
 public class CrowProxyProvider implements ProxyProvider {
 
