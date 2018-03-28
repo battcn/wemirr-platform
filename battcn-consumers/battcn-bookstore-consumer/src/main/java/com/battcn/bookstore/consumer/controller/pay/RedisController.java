@@ -8,8 +8,12 @@ import com.battcn.framework.redis.limit.LimitType;
 import com.battcn.framework.redis.sequence.SequenceGenerator;
 import com.battcn.framework.redis.sequence.SequenceType;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 /**
  * 缓存测试
@@ -37,16 +41,20 @@ public class RedisController {
         return this.sequenceGenerator.generateSequence(SequenceType.BO);
     }
 
-    @CacheLimit(name = "ip", limitType = LimitType.CUSTOMER, count = 10, period = 100,delimiter = "_")
+    @CacheLimit(name = "ip", limitType = LimitType.CUSTOMER, count = 10, period = 100, delimiter = "_")
     @PostMapping
     public String limit(@CacheParam @RequestParam int num) {
         return this.sequenceGenerator.generateSequence(SequenceType.BO);
     }
 
     @GetMapping
-    public String cache(String key, String value) {
-        cacheService.add(key, value);
-        return (String) cacheService.get(key);
+    public Set<RedisZSetCommands.Tuple> cache(String bookNo, String title) {
+        String key = StringUtils.join("books:", bookNo);
+        cacheService.hset(key, "title", title);
+        cacheService.zincrby("score", 1, key);
+        final Set<RedisZSetCommands.Tuple> score = cacheService.zrevrangeWithScores("score", 0, -1);
+
+        return cacheService.zrevrangeWithScores("score", 0, -1);
     }
 
 

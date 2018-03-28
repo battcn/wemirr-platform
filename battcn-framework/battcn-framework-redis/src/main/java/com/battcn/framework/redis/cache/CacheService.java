@@ -1,11 +1,13 @@
 package com.battcn.framework.redis.cache;
 
 import com.battcn.framework.redis.exception.CacheException;
+import org.springframework.data.redis.connection.RedisZSetCommands;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 
@@ -314,6 +316,22 @@ public interface CacheService {
      * @throws CacheException CacheException
      */
     Serializable getListRandomOne(String key) throws CacheException;
+
+
+    Double zincrby(final String key, final double score, final String member);
+
+    /**
+     * 将一个或多个 member 元素及其 score 值加入到有序集 key 当中。
+     *
+     * @param key    缓存Key
+     * @param score  分数
+     * @param member 成员
+     * @return 是否操作成功
+     */
+    Boolean zadd(final String key, final double score, final String member);
+
+
+    Set<RedisZSetCommands.Tuple> zrevrangeWithScores(final String key, final int start, final int end);
 
 
 }

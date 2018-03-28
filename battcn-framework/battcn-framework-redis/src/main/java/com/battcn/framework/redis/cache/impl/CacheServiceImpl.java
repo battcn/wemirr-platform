@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.connection.RedisZSetCommands.Tuple;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -422,6 +423,36 @@ public class CacheServiceImpl implements CacheService {
             logger.error(ex.getMessage(), ex);
             throw new CacheException(ex, ex.getMessage());
         }
+    }
+
+    @Override
+    public Double zincrby(final String key, final double score, final String member) {
+        return redisCacheTemplate.execute((RedisCallback<Double>) connection -> {
+            RedisSerializer<String> serializer = redisCacheTemplate.getStringSerializer();
+            byte[] keys = serializer.serialize(key);
+            byte[] members = serializer.serialize(member);
+            return connection.zIncrBy(keys, score, members);
+        });
+    }
+
+    @Override
+    public Boolean zadd(final String key, final double score, final String member) {
+        return redisCacheTemplate.execute((RedisCallback<Boolean>) connection -> {
+            RedisSerializer<String> serializer = redisCacheTemplate.getStringSerializer();
+            byte[] keys = serializer.serialize(key);
+            byte[] members = serializer.serialize(member);
+            return connection.zAdd(keys, score, members);
+        });
+    }
+
+
+    @Override
+    public Set<Tuple> zrevrangeWithScores(final String key, final int start, final int end) {
+        return redisCacheTemplate.execute((RedisCallback<Set<Tuple>>) connection -> {
+            RedisSerializer<String> serializer = redisCacheTemplate.getStringSerializer();
+            byte[] keys = serializer.serialize(key);
+            return connection.zRevRangeWithScores(keys, start, end);
+        });
     }
 
 }
