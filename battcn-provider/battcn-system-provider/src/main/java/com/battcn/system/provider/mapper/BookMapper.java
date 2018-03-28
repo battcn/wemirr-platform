@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @author Levin
+ */
 @Mapper
 @Repository
 public interface BookMapper extends BaseMapper<Book> {

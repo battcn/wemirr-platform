@@ -5,7 +5,6 @@ import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookType;
 import com.battcn.framework.mybatis.service.impl.BaseServiceImpl;
 import com.battcn.system.provider.mapper.BookMapper;
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

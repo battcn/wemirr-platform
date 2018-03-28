@@ -9,8 +9,6 @@ import com.battcn.framework.redis.sequence.SequenceGenerator;
 import com.battcn.framework.redis.sequence.SequenceType;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.RedisServer;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 /**

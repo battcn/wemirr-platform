@@ -7,6 +7,9 @@ import com.battcn.framework.mybatis.service.impl.BaseServiceImpl;
 
 import java.util.List;
 
+/**
+ * @author Levin
+ */
 @com.alibaba.dubbo.config.annotation.Service(
         version = "1.0.0",
         application = "${dubbo.application.id}",

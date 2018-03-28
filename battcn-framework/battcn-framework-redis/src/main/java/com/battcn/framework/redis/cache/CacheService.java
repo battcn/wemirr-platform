@@ -242,6 +242,7 @@ public interface CacheService {
      * @param value    缓存对象
      * @param interval 时间数,如果为0,则不过期
      * @param timeUnit 时间单位
+     * @throws CacheException CacheException
      */
     void setNX(String key, Serializable value, int interval, TimeUnit timeUnit) throws CacheException;
 
@@ -253,6 +254,7 @@ public interface CacheService {
      * @param value    缓存的对象
      * @param interval 时间数,如果为0,则不过期
      * @param timeUnit 时间单位
+     * @throws CacheException CacheException
      */
     void hset(String key, String field, Serializable value, int interval, TimeUnit timeUnit) throws CacheException;
 
@@ -262,6 +264,7 @@ public interface CacheService {
      * @param key   缓存key
      * @param field 缓存的字段
      * @param value 缓存的对象
+     * @throws CacheException CacheException
      */
     void hset(String key, String field, Serializable value) throws CacheException;
 
@@ -271,6 +274,7 @@ public interface CacheService {
      * @param key   hashKey
      * @param field hashField
      * @return Object
+     * @throws CacheException CacheException
      */
     Object hget(String key, String field) throws CacheException;
 

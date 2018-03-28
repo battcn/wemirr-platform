@@ -1,9 +1,9 @@
 package com.battcn.bookstore.consumer.config;
 
 import com.battcn.framework.exception.ErrorResponseEntity;
+import com.battcn.framework.redis.exception.CacheException;
 import com.battcn.framework.redis.exception.CacheLimitException;
 import com.battcn.framework.redis.exception.CacheLockException;
-import com.battcn.framework.redis.exception.CacheException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

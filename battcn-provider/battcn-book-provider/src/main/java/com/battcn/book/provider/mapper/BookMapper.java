@@ -5,6 +5,9 @@ import com.battcn.framework.mybatis.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+/**
+ * @author Levin
+ */
 @Mapper
 @Repository
 public interface BookMapper extends BaseMapper<Book> {
