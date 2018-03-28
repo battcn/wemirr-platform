@@ -2,6 +2,11 @@
 
 [http://demo.battcn.com](http://demo.battcn.com "演示地址")
 
+# 必读
+
+鉴于 `dubbo-boot` 存在不少问题，故暂时以功能实现为主,暂时未做代码分包处理,本人会在新版`dubbo-boot`发布的第一时间修改项目中不规范的地方 
+
+
 # 新增功能
 
 - 添加 **`JWT` 认证（`battcn-bookstore-consumer`）**

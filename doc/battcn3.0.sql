@@ -39,7 +39,7 @@ CREATE TABLE `t_book`  (
   `description` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述（简介）',
   `cover` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '书籍封面',
   `status` bit(1) NULL DEFAULT b'0' COMMENT '是否完结 0=未完结 1=已完结',
-  `recommend` bit(1) NULL DEFAULT b'0' COMMENT '是否完结 0=不推荐 1=推荐',
+  `recommend` bit(1) NULL DEFAULT b'0' COMMENT '是否推荐 0=不推荐 1=推荐',
   `gmt_create` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `gmt_modified` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后修改时间',
   PRIMARY KEY (`book_no`) USING BTREE
