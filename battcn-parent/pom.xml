@@ -12,8 +12,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dubbo.boot.version>0.1.0</dubbo.boot.version>
+        <commons.lang3.version>3.7</commons.lang3.version>
         <dubbo.version>2.6.1</dubbo.version>
         <mapper.boot.version>2.0.0</mapper.boot.version>
+        <guava.version>21.0</guava.version>
+        <lombok.version>1.16.18</lombok.version>
+        <fastjson.version>1.2.44</fastjson.version>
         <!-- 这里一定要配置上java的版本，如果是1.7版本的可不用配置 -->
         <!-- 配置你的tomcat版本 -->
         <java.version>1.8</java.version>
@@ -24,20 +28,25 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons.lang3.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>21.0</version>
+                <version>${guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.16.18</version>
+                <version>${lombok.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
-                <version>1.2.44</version>
+                <version>${fastjson.version}</version>
             </dependency>
             <!-- Spring Boot -->
             <dependency>
