@@ -12,17 +12,19 @@ spring:
         parameter-type: 'header'
         required: false
   redis:
-    password: battcn
     battcn:
       lock:
         db: 3
-        enabled: false
+        enabled: true
       sequence:
-        enabled: false
+        enabled: true
         db: 2
         profile: dev
       cache:
-        enabled: false
+        enabled: true
+        db: 1
+      limit:
+        enabled: true
         db: 1
     timeout: 10000
     pool:
@@ -30,6 +32,7 @@ spring:
       max-active: 200
       max-idle: 100
       max-wait: 1000
+    password: battcn
   security:
     battcn:
       token:
