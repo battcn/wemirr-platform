@@ -134,7 +134,7 @@
   }
 
 </script>
-<style scoped>
+<style>
    .com_bd {
     border-left: 1px solid #f0f0f0;
     border-right: 1px solid #f0f0f0;
@@ -147,24 +147,41 @@
     font-size: 12px;
     border-bottom: 1px solid #f0f0f0;
   }
-  .com_R .more {
-    padding: 20px 0 30px 0;
-  }
-  .com_R .list_tit {
-    overflow: hidden;
-  }
-  .com_R h2 {
-    width: 220px;
-    font-size: 18px;
-    font-weight: normal;
-    border: none;
-    float: left;
-  }
-  .com_R h2 s {
-    width: 9px;
-    height: 17px;
-    background-position: -141px -9px;
-  }
+   /* 榜名及周月按钮 */
+   .com_R .list_tit {
+     overflow: hidden;
+   }
+   .com_R .list_tit h2 {
+     color: #333;
+     width: 220px;
+     font-size: 18px;
+     font-weight: normal;
+     border: none;
+     float: left;
+   }
+   .com_R .list_tit h2 s {
+     width: 9px;
+     height: 17px;
+     background-position: -141px -9px;margin: 2px 10px 0 0;
+   }
+   /* 周月按钮 */
+   .com_R .list_tit span {
+     width: 42px;
+     height: 24px;
+     line-height: 24px;
+     text-align: center;
+     color: #333;
+     border-radius: 4px;
+     float: left;
+     margin-left: 10px;
+     cursor: pointer;
+   }
+   .com_R .list_tit .show {
+     color: #fff;
+     background: #c4c4c4;
+   }
+
+  /* 书籍区域 */
   .com_R .list_wrap {
     width: 326px;
     overflow: hidden;
@@ -173,26 +190,33 @@
     width: 1000px;
     overflow: hidden;
   }
-  .com_R ol {
+  .com_R ol{
+    padding: 20px 0 4px 0;
     width: 326px;
     overflow: hidden;
     border-bottom: 1px solid #f0f0f0;
     float: left;
   }
+   .ki_li .com_R ol li{
+     overflow: hidden;    margin-bottom: 17px;
+   }
+  /* 书的序号 */
   .ki_li .com_R ol li em {
     background: none;
     color: #9e9e9e;
-    margin-right: 10px;
+    margin-right: 10px;float: left;
   }
-  .com_R ol li h3 {
+  /* 书名 */
+  .com_R ol li .name {
     font-size: 12px;
-    width: 220px;
+    width: 220px;    float: left;
   }
-  .com_R ol li h3 a {
+  .com_R ol li .name a {
     max-width: 220px;
   }
-
+/* hover效果样式 */
    .ki_li .com_R ol li .open {
+     display: none;
     width: 302px;
     height: 102px;
     padding: 10px 12px;
@@ -200,19 +224,24 @@
     background: #fdfcfc;
     overflow: hidden;
   }
+   .com_R ol.list li.lis_sh .open{
+     display: block;
+   }
   .com_R ol li .open .book_cov {
-    width: 80px;
+    width: 80px;    margin-right: 12px;
+    float: left;
     height: 100px;
   }
-  .com_R ol li .book_inf {
-    margin-left: 16px;
+  .com_R ol li .open .book_inf {
+    margin-left: 16px;float: left;
+    padding-bottom: 10px;
     text-align: left;
-    width: 190px;
+    width: 185px;
   }
-  .com_R ol li .book_inf .aut {
+  .com_R ol li .open .book_inf .aut {
      width: 192px;
    }
-  .com_R ol li .book_inf .int {
+  .com_R ol li .open .book_inf .int {
     height: 48px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -221,21 +250,33 @@
     -webkit-box-orient: vertical;
     margin-top: 16px;
   }
-  .com_R .list_tit span {
-    width: 42px;
-    height: 24px;
-    line-height: 24px;
-    text-align: center;
-    color: #333;
-    border-radius: 4px;
-    float: left;
-    margin-left: 10px;
-    cursor: pointer;
-  }
-  .com_R .list_tit .show {
-    color: #fff;
-    background: #c4c4c4;
-  }
 
+   /* 查看更多 */
+   .com_R .more {
+     display: block;
+     padding: 20px 0 30px 0;
+     text-align: center;
+   }
+   .com_R .more a{
+     color: #ccc;
+   }
+   .com_R .more a i{
+     color: #ccc;
+     float: left;    margin: 0 6px;
+   }
+   .com_R .more a s{float: left;
+     width: 15px;
+     height: 1px;
+     background-position: -124px 0;
+     float: left;
+     margin-top: 8px;
+   }
+   .com_R .more:hover a,
+   .com_R .more:hover a i{
+     color: #f26552;
+   }
+   .com_R .more:hover a s{
+     background-position: -124px -1px;
+   }
 </style>
 

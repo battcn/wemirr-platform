@@ -1,9 +1,9 @@
 <template>
-  <div class="content">
+  <div class="ranking">
     <!--大标题 开始-->
     <div class="rank_bt">
       <h4 @click="gender='male'" :class="{on:gender=='male'}">
-        <a href="">男生频道</a><s></s>
+        <a href="javascript:">男生频道</a><s></s>
       </h4>
       <b class="line">|</b>
       <h4 @click="gender='female'" :class="{on:gender=='female'}"><a href="javascript:">女生频道</a><s></s></h4>
@@ -13,12 +13,12 @@
     <!--各种榜单 开始-->
     <div class="ki_li">
       <!-- 榜单组件 -->
-      <ranking  :title="'点击榜'"></ranking>
-      <ranking :border="true" :title="'钻石榜'"></ranking>
-      <ranking :title="'鲜花榜'"></ranking>
-      <ranking  :title="'收藏榜'"></ranking>
-      <ranking :border="true" :title="'评分榜'"></ranking>
-      <ranking :title="'总字数'"></ranking>
+      <ranking style="float: left"  :title="'点击榜'"></ranking>
+      <ranking style="float: left" :border="true" :title="'钻石榜'"></ranking>
+      <ranking style="float: left" :title="'鲜花榜'"></ranking>
+      <ranking style="float: left"  :title="'收藏榜'"></ranking>
+      <ranking style="float: left" :border="true" :title="'评分榜'"></ranking>
+      <ranking style="float: left" :title="'总字数'"></ranking>
     </div>
     <!--各种榜单 结束-->
   </div>
@@ -34,8 +34,8 @@
     components:{ranking}
   }
 </script>
-<style slot-scope>
-  .content {
+<style>
+  .ranking {
     overflow: hidden;
     background: #fff;
   }
@@ -47,6 +47,41 @@
     padding: 35px 20px 0 50px;
     font-size: 20px;
   }
+  .rank_bt .on {
+    color: #333;
+  }
+  .rank_bt .on a {
+    color: #333;overflow: auto;display: inline;
+  }
+  /* 三角形标 */
+  .rank_bt .on s {
+    display: block;
+  }
+  /* 分割线 */
+  .rank_bt .line {
+    margin: 0 30px;
+    float: left;
+  }
+
+/* 未激活频道样式 */
+  .rank_bt h4 {
+    width: 88px;
+    float: left;
+  }
+
+  .rank_bt h4 a {
+    letter-spacing: 2px;
+    color: #ccc;
+  }
+
+  .rank_bt h4 s {
+    width: 17px;
+    height: 8px;
+    background-position: -141px -1px;
+    margin: 11px auto 0;
+    display: none;
+  }
+  /* 右边完整表单按钮样式 */
   .rank_bt .all_btn {
     width: 72px;
     height: 24px;
@@ -58,35 +93,7 @@
     float: right;
     background: #7f6e6e;
   }
-
-  .rank_bt .on {
-    color: #333;
-  }
-  .rank_bt h4 {
-    width: 88px;
-    float: left;
-  }
-  .rank_bt .on a {
-    color: #333;
-  }
-  .rank_bt h4 a {
-    letter-spacing: 2px;
-    color: #ccc;
-  }
-  .rank_bt .line {
-    margin: 0 30px;
-    float: left;
-  }
-  .rank_bt .on s {
-    display: block;
-  }
-  .rank_bt h4 s {
-    width: 17px;
-    height: 8px;
-    background-position: -141px -1px;
-    margin: 11px auto 0;
-    display: none;
-  }
+  /* 显示排行榜区域 */
   .ki_li {
     overflow: hidden;
   }

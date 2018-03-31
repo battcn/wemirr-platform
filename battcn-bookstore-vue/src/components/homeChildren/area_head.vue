@@ -14,11 +14,8 @@
     props:['title_name']
   }
 </script>
-<style>
-  .f2 .area_head {
-    overflow: hidden;
-    margin-bottom: 15px;
-  }
+<style slot-scope>
+
   .area_head {
     overflow: hidden;
     margin-bottom: 34px;

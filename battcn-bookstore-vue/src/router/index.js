@@ -7,6 +7,7 @@ import Home from '@/components/home';
 import Library from '@/components/library'
 import Ranking from '@/components/ranking'
 import login from '@/components/login'
+import registered from '@/components/registered'
 
 export default new Router({
   mode:'history',
@@ -36,6 +37,11 @@ export default new Router({
       path:'/login',
       name:'login',
       component:login
+    },
+    {
+      path:'/registered',
+      name:'registered',
+      component:registered
     }
   ]
 })

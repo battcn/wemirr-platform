@@ -20,10 +20,10 @@
         <div class="headWrap_r">
           <div class="search" :class="{show:search_show}">
             <div class="search_sel">
-              <input placeholder="我要搜.. " type="text" class="search_val"/>
+              <input v-model="keyWords" placeholder="我要搜.. " type="text" class="search_val"/>
             </div>
-            <a @click="search_show=!search_show" class="search_btn" href="javascript:">
-              <i class="fa fa-search"></i>
+            <a @click="keyWords==''?search_show=!search_show:''" class="search_btn" href="javascript:">
+              <s></s>
             </a>
           </div>
           <div class="login">
@@ -50,19 +50,20 @@
   export default {
     name: 'App',
     data() {
-      return {search_show: false,}
+      return {search_show: false,keyWords:''}
     },
     computed: {
       /* 使用数组形式将状态变量加载进来,页面使用该变量更简便 */
     }
   }
 </script>
-
 <style>
-  .content{
-    width: 1100px;
-    margin: 0 auto;
-    overflow: hidden;
+  /* 导航头 */
+  .header {
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    margin-bottom: 20px;
   }
 
   /* 导航条 */
@@ -179,6 +180,7 @@
     font-size: 14px;
   }
 
+
   /* 搜索放大镜*/
   .headWrap_r .search .search_btn {
     width: 47px;
@@ -189,22 +191,19 @@
     border-right: 1px solid #d2d2d2;
     background: #fff;
   }
-
-  .headWrap_r .search .search_btn:hover i {
-    color: #f26552;
-  }
-
-  .headWrap_r .search .search_btn i {
+  .headWrap_r .search .search_btn s {
     width: 24px;
     height: 24px;
     background-position: 0 0;
     margin-top: 2px;
-    font-size: 19px;
-    color: #D2D2D2;
+  }
+  .headWrap_r .search .search_btn:hover s,
+  .headWrap_r .search.show .search_btn s{
+    background-position: -30px 0;
   }
 
   /* 登录人形图标 */
-  .login {
+  .headWrap_r  .login {
     font-size: 14px;
     float: right;
     position: relative;
@@ -246,5 +245,11 @@
     cursor: pointer;
     margin-left: 10px;
     color: #fff;
+  }
+  /* 路由渲染范围 */
+  .content{
+    width: 1100px;
+    margin: 0 auto;
+    overflow: hidden;
   }
 </style>

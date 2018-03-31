@@ -4,8 +4,8 @@
   <div class="find">
     <div class="fi_t">
       <div class="boFi">
-        <span><i class="fa fa-search"></i></span>
-        <input type="text" class="search-val">
+        <span><s></s></span>
+        <input placeholder="我要搜.. " type="text">
         <a href="javascript:">搜索</a>
       </div>
     </div>
@@ -85,14 +85,14 @@
   <!--选择搜索 结束-->
   <div v-show="Object.keys(find_condition).length!=0" class="yxx">
     <span v-for="(value,key) in find_condition">{{value}}<s @click="Reset(key)"></s></span>
-    <a href="javascript:" @click="Reset()">清空筛选</a>
+    <i href="javascript:" @click="Reset()">清空筛选</i>
   </div>
     <!--搜索结果 开始-->
     <div class="result">
       <ul>
         <li>
           <a href="javascript:" class="book_cov"><img class="lazyload_book_cover" src="./../../static/img/large.jpg" alt=""></a>
-           <div class="book_inf">
+           <div class="book_inf font_12">
              <h3><a href="javascript:">美女总裁的神龙兵王</a></h3>
              <p>
                <span>作者：<a href="javascript:">意外</a></span>
@@ -158,128 +158,15 @@
   }
 
 </script>
-<style slot-scope>
-  .result {
-    background: #fff;
-    width: 1100px;
-    overflow: hidden;
-  }
-  .result ul {
-    overflow: hidden;
-  }
-  .result ul li {
-    padding: 30px 42px;
-    border-bottom: 1px solid #f0f0f0;
-    overflow: hidden;
-  }
-  .result ul li .book_cov {
-    width: 120px;
-    height: 150px;
-    float: left;
-  }
-  .result ul li .book_inf {
-    width: 670px;
-    float: left;
-    overflow: hidden;
-    padding-left: 40px;
-  }
-  .result ul li .book_inf h3 {
-    margin-bottom: 10px;
-    font-size: 16px;
-  }
-  .result ul li .book_inf p {
-    line-height: 18px;
-  }
-  .result ul li .book_inf p span {
-    margin-right: 28px;
-  }
-  .result ul li .book_inf .tags {
-    margin: 4px 0 18px 0;
-  }
-  .result ul li .book_inf p i {
-    margin-right: 6px;
-  }
-  .result ul li .book_inf p b {
-    color: #333;
-  }
-  .result ul li .book_inf .int {
-    margin: 6px 0 0 0;
-  }
-  .result ul li .right {
-    float: right;
-    overflow: hidden;
-    width: 170px;
-    text-align: right;
-  }
-  .result ul li .right span {
-    font-size: 12px;
-  }
-  .result ul li .right .btn {
-    width: 116px;
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-    background: #d2d2d2;
-    border-radius: 2px;
-    color: #fff;
-    float: right;
-  }
-  .result ul li .right .btn {
-    width: 116px;
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-    background: #d2d2d2;
-    border-radius: 2px;
-    color: #fff;
-    float: right;
-  }
-  .result ul li .right .read_btn {
-    margin: 62px 0 10px 0;
-    background: #f26552;
-  }
-  .result ul li .right .read_btn:hover {
-    background: #e5533f;
-  }
-  .result ul li .right .store_btn:hover {
-    background: #c4c4c4;
-  }
-  .yxx span:hover {
-    border: 1px solid #f26552;
-  }
-  .yxx span:hover s {
-    background-position: -190px -49px;
-  }
-  .yxx {
-    height: 38px;
-    background: #fafafa;
-    padding: 12px 42px 0 42px;
-  }
-  .yxx span {
-    padding: 4px 0 4px 12px;
-    border: 1px solid #d7d7d7;
-    font-size: 12px;
-    color: #666;
-    margin: 0 10px 0 0;
-  }
-  .yxx span s {
-    float: right;
-    width: 8px;
-    height: 8px;
-    background-position: -179px -49px;
-    margin: 5px 10px 0 12px;
-    cursor: pointer;
-  }
-  .yxx > a  {
-    color: #f26552;
-    cursor: pointer;
-  }
+<style>
+  /* 搜索条件部分 */
   .find {
     background: #fff;
     width: 1100px;
     overflow: hidden;
     margin-bottom: 20px;
   }
+  /* 输入框 */
   .find .fi_t {
     padding: 40px 0;
     border-bottom: 1px solid #f0f0f0;
@@ -294,9 +181,9 @@
   }
   .find .boFi span {
     float: left;
-    margin: 9px 20px 0 14px;
+    margin: 6px 20px 0 14px;
   }
-  .find .boFi span i {
+  .find .boFi span s {
     width: 24px;
     height: 24px;
     background-position: 0 0;
@@ -352,6 +239,129 @@
     border-radius: 5px;
     background: #7f6e6e;
     color: #fff;
+  }
+  /* 筛选选项 */
+  .yxx {
+    height: 38px;
+    background: #fafafa;
+    padding: 12px 42px 0 42px;
+  }
+  .yxx > i  {
+    font-style: normal;
+    color: #f26552;
+    cursor: pointer;
+  }
+  .yxx span {
+    padding: 4px 0 4px 12px;
+    border: 1px solid #d7d7d7;
+    font-size: 12px;
+    color: #666;
+    margin: 0 10px 0 0;
+  }
+  .yxx span:hover {
+    border: 1px solid #f26552;
+  }
+  .yxx span s {
+    float: right;
+    width: 8px;
+    height: 8px;
+    background-position: -179px -49px;
+    margin: 5px 10px 0 12px;
+    cursor: pointer;
+  }
+  .yxx span:hover s {
+    background-position: -190px -49px;
+  }
+
+  /* 搜索结果 */
+  .result {
+    background: #fff;
+    width: 1100px;
+    overflow: hidden;
+  }
+  .result ul {
+    overflow: hidden;
+  }
+  .result ul li {
+    padding: 30px 42px;
+    border-bottom: 1px solid #f0f0f0;
+    overflow: hidden;
+  }
+  .result ul li .book_cov {
+    width: 120px;
+    height: 150px;
+    float: left;
+  }
+  .result ul li .book_inf {
+    width: 670px;
+    float: left;
+    overflow: hidden;
+    padding-left: 40px;
+  }
+  .result ul li .book_inf h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  .result ul li .book_inf p {
+    line-height: 18px;
+  }
+  .result ul li .book_inf p span {
+    margin-right: 28px;
+  }
+  .result ul li .book_inf p span a{
+    overflow: auto;display: inline;
+  }
+  .result ul li .book_inf .tags {
+    margin: 4px 0 18px 0;
+  }
+  .result ul li .book_inf p i {
+    margin-right: 6px;
+  }
+  .result ul li .book_inf p b {
+    color: #333;
+  }
+  .result ul li .book_inf .int {
+    margin: 6px 0 0 0;
+  }
+  /* 立即阅读及加入书架操作按钮 */
+  .result ul li .right {
+    float: right;
+    overflow: hidden;
+    width: 170px;
+    text-align: right;
+  }
+  .result ul li .right span {
+    font-size: 12px;
+  }
+  .result ul li .right .btn {
+    width: 116px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    background: #d2d2d2;
+    border-radius: 2px;
+    color: #fff;
+    float: right;
+  }
+  .result ul li .right .btn {
+    width: 116px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    background: #d2d2d2;
+    border-radius: 2px;
+    color: #fff;
+    float: right;
+  }
+  .result ul li .right .read_btn {
+    margin: 62px 0 10px 0;
+    background: #f26552;
+  }
+  .result ul li .right .read_btn:hover {
+    background: #e5533f;
+  }
+  .result ul li .right .store_btn:hover {
+    background: #c4c4c4;
   }
 
 </style>
