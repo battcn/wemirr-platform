@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 2018/1/16 0016
  */
 @Data
-@ConfigurationProperties("battcn.exception.mvc")
+@ConfigurationProperties("spring.mvc.exception")
 public class ErrorMvcProperties {
 
     private Boolean enabled;

@@ -40,6 +40,11 @@ spring:
     elasticsearch:
       cluster-name: elasticsearch
       cluster-nodes: 192.168.0.134:9300
+  mvc:
+    exception:
+      enabled: true
+      default-message: 服务繁忙,请稍后再试
+      expose-error-class: true
 
 management:
   port: 9091

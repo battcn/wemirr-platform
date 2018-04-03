@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
  */
 @EnableConfigurationProperties(value = {ErrorMvcProperties.class})
 @ConditionalOnProperty(
-        prefix = "battcn.exception.mvc",
+        prefix = "spring.mvc.exception",
         name = "enabled",
         havingValue = "true"
 )
