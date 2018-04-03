@@ -180,21 +180,25 @@ public class ErrorResolverHandler {
     public final ErrorResponseEntity handleException(HttpServletRequest request, final Exception e, HttpServletResponse response) {
         String errorMsg = getErrorMvcProperties().getDefaultMessage();
         int code = HttpStatus.INTERNAL_SERVER_ERROR.value();
-        ResponseStatus status = e.getClass().getAnnotation(ResponseStatus.class);
-        if (status != null) {
-            code = status.code().value();
-            response.setStatus(code);
-            if (!StringUtils.isEmpty(status.reason())) {
-                errorMsg = status.reason();
-            } else if (!StringUtils.isEmpty(e.getLocalizedMessage())) {
-                errorMsg = e.getLocalizedMessage();
+        if (e.getMessage().contains(MySQLIntegrityConstraintViolationException.class.getSimpleName())) {
+            errorMsg = "主键或索引不唯一";
+        } else {
+            ResponseStatus status = e.getClass().getAnnotation(ResponseStatus.class);
+            if (status != null) {
+                code = status.code().value();
+                response.setStatus(code);
+                if (!StringUtils.isEmpty(status.reason())) {
+                    errorMsg = status.reason();
+                } else if (!StringUtils.isEmpty(e.getLocalizedMessage())) {
+                    errorMsg = e.getLocalizedMessage();
+                }
             }
-        }
-        if (code >= HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-            if (code == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            if (code >= HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                if (code == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                    response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                }
+                logError(request, e);
             }
-            logError(request, e);
         }
         return new ErrorResponseEntity(code, errorMsg);
     }
