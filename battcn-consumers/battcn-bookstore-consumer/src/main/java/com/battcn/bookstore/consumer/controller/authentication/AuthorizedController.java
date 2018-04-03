@@ -3,6 +3,7 @@ package com.battcn.bookstore.consumer.controller.authentication;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
+import com.battcn.bookstore.consumer.enums.AuthorizedEnum;
 import com.battcn.framework.exception.CustomException;
 import com.battcn.framework.security.Authentication;
 import com.battcn.framework.security.SecurityTokenProperties;
@@ -17,9 +18,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 /**
@@ -43,16 +48,17 @@ public class AuthorizedController {
             url = "dubbo://localhost:20880", timeout = 10000)
     private MemberService memberService;
 
-
+    private final RedisTemplate<String, Serializable> redisCacheTemplate;
     private final SecurityTokenProperties securityTokenProperties;
     private final TokenFactory tokenFactory;
     private final TokenExtractor tokenExtractor;
 
     @Autowired
-    public AuthorizedController(SecurityTokenProperties securityTokenProperties, TokenFactory tokenFactory, TokenExtractor tokenExtractor) {
+    public AuthorizedController(SecurityTokenProperties securityTokenProperties, TokenFactory tokenFactory, TokenExtractor tokenExtractor, RedisTemplate<String, Serializable> redisCacheTemplate) {
         this.securityTokenProperties = securityTokenProperties;
         this.tokenFactory = tokenFactory;
         this.tokenExtractor = tokenExtractor;
+        this.redisCacheTemplate = redisCacheTemplate;
     }
 
     @PostMapping(value = "/token", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -75,6 +81,23 @@ public class AuthorizedController {
         result.put("token", accessToken.getToken());
         result.put("refreshToken", refreshToken.getToken());
         return result;
+    }
+
+    @PostMapping(value = "/register/{member_no}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "注册")
+    public Member registerAuthorized(@PathVariable("member_no") String memberNo, @Validated @RequestBody MemberSecurityContext context) {
+        final HashOperations<String, String, String> opsForHash = redisCacheTemplate.opsForHash();
+        final String cacheMemberNo = opsForHash.get(AuthorizedEnum.REDIS_MEMBER_NO_HASH.getKey(), memberNo);
+        if (!StringUtils.equals(memberNo, cacheMemberNo)) {
+            throw CustomException.badRequest("会员编号不存在");
+        }
+        Member member = new Member();
+        member.setMemberNo(memberNo);
+        member.setAccountName(context.getUsername());
+        member.setPassword(context.getPassword());
+        member.setRoleName("MEMBER");
+        this.memberService.insertSelective(member);
+        return member;
     }
 
     @PutMapping("/refresh")
