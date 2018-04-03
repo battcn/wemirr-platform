@@ -3,7 +3,7 @@
     <h2><s></s>总点击榜</h2>
     <div class="list_wrap">
       <ol class="list">
-        <li @mouseenter="isShow_L=1" :class="{lis_sh:isShow_L==1}">
+        <!--<li @mouseenter="isShow_L=1" :class="{lis_sh:isShow_L==1}">
           <em class="red_bg">1</em>
           <div class="open">
             <a href="" class="book_cov"><img src="./../../../static/img/noTime.jpg" alt=""></a>
@@ -132,6 +132,18 @@
             </div>
           </div>
           <h3 class="name"><a href="">道岳独尊</a></h3>
+        </li>-->
+        <li v-for="(item,key) in ListData" @mouseenter="isShow_L=key+1" :class="{lis_sh:isShow_L==key+1}">
+          <em :class="{red_bg:key<3}">{{key+1}}</em>
+          <div class="open">
+            <a href="" class="book_cov"><img :src="item.cover" :alt="item.name" /></a>
+            <div class="book_inf font_12">
+              <h3><a href="javascript:">{{item.name}}</a></h3>
+              <span class="aut">{{item.author}}</span>
+              <p class="int">{{item.description}}</p>
+            </div>
+          </div>
+          <h3 class="name"><a href="">{{item.name}}</a></h3>
         </li>
       </ol>
       <span class="more">
@@ -149,7 +161,8 @@
     name: 'Leaderboard',
     data() {
       return {isShow_L: 1}
-    }
+    },
+    props:['ListData']
   }
 </script>
 <style slot-scope>

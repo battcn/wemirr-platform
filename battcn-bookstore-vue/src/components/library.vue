@@ -90,23 +90,23 @@
     <!--搜索结果 开始-->
     <div class="result">
       <ul>
-        <li>
-          <a href="javascript:" class="book_cov"><img class="lazyload_book_cover" src="./../../static/img/large.jpg" alt=""></a>
+        <li v-for="item in bookData">
+          <a href="javascript:" class="book_cov">
+            <img class="lazyload_book_cover" :src="item.cover" :alt="item.name" />
+          </a>
            <div class="book_inf font_12">
-             <h3><a href="javascript:">美女总裁的神龙兵王</a></h3>
+             <h3><a href="javascript:">{{item.name}}</a></h3>
              <p>
-               <span>作者：<a href="javascript:">意外</a></span>
-               <span>分类：<a href="javascript:">爱情婚姻</a></span>
+               <span>作者：<a href="javascript:">{{item.author}}</a></span>
+               <span>分类：<a href="javascript:">{{item.type}}</a></span>
                <span>状态：连载中</span>
                <span>总字数：28万字+</span>
              </p>
              <p class="tags">
-               <i>标签：</i>
-               <i>都市</i>
-               <i>爱情</i>
+               <i>{{item.type}}</i>
              </p>
              <p><b>最近更新：</b><a href="javascript:">第九十二章 震惊</a></p>
-             <p class="int">终极兵王叶真重返都市，只为保护自己的未婚妻，为了打击林清音身边的狂蜂浪蝶，叶真不得已让他们知道什么叫兵王！</p>
+             <p class="int">{{item.description}}</p>
            </div>
           <div class="right">
             <span>更新时间：刚刚</span>
@@ -117,16 +117,34 @@
       </ul>
     </div>
     <!--搜索结果 结束-->
+    <!--分页开始 -->
+    <paging :pagingData="responseData" @jumps="pageJumps" ></paging>
+    <!--分页结束 -->
   </div>
 </template>
-<script>
+<script type="text/ecmascript-6">
+  import paging from './children/paging.vue';
+  import {mapState,mapMutations} from 'vuex'
   export default {
     name: 'Library',
+    components:{paging},
     data() {
       /* 所属频道，作品大类，是否完结,是否免费，字数,更新时间,排序方式 */
       return {channels:'不限',category:'不限',isend:'不限',isfree:'不限',word_count:'不限',update_time:'不限',sorting:'默认'}
     },
+    beforeMount(){
+      this.$store.commit('initContent');
+    },
     computed:{
+      responseData(){/* 响应总数据 */
+        return this.$store.state.initData.data;
+      },
+      bookData(){
+        if(this.responseData===undefined){
+          return {};
+        }
+        return this.responseData.list;
+      },
       find_condition(){
         let find_condition={};
         this.channels==='不限'?'':find_condition['channels']=this.channels;
@@ -140,6 +158,12 @@
       }
     },
     methods:{
+      ...mapMutations([
+        'initContent'
+      ]),
+      ObtainBook:function () {
+
+      },
       Reset:function(key){/*重置某一项或者全部 */
         let _this=this;
         if(key!=undefined){
@@ -153,7 +177,11 @@
         this.word_count='不限';
         this.update_time='不限';
         this.sorting='默认';
-      }
+      },
+      pageJumps:function (pageNum) {
+        this.$store.commit('initContent',pageNum);
+        document.documentElement.scrollTop = 0;
+      },
     }
   }
 

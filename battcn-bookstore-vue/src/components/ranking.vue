@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-  import ranking from './homeChildren/rankingList.vue'
+  import ranking from './children/rankingList.vue'
 
   export default {
     name:'Ranking',

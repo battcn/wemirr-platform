@@ -97,7 +97,7 @@
           </div>
         </li>
       </ul>
-      <leader style="padding: 0 20px 0;"></leader> <!-- 排行榜组件 -->
+      <leader :ListData="clickListData" style="padding: 0 20px 0;"></leader> <!-- 排行榜组件 -->
     </div>
     <strip></strip><!-- 图片长条 -->
     <!-- 热门推荐 开始 -->
@@ -492,18 +492,30 @@
 
 </template>
 <script type="text/ecmascript-6">
-  import leader from './homeChildren/leaderboard.vue'
+  import leader from './children/leaderboard.vue'
   /* 排行榜 */
-  import strip from './homeChildren/strip.vue'
+  import strip from './children/strip.vue'
   /* 图片长条 */
-  import area_head from './homeChildren/area_head.vue'
+  import area_head from './children/area_head.vue'
   /* 方块头条 */
+  import {mapState,mapMutations} from 'vuex'
   export default {
     name: 'Home',
     data() {
       return {Carousel_pointer: 'one', pic_left: 0, Carousel_Time: "你好"}
     },
+    computed:{
+      clickListData(){/* 顶部排行榜数据 */
+        return this.$store.state.initData.homeData&&this.$store.state.initData.homeData.homeClickList&&this.$store.state.initData.homeData.homeClickList.list;
+      }
+    },
     methods: {
+      ...mapMutations([
+        'iniHomeClickList'
+      ]),
+      iniData:function (token) {
+        this.$store.commit('iniHomeClickList',token);
+      },
       timingCarousel: function (isStart) {
         let _this = this;
         if (isStart) {
@@ -534,13 +546,13 @@
     },
     mounted() {
       this.timingCarousel(true);
+      this.iniData();
     },
-    components: {leader, strip, area_head},
-    watch: {}
+    components: {leader, strip, area_head}
   }
 
 </script>
-<style slot-scope>
+<style>
   /* 上部综合信息(轮播框、推荐点击榜) */
   .home .h_f1 {
     width: 1100px;
