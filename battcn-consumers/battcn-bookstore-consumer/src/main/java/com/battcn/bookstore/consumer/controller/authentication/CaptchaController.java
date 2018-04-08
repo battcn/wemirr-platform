@@ -38,11 +38,7 @@ public class CaptchaController {
         this.redisCacheTemplate = redisCacheTemplate;
     }
 
-    /**
-     * 生成图片验证码
-     */
-
-    @ApiOperation(value = "获取图片验证码")
+    @ApiOperation(value = "获取客户端ID")
     @GetMapping
     public Map<String, String> getClientId() {
         final String clientId = RandomUtils.generate();
