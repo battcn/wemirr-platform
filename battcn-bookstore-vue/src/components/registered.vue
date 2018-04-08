@@ -6,34 +6,28 @@
     </div>
     <div class="srq">
       <div class="difcon">
-        <input v-model="name" type="text" placeholder="请输入用户名">
+        <input  :class="{input_meets:meetsName}"  v-model="name" type="text" placeholder="请输入手机号">
         <p class="ts font_12">
           <i>*</i>
-          可用长度为2到15位的中文，英文，数字,注意:每个中文字符等于3个字符长
+          使用手机号登录
         </p>
       </div>
       <div class="difcon">
-        <input v-model="pw" type="text" placeholder="请输入密码">
+        <input  v-model="pw" :class="{input_meets:meetsPw}"  type="text" placeholder="请输入密码">
         <p class="ts font_12">
           <i>*</i>
-          密码由6-15个英文字母（区分大小写）、数字及下划线组成。
+          密码由6-32个英文字母（区分大小写）、数字及下划线组成。
         </p>
       </div>
       <div class="difcon">
-        <input v-model="conf_pw" type="text" placeholder="请输入确认密码">
-        <p class="ts font_12">
-          <i>*</i>
-        </p>
-      </div>
-      <div class="difcon">
-        <input v-model="email" type="text" placeholder="请输入邮箱地址">
+        <input  :class="{input_meets:meetsConf_pw}"  v-model="conf_pw" type="text" placeholder="请输入确认密码">
         <p class="ts font_12">
           <i>*</i>
         </p>
       </div>
       <div class="yzm difcon">
-        <input type="text" placeholder="输入验证码">
-        <span class="yzt"></span>
+        <input type="text" v-model="Vecode" placeholder="输入验证码">
+        <span class="yzt"><img @click="getVerificatCode()" :src="codeImg" alt="验证码" /></span>
         <p class="ts">
           <i>*</i>
         </p>
@@ -50,36 +44,57 @@
 
 </template>
 <script>
-  export default{
-    name:'register',
-    data(){
-      return {name:'',pw:'',conf_pw:'',email:''}
+  import {verificat} from './../util/fromVerificat';
+  import {mapState, mapMutations} from 'vuex';
+  import axios from 'axios';
+
+  export default {
+    name: 'register',
+    data() {
+      return {name: '15386025588',meetsName:false, pw: 'z1233210',meetsPw:false, conf_pw: 'z1233210',meetsConf_pw:false, email: '',meetsEmail:false, Vecode: '',token: ''}
     },
-    methods:{
-      register_su:function () {
-        let _this=this;
-        if(_this.name===''||/^[\u4e00-\u9fa5]{2,15}$/u.test(_this.name)){
-          console.log("用户名格式错误");
-          return false;
+    computed: {
+      codeImg() {
+        let _this = this;
+        return ('data:image/png;base64,' + btoa(new Uint8Array(_this.$store.state.Account.codeImg)
+          .reduce((data, byte) => data + String.fromCharCode(byte), '')));
+      },
+    },
+    methods: {
+      ...mapMutations([
+         'getVerificatCode','judgeVerificatCode'
+      ]),
+      isMeetsName:function () {/* 验证手机号 */
+        verificat.username(this.name)?this.meetsName=false:this.meetsName=true;
+      },
+      isMeetsPw:function () {/* 验证密码 */
+        verificat.password(this.pw)?this.meetsPw=false:this.meetsPw=true;
+      },
+      isMeetsConf_pw:function () { /* 验证确认密码一致 */
+        verificat.password(this.conf_pw)&&this.pw===this.conf_pw?this.meetsConf_pw=false:this.meetsConf_pw=true;
+      },
+      register_su: function () {
+        if (verificat.trim(this.Vecode)&&verificat.username(this.name) && verificat.password(this.pw) && verificat.same('密码', this.pw, this.conf_pw)) {
+          let account = {
+            "username":this.name,
+            "password":this.pw
+          };
+          this.$store.commit('judgeVerificatCode', {code: this.Vecode,context:account});
+          /* 验证码是否正确 */
         }
-        if(_this.pw===''||/^[\w\_]{6,15}$/u.test(_this.pw)){
-          console.log("密码格式错误");
-          return false;
-        }
-        if(_this.pw!==_this.conf_pw){
-          console.log("两次密码不一致");
-          return false;
-        }
-        if(!/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(this.email)){
-          console.log("邮箱格式不正确");
-          return false;
-        }
-      }
+      },
+    },
+    beforeMount() {
+      this.$store.commit('getVerificatCode', 123);
     }
   }
 
 </script>
 <style>
+  input.input_meets {
+    border-color: #A41E22!important;
+  }
+
   .register a {
     overflow: auto;
     display: inline;
@@ -110,12 +125,14 @@
   .register .srq p i {
     color: #ccc;
   }
+
   /* 验证码样式 */
   .register .srq .yzm.difcon .yzt {
     float: left;
   }
+
   /* 用户协议 */
-  .register .srq  .difcon .yyd a{
+  .register .srq .difcon .yyd a {
     color: #f26552;
   }
 

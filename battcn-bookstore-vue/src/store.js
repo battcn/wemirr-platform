@@ -4,7 +4,6 @@ import axios from 'axios'
 
 Vue.use(Vuex);
 
-
 const initData = {/* 数据存放 */
   state: {data: {},homeData:{homeClickList:{}},detailsData:{},contentsData:{}},
   mutations:{
@@ -19,11 +18,13 @@ const initData = {/* 数据存放 */
     },
     iniHomeClickList(state,token){/* 获取首页顶部的点击榜数据 */
       let url='http://localhost:9090/app/books/recommends';
-      let header=token===undefined?{}:{headers:{'X-Authorization':token}};
-      axios.get(url,header).then(function (response) {
-        initData.state.homeData.homeClickList=response.data;
+      let config = token===undefined||token===null?{}:{headers:{'X-Authorization':token}};
+      axios.get(url,config).then(function (response) {
+        if(initData.state.homeData&&initData.state.homeData.homeClickList){
+          initData.state.homeData.homeClickList= response.data;
+        }
       }).catch(function (error) {
-        console.log("请求发送错误"+error);
+        console.log(error.message);
       });
     },
     iniBookDetails(state,bookNo) {/* 根据书号获取书详情 */
@@ -43,9 +44,9 @@ const initData = {/* 数据存放 */
       });
     }
   }
-}
+};
 
-const Paging = {/* 分页跳转 */
+const Paging = {/* 辅助操作部分，分页跳转 */
   state:{},
   mutations:{
     /* 分页跳转：传入目标页数 */
@@ -54,15 +55,60 @@ const Paging = {/* 分页跳转 */
     }
   }
 }
+const Account ={/* 账号身份部分 */
+  state:{codeImg:"",judge:{},clientId:''},
+  mutations:{
+    getVerificatCode(state,token){/* 获取验证码 */
+      let url = "http://localhost:9090/v0.1/captcha";
+      //let config = token===undefined||token===null?{responseType: 'arraybuffer'}:{headers:{'X-Authorization':token},responseType: 'arraybuffer'};
+      let config = token===undefined||token===null?{}:{headers:{'X-Authorization':token}};
+      axios.get(url,config).then((response) =>{
+        let clientId=response.data&&response.data.clientId;
+        if(clientId===null || clientId === undefined){
+          let  err;
+          try {
+            throw  err = new Error('获取客户端标识码失败');
+          }catch (err){
+            console.log(err)
+          }
+        }
+        Account.state.clientId=clientId;
+        let config = {headers:{'X-Authorization':null},responseType: 'arraybuffer'};
+        let url = "http://localhost:9090/v0.1/captcha/"+clientId;
+       axios.get(url,config).then(function (response) {
+         Account.state.codeImg = response.data;
+       }).catch(function (error) {
+         console.log("请求发送错误"+error);
+       })
+        // Account.state.codeImg = response.data;
+      }).catch(function (error) {
+        console.log("请求发送错误"+error);
+      })
+    },
+    getUserinfo(state){
 
+    },
+    setUserinfo(state){},
+    judgeVerificatCode(state,info){
+      console.log(info);
+      let url = 'http://localhost:9090/authorized/register/'+Account.state.clientId+'/'+(info['code']?info['code']:'');
+      let config = info['X-Authorization']?{}:{headers:{'X-Authorization':info['X-Authorization']}};
+     let data = info['context'];
+      axios.post(url,data,config).then((response)=>{
+        console.log(response);
+        Account.state.judge=response.data;
 
-//init();
-
-
+      }).catch(function (error) {
+          console.log("请求发送错误"+error);
+        })
+    }
+  }
+}
 export default new Vuex.Store({
   modules:{
     initData:initData,
-    Paging:Paging
+    Paging:Paging,
+    Account:Account
   }
 })
 

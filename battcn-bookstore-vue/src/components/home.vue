@@ -6,21 +6,49 @@
         <div class="pl_pic">
           <ul :style="{left:pic_left+'px'}">
             <li><a href="javascript:" class=""><img src="./../../static/img/large.jpg" alt=""
-                                                    class="lazyload_lb"></a></li>
+                                                    class="lazyload_lb"></a>
+              <div class="book_info font_12">
+                <h3><a class="zdz" href="">最强升级</a></h3>
+                <p class="int">
+                  婚前记者采访某总裁：“慕先生，请问你到底喜欢你老婆什么地方？”慕先生一脸宠溺：“漂亮，温柔，而且十分乖巧。”
+                </p>
+              </div>
+            </li>
             <li><a href="javascript:" class=""><img src="./../../static/img/large.jpg" alt=""
-                                                    class="lazyload_lb"></a></li>
+                                                    class="lazyload_lb"></a>
+              <div class="book_info font_12">
+                <h3><a class="zdz" href="">最强升级</a></h3>
+                <p class="int">
+                  婚前记者采访某总裁：“慕先生，请问你到底喜欢你老婆什么地方？”慕先生一脸宠溺：“漂亮，温柔，而且十分乖巧。”
+                </p>
+              </div>
+            </li>
             <li><a href="javascript:" class=""><img src="./../../static/img/large2.jpg" alt=""
-                                                    class="lazyload_lb"></a></li>
+                                                    class="lazyload_lb"></a>
+              <div class="book_info font_12">
+                <h3><a class="zdz" href="">最强升级</a></h3>
+                <p class="int">
+                  婚前记者采访某总裁：“慕先生，请问你到底喜欢你老婆什么地方？”慕先生一脸宠溺：“漂亮，温柔，而且十分乖巧。”
+                </p>
+              </div>
+            </li>
             <li><a href="javascript:" class=""><img src="./../../static/img/large.jpg" alt=""
-                                                    class="lazyload_lb"></a></li>
+                                                    class="lazyload_lb"></a>
+              <div class="book_info font_12">
+                <h3><a class="zdz" href="">最强升级</a></h3>
+                <p class="int">
+                  婚前记者采访某总裁：“慕先生，请问你到底喜欢你老婆什么地方？”慕先生一脸宠溺：“漂亮，温柔，而且十分乖巧。”
+                </p>
+              </div>
+            </li>
           </ul>
         </div>
-        <div class="book_info font_12">
+        <!--<div class="book_info font_12">
           <h3><a class="zdz" href="">最强升级</a></h3>
           <p class="int">
             婚前记者采访某总裁：“慕先生，请问你到底喜欢你老婆什么地方？”慕先生一脸宠溺：“漂亮，温柔，而且十分乖巧。”
           </p>
-        </div>
+        </div>-->
         <div class="pl_dot">
           <ol>
             <li :class="{on:Carousel_pointer=='one'}"
@@ -572,7 +600,6 @@
   /* 轮播框图片 */
   .h_f1 .h_f1_L .pl_pic {
     width: 500px;
-    height: 250px;
     border-radius: 6px;
     border: 1px solid #f3f3f3;
     overflow: hidden;
@@ -603,18 +630,18 @@
     margin: 0 auto;
   }
 
-  .h_f1_L .book_info h3 {
+  .h_f1_L .pl_pic ul li .book_info h3 {
     height: 50px;
     text-align: center;
   }
 
   /* 轮播框书名 */
-  .h_f1_L .book_info h3 a {
+  .h_f1_L  .pl_pic ul li .book_info h3 a {
     max-width: 280px;
     margin-top: 26px;
   }
 
-  .h_f1_L .book_info p {
+  .h_f1_L  .pl_pic ul li .book_info p {
     font-size: 12px;
     line-height: 18px;
     height: 34px;
@@ -889,6 +916,17 @@
   }
   .h_f4_R li .book_inf{
 text-align: center;
+  }
+
+  /*响应式样式部分 */
+  @media screen and (max-width:1100px) {
+    .home .h_f1{width:100%;}
+    /* 轮播框 */
+    .h_f1 .h_f1_L{width: 80%;margin:0 auto;float: none;}
+    .h_f1 .h_f1_L .pl_pic{width: 100%;}
+    .h_f1 .h_f1_L .pl_pic ul{width: calc(100% * 4);}
+    .h_f1 .h_f1_L .pl_pic ul li{width: calc(100% / 4);}
+    .h_f1 .h_f1_L .pl_pic ul li a{width: 100%;}
   }
 
 </style>
