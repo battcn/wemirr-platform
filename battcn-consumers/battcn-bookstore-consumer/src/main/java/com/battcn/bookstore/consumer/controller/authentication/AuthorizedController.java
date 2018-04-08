@@ -87,19 +87,15 @@ public class AuthorizedController {
         return result;
     }
 
-    @PostMapping(value = "/register/{token}/{code}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/register/{client_id}/{code}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "注册")
-    public Member registerAuthorized(@PathVariable("token") String token, @PathVariable("code") String code, @Validated @RequestBody MemberSecurityContext context) {
+    public Member registerAuthorized(@PathVariable("client_id") String clientId, @PathVariable("code") String code, @Validated @RequestBody MemberSecurityContext context) {
         final HashOperations<String, String, String> opsForHash = redisCacheTemplate.opsForHash();
-        final String cacheCode = opsForHash.get(AuthorizedEnum.REDIS_CAPTCHA_HASH.getKey(), token);
+        final String cacheCode = opsForHash.get(AuthorizedEnum.REDIS_CAPTCHA_HASH.getKey(), clientId);
         if (!StringUtils.equals(code, cacheCode)) {
             throw CustomException.badRequest("验证码错误");
         }
         final String memberNo = sequenceGenerator.generateSequence(SequenceType.MR);
-        final String cacheMemberNo = opsForHash.get(AuthorizedEnum.REDIS_MEMBER_NO_HASH.getKey(), memberNo);
-        if (!StringUtils.equals(memberNo, cacheMemberNo)) {
-            throw CustomException.badRequest("会员编号不存在");
-        }
         Member member = new Member();
         member.setMemberNo(memberNo);
         member.setAccountName(context.getUsername());
@@ -107,7 +103,7 @@ public class AuthorizedController {
         member.setRoleName("MEMBER");
         this.memberService.insertSelective(member);
         // 验证成功删除临时Token
-        opsForHash.delete(AuthorizedEnum.REDIS_CAPTCHA_HASH.getKey(), code);
+        opsForHash.delete(AuthorizedEnum.REDIS_CAPTCHA_HASH.getKey(), clientId);
         return member;
     }
 
