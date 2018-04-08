@@ -3,6 +3,7 @@ package com.battcn.bookstore.consumer.controller.authentication;
 import com.battcn.bookstore.consumer.enums.AuthorizedEnum;
 import com.battcn.framework.commons.lang.RandomUtils;
 import com.battcn.framework.commons.utils.NewVerifyCodeUtils;
+import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * @author Levin
@@ -42,10 +44,12 @@ public class CaptchaController {
 
     @ApiOperation(value = "获取图片验证码")
     @GetMapping
-    public String getClientId() {
+    public Map<String, String> getClientId() {
         final String clientId = RandomUtils.generate();
         redisCacheTemplate.opsForHash().put(AuthorizedEnum.REDIS_CAPTCHA_HASH.getKey(), clientId, null);
-        return RandomUtils.generate();
+        Map<String, String> result = Maps.newHashMap();
+        result.put("clientId", clientId);
+        return result;
     }
 
     @ApiOperation(value = "获取图片验证码")
