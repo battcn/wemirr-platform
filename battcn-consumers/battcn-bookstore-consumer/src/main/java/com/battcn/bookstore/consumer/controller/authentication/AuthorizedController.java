@@ -89,7 +89,7 @@ public class AuthorizedController {
 
     @PostMapping(value = "/register/{client_id}/{code}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "注册")
-    public Member registerAuthorized(@PathVariable("client_id") String clientId, @PathVariable("code") String code, @Validated @RequestBody MemberSecurityContext context) {
+    public JSONObject registerAuthorized(@PathVariable("client_id") String clientId, @PathVariable("code") String code, @Validated @RequestBody MemberSecurityContext context) {
         final HashOperations<String, String, String> opsForHash = redisCacheTemplate.opsForHash();
         final String cacheCode = opsForHash.get(AuthorizedEnum.REDIS_CAPTCHA_HASH.getKey(), clientId);
         if (!StringUtils.equals(code, cacheCode)) {
@@ -104,7 +104,8 @@ public class AuthorizedController {
         this.memberService.insertSelective(member);
         // 验证成功删除临时Token
         opsForHash.delete(AuthorizedEnum.REDIS_CAPTCHA_HASH.getKey(), clientId);
-        return member;
+        // 模拟登陆
+        return loginAuthorized(context);
     }
 
     @PutMapping("/refresh")
