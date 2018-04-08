@@ -5,6 +5,8 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
 import com.battcn.bookstore.consumer.enums.AuthorizedEnum;
 import com.battcn.framework.exception.CustomException;
+import com.battcn.framework.redis.sequence.SequenceGenerator;
+import com.battcn.framework.redis.sequence.SequenceType;
 import com.battcn.framework.security.Authentication;
 import com.battcn.framework.security.SecurityTokenProperties;
 import com.battcn.framework.security.exceptions.InvalidTokenException;
@@ -48,13 +50,15 @@ public class AuthorizedController {
             url = "dubbo://localhost:20880", timeout = 10000)
     private MemberService memberService;
 
+    private final SequenceGenerator sequenceGenerator;
     private final RedisTemplate<String, Serializable> redisCacheTemplate;
     private final SecurityTokenProperties securityTokenProperties;
     private final TokenFactory tokenFactory;
     private final TokenExtractor tokenExtractor;
 
     @Autowired
-    public AuthorizedController(SecurityTokenProperties securityTokenProperties, TokenFactory tokenFactory, TokenExtractor tokenExtractor, RedisTemplate<String, Serializable> redisCacheTemplate) {
+    public AuthorizedController(SequenceGenerator sequenceGenerator, SecurityTokenProperties securityTokenProperties, TokenFactory tokenFactory, TokenExtractor tokenExtractor, RedisTemplate<String, Serializable> redisCacheTemplate) {
+        this.sequenceGenerator = sequenceGenerator;
         this.securityTokenProperties = securityTokenProperties;
         this.tokenFactory = tokenFactory;
         this.tokenExtractor = tokenExtractor;
@@ -83,10 +87,15 @@ public class AuthorizedController {
         return result;
     }
 
-    @PostMapping(value = "/register/{member_no}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/register/{token}/{code}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "注册")
-    public Member registerAuthorized(@PathVariable("member_no") String memberNo, @Validated @RequestBody MemberSecurityContext context) {
+    public Member registerAuthorized(@PathVariable("token") String token, @PathVariable("code") String code, @Validated @RequestBody MemberSecurityContext context) {
         final HashOperations<String, String, String> opsForHash = redisCacheTemplate.opsForHash();
+        final String cacheCode = opsForHash.get(AuthorizedEnum.REDIS_CAPTCHA_HASH.getKey(), token);
+        if (!StringUtils.equals(code, cacheCode)) {
+            throw CustomException.badRequest("验证码错误");
+        }
+        final String memberNo = sequenceGenerator.generateSequence(SequenceType.MR);
         final String cacheMemberNo = opsForHash.get(AuthorizedEnum.REDIS_MEMBER_NO_HASH.getKey(), memberNo);
         if (!StringUtils.equals(memberNo, cacheMemberNo)) {
             throw CustomException.badRequest("会员编号不存在");
@@ -97,6 +106,8 @@ public class AuthorizedController {
         member.setPassword(context.getPassword());
         member.setRoleName("MEMBER");
         this.memberService.insertSelective(member);
+        // 验证成功删除临时Token
+        opsForHash.delete(AuthorizedEnum.REDIS_CAPTCHA_HASH.getKey(), code);
         return member;
     }
 
