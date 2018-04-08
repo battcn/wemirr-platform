@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,16 +35,22 @@ public class CaptchaController {
     public CaptchaController(RedisTemplate<String, Serializable> redisCacheTemplate) {
         this.redisCacheTemplate = redisCacheTemplate;
     }
+
     /**
      * 生成图片验证码
      */
 
     @ApiOperation(value = "获取图片验证码")
-    @CrossOrigin(exposedHeaders = "token")
     @GetMapping
-    public void genCaptcha(HttpServletResponse response) throws IOException {
-        final String token = RandomUtils.generate();
-        response.setHeader("token", token);
+    public String getClientId() {
+        final String clientId = RandomUtils.generate();
+        redisCacheTemplate.opsForHash().put(AuthorizedEnum.REDIS_CAPTCHA_HASH.getKey(), clientId, null);
+        return RandomUtils.generate();
+    }
+
+    @ApiOperation(value = "获取图片验证码")
+    @GetMapping("/{client_id}")
+    public void genCaptcha(@PathVariable("client_id") String clientId, HttpServletResponse response) throws IOException {
         response.setContentType("image/jpeg");
         response.setHeader("Pragma", "No-cache");
         response.setHeader("Cache-Control", "no-cache");
@@ -55,7 +61,7 @@ public class CaptchaController {
         //2、输出验证码
         log.info("[验证码] - [{}]", imageCode);
         //3、将验证码存入 Redis 中
-        redisCacheTemplate.opsForHash().put(AuthorizedEnum.REDIS_CAPTCHA_HASH.getKey(), token, imageCode);
+        redisCacheTemplate.opsForHash().put(AuthorizedEnum.REDIS_CAPTCHA_HASH.getKey(), clientId, imageCode);
         outputStream.flush();
         outputStream.close();
     }
