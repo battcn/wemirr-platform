@@ -23,6 +23,7 @@ public class BookLikeController {
             url = "dubbo://localhost:20880", timeout = 10000)
     private BookLikeService bookLikeService;
 
+
     @PutMapping("/{book_no}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "将喜欢的书籍点赞", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

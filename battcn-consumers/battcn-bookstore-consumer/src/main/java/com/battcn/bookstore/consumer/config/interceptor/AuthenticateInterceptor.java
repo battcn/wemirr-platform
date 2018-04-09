@@ -1,12 +1,23 @@
 package com.battcn.bookstore.consumer.config.interceptor;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
+import com.battcn.framework.exception.ErrorResponseEntity;
+import com.battcn.framework.security.Authentication;
 import com.battcn.framework.security.Environments;
+import com.battcn.framework.security.SecurityTokenProperties;
 import com.battcn.framework.security.annotation.IgnoreAuthenticate;
+import com.battcn.framework.security.extractor.TokenExtractor;
+import com.battcn.framework.security.model.token.RawAccessToken;
 import com.battcn.member.facade.MemberService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.battcn.framework.security.AuthConstant.AUTHORIZATION;
 
 
 /**
@@ -30,7 +43,15 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
             url = "dubbo://localhost:20880", timeout = 10000)
     private MemberService memberService;
 
-    private static final String AUTHORIZATION = "Authorization";
+    private final TokenExtractor tokenExtractor;
+    private final SecurityTokenProperties securityTokenProperties;
+
+    @Autowired
+    public AuthenticateInterceptor(SecurityTokenProperties securityTokenProperties, TokenExtractor tokenExtractor) {
+        this.securityTokenProperties = securityTokenProperties;
+        this.tokenExtractor = tokenExtractor;
+    }
+
     private static final List<String> ANY_MATCH = Arrays.asList("html", "error", "static", "docs", "resources", "images", "staticsrc", "configuration", "actuator");
 
     @Override
@@ -43,15 +64,24 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
         }
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         IgnoreAuthenticate ignoreLogin = handlerMethod.getMethodAnnotation(IgnoreAuthenticate.class);
-        String token = request.getHeader(AUTHORIZATION);
-        log.debug("[拦截到的Token] - [{}]", token);
+        String tokenPayload = request.getHeader(AUTHORIZATION);
+        log.debug("[拦截到的Token] - [{}]", tokenPayload);
         if (ignoreLogin != null) {
-            if (!ignoreLogin.needLoginInfo() || StringUtils.isEmpty(token)) {
-                return true;
-            } else {
+            if (!ignoreLogin.needLoginInfo() || StringUtils.isEmpty(tokenPayload)) {
                 return true;
             }
         }
+        if (StringUtils.isEmpty(tokenPayload)) {
+            ErrorResponseEntity responseEntity = new ErrorResponseEntity(HttpStatus.FORBIDDEN.value(), "Token expired");
+            response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
+            response.getWriter().write(JSON.toJSONString(responseEntity));
+            return false;
+        }
+        // 解析Token,将Token中的上下文存储到 Environments 中
+        RawAccessToken rawAccessToken = new RawAccessToken(tokenExtractor.extract(tokenPayload));
+        Jws<Claims> jwsClaims = rawAccessToken.parseClaims(securityTokenProperties.getSigningKey());
+        Environments.set(Authentication.create(jwsClaims));
         return true;
     }
 

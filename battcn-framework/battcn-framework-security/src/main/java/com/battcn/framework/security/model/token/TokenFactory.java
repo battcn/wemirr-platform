@@ -46,6 +46,7 @@ public class TokenFactory {
         Optional.ofNullable(authentication.getPrincipal()).orElseThrow(() -> new IllegalArgumentException("Cannot create Token without username"));
         Optional.ofNullable(authentication.getAuthorities()).orElseThrow(() -> new IllegalArgumentException("User doesn't have any privileges"));
         Claims claims = Jwts.claims().setSubject(authentication.getPrincipal());
+        claims.put("authId", authentication.getAuthId());
         claims.put("scopes", authentication.getAuthorities().stream().map(Object::toString).collect(toList()));
         LocalDateTime currentTime = LocalDateTime.now();
         String token = Jwts.builder()
@@ -72,6 +73,7 @@ public class TokenFactory {
         }
         LocalDateTime currentTime = LocalDateTime.now();
         Claims claims = Jwts.claims().setSubject(authentication.getPrincipal());
+        claims.put("authId", authentication.getAuthId());
         claims.put("scopes", Collections.singletonList(Scopes.REFRESH_TOKEN.authority()));
         String token = Jwts.builder()
                 .setClaims(claims)

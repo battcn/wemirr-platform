@@ -8,11 +8,12 @@ import com.battcn.framework.exception.CustomException;
 import com.battcn.framework.redis.sequence.SequenceGenerator;
 import com.battcn.framework.redis.sequence.SequenceType;
 import com.battcn.framework.security.Authentication;
-import com.battcn.framework.security.SecurityTokenProperties;
-import com.battcn.framework.security.exceptions.InvalidTokenException;
-import com.battcn.framework.security.extractor.TokenExtractor;
+import com.battcn.framework.security.Environments;
+import com.battcn.framework.security.annotation.IgnoreAuthenticate;
 import com.battcn.framework.security.model.MemberSecurityContext;
-import com.battcn.framework.security.model.token.*;
+import com.battcn.framework.security.model.token.AccessToken;
+import com.battcn.framework.security.model.token.Token;
+import com.battcn.framework.security.model.token.TokenFactory;
 import com.battcn.member.facade.MemberService;
 import com.battcn.member.pojo.po.Member;
 import com.google.common.collect.Lists;
@@ -40,10 +41,6 @@ import java.util.Optional;
 @Api(value = "授权管理", description = "授权管理", tags = "1.0")
 public class AuthorizedController {
 
-    /**
-     * Token存放的请求头
-     */
-    private static final String TOKEN_HEADER_PARAM = "X-Authorization";
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
@@ -52,19 +49,16 @@ public class AuthorizedController {
 
     private final SequenceGenerator sequenceGenerator;
     private final RedisTemplate<String, Serializable> redisCacheTemplate;
-    private final SecurityTokenProperties securityTokenProperties;
     private final TokenFactory tokenFactory;
-    private final TokenExtractor tokenExtractor;
 
     @Autowired
-    public AuthorizedController(SequenceGenerator sequenceGenerator, SecurityTokenProperties securityTokenProperties, TokenFactory tokenFactory, TokenExtractor tokenExtractor, RedisTemplate<String, Serializable> redisCacheTemplate) {
+    public AuthorizedController(SequenceGenerator sequenceGenerator, TokenFactory tokenFactory, RedisTemplate<String, Serializable> redisCacheTemplate) {
         this.sequenceGenerator = sequenceGenerator;
-        this.securityTokenProperties = securityTokenProperties;
         this.tokenFactory = tokenFactory;
-        this.tokenExtractor = tokenExtractor;
         this.redisCacheTemplate = redisCacheTemplate;
     }
 
+    @IgnoreAuthenticate
     @PostMapping(value = "/token", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "登陆")
     public JSONObject loginAuthorized(@RequestBody MemberSecurityContext context) {
@@ -77,7 +71,7 @@ public class AuthorizedController {
         Authentication authentication = new Authentication();
         authentication.setAuthId(member.getMemberNo());
         authentication.setAuthorities(Lists.newArrayList(member.getRoleName()));
-        authentication.setPrincipal(member.getAccountName());
+        authentication.setPrincipal(member.getUsername());
         AccessToken accessToken = tokenFactory.createAccessToken(authentication);
         Token refreshToken = tokenFactory.createRefreshToken(authentication);
         JSONObject result = new JSONObject();
@@ -87,6 +81,7 @@ public class AuthorizedController {
         return result;
     }
 
+    @IgnoreAuthenticate
     @PostMapping(value = "/register/{client_id}/{code}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "注册")
     public JSONObject registerAuthorized(@PathVariable("client_id") String clientId, @PathVariable("code") String code, @Validated @RequestBody MemberSecurityContext context) {
@@ -98,7 +93,7 @@ public class AuthorizedController {
         final String memberNo = sequenceGenerator.generateSequence(SequenceType.MR);
         Member member = new Member();
         member.setMemberNo(memberNo);
-        member.setAccountName(context.getUsername());
+        member.setUsername(context.getUsername());
         member.setPassword(context.getPassword());
         member.setRoleName("MEMBER");
         this.memberService.insertSelective(member);
@@ -110,13 +105,9 @@ public class AuthorizedController {
 
     @PutMapping("/refresh")
     @ApiOperation(value = "刷新Token")
-    public Token refreshToken(@RequestHeader(TOKEN_HEADER_PARAM) String payload) {
-        String tokenPayload = tokenExtractor.extract(payload);
-        RawAccessToken rawToken = new RawAccessToken(tokenPayload);
-        RefreshToken refreshToken = RefreshToken.create(rawToken, securityTokenProperties.getSigningKey()).orElseThrow(() -> new InvalidTokenException("Token验证失败"));
-        String accountName = refreshToken.getAccountName();
-        Member member = Optional.ofNullable(memberService.findByName(accountName)).orElseThrow(() -> CustomException.badRequest("用户未找到: " + accountName));
-        Authentication authentication = Authentication.create(accountName, Lists.newArrayList(member.getRoleName()));
+    public Token refreshToken() {
+        Member member = Optional.ofNullable(memberService.selectById(Environments.getAuthId())).orElseThrow(() -> CustomException.badRequest("用户未找到"));
+        Authentication authentication = Authentication.create(member.getMemberNo(), member.getUsername(), Lists.newArrayList(member.getRoleName()));
         return tokenFactory.createAccessToken(authentication);
     }
 

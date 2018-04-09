@@ -20,9 +20,13 @@ public class Member extends RecordEntity {
 
     @Id
     private String memberNo;
-    private String accountName;
+    private String username;
     private String password;
+    private String salt;
+    private String nickName;
     private String roleName;
-
+    private Byte level;
+    private Integer point;
+    private Integer exp;
 
 }

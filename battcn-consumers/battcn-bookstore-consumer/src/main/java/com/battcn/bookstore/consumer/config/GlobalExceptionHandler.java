@@ -4,6 +4,9 @@ import com.battcn.framework.exception.ErrorResponseEntity;
 import com.battcn.framework.redis.exception.CacheException;
 import com.battcn.framework.redis.exception.CacheLimitException;
 import com.battcn.framework.redis.exception.CacheLockException;
+import com.battcn.framework.security.exceptions.AuthenticationServiceException;
+import com.battcn.framework.security.exceptions.ExpiredTokenException;
+import com.battcn.framework.security.exceptions.InvalidTokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,6 +24,14 @@ public class GlobalExceptionHandler {
     public final ErrorResponseEntity handlerRedisException(final Exception e, HttpServletResponse response) {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         CacheException exception = (CacheException) e;
+        String errorMsg = exception.getMessage();
+        return new ErrorResponseEntity(response.getStatus(), errorMsg);
+    }
+
+    @ExceptionHandler({AuthenticationServiceException.class, InvalidTokenException.class, ExpiredTokenException.class})
+    public final ErrorResponseEntity handlerAuthenticationException(final Exception e, HttpServletResponse response) {
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        RuntimeException exception = (RuntimeException) e;
         String errorMsg = exception.getMessage();
         return new ErrorResponseEntity(response.getStatus(), errorMsg);
     }

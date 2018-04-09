@@ -20,9 +20,9 @@ import com.battcn.member.pojo.po.Member;
 public class MemberServiceImpl extends BaseServiceImpl<Member> implements MemberService {
 
     @Override
-    public Member findByName(String accountName) {
+    public Member findByName(String username) {
         Member record = new Member();
-        record.setAccountName(accountName);
+        record.setUsername(username);
         return this.selectOne(record);
     }
 }

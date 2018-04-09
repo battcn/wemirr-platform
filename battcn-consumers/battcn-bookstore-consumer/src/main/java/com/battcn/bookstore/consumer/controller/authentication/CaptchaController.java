@@ -3,6 +3,7 @@ package com.battcn.bookstore.consumer.controller.authentication;
 import com.battcn.bookstore.consumer.enums.AuthorizedEnum;
 import com.battcn.framework.commons.lang.RandomUtils;
 import com.battcn.framework.commons.utils.NewVerifyCodeUtils;
+import com.battcn.framework.security.annotation.IgnoreAuthenticate;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,6 +39,7 @@ public class CaptchaController {
         this.redisCacheTemplate = redisCacheTemplate;
     }
 
+    @IgnoreAuthenticate
     @ApiOperation(value = "获取客户端ID")
     @GetMapping
     public Map<String, String> getClientId() {
@@ -48,6 +50,7 @@ public class CaptchaController {
         return result;
     }
 
+    @IgnoreAuthenticate
     @ApiOperation(value = "获取图片验证码")
     @GetMapping("/{client_id}")
     public void genCaptcha(@PathVariable("client_id") String clientId, HttpServletResponse response) throws IOException {

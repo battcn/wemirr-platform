@@ -21,7 +21,7 @@ public class HeaderTokenExtractor implements TokenExtractor {
         if (StringUtils.isBlank(header)) {
             throw new AuthenticationServiceException("Authorization header cannot be blank!");
         }
-        if (header.length() < HEADER_PREFIX.length()) {
+        if (!StringUtils.substring(header, 0, HEADER_PREFIX.length()).equals(HEADER_PREFIX)) {
             throw new AuthenticationServiceException("Invalid authorization header size.");
         }
         return header.substring(HEADER_PREFIX.length(), header.length());
