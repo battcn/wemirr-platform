@@ -4,6 +4,10 @@
 
 # 必读
 
+![battcn3.0](./doc/1.png)
+
+
+
 鉴于 `dubbo-boot` 存在不少问题，故暂时以功能实现为主,暂时未做代码分包处理,本人会在新版`dubbo-boot`发布的第一时间修改项目中不规范的地方 
 
 鉴于 `dubbo` 还未支持 `spring-boot2` 所以`battcn-framework-elsasticsearch` 暂时未进行开发
