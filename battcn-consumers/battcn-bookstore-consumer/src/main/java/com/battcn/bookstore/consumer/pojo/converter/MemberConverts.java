@@ -23,7 +23,6 @@ public class MemberConverts {
             result.setLevel(entity.getLevel());
             result.setMemberNo(entity.getMemberNo());
             result.setNickName(entity.getNickName());
-            result.setRoleName(entity.getRoleName());
             result.setUsername(entity.getUsername());
             result.setPoint(entity.getPoint());
             return result;
