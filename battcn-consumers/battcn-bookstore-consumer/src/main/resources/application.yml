@@ -32,8 +32,8 @@ spring:
   security:
     battcn:
       token:
-        expiration-time: 1024
-        refresh-exp-time: 2048
+        expiration-time: 43200
+        refresh-exp-time: 86400
         issuer: http://battcn.com
         signing-key: battcn
   data:
