@@ -14,7 +14,7 @@
 
 # 新增功能
 
-- 添加 **`JWT` 认证（`battcn-bookstore-consumer`）**
+- 添加 **`JWT` 认证（`battcn-consumer-bookstore`）**
 - 基于`Redis`封装,唯一序列号生成与分布式`CacheLock`
 - 新增章节模板
 - 生成书籍文章
@@ -63,7 +63,7 @@
 
 - **将 `doc/battcn3.0.sql` 导入到 `version >= mysql5.6`的数据库中,如果版本低于 `5.6` 请仔细看 sql 文件的注释部分**
 - 将 `battcn-parent` 转换成 `Maven Project` 然后 执行 **`install`** 
-- 启动 `battcn-provider/battcn-system-provider/SystemProvider.java`   
+- 启动 `battcn-provider/battcn-provider-system/SystemProvider.java`   
 - 启动 `battcn-consumers/battcn-system-consumer/ManagementApplication.java`
 - **以上步骤成功后,访问 http://localhost:8082/ 即可** 
 
