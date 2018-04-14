@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -29,12 +29,12 @@ public class RedisSequenceAutoConfiguration {
 
 
     @Bean(name = RedisConstant.SEQUENCE_TEMPLATE_NAME)
-    public RedisTemplate<String, Serializable> lockRedisTemplate(JedisConnectionFactory jedisConnectionFactory, RedisSequenceProperties redisSequenceProperties) {
+    public RedisTemplate<String, Serializable> lockRedisTemplate(RedisConnectionFactory redisConnectionFactory, RedisSequenceProperties redisSequenceProperties) {
         RedisTemplate<String, Serializable> template = new RedisTemplate<>();
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        jedisConnectionFactory.setDatabase(redisSequenceProperties.getDb());
-        template.setConnectionFactory(jedisConnectionFactory);
+        //redisConnectionFactory.getConnection().select(redisSequenceProperties.getDb());
+        template.setConnectionFactory(redisConnectionFactory);
         return template;
     }
 

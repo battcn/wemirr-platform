@@ -6,6 +6,7 @@ import com.battcn.framework.redis.annotation.CacheParam;
 import com.battcn.framework.redis.limit.LimitType;
 import com.battcn.framework.redis.sequence.SequenceGenerator;
 import com.battcn.framework.redis.sequence.SequenceType;
+import com.battcn.framework.security.annotation.IgnoreAuthenticate;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +37,21 @@ public class RedisController {
         this.redisCacheTemplate = redisCacheTemplate;
     }
 
+    @IgnoreAuthenticate
     @CacheLock(prefix = "book:num", expire = 100)
     @PutMapping
     public String lock(@CacheParam @RequestParam int num) {
         return this.sequenceGenerator.generateSequence(SequenceType.BO);
     }
 
+    @IgnoreAuthenticate
     @CacheLimit(name = "ip", limitType = LimitType.CUSTOMER, count = 10, period = 100, delimiter = "_")
     @PostMapping
     public String limit(@CacheParam @RequestParam int num) {
         return this.sequenceGenerator.generateSequence(SequenceType.BO);
     }
 
+    @IgnoreAuthenticate
     @GetMapping
     public Set<ZSetOperations.TypedTuple<Serializable>> cache(String bookNo, String title) {
         String key = StringUtils.join("books:", bookNo);

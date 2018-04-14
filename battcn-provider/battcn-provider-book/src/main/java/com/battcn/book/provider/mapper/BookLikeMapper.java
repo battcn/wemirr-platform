@@ -1,7 +1,7 @@
-package com.battcn.system.provider.mapper;
+package com.battcn.book.provider.mapper;
 
+import com.battcn.book.pojo.po.BookLike;
 import com.battcn.framework.mybatis.mapper.BaseMapper;
-import com.battcn.member.pojo.po.Member;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface MemberMapper extends BaseMapper<Member> {
+public interface BookLikeMapper extends BaseMapper<BookLike> {
 
 }

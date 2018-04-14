@@ -9,10 +9,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * @author Levin
@@ -25,21 +23,19 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisLockAutoConfiguration {
 
     private final RedisLockProperties redisLockProperties;
-    private final JedisConnectionFactory jedisConnectionFactory;
+    private final RedisConnectionFactory redisConnectionFactory;
 
     @Autowired
-    public RedisLockAutoConfiguration(JedisConnectionFactory jedisConnectionFactory, RedisLockProperties redisLockProperties) {
+    public RedisLockAutoConfiguration(RedisConnectionFactory redisConnectionFactory, RedisLockProperties redisLockProperties) {
         this.redisLockProperties = redisLockProperties;
-        this.jedisConnectionFactory = jedisConnectionFactory;
+        this.redisConnectionFactory = redisConnectionFactory;
     }
 
     @Bean(name = RedisConstant.LOCK_TEMPLATE_NAME)
     public RedisTemplate<String, Object> lockRedisTemplate() {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        jedisConnectionFactory.setDatabase(redisLockProperties.getDb());
-        template.setConnectionFactory(jedisConnectionFactory);
+        //redisConnectionFactory.getConnection().select(redisLockProperties.getDb());
+        template.setConnectionFactory(redisConnectionFactory);
         return template;
     }
 

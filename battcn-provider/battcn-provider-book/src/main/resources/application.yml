@@ -1,4 +1,8 @@
+server:
+  port: 10050
 spring:
+  profiles:
+    active: dubbo
   application:
     name: battcn-provider-book
   datasource:
@@ -9,34 +13,6 @@ spring:
     hikari:
       maximum-pool-size: 15
       max-lifetime: 1765000
-server:
-  port: 10040
-management:
-  port: 10041
-  health:
-    dubbo:
-      status:
-        defaults: memory
-        extras: load,threadpool
-dubbo:
-  scan:
-    base-packages: com.battcn.book.provider.service
-  application:
-    id: battcn-provider-book
-    name: battcn-provider-book
-    qos-port: 10041
-    qos-enable: true
-  registry:
-    address: N/A
-    id: my-registry
-  protocol:
-    id: dubbo
-    name: dubbo
-    port: 20880
-    status: server
-endpoints:
-  dubbo:
-    enabled: true
 
 mybatis:
   mapper-locations:

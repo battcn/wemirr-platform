@@ -1,4 +1,8 @@
+server:
+  port: 10030
 spring:
+  profiles:
+    active: dubbo
   application:
     name: battcn-demo-provider
   datasource:
@@ -9,36 +13,7 @@ spring:
     hikari:
       maximum-pool-size: 15
       max-lifetime: 1765000
-server:
-  port: 10030
-management:
-  port: 10031
-  health:
-    dubbo:
-      status:
-        defaults: memory
-        extras: load,threadpool
-dubbo:
-  scan:
-    base-packages: com.battcn.system.provider.service
-  application:
-    id: battcn-provider-system
-    name: battcn-provider-system
-    qos-port: 10031
-    qos-enable: true
-  registry:
-    address: N/A
-    id: my-registry
-  protocol:
-    id: dubbo
-    name: dubbo
-    port: 20880
-    status: server
-  provider:
-    timeout: 5000
-endpoints:
-  dubbo:
-    enabled: true
+
 
 mybatis:
   mapper-locations:

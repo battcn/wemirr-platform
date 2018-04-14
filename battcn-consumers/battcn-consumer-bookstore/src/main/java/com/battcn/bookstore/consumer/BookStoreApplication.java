@@ -1,6 +1,8 @@
 package com.battcn.bookstore.consumer;
 
 
+import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
+import com.alibaba.dubbo.config.spring.context.annotation.EnableDubboConfig;
 import com.battcn.framework.core.cros.annotation.EnableCorsFilter;
 import com.battcn.framework.core.exception.annotation.EnableGlobalErrorResolver;
 import com.battcn.framework.security.annotation.EnableSecurityToken;
@@ -16,6 +18,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @version 2.5.1
  * @since 2018-01-10
  */
+@EnableDubbo
+@EnableDubboConfig
 @EnableSecurityToken
 @EnableGlobalErrorResolver
 @EnableCorsFilter

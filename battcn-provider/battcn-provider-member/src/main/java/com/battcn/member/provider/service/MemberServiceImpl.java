@@ -1,4 +1,4 @@
-package com.battcn.system.provider.service;
+package com.battcn.member.provider.service;
 
 import com.battcn.framework.mybatis.service.impl.BaseServiceImpl;
 import com.battcn.member.facade.MemberService;

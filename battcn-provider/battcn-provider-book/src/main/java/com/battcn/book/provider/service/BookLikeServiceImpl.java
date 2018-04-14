@@ -1,4 +1,4 @@
-package com.battcn.system.provider.service;
+package com.battcn.book.provider.service;
 
 import com.battcn.book.facade.BookLikeService;
 import com.battcn.book.pojo.po.BookLike;

@@ -44,7 +44,7 @@ public class AuthorizedController {
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880", timeout = 10000)
+            url = "dubbo://localhost:20881", timeout = 10000)
     private MemberService memberService;
 
     private final SequenceGenerator sequenceGenerator;
