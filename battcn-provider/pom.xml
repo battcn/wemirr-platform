@@ -14,9 +14,9 @@
     </properties>
 
     <modules>
-        <module>battcn-system-provider</module>
-        <module>battcn-member-provider</module>
-        <module>battcn-book-provider</module>
+        <module>battcn-provider-system</module>
+        <module>battcn-provider-member</module>
+        <module>battcn-provider-book</module>
     </modules>
 
 </project>

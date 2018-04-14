@@ -8,10 +8,10 @@
     <packaging>pom</packaging>
 
     <properties>
-        <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
+        <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <dubbo.boot.version>0.1.0</dubbo.boot.version>
+        <dubbo.spring.boot.version>2.0.0</dubbo.spring.boot.version>
         <commons.lang3.version>3.7</commons.lang3.version>
         <dubbo.version>2.6.1</dubbo.version>
         <mapper.boot.version>2.0.0</mapper.boot.version>
@@ -27,6 +27,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.1</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>

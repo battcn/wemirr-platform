@@ -6,15 +6,11 @@
 
 ![battcn3.0](./doc/1.png)
 
-
-
-鉴于 `dubbo-boot` 存在不少问题，故暂时以功能实现为主,暂时未做代码分包处理,本人会在新版`dubbo-boot`发布的第一时间修改项目中不规范的地方 
-
-鉴于 `dubbo` 还未支持 `spring-boot2` 所以`battcn-framework-elsasticsearch` 暂时未进行开发
+喜大普奔 **`dubbo-spring-boot-project(2.0.0)`** 发布,该项目也第一时间升级,并且升级了SpringBoot版本为当前最新 
 
 # 新增功能
 
-- 添加 **`JWT` 认证（`battcn-bookstore-consumer`）**
+- 添加 **`JWT` 认证（`battcn-consumer-bookstore`）**
 - 基于`Redis`封装,唯一序列号生成与分布式`CacheLock`
 - 新增章节模板
 - 生成书籍文章
@@ -63,10 +59,10 @@
 
 - **将 `doc/battcn3.0.sql` 导入到 `version >= mysql5.6`的数据库中,如果版本低于 `5.6` 请仔细看 sql 文件的注释部分**
 - 将 `battcn-parent` 转换成 `Maven Project` 然后 执行 **`install`** 
-- 启动 `battcn-provider/battcn-system-provider/SystemProvider.java`   
+- 启动 `battcn-provider/battcn-provider-system/SystemProvider.java`   
 - 启动 `battcn-consumers/battcn-system-consumer/ManagementApplication.java`
 - **以上步骤成功后,访问 http://localhost:8082/ 即可** 
 
 # 存在缺陷
 
-**`由于 dubbo` 对 yml 配置存在缺陷,所以该阶段只能启动一个 provider 做测试,根据官方 issues 该问题应该会在下一个版本得到解决**
+**`由于 dubbo` 对 yml 配置存在缺陷,所以该阶段只能通过 `application-dubbo.properties` 外部资源方式整合了,根据官方 issues 该问题应该会在下一个版本得到解决**

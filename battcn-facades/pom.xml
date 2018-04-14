@@ -14,9 +14,9 @@
     </properties>
 
     <modules>
-        <module>battcn-member-facade</module>
-        <module>battcn-book-facade</module>
-        <module>battcn-system-facade</module>
+        <module>battcn-facade-member</module>
+        <module>battcn-facade-book</module>
+        <module>battcn-facade-system</module>
     </modules>
 
 </project>

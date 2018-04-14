@@ -1,0 +1,39 @@
+server:
+  port: 10050
+spring:
+  profiles:
+    active: dubbo
+  application:
+    name: battcn-provider-book
+  datasource:
+    password: root
+    username: root
+    url: jdbc:mysql://localhost:3306/battcn3.0?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      maximum-pool-size: 15
+      max-lifetime: 1765000
+
+mybatis:
+  mapper-locations:
+  - classpath:com/battcn/book/provider/mapper/*.xml
+  type-aliases-package: com.battcn.book.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+
+mapper:
+  identity: MYSQL
+  mappers:
+  - com.battcn.framework.mybatis.mapper.BaseMapper
+
+  not-empty: false
+
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: true
+  support-methods-arguments: true
+
+logging:
+  level:
+    com.battcn: DEBUG
