@@ -34,7 +34,7 @@ public class RawAccessToken implements Token {
             log.error("Invalid Token", ex);
             throw new InvalidTokenException("Invalid token: ", ex);
         } catch (ExpiredJwtException expiredEx) {
-            log.info("Token is expired", expiredEx);
+            log.error("Token is expired", expiredEx);
             throw new ExpiredTokenException(this, "Token expired", expiredEx);
         }
     }
