@@ -8,16 +8,13 @@ import Library from '@/components/library'
 import Ranking from '@/components/ranking'
 import login from '@/components/login'
 import registered from '@/components/registered'
+import yourseInfo from '@/components/yourseInfo'
+import Info_home from '@/components/infoChildren/home'
 
 export default new Router({
   mode:'history',
   linkActiveClass: 'active',
   routes: [
-    {
-      path: '/', /* 主页 */
-      name: 'Home',
-      component: Home
-    },
     {
       path: '/', /* 主页 */
       name: 'Home',
@@ -42,6 +39,15 @@ export default new Router({
       path:'/registered',
       name:'registered',
       component:registered
+    },
+    {
+      path:'/yourseInfo',
+      name:'yourseInfo',
+      component:yourseInfo,
+      children:[
+        {path:'/',component:Info_home},
+        {path:'bookshelf',component:Info_home}
+      ]
     }
   ]
 })

@@ -33,12 +33,18 @@
               </a>
             </div>
             <div class="login">
-            <span class="login_before">
+            <span v-if="infoData==null" class="login_before">
               <router-link to="/login">
               <i class="fa fa-user-o"></i>
                登录
                 </router-link>
             </span>
+              <div v-if="infoData!=null" class="login_after"><!--已经登录状态下显示头像信息 -->
+                <span class="yh">
+                  <img src="./../static/img/middle.jpg" alt="">
+                  <a href="">Rock1313</a>
+                </span>
+              </div>
             </div>
           </div>
         </nav>
@@ -53,12 +59,18 @@
               </a>
             </div>
             <div class="login">
-            <span class="login_before">
+            <span v-if="infoData==null" class="login_before">
               <router-link to="/login">
               <i class="fa fa-user-o"></i>
                登录
                 </router-link>
             </span>
+              <div v-if="infoData!=null" class="login_after"><!--已经登录状态下显示头像信息 -->
+                <span class="yh">
+                  <img src="./../static/img/middle.jpg" alt="">
+                  <a href="">{{infoData}}</a>
+                </span>
+              </div>
             </div>
             <a @click="menu_show=!menu_show" class="menu_btn" href="javascript:"><span class="fa fa-bars"></span></a>
           </div>
@@ -102,10 +114,21 @@
     },
     computed: {
       /* 使用数组形式将状态变量加载进来,页面使用该变量更简便 */
+      ...mapState({
+        infoData: state => state.Account.infoData,
+      })
+    },
+    methods:{
+      ...mapMutations([
+        'getUserinfo'/* 各个触发函数名(不区分模块名)，相同函数名则同时引入 */
+      ]),
+    },
+    beforeMount() {
+      this.getUserinfo();
     }
   }
 </script>
-<style>
+<style scoped>
   /* 导航头 */
   .header {
     width: 100%;
@@ -188,7 +211,7 @@
   }
 
   .headWrap_r {
-    float: right;
+    float: right;overflow: hidden;
   }
 
   .headWrap_r .search {
@@ -272,6 +295,35 @@
   .headWrap_r .login .login_before:hover a,
   .headWrap_r .login .login_before:hover a i {
     color: #f26552;
+  }
+  /* 登录状态下 */
+  .headWrap_r .login .login_after{
+    width: 146px;
+    margin: 0 0 0 10px;
+    position: relative;
+  }
+  .headWrap_r .login .login_after .yh{
+    padding: 0 10px 0 15px;
+    position: relative;
+    z-index: 100;
+  }
+  .headWrap_r .login .login_after img{
+    float: left;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .headWrap_r .login .login_after a{
+    font-size: 12px;
+    color: #6a6a6a;
+    max-width: 84px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .headWrap_r .login .login_after .yh a{
+    margin: 4px 0 0 0;
   }
 
   .headWrap_r .login a {
@@ -415,6 +467,9 @@ text-align: center;    padding: 10px 0;width:88%;margin:0 auto;position: relativ
     }
     .nav_header_menu .nav_ul li .nav_ul_input{
       display: block;
+    }
+    .headWrap_r .login .login_after{
+      width:auto;
     }
   }
 </style>

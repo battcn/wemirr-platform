@@ -37,20 +37,6 @@
       ...mapMutations([
         'getVerificatCode','judgeVerificatCode'
       ]),
-      /*getVerificatCode: function (token) {
-        let _this = this;
-        let url = "http://localhost:9090/v0.1/captcha";
-        let config = token === undefined || token === null ? {responseType: 'arraybuffer'} : {
-          headers: {'X-Authorization': token},
-          responseType: 'arraybuffer'
-        };
-        axios.get(url, config).then((response) => {
-          _this.codeImg = 'data:image/png;base64,' + btoa(new Uint8Array(response.data)
-            .reduce((data, byte) => data + String.fromCharCode(byte), ''))
-        }).catch(function (error) {
-          console.log("请求发送错误" + error);
-        })
-      },*/
       /* 登录按钮提交 */
       login_su: function () {
         let _this = this;
@@ -64,7 +50,7 @@
       }
     },
     beforeMount() {
-      this.$store.commit('getVerificatCode');
+      this.getVerificatCode();
     }
   }
 

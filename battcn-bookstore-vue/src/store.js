@@ -56,11 +56,10 @@ const Paging = {/* 辅助操作部分，分页跳转 */
   }
 }
 const Account ={/* 账号身份部分 */
-  state:{codeImg:"",judge:{},clientId:''},
+  state:{codeImg:null,clientId:null,token:null,infoData:null},
   mutations:{
     getVerificatCode(state,token){/* 获取验证码 */
       let url = "http://localhost:9090/v0.1/captcha";
-      //let config = token===undefined||token===null?{responseType: 'arraybuffer'}:{headers:{'X-Authorization':token},responseType: 'arraybuffer'};
       let config = token===undefined||token===null?{}:{headers:{'X-Authorization':token}};
       axios.get(url,config).then((response) =>{
         let clientId=response.data&&response.data.clientId;
@@ -69,7 +68,7 @@ const Account ={/* 账号身份部分 */
           try {
             throw  err = new Error('获取客户端标识码失败');
           }catch (err){
-            console.log(err)
+            console.log(err);
           }
         }
         Account.state.clientId=clientId;
@@ -80,29 +79,38 @@ const Account ={/* 账号身份部分 */
        }).catch(function (error) {
          console.log("请求发送错误"+error);
        })
-        // Account.state.codeImg = response.data;
       }).catch(function (error) {
-        console.log("请求发送错误"+error);
+        console.log("获取客户端标识码失败"+error);
       })
     },
-    getUserinfo(state){
-
-    },
-    setUserinfo(state){},
-    judgeVerificatCode(state,info){
-      console.log(info);
+    judgeVerificatCode(state,info){/* 验证码后台验证请求 */
+      let _this = this;
       let url = 'http://localhost:9090/authorized/register/'+Account.state.clientId+'/'+(info['code']?info['code']:'');
       let config = info['X-Authorization']?{}:{headers:{'X-Authorization':info['X-Authorization']}};
-     let data = info['context'];
+      let data = info['context'];
       axios.post(url,data,config).then((response)=>{
-        console.log(response);
-        Account.state.judge=response.data;
-
+        Account.state.token="Bearer ";
+        response.data&&response.data.token?Account.state.token=Account.state.token+response.data.token:'';
+        localStorage.setItem('token',Account.state.token);
+       // console.log(info['$router']);
+        info['$router'].push('/yourseInfo');/* 跳转到个人信息 */
       }).catch(function (error) {
-          console.log("请求发送错误"+error);
-        })
+        console.log("验证码输入错误");
+        _this.commit('getVerificatCode');
+      })
+    },
+    getUserinfo(state){/* 根据存储在本地的token获取个人信息 */
+      let token = Account.state.token || localStorage.getItem("token");
+      let url = 'http://localhost:9090/members';
+      let config = token?{headers:{'X-Authorization':token}}:{};
+      axios.get(url,config).then((response)=>{
+        Account.state.infoData=response.data;
+      }).catch(function (err) {
+        console.log("令牌无效或已过期"+err);
+      })
+    },
+    setUserinfo(state){},
     }
-  }
 }
 export default new Vuex.Store({
   modules:{
