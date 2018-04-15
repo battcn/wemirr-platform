@@ -2,7 +2,6 @@ package com.battcn.search.pojo.po;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 
@@ -31,8 +30,8 @@ public class Book implements java.io.Serializable {
     private String description;
     private String tags;
     private String cover;
-    @Field(format = DateFormat.basic_date_time)
     private Date createdTime;
-    @Field(format = DateFormat.basic_date_time)
     private Date lastModifiedTime;
+    private Boolean status;
+    private Boolean recommend;
 }

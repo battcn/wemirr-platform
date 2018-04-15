@@ -8,7 +8,6 @@ import com.battcn.framework.commons.entity.PageResult;
 import com.battcn.framework.security.annotation.IgnoreAuthenticate;
 import com.battcn.search.facade.BookService;
 import com.battcn.search.pojo.po.Book;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
@@ -68,21 +67,11 @@ public class BookController {
     @IgnoreAuthenticate
     @GetMapping(value = "/recommends")
     @ApiOperation(value = "首页推荐/与总点击榜")
-    public PageInfo<Book> queryRecommends() {
+    public List<Book> queryRecommends() {
         // TODO 查询 Redis 总点击榜
         //final List<Serializable> list = cacheService.getList("rankings");
 
-        DataGrid grid = new DataGrid();
-        grid.setPageSize(10);
-        grid.setSort("last_modified_time");
-        Book record = new Book();
-        //record.setRecommend(true);
-        // TODO 查询推荐的数据
-
-
-        // TODO 组装数据报文
-        //return this.bookService.listForDataGrid(grid, record);
-        return null;
+        return this.bookService.selectRecommend();
     }
 
 }

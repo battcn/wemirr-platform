@@ -3,6 +3,8 @@ package com.battcn.search.facade;
 import com.battcn.search.pojo.po.Book;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * @author Levin
  * @since 2018/03/08
@@ -17,6 +19,19 @@ public interface BookService {
      */
     Page<Book> searchBook(String searchContent);
 
+    /**
+     * 根据书籍编号查询书籍信息
+     *
+     * @param bookNo 书籍编号
+     * @return 书籍信息
+     */
     Book selectByBookNo(String bookNo);
+
+    /**
+     * 查询推荐书籍
+     *
+     * @return 查询结果
+     */
+    List<Book> selectRecommend();
 
 }

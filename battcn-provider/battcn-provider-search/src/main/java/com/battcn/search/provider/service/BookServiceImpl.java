@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -62,4 +63,11 @@ public class BookServiceImpl implements BookService {
     public Book selectByBookNo(String bookNo) {
         return this.bookRepository.findById(bookNo).orElse(null);
     }
+
+    @Override
+    public List<Book> selectRecommend() {
+        return bookRepository.findByRecommendTrueOrderByLastModifiedTime();
+    }
+
+
 }
