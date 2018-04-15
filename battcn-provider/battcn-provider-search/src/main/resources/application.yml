@@ -1,0 +1,15 @@
+server:
+  port: 10060
+spring:
+  profiles:
+    active: dubbo
+  application:
+    name: battcn-provider-search
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 192.168.0.133:9300
+
+logging:
+  level:
+    com.battcn: DEBUG
