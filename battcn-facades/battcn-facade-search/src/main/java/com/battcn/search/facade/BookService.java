@@ -1,7 +1,7 @@
 package com.battcn.search.facade;
 
-import com.battcn.framework.commons.entity.PageResult;
 import com.battcn.search.pojo.po.Book;
+import org.springframework.data.domain.Page;
 
 /**
  * @author Levin
@@ -15,6 +15,8 @@ public interface BookService {
      * @param searchContent 检索内容
      * @return 检索的结果
      */
-    PageResult<Book> searchBook(String searchContent);
+    Page<Book> searchBook(String searchContent);
+
+    Book selectByBookNo(String bookNo);
 
 }

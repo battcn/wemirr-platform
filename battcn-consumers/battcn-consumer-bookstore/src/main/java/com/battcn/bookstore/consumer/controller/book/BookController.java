@@ -2,15 +2,16 @@ package com.battcn.bookstore.consumer.controller.book;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.book.facade.BookChapterService;
-import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
 import com.battcn.framework.commons.entity.DataGrid;
 import com.battcn.framework.commons.entity.PageResult;
 import com.battcn.framework.security.annotation.IgnoreAuthenticate;
 import com.battcn.search.facade.BookService;
+import com.battcn.search.pojo.po.Book;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,16 +39,16 @@ public class BookController {
     @IgnoreAuthenticate
     @GetMapping
     @ApiOperation(value = "根据分页条件查询图书信息")
-    public PageResult<com.battcn.search.pojo.po.Book> query(DataGrid grid, @RequestParam(required = false) String type, @RequestParam String content) {
-        return this.bookService.searchBook(content);
+    public PageResult<Book> query(DataGrid grid, @RequestParam(required = false) String type, @RequestParam String content) {
+        final Page<Book> bookPage = this.bookService.searchBook(content);
+        return PageResult.of(bookPage.getTotalElements(), bookPage.getContent());
     }
 
     @IgnoreAuthenticate
     @GetMapping("/{book_no}")
     @ApiOperation(value = "根据图书编号查询书籍信息")
     public Book queryBooks(@PathVariable("book_no") String bookNo) {
-        //return this.bookService.selectById(bookNo);
-        return null;
+        return this.bookService.selectByBookNo(bookNo);
     }
 
     @IgnoreAuthenticate
@@ -75,7 +76,7 @@ public class BookController {
         grid.setPageSize(10);
         grid.setSort("last_modified_time");
         Book record = new Book();
-        record.setRecommend(true);
+        //record.setRecommend(true);
         // TODO 查询推荐的数据
 
 
