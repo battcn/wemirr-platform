@@ -13,25 +13,25 @@ public class RecordEntity implements Serializable {
 
     private static final long serialVersionUID = 7026470724648329551L;
 
-    @Column(name = "gmt_create", insertable = false, updatable = false)
-    private Date gmtCreate;
+    @Column(name = "created_time", insertable = false, updatable = false)
+    private Date createTime;
 
-    @Column(name = "gmt_modified", insertable = false, updatable = false)
-    private Date gmtModified;
+    @Column(name = "last_modified_time", insertable = false, updatable = false)
+    private Date lastModifiedTime;
 
-    public Date getGmtCreate() {
-        return gmtCreate;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public Date getGmtModified() {
-        return gmtModified;
+    public Date getLastModifiedTime() {
+        return lastModifiedTime;
     }
 
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
+    public void setLastModifiedTime(Date lastModifiedTime) {
+        this.lastModifiedTime = lastModifiedTime;
     }
 }

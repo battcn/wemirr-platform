@@ -1,7 +1,7 @@
 package com.battcn.system.provider.service;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
-import com.battcn.framework.mybatis.pojo.DataGrid;
+import com.battcn.framework.commons.entity.DataGrid;
 import com.battcn.framework.mybatis.service.impl.BaseServiceImpl;
 import com.battcn.system.facade.LogService;
 import com.battcn.system.pojo.po.Log;
@@ -37,7 +37,7 @@ public class LogServiceImpl extends BaseServiceImpl<Log> implements LogService {
             String[] time = datetime.split(" - ");
             startTime = time[0];
             endTime = time[1];
-            example.createCriteria().andBetween("gmtCreate", startTime, endTime);
+            example.createCriteria().andBetween("createdTime", startTime, endTime);
         }
         return PageHelper.startPage(grid.getPageNum(), grid.getPageSize()).doSelectPageInfo(() -> this.logMapper.selectByExample(example));
     }

@@ -9,20 +9,10 @@ spring:
     base-package: com.battcn
   thymeleaf:
     cache: false
-    content-type: text/html
     encoding: UTF-8
     mode: HTML5
     prefix: classpath:/templates/  
     suffix: .html
-
-management:
-  port: 8083
-  health:
-    db:
-      enabled: false
-    dubbo:
-      status:
-        defaults: memory
 dubbo:
   application:
     id: battcn-consumer-management

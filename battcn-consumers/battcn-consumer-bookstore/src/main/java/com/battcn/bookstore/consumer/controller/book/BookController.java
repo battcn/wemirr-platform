@@ -2,12 +2,12 @@ package com.battcn.bookstore.consumer.controller.book;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.book.facade.BookChapterService;
-import com.battcn.book.facade.BookService;
 import com.battcn.book.pojo.po.Book;
 import com.battcn.book.pojo.po.BookChapter;
-import com.battcn.book.pojo.po.BookType;
-import com.battcn.framework.mybatis.pojo.DataGrid;
+import com.battcn.framework.commons.entity.DataGrid;
+import com.battcn.framework.commons.entity.PageResult;
 import com.battcn.framework.security.annotation.IgnoreAuthenticate;
+import com.battcn.search.facade.BookService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +27,7 @@ public class BookController {
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20882", timeout = 10000)
+            url = "dubbo://localhost:20883", timeout = 10000)
     private BookService bookService;
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
@@ -38,17 +38,16 @@ public class BookController {
     @IgnoreAuthenticate
     @GetMapping
     @ApiOperation(value = "根据分页条件查询图书信息")
-    public PageInfo<Book> query(DataGrid grid, @RequestParam(required = false) String type) {
-        Book record = new Book();
-        record.setType(type);
-        return this.bookService.listForDataGrid(grid, record);
+    public PageResult<com.battcn.search.pojo.po.Book> query(DataGrid grid, @RequestParam(required = false) String type, @RequestParam String content) {
+        return this.bookService.searchBook(content);
     }
 
     @IgnoreAuthenticate
     @GetMapping("/{book_no}")
     @ApiOperation(value = "根据图书编号查询书籍信息")
     public Book queryBooks(@PathVariable("book_no") String bookNo) {
-        return this.bookService.selectById(bookNo);
+        //return this.bookService.selectById(bookNo);
+        return null;
     }
 
     @IgnoreAuthenticate
@@ -56,13 +55,6 @@ public class BookController {
     @ApiOperation(value = "根据图书编号查询书籍章节信息")
     public List<BookChapter> queryChaptersByBookNo(@PathVariable("book_no") String bookNo) {
         return this.bookChapterService.queryChapterForList(bookNo);
-    }
-
-    @IgnoreAuthenticate
-    @GetMapping("/types")
-    @ApiOperation(value = "查询书籍分类")
-    public List<BookType> queryBookTypeByGroup() {
-        return this.bookService.queryBookTypeForList();
     }
 
     @IgnoreAuthenticate
@@ -81,15 +73,15 @@ public class BookController {
 
         DataGrid grid = new DataGrid();
         grid.setPageSize(10);
-        grid.setSort("gmt_modified");
+        grid.setSort("last_modified_time");
         Book record = new Book();
         record.setRecommend(true);
         // TODO 查询推荐的数据
 
 
-
         // TODO 组装数据报文
-        return this.bookService.listForDataGrid(grid, record);
+        //return this.bookService.listForDataGrid(grid, record);
+        return null;
     }
 
 }

@@ -11,8 +11,8 @@ public class RoleOperateDto implements java.io.Serializable {
 
 	private Integer roleId;
 	private Integer operateId;
-	private Date gmtCreate;
-	private Date gmtModified;
+	private Date createdTime;
+	private Date lastModifiedTime;
 	private String op;
 	private Integer menuId;
 
@@ -33,19 +33,19 @@ public class RoleOperateDto implements java.io.Serializable {
 	}
 
 	public Date getGmtCreate() {
-		return gmtCreate;
+		return createdTime;
 	}
 
-	public void setGmtCreate(Date gmtCreate) {
-		this.gmtCreate = gmtCreate;
+	public void setGmtCreate(Date createdTime) {
+		this.createdTime = createdTime;
 	}
 
 	public Date getGmtModified() {
-		return gmtModified;
+		return lastModifiedTime;
 	}
 
-	public void setGmtModified(Date gmtModified) {
-		this.gmtModified = gmtModified;
+	public void setGmtModified(Date lastModifiedTime) {
+		this.lastModifiedTime = lastModifiedTime;
 	}
 
 	public String getOp() {

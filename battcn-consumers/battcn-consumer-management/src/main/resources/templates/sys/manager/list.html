@@ -55,14 +55,14 @@
               sortable: true,
               formatter: function(value,row,index){return value == 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>'}
           } , {
-              field: 'gmtCreate',
+              field: 'createdTime',
               title: '时间',
               align: 'center',
               valign: 'middle',
               sortable: true,
               formatter:function(value,row,index){return new Date(value).pattern("yyyy-MM-dd HH:mm:ss")}
           }, {
-              field: 'gmtModified',
+              field: 'lastModifiedTime',
               title: '时间',
               align: 'center',
               valign: 'middle',

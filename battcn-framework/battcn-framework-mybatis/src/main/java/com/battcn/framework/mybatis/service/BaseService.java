@@ -1,6 +1,6 @@
 package com.battcn.framework.mybatis.service;
 
-import com.battcn.framework.mybatis.pojo.DataGrid;
+import com.battcn.framework.commons.entity.DataGrid;
 import com.github.pagehelper.PageInfo;
 import tk.mybatis.mapper.entity.Example;
 

@@ -9,7 +9,7 @@
         $('#admin_menu[[${OP.menuId}]]_datagrid').bootstrapTable({
             url: [[${MENU.channel}]] + '/query',
             height: '100%',
-            sortName: 'gmt_create',
+            sortName: 'created_time',
             sortOrder: 'desc',
             striped: true,
             pagination: true,
@@ -71,7 +71,7 @@
                         return value === 1 ? '<i class="fa fa-check text-navy"></i>' : '<i class="fa fa-close text-danger"></i>'
                     }
                 }, {
-                    field: 'gmt_create',
+                    field: 'created_time',
                     title: '创建时间',
                     align: 'center',
                     valign: 'middle',
