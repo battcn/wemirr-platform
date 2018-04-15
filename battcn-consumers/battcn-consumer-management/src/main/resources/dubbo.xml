@@ -10,5 +10,4 @@
     <dubbo:registry address="N/A" />
     <dubbo:reference interface="com.battcn.system.facade.OperateService" url="dubbo://localhost:20880" id="operateService" version="1.0.0" timeout="10000"/>
 
-
 </beans>

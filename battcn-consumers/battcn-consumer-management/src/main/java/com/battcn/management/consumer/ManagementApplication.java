@@ -1,7 +1,6 @@
 package com.battcn.management.consumer;
 
 
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 import com.alibaba.dubbo.config.spring.context.annotation.EnableDubboConfig;
 import com.battcn.swagger.annotation.EnableSwagger2Doc;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +17,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
  * @version 2.5.1
  * @since 2018-01-10
  */
-@EnableDubbo
 @EnableDubboConfig
 @EnableSwagger2Doc
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
