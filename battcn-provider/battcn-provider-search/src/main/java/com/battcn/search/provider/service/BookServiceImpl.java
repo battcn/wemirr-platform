@@ -66,8 +66,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> selectRecommend() {
-        return bookRepository.findByRecommendTrueOrderByLastModifiedTime();
+    public List<Book> findByRecommendOrderByLastModifiedTime(Byte recommend) {
+        return bookRepository.findByRecommendOrderByLastModifiedTime(recommend);
     }
 
 

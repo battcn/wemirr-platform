@@ -22,12 +22,34 @@ public class Book extends RecordEntity {
 
     @Id
     private String bookNo;
+    /**
+     * 书籍名称
+     */
     private String name;
+    /**
+     * 书籍来源
+     */
     private String source;
-    private String type;
+    private String bookType;
     private String author;
+    /**
+     * 描述（简介）
+     */
     private String description;
+    /**
+     * 书籍封面
+     */
     private String cover;
+    /**
+     * 标签
+     */
+    private String tags;
+    /**
+     * 是否完结 0=未完结 1=已完结
+     */
     private Boolean status;
-    private Boolean recommend;
+    /**
+     * 0=普通书本 1=推荐 2=热门
+     */
+    private Byte recommend;
 }

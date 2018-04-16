@@ -30,8 +30,9 @@ public interface BookService {
     /**
      * 查询推荐书籍
      *
+     * @param recommend 推荐类型
      * @return 查询结果
      */
-    List<Book> selectRecommend();
+    List<Book> findByRecommendOrderByLastModifiedTime(Byte recommend);
 
 }

@@ -33,5 +33,5 @@ public class Book implements java.io.Serializable {
     private Date createdTime;
     private Date lastModifiedTime;
     private Boolean status;
-    private Boolean recommend;
+    private Byte recommend;
 }

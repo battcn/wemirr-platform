@@ -52,7 +52,7 @@ public class BookProcessor implements PageProcessor {
             Book book = new Book();
             book.setName(bookName);
             book.setSource(page.getUrl().get());
-            book.setType(bookType);
+            book.setBookType(bookType);
             if (bookAuthor.contains(BOOK_AUTHOR_SEPARATOR_CHARS)) {
                 book.setAuthor(StringUtils.split(bookAuthor, "：")[1]);
             } else {

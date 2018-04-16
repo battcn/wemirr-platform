@@ -15,7 +15,8 @@ public interface BookRepository extends ElasticsearchRepository<Book, String> {
     /**
      * 查询推荐数据
      *
+     * @param recommend 推荐类型
      * @return 查询结果
      */
-    List<Book> findByRecommendTrueOrderByLastModifiedTime();
+    List<Book> findByRecommendOrderByLastModifiedTime(Byte recommend);
 }

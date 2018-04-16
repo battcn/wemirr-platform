@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSONObject;
 import com.battcn.book.facade.BookChapterService;
 import com.battcn.book.pojo.po.BookChapter;
+import com.battcn.bookstore.consumer.enums.BookRecommendEnum;
 import com.battcn.bookstore.consumer.enums.BookRedisEnum;
 import com.battcn.framework.commons.entity.DataGrid;
 import com.battcn.framework.commons.entity.PageResult;
@@ -78,9 +79,9 @@ public class BookController {
 
     @IgnoreAuthenticate
     @GetMapping(value = "/hots")
-    @ApiOperation(value = "热门")
-    public List<String> queryHots() {
-        return null;
+    @ApiOperation(value = "热门推荐")
+    public List<Book> queryHots() {
+        return this.bookService.findByRecommendOrderByLastModifiedTime((byte) BookRecommendEnum.TWO.getType());
     }
 
     @IgnoreAuthenticate
@@ -94,7 +95,7 @@ public class BookController {
             final List<Book> rankings = bookClickRankings.stream().map(bookNo -> this.bookService.selectByBookNo(bookNo)).collect(Collectors.toList());
             result.put("rankings", rankings);
         }
-        result.put("recommends", this.bookService.selectRecommend());
+        result.put("recommends", this.bookService.findByRecommendOrderByLastModifiedTime((byte) BookRecommendEnum.ONE.getType()));
         return result;
     }
 
