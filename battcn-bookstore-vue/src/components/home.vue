@@ -4,7 +4,7 @@
       <div class="h_f1_L">
         <!-- 轮播框 -->
         <div class="pl_pic">
-          <ul :style="{left:pic_left+'px'}">
+          <ul :style="{left:pic_left+'px'}" ref="pic_ul">
             <li><a href="javascript:" class=""><img src="./../../static/img/large.jpg" alt=""
                                                     class="lazyload_lb"></a>
               <div class="book_info font_12">
@@ -55,77 +55,79 @@
                 @mouseenter="Carousel_pointer='one',pic_left=0,timingCarousel(false)"
                 @mouseleave="timingCarousel(true)"></li>
             <li :class="{on:Carousel_pointer=='two'}"
-                @mouseenter="Carousel_pointer='two',pic_left=-500,timingCarousel(false)"
+                @mouseenter="Carousel_pointer='two',pic_left=-leftWidth,timingCarousel(false)"
                 @mouseleave="timingCarousel(true)"></li>
             <li :class="{on:Carousel_pointer=='three'}"
-                @mouseenter="Carousel_pointer='three',pic_left=-1000,timingCarousel(false)"
+                @mouseenter="Carousel_pointer='three',pic_left=-leftWidth*2,timingCarousel(false)"
                 @mouseleave="timingCarousel(true)"></li>
             <li :class="{on:Carousel_pointer=='four'}"
-                @mouseenter="Carousel_pointer='four',pic_left=-1500,timingCarousel(false)"
+                @mouseenter="Carousel_pointer='four',pic_left=-leftWidth*3,timingCarousel(false)"
                 @mouseleave="timingCarousel(true)"></li>
           </ol>
         </div>
       </div>
-      <ul class="h_f1_C">
-        <!-- 推荐 -->
-        <li>
-          <h3><a href=""> 天庭临时工</a></h3>
-          <div>
-            <a class="book_cover" href="">
-              <img class="" src="../../static/img/small.jpg" alt="">
-            </a>
-            <div class="book_inf font_12">
-              <span class="aut">我咬月亮</span>
-              <span class="tag"><a href="">都市异能</a></span>
-              <p class="int">仙人求我办事，美女逼我泡她，大佬给我倒茶，男神任我践踏。
-                泡妞，我人见人爱；下毒，我百毒不侵；打架，我高手寂寞；炫富，我点石成金…我是天庭第一临时工，工作内容，惹桃花…</p>
+      <div>
+        <ul class="h_f1_C">
+          <!-- 推荐 -->
+          <li>
+            <h3><a href=""> 天庭临时工</a></h3>
+            <div>
+              <a class="book_cover" href="">
+                <img class="" src="../../static/img/small.jpg" alt="">
+              </a>
+              <div class="book_inf font_12">
+                <span class="aut">我咬月亮</span>
+                <span class="tag"><a href="">都市异能</a></span>
+                <p class="int">仙人求我办事，美女逼我泡她，大佬给我倒茶，男神任我践踏。
+                  泡妞，我人见人爱；下毒，我百毒不侵；打架，我高手寂寞；炫富，我点石成金…我是天庭第一临时工，工作内容，惹桃花…</p>
+              </div>
             </div>
-          </div>
-        </li>
-        <li>
-          <h3><a href=""> 天庭临时工</a></h3>
-          <div>
-            <a class="book_cover" href="">
-              <img class="" src="../../static/img/small.jpg" alt="">
-            </a>
-            <div class="book_inf font_12">
-              <span class="aut">我咬月亮</span>
-              <span class="tag"><a href="">都市异能</a></span>
-              <p class="int">仙人求我办事，美女逼我泡她，大佬给我倒茶，男神任我践踏。
-                泡妞，我人见人爱；下毒，我百毒不侵；打架，我高手寂寞；炫富，我点石成金…我是天庭第一临时工，工作内容，惹桃花…</p>
+          </li>
+          <li>
+            <h3><a href=""> 天庭临时工</a></h3>
+            <div>
+              <a class="book_cover" href="">
+                <img class="" src="../../static/img/small.jpg" alt="">
+              </a>
+              <div class="book_inf font_12">
+                <span class="aut">我咬月亮</span>
+                <span class="tag"><a href="">都市异能</a></span>
+                <p class="int">仙人求我办事，美女逼我泡她，大佬给我倒茶，男神任我践踏。
+                  泡妞，我人见人爱；下毒，我百毒不侵；打架，我高手寂寞；炫富，我点石成金…我是天庭第一临时工，工作内容，惹桃花…</p>
+              </div>
             </div>
-          </div>
-        </li>
-        <li>
-          <h3><a href=""> 天庭临时工</a></h3>
-          <div>
-            <a class="book_cover" href="">
-              <img class="" src="../../static/img/small.jpg" alt="">
-            </a>
-            <div class="book_inf font_12">
-              <span class="aut">我咬月亮</span>
-              <span class="tag"><a href="">都市异能</a></span>
-              <p class="int">仙人求我办事，美女逼我泡她，大佬给我倒茶，男神任我践踏。
-                泡妞，我人见人爱；下毒，我百毒不侵；打架，我高手寂寞；炫富，我点石成金…我是天庭第一临时工，工作内容，惹桃花…</p>
+          </li>
+          <li>
+            <h3><a href=""> 天庭临时工</a></h3>
+            <div>
+              <a class="book_cover" href="">
+                <img class="" src="../../static/img/small.jpg" alt="">
+              </a>
+              <div class="book_inf font_12">
+                <span class="aut">我咬月亮</span>
+                <span class="tag"><a href="">都市异能</a></span>
+                <p class="int">仙人求我办事，美女逼我泡她，大佬给我倒茶，男神任我践踏。
+                  泡妞，我人见人爱；下毒，我百毒不侵；打架，我高手寂寞；炫富，我点石成金…我是天庭第一临时工，工作内容，惹桃花…</p>
+              </div>
             </div>
-          </div>
-        </li>
-        <li>
-          <h3><a href=""> 天庭临时工</a></h3>
-          <div>
-            <a class="book_cover" href="">
-              <img class="" src="../../static/img/small.jpg" alt="">
-            </a>
-            <div class="book_inf font_12">
-              <span class="aut">我咬月亮</span>
-              <span class="tag"><a href="">都市异能</a></span>
-              <p class="int">仙人求我办事，美女逼我泡她，大佬给我倒茶，男神任我践踏。
-                泡妞，我人见人爱；下毒，我百毒不侵；打架，我高手寂寞；炫富，我点石成金…我是天庭第一临时工，工作内容，惹桃花…</p>
+          </li>
+          <li>
+            <h3><a href=""> 天庭临时工</a></h3>
+            <div>
+              <a class="book_cover" href="">
+                <img class="" src="../../static/img/small.jpg" alt="">
+              </a>
+              <div class="book_inf font_12">
+                <span class="aut">我咬月亮</span>
+                <span class="tag"><a href="">都市异能</a></span>
+                <p class="int">仙人求我办事，美女逼我泡她，大佬给我倒茶，男神任我践踏。
+                  泡妞，我人见人爱；下毒，我百毒不侵；打架，我高手寂寞；炫富，我点石成金…我是天庭第一临时工，工作内容，惹桃花…</p>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
-      <leader :ListData="clickListData" style="padding: 0 20px 0;"></leader> <!-- 排行榜组件 -->
+          </li>
+        </ul>
+        <leader :ListData="clickListData" style="padding: 0 20px 0;"></leader> <!-- 排行榜组件 -->
+      </div>
     </div>
     <strip></strip><!-- 图片长条 -->
     <!-- 热门推荐 开始 -->
@@ -526,23 +528,24 @@
   /* 图片长条 */
   import area_head from './children/area_head.vue'
   /* 方块头条 */
-  import {mapState,mapMutations} from 'vuex'
+  import {mapState, mapMutations} from 'vuex'
+
   export default {
     name: 'Home',
     data() {
-      return {Carousel_pointer: 'one', pic_left: 0, Carousel_Time: "你好"}
+      return {Carousel_pointer: 'one', pic_left: 0, Carousel_Time: "你好", leftWidth: 0}
     },
-    computed:{
-      clickListData(){/* 顶部排行榜数据 */
-        return this.$store.state.initData.homeData&&this.$store.state.initData.homeData.homeClickList&&this.$store.state.initData.homeData.homeClickList.list;
+    computed: {
+      clickListData() {/* 顶部排行榜数据 */
+        return this.$store.state.initData.homeData && this.$store.state.initData.homeData.homeClickList && this.$store.state.initData.homeData.homeClickList.list;
       }
     },
     methods: {
       ...mapMutations([
         'iniHomeClickList'
       ]),
-      iniData:function (token) {
-        this.$store.commit('iniHomeClickList',token);
+      iniData: function (token) {
+        this.$store.commit('iniHomeClickList', token);
       },
       timingCarousel: function (isStart) {
         let _this = this;
@@ -550,18 +553,18 @@
           this.Carousel_Time = setInterval(function () {
             switch (_this.pic_left) {
               case 0:
-                _this.pic_left = _this.pic_left - 500;
+                _this.pic_left = _this.pic_left - _this.leftWidth;
                 _this.Carousel_pointer = "two";
                 break;
-              case -500:
-                _this.pic_left = _this.pic_left - 500;
+              case -_this.leftWidth:
+                _this.pic_left = _this.pic_left - _this.leftWidth;
                 _this.Carousel_pointer = "three";
                 break;
-              case -1000:
-                _this.pic_left = _this.pic_left - 500;
+              case -_this.leftWidth * 2:
+                _this.pic_left = _this.pic_left - _this.leftWidth;
                 _this.Carousel_pointer = "four";
                 break;
-              case -1500:
+              case -_this.leftWidth * 3:
                 _this.pic_left = 0;
                 _this.Carousel_pointer = "one";
                 break;
@@ -573,8 +576,15 @@
       }
     },
     mounted() {
+      let _this = this;
       this.timingCarousel(true);
       this.iniData();
+      _this.leftWidth = _this.$refs.pic_ul.getBoundingClientRect().width / 4;
+      window.onresize = () => {
+        _this.pic_left = 0;
+        _this.Carousel_pointer = 'one';
+        _this.leftWidth = _this.$refs.pic_ul.getBoundingClientRect().width / 4;
+      }
     },
     components: {leader, strip, area_head}
   }
@@ -636,12 +646,12 @@
   }
 
   /* 轮播框书名 */
-  .h_f1_L  .pl_pic ul li .book_info h3 a {
+  .h_f1_L .pl_pic ul li .book_info h3 a {
     max-width: 280px;
     margin-top: 26px;
   }
 
-  .h_f1_L  .pl_pic ul li .book_info p {
+  .h_f1_L .pl_pic ul li .book_info p {
     font-size: 12px;
     line-height: 18px;
     height: 34px;
@@ -747,6 +757,7 @@
     -webkit-box-orient: vertical;
     word-wrap: break-word;
   }
+
   /* 首页热门推荐部分样式： */
   .h_f2, .h_f3 {
     width: 1064px;
@@ -790,7 +801,8 @@
   .h_f2 .h_f2_list li .aut {
     max-width: 120px;
   }
-/* 男女生频道样式 */
+
+  /* 男女生频道样式 */
   .h_f3_L {
     float: left;
     width: 230px;
@@ -832,6 +844,7 @@
     float: right;
     width: 84px;
   }
+
   .h_f3_C {
     width: 512px;
     overflow: hidden;
@@ -877,21 +890,24 @@
   .h_f3_C ul .no_bor {
     border-bottom: none;
   }
+
   /* 精品推荐样式 */
-  .h_f4{
-   margin-top: 20px;
+  .h_f4 {
+    margin-top: 20px;
     overflow: hidden;
     background: #fff;
   }
+
   /* 标题 */
-  .h_f4_L{
+  .h_f4_L {
     width: 74px;
     height: 200px;
     border-right: 1px solid #f0f0f0;
     float: left;
     margin: 15px 8px 0 0;
   }
-  .h_f4_L h2{
+
+  .h_f4_L h2 {
     width: 22px;
     font-size: 22px;
     color: #333;
@@ -900,33 +916,61 @@
     margin: 0 auto;
     padding-top: 40px;
   }
+
   /* 书籍排列 */
-  .h_f4_R{
+  .h_f4_R {
     float: left;
   }
-  .h_f4_R li{
+
+  .h_f4_R li {
     padding: 23px 12px 22px;
     float: left;
     height: 185px;
   }
-  .h_f4_R li .book_cover{
+
+  .h_f4_R li .book_cover {
     width: 100px;
     height: 125px;
     margin-bottom: 16px;
   }
-  .h_f4_R li .book_inf{
-text-align: center;
+
+  .h_f4_R li .book_inf {
+    text-align: center;
   }
 
   /*响应式样式部分 */
-  @media screen and (max-width:1100px) {
-    .home .h_f1{width:100%;}
-    /* 轮播框 */
-    .h_f1 .h_f1_L{width: 80%;margin:0 auto;float: none;}
-    .h_f1 .h_f1_L .pl_pic{width: 100%;}
-    .h_f1 .h_f1_L .pl_pic ul{width: calc(100% * 4);}
-    .h_f1 .h_f1_L .pl_pic ul li{width: calc(100% / 4);}
-    .h_f1 .h_f1_L .pl_pic ul li a{width: 100%;}
+  @media screen and (max-width: 1100px) {
+    .home .h_f1 , .h_f2{
+      width: 100%;    padding: 20px 0 40px 0;
+    }
+
+    /* 轮播框 与轮播框并列的推荐及排行榜 */
+    .h_f1 .h_f1_L,.h_f1 > div {
+      width: 80%;
+      margin: 0 auto;
+      float: none;overflow: hidden;
+    }
+
+    .h_f1 .h_f1_L .pl_pic {
+      width: 100%;
+    }
+
+    .h_f1 .h_f1_L .pl_pic ul {
+      width: calc(100% * 4);
+    }
+
+    .h_f1 .h_f1_L .pl_pic ul li {
+      width: calc(100% / 4);
+    }
+
+    .h_f1 .h_f1_L .pl_pic ul li a {
+      width: 100%;height:auto;
+    }
+    .h_f1 .h_f1_L .pl_pic ul li a img{height:auto;max-height:400px;}
+    /*  推荐 */
+    .h_f1_C{width: auto;float: left;
+      margin-right: 255px;}
+    .h_f1_C li .book_inf{float:none;width:auto;}
   }
 
 </style>

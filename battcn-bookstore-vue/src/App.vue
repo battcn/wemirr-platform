@@ -34,7 +34,7 @@
             </div>
             <div class="login">
             <span v-if="infoData==null" class="login_before">
-              <router-link to="/login">
+              <router-link :to="{path:'/login',query:{redirect:$route.path}}">
               <i class="fa fa-user-o"></i>
                登录
                 </router-link>
@@ -68,7 +68,7 @@
               <div v-if="infoData!=null" class="login_after"><!--已经登录状态下显示头像信息 -->
                 <span class="yh">
                   <img src="./../static/img/middle.jpg" alt="">
-                  <a href="">{{infoData}}</a>
+                  <a href="">{{infoData.username}}</a>
                 </span>
               </div>
             </div>
@@ -123,8 +123,11 @@
         'getUserinfo'/* 各个触发函数名(不区分模块名)，相同函数名则同时引入 */
       ]),
     },
-    beforeMount() {
+    created() {
       this.getUserinfo();
+    },
+    watch:{
+      '$route':'getUserinfo'
     }
   }
 </script>

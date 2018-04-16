@@ -315,6 +315,12 @@
   .leaderboard .list_wrap .list .lis_sh .open {
     display: block;
   }
+  @media screen and (max-width: 1100px) {
+    .leaderboard{
+      float: left;
+      margin-left: -255px;
+    }
+  }
 
 </style>
 

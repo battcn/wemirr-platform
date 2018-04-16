@@ -14,7 +14,7 @@
     props:['title_name']
   }
 </script>
-<style slot-scope>
+<style >
 
   .area_head {
     overflow: hidden;
@@ -41,6 +41,14 @@
     background-position: -1px -26px;
     margin: 3px 18px 0 0;
     float: left;
+  }
+  @media screen and (max-width:1100px){
+    .area_head{margin: auto;}
+    .area_head .log_line{display: none;}
+    .area_head h4{width:100%;float: none;margin: auto;}
+    .area_head h4 s{
+    margin: 3px 4px 0 29px;
+  }
   }
 
 </style>

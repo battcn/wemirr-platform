@@ -58,9 +58,9 @@ const Paging = {/* 辅助操作部分，分页跳转 */
 const Account ={/* 账号身份部分 */
   state:{codeImg:null,clientId:null,token:null,infoData:null},
   mutations:{
-    getVerificatCode(state,token){/* 获取验证码 */
+    getVerificatCode(state,Authorization){/* 获取验证码 */
       let url = "http://localhost:9090/v0.1/captcha";
-      let config = token===undefined||token===null?{}:{headers:{'X-Authorization':token}};
+      let config = Authorization===undefined||Authorization===null?{}:{headers:{'X-Authorization':Authorization}};
       axios.get(url,config).then((response) =>{
         let clientId=response.data&&response.data.clientId;
         if(clientId===null || clientId === undefined){
@@ -83,7 +83,7 @@ const Account ={/* 账号身份部分 */
         console.log("获取客户端标识码失败"+error);
       })
     },
-    judgeVerificatCode(state,info){/* 验证码后台验证请求 */
+    judgeVerificatCode(state,info){/* 注册：验证码后台验证请求 */
       let _this = this;
       let url = 'http://localhost:9090/authorized/register/'+Account.state.clientId+'/'+(info['code']?info['code']:'');
       let config = info['X-Authorization']?{}:{headers:{'X-Authorization':info['X-Authorization']}};
@@ -92,12 +92,25 @@ const Account ={/* 账号身份部分 */
         Account.state.token="Bearer ";
         response.data&&response.data.token?Account.state.token=Account.state.token+response.data.token:'';
         localStorage.setItem('token',Account.state.token);
-       // console.log(info['$router']);
-        info['$router'].push('/yourseInfo');/* 跳转到个人信息 */
+        info['$router'].push(info['$route'].query.redirect);/* 跳转到个人信息 */
       }).catch(function (error) {
         console.log("验证码输入错误");
         _this.commit('getVerificatCode');
       })
+    },
+    login(state,info){/*  登录 */
+      let _this = this;
+      let url = 'http://localhost:9090/authorized/token';
+      let config = info['Authorization']===undefined||info['Authorization']===null?{}:{headers:{'X-Authorization':info['Authorization']}};
+      let data = info['context'];
+      axios.post(url,data,config).then((response)=>{
+        Account.state.token="Bearer ";
+        response.data&&response.data.token?Account.state.token=Account.state.token+response.data.token:'';
+       // localStorage.setItem('token',Account.state.token);
+        info['$router'].push(info['$route'].query.redirect);
+      }).catch(function (err) {
+        console.log(err);
+      });
     },
     getUserinfo(state){/* 根据存储在本地的token获取个人信息 */
       let token = Account.state.token || localStorage.getItem("token");
@@ -105,6 +118,7 @@ const Account ={/* 账号身份部分 */
       let config = token?{headers:{'X-Authorization':token}}:{};
       axios.get(url,config).then((response)=>{
         Account.state.infoData=response.data;
+        console.log(Account.state.infoData)
       }).catch(function (err) {
         console.log("令牌无效或已过期"+err);
       })

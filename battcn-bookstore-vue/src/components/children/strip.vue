@@ -6,7 +6,7 @@
   </div>
 </template>
 <script></script>
-<style slot-scope>
+<style scoped>
   .content .adv {
     margin: 20px 0;
   }
@@ -19,8 +19,8 @@
     width: 100%;
     height: 100%;
   }
+  @media screen and (max-width:1100px) {
+    .content .adv a{width:100%;}
+  }
 </style>
-
-
-
 

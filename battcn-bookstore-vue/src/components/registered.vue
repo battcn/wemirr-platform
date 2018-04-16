@@ -79,13 +79,13 @@
             "username":this.name,
             "password":this.pw
           };
-          this.judgeVerificatCode({code: this.Vecode,context:account,$router:this.$router},);
+          this.judgeVerificatCode({code: this.Vecode,context:account,$router:this.$router,$route:this.$route},);
           /* 验证码是否正确 */
         }
       },
     },
     beforeMount() {
-      this.getVerificatCode(123);
+      this.getVerificatCode();
     }
   }
 
