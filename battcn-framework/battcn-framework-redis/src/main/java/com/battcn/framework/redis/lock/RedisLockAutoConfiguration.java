@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
@@ -23,10 +23,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class RedisLockAutoConfiguration {
 
     private final RedisLockProperties redisLockProperties;
-    private final RedisConnectionFactory redisConnectionFactory;
+    private final LettuceConnectionFactory redisConnectionFactory;
 
     @Autowired
-    public RedisLockAutoConfiguration(RedisConnectionFactory redisConnectionFactory, RedisLockProperties redisLockProperties) {
+    public RedisLockAutoConfiguration(LettuceConnectionFactory redisConnectionFactory, RedisLockProperties redisLockProperties) {
         this.redisLockProperties = redisLockProperties;
         this.redisConnectionFactory = redisConnectionFactory;
     }
@@ -34,7 +34,7 @@ public class RedisLockAutoConfiguration {
     @Bean(name = RedisConstant.LOCK_TEMPLATE_NAME)
     public RedisTemplate<String, Object> lockRedisTemplate() {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
-        //redisConnectionFactory.getConnection().select(redisLockProperties.getDb());
+        redisConnectionFactory.setDatabase(redisLockProperties.getDb());
         template.setConnectionFactory(redisConnectionFactory);
         return template;
     }

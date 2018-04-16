@@ -14,7 +14,7 @@ public class RedisCacheProperties {
     /**
      * 默认Redis的DB
      */
-    private int db;
+    private int db = 0;
     /**
      * <p>Redis运行环境(比如同一台Redis,其目的是为了多环境公用一台redis但生成的Key又不会冲突</p>
      * <p>test：生成的Key就是 BOdev201801032001</p>
