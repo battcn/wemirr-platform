@@ -14,6 +14,7 @@
 
 # 新增功能
 
+- 基于 Redis 新增排行榜
 - 添加 ***`Elasticsearch`* 搜索
 - 添加 **`JWT` 认证（`battcn-consumer-bookstore`）**
 - 基于`Redis`封装,唯一序列号生成与分布式`CacheLock`
