@@ -4,7 +4,7 @@ import com.battcn.bookstore.consumer.config.interceptor.AuthenticateInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 创建 JAVA Bean 继承 WebMvcConfigurerAdapter 类，重写 addInterceptors 方法
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @author Levin
  */
 @Configuration
-public class InterceptorConfigurerAdapter extends WebMvcConfigurerAdapter {
+public class InterceptorConfigurerAdapter implements WebMvcConfigurer {
 
     private AuthenticateInterceptor authenticateInterceptor;
 
@@ -28,6 +28,5 @@ public class InterceptorConfigurerAdapter extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authenticateInterceptor);
-        super.addInterceptors(registry);
     }
 }

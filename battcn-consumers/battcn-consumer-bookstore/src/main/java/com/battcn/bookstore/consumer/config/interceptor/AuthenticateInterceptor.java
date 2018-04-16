@@ -75,7 +75,9 @@ public class AuthenticateInterceptor implements HandlerInterceptor {
             ErrorResponseEntity responseEntity = new ErrorResponseEntity(HttpStatus.FORBIDDEN.value(), "Token expired");
             response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
             response.setStatus(HttpStatus.BAD_REQUEST.value());
-            response.getWriter().write(JSON.toJSONString(responseEntity));
+            String result = JSON.toJSONString(responseEntity);
+            log.info(result);
+            response.getWriter().write(result);
             return false;
         }
         // 解析Token,将Token中的上下文存储到 Environments 中

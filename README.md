@@ -4,12 +4,18 @@
 
 # 必读
 
+由于升级 `dubbo-spring-boot-project` 存在 BUG  ，在过滤器中无法注入属性，导致 `battcn-consumer-management` 暂时启动不了,这是个很操蛋的问题,希望官方早点修复吧...
+
 ![battcn3.0](./doc/1.png)
 
 喜大普奔 **`dubbo-spring-boot-project(2.0.0)`** 发布,该项目也第一时间升级,并且升级了SpringBoot版本为当前最新 
 
+
+
 # 新增功能
 
+- 基于 Redis 新增排行榜
+- 添加 ***`Elasticsearch`* 搜索
 - 添加 **`JWT` 认证（`battcn-consumer-bookstore`）**
 - 基于`Redis`封装,唯一序列号生成与分布式`CacheLock`
 - 新增章节模板
@@ -59,7 +65,9 @@
 
 - **将 `doc/battcn3.0.sql` 导入到 `version >= mysql5.6`的数据库中,如果版本低于 `5.6` 请仔细看 sql 文件的注释部分**
 - 将 `battcn-parent` 转换成 `Maven Project` 然后 执行 **`install`** 
-- 启动 `battcn-provider/battcn-provider-system/SystemProvider.java`   
+- 启动 `battcn-provider/battcn-provider-system/SystemProvider.java`
+- 启动 `battcn-provider/battcn-provider-member/MemberProvider.java`   
+- 启动 `battcn-provider/battcn-provider-book/BookProvider.java`      
 - 启动 `battcn-consumers/battcn-system-consumer/ManagementApplication.java`
 - **以上步骤成功后,访问 http://localhost:8082/ 即可** 
 

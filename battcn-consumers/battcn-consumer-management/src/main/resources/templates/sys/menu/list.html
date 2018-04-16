@@ -38,8 +38,8 @@
                             <td><i th:class="${tree?.icon}" th:classappend="text-navy"></i></td>
                             <td><i th:class="${tree?.locked} ? 'fa fa-check text-navy' : 'fa fa-close text-danger'"></i>
                             </td>
-                            <td th:text="${#dates.format(tree?.gmtCreate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                            <td th:text="${#dates.format(tree?.gmtModified, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${#dates.format(tree?.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${#dates.format(tree?.lastModifiedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         </tr>
                         </tbody>
                     </table>

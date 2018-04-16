@@ -3,6 +3,7 @@ package com.battcn.bookstore.consumer.controller.book;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.battcn.book.facade.BookLikeService;
 import com.battcn.book.pojo.po.BookLike;
+import com.battcn.framework.security.Environments;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class BookLikeController {
     public void giveLike(@PathVariable("book_no") String bookNo) {
         BookLike record = new BookLike();
         record.setBookNo(bookNo);
-        record.setMemberNo("battcn");
+        record.setMemberNo(Environments.getAuthId());
         this.bookLikeService.insertSelective(record);
     }
 

@@ -17,6 +17,7 @@
         <module>battcn-facade-member</module>
         <module>battcn-facade-book</module>
         <module>battcn-facade-system</module>
+        <module>battcn-facade-search</module>
     </modules>
 
 </project>

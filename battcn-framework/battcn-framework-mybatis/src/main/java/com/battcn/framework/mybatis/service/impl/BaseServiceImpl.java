@@ -1,7 +1,7 @@
 package com.battcn.framework.mybatis.service.impl;
 
+import com.battcn.framework.commons.entity.DataGrid;
 import com.battcn.framework.mybatis.mapper.BaseMapper;
-import com.battcn.framework.mybatis.pojo.DataGrid;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.exceptions.TooManyResultsException;

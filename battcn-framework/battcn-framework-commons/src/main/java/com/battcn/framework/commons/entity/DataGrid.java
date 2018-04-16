@@ -1,4 +1,4 @@
-package com.battcn.framework.mybatis.pojo;
+package com.battcn.framework.commons.entity;
 
 
 /**

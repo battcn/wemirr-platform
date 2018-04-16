@@ -1,7 +1,7 @@
 package com.battcn.system.provider.service;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
-import com.battcn.framework.mybatis.pojo.DataGrid;
+import com.battcn.framework.commons.entity.DataGrid;
 import com.battcn.framework.mybatis.service.impl.BaseServiceImpl;
 import com.battcn.system.facade.MenuService;
 import com.battcn.system.pojo.dto.PermissionDto;

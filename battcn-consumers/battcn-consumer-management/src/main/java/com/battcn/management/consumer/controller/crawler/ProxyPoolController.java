@@ -1,7 +1,7 @@
 package com.battcn.management.consumer.controller.crawler;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.battcn.framework.mybatis.pojo.DataGrid;
+import com.battcn.framework.commons.entity.DataGrid;
 import com.battcn.framework.webmagic.downloader.CrawlerDownloader;
 import com.battcn.management.consumer.annotation.BattcnLog;
 import com.battcn.management.consumer.util.ApiResult;

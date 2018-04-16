@@ -8,7 +8,7 @@
         $('#crawler_books_chapter_datagrid').bootstrapTable({
             url: '/crawler/books/' + [[${bookNo}]] + '/chapters',
             height: '100%',
-            sortName: 'gmt_modified',
+            sortName: 'last_modified_time',
             sortOrder: 'desc',
             striped: true,
             pagination: true,
@@ -50,7 +50,7 @@
                     align: 'center',
                     valign: 'middle'
                 }, {
-                    field: 'gmtCreate',
+                    field: 'createdTime',
                     title: '时间',
                     align: 'center',
                     valign: 'middle',

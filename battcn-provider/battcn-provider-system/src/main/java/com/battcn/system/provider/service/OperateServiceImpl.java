@@ -1,7 +1,7 @@
 package com.battcn.system.provider.service;
 
 
-import com.battcn.framework.mybatis.pojo.DataGrid;
+import com.battcn.framework.commons.entity.DataGrid;
 import com.battcn.framework.mybatis.service.impl.BaseServiceImpl;
 import com.battcn.system.facade.OperateService;
 import com.battcn.system.pojo.dto.OperateDto;
