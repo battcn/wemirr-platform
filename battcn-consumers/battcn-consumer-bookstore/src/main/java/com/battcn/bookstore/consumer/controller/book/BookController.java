@@ -10,7 +10,6 @@ import com.battcn.search.facade.BookService;
 import com.battcn.search.pojo.po.Book;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,8 +38,7 @@ public class BookController {
     @GetMapping
     @ApiOperation(value = "根据分页条件查询图书信息")
     public PageResult<Book> query(DataGrid grid, @RequestParam(required = false) String type, @RequestParam String content) {
-        final Page<Book> bookPage = this.bookService.searchBook(content);
-        return PageResult.of(bookPage.getTotalElements(), bookPage.getContent());
+        return this.bookService.searchBook(content);
     }
 
     @IgnoreAuthenticate

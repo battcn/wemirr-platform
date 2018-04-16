@@ -1,6 +1,7 @@
 package com.battcn.search.provider.service;
 
 
+import com.battcn.framework.commons.entity.PageResult;
 import com.battcn.search.facade.BookService;
 import com.battcn.search.pojo.po.Book;
 import com.battcn.search.provider.repository.BookRepository;
@@ -17,7 +18,6 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Levin
@@ -47,7 +47,7 @@ public class BookServiceImpl implements BookService {
     private static final Integer PAGE_SIZE = 10;
 
     @Override
-    public Page<Book> searchBook(String searchContent) {
+    public PageResult<Book> searchBook(String searchContent) {
         Pageable pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE, Sort.by(new Sort.Order(Sort.Direction.DESC, "createTime")));
         final MatchPhraseQueryBuilder name = QueryBuilders.matchPhraseQuery("name", searchContent).boost(3.0F);
         final MatchPhraseQueryBuilder author = QueryBuilders.matchPhraseQuery("author", searchContent).boost(2.0F);
@@ -56,7 +56,8 @@ public class BookServiceImpl implements BookService {
         final NativeSearchQuery build = new NativeSearchQueryBuilder().withQuery(queryBuilder).withPageable(pageable).build();
         log.info("\n" + build.getQuery().toString());
         // TODO  与 bookRepository.searchBook(searchContent); 结果一致,只是一种自己构建的查询,一种用语法直接查询.相比起来这种方式更优雅
-        return bookRepository.search(build);
+        final Page<Book> bookPage = bookRepository.search(build);
+        return PageResult.of(bookPage.getTotalElements(), bookPage.getContent());
     }
 
     @Override
