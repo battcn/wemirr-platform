@@ -14,17 +14,17 @@ public class RecordEntity implements Serializable {
     private static final long serialVersionUID = 7026470724648329551L;
 
     @Column(name = "created_time", insertable = false, updatable = false)
-    private Date createTime;
+    private Date createdTime;
 
     @Column(name = "last_modified_time", insertable = false, updatable = false)
     private Date lastModifiedTime;
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreatedTime() {
+        return createdTime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
     }
 
     public Date getLastModifiedTime() {

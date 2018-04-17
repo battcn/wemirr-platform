@@ -48,7 +48,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public PageResult<Book> searchBook(String searchContent) {
-        Pageable pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE, Sort.by(new Sort.Order(Sort.Direction.DESC, "createTime")));
+        Pageable pageable = PageRequest.of(PAGE_NUMBER, PAGE_SIZE, Sort.by(new Sort.Order(Sort.Direction.DESC, "createdTime")));
         final MatchPhraseQueryBuilder name = QueryBuilders.matchPhraseQuery("name", searchContent).boost(3.0F);
         final MatchPhraseQueryBuilder author = QueryBuilders.matchPhraseQuery("author", searchContent).boost(2.0F);
         final MatchPhraseQueryBuilder description = QueryBuilders.matchPhraseQuery("description", searchContent).boost(1.0F);
