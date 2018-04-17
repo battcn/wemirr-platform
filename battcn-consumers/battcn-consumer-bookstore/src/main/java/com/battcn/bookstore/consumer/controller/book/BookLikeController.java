@@ -21,7 +21,7 @@ public class BookLikeController {
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20882", timeout = 10000)
+            url = "${dubbo.registry.address}", timeout = 10000)
     private BookLikeService bookLikeService;
 
 

@@ -19,7 +19,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @since 2018-01-10
  */
 @EnableDubbo
-@EnableDubboConfig
 @EnableSecurityToken
 @EnableGlobalErrorResolver
 @EnableCorsFilter

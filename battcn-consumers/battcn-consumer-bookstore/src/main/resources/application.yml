@@ -1,6 +1,8 @@
 server:
   port: 9090
 spring:
+  profiles:
+    active: dubbo
   application:
     name: battcn-consumer-bookstore
   swagger:
@@ -25,6 +27,7 @@ spring:
     timeout: 10000
     password: battcn
     host: localhost
+    port: 6389
   security:
     battcn:
       token:
@@ -41,12 +44,3 @@ spring:
       enabled: true
       default-message: 服务繁忙,请稍后再试
       expose-error-class: true
-
-dubbo:
-  application:
-    id: battcn-consumer-bookstore
-    name: battcn-consumer-bookstore
-    qos-port: 22223
-endpoints:
-  dubbo:
-    enabled: true

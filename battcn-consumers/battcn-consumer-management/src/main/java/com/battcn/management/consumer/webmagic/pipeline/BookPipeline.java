@@ -35,12 +35,12 @@ public class BookPipeline implements Pipeline {
     private static final String TEMPLATE_NAME = "crawler/chapter/template";
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880")
+            url = "${dubbo.registry.address}")
     private BookService bookService;
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880")
+            url = "${dubbo.registry.address}")
     private BookChapterService bookChapterService;
 
     @Value("${template-storage-path}")

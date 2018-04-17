@@ -6,8 +6,8 @@ spring:
   application:
     name: battcn-demo-provider
   datasource:
-    password: root
-    username: root
+    password: dVd)IyUHY8X!
+    username: battcn
     url: jdbc:mysql://localhost:3306/battcn3.0?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
     hikari:

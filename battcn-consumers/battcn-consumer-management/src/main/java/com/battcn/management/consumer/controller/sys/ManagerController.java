@@ -35,11 +35,11 @@ public class ManagerController extends BaseController {
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880")
+            url = "${dubbo.registry.address}")
     private ManagerService managerService;
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880")
+            url = "${dubbo.registry.address}")
     private RoleService roleService;
 
 

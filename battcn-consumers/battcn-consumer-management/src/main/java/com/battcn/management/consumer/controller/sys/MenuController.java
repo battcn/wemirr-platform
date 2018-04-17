@@ -32,7 +32,7 @@ public class MenuController extends BaseController {
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880")
+            url = "${dubbo.registry.address}")
     private MenuService menuService;
 
 

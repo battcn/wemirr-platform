@@ -34,11 +34,11 @@ public class BookController {
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20883", timeout = 10000)
+            url = "${dubbo.registry.address}")
     private BookService bookService;
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20882", timeout = 10000)
+            url = "${dubbo.registry.address}")
     private BookChapterService bookChapterService;
 
     private final RedisTemplate<String, String> redisCacheTemplate;

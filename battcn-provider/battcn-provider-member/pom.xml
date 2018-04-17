@@ -40,6 +40,14 @@
 			<artifactId>dubbo-spring-boot-starter</artifactId>
 			<version>${dubbo.spring.boot.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

@@ -29,7 +29,7 @@ public class ProxyPoolTask {
 
     @Reference(version = "1.0.0",
             application = "${dubbo.application.id}",
-            url = "dubbo://localhost:20880")
+            url = "${dubbo.registry.address}")
     private ProxyPoolService proxyPoolService;
     private final ProxyPipeline proxyPipeline;
 
