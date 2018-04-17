@@ -14,6 +14,7 @@
 
 # 新增功能
 
+- 添加 `zookeeper` 支持,同时支持本地直连调用
 - 基于 Redis 新增排行榜
 - 添加 ***`Elasticsearch`* 搜索
 - 添加 **`JWT` 认证（`battcn-consumer-bookstore`）**
