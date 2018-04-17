@@ -116,7 +116,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>1.5.4.RELEASE</version>
                 <configuration>
                     <mainClass>com.battcn.bookstore.consumer.BookStoreApplication</mainClass>
                 </configuration>

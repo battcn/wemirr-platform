@@ -8,9 +8,10 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>battcn-provider-search</artifactId>
+	<packaging>jar</packaging>
+
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -50,5 +51,31 @@
 			<artifactId>zkclient</artifactId>
 		</dependency>
 	</dependencies>
+
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.battcn.search.provider.SearchProvider</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
