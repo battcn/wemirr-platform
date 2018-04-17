@@ -23,7 +23,6 @@
         <module>battcn-framework-mybatis</module>
         <module>battcn-framework-webmagic</module>
         <module>battcn-framework-security</module>
-        <module>battcn-framework-elsasticsearch</module>
     </modules>
 
     <build>
