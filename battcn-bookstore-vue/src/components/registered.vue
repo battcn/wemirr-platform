@@ -1,4 +1,4 @@
-<template>
+<template><!-- 注册页面 -->
   <div class=" login register"><!-- 样式复用 -->
     <div class="conHead">
       <span class="tit">欢迎您注册掌阅小说网</span>

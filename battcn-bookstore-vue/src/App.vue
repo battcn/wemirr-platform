@@ -18,8 +18,10 @@
             <li>
               <router-link to="/ranking" href="javascipt:">排行</router-link>
             </li>
-            <li><a href="javascipt:">男频</a></li>
-            <li><a href="javascipt:">女频</a></li>
+            <li>
+              <router-link to="/maleChannel" href="javascipt:">男频</router-link>
+            </li>
+            <li><router-link to="/femaleChannel" href="javascipt:">女频</router-link></li>
             <li><a href="javascipt:">充值</a></li>
             <li><a href="javascipt:">福利</a></li>
           </ul>
@@ -90,8 +92,8 @@
             <li>
               <router-link to="/ranking" href="javascipt:">排行</router-link>
             </li>
-            <li><a href="javascipt:">男频</a></li>
-            <li><a href="javascipt:">女频</a></li>
+            <li><router-link to="/maleChannel" href="javascipt:">男频</router-link></li>
+            <li><router-link to="/femaleChannel" href="javascipt:">女频</router-link></li>
             <li><a href="javascipt:">充值</a></li>
             <li><a href="javascipt:">福利</a></li>
           </ul>
@@ -200,7 +202,7 @@
 
   .nav_header .nav_ul li a.active {
     background: #f26552;
-    color: #fff;
+    color: #fff!important;
   }
 
   .nav_header .nav_ul li a {

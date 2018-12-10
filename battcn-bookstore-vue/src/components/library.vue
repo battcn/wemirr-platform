@@ -1,10 +1,10 @@
-<template>
+<template> <!-- 书库搜索 -->
   <div class="library">
   <!--选择搜索 开始-->
   <div class="find">
     <div class="fi_t">
       <div class="boFi">
-        <span><s></s></span>
+        <s></s>
         <input placeholder="我要搜.. " type="text">
         <a href="javascript:">搜索</a>
       </div>
@@ -208,13 +208,13 @@
     overflow: hidden;
   }
   .find .boFi span {
-    float: left;
-    margin: 6px 20px 0 14px;
+
   }
-  .find .boFi span s {
+  .find .boFi  s {
     width: 24px;
     height: 24px;
-    background-position: 0 0;
+    background-position: 0 0;float: left;
+    margin: 6px 20px 0 14px;
   }
   .find .boFi input {
     width: 330px;
@@ -390,6 +390,37 @@
   }
   .result ul li .right .store_btn:hover {
     background: #c4c4c4;
+  }
+  @media screen and (max-width: 1100px) {
+    .find{width: 100%;}
+  }
+  @media screen and (max-width:550px){
+    /* 搜索框 */
+    .find .fi_t{
+      padding: 10px 0 10px;    margin: 0 10px;
+    }
+    .find .boFi{
+      height: 30px;
+      width: 100%;
+    }
+    .find .boFi s{
+        position: absolute;
+      right: 0;
+      margin: 3px 17px;cursor:pointer;
+    }
+    .find .boFi input{height:30px;width: 100%;box-sizing:border-box;padding: 0 40px 0 10px;}
+    .find .boFi a{display: none;}
+    /*  搜索条件选择部分 */
+    .find .opt{
+      padding:10px;
+    }
+    .find .opt .optTit{padding: 5px;}
+    .find .opt ul{width: 100%;padding: 0;}
+    .find .opt ul li{height:30px;}
+    /* 当前已选择的搜索条件 */
+    .yxx{padding: 5px 10px 0 10px;}
+    .yxx span{    margin: 0 10px 5px 0;}
+    .paging{padding: 20px 0;}
   }
 
 </style>

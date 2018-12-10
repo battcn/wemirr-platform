@@ -2,8 +2,8 @@
   <div class="com_R" :class="{com_bd:border==true}">
     <div class="list_tit">
       <h2><s></s>{{title}}</h2>
-      <span :class="{show:cycle=='week'}" @mouseenter="cycle='week'">周</span>
       <span :class="{show:cycle=='month'}" @mouseenter="cycle='month'" >月</span>
+      <span :class="{show:cycle=='week'}" @mouseenter="cycle='week'">周</span>
     </div>
     <div class="list_wrap">
       <div class="swi">
@@ -153,11 +153,11 @@
    }
    .com_R .list_tit h2 {
      color: #333;
-     width: 220px;
+     width: auto;display: inline-block;
      font-size: 18px;
      font-weight: normal;
      border: none;
-     float: left;
+
    }
    .com_R .list_tit h2 s {
      width: 9px;
@@ -172,9 +172,8 @@
      text-align: center;
      color: #333;
      border-radius: 4px;
-     float: left;
      margin-left: 10px;
-     cursor: pointer;
+     cursor: pointer;float: right;
    }
    .com_R .list_tit .show {
      color: #fff;
@@ -209,7 +208,7 @@
   /* 书名 */
   .com_R ol li .name {
     font-size: 12px;
-    width: 220px;    float: left;
+    width: auto;    float: left;
   }
   .com_R ol li .name a {
     max-width: 220px;
@@ -241,6 +240,7 @@
   .com_R ol li .open .book_inf .aut {
      width: 192px;
    }
+   .com_R ol li .open .book_inf span a{display: inline;}
   .com_R ol li .open .book_inf .int {
     height: 48px;
     overflow: hidden;
@@ -264,7 +264,7 @@
      color: #ccc;
      float: left;    margin: 0 6px;
    }
-   .com_R .more a s{float: left;
+   .com_R .more a s{
      width: 15px;
      height: 1px;
      background-position: -124px 0;
@@ -277,6 +277,39 @@
    }
    .com_R .more:hover a s{
      background-position: -124px -1px;
+   }
+  /* 响应式 */
+  @media screen and (max-width: 1100px){
+    .com_R{
+      padding: 10px 10px 0;    width: 33.33%;
+     box-sizing: border-box;
+    }
+    .com_R .list_tit h2{width: auto;}
+    .com_R .list_tit span{float: right;}
+    .com_R .list_wrap,
+    .com_R .list_wrap .swi,
+    .com_R ol,
+    .com_R ol li .name{width: auto;}
+    .ki_li .com_R ol li .open{width: 100%;margin: 0;}
+    .com_R ol li .open .book_cov{margin-right:6px; }
+    .com_R ol li .open .book_inf{float: none;
+      width: auto;
+      margin-left: 0;}
+    .com_R ol li .open .book_inf .aut{
+    width: auto;
+    display: block;
+  }
+    .com_R .more{padding: 10px 0;}
+  }
+  @media screen and (max-width: 799px) {
+    .com_R{
+          width: 50%;
+    }
+  }
+   @media screen and (max-width: 500px) {
+     .com_R{
+       width: 100%;
+     }
    }
 </style>
 

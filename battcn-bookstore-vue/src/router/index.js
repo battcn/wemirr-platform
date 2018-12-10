@@ -6,6 +6,8 @@ Vue.use(Router);
 import Home from '@/components/home';
 import Library from '@/components/library'
 import Ranking from '@/components/ranking'
+import maleChannel from '@/components/maleChannel'
+import femaleChannel from '@/components/femaleChannel'
 import login from '@/components/login'
 import registered from '@/components/registered'
 import yourseInfo from '@/components/yourseInfo'
@@ -33,13 +35,22 @@ export default new Router({
     {
       path:'/login',
       name:'login',
-
       component:login
     },
     {
       path:'/registered',
       name:'registered',
       component:registered
+    },
+    {
+      path:'/maleChannel',
+      name:'maleChannel',
+      component:maleChannel
+    },
+    {
+      path:'/femaleChannel',
+      name:'femaleChannel',
+      component:femaleChannel
     },
     {
       path:'/yourseInfo',

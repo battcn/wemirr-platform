@@ -1,4 +1,4 @@
-<template>
+<template><!-- 个人信息中心分组件 -->
   <div class="info-home">
     <div class="gr">
       <div class="tit">

@@ -20,7 +20,7 @@
     height: 100%;
   }
   @media screen and (max-width:1100px) {
-    .content .adv a{width:100%;}
+    .content .adv a{width:100%;height: 58px;}
   }
 </style>
 

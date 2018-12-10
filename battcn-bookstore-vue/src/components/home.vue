@@ -126,7 +126,9 @@
             </div>
           </li>
         </ul>
-        <leader :ListData="clickListData" style="padding: 0 20px 0;"></leader> <!-- 排行榜组件 -->
+        <div class="h_f1_R">
+        <leader :ListData="clickListData" ></leader> <!-- 排行榜组件 -->
+        </div>
       </div>
     </div>
     <strip></strip><!-- 图片长条 -->
@@ -134,7 +136,7 @@
     <div class="h_f2 ">
       <area_head :title_name="'热门推荐'"></area_head>
       <ul class="h_f2_list">
-        <li>
+        <li class="custom-md800-5 custom-md690-4 custom-sm440-3 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover">
             <img src="./../../static/img/large.jpg" alt="" class="">
           </a>
@@ -143,7 +145,7 @@
             <span class="aut">云霏霏</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-5 custom-md690-4 custom-sm440-3 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover">
             <img src="./../../static/img/large.jpg" alt="" class="">
           </a>
@@ -152,7 +154,7 @@
             <span class="aut">云霏霏</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-5 custom-md690-4 custom-sm440-3 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover">
             <img src="./../../static/img/large.jpg" alt="" class="">
           </a>
@@ -161,7 +163,7 @@
             <span class="aut">云霏霏</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-5 custom-md690-4 custom-sm440-3 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover">
             <img src="./../../static/img/large.jpg" alt="" class="">
           </a>
@@ -170,7 +172,7 @@
             <span class="aut">云霏霏</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-5 custom-md690-4 custom-sm440-3 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover">
             <img src="./../../static/img/large.jpg" alt="" class="">
           </a>
@@ -179,7 +181,7 @@
             <span class="aut">云霏霏</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-5 custom-md690-4 custom-sm440-3 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover">
             <img src="./../../static/img/large.jpg" alt="" class="">
           </a>
@@ -188,7 +190,7 @@
             <span class="aut">云霏霏</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-5 custom-md690-4 custom-sm440-3 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover">
             <img src="./../../static/img/large.jpg" alt="" class="">
           </a>
@@ -197,7 +199,7 @@
             <span class="aut">云霏霏</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-5 custom-md690-4 custom-sm440-3 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover">
             <img src="./../../static/img/large.jpg" alt="" class="">
           </a>
@@ -206,7 +208,7 @@
             <span class="aut">云霏霏</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-5 custom-md690-4 custom-sm440-3 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover">
             <img src="./../../static/img/large.jpg" alt="" class="">
           </a>
@@ -215,7 +217,7 @@
             <span class="aut">云霏霏</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-5 custom-md690-4 custom-sm440-3 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover">
             <img src="./../../static/img/large.jpg" alt="" class="">
           </a>
@@ -224,7 +226,7 @@
             <span class="aut">云霏霏</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-5 custom-md690-4 custom-sm440-3 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover">
             <img src="./../../static/img/large.jpg" alt="" class="">
           </a>
@@ -233,7 +235,7 @@
             <span class="aut">云霏霏</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-5 custom-md690-4 custom-sm440-3 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover">
             <img src="./../../static/img/large.jpg" alt="" class="">
           </a>
@@ -450,7 +452,7 @@
           </li>
         </ul>
       </div>
-      <leader></leader> <!-- 排行榜组件 -->
+          <leader></leader> <!-- 排行榜组件 -->
     </div>
     <!-- 女生频道 结束 -->
     <!--精品推荐 开始-->
@@ -459,56 +461,56 @@
         <h2>精品推荐</h2>
       </div>
       <ul class="h_f4_R">
-        <li>
+        <li class="custom-md800-6 custom-md690-5 custom-sm440-4 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover"><img src="./../../static/img/large.jpg" alt=""></a>
           <div class="book_inf font_12">
             <h3><a href="">我的美女董事长</a></h3>
             <span class="aut">大侠一枝梅</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-6 custom-md690-5 custom-sm440-4 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover"><img src="./../../static/img/large.jpg" alt=""></a>
           <div class="book_inf font_12">
             <h3><a href="">我的美女董事长</a></h3>
             <span class="aut">大侠一枝梅</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-6 custom-md690-5 custom-sm440-4 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover"><img src="./../../static/img/large.jpg" alt=""></a>
           <div class="book_inf font_12">
             <h3><a href="">我的美女董事长</a></h3>
             <span class="aut">大侠一枝梅</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-6 custom-md690-5 custom-sm440-4 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover"><img src="./../../static/img/large.jpg" alt=""></a>
           <div class="book_inf font_12">
             <h3><a href="">我的美女董事长</a></h3>
             <span class="aut">大侠一枝梅</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-6 custom-md690-5 custom-sm440-4 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover"><img src="./../../static/img/large.jpg" alt=""></a>
           <div class="book_inf font_12">
             <h3><a href="">我的美女董事长</a></h3>
             <span class="aut">大侠一枝梅</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-6 custom-md690-5 custom-sm440-4 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover"><img src="./../../static/img/large.jpg" alt=""></a>
           <div class="book_inf font_12">
             <h3><a href="">我的美女董事长</a></h3>
             <span class="aut">大侠一枝梅</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-6 custom-md690-5 custom-sm440-4 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover"><img src="./../../static/img/large.jpg" alt=""></a>
           <div class="book_inf font_12">
             <h3><a href="">我的美女董事长</a></h3>
             <span class="aut">大侠一枝梅</span>
           </div>
         </li>
-        <li>
+        <li class="custom-md800-6 custom-md690-5 custom-sm440-4 custom-sm300-2 custom-xs-1">
           <a href="" class="book_cover"><img src="./../../static/img/large.jpg" alt=""></a>
           <div class="book_inf font_12">
             <h3><a href="">我的美女董事长</a></h3>
@@ -757,7 +759,10 @@
     -webkit-box-orient: vertical;
     word-wrap: break-word;
   }
+  /* 排行榜组件外容器 */
+.h_f1_R{
 
+}
   /* 首页热门推荐部分样式： */
   .h_f2, .h_f3 {
     width: 1064px;
@@ -846,7 +851,7 @@
   }
 
   .h_f3_C {
-    width: 512px;
+    width: 510px;
     overflow: hidden;
     border-left: 1px solid #f0f0f0;
     float: left;
@@ -890,6 +895,7 @@
   .h_f3_C ul .no_bor {
     border-bottom: none;
   }
+
 
   /* 精品推荐样式 */
   .h_f4 {
@@ -939,30 +945,26 @@
   }
 
   /*响应式样式部分 */
+  /*  1100px以上不使用响应式 */
   @media screen and (max-width: 1100px) {
     .home .h_f1 , .h_f2{
       width: 100%;    padding: 20px 0 40px 0;
     }
-
     /* 轮播框 与轮播框并列的推荐及排行榜 */
     .h_f1 .h_f1_L,.h_f1 > div {
       width: 80%;
       margin: 0 auto;
       float: none;overflow: hidden;
     }
-
     .h_f1 .h_f1_L .pl_pic {
       width: 100%;
     }
-
     .h_f1 .h_f1_L .pl_pic ul {
       width: calc(100% * 4);
     }
-
     .h_f1 .h_f1_L .pl_pic ul li {
       width: calc(100% / 4);
     }
-
     .h_f1 .h_f1_L .pl_pic ul li a {
       width: 100%;height:auto;
     }
@@ -971,6 +973,31 @@
     .h_f1_C{width: auto;float: left;
       margin-right: 255px;}
     .h_f1_C li .book_inf{float:none;width:auto;}
+    /* 热门推荐版块 */
+    .h_f2 .h_f2_list li{padding: 0;text-align: center;}
+    /* 精品推荐 */
+    .h_f4_L{float:none;  text-align: center;     margin: 15px 0 10px 0;width: auto;height:auto;}
+    .h_f4_L h2{width: auto;padding-top: 0;}
+    /* 精品推荐下的书籍排版 */
+    .h_f4_R {
+      overflow: hidden;
+      margin: 0 auto; float: none; }
+    .h_f4_R li{padding: 5px 0;text-align: center;}
+  }
+
+  @media screen and (max-width:800px) {
+    /* 轮播框图片外部容器响应 */
+    .h_f1 .h_f1_L, .h_f1 > div{width: 95%;
+      padding: 0 5px;}
+    .h_f1_L .book_info{width:80%;}
+    /* 轮播框旁边推荐 */
+    .h_f1_C{padding: 5px;}
+    .h_f1_C{margin-right: 225px;}
+  }
+
+
+  @media screen and (max-width:550px){
+    .h_f1_C{margin: auto;    float: none;}
   }
 
 </style>

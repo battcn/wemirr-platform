@@ -1,5 +1,5 @@
 <template>
-  <div class="leaderboard "><!-- 排行榜 -->
+  <div class="leaderboard " style="    height: 508px;"><!-- 排行榜 -->
     <h2><s></s>总点击榜</h2>
     <div class="list_wrap">
       <ol class="list">
@@ -320,6 +320,13 @@
       float: left;
       margin-left: -255px;
     }
+  }
+  @media screen and (max-width:800px) {
+
+    .leaderboard{padding: 5px;margin-left:-225px;}
+  }
+  @media screen and (max-width:550px){
+    .leaderboard{float: none;margin:0 auto;}
   }
 
 </style>

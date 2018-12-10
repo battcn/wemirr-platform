@@ -1,4 +1,4 @@
-<template>
+<template><!-- 个人中心 -->
   <div class="yourseInfo">
     <div class="con_L">
       <div class="header">

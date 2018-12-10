@@ -1,4 +1,4 @@
-<template>
+<template><!-- 书籍目录 -->
   <div class="contents">
     <div class="header"></div>
     <div class="co-content">
@@ -49,7 +49,7 @@
     }
   }
 </script>
-<style slot-scope>
+<style >
   body {
     background-color: #F0F0F0;
   }

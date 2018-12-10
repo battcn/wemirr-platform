@@ -1,4 +1,4 @@
-<template>
+<template><!-- 登录页面 -->
   <div class="login">
     <div class="conHead">
       <span class="tit">欢迎您登录掌阅小说网</span>

@@ -1,4 +1,4 @@
-<template>
+<template><!--  书籍详情页面 -->
   <div class="details">
     <div class="header">
     </div>

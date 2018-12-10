@@ -52,6 +52,9 @@ a, i, s {
 s {
   background: url(./../static/img/iconC.png) no-repeat;
 }
+.tit s{
+  background: url("./../static/img/pdIcon.png") no-repeat;
+}
 
 em, span {
   display: inline-block;
@@ -65,7 +68,7 @@ a {
 }
 
 a:hover {
-  color: #f26552;
+  color: #f26552!important;
 }
 
 a img {
@@ -95,11 +98,14 @@ p {
   -webkit-box-orient: vertical;
   word-wrap: break-word;
 }
+.book_inf{font-size: 12px;}
 
 /* 登录注册页面通用样式 */
 .login {
-  background: #fff;margin-bottom: 70px;
+  background: #fff;
+  margin-bottom: 70px;
 }
+
 /* 登录头部条样式 */
 .login .conHead {
   width: 980px;
@@ -123,44 +129,55 @@ p {
 .login .conHead .ts a {
   color: #f26552;
 }
+
 /* 表单部分 */
 .srq {
-  width: 346px;margin: 0 auto;padding-bottom: 70px;
+  width: 346px;
+  margin: 0 auto;
+  padding-bottom: 70px;
 }
-.srq  .difcon{
+
+.srq .difcon {
   overflow: hidden;
   position: relative;
   padding-top: 24px;
 }
-.srq  .difcon input{
+
+.srq .difcon input {
   width: 316px;
   height: 42px;
   border: 1px solid #d2d2d2;
   padding: 0 14px;
   float: left;
 }
+
 .srq .difcon input:hover {
   border: 1px solid #ffcfc9;
 }
+
 /* 验证码样式 */
 .srq .difcon.yzm input {
   width: 220px;
   border-right: none;
 }
+
 .srq .yzt {
   width: 94px;
   height: 42px;
   border: 1px solid #d2d2d2;
   cursor: pointer;
 }
+
 .srq .yzt img {
   width: 100%;
   height: 100%;
 }
+
 /* 登录按钮样式 */
 .srq .difcon.Btn {
   padding: 0;
 }
+
 .srq .Btn .tjbtn {
   width: 346px;
   height: 42px;
@@ -170,18 +187,61 @@ p {
   font-size: 16px;
   margin: 30px 0 16px 0;
 }
+
 .srq .tjbtn:hover {
   background: #e5533f;
 }
+
 /* 忘记密码样式 */
 .srq .difcon.end {
   width: 346px;
   padding: 0;
 }
+
 .srq .end .for {
   float: right;
 }
+
 .srq .end .for a {
   color: #9e9e9e;
+}
+
+/* 自定义栅格响应样式 */
+@media screen and (min-width: 800px) and (max-width: 1100px) {
+  .custom-md800-5 {
+    width: 20%!important;
+  }
+  .custom-md800-6 {
+    width: 16.66%!important;
+  }
+}
+@media screen and (min-width: 690px) and (max-width: 800px) {
+  .custom-md690-4 {
+    width: 25%!important;
+  }
+  .custom-md690-5 {
+    width: 25%!important;
+  }
+}
+@media screen and (min-width: 440px) and (max-width: 690px){
+  .custom-sm440-3 {
+    width: 33.33%!important;
+  }
+  .custom-sm440-4 {
+    width: 25%!important;
+  }
+}
+@media screen and (min-width: 300px) and (max-width: 440px){
+  .custom-sm300-2 {
+    width: 50%!important;
+  }
+  .custom-sm300-3 {
+    width: 33.33%!important;
+  }
+}
+@media screen and (max-width: 300px){
+  .custom-xs-1{
+    width:100%!important;
+  }
 }
 

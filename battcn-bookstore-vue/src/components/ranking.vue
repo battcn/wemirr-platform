@@ -1,9 +1,9 @@
-<template>
+<template><!-- 大排行页面 -->
   <div class="ranking">
     <!--大标题 开始-->
     <div class="rank_bt">
       <h4 @click="gender='male'" :class="{on:gender=='male'}">
-        <a href="javascript:">男生频道</a><s></s>
+        <a href="javascript:">男生频道</a>
       </h4>
       <b class="line">|</b>
       <h4 @click="gender='female'" :class="{on:gender=='female'}"><a href="javascript:">女生频道</a><s></s></h4>
@@ -53,10 +53,7 @@
   .rank_bt .on a {
     color: #333;overflow: auto;display: inline;
   }
-  /* 三角形标 */
-  .rank_bt .on s {
-    display: block;
-  }
+
   /* 分割线 */
   .rank_bt .line {
     margin: 0 30px;
@@ -74,13 +71,7 @@
     color: #ccc;
   }
 
-  .rank_bt h4 s {
-    width: 17px;
-    height: 8px;
-    background-position: -141px -1px;
-    margin: 11px auto 0;
-    display: none;
-  }
+
   /* 右边完整表单按钮样式 */
   .rank_bt .all_btn {
     width: 72px;
@@ -96,6 +87,17 @@
   /* 显示排行榜区域 */
   .ki_li {
     overflow: hidden;
+  }
+  /* 响应式样式 */
+  @media screen and (max-width: 1100px) {
+    /*  标题 */
+    .rank_bt{    font-size: 16px;width: auto;
+      padding: 5px 10px;    height: auto;}
+    .rank_bt h4{width: auto;}
+    .rank_bt h4:first-child{margin-left: 10px;}
+  }
+  @media screen and (max-width: 500px) {
+  .rank_bt .line{margin: 0 15px;}
   }
 </style>
 
