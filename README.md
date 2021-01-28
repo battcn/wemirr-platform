@@ -1,24 +1,7 @@
-## 开始维护
+## 微服务新解决方案移步
 
-[http://demo.battcn.com](http://demo.battcn.com "演示地址")
+[https://cloud.battcn.com](https://cloud.battcn.com "演示地址")
 
-鉴于 `dubbo` 已经开始维护了 , 本项目也即将开启维护之旅
+GIT地址： https://gitee.com/battcn/wemirr-platform
 
-坐等 `apache-dubbo` 与 `dubbo-spring-boot-starter（现在还是开发版）` 
-
-
-## 技术栈
-
-- **spring-boot**
-- **dubbo**
-- **mybatis**
-- **shiro**
-- **zookeeper**
-- **swagger**
-
-----------
-
-**后续引入 redis、rabbitmq 等技术栈**
-
-
-
+[https://gitee.com/battcn/wemirr-platform](https://gitee.com/battcn/wemirr-platform "GIT地址")
