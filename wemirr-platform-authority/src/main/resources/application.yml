@@ -1,0 +1,63 @@
+mybatis-plus:
+  mapper-locations:
+    - classpath:com/oit/**/repository/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.wemirr.**.entity;com.wemirr.**.database.mybatis.typehandler
+  typeEnumsPackage: com.wemirr.**.enums,com.wemirr.framework.database.mybatis.auth,com.wemirr.platform.authority.domain.enums
+  global-config:
+    db-config:
+      id-type: auto
+      insert-strategy: NOT_NULL
+      update-strategy: NOT_NULL
+      select-strategy: NOT_EMPTY
+  configuration:
+    #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+spring:
+  datasource:
+    #druid:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wemirr-platform?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
+    type: com.zaxxer.hikari.HikariDataSource
+    username: root
+    password: 123456
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      pool-name: HikariDataSourcePool
+      max-lifetime: 1800000
+      connection-timeout: 30000
+  redis:
+    port: 6380
+    database: 2
+  cache:
+    type: redis
+    redis:
+      cache-null-values: false
+      time-to-live: 2H
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+
+
+swagger:
+  title: Swagger API
+  description: 聚合文档
+  version: 2.0.0
+  licenseUrl: https://blog.battcn.com/
+  terms-of-service-url: https://blog.battcn.com/
+  contact:
+    name: Levin
+    email: 1837307557@qq.com
+  authorization:
+    name: OAuth2.0
+    auth-regex: ^.*$
+    authorization-scope-list:
+      - scope: server
+        description: server all
+    token-url-list:
+      - http://127.0.0.1:9000/authority/oauth/token
+  base-package: com.wemirr

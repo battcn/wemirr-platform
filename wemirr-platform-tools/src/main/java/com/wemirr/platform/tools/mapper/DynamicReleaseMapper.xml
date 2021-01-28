@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.tools.mapper.DynamicReleaseMapper">
+
+
+    <insert id="insertMap">
+        insert into ${tableName} (
+        <foreach collection="map" item="value" index="key" separator=",">
+            <if test="value != null">
+                ${key}
+            </if>
+        </foreach>
+        )
+        values (
+        <foreach collection="map" item="value" index="key" separator=",">
+            <if test="value != null">
+                #{value}
+            </if>
+        </foreach>
+        )
+    </insert>
+    <update id="updateByMap">
+        update ${tableName} set
+        <foreach collection="map" item="value" index="key" separator=",">
+            ${key} = #{value}
+        </foreach>
+        where id = #{id}
+    </update>
+
+
+    <select id="pageList" resultType="java.util.Map">
+        SELECT * FROM ${tableName} where 1 = 1
+        <foreach collection="map" item="value" index="key" separator=" ">
+            and ${key} = #{value}
+        </foreach>
+    </select>
+
+    <select id="dynamicPageList" resultType="java.util.Map">
+        ${sql}
+    </select>
+</mapper>

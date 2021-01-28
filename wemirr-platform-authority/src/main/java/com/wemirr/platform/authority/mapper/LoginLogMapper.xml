@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.authority.mapper.LoginLogMapper">
+
+
+    <select id="selectLoginRecord" resultType="com.wemirr.platform.authority.domain.vo.LoginRecord">
+        SELECT	DATE_FORMAT( created_time, '%m-%d' ) date ,	count(*) total FROM common_login_log
+        GROUP BY date ORDER BY total DESC LIMIT 7
+    </select>
+
+    <select id="selectLoginArea" resultType="com.wemirr.platform.authority.domain.vo.LoginArea">
+        SELECT	location,count(*) total FROM common_login_log
+        GROUP BY location ORDER BY total DESC LIMIT 7
+    </select>
+</mapper>

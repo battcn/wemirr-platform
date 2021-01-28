@@ -1,0 +1,4 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.wemirr.framework.database.datasource.encode.EncryptHikariDataSourceConfiguration
+

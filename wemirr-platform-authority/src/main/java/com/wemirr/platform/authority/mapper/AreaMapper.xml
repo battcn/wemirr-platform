@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.authority.mapper.AreaMapper">
+
+
+    <select id="listArea" resultType="com.wemirr.platform.authority.domain.entity.common.AreaEntity">
+        SELECT t1.*,(select count(*) FROM common_area WHERE parent_id = t1.id) `count`  FROM common_area t1
+        where  t1.parent_id = #{parentId} order by `sequence`
+    </select>
+
+
+</mapper>

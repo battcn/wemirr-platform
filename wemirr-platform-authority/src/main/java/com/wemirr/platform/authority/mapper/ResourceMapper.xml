@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.authority.mapper.ResourceMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, created_by, created_time, last_modified_by, last_modified_time,
+        code, name, menu_id, describe_
+    </sql>
+
+    <select id="findVisibleResource" resultType="com.wemirr.platform.authority.domain.vo.VueRouter">
+            SELECT
+            t1.id,
+            t1.label,
+            t1.`sequence`,
+            t1.`path`,
+            t1.component,
+            t1.`icon`,
+            t1.parent_id,
+            t1.`model`,
+            t1.`type`,
+            t1.locked,
+            t1.`global`,
+            t1.`permission`
+        FROM
+            sys_resource t1
+        WHERE
+            1 = 1
+            <if test="resource.type != null">
+                and t1.type = #{resource.type}
+            </if>
+            <if test="resource.parentId != null">
+                and t1.parent_id = #{resource.parentId}
+            </if>
+            and t1.id IN (
+            SELECT
+                res_id
+            FROM
+                sys_role_res
+            WHERE
+            role_id IN ( SELECT role_id FROM sys_user_role WHERE `user_id` = #{resource.userId} ))
+        ORDER BY
+            t1.`sequence`
+    </select>
+
+
+    <select id="queryPermissionByUserId" resultType="java.lang.String">
+            SELECT DISTINCT
+                ( t2.`code` )
+            FROM
+                t_sys_role_res t1
+                JOIN c_auth_resource t2 ON t1.res_id = t2.id
+                JOIN t_sys_user_role t3 ON t3.role_id = t1.role_id
+                JOIN t_sys_role t4 ON t3.role_id = t4.id
+
+    </select>
+
+   <!-- /*WHERE t3.user_id = #{userId}*/-->
+</mapper>

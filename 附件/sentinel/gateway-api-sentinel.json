@@ -1,0 +1,11 @@
+[
+  {
+    "apiName": "wemirr-platform-nepxion",
+    "predicateItems": [
+      {
+        "pattern": "/nepxion/**",
+        "matchStrategy": 1
+      }
+    ]
+  }
+]

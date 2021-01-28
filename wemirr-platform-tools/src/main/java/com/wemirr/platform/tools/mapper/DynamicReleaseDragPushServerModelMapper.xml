@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.tools.mapper.DynamicReleaseDragPushServerModelMapper">
+
+
+    <select id="queryDragPushServerByModel" resultType="com.wemirr.platform.tools.domain.resp.DynamicReleaseDragPushServerMapperResp">
+        SELECT t3.model,t2.url,t1.push_id,t1.drag_id,t2.method FROM gen_dynamic_release_drag_push_server_model t1
+        JOIN gen_dynamic_release_drag_push_server t2 ON t1.push_id = t2.id
+        JOIN gen_dynamic_release_drag t3 ON t1.drag_id = t3.id
+        WHERE t3.model = #{model}
+    </select>
+
+</mapper>

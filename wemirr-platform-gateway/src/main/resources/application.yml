@@ -1,0 +1,18 @@
+# 不校验验证码终端
+ignore:
+  clients:
+    - test
+    - inner
+  swagger-providers:
+    - wemirr-platform-gateway
+swagger:
+  enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+logging:
+  pattern:
+    console:
