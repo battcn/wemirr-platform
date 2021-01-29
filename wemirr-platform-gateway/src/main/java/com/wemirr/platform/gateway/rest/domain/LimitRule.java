@@ -12,7 +12,7 @@ public class LimitRule {
 
     private String id;
     private String path;
-    private String total;
+    private long total;
     private String description;
     private boolean block;
     private LocalDateTime createdTime;

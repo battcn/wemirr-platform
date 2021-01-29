@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyFilterResolver;
 import com.wemirr.platform.gateway.config.BlackHelper;
+import com.wemirr.platform.gateway.config.LimitHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -30,6 +31,8 @@ public class PlatformGatewayStrategyRouteFilter extends DefaultGatewayStrategyRo
 
     @Resource
     private BlackHelper blackHelper;
+    @Resource
+    private LimitHelper limitHelper;
 
     private final static String TRACE_ID = "n-d-trace-id";
 
@@ -39,6 +42,9 @@ public class PlatformGatewayStrategyRouteFilter extends DefaultGatewayStrategyRo
         MDC.put(TRACE_ID, traceId);
         if (blackHelper.valid(exchange)) {
             return wrap(exchange, HttpStatus.SERVICE_UNAVAILABLE, "访问失败,您已进入黑名单");
+        }
+        if (limitHelper.hostTrace(exchange)) {
+            return wrap(exchange, HttpStatus.SERVICE_UNAVAILABLE, "访问失败,已达到最大阈值");
         }
         // 通过过滤器设置路由Header头部信息，并全链路传递到服务端  true 不擦除外部请求头 false 擦除
         GatewayStrategyFilterResolver.setHeader(exchange.getRequest().mutate(), TRACE_ID, traceId, true);
