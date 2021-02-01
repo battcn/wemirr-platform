@@ -2,6 +2,7 @@ package com.wemirr.platform.gateway.config;
 
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
 import com.google.common.collect.Maps;
+import com.wemirr.platform.gateway.config.rule.BlacklistHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;

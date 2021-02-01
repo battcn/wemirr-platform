@@ -1,4 +1,4 @@
-package com.wemirr.platform.gateway.config;
+package com.wemirr.platform.gateway.config.cors;
 
 import org.springframework.cloud.client.discovery.ReactiveDiscoveryClient;
 import org.springframework.cloud.gateway.discovery.DiscoveryClientRouteDefinitionLocator;

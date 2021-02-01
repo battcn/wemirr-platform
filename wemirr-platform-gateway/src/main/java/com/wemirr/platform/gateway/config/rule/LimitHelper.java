@@ -1,4 +1,4 @@
-package com.wemirr.platform.gateway.config;
+package com.wemirr.platform.gateway.config.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
