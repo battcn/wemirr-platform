@@ -107,19 +107,16 @@ nacos:
   password: nacos
 spring:
   profiles: local
-  cloud:
-    gateway:
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allow-credentials: true
-            allowedHeaders:
-              - "*"
-            allowedOrigins:
-              - "*"
-            allowedMethods:
-              - "GET"
-              - "POST"
-              - "PUT"
-              - "DELETE"
-              - "PATCH"
+
+#  cloud:
+#    gateway:
+#      globalcors:
+#        cors-configurations:
+#          '[/**]':
+#            allow-credentials: true
+#            allowedHeaders:
+#              - "*"
+#            allowedOrigins:
+#              - "*"
+#            allowedMethods:
+#              - "*"

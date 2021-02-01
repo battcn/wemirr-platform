@@ -27,7 +27,7 @@ import java.util.List;
 @EnableConfigurationProperties({ServerProperties.class, ResourceProperties.class})
 public class ErrorHandlerConfiguration {
 
-    private final BlackHelper blackHelper;
+    private final BlacklistHelper blacklistHelper;
     private final ServerProperties serverProperties;
     private final ApplicationContext applicationContext;
     private final ResourceProperties resourceProperties;
@@ -35,13 +35,13 @@ public class ErrorHandlerConfiguration {
     private final ServerCodecConfigurer serverCodecConfigurer;
 
     public ErrorHandlerConfiguration(ServerProperties serverProperties,
-                                     BlackHelper blackHelper,
+                                     BlacklistHelper blacklistHelper,
                                      ResourceProperties resourceProperties,
                                      ObjectProvider<List<ViewResolver>> viewResolversProvider,
                                      ServerCodecConfigurer serverCodecConfigurer,
                                      ApplicationContext applicationContext) {
         this.serverProperties = serverProperties;
-        this.blackHelper = blackHelper;
+        this.blacklistHelper = blacklistHelper;
         this.applicationContext = applicationContext;
         this.resourceProperties = resourceProperties;
         this.viewResolvers = viewResolversProvider.getIfAvailable(Collections::emptyList);
@@ -51,7 +51,7 @@ public class ErrorHandlerConfiguration {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public ErrorWebExceptionHandler errorWebExceptionHandler(ErrorAttributes errorAttributes) {
-        JsonExceptionHandler exceptionHandler = new JsonExceptionHandler(errorAttributes, blackHelper,
+        JsonExceptionHandler exceptionHandler = new JsonExceptionHandler(errorAttributes, blacklistHelper,
                 this.resourceProperties, this.serverProperties.getError(), this.applicationContext);
         exceptionHandler.setViewResolvers(this.viewResolvers);
         exceptionHandler.setMessageWriters(this.serverCodecConfigurer.getWriters());

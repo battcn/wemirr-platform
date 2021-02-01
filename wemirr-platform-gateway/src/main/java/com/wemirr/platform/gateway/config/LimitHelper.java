@@ -3,6 +3,7 @@ package com.wemirr.platform.gateway.config;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import com.wemirr.platform.gateway.rest.domain.LimitRule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -48,7 +49,7 @@ public class LimitHelper {
     public List<LimitRule> query() {
         final Set<Object> keys = stringRedisTemplate.opsForHash().keys(DEFAULT_RULE_LIMIT);
         if (CollectionUtil.isEmpty(keys)) {
-            return null;
+            return Lists.newArrayList();
         }
         return stringRedisTemplate.opsForHash().multiGet(DEFAULT_RULE_LIMIT, keys).stream()
                 .map(object -> JSON.parseObject(object.toString(), LimitRule.class)).collect(Collectors.toList());

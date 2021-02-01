@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.DefaultGatewayStrategyRouteFilter;
 import com.nepxion.discovery.plugin.strategy.gateway.filter.GatewayStrategyFilterResolver;
-import com.wemirr.platform.gateway.config.BlackHelper;
+import com.wemirr.platform.gateway.config.BlacklistHelper;
 import com.wemirr.platform.gateway.config.LimitHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -30,7 +30,7 @@ import javax.annotation.Resource;
 public class PlatformGatewayStrategyRouteFilter extends DefaultGatewayStrategyRouteFilter {
 
     @Resource
-    private BlackHelper blackHelper;
+    private BlacklistHelper blacklistHelper;
     @Resource
     private LimitHelper limitHelper;
 
@@ -40,7 +40,7 @@ public class PlatformGatewayStrategyRouteFilter extends DefaultGatewayStrategyRo
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         final String traceId = IdUtil.fastSimpleUUID();
         MDC.put(TRACE_ID, traceId);
-        if (blackHelper.valid(exchange)) {
+        if (blacklistHelper.valid(exchange)) {
             return wrap(exchange, HttpStatus.SERVICE_UNAVAILABLE, "访问失败,您已进入黑名单");
         }
         if (limitHelper.hostTrace(exchange)) {

@@ -1,10 +1,9 @@
 package com.wemirr.platform.gateway.rest;
 
-import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.platform.gateway.config.LimitHelper;
-import com.wemirr.platform.gateway.rest.domain.LimitRule;
+import com.wemirr.platform.gateway.config.BlacklistHelper;
+import com.wemirr.platform.gateway.rest.domain.BlacklistRule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,15 +14,15 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/gateway/rules/limits")
-public class LimitController {
+@RequestMapping("/gateway/rules/blacklist")
+public class BlacklistController {
 
-    private final LimitHelper limitHelper;
+    private final BlacklistHelper blacklistHelper;
 
     @GetMapping
     public Result<JSONObject> query() {
         JSONObject data = new JSONObject();
-        final List<LimitRule> limitRules = limitHelper.query();
+        final List<BlacklistRule> limitRules = blacklistHelper.query();
         data.put("total", limitRules.size());
         data.put("records", limitRules);
         data.put("current", 1);
@@ -33,16 +32,14 @@ public class LimitController {
     }
 
     @PostMapping
-    public Result<Void> create(@RequestBody LimitRule rule) {
-        String uuid = IdUtil.fastSimpleUUID();
-        rule.setId(uuid);
-        limitHelper.create(rule);
+    public Result<Void> saveOrUpdate(@RequestBody BlacklistRule rule) {
+        blacklistHelper.saveOrUpdate(rule);
         return Result.success();
     }
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@PathVariable String id) {
-        limitHelper.delete(id);
+
         return Result.success();
     }
 

@@ -26,14 +26,14 @@ import java.util.Map;
 @Slf4j
 public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
 
-    private final BlackHelper blackHelper;
+    private final BlacklistHelper blacklistHelper;
 
-    JsonExceptionHandler(ErrorAttributes errorAttributes, BlackHelper blackHelper,
+    JsonExceptionHandler(ErrorAttributes errorAttributes, BlacklistHelper blacklistHelper,
                          ResourceProperties resourceProperties,
                          ErrorProperties errorProperties,
                          ApplicationContext applicationContext) {
         super(errorAttributes, resourceProperties, errorProperties, applicationContext);
-        this.blackHelper = blackHelper;
+        this.blacklistHelper = blacklistHelper;
     }
 
     private static final String UNABLE_ERROR = "Unable to find instance for";
@@ -54,7 +54,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
             // 触发限流规则直接拉黑名单
             ParamFlowException flowException = (ParamFlowException) error;
             log.error("[触发限流规则] - {} - {}", flowException.getResourceName(), flowException.getRule());
-            blackHelper.setBlack(request.exchange());
+            blacklistHelper.setBlack(request.exchange());
             return response(HttpStatus.SERVICE_UNAVAILABLE.value(), "访问量过大，请稍后再试");
         }
         if (error instanceof ResponseStatusException) {
