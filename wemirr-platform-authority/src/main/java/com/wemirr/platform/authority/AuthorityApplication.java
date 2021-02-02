@@ -5,7 +5,6 @@ import com.wemirr.framework.boot.config.log.event.SysLogListener;
 import com.wemirr.framework.security.client.annotation.EnableOauth2ClientResourceServer;
 import com.wemirr.framework.websocket.redis.EnableRedisWebSocket;
 import com.wemirr.platform.authority.service.OptLogService;
-import feign.Logger;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,11 +28,6 @@ import org.springframework.stereotype.Repository;
 @MapperScan(value = "com.wemirr.**.mapper", annotationClass = Repository.class)
 @EnableOauth2ClientResourceServer
 public class AuthorityApplication {
-
-    @Bean
-    public Logger.Level level() {
-        return Logger.Level.FULL;
-    }
 
     @Bean
     public SysLogListener sysLogListener(OptLogService optLogService) {

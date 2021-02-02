@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -33,7 +34,8 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
     private static final String API_URI = "/v2/api-docs";
 
 
-    private final RouteDefinitionRepository routeDefinitionRepository;
+    @Resource
+    private RouteDefinitionRepository redisRouteDefinitionRepository;
     private final IgnoreProperties ignoreProperties;
     private final GatewayProperties gatewayProperties;
 
@@ -41,7 +43,7 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
     public List<SwaggerResource> get() {
         List<RouteDefinition> routes = gatewayProperties.getRoutes();
         List<SwaggerResource> resources = new ArrayList<>();
-        routeDefinitionRepository.getRouteDefinitions().subscribe(routes::add);
+        redisRouteDefinitionRepository.getRouteDefinitions().subscribe(routes::add);
         routes.forEach(routeDefinition -> routeDefinition.getPredicates().stream()
                 .filter(predicateDefinition -> "Path".equalsIgnoreCase(predicateDefinition.getName()))
                 .filter(predicateDefinition -> !ignoreProperties.getSwaggerProviders().contains(routeDefinition.getId()))

@@ -1,6 +1,7 @@
 package com.wemirr.framework.security.feign;
 
 import feign.Feign;
+import feign.Logger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
@@ -25,5 +26,11 @@ public class HeaderFeignConfiguration {
     @Bean
     public OAuth2ClientContext oAuth2ClientContext() {
         return new DefaultOAuth2ClientContext();
+    }
+
+    @Primary
+    @Bean
+    public Logger.Level level() {
+        return Logger.Level.FULL;
     }
 }

@@ -43,7 +43,7 @@ public class DynamicRouteAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "spring.cloud.gateway.dynamic-route", name = "dataType", havingValue = "nacos", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "spring.cloud.gateway.dynamic-route", name = "dataType", havingValue = "nacos")
     public NacosRouteDefinitionRepository nacosRouteDefinitionRepository(NacosConfigManager nacosConfigManager) {
         log.info(" init nacosRouteDefinitionRepository ");
         return new NacosRouteDefinitionRepository(publisher, nacosConfigManager);

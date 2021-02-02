@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Resource;
+
 
 /**
  * @author Levin
@@ -24,8 +26,10 @@ import reactor.core.publisher.Mono;
 @Api(value = "路由管理", description = "动态路由", tags = "0.0.0")
 public class GatewayDynamicRouteController {
 
-    private final StringRedisTemplate stringRedisTemplate;
-    private final RedisRouteDynamicGatewayService redisRouteDynamicGatewayService;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
+    @Resource
+    private RedisRouteDynamicGatewayService redisRouteDynamicGatewayService;
 
     @ApiOperation("路由创建 - [DONE]")
     @PostMapping
