@@ -5,6 +5,9 @@
 一个业余时间写的开源项目、欢迎使用和提建议、包括低码平台、常见 中台 、SAAS 、 多租户功能、最最少的代码实现功能
 
 [演示地址](https://cloud.battcn.com/) 在线演示地址，尽量别删数据。没有做一键回滚数据
+
+[文档地址](https://www.yuque.com/books/share/c5467c7b-ae67-4d3e-a6cd-541ce5a90bb7?#《wemirr-platform-doc》) 
+
 [配套前端](https://gitee.com/battcn/wemirr-platform-ui) 配套的 UI 
 
 [Nepxion-Discovery](https://github.com/Nepxion/Discovery) 蓝绿、灰度、流量保护
