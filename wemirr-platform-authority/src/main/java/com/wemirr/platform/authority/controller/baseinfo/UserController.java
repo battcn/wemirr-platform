@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
+import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.UserSaveDTO;
 import com.wemirr.platform.authority.domain.dto.UserUpdateDTO;
@@ -21,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 import static com.wemirr.platform.authority.domain.converts.UserConverts.USER_DTO_2_PO_CONVERTS;
 
@@ -47,7 +50,7 @@ public class UserController {
             @Parameter(description = "性别", name = "sex", in = ParameterIn.QUERY),
             @Parameter(description = "手机号", name = "mobile", in = ParameterIn.QUERY)
     })
-    @Operation(summary ="用户列表 - [Levin] - [DONE]")
+    @Operation(summary = "用户列表 - [Levin] - [DONE]")
     public Result<IPage<UserResp>> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
                                          @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
                                          String username, String nickName, Integer sex, String email, String mobile) {
@@ -63,7 +66,7 @@ public class UserController {
 
     @PostMapping
     @SysLog(value = "添加用户")
-    @Operation(summary ="添加用户")
+    @Operation(summary = "添加用户")
     public Result<ResponseEntity<Void>> save(@Validated @RequestBody UserSaveDTO dto) {
         final User user = BeanUtil.toBean(dto, User.class);
         this.userService.save(user);
@@ -73,7 +76,7 @@ public class UserController {
 
     @PutMapping("{id}")
     @SysLog(value = "编辑用户")
-    @Operation(summary ="编辑用户")
+    @Operation(summary = "编辑用户")
     public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody UserUpdateDTO dto) {
         final User user = USER_DTO_2_PO_CONVERTS.convert(dto);
         user.setId(id);
@@ -84,8 +87,12 @@ public class UserController {
 
     @DeleteMapping("{id}")
     @SysLog(value = "删除用户")
-    @Operation(summary ="删除用户")
+    @Operation(summary = "删除用户")
     public Result<ResponseEntity<Void>> del(@PathVariable Long id) {
+        final User user = Optional.ofNullable(this.userService.getById(id)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
+        if (user.getReadonly()) {
+            throw CheckedException.badRequest("内置用户不允许删除");
+        }
         this.userService.removeById(id);
         return Result.success();
     }
