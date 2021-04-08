@@ -24,14 +24,16 @@ spring:
       discovery:
         metadata:
           version: 1.0
-        server-addr: ${nacos.server-addr}
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
     sentinel:
       datasource:
         flow:
           nacos:
             data-id: gateway-sentinel.json
             rule-type: gw_flow
-            server-addr: ${nacos.server-addr}
+            server-addr: localhost:8848
       enabled: true
       transport:
         dashboard: localhost:8858
@@ -101,22 +103,18 @@ ribbon:
 
 ---
 #### 本地环境 #####
-nacos:
-  server-addr: localhost:8848
-  username: nacos
-  password: nacos
 spring:
   profiles: local
-
-#  cloud:
-#    gateway:
-#      globalcors:
-#        cors-configurations:
-#          '[/**]':
-#            allow-credentials: true
-#            allowedHeaders:
-#              - "*"
-#            allowedOrigins:
-#              - "*"
-#            allowedMethods:
-#              - "*"
+  # 跨域配置 如果在nginx 配置了跨域 这里可以注释或者不启用  建议只在开发使用
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allow-credentials: true
+            allowedHeaders:
+              - "*"
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
