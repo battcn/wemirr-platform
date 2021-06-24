@@ -2,16 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wemirr.platform.authority.mapper.RoleResMapper">
 
-<!--    <select id="selectRoleResByRoleId" resultType="com.wemirr.authority.pojo.vo.RoleResMenuMapperVo">-->
-<!--        SELECT t1.menu_id,t2.res_id,t2.role_id FROM c_auth_resource t1 JOIN t_sys_role_res  t2 on  t1.id = t2.res_id-->
-<!--        JOIN t_sys_role t3 on t2.role_id = t3.id where t3.id = #{roleId}-->
-<!--    </select>-->
-
     <select id="selectRoleResByRoleId" resultType="com.wemirr.platform.authority.domain.vo.RoleResMenuMapperVo">
-SELECT
-            t1.id,
-            t2.role_id,
-						t1.type
+        SELECT t1.id,t2.role_id,t1.type
         FROM
             sys_resource t1
             JOIN sys_role_res t2 ON t1.id = t2.res_id

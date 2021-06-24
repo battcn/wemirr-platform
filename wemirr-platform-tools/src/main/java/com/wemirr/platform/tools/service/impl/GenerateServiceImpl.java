@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.boot.service.SuperService;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
@@ -15,23 +16,25 @@ import com.wemirr.framework.commons.entity.SuperEntity;
 import com.wemirr.platform.tools.domain.entity.GenerateRequest;
 import com.wemirr.platform.tools.mapper.GenerateMapper;
 import com.wemirr.platform.tools.service.GenerateService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Levin
  */
-@Service
 @Slf4j
+@Service
+@RequiredArgsConstructor
 public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, GenerateRequest> implements GenerateService {
 
-    @Autowired
-    private DataSourceProperties dataSourceProperties;
+    private final DataSourceProperties dataSourceProperties;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -71,7 +74,6 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
                 .setServiceImpl("templates/backend/serviceImpl.java")
                 .setXml("templates/backend/mapper.xml");
 
-
         //配置自定义模板
         generator.setTemplate(templateConfig);
 
@@ -97,8 +99,8 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
         };
 
         // 自定义输出配置
-        List<FileOutConfig> focList = new ArrayList<>();
-        Map<String, String> customFiles = new HashMap<>();
+        List<FileOutConfig> focList = Lists.newArrayList();
+        Map<String, String> customFiles = Maps.newHashMap();
         customFiles.put("/templates/front/crud.js.ftl", "/crud.js");
         customFiles.put("/templates/front/index.vue.ftl", "/index.vue");
         customFiles.put("/templates/front/api.js.ftl", "/api.js");
@@ -136,14 +138,9 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
         strategy.setSuperEntityClass(SuperEntity.class);
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
-        // strategy.setSuperControllerClass(request.getSuperControllerClass());
         strategy.setSuperServiceImplClass(SuperServiceImpl.class);
         strategy.setSuperServiceClass(SuperService.class);
         strategy.setLogicDeleteFieldName(request.getLogicDeleteField());
-        // 公共父类
-        // strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
-        // 写于父类中的公共字段
-        // strategy.setSuperEntityColumns("id");
         strategy.setInclude(request.getTableName());
 
         strategy.setTableFillList(request.getFillList());
@@ -154,7 +151,6 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
         generator.setStrategy(strategy);
         generator.setTemplateEngine(new FreemarkerTemplateEngine());
         generator.execute();
-        // this.baseMapper.insert(request);
         log.info("{}生成完成:{}", request.getTableName(), rootDir);
         return rootDir;
 

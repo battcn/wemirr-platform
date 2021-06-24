@@ -1,10 +1,10 @@
 package com.wemirr.platform.tools.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
-import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseColumn;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseGrid;
 import com.wemirr.platform.tools.domain.req.DynamicReleaseGridColumnReq;
@@ -40,7 +40,7 @@ public class DynamicReleaseColumnServiceImpl extends SuperServiceImpl<DynamicRel
 
     @Override
     public void edit(Long gridId, DynamicReleaseGridColumnReq req) {
-        final LbqWrapper<DynamicReleaseColumn> wrapper = Wraps.<DynamicReleaseColumn>lbQ()
+        final Wrapper<DynamicReleaseColumn> wrapper = Wraps.<DynamicReleaseColumn>lbQ()
                 .eq(DynamicReleaseColumn::getKey, req.getKey())
                 .eq(DynamicReleaseColumn::getGridId, gridId);
         DynamicReleaseColumn column = DYNAMIC_RELEASE_GRID_COLUMN_REQ_2_PO.convert(req);

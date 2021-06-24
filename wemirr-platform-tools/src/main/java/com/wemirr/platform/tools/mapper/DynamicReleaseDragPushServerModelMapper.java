@@ -13,6 +13,12 @@ import java.util.List;
 @Repository
 public interface DynamicReleaseDragPushServerModelMapper extends SuperMapper<DynamicReleaseDragPushServerModel> {
 
+    /**
+     * 根据 mobile 查询
+     *
+     * @param model model
+     * @return 查询结果
+     */
     List<DynamicReleaseDragPushServerMapperResp> queryDragPushServerByModel(String model);
 
 }

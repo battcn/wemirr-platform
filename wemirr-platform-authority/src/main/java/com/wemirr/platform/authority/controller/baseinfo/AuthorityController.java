@@ -4,6 +4,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.mybatis.auth.DataScope;
+import com.wemirr.framework.database.mybatis.auth.DataScopeService;
+import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.authority.domain.entity.Role;
 import com.wemirr.platform.authority.domain.entity.User;
 import com.wemirr.platform.authority.domain.vo.DictResp;
@@ -57,5 +59,14 @@ public class AuthorityController {
         }
         return Result.success(result);
     }
+
+    private final DataScopeService dataScopeService;
+
+    @IgnoreAuthorize
+    @GetMapping("/list")
+    public Result<DataScope> list() {
+        return Result.success(dataScopeService.getDataScopeById(7L));
+    }
+
 
 }

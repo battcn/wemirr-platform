@@ -22,11 +22,6 @@ public class RedisLockHelper {
     private final RedisConnectionFactory connectionFactory;
     private final StringRedisTemplate stringRedisTemplate;
 
-//    public Lock obtainLock(String registryKey, long expireAfter) {
-//        RedisLockRegistry redisLockRegistry = new RedisLockRegistry(connectionFactory, registryKey, expireAfter);
-//        return redisLockRegistry.obtain(registryKey);
-//    }
-
     private static final String DELIMITER = "|";
 
     /**

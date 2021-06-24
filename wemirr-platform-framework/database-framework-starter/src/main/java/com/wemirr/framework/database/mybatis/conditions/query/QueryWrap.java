@@ -265,10 +265,6 @@ public class QueryWrap<T> extends AbstractWrapper<T, String, QueryWrap<T>>
             Collection<?> list = (Collection<?>) val;
             return CollectionUtils.isNotEmpty(list);
         }
-//        if (val instanceof RemoteData && this.skipEmpty) {
-//            RemoteData value = (RemoteData) val;
-//            return ObjectUtil.isNotEmpty(value.getKey());
-//        }
         return val != null;
     }
 

@@ -4,9 +4,6 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.wemirr.platform.authority.domain.entity.RoleOrg">
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
-        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
         <result column="role_id" jdbcType="BIGINT" property="roleId"/>
         <result column="org_id" jdbcType="BIGINT" property="orgId"/>
     </resultMap>

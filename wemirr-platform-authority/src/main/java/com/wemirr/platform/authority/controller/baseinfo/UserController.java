@@ -55,10 +55,8 @@ public class UserController {
                                          @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
                                          String username, String nickName, Integer sex, String email, String mobile) {
         final IPage<UserResp> page = this.userService.findPage(new Page<>(current, size),
-                Wraps.<User>lbQ().eq(User::getSex, sex)
-                        .like(User::getNickName, nickName)
-                        .like(User::getUsername, username)
-                        .like(User::getEmail, email)
+                Wraps.<User>lbQ().eq(User::getSex, sex).like(User::getNickName, nickName)
+                        .like(User::getUsername, username).like(User::getEmail, email)
                         .like(User::getMobile, mobile));
         return Result.success(page);
     }

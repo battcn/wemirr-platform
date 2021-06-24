@@ -15,10 +15,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <jdk.version>1.8</jdk.version>
-        <spring-boot.version>2.3.9.RELEASE</spring-boot.version>
+        <spring-boot.version>2.3.10.RELEASE</spring-boot.version>
         <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
-        <spring-cloud.version>Hoxton.SR10</spring-cloud.version>
-        <nepxion-discovery.version>6.9.0</nepxion-discovery.version>
+        <spring-cloud.version>Hoxton.SR11</spring-cloud.version>
+        <nepxion-discovery.version>6.10.0</nepxion-discovery.version>
+        <hutool.version>5.7.2</hutool.version>
+        <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <!-- 打包跳过单元测试 -->
         <skipTests>true</skipTests>
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
@@ -27,8 +29,6 @@
         <fastjson.version>1.2.75</fastjson.version>
         <spring-boot-admin.version>2.3.0</spring-boot-admin.version>
         <spring-boot-admin-client.version>2.3.0</spring-boot-admin-client.version>
-        <hutool.version>5.4.3</hutool.version>
-        <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <springfox.version>2.9.2</springfox.version>
         <swagger.version>1.5.21</swagger.version>
         <opentracing.spring.cloud.version>0.5.9</opentracing.spring.cloud.version>
@@ -125,26 +125,6 @@
                 <artifactId>discovery-plugin-strategy-starter-service</artifactId>
                 <version>${nepxion-discovery.version}</version>
             </dependency>
-<!--            <dependency>
-                <groupId>com.nepxion</groupId>
-                <artifactId>discovery-plugin-strategy-starter-opentracing</artifactId>
-                <version>${nepxion-discovery.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.nepxion</groupId>
-                <artifactId>discovery-plugin-strategy-starter-sentinel-opentracing</artifactId>
-                <version>${nepxion-discovery.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.nepxion</groupId>
-                <artifactId>discovery-plugin-strategy-starter-skywalking</artifactId>
-                <version>${nepxion-discovery.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.nepxion</groupId>
-                <artifactId>discovery-plugin-strategy-starter-sentinel-skywalking</artifactId>
-                <version>${nepxion-discovery.version}</version>
-            </dependency>-->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>

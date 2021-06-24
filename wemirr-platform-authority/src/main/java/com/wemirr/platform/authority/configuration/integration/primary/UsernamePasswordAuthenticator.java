@@ -1,8 +1,8 @@
 package com.wemirr.platform.authority.configuration.integration.primary;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.security.client.entity.UserInfoDetails;
 import com.wemirr.framework.security.client.exception.Auth2Exception;
 import com.wemirr.platform.authority.configuration.integration.AbstractPreparedIntegrationAuthenticator;
@@ -53,7 +53,7 @@ public class UsernamePasswordAuthenticator extends AbstractPreparedIntegrationAu
         if (StringUtils.isBlank(grantType) || !StringUtils.equalsIgnoreCase(grantType, REFRESH_TOKEN)) {
             // 如果说是每次登陆都要清空以前的信息那么需要调用一下注销，这个注销的功能就是注销以前的token信息
         }
-        final User user = Optional.ofNullable(this.userService.getOne(Wraps.<User>lbQ().eq(User::getUsername, username)))
+        final User user = Optional.ofNullable(this.userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username)))
                 .orElseThrow(() -> CheckedException.notFound("账户不存在"));
         final UserInfoDetails info = new UserInfoDetails();
         info.setUserId(user.getId());

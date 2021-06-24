@@ -44,8 +44,7 @@ public class AreaController {
     @Operation(description = "分页查询 - [DONE] - [Levin]")
     public Result<Page<AreaEntity>> query(PageRequest request, String name) {
         final Page<AreaEntity> page = this.areaService.page(request.buildPage(),
-                Wraps.<AreaEntity>lbQ()
-                        .eq(AreaEntity::getParentId, 0)
+                Wraps.<AreaEntity>lbQ().eq(AreaEntity::getParentId, 0)
                         .like(AreaEntity::getName, name)
                         .orderByAsc(AreaEntity::getSequence));
         return Result.success(page);

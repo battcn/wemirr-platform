@@ -9,11 +9,11 @@ mybatis-plus:
       id-type: auto
       insert-strategy: NOT_NULL
       update-strategy: NOT_NULL
-      select-strategy: NOT_EMPTY
+      select-strategy: not_empty
   configuration:
-    #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
     map-underscore-to-camel-case: true
     cache-enabled: false
+
 spring:
   datasource:
     #druid:

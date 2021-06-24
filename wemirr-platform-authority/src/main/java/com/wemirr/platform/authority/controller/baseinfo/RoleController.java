@@ -6,14 +6,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.boot.utils.BeanPlusUtil;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.database.datasource.TenantEnvironment;
 import com.wemirr.framework.database.mybatis.auth.DataScopeType;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.RoleDTO;
 import com.wemirr.platform.authority.domain.dto.RoleResSaveDTO;
 import com.wemirr.platform.authority.domain.dto.RoleUserDTO;
-import com.wemirr.platform.authority.domain.entity.*;
+import com.wemirr.platform.authority.domain.entity.Role;
+import com.wemirr.platform.authority.domain.entity.RoleOrg;
+import com.wemirr.platform.authority.domain.entity.RoleRes;
+import com.wemirr.platform.authority.domain.entity.UserRole;
 import com.wemirr.platform.authority.domain.vo.RoleDetailVO;
 import com.wemirr.platform.authority.domain.vo.RoleResVO;
 import com.wemirr.platform.authority.service.RoleOrgService;
@@ -32,7 +34,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.wemirr.framework.commons.entity.Result.success;

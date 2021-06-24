@@ -5,7 +5,6 @@ import cn.hutool.core.convert.Convert;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.commons.MapHelper;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
-import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.entity.Org;
 import com.wemirr.platform.authority.mapper.OrgMapper;
 import com.wemirr.platform.authority.service.OrgService;
@@ -69,9 +68,7 @@ public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements 
         if (idList.size() <= INT_1000) {
             list = idList.stream().map(id -> this.baseMapper.selectById(id)).filter(Objects::nonNull).collect(Collectors.toList());
         } else {
-            LbqWrapper<Org> query = Wraps.<Org>lbQ()
-                    .in(Org::getId, idList);
-            list = super.list(query);
+            list = super.list(Wraps.<Org>lbQ().in(Org::getId, idList));
         }
         return list;
     }

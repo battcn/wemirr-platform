@@ -9,7 +9,6 @@ import java.lang.annotation.*;
  * @author Levin
  * @since 2019-04-11
  */
-@Deprecated
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

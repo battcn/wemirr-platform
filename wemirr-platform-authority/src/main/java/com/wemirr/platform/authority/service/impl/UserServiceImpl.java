@@ -1,7 +1,6 @@
 package com.wemirr.platform.authority.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.boot.injection.InjectionResult;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.database.mybatis.auth.DataScope;
 import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
@@ -35,7 +34,6 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     }
 
     @Override
-    @InjectionResult
     public IPage<UserResp> findPage(IPage<User> page, LbqWrapper<User> wrapper) {
         return baseMapper.findPage(page, wrapper);
     }

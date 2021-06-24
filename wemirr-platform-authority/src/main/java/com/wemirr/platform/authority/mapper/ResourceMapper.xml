@@ -55,5 +55,4 @@
 
     </select>
 
-   <!-- /*WHERE t3.user_id = #{userId}*/-->
 </mapper>

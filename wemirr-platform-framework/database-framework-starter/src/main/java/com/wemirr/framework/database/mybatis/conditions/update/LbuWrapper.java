@@ -74,6 +74,7 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
         return val != null;
     }
 
+
     @Override
     public LbuWrapper<T> set(boolean condition, SFunction<T, ?> column, Object val) {
         if (condition) {

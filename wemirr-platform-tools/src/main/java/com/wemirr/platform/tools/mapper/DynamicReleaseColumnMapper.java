@@ -14,6 +14,12 @@ import java.util.List;
 public interface DynamicReleaseColumnMapper extends SuperMapper<DynamicReleaseColumn> {
 
 
+    /**
+     * 根据表名查询字段名称
+     *
+     * @param tableName 表名
+     * @return 查询结果
+     */
     List<String> findFieldByTableName(@Param("tableName") String tableName);
 
 }

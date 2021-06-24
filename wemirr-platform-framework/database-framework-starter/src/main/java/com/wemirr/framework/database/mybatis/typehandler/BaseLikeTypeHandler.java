@@ -1,7 +1,6 @@
 package com.wemirr.framework.database.mybatis.typehandler;
 
 import cn.hutool.core.util.StrUtil;
-import com.wemirr.framework.commons.entity.RemoteData;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
@@ -53,18 +52,12 @@ public class BaseLikeTypeHandler extends BaseTypeHandler<CharSequence> {
         if (value instanceof String) {
             return likeConvert(String.valueOf(value));
         }
-        if (value instanceof RemoteData) {
-            if (((RemoteData) value).getKey() != null) {
-                ((RemoteData) value).setKey(likeConvert(String.valueOf(((RemoteData) value).getKey())));
-            }
-            return value;
-        }
         return value;
     }
 
     private String convert(String value) {
-        value = value.replaceAll("\\%", "\\\\%");
-        value = value.replaceAll("\\_", "\\\\_");
+        value = value.replaceAll("%", "\\\\%");
+        value = value.replaceAll("_", "\\\\_");
         return value;
     }
 

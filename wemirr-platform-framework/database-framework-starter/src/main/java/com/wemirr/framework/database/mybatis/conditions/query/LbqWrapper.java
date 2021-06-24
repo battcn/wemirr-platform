@@ -1,7 +1,6 @@
 package com.wemirr.framework.database.mybatis.conditions.query;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper;
 import com.baomidou.mybatisplus.core.conditions.SharedString;
 import com.baomidou.mybatisplus.core.conditions.query.Query;
@@ -11,7 +10,6 @@ import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.wemirr.framework.commons.entity.RemoteData;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.database.mybatis.typehandler.BaseLikeTypeHandler;
 
@@ -280,11 +278,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
             return StringUtils.isNotBlank((String) val);
         }
         if (val instanceof Collection && this.skipEmpty) {
-            return !((Collection) val).isEmpty();
-        }
-        if (val instanceof RemoteData && this.skipEmpty) {
-            RemoteData value = (RemoteData) val;
-            return ObjectUtil.isNotEmpty(value.getKey());
+            return !((Collection<?>) val).isEmpty();
         }
         return val != null;
     }
@@ -294,8 +288,8 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
      * 再次可以进行忽略
      *
      * @param <A>       这个是传入的待忽略字段的set方法
-     * @param setColumn
-     * @return
+     * @param setColumn setColumn
+     * @return LbqWrapper
      */
     public <A extends Object> LbqWrapper<T> ignore(BiFunction<T, A, ?> setColumn) {
         setColumn.apply(this.getEntity(), null);

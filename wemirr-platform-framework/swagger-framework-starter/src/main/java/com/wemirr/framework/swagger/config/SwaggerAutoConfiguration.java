@@ -52,7 +52,6 @@ public class SwaggerAutoConfiguration {
         if (swaggerProperties.getBasePath().isEmpty()) {
             swaggerProperties.getBasePath().add(BASE_PATH);
         }
-        //noinspection unchecked
         List<Predicate<String>> basePath = Lists.newArrayList();
         swaggerProperties.getBasePath().forEach(path -> basePath.add(PathSelectors.ant(path)));
 
@@ -63,16 +62,6 @@ public class SwaggerAutoConfiguration {
         List<Predicate<String>> excludePath = new ArrayList<>();
         swaggerProperties.getExcludePath().forEach(path -> excludePath.add(PathSelectors.ant(path)));
 
-
-//        ParameterBuilder ticketPar = new ParameterBuilder();
-//        List<Parameter> pars = new ArrayList<>();
-//        ticketPar.name(TOKEN).description("Authorization")
-//                .modelRef(new ModelRef("string")).parameterType("header").defaultValue("Bearer ")
-//                .required(false).build();
-//        pars.add(ticketPar.build());
-
-
-        //noinspection Guava
         return new Docket(DocumentationType.SWAGGER_2)
                 .host(swaggerProperties.getHost())
                 .apiInfo(apiInfo(swaggerProperties)).enable(true).select()
@@ -82,7 +71,6 @@ public class SwaggerAutoConfiguration {
                 .securitySchemes(Collections.singletonList(securitySchema()))
                 .securityContexts(Collections.singletonList(securityContext()))
                 .pathMapping("/")
-//                .globalOperationParameters(pars)
                 ;
     }
 

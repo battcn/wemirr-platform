@@ -1,13 +1,10 @@
 package com.wemirr.framework.database.mybatis.conditions;
 
 
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
-import com.wemirr.framework.commons.entity.RemoteData;
 import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.framework.database.mybatis.conditions.query.QueryWrap;
 import com.wemirr.framework.database.mybatis.conditions.update.LbuWrapper;
-import lombok.Data;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -21,7 +18,6 @@ import java.lang.reflect.Modifier;
 public class Wraps {
 
     private Wraps() {
-        // ignore
     }
 
     /**
@@ -92,14 +88,11 @@ public class Wraps {
      *
      * @param source 源对象
      * @return 最新源对象
-     * @see
      */
     public static <T> T replace(Object source) {
         if (source == null) {
             return null;
         }
-        Object target = source;
-
         Class<?> srcClass = source.getClass();
         Field[] fields = ReflectUtil.getFields(srcClass);
         for (Field field : fields) {
@@ -107,51 +100,19 @@ public class Wraps {
             if (classValue == null) {
                 continue;
             }
-            //final 和 static 字段跳过
             if (Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
                 continue;
             }
-
-            if (classValue instanceof RemoteData) {
-                RemoteData rd = (RemoteData) classValue;
-                Object key = rd.getKey();
-                if (ObjectUtil.isEmpty(key)) {
-                    ReflectUtil.setFieldValue(target, field, null);
-                    continue;
-                }
-                if (!(key instanceof String)) {
-                    continue;
-                }
-                String strKey = (String) key;
-                if (strKey.contains("%") || strKey.contains("_")) {
-                    String tarValue = strKey.replaceAll("\\%", "\\\\%");
-                    tarValue = tarValue.replaceAll("\\_", "\\\\_");
-
-                    rd.setKey(tarValue);
-                    ReflectUtil.setFieldValue(target, field, rd);
-                }
-                continue;
-            }
-
             if (!(classValue instanceof String)) {
                 continue;
             }
             String srcValue = (String) classValue;
             if (srcValue.contains("%") || srcValue.contains("_")) {
-                String tarValue = srcValue.replaceAll("\\%", "\\\\%");
-                tarValue = tarValue.replaceAll("\\_", "\\\\_");
-
-                ReflectUtil.setFieldValue(target, field, tarValue);
+                String tarValue = srcValue.replaceAll("%", "\\\\%");
+                tarValue = tarValue.replaceAll("_", "\\\\_");
+                ReflectUtil.setFieldValue(source, field, tarValue);
             }
         }
-        return (T) target;
+        return (T) source;
     }
-
-    @Data
-    public static class Txx {
-        RemoteData<String, String> d1;
-        RemoteData<Long, String> d2;
-        private String aa;
-    }
-
 }

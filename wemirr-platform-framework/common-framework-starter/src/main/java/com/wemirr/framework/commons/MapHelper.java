@@ -1,7 +1,7 @@
 package com.wemirr.framework.commons;
 
 
-import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.map.MapUtil;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableMap;
 
@@ -63,13 +63,13 @@ public class MapHelper {
     /**
      * 转换 Map 的 K 和 V
      *
-     * @param map
-     * @param <K>
-     * @param <V>
-     * @return
+     * @param map map
+     * @param <K> <K>
+     * @param <V> <V>
+     * @return 转换结果
      */
     public static <K, V> Map<V, K> inverse(Map<K, V> map) {
-        if (CollUtil.isEmpty(map)) {
+        if (MapUtil.isEmpty(map)) {
             return Collections.emptyMap();
         }
         HashBiMap<K, V> biMap = HashBiMap.create();

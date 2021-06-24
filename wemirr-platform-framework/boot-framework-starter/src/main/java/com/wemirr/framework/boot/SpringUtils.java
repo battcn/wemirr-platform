@@ -9,7 +9,6 @@ import java.util.Map;
 /**
  * @author Levin
  */
-@SuppressWarnings("squid:S1166")
 public class SpringUtils {
 
     private static ApplicationContext applicationContext;

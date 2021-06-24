@@ -81,7 +81,6 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
      */
     @Override
     protected int getHttpStatus(Map<String, Object> errorAttributes) {
-        // return (int) errorAttributes.get("messageId");
         return HttpStatus.OK.value();
     }
 

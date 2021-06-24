@@ -7,6 +7,11 @@ import com.wemirr.platform.tools.domain.DynamicReleaseDragSetting;
  */
 public interface DynamicReleaseGenerateService {
 
+    /**
+     * 新增
+     *
+     * @param req req
+     */
     void add(DynamicReleaseDragSetting req);
 
 

@@ -1,7 +1,6 @@
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.wemirr.framework.commons.entity.RemoteData;
 import com.wemirr.framework.database.mybatis.auth.DataScope;
 import com.wemirr.framework.database.mybatis.auth.DataScopeService;
 import com.wemirr.framework.database.mybatis.auth.DataScopeType;
@@ -62,38 +61,21 @@ public class DataScopeServiceImpl implements DataScopeService {
             orgIds = roleOrgList.stream().mapToLong(RoleOrg::getOrgId).boxed().collect(Collectors.toList());
         } else if (DataScopeType.THIS_LEVEL.eq(scopeType)) {
             User user = userMapper.selectById(userId);
-            if (user != null && user.getOrg() != null) {
-                Long orgId = RemoteData.getKey(user.getOrg());
-                if (orgId != null) {
-                    orgIds.add(orgId);
-                }
+            if (user != null && user.getOrgId() != null) {
+                orgIds.add(user.getOrgId());
             }
         } else if (DataScopeType.THIS_LEVEL_CHILDREN.eq(scopeType)) {
             User user = userMapper.selectById(userId);
-            if (user != null) {
-                Long orgId = RemoteData.getKey(user.getOrg());
-                List<Org> orgList = findChildren(Collections.singletonList(orgId));
-                orgIds = orgList.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList());
+            if (user != null && user.getOrgId() != null) {
+                List<Org> orgList = findChildren(Collections.singletonList(user.getOrgId()));
+                if (CollectionUtil.isNotEmpty(orgList)) {
+                    orgIds.addAll(orgList.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList()));
+                }
             }
         }
         scope.setOrgIds(orgIds);
         return scope;
     }
-
-//    private List<Org> getOrganizations(Set<Serializable> ids) {
-//        if (ids.isEmpty()) {
-//            return Collections.emptyList();
-//        }
-//        List<Long> idList = ids.stream().mapToLong(Convert::toLong).boxed().collect(Collectors.toList());
-//        List<Org> list;
-//        if (idList.size() <= 1000) {
-//            list = idList.stream().map(orgMapper::selectById).filter(Objects::nonNull).collect(Collectors.toList());
-//        } else {
-//            list = orgMapper.selectList(Wraps.<Org>lbQ()
-//                    .in(Org::getId, idList).eq(Org::getStatus, true));
-//        }
-//        return list;
-//    }
 
     public List<Org> findChildren(List<Long> ids) {
         if (CollectionUtil.isEmpty(ids)) {
