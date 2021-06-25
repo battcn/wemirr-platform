@@ -90,7 +90,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.wemirr.platform.nepxion.NepxionApplication</mainClass>
+                    <mainClass>com.wemirr.platform.nepxion.NepxionApplication1</mainClass>
                 </configuration>
             </plugin>
         </plugins>

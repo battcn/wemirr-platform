@@ -9,10 +9,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-public class NepxionApplication {
+public class NepxionApplication1 {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(NepxionApplication.class, args);
+        System.setProperty("spring.profiles.active", "weight1");
+        SpringApplication.run(NepxionApplication1.class, args);
     }
 }
