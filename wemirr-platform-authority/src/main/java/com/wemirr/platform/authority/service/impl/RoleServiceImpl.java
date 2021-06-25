@@ -78,6 +78,12 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     @Override
     public void updateRole(Long roleId, Long userId, RoleDTO data) {
         Role role = BeanPlusUtil.toBean(data, Role.class);
+        if (role.getReadonly()) {
+            throw CheckedException.badRequest("内置角色无法编辑");
+        }
+        if (role.getSuperRole()) {
+            throw CheckedException.badRequest("超级角色无法编辑");
+        }
         role.setId(roleId);
         baseMapper.updateById(role);
 
