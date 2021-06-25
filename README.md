@@ -18,7 +18,7 @@
 
 #### 软件架构
 
-Vue、Spring Cloud Alibaba 2.2.4.RELEASE、Spring Cloud Hoxton.SR9、Nacos、Sentinel、
+Vue、Spring Cloud Alibaba 2.2.5.RELEASE、Spring Cloud Hoxton.SR11、Nacos、Sentinel、
 Nepxion、Mybatis-Plus、多租户、灰度、Oauth2.0、Spring Security、Redis、Mysql、MongoDB、
 ShardingJdbc、ShardingSphere
 
