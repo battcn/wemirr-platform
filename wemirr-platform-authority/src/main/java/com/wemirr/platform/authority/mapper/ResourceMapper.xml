@@ -10,18 +10,7 @@
 
     <select id="findVisibleResource" resultType="com.wemirr.platform.authority.domain.vo.VueRouter">
             SELECT
-            t1.id,
-            t1.label,
-            t1.`sequence`,
-            t1.`path`,
-            t1.component,
-            t1.`icon`,
-            t1.parent_id,
-            t1.`model`,
-            t1.`type`,
-            t1.locked,
-            t1.`global`,
-            t1.`permission`
+           t1.*
         FROM
             sys_resource t1
         WHERE
