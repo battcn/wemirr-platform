@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -63,7 +64,7 @@ public class UsernamePasswordAuthenticator extends AbstractPreparedIntegrationAu
         info.setMobile(user.getMobile());
         info.setEmail(user.getEmail());
         info.setDescription(user.getDescription());
-        info.setSex(user.getSex());
+        info.setSex(Objects.isNull(user.getSex()) ? null : user.getSex().getValue());
         info.setEnabled(user.getStatus());
         info.setAvatar(user.getAvatar());
         info.setPassword(user.getPassword());

@@ -4,6 +4,7 @@ package com.wemirr.platform.authority.domain.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
+import com.wemirr.platform.authority.domain.enums.Sex;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -72,7 +73,8 @@ public class User extends SuperEntity<Long> {
      * 性别
      * #Sex{W:女;M:男;N:未知}
      */
-    private Integer sex;
+    @TableField(value = "sex")
+    private Sex sex;
 
     /**
      * 头像

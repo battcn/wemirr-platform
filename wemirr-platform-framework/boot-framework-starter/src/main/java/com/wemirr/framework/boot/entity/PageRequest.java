@@ -33,7 +33,7 @@ public class PageRequest {
     private String column;
 
     @Parameter(description = "排序规则")
-    private Boolean desc = false;
+    private Boolean asc = true;
 
 
     @JsonIgnore
@@ -46,7 +46,7 @@ public class PageRequest {
         List<OrderItem> orders = new ArrayList<>();
         // 简单的 驼峰 转 下划线
         String column = StrUtil.toUnderlineCase(params.getColumn());
-        orders.add(params.getDesc() ? OrderItem.desc(column) : OrderItem.asc(column));
+        orders.add(params.getAsc() ? OrderItem.asc(column) : OrderItem.desc(column));
         page.setOrders(orders);
         return page;
     }

@@ -10,6 +10,7 @@ import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.UserSaveDTO;
 import com.wemirr.platform.authority.domain.dto.UserUpdateDTO;
 import com.wemirr.platform.authority.domain.entity.User;
+import com.wemirr.platform.authority.domain.enums.Sex;
 import com.wemirr.platform.authority.domain.vo.UserResp;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,11 +52,11 @@ public class UserController {
             @Parameter(description = "手机号", name = "mobile", in = ParameterIn.QUERY)
     })
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
-    public Result<IPage<UserResp>> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
-                                         @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
-                                         String username, String nickName, Integer sex, String email, String mobile) {
-        final IPage<UserResp> page = this.userService.findPage(new Page<>(current, size),
-                Wraps.<User>lbQ().eq(User::getSex, sex).like(User::getNickName, nickName)
+    public Result<IPage<User>> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
+                                     @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
+                                     String username, String nickName, Integer sex, String email, String mobile) {
+        final IPage<User> page = this.userService.page(new Page<>(current, size),
+                Wraps.<User>lbQ().eq(User::getSex, Sex.of(sex)).like(User::getNickName, nickName)
                         .like(User::getUsername, username).like(User::getEmail, email)
                         .like(User::getMobile, mobile));
         return Result.success(page);

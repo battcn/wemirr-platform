@@ -49,8 +49,8 @@ public class DictionaryItem extends SuperEntity<Long> {
      * 编码
      */
     @Schema(description = "编码")
-    @TableField(value = "`code`", condition = LIKE)
-    private String code;
+    @TableField(value = "`value`", condition = LIKE)
+    private String value;
 
     /**
      * 名称

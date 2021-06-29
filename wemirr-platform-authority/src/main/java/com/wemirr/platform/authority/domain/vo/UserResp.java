@@ -1,5 +1,6 @@
 package com.wemirr.platform.authority.domain.vo;
 
+import com.wemirr.platform.authority.domain.enums.Sex;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -39,7 +40,7 @@ public class UserResp {
      * 性别
      * #Sex{W:女;M:男;N:未知}
      */
-    private Integer sex;
+    private Sex sex;
 
     /**
      * 头像

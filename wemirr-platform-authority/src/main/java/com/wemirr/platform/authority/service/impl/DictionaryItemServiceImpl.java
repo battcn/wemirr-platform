@@ -34,7 +34,7 @@ public class DictionaryItemServiceImpl extends SuperServiceImpl<DictionaryItemMa
     @Override
     public void addDictionaryItem(Long dictionaryId, DictionaryItem item) {
         final int count = this.baseMapper.selectCount(Wraps.<DictionaryItem>lbQ()
-                .eq(DictionaryItem::getCode, item.getCode())
+                .eq(DictionaryItem::getValue, item.getValue())
                 .eq(DictionaryItem::getDictionaryId, dictionaryId));
         if (count > 0) {
             throw CheckedException.badRequest("编码已存在");
@@ -49,7 +49,7 @@ public class DictionaryItemServiceImpl extends SuperServiceImpl<DictionaryItemMa
     @Override
     public void editDictionaryItem(DictionaryItem item) {
         final int count = this.baseMapper.selectCount(Wraps.<DictionaryItem>lbQ()
-                .eq(DictionaryItem::getCode, item.getCode())
+                .eq(DictionaryItem::getValue, item.getValue())
                 .ne(DictionaryItem::getId, item.getId()));
         if (count > 0) {
             throw CheckedException.badRequest("编码已存在");
