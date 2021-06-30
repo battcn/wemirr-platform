@@ -12,6 +12,7 @@ import com.wemirr.platform.authority.domain.dto.UserUpdateDTO;
 import com.wemirr.platform.authority.domain.entity.User;
 import com.wemirr.platform.authority.domain.enums.Sex;
 import com.wemirr.platform.authority.domain.vo.UserResp;
+import com.wemirr.platform.authority.repository.UserMapper;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -42,6 +43,7 @@ import static com.wemirr.platform.authority.domain.converts.UserConverts.USER_DT
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @GetMapping
     @Parameters({

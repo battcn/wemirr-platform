@@ -1,4 +1,4 @@
-package com.wemirr.platform.authority.mapper;
+package com.wemirr.platform.authority.repository;
 
 import com.wemirr.framework.boot.SuperMapper;
 import com.wemirr.framework.database.mybatis.auth.DataScope;

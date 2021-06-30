@@ -6,7 +6,7 @@ import com.wemirr.framework.boot.config.log.OptLogDTO;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.boot.utils.RegionUtils;
 import com.wemirr.platform.authority.domain.entity.log.OptLog;
-import com.wemirr.platform.authority.mapper.OptLogMapper;
+import com.wemirr.platform.authority.repository.OptLogMapper;
 import com.wemirr.platform.authority.service.OptLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -5,7 +5,7 @@ import com.wemirr.platform.authority.domain.entity.log.LoginLog;
 import com.wemirr.platform.authority.domain.vo.DashboardResp;
 import com.wemirr.platform.authority.domain.vo.LoginArea;
 import com.wemirr.platform.authority.domain.vo.LoginRecord;
-import com.wemirr.platform.authority.mapper.LoginLogMapper;
+import com.wemirr.platform.authority.repository.LoginLogMapper;
 import com.wemirr.platform.authority.service.DashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

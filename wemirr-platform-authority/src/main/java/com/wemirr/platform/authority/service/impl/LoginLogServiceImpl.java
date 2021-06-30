@@ -8,7 +8,7 @@ import cn.hutool.http.useragent.UserAgentUtil;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.boot.utils.RegionUtils;
 import com.wemirr.platform.authority.domain.entity.log.LoginLog;
-import com.wemirr.platform.authority.mapper.LoginLogMapper;
+import com.wemirr.platform.authority.repository.LoginLogMapper;
 import com.wemirr.platform.authority.service.LoginLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

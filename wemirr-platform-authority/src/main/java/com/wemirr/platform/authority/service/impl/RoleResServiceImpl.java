@@ -10,7 +10,7 @@ import com.wemirr.platform.authority.domain.entity.RoleRes;
 import com.wemirr.platform.authority.domain.entity.UserRole;
 import com.wemirr.platform.authority.domain.vo.RoleResMenuMapperVo;
 import com.wemirr.platform.authority.domain.vo.RoleResVO;
-import com.wemirr.platform.authority.mapper.RoleResMapper;
+import com.wemirr.platform.authority.repository.RoleResMapper;
 import com.wemirr.platform.authority.service.RoleResService;
 import com.wemirr.platform.authority.service.UserRoleService;
 import lombok.RequiredArgsConstructor;

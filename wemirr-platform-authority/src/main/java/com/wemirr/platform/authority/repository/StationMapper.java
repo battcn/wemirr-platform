@@ -1,4 +1,4 @@
-package com.wemirr.platform.authority.mapper;
+package com.wemirr.platform.authority.repository;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

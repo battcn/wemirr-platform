@@ -1,6 +1,9 @@
 package com.wemirr.platform.authority.controller.baseinfo;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNode;
+import cn.hutool.core.lang.tree.TreeUtil;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
@@ -17,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.wemirr.framework.commons.entity.Result.success;
 
@@ -40,11 +44,10 @@ public class OrgController {
      */
     @GetMapping("/trees")
     @Operation(summary = "查询系统所有的组织树", description = "查询系统所有的组织树")
-    public Result<List<Org>> tree(String name, Boolean status) {
-        List<Org> list = this.orgService.list(Wraps.<Org>lbQ()
-                .like(Org::getLabel, name).eq(Org::getStatus, status)
-                .orderByAsc(Org::getSequence));
-        return Result.success(TreeUtils.buildTree(list));
+    public Result<List<Tree<Long>>> tree(String name, Boolean status) {
+        List<Org> list = this.orgService.list(Wraps.<Org>lbQ().like(Org::getLabel, name).eq(Org::getStatus, status).orderByAsc(Org::getSequence));
+        final List<TreeNode<Long>> nodes = list.stream().map(org -> new TreeNode<>(org.getId(), org.getParentId(), org.getLabel(), org.getSequence())).collect(Collectors.toList());
+        return Result.success(TreeUtil.build(nodes, 0L));
     }
 
     @PostMapping

@@ -6,7 +6,7 @@ import com.wemirr.framework.database.mybatis.auth.DataScope;
 import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.entity.User;
 import com.wemirr.platform.authority.domain.vo.UserResp;
-import com.wemirr.platform.authority.mapper.UserMapper;
+import com.wemirr.platform.authority.repository.UserMapper;
 import com.wemirr.platform.authority.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,9 +1,9 @@
 mybatis-plus:
   mapper-locations:
-    - classpath:com/oit/**/repository/**/*.xml
+    - classpath:com/wemirr/**/repository/**/*.xml
   #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: com.wemirr.**.entity;com.wemirr.**.database.mybatis.typehandler
-  typeEnumsPackage: com.wemirr.**.enums,com.wemirr.framework.database.mybatis.auth,com.wemirr.platform.authority.domain.enums
+  typeEnumsPackage: com.wemirr.**.enums,com.wemirr.framework.database.mybatis.auth,com.wemirr.framework.database.mybatis
   global-config:
     db-config:
       id-type: auto
