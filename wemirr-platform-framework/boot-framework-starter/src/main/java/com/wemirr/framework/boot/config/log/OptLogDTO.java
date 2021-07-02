@@ -107,6 +107,7 @@ public class OptLogDTO {
     private String createdName;
 
     private String browser;
+    private String browserVersion;
     private String engine;
     private String os;
     private String platform;

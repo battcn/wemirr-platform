@@ -6,6 +6,7 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.alibaba.fastjson.JSONObject;
@@ -47,6 +48,7 @@ public class SysLogAspect {
 
     private static final int MAX_LENGTH = 65535;
     private static final ThreadLocal<OptLogDTO> THREAD_LOCAL = new ThreadLocal<>();
+    private static final String USER_AGENT = "User-Agent";
 
     private static final String JING_HAO = "#";
     /**
@@ -228,7 +230,10 @@ public class SysLogAspect {
             sysLog.setOs(userAgent.getOs().getName());
             sysLog.setPlatform(userAgent.getPlatform().getName());
             sysLog.setVersion(userAgent.getVersion());
-            sysLog.setBrowser(userAgent.getBrowser().getName());
+            final Browser browser = userAgent.getBrowser();
+            sysLog.setBrowser(browser.getName());
+            String ua = request.getHeader(USER_AGENT);
+            sysLog.setBrowserVersion(browser.getVersion(ua));
 
             //sysLog.setTenantCode(request.getHeader(BaseContextConstants.TENANT));
 //            if (StrUtil.isEmpty(sysLog.getTrace())) {

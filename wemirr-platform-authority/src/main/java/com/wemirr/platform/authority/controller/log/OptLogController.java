@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.controller.log;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.boot.entity.PageRequest;
+import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.entity.log.OptLog;
@@ -14,9 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 操作日志
@@ -45,6 +44,16 @@ public class OptLogController {
                 .like(OptLog::getLocation, location)
                 .like(OptLog::getDescription, description).orderByDesc(OptLog::getStartTime));
         return Result.success(page);
+    }
+
+    @DeleteMapping("/{id}")
+    @Parameters({
+            @Parameter(name = "id", description = "ID", in = ParameterIn.PATH),
+    })
+    @Operation(description = "查询日志 - [DONE] - [Levin]")
+    public Result<Void> del(@PathVariable String id) {
+        this.optLogService.removeById(id);
+        return Result.success();
     }
 
 
