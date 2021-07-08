@@ -1,6 +1,7 @@
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.google.common.collect.Lists;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.database.datasource.TenantEnvironment;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
@@ -9,6 +10,7 @@ import com.wemirr.platform.authority.domain.entity.Resource;
 import com.wemirr.platform.authority.domain.entity.Role;
 import com.wemirr.platform.authority.domain.entity.RoleRes;
 import com.wemirr.platform.authority.domain.enums.ResourceType;
+import com.wemirr.platform.authority.domain.vo.RolePermissionResp;
 import com.wemirr.platform.authority.domain.vo.VueRouter;
 import com.wemirr.platform.authority.repository.ResourceMapper;
 import com.wemirr.platform.authority.repository.RoleMapper;
@@ -21,7 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
+
+import static java.util.stream.Collectors.toList;
 
 
 /**
@@ -74,7 +78,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
         // 给管理员角色挂载权限
         final List<RoleRes> resList = roles.stream().map(role -> RoleRes.builder()
                 .roleId(role.getId()).resId(resId).build())
-                .collect(Collectors.toList());
+                .collect(toList());
         roleResService.saveBatch(resList);
     }
 

@@ -11,8 +11,6 @@ import com.wemirr.platform.authority.domain.dto.UserSaveDTO;
 import com.wemirr.platform.authority.domain.dto.UserUpdateDTO;
 import com.wemirr.platform.authority.domain.entity.User;
 import com.wemirr.platform.authority.domain.enums.Sex;
-import com.wemirr.platform.authority.domain.vo.UserResp;
-import com.wemirr.platform.authority.repository.UserMapper;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -43,7 +41,6 @@ import static com.wemirr.platform.authority.domain.converts.UserConverts.USER_DT
 public class UserController {
 
     private final UserService userService;
-    private final UserMapper userMapper;
 
     @GetMapping
     @Parameters({
@@ -69,8 +66,11 @@ public class UserController {
     @SysLog(value = "添加用户")
     @Operation(summary = "添加用户")
     public Result<ResponseEntity<Void>> save(@Validated @RequestBody UserSaveDTO dto) {
-        final User user = BeanUtil.toBean(dto, User.class);
-        this.userService.save(user);
+        final int count = this.userService.count(Wraps.<User>lbQ().eq(User::getUsername, dto.getUsername()));
+        if (count > 0) {
+            throw CheckedException.badRequest("账号已存在");
+        }
+        this.userService.save(BeanUtil.toBean(dto, User.class));
         return Result.success();
     }
 

@@ -1,11 +1,21 @@
 package com.wemirr.platform.authority.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.google.common.collect.Lists;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
+import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.platform.authority.domain.entity.User;
 import com.wemirr.platform.authority.domain.entity.UserRole;
+import com.wemirr.platform.authority.domain.vo.UserRoleResp;
+import com.wemirr.platform.authority.repository.UserMapper;
 import com.wemirr.platform.authority.repository.UserRoleMapper;
 import com.wemirr.platform.authority.service.UserRoleService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -19,7 +29,21 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserRoleServiceImpl extends SuperServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
 
+    private final UserMapper userMapper;
 
+    @Override
+    public UserRoleResp findUserByRoleId(Long roleId) {
+        final List<Long> userIdList = super.list(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId))
+                .stream().mapToLong(UserRole::getUserId).boxed().distinct().collect(Collectors.toList());
+        final List<User> users = userMapper.selectList(Wraps.lbQ());
+        if (CollectionUtil.isEmpty(users)) {
+            return null;
+        }
+        final List<UserRoleResp.UserRoleDetail> userRoleDetails = users.stream().map(user -> UserRoleResp.UserRoleDetail.builder().key(user.getId())
+                .nickName(user.getNickName()).username(user.getUsername()).build()).collect(Collectors.toList());
+        return UserRoleResp.builder().userRoleDetails(userRoleDetails).originTargetKeys(userIdList).build();
+    }
 }

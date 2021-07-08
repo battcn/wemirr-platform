@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.boot.service.SuperService;
 import com.wemirr.platform.authority.domain.entity.UserRole;
+import com.wemirr.platform.authority.domain.vo.UserRoleResp;
 
 /**
  * <p>
@@ -14,5 +15,7 @@ import com.wemirr.platform.authority.domain.entity.UserRole;
  * @since 2019-07-03
  */
 public interface UserRoleService extends SuperService<UserRole> {
+
+    UserRoleResp findUserByRoleId(Long roleId);
 
 }

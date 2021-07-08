@@ -15,9 +15,10 @@ import com.wemirr.platform.authority.domain.dto.RoleUserDTO;
 import com.wemirr.platform.authority.domain.entity.Role;
 import com.wemirr.platform.authority.domain.entity.RoleOrg;
 import com.wemirr.platform.authority.domain.entity.RoleRes;
-import com.wemirr.platform.authority.domain.entity.UserRole;
 import com.wemirr.platform.authority.domain.vo.RoleDetailVO;
+import com.wemirr.platform.authority.domain.vo.RolePermissionResp;
 import com.wemirr.platform.authority.domain.vo.RoleResVO;
+import com.wemirr.platform.authority.domain.vo.UserRoleResp;
 import com.wemirr.platform.authority.service.RoleOrgService;
 import com.wemirr.platform.authority.service.RoleResService;
 import com.wemirr.platform.authority.service.RoleService;
@@ -34,7 +35,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.wemirr.framework.commons.entity.Result.success;
 
@@ -58,6 +58,13 @@ public class RoleController {
     private final UserRoleService userRoleService;
 
 
+    @GetMapping("/query_all")
+    @Operation(summary = "角色列表 - [Levin] - [DONE]")
+    public Result<List<Role>> query() {
+        final List<Role> page = this.roleService.list();
+        return Result.success(page);
+    }
+
     @GetMapping
     @Parameters({
             @Parameter(description = "名称", name = "name", in = ParameterIn.QUERY),
@@ -67,12 +74,11 @@ public class RoleController {
                                      @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
                                      String name, DataScopeType scopeType) {
         final Page<Role> page = this.roleService.page(new Page<>(current, size), Wraps.<Role>lbQ()
-                .like(Role::getName, name)
-                .eq(Role::getScopeType, scopeType));
+                .like(Role::getName, name).eq(Role::getScopeType, scopeType));
         return Result.success(page);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/detail")
     @Operation(summary = "角色详情")
     public Result<RoleDetailVO> details(@PathVariable Long id) {
         Role role = roleService.getById(id);
@@ -108,10 +114,17 @@ public class RoleController {
 
     @Operation(summary = "角色关联的用户")
     @GetMapping("/{roleId}/users")
-    public Result<List<Long>> userByRoleId(@PathVariable Long roleId) {
-        final List<UserRole> userRoles = this.userRoleService.list(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId));
-        return Result.success(userRoles.stream().mapToLong(UserRole::getUserId).boxed().collect(Collectors.toList()));
+    public Result<UserRoleResp> userByRoleId(@PathVariable Long roleId) {
+        return Result.success(userRoleService.findUserByRoleId(roleId));
     }
+
+
+    @GetMapping("/{role_id}/resources/permissions")
+    @Operation(summary = "资源权限", description = "只能看到自身权限")
+    public Result<RolePermissionResp> permission(@PathVariable("role_id") Long roleId) {
+        return Result.success(this.roleService.findRolePermissionById(roleId));
+    }
+
 
     @Operation(summary = "角色关联的资源")
     @GetMapping("/{roleId}/role_res")

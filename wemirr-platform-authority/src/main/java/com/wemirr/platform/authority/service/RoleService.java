@@ -4,6 +4,7 @@ import com.wemirr.framework.boot.service.SuperService;
 import com.wemirr.framework.database.mybatis.auth.DataScope;
 import com.wemirr.platform.authority.domain.dto.RoleDTO;
 import com.wemirr.platform.authority.domain.entity.Role;
+import com.wemirr.platform.authority.domain.vo.RolePermissionResp;
 
 import java.util.List;
 
@@ -61,4 +62,7 @@ public interface RoleService extends SuperService<Role> {
      * @param userIdList userIdList
      */
     void saveUserRole(Long roleId, List<Long> userIdList);
+
+
+    RolePermissionResp findRolePermissionById(Long roleId);
 }

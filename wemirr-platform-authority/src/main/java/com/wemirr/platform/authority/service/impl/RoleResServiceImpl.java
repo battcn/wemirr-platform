@@ -1,6 +1,5 @@
 package com.wemirr.platform.authority.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
@@ -78,12 +77,11 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
     }
 
     private void resHandler(RoleResSaveDTO data, Long roleId) {
-        final Set<Long> set = CollUtil.unionDistinct(data.getResourceIdList(), data.getMenuIdList());
+        final Set<Long> set = data.getResIds();
         if (CollectionUtil.isEmpty(set)) {
             return;
         }
-        final List<RoleRes> roleRes = set.stream()
-                .filter(Objects::nonNull)
+        final List<RoleRes> roleRes = set.stream().filter(Objects::nonNull)
                 .map(resId -> RoleRes.builder().resId(resId).roleId(roleId).build())
                 .collect(toList());
         super.saveBatch(roleRes);

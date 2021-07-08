@@ -108,9 +108,11 @@ public class RewriteTokenEndpoint {
     @ResponseBody
     @GetMapping("/info")
     @Operation(summary = "获取当前用户信息")
-    public Result<Principal> userInfo(Principal principal) {
-        log.debug("获取user信息:{}", JSON.toJSONString(principal));
-        return Result.success(principal);
+    public Result<Object> userInfo(Principal principal) {
+        log.debug("完整信息:{}", JSON.toJSONString(principal));
+        OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
+        log.info("用户信息:{}", JSON.toJSON(oAuth2Authentication));
+        return Result.success(oAuth2Authentication.getPrincipal());
     }
 
     @ResponseBody

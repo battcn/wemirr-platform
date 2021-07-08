@@ -3,6 +3,7 @@ package com.wemirr.platform.authority.service;
 import com.wemirr.framework.boot.service.SuperService;
 import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;
 import com.wemirr.platform.authority.domain.entity.Resource;
+import com.wemirr.platform.authority.domain.vo.RolePermissionResp;
 import com.wemirr.platform.authority.domain.vo.VueRouter;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public interface ResourceService extends SuperService<Resource> {
      * @return 查询结果
      */
     List<VueRouter> findVisibleResource(ResourceQueryDTO resource);
+
+
 
 
     /**

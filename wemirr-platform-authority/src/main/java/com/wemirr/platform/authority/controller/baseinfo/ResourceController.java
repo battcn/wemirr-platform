@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.boot.utils.BeanPlusUtil;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.datasource.TenantEnvironment;
@@ -52,10 +51,11 @@ public class ResourceController {
 
     @GetMapping("/router")
     @Operation(summary = "菜单路由", description = "只能看到自身权限")
-    public Result<List<Tree<Long>>> router() {
+    public Result<List<Tree<Long>>> router(@RequestParam(required = false, defaultValue = "false") Boolean all) {
         List<VueRouter> routers = resourceService.findVisibleResource(ResourceQueryDTO.builder().userId(tenantEnvironment.userId()).build());
         List<TreeNode<Long>> list = routers.stream()
-                .filter(router -> router.getType() != null && router.getType() == 1 || router.getType() == 5).map(route -> {
+                .filter(router -> all || (router.getType() != null && router.getType() == 1 || router.getType() == 5))
+                .map(route -> {
                     TreeNode<Long> node = new TreeNode<>();
                     node.setId(route.getId());
                     node.setParentId(route.getParentId());
@@ -83,7 +83,6 @@ public class ResourceController {
                 }).collect(Collectors.toList());
         return Result.success(TreeUtil.build(list, 0L));
     }
-
 
     @GetMapping
     @Parameters({

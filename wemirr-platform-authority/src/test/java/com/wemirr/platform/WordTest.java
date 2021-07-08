@@ -1,5 +1,8 @@
 package com.wemirr.platform;
 
+import com.wemirr.framework.commons.StringUtils;
+import org.junit.jupiter.api.Test;
+
 public class WordTest {
 
 //    @Test
@@ -18,6 +21,13 @@ public class WordTest {
 //        //生成word文档 todo 返回生成的word文件引用，可以根据需要是否要删除文件
 //        File file = WordUtils.generate(datas, workPath + templateName, workPath);
 //    }
+
+    @Test
+    public void test1() {
+        String uri = "/users/8";
+        final String id = StringUtils.substringAfterLast(uri, "/");
+        System.out.println(id);
+    }
 
 
 }

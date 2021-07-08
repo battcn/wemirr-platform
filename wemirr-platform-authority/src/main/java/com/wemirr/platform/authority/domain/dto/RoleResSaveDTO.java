@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -24,23 +25,16 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(name= "RoleResSaveDTO", description = "角色的资源")
+@Schema(name = "RoleResSaveDTO", description = "角色的资源")
 public class RoleResSaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 菜单ID
-     * #c_auth_menu
-     */
-    @Schema(description = "资源ID")
-    private List<Long> menuIdList;
 
     /**
-     * 资源id
-     * #c_auth_resource
+     * 资源ID
      */
-    private List<Long> resourceIdList;
+    private Set<Long> resIds;
 
     /**
      * 角色id
