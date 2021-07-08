@@ -56,7 +56,7 @@ public class PlatformGatewayStrategyRouteFilter extends DefaultGatewayStrategyRo
         response.setStatusCode(status);
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         JSONObject result = new JSONObject();
-        result.put("messageId", status.value());
+        result.put("code", status.value());
         result.put("message", message);
         result.put("successful", false);
         result.put("timestamp", System.currentTimeMillis());

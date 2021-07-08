@@ -52,6 +52,7 @@ spring:
             - Path=/authority/**
           filters:
             - StripPrefix=1
+#            - name: BlackWhiteList
         - id: wemirr-platform-authority-websocket
           uri: lb:ws://wemirr-platform-authority
           predicates:
