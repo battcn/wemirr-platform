@@ -43,5 +43,5 @@ public class VueRouter {
     private Integer type;
 
     private Boolean global;
-    private Boolean locked;
+    private Boolean status;
 }

@@ -80,7 +80,7 @@ public class Resource extends SuperEntity<Long> {
      */
     @TableField("`global`")
     private Boolean global;
-    @TableField("`locked`")
-    private Boolean locked;
+    @TableField("`status`")
+    private Boolean status;
 
 }

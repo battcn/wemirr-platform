@@ -71,7 +71,7 @@ public class ResourceController {
                     extra.put("sequence", route.getSequence());
                     extra.put("type", route.getType());
                     extra.put("model", route.getModel());
-                    extra.put("locked", route.getLocked());
+                    extra.put("status", route.getStatus());
                     extra.put("global", route.getGlobal());
                     Map<String, Object> meta = Maps.newHashMap();
                     meta.put("icon", route.getIcon());
