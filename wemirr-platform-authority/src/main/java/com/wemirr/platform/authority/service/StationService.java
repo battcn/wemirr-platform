@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.boot.entity.PageRequest;
 import com.wemirr.framework.boot.service.SuperService;
 import com.wemirr.platform.authority.domain.dto.StationPageDTO;
-import com.wemirr.platform.authority.domain.entity.Station;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
 
 /**
  * <p>

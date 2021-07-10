@@ -7,7 +7,7 @@ import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.authority.domain.dto.StationPageDTO;
 import com.wemirr.platform.authority.domain.dto.StationSaveDTO;
-import com.wemirr.platform.authority.domain.entity.Station;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
 import com.wemirr.platform.authority.service.StationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.repository;
 
 import com.wemirr.framework.boot.SuperMapper;
 import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;
-import com.wemirr.platform.authority.domain.entity.Resource;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
 import com.wemirr.platform.authority.domain.vo.VueRouter;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

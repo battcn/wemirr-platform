@@ -8,7 +8,7 @@ import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.datasource.TenantEnvironment;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.StationMessageReq;
-import com.wemirr.platform.authority.domain.entity.StationMessage;
+import com.wemirr.platform.authority.domain.entity.message.StationMessage;
 import com.wemirr.platform.authority.service.StationMessageService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,6 @@ public class StationMessageController {
                 .eq(StationMessage::getReceiveId, tenantEnvironment.userId()));
         return Result.success(page);
     }
-
 
     @PostMapping("/station_messages")
     public Result<ResponseEntity<Void>> push(@Validated @RequestBody StationMessageReq req) {

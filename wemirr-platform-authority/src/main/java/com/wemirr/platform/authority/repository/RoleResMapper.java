@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.repository;
 
 import com.wemirr.framework.boot.SuperMapper;
-import com.wemirr.platform.authority.domain.entity.RoleRes;
+import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
 import com.wemirr.platform.authority.domain.vo.RoleResMenuMapperVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

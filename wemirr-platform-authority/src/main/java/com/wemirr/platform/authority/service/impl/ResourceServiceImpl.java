@@ -1,16 +1,14 @@
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.google.common.collect.Lists;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.database.datasource.TenantEnvironment;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;
-import com.wemirr.platform.authority.domain.entity.Resource;
-import com.wemirr.platform.authority.domain.entity.Role;
-import com.wemirr.platform.authority.domain.entity.RoleRes;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
+import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
 import com.wemirr.platform.authority.domain.enums.ResourceType;
-import com.wemirr.platform.authority.domain.vo.RolePermissionResp;
 import com.wemirr.platform.authority.domain.vo.VueRouter;
 import com.wemirr.platform.authority.repository.ResourceMapper;
 import com.wemirr.platform.authority.repository.RoleMapper;
@@ -23,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 

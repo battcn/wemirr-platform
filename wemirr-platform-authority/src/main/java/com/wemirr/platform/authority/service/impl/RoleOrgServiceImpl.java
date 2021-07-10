@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.service.impl;
 
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
-import com.wemirr.platform.authority.domain.entity.RoleOrg;
+import com.wemirr.platform.authority.domain.entity.baseinfo.RoleOrg;
 import com.wemirr.platform.authority.repository.RoleOrgMapper;
 import com.wemirr.platform.authority.service.RoleOrgService;
 import lombok.extern.slf4j.Slf4j;

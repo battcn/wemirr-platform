@@ -3,7 +3,7 @@ package com.wemirr.platform.authority.service;
 import com.wemirr.framework.boot.service.SuperService;
 import com.wemirr.framework.database.mybatis.auth.DataScope;
 import com.wemirr.platform.authority.domain.dto.RoleDTO;
-import com.wemirr.platform.authority.domain.entity.Role;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.vo.RolePermissionResp;
 
 import java.util.List;

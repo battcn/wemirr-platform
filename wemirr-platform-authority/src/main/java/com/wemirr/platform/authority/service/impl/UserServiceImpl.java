@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.database.mybatis.auth.DataScope;
 import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
-import com.wemirr.platform.authority.domain.entity.User;
+import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.vo.UserResp;
 import com.wemirr.platform.authority.repository.UserMapper;
 import com.wemirr.platform.authority.service.UserService;

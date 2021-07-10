@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.domain.converts;
 
 
 import com.wemirr.framework.commons.entity.BaseConverts;
-import com.wemirr.platform.authority.domain.entity.Menu;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Menu;
 import com.wemirr.platform.authority.domain.vo.VueRouter;
 
 /**

@@ -7,7 +7,7 @@ import com.wemirr.framework.security.client.entity.UserInfoDetails;
 import com.wemirr.framework.security.client.exception.Auth2Exception;
 import com.wemirr.platform.authority.configuration.integration.AbstractPreparedIntegrationAuthenticator;
 import com.wemirr.platform.authority.configuration.integration.IntegrationAuthentication;
-import com.wemirr.platform.authority.domain.entity.User;
+import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

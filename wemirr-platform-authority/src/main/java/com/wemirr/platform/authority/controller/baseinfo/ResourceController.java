@@ -14,7 +14,7 @@ import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;
 import com.wemirr.platform.authority.domain.dto.ResourceSaveDTO;
-import com.wemirr.platform.authority.domain.entity.Resource;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
 import com.wemirr.platform.authority.domain.enums.ResourceType;
 import com.wemirr.platform.authority.domain.vo.VueRouter;
 import com.wemirr.platform.authority.service.ResourceService;
@@ -91,9 +91,11 @@ public class ResourceController {
             @Parameter(description = "名称", name = "name", in = ParameterIn.QUERY),
     })
     @Operation(summary = "资源列表 - [Levin] - [DONE]")
-    public Result<IPage<Resource>> query(Long parentId, Integer type) {
+    public Result<IPage<Resource>> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
+                                         @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
+                                         Long parentId, Integer type) {
         final LbqWrapper<Resource> wrapper = Wraps.<Resource>lbQ().eq(Resource::getParentId, parentId).eq(Resource::getType, ResourceType.BUTTON);
-        IPage<Resource> page = resourceService.page(new Page<>(1, 9999), wrapper);
+        IPage<Resource> page = resourceService.page(new Page<>(current, size), wrapper);
         return Result.success(page);
     }
 

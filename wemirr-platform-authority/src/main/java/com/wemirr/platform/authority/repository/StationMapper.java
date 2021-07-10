@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.wemirr.framework.boot.SuperMapper;
 import com.wemirr.framework.database.mybatis.auth.DataScope;
-import com.wemirr.platform.authority.domain.entity.Station;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

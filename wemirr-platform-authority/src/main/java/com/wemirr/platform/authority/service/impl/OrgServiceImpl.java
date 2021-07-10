@@ -5,7 +5,7 @@ import cn.hutool.core.convert.Convert;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.commons.MapHelper;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
-import com.wemirr.platform.authority.domain.entity.Org;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Org;
 import com.wemirr.platform.authority.repository.OrgMapper;
 import com.wemirr.platform.authority.service.OrgService;
 import lombok.extern.slf4j.Slf4j;

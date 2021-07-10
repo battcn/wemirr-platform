@@ -9,7 +9,7 @@ import com.wemirr.framework.database.mybatis.auth.DataScopeType;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.dto.StationPageDTO;
-import com.wemirr.platform.authority.domain.entity.Station;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
 import com.wemirr.platform.authority.repository.StationMapper;
 import com.wemirr.platform.authority.service.StationService;
 import lombok.extern.slf4j.Slf4j;

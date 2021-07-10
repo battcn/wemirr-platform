@@ -8,8 +8,8 @@ import com.wemirr.framework.commons.times.LocalDateTimeUtils;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.websocket.WebSocketManager;
 import com.wemirr.platform.authority.domain.dto.StationMessageReq;
-import com.wemirr.platform.authority.domain.entity.StationMessage;
-import com.wemirr.platform.authority.domain.entity.UserRole;
+import com.wemirr.platform.authority.domain.entity.message.StationMessage;
+import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;
 import com.wemirr.platform.authority.domain.enums.ReceiverType;
 import com.wemirr.platform.authority.repository.StationMessageMapper;
 import com.wemirr.platform.authority.repository.UserRoleMapper;
@@ -56,7 +56,7 @@ public class StationMessageServiceImpl extends SuperServiceImpl<StationMessageMa
     void publish(StationMessageReq req, List<Long> userIdList) {
         for (Long userId : userIdList) {
             StationMessage message = new StationMessage();
-            message.setCode(req.getType());
+            message.setTitle(req.getType());
             message.setMark(false);
             message.setContent(req.getContent());
             message.setTitle(req.getTitle());
@@ -66,7 +66,7 @@ public class StationMessageServiceImpl extends SuperServiceImpl<StationMessageMa
             object.put("id", message.getId());
             object.put("title", message.getTitle());
             object.put("content", message.getContent());
-            object.put("code", message.getCode());
+            object.put("level", message.getLevel());
             object.put("createdTime", LocalDateTimeUtils.now());
             this.webSocketManager.sendMessage(String.valueOf(userId), object.toJSONString());
         }

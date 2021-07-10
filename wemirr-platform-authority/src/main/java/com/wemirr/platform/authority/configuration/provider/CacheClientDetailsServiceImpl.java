@@ -3,7 +3,7 @@ package com.wemirr.platform.authority.configuration.provider;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Sets;
 import com.wemirr.framework.security.client.exception.Auth2Exception;
-import com.wemirr.platform.authority.domain.entity.OAuthClientDetails;
+import com.wemirr.platform.authority.domain.entity.baseinfo.OAuthClientDetails;
 import com.wemirr.platform.authority.repository.OAuthClientDetailsMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

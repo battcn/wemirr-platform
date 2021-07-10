@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.domain.converts;
 
 import com.wemirr.framework.boot.entity.BasePageConverts;
 import com.wemirr.platform.authority.domain.dto.UserUpdateDTO;
-import com.wemirr.platform.authority.domain.entity.User;
+import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

@@ -3,7 +3,7 @@ package com.wemirr.platform.authority.service;
 import com.wemirr.framework.boot.service.SuperService;
 import com.wemirr.platform.authority.domain.dto.RoleResSaveDTO;
 import com.wemirr.platform.authority.domain.dto.UserRoleSaveDTO;
-import com.wemirr.platform.authority.domain.entity.RoleRes;
+import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
 import com.wemirr.platform.authority.domain.vo.RoleResVO;
 
 /**

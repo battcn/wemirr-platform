@@ -9,7 +9,7 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.UserSaveDTO;
 import com.wemirr.platform.authority.domain.dto.UserUpdateDTO;
-import com.wemirr.platform.authority.domain.entity.User;
+import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.enums.Sex;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;

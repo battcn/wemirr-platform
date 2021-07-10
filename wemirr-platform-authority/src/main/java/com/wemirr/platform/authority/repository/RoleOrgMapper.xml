@@ -3,7 +3,7 @@
 <mapper namespace="com.wemirr.platform.authority.repository.RoleOrgMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.wemirr.platform.authority.domain.entity.RoleOrg">
+    <resultMap id="BaseResultMap" type="com.wemirr.platform.authority.domain.entity.baseinfo.RoleOrg">
         <result column="role_id" jdbcType="BIGINT" property="roleId"/>
         <result column="org_id" jdbcType="BIGINT" property="orgId"/>
     </resultMap>

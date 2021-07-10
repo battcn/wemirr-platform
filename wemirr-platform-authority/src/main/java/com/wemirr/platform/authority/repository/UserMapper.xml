@@ -3,7 +3,7 @@
 <mapper namespace="com.wemirr.platform.authority.repository.UserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.wemirr.platform.authority.domain.entity.User">
+    <resultMap id="BaseResultMap" type="com.wemirr.platform.authority.domain.entity.baseinfo.User">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
         <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
@@ -23,7 +23,7 @@
         *
         FROM t_user
     </select>
-    <select id="list" resultType="com.wemirr.platform.authority.domain.entity.User">
+    <select id="list" resultType="com.wemirr.platform.authority.domain.entity.baseinfo.User">
         SELECT
         *
         FROM t_user

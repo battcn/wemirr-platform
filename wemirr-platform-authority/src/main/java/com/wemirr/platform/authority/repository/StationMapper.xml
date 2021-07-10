@@ -3,7 +3,7 @@
 <mapper namespace="com.wemirr.platform.authority.repository.StationMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.wemirr.platform.authority.domain.entity.Station">
+    <resultMap id="BaseResultMap" type="com.wemirr.platform.authority.domain.entity.baseinfo.Station">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
         <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
