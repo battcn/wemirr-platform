@@ -9,11 +9,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-public class NepxionApplication1 {
+public class NepxionMysqlApplication {
 
 
     public static void main(String[] args) {
-        System.setProperty("spring.profiles.active", "weight2");
-        SpringApplication.run(NepxionApplication1.class, args);
+        System.setProperty("spring.profiles.active", "h2");
+        SpringApplication.run(NepxionMysqlApplication.class, args);
     }
 }
