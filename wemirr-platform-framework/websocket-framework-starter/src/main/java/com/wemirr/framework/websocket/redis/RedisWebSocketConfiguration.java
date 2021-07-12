@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 /**
  * @author Levin
@@ -29,6 +30,11 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 @Import(ActionConfig.class)
 @EnableConfigurationProperties(WebSocketProperties.class)
 public class RedisWebSocketConfiguration {
+
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
+    }
 
     @Bean
     @ConditionalOnMissingBean

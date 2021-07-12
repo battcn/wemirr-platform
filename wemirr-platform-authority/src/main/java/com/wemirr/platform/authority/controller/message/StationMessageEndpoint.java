@@ -1,12 +1,20 @@
 package com.wemirr.platform.authority.controller.message;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.alibaba.fastjson.JSON;
+import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.websocket.BaseWebSocketEndpoint;
+import com.wemirr.framework.websocket.WebSocketManager;
+import com.wemirr.framework.websocket.utils.SpringContextHolder;
+import com.wemirr.platform.authority.domain.entity.message.StationMessage;
+import com.wemirr.platform.authority.service.StationMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.util.List;
 
 
 /**
@@ -17,12 +25,19 @@ import javax.websocket.server.ServerEndpoint;
  */
 @Slf4j
 @Component
-@ServerEndpoint(value = "/station_messages/{identifier}")
+@ServerEndpoint(value = "/message/{identifier}")
 public class StationMessageEndpoint extends BaseWebSocketEndpoint {
 
     @OnOpen
     public void openSession(@PathParam(IDENTIFIER) String userId, Session session) {
         connect(userId, session);
+        final StationMessageService stationMessageService = SpringContextHolder.getBean(StationMessageService.class);
+        final List<StationMessage> messages = stationMessageService.list(Wraps.<StationMessage>lbQ().eq(StationMessage::getMark, false)
+                .eq(StationMessage::getReceiveId, userId).orderByAsc(StationMessage::getId));
+        if (CollectionUtil.isEmpty(messages)) {
+            return;
+        }
+        messages.forEach(message-> senderMessage(userId, JSON.toJSONString(message)));
     }
 
     @OnMessage

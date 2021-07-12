@@ -37,7 +37,7 @@ public class StationMessagePublishController {
     @GetMapping
     public Result<IPage<StationMessagePublishResp>> publishList(PageRequest request) {
         final Page<StationMessagePublish> page = stationMessagePublishService.page(request.buildPage());
-        return Result.success(  STATION_MESSAGE_PUBLISH_2_VO_CONVERTS.convertPage(page));
+        return Result.success(STATION_MESSAGE_PUBLISH_2_VO_CONVERTS.convertPage(page));
     }
 
 
@@ -51,7 +51,7 @@ public class StationMessagePublishController {
     @Operation(summary = "添加发布消息")
     public Result<ResponseEntity<Void>> add(@Validated @RequestBody StationMessagePublishReq req) {
         final StationMessagePublish bean = BeanUtil.toBean(req, StationMessagePublish.class);
-        bean.setReceiver(StringUtils.join(req.getReceiver(),","));
+        bean.setReceiver(StringUtils.join(req.getReceiver(), ","));
         stationMessagePublishService.save(bean);
         return success();
     }
@@ -61,6 +61,7 @@ public class StationMessagePublishController {
     @Operation(summary = "编辑发布消息")
     public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody StationMessagePublishReq req) {
         final StationMessagePublish bean = BeanUtil.toBean(req, StationMessagePublish.class);
+        bean.setReceiver(StringUtils.join(req.getReceiver(), ","));
         bean.setId(id);
         stationMessagePublishService.updateById(bean);
         return success();
