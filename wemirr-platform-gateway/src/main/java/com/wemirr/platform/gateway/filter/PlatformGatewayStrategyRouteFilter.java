@@ -47,7 +47,7 @@ public class PlatformGatewayStrategyRouteFilter extends DefaultGatewayStrategyRo
             return wrap(exchange, HttpStatus.SERVICE_UNAVAILABLE, "访问失败,已达到最大阈值");
         }
         // 通过过滤器设置路由Header头部信息，并全链路传递到服务端  true 不擦除外部请求头 false 擦除
-        GatewayStrategyFilterResolver.setHeader(exchange.getRequest().mutate(), TRACE_ID, traceId, true);
+        GatewayStrategyFilterResolver.setHeader(exchange.getRequest(), exchange.getRequest().mutate(), TRACE_ID, traceId, true);
         return super.filter(exchange, chain);
     }
 

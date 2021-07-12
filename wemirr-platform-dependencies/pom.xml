@@ -17,8 +17,8 @@
         <jdk.version>1.8</jdk.version>
         <spring-boot.version>2.3.10.RELEASE</spring-boot.version>
         <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
-        <spring-cloud.version>Hoxton.SR11</spring-cloud.version>
-        <nepxion-discovery.version>6.10.0</nepxion-discovery.version>
+        <spring-cloud.version>Hoxton.SR12</spring-cloud.version>
+        <nepxion-discovery.version>6.11.0</nepxion-discovery.version>
         <hutool.version>5.7.2</hutool.version>
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <!-- 打包跳过单元测试 -->
