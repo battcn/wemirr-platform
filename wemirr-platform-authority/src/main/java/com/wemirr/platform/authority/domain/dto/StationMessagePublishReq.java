@@ -23,7 +23,6 @@ public class StationMessagePublishReq {
     @NotBlank(message = "消息内容不能为空")
     private String content;
 
-    @NotBlank(message = "描述信息")
     private String description;
 
     @NotNull(message = "接收类型不能为空")

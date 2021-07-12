@@ -39,14 +39,6 @@ public class StationMessageController {
         return Result.success(page);
     }
 
-    @PostMapping("/station_messages")
-    public Result<ResponseEntity<Void>> push(@Validated @RequestBody StationMessageReq req) {
-        log.debug("[参数内容] - {}", JSON.toJSONString(req));
-        this.stationMessageService.pushMessage(req);
-        return Result.success();
-    }
-
-
     @GetMapping("/users/{user_id}/station_messages")
     public Result<List<StationMessage>> load(@PathVariable("user_id") Long userId) {
         final List<StationMessage> messages = this.stationMessageService.list(Wraps.<StationMessage>lbQ()

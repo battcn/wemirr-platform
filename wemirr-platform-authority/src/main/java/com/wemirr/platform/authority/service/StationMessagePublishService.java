@@ -10,4 +10,6 @@ import java.util.List;
 public interface StationMessagePublishService extends SuperService<StationMessagePublish> {
 
     List<CommonDataResp> queryReceiverByType(ReceiverType type, String search);
+
+    void publish(Long id);
 }

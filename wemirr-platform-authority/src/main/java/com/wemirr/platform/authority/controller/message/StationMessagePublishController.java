@@ -74,5 +74,13 @@ public class StationMessagePublishController {
         return success();
     }
 
+    @PatchMapping("/{id}/publish")
+    @SysLog(value = "发布消息通知")
+    @Operation(summary = "发布消息通知")
+    public Result<ResponseEntity<Void>> publish(@PathVariable Long id) {
+        stationMessagePublishService.publish(id);
+        return success();
+    }
+
 
 }
