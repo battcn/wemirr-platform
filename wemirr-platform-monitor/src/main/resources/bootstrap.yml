@@ -1,0 +1,33 @@
+server:
+  port: 5000
+
+spring:
+  application:
+    name: wemirr-platforn-monitor
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  security:
+    user:
+      name: "admin"
+      password: "123456"
+management:
+  health:
+    redis:
+      enabled: false #关闭redis健康检查
+    sentinel:
+      enabled: false #关闭sentinel健康检查
+    ldap:
+      enabled: false #关闭ldap健康检查
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      sensitive: false #关闭过滤敏感信息
+  endpoint:
+    health:
+      show-details: ALWAYS  #显示详细信息

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.boot.utils.BeanPlusUtil;
+import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.datasource.TenantEnvironment;
@@ -25,6 +26,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.utils.URIUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -65,7 +67,10 @@ public class ResourceController {
                     extra.put("label", route.getLabel());
                     extra.put("path", route.getPath());
                     extra.put("name", route.getLabel());
-                    extra.put("component", route.getComponent());
+                    boolean isUrl = StringUtils.containsAny(route.getComponent(), "http://", "https://");
+                    if (!isUrl) {
+                        extra.put("component", route.getComponent());
+                    }
                     extra.put("icon", route.getIcon());
                     extra.put("permission", route.getPermission());
                     extra.put("sequence", route.getSequence());
@@ -76,6 +81,9 @@ public class ResourceController {
                     Map<String, Object> meta = Maps.newHashMap();
                     meta.put("icon", route.getIcon());
                     meta.put("title", route.getLabel());
+                    if (isUrl) {
+                        meta.put("frameSrc", route.getComponent());
+                    }
                     extra.put("meta", meta);
                     node.setExtra(extra);
                     node.setWeight(route.getSequence());
