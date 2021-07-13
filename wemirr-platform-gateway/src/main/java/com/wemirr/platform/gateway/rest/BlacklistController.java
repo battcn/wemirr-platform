@@ -39,7 +39,7 @@ public class BlacklistController {
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@PathVariable String id) {
-
+        blacklistHelper.delete(id);
         return Result.success();
     }
 

@@ -40,11 +40,11 @@ public class DictionaryItemController {
     @Operation(description = "查询字典子项 - [DONE] - [Levin]")
     @Parameters({
             @Parameter(name = "dictionary_id", description = "字典ID", in = ParameterIn.PATH),
-            @Parameter(name = "name", description = "名称", in = ParameterIn.QUERY)
+            @Parameter(name = "label", description = "名称", in = ParameterIn.QUERY)
     })
-    public Result<Page<DictionaryItem>> query(@PathVariable("dictionary_id") Long dictionaryId, String name, PageRequest params) {
+    public Result<Page<DictionaryItem>> query(@PathVariable("dictionary_id") Long dictionaryId, String label, PageRequest params) {
         final Page<DictionaryItem> itemPage = this.dictionaryItemService.page(params.buildPage(), Wraps.<DictionaryItem>lbQ()
-                .like(DictionaryItem::getName, name)
+                .like(DictionaryItem::getLabel, label)
                 .eq(DictionaryItem::getDictionaryId, dictionaryId));
         return Result.success(itemPage);
     }

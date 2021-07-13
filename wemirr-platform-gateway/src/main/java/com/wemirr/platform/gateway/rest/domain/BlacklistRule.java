@@ -10,7 +10,13 @@ import java.time.LocalDateTime;
 @Data
 public class BlacklistRule {
 
+    private String id;
     private String ip;
+    private String method;
+    private String path;
+    private Boolean status;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String description;
     private LocalDateTime createdTime;
 }

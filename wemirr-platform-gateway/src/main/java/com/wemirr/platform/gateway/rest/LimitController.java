@@ -33,10 +33,16 @@ public class LimitController {
     }
 
     @PostMapping
-    public Result<Void> create(@RequestBody LimitRule rule) {
+    public Result<Void> add(@RequestBody LimitRule rule) {
         String uuid = IdUtil.fastSimpleUUID();
         rule.setId(uuid);
-        limitHelper.create(rule);
+        limitHelper.saveOrUpdate(rule);
+        return Result.success();
+    }
+
+    @PutMapping("/{id}")
+    public Result<Void> edit(@PathVariable String id, @RequestBody LimitRule rule) {
+        limitHelper.saveOrUpdate(rule);
         return Result.success();
     }
 

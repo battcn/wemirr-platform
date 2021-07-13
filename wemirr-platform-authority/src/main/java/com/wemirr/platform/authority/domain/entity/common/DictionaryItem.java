@@ -56,8 +56,8 @@ public class DictionaryItem extends SuperEntity<Long> {
      * 名称
      */
     @Schema(description = "名称")
-    @TableField(value = "name", condition = LIKE)
-    private String name;
+    @TableField(value = "label", condition = LIKE)
+    private String label;
 
     /**
      * 状态

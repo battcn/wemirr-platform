@@ -11,11 +11,11 @@ class GatewayApplicationTests {
     @Test
     void contextLoads() {
         LimitRule rule = new LimitRule();
-        rule.setBlock(true);
+        rule.setBlacklist(true);
         rule.setCreatedTime(LocalDateTime.now());
         rule.setDescription("测试gateway限流");
         rule.setPath("/gateway/*");
-        rule.setTotal(1);
+        rule.setTotal(1L);
         System.out.println(JSON.toJSONString(rule));
 
     }

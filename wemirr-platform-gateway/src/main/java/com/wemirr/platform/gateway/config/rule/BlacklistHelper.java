@@ -3,6 +3,7 @@ package com.wemirr.platform.gateway.config.rule;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import com.nepxion.discovery.common.util.UuidUtil;
 import com.wemirr.platform.gateway.rest.domain.BlacklistRule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -71,11 +72,14 @@ public class BlacklistHelper {
         if (rule == null) {
             return;
         }
+        if (rule.getId() == null) {
+            rule.setId(UuidUtil.getUUID());
+        }
         if (rule.getCreatedTime() == null) {
             rule.setCreatedTime(LocalDateTime.now());
         }
         final String content = JSON.toJSONString(rule);
-        stringRedisTemplate.opsForHash().put(BLACK_LIST_HASH, rule.getIp(), content);
+        stringRedisTemplate.opsForHash().put(BLACK_LIST_HASH, rule.getId(), content);
     }
 
     public void delete(String id) {

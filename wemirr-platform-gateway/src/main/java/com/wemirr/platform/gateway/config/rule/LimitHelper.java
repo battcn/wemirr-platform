@@ -13,6 +13,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 
 import java.net.InetSocketAddress;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -52,13 +53,27 @@ public class LimitHelper {
             return Lists.newArrayList();
         }
         return stringRedisTemplate.opsForHash().multiGet(DEFAULT_RULE_LIMIT, keys).stream()
-                .map(object -> JSON.parseObject(object.toString(), LimitRule.class)).collect(Collectors.toList());
+                .map(object -> {
+                    LimitRule rule = JSON.parseObject(object.toString(), LimitRule.class);
+                    if (rule != null && rule.getVisits() == null) {
+                        rule.setVisits(0L);
+                    }
+                    return rule;
+                }).collect(Collectors.toList());
     }
 
-    public void create(LimitRule rule) {
-        String uuid = IdUtil.fastSimpleUUID();
-        rule.setId(uuid);
-        stringRedisTemplate.opsForHash().put(DEFAULT_RULE_LIMIT, uuid, JSON.toJSONString(rule));
+    public void saveOrUpdate(LimitRule rule) {
+        if (rule == null) {
+            return;
+        }
+        if (rule.getId() == null) {
+            String uuid = IdUtil.fastSimpleUUID();
+            rule.setId(uuid);
+        }
+        if (rule.getCreatedTime() == null) {
+            rule.setCreatedTime(LocalDateTime.now());
+        }
+        stringRedisTemplate.opsForHash().put(DEFAULT_RULE_LIMIT, rule.getId(), JSON.toJSONString(rule));
     }
 
     public void delete(String id) {
