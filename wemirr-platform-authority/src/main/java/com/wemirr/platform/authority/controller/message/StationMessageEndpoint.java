@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.websocket.BaseWebSocketEndpoint;
-import com.wemirr.framework.websocket.WebSocketManager;
 import com.wemirr.framework.websocket.utils.SpringContextHolder;
 import com.wemirr.platform.authority.domain.entity.message.StationMessage;
 import com.wemirr.platform.authority.service.StationMessageService;
