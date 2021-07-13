@@ -47,6 +47,14 @@ public class BlacklistHelper {
     }
 
 
+    public BlacklistRule getById(String id) {
+        final Object object = stringRedisTemplate.opsForHash().get(BLACK_LIST_HASH, id);
+        if (object == null) {
+            return null;
+        }
+        return JSON.parseObject(object.toString(), BlacklistRule.class);
+    }
+
     public List<BlacklistRule> query() {
         final Set<Object> keys = stringRedisTemplate.opsForHash().keys(BLACK_LIST_HASH);
         if (CollectionUtil.isEmpty(keys)) {
