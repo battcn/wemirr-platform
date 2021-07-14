@@ -1,5 +1,11 @@
 # wemirr-platform
 
+![分配用户](https://gitee.com/battcn/wemirr-platform/blob/vben/images/binding_user.png)
+
+![分配权限](https://gitee.com/battcn/wemirr-platform/blob/vben/images/binding_res.png)
+
+
+
 ## 介绍
 
 一个业余时间写的开源项目、欢迎使用和提建议、包括低码平台、常见 中台 、SAAS 、 多租户功能、最最少的代码实现功能
