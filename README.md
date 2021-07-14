@@ -1,7 +1,16 @@
 # wemirr-platform
 
-[演示地址](./images/users.png)
+![演示地址](./images/users.png)
 
+![绑定资源](./images/binding_res.png)
+
+![地址信息](./images/area.png)
+
+![字典信息](./images/dict.png)
+
+![表单配置](./images/table_configs.png)
+
+![动态生成](./images/gen.png)
 
 ## 介绍
 
