@@ -12,6 +12,7 @@ public class BlacklistRule {
 
     private String id;
     private String ip;
+    private Long visits;
     private String method;
     private String path;
     private Boolean status;
