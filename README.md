@@ -1,8 +1,8 @@
 # wemirr-platform
 
-![分配用户](https://gitee.com/battcn/wemirr-platform/blob/vben/images/binding_user.png)
+![分配用户](./images/binding_user.png)
 
-![分配权限](https://gitee.com/battcn/wemirr-platform/blob/vben/images/binding_res.png)
+![分配权限](./images/binding_res.png)
 
 
 
