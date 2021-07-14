@@ -14,7 +14,7 @@
 
 ![操作日志](./images/opt_log.png)
 
-![发布消息](./images/publish.png)
+![发布消息](./images/publish_message.png)
 
 ![用户列表](./images/users.png)
 
