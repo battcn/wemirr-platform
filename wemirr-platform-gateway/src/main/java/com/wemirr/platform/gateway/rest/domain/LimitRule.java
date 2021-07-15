@@ -14,6 +14,7 @@ public class LimitRule {
     private Long total;
     private String method;
     private String path;
+    private Integer range;
     /**
      * 类型
      */

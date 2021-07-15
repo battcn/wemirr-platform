@@ -61,4 +61,11 @@ public class StationMessageController {
         return Result.success();
     }
 
+    @DeleteMapping("/station_messages")
+    public Result<ResponseEntity<Void>> batchDel(@RequestBody List<Long> ids) {
+        this.stationMessageService.removeByIds(ids);
+        return Result.success();
+    }
+
+
 }

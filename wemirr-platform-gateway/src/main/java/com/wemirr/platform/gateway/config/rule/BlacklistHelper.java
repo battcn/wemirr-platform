@@ -7,9 +7,7 @@ import com.nepxion.discovery.common.util.UuidUtil;
 import com.wemirr.platform.gateway.rest.domain.BlacklistRule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 
 import javax.annotation.Resource;
@@ -19,23 +17,21 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static com.wemirr.platform.gateway.config.rule.GatewayRule.GatewayRuleEnum.RULE_BLACKLIST;
+
 
 /**
  * @author Levin
  */
 @Slf4j
 @Component
-public class BlacklistHelper {
+public class BlacklistHelper implements GatewayRule<BlacklistRule> {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
-    private final static String BLACK_LIST_HASH = "gateway:blacklist";
-    private final static String BLACK_LIST = "gateway:blacklist:%s";
-    private static final String DEFAULT_RULE_LIMIT_VISITS = "gateway:blacklist:visits";
 
     public void setBlack(ServerWebExchange exchange) {
         final InetSocketAddress remoteAddress = exchange.getRequest().getRemoteAddress();
@@ -44,16 +40,26 @@ public class BlacklistHelper {
             return;
         }
         final String hostName = remoteAddress.getHostName();
-        final String key = getKey(hostName);
-        stringRedisTemplate.opsForValue().set(key, hostName);
         // 默认黑名单待 1 小时
-        stringRedisTemplate.expire(key, 1, TimeUnit.HOURS);
         log.info("新进黑名单 - {}", hostName);
+        final String path = exchange.getRequest().getURI().getPath();
+        // 添加黑名单
+        BlacklistRule record = new BlacklistRule();
+        record.setId(UuidUtil.getUUID());
+        record.setDescription("触发 sentinel 限流规则" + path + "拉入黑名单1小时");
+        record.setStatus(true);
+        final LocalDateTime now = LocalDateTime.now();
+        record.setStartTime(now);
+        record.setEndTime(now.plusHours(1));
+        record.setIp(remoteAddress.getAddress().getHostAddress());
+        record.setMethod(Objects.requireNonNull(exchange.getRequest().getMethod()).name());
+        record.setPath(path);
+        saveOrUpdate(record);
     }
 
 
     public BlacklistRule getById(String id) {
-        final Object object = stringRedisTemplate.opsForHash().get(BLACK_LIST_HASH, id);
+        final Object object = stringRedisTemplate.opsForHash().get(RULE_BLACKLIST.hashKey(), id);
         if (object == null) {
             return null;
         }
@@ -61,16 +67,16 @@ public class BlacklistHelper {
     }
 
     public List<BlacklistRule> query() {
-        final Set<Object> keys = stringRedisTemplate.opsForHash().keys(BLACK_LIST_HASH);
+        final Set<Object> keys = stringRedisTemplate.opsForHash().keys(RULE_BLACKLIST.hashKey());
         if (CollectionUtil.isEmpty(keys)) {
             return Lists.newArrayList();
         }
-        return stringRedisTemplate.opsForHash().multiGet(BLACK_LIST_HASH, keys).stream()
+        return stringRedisTemplate.opsForHash().multiGet(RULE_BLACKLIST.hashKey(), keys).stream()
                 .map(object -> {
                     BlacklistRule rule = JSON.parseObject(object.toString(), BlacklistRule.class);
                     if (rule != null) {
                         final Object visits = Optional.ofNullable(stringRedisTemplate.opsForHash()
-                                .get(DEFAULT_RULE_LIMIT_VISITS, rule.getId())).orElse("0");
+                                .get(RULE_BLACKLIST.visitsKey(), rule.getId())).orElse("0");
                         rule.setVisits(Long.parseLong(visits.toString()));
                     }
                     return rule;
@@ -82,31 +88,12 @@ public class BlacklistHelper {
         if (remoteAddress == null) {
             return false;
         }
-        final Set<Object> keys = stringRedisTemplate.opsForHash().keys(BLACK_LIST_HASH);
-        if (CollectionUtil.isEmpty(keys)) {
-            return false;
+        final BlacklistRule rule = getByPath(stringRedisTemplate, exchange.getRequest(), RULE_BLACKLIST);
+        boolean flag = rule != null;
+        if (flag) {
+            stringRedisTemplate.opsForHash().increment(RULE_BLACKLIST.visitsKey(), rule.getId(), 1);
         }
-        final String path = exchange.getRequest().getURI().getPath();
-        final HttpMethod httpMethod = exchange.getRequest().getMethod();
-        final List<Object> objects = stringRedisTemplate.opsForHash().multiGet(BLACK_LIST_HASH, keys);
-        if (CollectionUtil.isEmpty(objects)) {
-            return false;
-        }
-        for (Object object : objects) {
-            BlacklistRule rule = JSON.parseObject(object.toString(), BlacklistRule.class);
-            //（1）? 匹配一个字符（除过操作系统默认的文件分隔符）
-            //（2）* 匹配0个或多个字符
-            //（3）**匹配0个或多个目录
-            //（4）{spring:[a-z]+} 将正则表达式[a-z]+匹配到的值,赋值给名为 spring 的路径变量.
-            //    (PS:必须是完全匹配才行,在SpringMVC中只有完全匹配才会进入controller层的方法)
-            final boolean match = ANT_PATH_MATCHER.match(rule.getPath(), path);
-            if (!match || !Objects.equals(HttpMethod.valueOf(rule.getMethod()), httpMethod)) {
-                continue;
-            }
-            stringRedisTemplate.opsForHash().increment(DEFAULT_RULE_LIMIT_VISITS, rule.getId(), 1);
-            return true;
-        }
-        return false;
+        return flag;
     }
 
     public void saveOrUpdate(BlacklistRule rule) {
@@ -120,16 +107,11 @@ public class BlacklistHelper {
             rule.setCreatedTime(LocalDateTime.now());
         }
         final String content = JSON.toJSONString(rule);
-        stringRedisTemplate.opsForHash().put(BLACK_LIST_HASH, rule.getId(), content);
+        stringRedisTemplate.opsForHash().put(RULE_BLACKLIST.hashKey(), rule.getId(), content);
     }
 
     public void delete(String id) {
-        stringRedisTemplate.opsForHash().delete(BLACK_LIST_HASH, id);
-    }
-
-
-    public String getKey(String hostName) {
-        return String.format(BLACK_LIST, hostName);
+        stringRedisTemplate.opsForHash().delete(RULE_BLACKLIST.hashKey(), id);
     }
 
 

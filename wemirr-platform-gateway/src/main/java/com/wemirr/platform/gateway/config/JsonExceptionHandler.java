@@ -46,6 +46,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
     protected Map<String, Object> getErrorAttributes(ServerRequest request, ErrorAttributeOptions errorAttributeOptions) {
         int code = HttpStatus.INTERNAL_SERVER_ERROR.value();
         Throwable error = super.getError(request);
+        error.printStackTrace();
         final String message = error.getMessage();
         if (StringUtils.contains(message, UNABLE_ERROR)) {
             log.warn("[调用内部服务失败] - [{}]", message);
