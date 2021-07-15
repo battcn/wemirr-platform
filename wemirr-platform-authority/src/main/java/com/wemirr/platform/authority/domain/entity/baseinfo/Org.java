@@ -42,14 +42,6 @@ public class Org extends TreeEntity<Org, Long> {
     private String abbreviation;
 
     /**
-     * 树结构
-     */
-    @Schema(description = "树结构")
-    @Length(max = 255, message = "树结构长度不能超过255")
-    @TableField(value = "tree_path", condition = LIKE)
-    private String treePath;
-
-    /**
      * 状态
      */
     @Schema(description = "状态")

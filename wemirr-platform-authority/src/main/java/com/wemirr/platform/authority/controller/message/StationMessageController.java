@@ -31,9 +31,10 @@ public class StationMessageController {
     private final StationMessageService stationMessageService;
 
     @GetMapping("/station_messages/my")
-    public Result<Page<StationMessage>> myMessage(PageRequest request) {
+    public Result<Page<StationMessage>> myMessage(String title, String level, Boolean mark, PageRequest request) {
         final Page<StationMessage> page = stationMessageService.page(request.buildPage(), Wraps.<StationMessage>lbQ()
-                .eq(StationMessage::getReceiveId, tenantEnvironment.userId()));
+                .like(StationMessage::getTitle, title).eq(StationMessage::getLevel, level)
+                .eq(StationMessage::getMark, mark).eq(StationMessage::getReceiveId, tenantEnvironment.userId()));
         return Result.success(page);
     }
 

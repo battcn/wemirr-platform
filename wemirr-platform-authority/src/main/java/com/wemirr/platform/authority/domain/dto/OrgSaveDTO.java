@@ -40,6 +40,9 @@ public class OrgSaveDTO implements Serializable {
     @Schema(description = "简称")
     @Length(max = 255, message = "简称长度不能超过255")
     private String abbreviation;
+
+    @Schema(description = "部门电话")
+    private String tel;
     /**
      * 父ID
      */
