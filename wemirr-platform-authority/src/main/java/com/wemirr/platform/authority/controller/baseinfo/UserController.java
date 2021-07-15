@@ -48,16 +48,17 @@ public class UserController {
             @Parameter(description = "名称", name = "nickName", in = ParameterIn.QUERY),
             @Parameter(description = "邮箱", name = "email", in = ParameterIn.QUERY),
             @Parameter(description = "性别", name = "sex", in = ParameterIn.QUERY),
-            @Parameter(description = "手机号", name = "mobile", in = ParameterIn.QUERY)
+            @Parameter(description = "手机号", name = "mobile", in = ParameterIn.QUERY),
+            @Parameter(description = "组织", name = "orgId", in = ParameterIn.QUERY)
     })
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
     public Result<IPage<User>> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
                                      @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
-                                     String username, String nickName, Integer sex, String email, String mobile) {
+                                     String username, String nickName, Integer sex, String email, Long orgId, String mobile) {
         final IPage<User> page = this.userService.page(new Page<>(current, size),
-                Wraps.<User>lbQ().eq(User::getSex, Sex.of(sex)).like(User::getNickName, nickName)
-                        .like(User::getUsername, username).like(User::getEmail, email)
-                        .like(User::getMobile, mobile));
+                Wraps.<User>lbQ().eq(User::getSex, Sex.of(sex)).eq(User::getOrgId, orgId)
+                        .like(User::getNickName, nickName).like(User::getMobile, mobile)
+                        .like(User::getUsername, username).like(User::getEmail, email));
         return Result.success(page);
     }
 

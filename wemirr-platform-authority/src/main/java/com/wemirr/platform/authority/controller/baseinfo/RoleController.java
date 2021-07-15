@@ -72,9 +72,9 @@ public class RoleController {
     @Operation(summary = "角色列表 - [Levin] - [DONE]")
     public Result<IPage<Role>> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
                                      @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
-                                     String name, DataScopeType scopeType) {
+                                     String name, Boolean locked, DataScopeType scopeType) {
         final Page<Role> page = this.roleService.page(new Page<>(current, size), Wraps.<Role>lbQ()
-                .like(Role::getName, name).eq(Role::getScopeType, scopeType));
+                .eq(Role::getLocked, locked).like(Role::getName, name).eq(Role::getScopeType, scopeType));
         return Result.success(page);
     }
 
