@@ -84,7 +84,8 @@ public class DictionaryController {
     @Operation(description = "查询字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dictionary_code", description = "编码", in = ParameterIn.PATH)
     public Result<List<DictionaryItem>> list(@PathVariable("dictionary_code") String dictionaryCode) {
-        final List<DictionaryItem> list = this.dictionaryItemService.list(Wraps.<DictionaryItem>lbQ().eq(DictionaryItem::getDictionaryCode, dictionaryCode));
+        final List<DictionaryItem> list = this.dictionaryItemService.list(Wraps.<DictionaryItem>lbQ()
+                .eq(DictionaryItem::getStatus, true).eq(DictionaryItem::getDictionaryCode, dictionaryCode));
         return Result.success(list);
     }
 }

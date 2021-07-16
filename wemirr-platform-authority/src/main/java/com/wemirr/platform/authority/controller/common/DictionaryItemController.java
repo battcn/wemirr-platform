@@ -60,10 +60,10 @@ public class DictionaryItemController {
     @PutMapping("/{id}")
     @Operation(description = "编辑字典子项 - [DONE] - [Levin]")
     @Parameter(name = "id", description = "子项ID", in = ParameterIn.PATH)
-    public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody DictionaryItemDTO dto) {
+    public Result<ResponseEntity<Void>> edit(@PathVariable("dictionary_id") Long dictionaryId, @PathVariable Long id, @Validated @RequestBody DictionaryItemDTO dto) {
         final DictionaryItem dictionaryItem = DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS.convert(dto);
         dictionaryItem.setId(id);
-        this.dictionaryItemService.editDictionaryItem(dictionaryItem);
+        this.dictionaryItemService.editDictionaryItem(dictionaryId,dictionaryItem);
         return Result.success();
     }
 

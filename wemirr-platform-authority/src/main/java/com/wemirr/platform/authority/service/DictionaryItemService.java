@@ -27,7 +27,8 @@ public interface DictionaryItemService extends SuperService<DictionaryItem> {
     /**
      * 修改字典项
      *
-     * @param item 字典项
+     * @param dictionaryId 字典ID
+     * @param item         字典项
      */
-    void editDictionaryItem(DictionaryItem item);
+    void editDictionaryItem(Long dictionaryId, DictionaryItem item);
 }

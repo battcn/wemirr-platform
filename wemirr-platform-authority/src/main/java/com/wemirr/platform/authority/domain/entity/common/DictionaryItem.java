@@ -82,8 +82,8 @@ public class DictionaryItem extends SuperEntity<Long> {
      * 排序
      */
     @Schema(description = "排序")
-    @TableField("sort_value")
-    private Integer sortValue;
+    @TableField("`sequence`")
+    private Integer sequence;
 
 
 }

@@ -34,6 +34,17 @@ public class StationSaveDTO implements Serializable {
     @Schema(description = "名称")
     @Length(max = 255, message = "名称长度不能超过255")
     private String name;
+
+    @Schema(description = "岗位编码")
+    private String code;
+
+
+    @Schema(description = "岗位类型")
+    private Integer type;
+
+    @Schema(description = "排序")
+    private Integer sequence;
+
     /**
      * 组织ID
      * #c_core_org

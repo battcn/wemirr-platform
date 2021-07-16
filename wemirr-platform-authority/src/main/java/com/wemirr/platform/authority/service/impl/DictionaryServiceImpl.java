@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 /**
  * <p>
  * 业务实现类
@@ -45,6 +47,11 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteById(Long id) {
+        final Dictionary dictionary = Optional.ofNullable(this.baseMapper.selectById(id))
+                .orElseThrow(() -> CheckedException.notFound("字典不存在"));
+        if (dictionary.getReadonly()) {
+            throw CheckedException.notFound("内置数据无法删除");
+        }
         this.baseMapper.deleteById(id);
         this.dictionaryItemMapper.delete(Wraps.<DictionaryItem>lbQ().eq(DictionaryItem::getDictionaryId, id));
     }
@@ -52,8 +59,12 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void editDictionary(Dictionary dictionary) {
-        final Integer count = this.baseMapper.selectCount(Wraps.<Dictionary>lbQ()
-                .ne(Dictionary::getId, dictionary.getId())
+        final Dictionary record = Optional.ofNullable(this.baseMapper.selectById(dictionary.getId()))
+                .orElseThrow(() -> CheckedException.notFound("字典不存在"));
+        if (record.getReadonly()) {
+            throw CheckedException.notFound("内置数据无法删除");
+        }
+        final Integer count = this.baseMapper.selectCount(Wraps.<Dictionary>lbQ().ne(Dictionary::getId, dictionary.getId())
                 .eq(Dictionary::getCode, dictionary.getCode()));
         if (count != 0 && count > 0) {
             throw CheckedException.badRequest("字典类型编码重复");

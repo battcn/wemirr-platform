@@ -42,6 +42,15 @@ public class Station extends SuperEntity<Long> {
     @TableField(value = "`name`", condition = LIKE)
     private String name;
 
+    @Schema(description = "岗位编码")
+    private String code;
+
+    @Schema(description = "岗位类型")
+    private Integer type;
+
+    @Schema(description = "排序")
+    @TableField(value = "`sequence`")
+    private Integer sequence;
     /**
      * 组织ID
      * #c_core_org

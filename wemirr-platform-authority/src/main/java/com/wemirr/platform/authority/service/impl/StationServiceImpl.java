@@ -36,7 +36,7 @@ public class StationServiceImpl extends SuperServiceImpl<StationMapper, Station>
         final LbqWrapper<Station> wrapper = Wraps.<Station>lbQ().like(Station::getName, station.getName())
                 .like(Station::getDescription, station.getDescription())
                 .eq(Station::getOrgId, station.getOrgId())
-                .eq(Station::getStatus, station.getStatus());
+                .eq(Station::getStatus, station.getStatus()).orderByAsc(Station::getSequence);
         return baseMapper.findStationPage(params.buildPage(), wrapper, DataScope.builder().scopeType(DataScopeType.ALL).build());
     }
 }
