@@ -2,7 +2,6 @@ package com.wemirr.platform.authority.controller.baseinfo;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.boot.entity.PageRequest;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.authority.domain.dto.StationPageDTO;
@@ -35,8 +34,8 @@ public class StationController {
 
     @GetMapping
     @Operation(summary = "岗位列表 - [Levin] - [DONE]")
-    public Result<IPage<Station>> query(PageRequest params, String name, Long orgId) {
-        return Result.success(stationService.findStationPage(params, StationPageDTO.builder().name(name).orgId(orgId).build()));
+    public Result<IPage<Station>> query(StationPageDTO params) {
+        return Result.success(stationService.findStationPage(params, params));
     }
 
     @PostMapping

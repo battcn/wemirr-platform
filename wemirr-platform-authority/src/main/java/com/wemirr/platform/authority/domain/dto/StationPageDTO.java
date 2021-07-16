@@ -1,5 +1,6 @@
 package com.wemirr.platform.authority.domain.dto;
 
+import com.wemirr.framework.boot.entity.PageRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -23,8 +24,8 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(name= "StationPageDTO", description = "岗位")
-public class StationPageDTO implements Serializable {
+@Schema(name = "StationPageDTO", description = "岗位")
+public class StationPageDTO extends PageRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,6 +41,9 @@ public class StationPageDTO implements Serializable {
      */
     @Schema(description = "组织ID")
     private Long orgId;
-
+    @Schema(description = "类型")
+    private Integer type;
+    @Schema(description = "状态")
+    private Boolean status;
 
 }

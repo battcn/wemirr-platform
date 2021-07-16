@@ -34,8 +34,8 @@ public class StationServiceImpl extends SuperServiceImpl<StationMapper, Station>
     public IPage<Station> findStationPage(PageRequest params, StationPageDTO data) {
         Station station = BeanUtil.toBean(data, Station.class);
         final LbqWrapper<Station> wrapper = Wraps.<Station>lbQ().like(Station::getName, station.getName())
-                .like(Station::getDescription, station.getDescription())
-                .eq(Station::getOrgId, station.getOrgId())
+                .like(Station::getDescription, station.getDescription()).eq(Station::getType,data.getType())
+                .eq(Station::getStatus,data.getStatus()).eq(Station::getOrgId, station.getOrgId())
                 .eq(Station::getStatus, station.getStatus()).orderByAsc(Station::getSequence);
         return baseMapper.findStationPage(params.buildPage(), wrapper, DataScope.builder().scopeType(DataScopeType.ALL).build());
     }
