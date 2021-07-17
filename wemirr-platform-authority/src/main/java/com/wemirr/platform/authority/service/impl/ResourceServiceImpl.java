@@ -1,7 +1,10 @@
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import com.google.common.collect.Lists;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
+import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.database.datasource.TenantEnvironment;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;
@@ -56,26 +59,19 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void addResource(Resource resource) {
-        if (resource.getParentId() == null || resource.getParentId() == 0L) {
-            resource.setComponent("layoutHeaderAside");
-            resource.setPath(String.format(DEFAULT_PATH, tenantEnvironment.tenantId()));
-        }
         if (ResourceType.BUILD_PUBLISH.eq(resource.getType())) {
             resource.setPath(String.format(DEFAULT_PATH, tenantEnvironment.tenantId()) + "/" + resource.getModel());
             resource.setComponent(DEFAULT_COMPONENT);
         }
         baseMapper.insert(resource);
-        final List<Role> roles = this.roleMapper.selectList(Wraps.<Role>lbQ()
-                .eq(Role::getSuperRole, true)
+        final List<Role> roles = this.roleMapper.selectList(Wraps.<Role>lbQ().eq(Role::getSuperRole, true)
                 .eq(Role::getLocked, false));
         if (CollUtil.isEmpty(roles)) {
             return;
         }
-        Long resId = resource.getId();
         // 给管理员角色挂载权限
         final List<RoleRes> resList = roles.stream().map(role -> RoleRes.builder()
-                .roleId(role.getId()).resId(resId).build())
-                .collect(toList());
+                .roleId(role.getId()).resId(resource.getId()).build()).collect(toList());
         roleResService.saveBatch(resList);
     }
 
@@ -91,9 +87,14 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delResource(Long resourceId) {
-        baseMapper.deleteById(resourceId);
+        List<Long> resourceIds = Lists.newArrayList(resourceId);
+        final List<Resource> children = this.baseMapper.findChildrenById(resourceId);
+        if (CollectionUtil.isNotEmpty(children)) {
+            resourceIds.addAll(children.stream().map(Entity::getId).collect(toList()));
+        }
+        // 删除菜单和按钮
+        this.baseMapper.deleteBatchIds(resourceIds);
         // 删除对应的资源权限
-        this.roleResMapper.delete(Wraps.<RoleRes>lbQ()
-                .eq(RoleRes::getResId, resourceId));
+        this.roleResMapper.delete(Wraps.<RoleRes>lbQ().in(RoleRes::getResId, resourceIds));
     }
 }

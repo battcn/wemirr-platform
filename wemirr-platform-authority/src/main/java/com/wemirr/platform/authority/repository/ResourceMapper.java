@@ -35,4 +35,7 @@ public interface ResourceMapper extends SuperMapper<Resource> {
      * @return 查询结果
      */
     List<String> queryPermissionByUserId(Long userId);
+
+
+    List<Resource> findChildrenById(Long id);
 }

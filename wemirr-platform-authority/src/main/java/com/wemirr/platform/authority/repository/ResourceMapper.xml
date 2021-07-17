@@ -9,27 +9,27 @@
     </sql>
 
     <select id="findVisibleResource" resultType="com.wemirr.platform.authority.domain.vo.VueRouter">
-            SELECT
-           t1.*
+        SELECT
+        t1.*
         FROM
-            sys_resource t1
+        sys_resource t1
         WHERE
-            1 = 1
-            <if test="resource.type != null">
-                and t1.type = #{resource.type}
-            </if>
-            <if test="resource.parentId != null">
-                and t1.parent_id = #{resource.parentId}
-            </if>
-            and t1.id IN (
-            SELECT
-                res_id
-            FROM
-                sys_role_res
-            WHERE
-            role_id IN ( SELECT role_id FROM sys_user_role WHERE `user_id` = #{resource.userId} ))
+        1 = 1
+        <if test="resource.type != null">
+            and t1.type = #{resource.type}
+        </if>
+        <if test="resource.parentId != null">
+            and t1.parent_id = #{resource.parentId}
+        </if>
+        and t1.id IN (
+        SELECT
+        res_id
+        FROM
+        sys_role_res
+        WHERE
+        role_id IN ( SELECT role_id FROM sys_user_role WHERE `user_id` = #{resource.userId} ))
         ORDER BY
-            t1.`sequence`
+        t1.`sequence`
     </select>
 
 
@@ -43,5 +43,10 @@
                 JOIN t_sys_role t4 ON t3.role_id = t4.id
 
     </select>
+
+    <select id="findChildrenById" resultType="com.wemirr.platform.authority.domain.entity.baseinfo.Resource">
+        SELECT * FROM sys_resource WHERE FIND_IN_SET(#{id},tree_path)
+    </select>
+
 
 </mapper>

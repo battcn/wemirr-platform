@@ -26,7 +26,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("sys_resource")
-@Schema(name= "Resource", description = "资源")
+@Schema(name = "Resource", description = "资源")
 public class Resource extends SuperEntity<Long> {
 
     private static final long serialVersionUID = 1L;
@@ -72,7 +72,7 @@ public class Resource extends SuperEntity<Long> {
     private String path;
     @TableField("`component`")
     private String component;
-    @TableField("`model`")
+    @TableField(value = "`model`", exist = false)
     private String model;
     /**
      * 是否公开菜单

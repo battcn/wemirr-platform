@@ -1,12 +1,9 @@
 package com.wemirr.framework.boot.entity;
 
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.entity.BaseConverts;
-
-import java.util.List;
 
 /**
  * 对象转换接口
@@ -30,15 +27,7 @@ public interface BasePageConverts<S, T> extends BaseConverts<S, T> {
         if (source == null) {
             return new Page<>();
         }
-        IPage<T> page = new Page<>(source.getCurrent(), source.getSize());
-        page.setPages(source.getPages());
-        page.setTotal(source.getTotal());
-        List<S> records = source.getRecords();
-        if (CollUtil.isEmpty(records)) {
-            return page;
-        }
-        page.setRecords(converts(records));
-        return page;
+        return source.convert(this::convert);
     }
 
 
