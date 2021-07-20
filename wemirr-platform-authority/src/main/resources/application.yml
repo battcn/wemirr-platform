@@ -46,7 +46,7 @@ spring:
   resources:
     add-mappings: false
   mybatis-plus:
-    include-tables: t_user,sys_role,sys_org,sys_station
+    include-tables: t_user,sys_role,sys_org,sys_station,sys_station_message_publish
 
 swagger:
   title: Swagger API

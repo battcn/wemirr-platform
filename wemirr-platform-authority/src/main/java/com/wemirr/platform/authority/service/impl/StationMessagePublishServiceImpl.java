@@ -18,6 +18,7 @@ import com.wemirr.platform.authority.repository.*;
 import com.wemirr.platform.authority.service.StationMessagePublishService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -64,10 +65,15 @@ public class StationMessagePublishServiceImpl extends SuperServiceImpl<StationMe
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void publish(Long id) {
         final StationMessagePublish messagePublish = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("需要发布的消息不存在"));
         final List<Long> receiver = Optional.of(Arrays.stream(messagePublish.getReceiver().split(",")).mapToLong(Long::parseLong).boxed().collect(toList()))
                 .orElseThrow(() -> CheckedException.badRequest("接受者不能为空"));
+        StationMessagePublish record = new StationMessagePublish();
+        record.setId(id);
+        record.setStatus(true);
+        this.baseMapper.updateById(record);
         final ReceiverType type = messagePublish.getType();
         if (ReceiverType.USER.eq(type)) {
             publish(messagePublish, receiver);

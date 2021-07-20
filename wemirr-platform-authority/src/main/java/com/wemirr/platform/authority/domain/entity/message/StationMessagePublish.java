@@ -21,6 +21,9 @@ public class StationMessagePublish extends SuperEntity<Long> {
     @TableField("`level`")
     private String level;
 
+    @TableField("`status`")
+    private Boolean status;
+
     @TableField("`type`")
     private ReceiverType type;
 
