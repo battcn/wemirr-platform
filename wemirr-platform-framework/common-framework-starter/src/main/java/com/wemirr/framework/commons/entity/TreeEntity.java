@@ -44,6 +44,9 @@ public class TreeEntity<E, T extends Serializable> extends SuperEntity<T> {
     @TableField(value = "parent_id")
     protected T parentId;
 
+    @TableField(value = "`tel`")
+    private String tel;
+
     /**
      * 排序
      */

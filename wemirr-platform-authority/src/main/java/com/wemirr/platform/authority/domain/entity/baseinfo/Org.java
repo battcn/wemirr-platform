@@ -25,7 +25,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("sys_core_org")
+@TableName("sys_org")
 @Schema(description = "组织")
 public class Org extends TreeEntity<Org, Long> {
 
@@ -38,8 +38,11 @@ public class Org extends TreeEntity<Org, Long> {
      */
     @Schema(description = "简称")
     @Length(max = 255, message = "简称长度不能超过255")
-    @TableField(value = "abbreviation", condition = LIKE)
-    private String abbreviation;
+    @TableField(value = "alias", condition = LIKE)
+    private String alias;
+
+    @TableField("`tree_path`")
+    private String treePath;
 
     /**
      * 状态
