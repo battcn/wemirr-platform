@@ -7,6 +7,8 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.security.client.entity.SecurityDictionary;
 import com.wemirr.framework.security.client.entity.SecurityUserDetail;
 import com.wemirr.framework.security.client.entity.UserInfoDetails;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -78,27 +80,7 @@ public class SecurityUtils {
         return detailBuilder.build();
     }
 
-    public static Long userId() {
-        return getSecurityUserDetail().getUserId();
-    }
-
-    public static String principal() {
-        return getSecurityUserDetail().getPrincipal();
-    }
-
     public static final String ANONYMOUS_USER = "anonymousUser";
-
-    public boolean isAuth() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
-            return false;
-        }
-        if (authentication.getPrincipal() == null) {
-            return false;
-        }
-        return !authentication.getPrincipal().equals(ANONYMOUS_USER);
-    }
-
 
     /**
      * 是否为匿名用户
@@ -107,25 +89,12 @@ public class SecurityUtils {
      */
     public static boolean anonymous() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return true;
+        }
+        if (authentication.getPrincipal() == null || authentication instanceof UsernamePasswordAuthenticationToken) {
             return true;
         }
         return authentication.getPrincipal().equals(ANONYMOUS_USER);
     }
-
-
-    public static Long getUserId() {
-        return getSecurityUserDetail().getUserId();
-    }
-
-    public static Long getTenantId() {
-        return getSecurityUserDetail().getTenantId();
-    }
-
-    public static String getRealName() {
-        return getSecurityUserDetail().getRealName();
-    }
-
-
-
 }

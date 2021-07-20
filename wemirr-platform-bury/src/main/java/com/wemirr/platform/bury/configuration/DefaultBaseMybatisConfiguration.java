@@ -38,6 +38,11 @@ public class DefaultBaseMybatisConfiguration extends BaseMybatisConfiguration {
             public String realName() {
                 return "不告诉你";
             }
+
+            @Override
+            public boolean anonymous() {
+                return false;
+            }
         };
     }
 

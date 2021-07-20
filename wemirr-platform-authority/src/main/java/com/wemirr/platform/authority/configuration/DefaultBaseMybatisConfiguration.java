@@ -39,6 +39,11 @@ public class DefaultBaseMybatisConfiguration extends BaseMybatisConfiguration {
             public String realName() {
                 return SecurityUtils.getAuthInfo().getRealName();
             }
+
+            @Override
+            public boolean anonymous() {
+                return SecurityUtils.anonymous();
+            }
         };
     }
 

@@ -29,5 +29,12 @@ public interface TenantEnvironment {
      */
     String realName();
 
+    /**
+     * 匿名用户
+     *
+     * @return 是否为匿名
+     */
+    boolean anonymous();
+
 
 }
