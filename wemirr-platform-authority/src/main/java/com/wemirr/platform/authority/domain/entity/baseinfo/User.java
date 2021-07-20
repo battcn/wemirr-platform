@@ -41,7 +41,7 @@ public class User extends SuperEntity<Long> {
      */
     @TableField(value = "username")
     private String username;
-
+    private Long tenantId;
     /**
      * 密码
      */

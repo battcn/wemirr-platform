@@ -16,6 +16,8 @@ import lombok.EqualsAndHashCode;
 @TableName("sys_role")
 public class Role extends Entity<Long> {
 
+    private Long tenantId;
+
     private String name;
 
     private String code;

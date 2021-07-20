@@ -33,6 +33,8 @@ public class Org extends TreeEntity<Org, Long> {
 
     protected String label;
 
+    private Long tenantId;
+
     /**
      * 简称
      */

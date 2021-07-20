@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -23,7 +24,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(name= "OrgSaveDTO", description = "组织")
+@Schema(name = "OrgSaveDTO", description = "组织")
 public class OrgSaveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +33,7 @@ public class OrgSaveDTO implements Serializable {
      * 名称
      */
     @Schema(description = "名称")
+    @NotBlank(message = "名称不能为空")
     @Length(max = 255, message = "名称长度不能超过255")
     private String label;
     /**

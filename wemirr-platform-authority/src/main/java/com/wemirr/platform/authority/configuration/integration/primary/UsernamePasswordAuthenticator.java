@@ -57,6 +57,7 @@ public class UsernamePasswordAuthenticator extends AbstractPreparedIntegrationAu
         final User user = Optional.ofNullable(this.userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username)))
                 .orElseThrow(() -> CheckedException.notFound("账户不存在"));
         final UserInfoDetails info = new UserInfoDetails();
+        info.setTenantId(user.getTenantId());
         info.setUserId(user.getId());
         info.setUsername(username);
         info.setRealName(user.getNickName());

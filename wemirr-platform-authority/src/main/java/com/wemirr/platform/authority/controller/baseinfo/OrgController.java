@@ -66,8 +66,7 @@ public class OrgController {
     @SysLog(value = "保存组织架构")
     @Operation(summary = "保存编辑组织架构")
     public Result<ResponseEntity<Void>> save(@Validated @RequestBody OrgSaveDTO dto) {
-        final Org bean = BeanUtil.toBean(dto, Org.class);
-        orgService.save(bean);
+        orgService.addOrg(BeanUtil.toBean(dto, Org.class));
         return success();
     }
 
@@ -85,7 +84,7 @@ public class OrgController {
     @SysLog(value = "删除组织架构")
     @Operation(summary = "删除组织架构")
     public Result<ResponseEntity<Void>> del(@PathVariable Long id) {
-        orgService.removeById(id);
+        orgService.remove(id);
         return success();
     }
 

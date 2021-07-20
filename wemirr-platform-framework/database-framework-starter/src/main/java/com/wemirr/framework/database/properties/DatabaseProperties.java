@@ -46,7 +46,9 @@ public class DatabaseProperties {
      */
     private long maxLimit = 1000L;
 
-
+    /**
+     *
+     */
     private List<String> includeTables = Lists.newArrayList();
 
     /**
