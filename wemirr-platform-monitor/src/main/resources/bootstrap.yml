@@ -1,9 +1,8 @@
 server:
   port: 5000
-
 spring:
   application:
-    name: wemirr-platforn-monitor
+    name: wemirr-platform-monitor
   main:
     allow-bean-definition-overriding: true
   cloud:
@@ -31,3 +30,16 @@ management:
   endpoint:
     health:
       show-details: ALWAYS  #显示详细信息
+
+---
+spring:
+  profiles:
+    active: prod
+  boot:
+    admin:
+      context-path: /monitor
+#server:
+#  ssl:
+#    enabled: true
+#    key-store: /opt/wemirr-platform/4869096_cloud.battcn.com_tomcat/4869096_cloud.battcn.com.pfx
+#    key-store-password: 0w1O2S8f

@@ -40,9 +40,13 @@ public class DemoProfileInterceptor implements HandlerInterceptor {
             }
         }
         final String strId = StringUtils.substringAfterLast(uri, "/");
-        final int id = Integer.parseInt(strId);
-        if (id < max_id) {
-            throw CheckedException.notFound("禁止操作演示环境的核心数据");
+        try {
+            final int id = Integer.parseInt(strId);
+            if (id < max_id) {
+                throw CheckedException.notFound("禁止操作演示环境的核心数据");
+            }
+        } catch (Exception e) {
+            log.error("转换失败 - {}", e.getMessage());
         }
         log.debug("method - {},uri - {} - id - {}", method, uri, strId);
         return true;
