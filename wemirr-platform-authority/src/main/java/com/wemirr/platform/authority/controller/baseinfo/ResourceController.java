@@ -5,6 +5,7 @@ import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.boot.utils.BeanPlusUtil;
 import com.wemirr.framework.commons.StringUtils;
@@ -32,7 +33,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * 菜单资源
@@ -87,8 +91,16 @@ public class ResourceController {
                     node.setExtra(extra);
                     node.setWeight(route.getSequence());
                     return node;
-                }).collect(Collectors.toList());
+                }).collect(toList());
         return Result.success(TreeUtil.build(list, 0L));
+    }
+
+    @GetMapping("/permissions")
+    @Operation(summary = "资源码", description = "只能看到自身资源码")
+    public Result<List<String>> permissions() {
+        List<VueRouter> routers = Optional.ofNullable(resourceService.findVisibleResource(ResourceQueryDTO.builder()
+                .userId(tenantEnvironment.userId()).build())).orElseGet(Lists::newArrayList);
+        return Result.success(routers.stream().map(VueRouter::getPermission).collect(toList()));
     }
 
     @GetMapping
