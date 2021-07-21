@@ -11,10 +11,10 @@ import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.bury.domain.entity.OptLog;
 import com.wemirr.platform.bury.service.OptLogService;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/opt_logs")
 @RequiredArgsConstructor
-@Api(value = "操作日志", description = "操作日志", tags = "0.0.1")
 @Validated
+@Tag(name = "操作日志", description = "操作日志")
 public class OptLogController {
 
     private final OptLogService optLogService;

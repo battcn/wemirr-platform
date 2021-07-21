@@ -65,14 +65,10 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
         dataSourceConfig.setPassword(dataSourceProperties.getPassword());
         generator.setDataSource(dataSourceConfig);
 
-
         TemplateConfig templateConfig = new TemplateConfig()
-                .setEntity("templates/backend/entity.java")
-                .setController("templates/backend/controller.java")
-                .setMapper("templates/backend/mapper.java")
-                .setService("templates/backend/service.java")
-                .setServiceImpl("templates/backend/serviceImpl.java")
-                .setXml("templates/backend/mapper.xml");
+                .setEntity("templates/backend/entity.java").setController("templates/backend/controller.java")
+                .setMapper("templates/backend/mapper.java").setService("templates/backend/service.java")
+                .setServiceImpl("templates/backend/serviceImpl.java").setXml("templates/backend/mapper.xml");
 
         //配置自定义模板
         generator.setTemplate(templateConfig);
@@ -97,7 +93,6 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
                 this.setMap(map);
             }
         };
-
         // 自定义输出配置
         List<FileOutConfig> focList = Lists.newArrayList();
         Map<String, String> customFiles = Maps.newHashMap();
@@ -110,7 +105,6 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
         // 自定义配置会被优先输出
         String finalRootDir = rootDir;
         for (Map.Entry<String, String> entry : customFiles.entrySet()) {
-
             focList.add(new FileOutConfig(entry.getKey()) {
                 @Override
                 public String outputFile(TableInfo tableInfo) {
@@ -125,14 +119,20 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
                 }
             });
         }
-
         cfg.setFileOutConfigList(focList);
         generator.setCfg(cfg);
         generator.setTemplate(templateConfig);
 
+        generator.setStrategy(getStrategyConfig(request));
+        generator.setTemplateEngine(new FreemarkerTemplateEngine());
+        generator.execute();
+        log.info("{}生成完成:{}", request.getTableName(), rootDir);
+        return rootDir;
+    }
+
+    private StrategyConfig getStrategyConfig(GenerateRequest request) {
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
-
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setSuperEntityClass(SuperEntity.class);
@@ -142,17 +142,12 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
         strategy.setSuperServiceClass(SuperService.class);
         strategy.setLogicDeleteFieldName(request.getLogicDeleteField());
         strategy.setInclude(request.getTableName());
-
         strategy.setTableFillList(request.getFillList());
-
         //是否驼峰转连接字符
         strategy.setControllerMappingHyphenStyle(false);
         strategy.setTablePrefix(request.getTablePrefix());
-        generator.setStrategy(strategy);
-        generator.setTemplateEngine(new FreemarkerTemplateEngine());
-        generator.execute();
-        log.info("{}生成完成:{}", request.getTableName(), rootDir);
-        return rootDir;
 
+        return strategy;
     }
+
 }

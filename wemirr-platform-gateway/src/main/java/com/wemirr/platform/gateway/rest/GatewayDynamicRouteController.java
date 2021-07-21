@@ -1,10 +1,10 @@
 package com.wemirr.platform.gateway.rest;
 
 import com.wemirr.platform.gateway.route.RedisRouteDynamicGatewayService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.route.RouteDefinition;
@@ -23,7 +23,7 @@ import javax.annotation.Resource;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/routes")
-@Api(value = "路由管理", description = "动态路由", tags = "0.0.0")
+@Tag(name = "路由管理", description = "动态路由")
 public class GatewayDynamicRouteController {
 
     @Resource

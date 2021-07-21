@@ -7,7 +7,10 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * 拦截器配置类
+ * todo 实际开发建议注释或者删除
+ * 演示环境拦截器
+ *
+ * @author Levin
  */
 @Profile({"demo", "dev"})
 @Configuration
@@ -20,7 +23,7 @@ public class CustomWebMvcConfigure implements WebMvcConfigurer {
     }
 
     @Bean
-    public DemoProfileInterceptor demoProfileInterceptor(){
+    public DemoProfileInterceptor demoProfileInterceptor() {
         return new DemoProfileInterceptor();
     }
 }

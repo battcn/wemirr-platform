@@ -20,8 +20,8 @@ import java.util.List;
 @Slf4j
 public class DemoProfileInterceptor implements HandlerInterceptor {
 
-    private static final int max_id = 10;
-    private static final List<String> urls = Lists.newArrayList("change_password", "resources", "dictionaries");
+    private static final int MAX_ID = 10;
+    private static final List<String> URLS = Lists.newArrayList("change_password", "resources", "dictionaries");
 
     @Override
     public boolean preHandle(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable Object handler) {
@@ -34,7 +34,7 @@ public class DemoProfileInterceptor implements HandlerInterceptor {
         if (method != HttpMethod.PUT && method != HttpMethod.DELETE) {
             return true;
         }
-        for (String url : urls) {
+        for (String url : URLS) {
             if (StringUtils.contains(uri, url)) {
                 throw CheckedException.notFound("禁止操作演示环境的核心数据,");
             }
@@ -42,7 +42,7 @@ public class DemoProfileInterceptor implements HandlerInterceptor {
         final String strId = StringUtils.substringAfterLast(uri, "/");
         try {
             final int id = Integer.parseInt(strId);
-            if (id < max_id) {
+            if (id < MAX_ID) {
                 throw CheckedException.notFound("禁止操作演示环境的核心数据");
             }
         } catch (Exception e) {

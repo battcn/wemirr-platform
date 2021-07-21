@@ -63,17 +63,27 @@ public class Resource extends SuperEntity<Long> {
      */
     @TableField("`type`")
     private ResourceType type;
+
     @TableField("`sequence`")
     private Integer sequence;
+
     @TableField("`style`")
     private String style;
+
+    @TableField("`icon`")
     private String icon;
+
     @TableField("`path`")
     private String path;
+
     @TableField("`component`")
     private String component;
+
     @TableField(value = "`model`", exist = false)
     private String model;
+
+    @TableField("`tree_path`")
+    private String treePath;
     /**
      * 是否公开菜单
      * 就是无需分配就可以访问的。所有人可见

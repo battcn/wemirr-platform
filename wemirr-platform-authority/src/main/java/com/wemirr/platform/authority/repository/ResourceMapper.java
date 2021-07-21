@@ -1,5 +1,6 @@
 package com.wemirr.platform.authority.repository;
 
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.wemirr.framework.boot.SuperMapper;
 import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
@@ -36,6 +37,20 @@ public interface ResourceMapper extends SuperMapper<Resource> {
      */
     List<String> queryPermissionByUserId(Long userId);
 
-
+    /**
+     * 根据ID的获取子集
+     *
+     * @param id id
+     * @return 查询结果
+     */
     List<Resource> findChildrenById(Long id);
+
+    /**
+     * 根据父级ID的获取全部父级
+     *
+     * @param parentId parentId
+     * @return 查询结果
+     */
+    @InterceptorIgnore(tenantLine = "true")
+    String getTreePathByParentId(Long parentId);
 }

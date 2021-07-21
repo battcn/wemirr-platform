@@ -37,6 +37,10 @@ public interface OrgService extends SuperService<Org> {
     void remove(Long id);
 
 
+    /**
+     * 添加组织
+     * @param org org
+     */
     void addOrg(Org org);
 
     /**

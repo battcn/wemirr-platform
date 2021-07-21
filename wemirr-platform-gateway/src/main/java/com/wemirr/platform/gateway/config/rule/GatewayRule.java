@@ -36,6 +36,7 @@ public interface GatewayRule<T> {
      *
      * @param stringRedisTemplate redis
      * @param request             request
+     * @param gatewayRule         枚举
      * @return CommonRule
      */
     default T getByPath(StringRedisTemplate stringRedisTemplate, ServerHttpRequest request, GatewayRuleEnum gatewayRule) {

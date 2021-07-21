@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
+import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.database.datasource.TenantEnvironment;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
@@ -63,7 +64,11 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
             resource.setPath(String.format(DEFAULT_PATH, tenantEnvironment.tenantId()) + "/" + resource.getModel());
             resource.setComponent(DEFAULT_COMPONENT);
         }
-        baseMapper.insert(resource);
+        final String treePath = this.baseMapper.getTreePathByParentId(resource.getParentId());
+        if (StringUtils.isNotBlank(treePath)) {
+            resource.setTreePath(treePath);
+        }
+        this.baseMapper.insert(resource);
         final List<Role> roles = this.roleMapper.selectList(Wraps.<Role>lbQ().eq(Role::getSuperRole, true)
                 .eq(Role::getLocked, false));
         if (CollUtil.isEmpty(roles)) {

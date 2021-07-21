@@ -16,6 +16,12 @@ import com.wemirr.platform.authority.domain.vo.UserRoleResp;
  */
 public interface UserRoleService extends SuperService<UserRole> {
 
+    /**
+     * 根据劫色查询用户
+     *
+     * @param roleId 角色id
+     * @return 查询结果
+     */
     UserRoleResp findUserByRoleId(Long roleId);
 
 }

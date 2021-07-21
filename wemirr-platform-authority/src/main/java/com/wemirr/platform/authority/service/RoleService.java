@@ -64,5 +64,11 @@ public interface RoleService extends SuperService<Role> {
     void saveUserRole(Long roleId, List<Long> userIdList);
 
 
+    /**
+     * 根据角色ID查询资源码
+     *
+     * @param roleId 角色ID
+     * @return 查询结果
+     */
     RolePermissionResp findRolePermissionById(Long roleId);
 }
