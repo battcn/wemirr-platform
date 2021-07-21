@@ -4,7 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.entity.Result;
+import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.database.datasource.TenantEnvironment;
+import com.wemirr.platform.authority.domain.dto.ChangePasswordDTO;
+import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.EqualsAndHashCode;
@@ -16,6 +21,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -41,7 +47,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class RewriteTokenEndpoint {
 
+    private final TenantEnvironment tenantEnvironment;
     private final TokenEndpoint tokenEndpoint;
+    private final UserService userService;
 
 
     @ResponseBody
@@ -122,6 +130,18 @@ public class RewriteTokenEndpoint {
         OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
         log.debug("获取user信息:{}", JSON.toJSON(oAuth2Authentication));
         return principal;
+    }
+
+    @ResponseBody
+    @PutMapping("/change_password")
+    @Operation(summary = "修改密码")
+    public Result<Void> changePassword(@Validated @RequestBody ChangePasswordDTO dto) {
+        if (!StringUtils.equals(dto.getPassword(), dto.getConfirmPassword())) {
+            throw CheckedException.badRequest("新密码与确认密码不一致");
+        }
+        final Long userId = tenantEnvironment.userId();
+        this.userService.changePassword(userId, dto.getOriginalPassword(), dto.getPassword());
+        return Result.success();
     }
 
 

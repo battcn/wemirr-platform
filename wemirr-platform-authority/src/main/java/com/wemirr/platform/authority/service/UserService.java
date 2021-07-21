@@ -38,5 +38,13 @@ public interface UserService extends SuperService<User> {
      */
     IPage<UserResp> findPage(IPage<User> page, LbqWrapper<User> wrapper);
 
+    /**
+     * 修改密码
+     *
+     * @param userId      用户ID
+     * @param orgPassword 原始密码
+     * @param newPassword 新密码
+     */
+    void changePassword(Long userId, String orgPassword, String newPassword);
 
 }

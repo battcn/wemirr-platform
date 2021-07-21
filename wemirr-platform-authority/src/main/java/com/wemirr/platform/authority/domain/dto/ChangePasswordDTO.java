@@ -1,13 +1,11 @@
 package com.wemirr.platform.authority.domain.dto;
 
-import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -26,22 +24,15 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(name= "UserUpdatePasswordDTO", description = "用户")
-public class UserUpdatePasswordDTO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Schema(description = "主键")
-    @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
-    private Long id;
-
+@Schema(name = "ChangePasswordDTO", description = "用户")
+public class ChangePasswordDTO implements Serializable {
     /**
      * 密码
      */
     @Schema(description = "旧密码")
     @NotEmpty(message = "旧密码不能为空")
     @Length(max = 64, message = "旧密码长度不能超过64")
-    private String oldPassword;
+    private String originalPassword;
     /**
      * 密码
      */
