@@ -59,6 +59,12 @@ spring:
             - Path=/authority/**
           filters:
             - StripPrefix=1
+        - id: wemirr-platform-monitor
+          uri: lb://wemirr-platform-monitor
+          predicates:
+            - Path=/monitor/**
+          filters:
+            - StripPrefix=1
         - id: wemirr-platform-tools
           uri: lb://wemirr-platform-tools
           predicates:
