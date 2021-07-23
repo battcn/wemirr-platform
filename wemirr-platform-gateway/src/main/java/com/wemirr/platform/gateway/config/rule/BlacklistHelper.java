@@ -2,8 +2,8 @@ package com.wemirr.platform.gateway.config.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.nacos.common.utils.UuidUtils;
 import com.google.common.collect.Lists;
-import com.nepxion.discovery.common.util.UuidUtil;
 import com.wemirr.platform.gateway.rest.domain.BlacklistRule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -45,7 +45,7 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
         final String path = exchange.getRequest().getURI().getPath();
         // 添加黑名单
         BlacklistRule record = new BlacklistRule();
-        record.setId(UuidUtil.getUUID());
+        record.setId(UuidUtils.generateUuid());
         record.setDescription("触发 sentinel 限流规则" + path + "拉入黑名单1小时");
         record.setStatus(true);
         final LocalDateTime now = LocalDateTime.now();
@@ -101,7 +101,7 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
             return;
         }
         if (rule.getId() == null) {
-            rule.setId(UuidUtil.getUUID());
+            rule.setId(UuidUtils.generateUuid());
         }
         if (rule.getCreatedTime() == null) {
             rule.setCreatedTime(LocalDateTime.now());

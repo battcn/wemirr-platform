@@ -35,6 +35,7 @@ public interface ResourceMapper extends SuperMapper<Resource> {
      * @param userId 用户ID
      * @return 查询结果
      */
+    @InterceptorIgnore(tenantLine = "true")
     List<String> queryPermissionByUserId(Long userId);
 
     /**

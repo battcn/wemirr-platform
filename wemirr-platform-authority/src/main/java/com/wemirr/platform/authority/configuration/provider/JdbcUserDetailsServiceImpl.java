@@ -7,6 +7,9 @@ import com.wemirr.framework.security.client.entity.UserInfoDetails;
 import com.wemirr.platform.authority.configuration.integration.IntegrationAuthentication;
 import com.wemirr.platform.authority.configuration.integration.IntegrationAuthenticationContext;
 import com.wemirr.platform.authority.configuration.integration.IntegrationAuthenticator;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
+import com.wemirr.platform.authority.repository.ResourceMapper;
+import com.wemirr.platform.authority.repository.RoleMapper;
 import com.wemirr.platform.authority.service.LoginLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -17,10 +20,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author Levin
@@ -33,7 +38,10 @@ public class JdbcUserDetailsServiceImpl implements UserDetailsService {
     private List<IntegrationAuthenticator> authenticators;
     @Resource
     private LoginLogService loginLogService;
-
+    @Resource
+    private RoleMapper roleMapper;
+    @Resource
+    private ResourceMapper resourceMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -64,8 +72,9 @@ public class JdbcUserDetailsServiceImpl implements UserDetailsService {
      * @param user user
      */
     private void setAuthorize(UserInfoDetails user, IntegrationAuthentication integrationAuthentication) {
-        final ArrayList<String> roles = Lists.newArrayList("ADMIN", "USER");
-        final ArrayList<String> permissions = Lists.newArrayList("role:view", "user:view");
+        final List<String> roles = Optional.ofNullable(this.roleMapper.findRoleByUserId(user.getUserId())).orElseGet(Lists::newArrayList)
+                .stream().map(Role::getCode).collect(toList());
+        final List<String> permissions = Optional.ofNullable(this.resourceMapper.queryPermissionByUserId(user.getUserId())).orElseGet(Lists::newArrayList);
         // 验证角色和登录系统
         Set<String> authorize = Sets.newHashSet();
         authorize.addAll(roles);

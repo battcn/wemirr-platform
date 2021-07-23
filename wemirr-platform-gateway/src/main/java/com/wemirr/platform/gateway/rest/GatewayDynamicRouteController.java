@@ -73,7 +73,8 @@ public class GatewayDynamicRouteController {
     @ApiOperation("删除路由 - [DONE]")
     @DeleteMapping("/{id}")
     public Mono<ResponseEntity<Object>> delete(@PathVariable String id) {
-        return this.redisRouteDynamicGatewayService.delete(id);
+        this.redisRouteDynamicGatewayService.delete(id);
+        return Mono.empty();
     }
 
 

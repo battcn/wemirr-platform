@@ -17,6 +17,17 @@ public class RedisRouteDynamicGatewayService {
     private final ApplicationEventPublisher applicationEventPublisher;
     private final RedisRouteDefinitionRepository redisRouteDefinitionRepository;
 
+    public void saveOrUpdate(RouteDefinition routeDefinition) {
+        final String id = routeDefinition.getId();
+        final RouteDefinition definition = redisRouteDefinitionRepository.find(id);
+        if (definition != null) {
+            redisRouteDefinitionRepository.delete(Mono.just(id));
+        }
+        redisRouteDefinitionRepository.save(Mono.just(routeDefinition)).subscribe();
+        applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
+
+    }
+
     public void create(RouteDefinition routeDefinition) {
         redisRouteDefinitionRepository.save(Mono.just(routeDefinition)).subscribe();
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
@@ -28,9 +39,10 @@ public class RedisRouteDynamicGatewayService {
         applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
     }
 
-    public Mono<ResponseEntity<Object>> delete(String id) {
-        return redisRouteDefinitionRepository.delete(Mono.just(id)).then(Mono.defer(() -> Mono.just(ResponseEntity.ok().build())))
-                .onErrorResume(t -> t instanceof NotFoundException, t -> Mono.just(ResponseEntity.notFound().build()));
+    public void delete(String id) {
+        redisRouteDefinitionRepository.delete(Mono.just(id)).then(Mono.defer(() -> Mono.just(ResponseEntity.ok().build())))
+                .onErrorResume(t -> t instanceof NotFoundException, t -> Mono.just(ResponseEntity.notFound().build())).subscribe();
+        applicationEventPublisher.publishEvent(new RefreshRoutesEvent(this));
     }
 
 }

@@ -2,6 +2,7 @@ package com.wemirr.platform.gateway.config;
 
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
 import com.google.common.collect.Maps;
+import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.platform.gateway.config.rule.BlacklistHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -46,7 +47,6 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
     protected Map<String, Object> getErrorAttributes(ServerRequest request, ErrorAttributeOptions errorAttributeOptions) {
         int code = HttpStatus.INTERNAL_SERVER_ERROR.value();
         Throwable error = super.getError(request);
-        error.printStackTrace();
         final String message = error.getMessage();
         if (StringUtils.contains(message, UNABLE_ERROR)) {
             log.warn("[调用内部服务失败] - [{}]", message);
@@ -93,6 +93,9 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
      * @return 返回结果
      */
     private String buildMessage(ServerRequest request, Throwable ex) {
+        if (ex instanceof CheckedException) {
+            return ex.getLocalizedMessage();
+        }
         StringBuilder message = new StringBuilder("Failed to handle request [");
         message.append(request.methodName());
         message.append(" ");

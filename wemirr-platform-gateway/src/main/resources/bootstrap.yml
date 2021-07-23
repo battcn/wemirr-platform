@@ -52,7 +52,7 @@ spring:
             - Path=/authority/**
           filters:
             - StripPrefix=1
-#            - name: BlackWhiteList
+        #            - name: BlackWhiteList
         - id: wemirr-platform-authority-websocket
           uri: lb:ws://wemirr-platform-authority
           predicates:
@@ -82,7 +82,23 @@ spring:
           predicates:
             - Path=/nepxion/**
           filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 100   # 允许用户每秒处理多少个请求
+                redis-rate-limiter.burstCapacity: 100   # 令牌桶的容量，允许在一秒钟内完成的最大请求数
+                # 使用 IP 限流策略（使用 SpEL 按名称引用 bean）
+                key-resolver: "#{@ipKeyResolver}"
             - StripPrefix=1
+            - name: Retry
+              args:
+                retries: 1
+                statuses: BAD_GATEWAY
+                backoff:
+                  firstBackoff: 200ms
+                  maxBackoff: 500ms
+                  factor: 1
+                  basedOnPreviousValue: false
+                  exceptions: TimeoutException
       loadbalancer:
         use404: true
       httpclient:
