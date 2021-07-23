@@ -35,7 +35,7 @@ public class RedisRouteDefinitionRepository implements RouteDefinitionRepository
         if (object == null) {
             return null;
         }
-        log.info("[路由信息] - [{}]", object);
+        log.debug("[动态路由信息] - [{}]", object);
         return JSON.parseObject(object.toString(), RouteDefinition.class);
     }
 

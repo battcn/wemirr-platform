@@ -18,7 +18,6 @@ import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.cloud.gateway.route.CompositeRouteDefinitionLocator;
 import org.springframework.cloud.gateway.route.RouteDefinition;
-import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.wemirr.platform.gateway.config.rule.GatewayRule.Constants.GATEWAY_RULE_ROUTE;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
@@ -39,10 +39,8 @@ import static java.util.stream.Collectors.toMap;
 @RequiredArgsConstructor
 public class RouteRuleHelper {
 
-    private static final String KEY = "KEY";
     private final StringRedisTemplate stringRedisTemplate;
     private final RedisRouteDynamicGatewayService redisRouteDynamicGatewayService;
-    private final RouteDefinitionRepository routeDefinitionRepository;
     private final DiscoveryClient discoveryClient;
 
 
@@ -57,13 +55,16 @@ public class RouteRuleHelper {
         if (rule.getStatus() == null) {
             rule.setStatus(false);
         }
+        if (rule.getDynamic() == null) {
+            rule.setDynamic(true);
+        }
         log.debug("请求参数 - {}", JSON.toJSONString(rule));
-        stringRedisTemplate.opsForHash().put(KEY, rule.getId(), JSON.toJSONString(rule));
+        stringRedisTemplate.opsForHash().put(GATEWAY_RULE_ROUTE, rule.getId(), JSON.toJSONString(rule));
     }
 
     private boolean publish(String id) {
         final List<String> services = discoveryClient.getServices();
-        final Object object = stringRedisTemplate.opsForHash().get(KEY, id);
+        final Object object = stringRedisTemplate.opsForHash().get(GATEWAY_RULE_ROUTE, id);
         if (object == null) {
             return false;
         }
@@ -95,9 +96,9 @@ public class RouteRuleHelper {
             routeDefinition.setFilters(filters);
         }
         if (services.contains(rule.getName())) {
-            redisRouteDynamicGatewayService.saveOrUpdate(routeDefinition);
             rule.setStatus(true);
-            stringRedisTemplate.opsForHash().put(KEY, rule.getId(), JSON.toJSONString(rule));
+            redisRouteDynamicGatewayService.saveOrUpdate(routeDefinition);
+            stringRedisTemplate.opsForHash().put(GATEWAY_RULE_ROUTE, rule.getId(), JSON.toJSONString(rule));
             return true;
         }
         return false;
@@ -108,7 +109,7 @@ public class RouteRuleHelper {
      * @param status true = 上线 false = 下线
      */
     public void routeHandler(String id, Boolean status) {
-        final Object object = stringRedisTemplate.opsForHash().get(KEY, id);
+        final Object object = stringRedisTemplate.opsForHash().get(GATEWAY_RULE_ROUTE, id);
         if (object == null) {
             throw CheckedException.notFound("路由不存在");
         }
@@ -121,7 +122,7 @@ public class RouteRuleHelper {
             RouteRule rule = JSON.parseObject(object.toString(), RouteRule.class);
             rule.setStatus(null);
             rule.setStatus(false);
-            stringRedisTemplate.opsForHash().put(KEY, rule.getId(), JSON.toJSONString(rule));
+            stringRedisTemplate.opsForHash().put(GATEWAY_RULE_ROUTE, rule.getId(), JSON.toJSONString(rule));
             redisRouteDynamicGatewayService.delete(id);
         }
     }
@@ -130,11 +131,10 @@ public class RouteRuleHelper {
         final CompositeRouteDefinitionLocator routeDefinitionLocator = SpringUtil.getBean(CompositeRouteDefinitionLocator.class);
         List<RouteDefinition> routeDefinitions = Lists.newArrayList();
         routeDefinitionLocator.getRouteDefinitions().subscribe(routeDefinitions::add);
-        log.debug("所有路由 - {}", JSON.toJSONString(routeDefinitions));
         final List<String> services = discoveryClient.getServices();
-        List<RouteRule> routeRules = stringRedisTemplate.opsForHash().keys(KEY).stream()
+        List<RouteRule> routeRules = stringRedisTemplate.opsForHash().keys(GATEWAY_RULE_ROUTE).stream()
                 .map(id -> {
-                    Object object = stringRedisTemplate.opsForHash().get(KEY, id);
+                    Object object = stringRedisTemplate.opsForHash().get(GATEWAY_RULE_ROUTE, id);
                     if (object == null) {
                         return null;
                     }
@@ -147,15 +147,11 @@ public class RouteRuleHelper {
                     if (!rule.getStatus()) {
                         redisRouteDynamicGatewayService.delete(String.valueOf(id));
                     }
-                    rule.setDynamic(true);
                     return rule;
                 }).collect(toList());
         final List<String> idList = routeRules.stream().map(RouteRule::getId).collect(toList());
         for (RouteDefinition routeDefinition : routeDefinitions) {
-            if (idList.contains(routeDefinition.getId())) {
-                continue;
-            }
-            if (StringUtils.contains(routeDefinition.getId(), "CompositeDiscoveryClient_")) {
+            if (idList.contains(routeDefinition.getId()) || StringUtils.contains(routeDefinition.getId(), "CompositeDiscoveryClient_")) {
                 continue;
             }
             RouteRule rule = new RouteRule();
@@ -177,7 +173,7 @@ public class RouteRuleHelper {
     }
 
     public void delete(String id) {
-        stringRedisTemplate.opsForHash().delete(KEY, id);
+        stringRedisTemplate.opsForHash().delete(GATEWAY_RULE_ROUTE, id);
         redisRouteDynamicGatewayService.delete(id);
     }
 }

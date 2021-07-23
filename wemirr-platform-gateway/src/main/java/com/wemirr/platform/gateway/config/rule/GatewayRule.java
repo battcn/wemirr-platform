@@ -98,6 +98,7 @@ public interface GatewayRule<T> {
     }
 
     interface Constants {
+        String GATEWAY_RULE_ROUTE = "gateway:rule:route";
         String DEFAULT_RULE_LIMIT_TOTAL = "gateway:rule:limit:total";
         int GLOBAL_RANGE = 0;
         int IP_RANGE = 1;
