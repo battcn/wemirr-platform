@@ -1,6 +1,9 @@
 package com.wemirr.platform.gateway.rest.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -24,13 +27,20 @@ public class RouteRule {
     private String description;
     private LocalDateTime createdTime;
     private Integer order;
+    private Boolean dynamic;
 
     @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Filter {
         @NotBlank(message = "名称不能为空")
         private String name;
         private List<FilterArg> args;
         @Data
+        @Builder
+        @NoArgsConstructor
+        @AllArgsConstructor
         public static class FilterArg{
             private String key;
             private String value;

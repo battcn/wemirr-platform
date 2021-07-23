@@ -2,8 +2,11 @@ package com.wemirr.platform.gateway.config.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.URLUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.platform.gateway.rest.domain.RouteRule;
 import com.wemirr.platform.gateway.route.RedisRouteDynamicGatewayService;
@@ -13,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
+import org.springframework.cloud.gateway.route.CompositeRouteDefinitionLocator;
 import org.springframework.cloud.gateway.route.RouteDefinition;
+import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +30,10 @@ import java.util.Map;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
+/**
+ * @author Levin
+ * @see org.springframework.cloud.gateway.actuate.GatewayControllerEndpoint
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -33,6 +42,7 @@ public class RouteRuleHelper {
     private static final String KEY = "KEY";
     private final StringRedisTemplate stringRedisTemplate;
     private final RedisRouteDynamicGatewayService redisRouteDynamicGatewayService;
+    private final RouteDefinitionRepository routeDefinitionRepository;
     private final DiscoveryClient discoveryClient;
 
 
@@ -117,8 +127,12 @@ public class RouteRuleHelper {
     }
 
     public List<RouteRule> query() {
+        final CompositeRouteDefinitionLocator routeDefinitionLocator = SpringUtil.getBean(CompositeRouteDefinitionLocator.class);
+        List<RouteDefinition> routeDefinitions = Lists.newArrayList();
+        routeDefinitionLocator.getRouteDefinitions().subscribe(routeDefinitions::add);
+        log.debug("所有路由 - {}", JSON.toJSONString(routeDefinitions));
         final List<String> services = discoveryClient.getServices();
-        return stringRedisTemplate.opsForHash().keys(KEY).stream()
+        List<RouteRule> routeRules = stringRedisTemplate.opsForHash().keys(KEY).stream()
                 .map(id -> {
                     Object object = stringRedisTemplate.opsForHash().get(KEY, id);
                     if (object == null) {
@@ -133,9 +147,33 @@ public class RouteRuleHelper {
                     if (!rule.getStatus()) {
                         redisRouteDynamicGatewayService.delete(String.valueOf(id));
                     }
+                    rule.setDynamic(true);
                     return rule;
                 }).collect(toList());
-
+        final List<String> idList = routeRules.stream().map(RouteRule::getId).collect(toList());
+        for (RouteDefinition routeDefinition : routeDefinitions) {
+            if (idList.contains(routeDefinition.getId())) {
+                continue;
+            }
+            if (StringUtils.contains(routeDefinition.getId(), "CompositeDiscoveryClient_")) {
+                continue;
+            }
+            RouteRule rule = new RouteRule();
+            rule.setId(routeDefinition.getId());
+            rule.setStatus(true);
+            rule.setUri(routeDefinition.getUri().toString());
+            rule.setOrder(routeDefinition.getOrder());
+            rule.setName(StringUtils.defaultString(routeDefinition.getUri().getHost(), rule.getUri().replace("lb:ws://", "").replace("lb:wss://", "")));
+            rule.setDynamic(false);
+            final List<RouteRule.Filter> filters = routeDefinition.getFilters().stream().map(filterDefinition -> {
+                List<RouteRule.Filter.FilterArg> args = filterDefinition.getArgs().entrySet().stream().map(entry -> RouteRule.Filter.FilterArg.builder()
+                        .key(entry.getKey()).value(entry.getValue()).build()).collect(toList());
+                return RouteRule.Filter.builder().args(args).name(filterDefinition.getName()).build();
+            }).collect(toList());
+            rule.setFilters(filters);
+            routeRules.add(rule);
+        }
+        return routeRules;
     }
 
     public void delete(String id) {
