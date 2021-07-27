@@ -1,6 +1,5 @@
 package com.wemirr.platform.authority.controller.baseinfo;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.annotation.SysLog;
@@ -67,11 +66,7 @@ public class UserController {
     @SysLog(value = "添加用户")
     @Operation(summary = "添加用户")
     public Result<ResponseEntity<Void>> save(@Validated @RequestBody UserSaveDTO dto) {
-        final int count = this.userService.count(Wraps.<User>lbQ().eq(User::getUsername, dto.getUsername()));
-        if (count > 0) {
-            throw CheckedException.badRequest("账号已存在");
-        }
-        this.userService.save(BeanUtil.toBean(dto, User.class));
+       this.userService.addUser(dto);
         return Result.success();
     }
 
