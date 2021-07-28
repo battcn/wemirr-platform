@@ -1,9 +1,13 @@
 package com.wemirr.platform.authority.domain.converts;
 
 
+import cn.hutool.core.lang.tree.TreeNode;
+import com.google.common.collect.Maps;
+import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.entity.BaseConverts;
-import com.wemirr.platform.authority.domain.entity.baseinfo.Menu;
 import com.wemirr.platform.authority.domain.vo.VueRouter;
+
+import java.util.Map;
 
 /**
  * @author Levin
@@ -11,32 +15,44 @@ import com.wemirr.platform.authority.domain.vo.VueRouter;
  */
 public class MenuConverts {
 
-    public static final Menu2VueRouterConverts MENU_2_VUE_ROUTER_CONVERTS = new Menu2VueRouterConverts();
+    public static final VueRouter2TreeNodeConverts VUE_ROUTER_2_TREE_NODE_CONVERTS = new VueRouter2TreeNodeConverts();
 
 
-    public static class Menu2VueRouterConverts implements BaseConverts<Menu, VueRouter> {
+    public static class VueRouter2TreeNodeConverts implements BaseConverts<VueRouter, TreeNode<Long>> {
+
         @Override
-        public VueRouter convert(Menu source) {
-            if (source == null) {
-                return null;
+        public TreeNode<Long> convert(VueRouter route) {
+            TreeNode<Long> node = new TreeNode<>();
+            node.setId(route.getId());
+            node.setParentId(route.getParentId());
+            node.setName(route.getName());
+            Map<String, Object> extra = Maps.newHashMap();
+            extra.put("title", route.getLabel());
+            extra.put("label", route.getLabel());
+            extra.put("path", route.getPath());
+            extra.put("name", route.getLabel());
+            boolean isUrl = StringUtils.containsAny(route.getComponent(), "http://", "https://");
+            if (!isUrl) {
+                extra.put("component", route.getComponent());
             }
-            VueRouter router = new VueRouter();
-            router.setId(source.getId());
-            router.setName(source.getLabel());
-            router.setIcon(source.getIcon());
-//            router.setTitle(source.getLabel());
-//            router.setPath(source.getPath());
-//            router.setLabel(source.getLabel());
-//            router.setParentId(source.getParentId());
-//            router.setComponent(source.getComponent());
-//            router.setCreatedTime(source.getCreatedTime());
-//            router.setPermission(source.getPermission());
-//            router.setSequence(source.getSequence());
-//            router.setDescription(source.getDescription());
-//            router.setMeta(RouterMeta.builder().icon(source.getIcon()).title(source.getLabel()).build());
-//            router.setLocked(source.getLocked());
-//            router.setGlobal(source.getGlobal());
-            return router;
+            extra.put("icon", route.getIcon());
+            extra.put("permission", route.getPermission());
+            extra.put("sequence", route.getSequence());
+            extra.put("type", route.getType());
+            extra.put("model", route.getModel());
+            extra.put("status", route.getStatus());
+            extra.put("global", route.getGlobal());
+            Map<String, Object> meta = Maps.newHashMap();
+            meta.put("icon", route.getIcon());
+            meta.put("title", route.getLabel());
+            meta.put("hideMenu", !route.getDisplay());
+            if (isUrl) {
+                meta.put("frameSrc", route.getComponent());
+            }
+            extra.put("meta", meta);
+            node.setExtra(extra);
+            node.setWeight(route.getSequence());
+            return node;
         }
     }
 

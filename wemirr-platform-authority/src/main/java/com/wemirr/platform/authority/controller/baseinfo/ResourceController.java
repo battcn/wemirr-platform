@@ -6,9 +6,7 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.wemirr.framework.boot.utils.BeanPlusUtil;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.datasource.TenantEnvironment;
@@ -32,9 +30,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
+import static com.wemirr.platform.authority.domain.converts.MenuConverts.VUE_ROUTER_2_TREE_NODE_CONVERTS;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -59,39 +57,7 @@ public class ResourceController {
         List<VueRouter> routers = resourceService.findVisibleResource(ResourceQueryDTO.builder().userId(tenantEnvironment.userId()).build());
         List<TreeNode<Long>> list = routers.stream()
                 .filter(router -> all || (router.getType() != null && router.getType() == 1 || router.getType() == 5))
-                .map(route -> {
-                    TreeNode<Long> node = new TreeNode<>();
-                    node.setId(route.getId());
-                    node.setParentId(route.getParentId());
-                    node.setName(route.getName());
-                    Map<String, Object> extra = Maps.newHashMap();
-                    extra.put("title", route.getLabel());
-                    extra.put("label", route.getLabel());
-                    extra.put("path", route.getPath());
-                    extra.put("name", route.getLabel());
-                    boolean isUrl = StringUtils.containsAny(route.getComponent(), "http://", "https://");
-                    if (!isUrl) {
-                        extra.put("component", route.getComponent());
-                    }
-                    extra.put("icon", route.getIcon());
-                    extra.put("permission", route.getPermission());
-                    extra.put("sequence", route.getSequence());
-                    extra.put("type", route.getType());
-                    extra.put("model", route.getModel());
-                    extra.put("status", route.getStatus());
-                    extra.put("global", route.getGlobal());
-                    Map<String, Object> meta = Maps.newHashMap();
-                    meta.put("icon", route.getIcon());
-                    meta.put("title", route.getLabel());
-                    meta.put("hideMenu", !route.getDisplay());
-                    if (isUrl) {
-                        meta.put("frameSrc", route.getComponent());
-                    }
-                    extra.put("meta", meta);
-                    node.setExtra(extra);
-                    node.setWeight(route.getSequence());
-                    return node;
-                }).collect(toList());
+                .map(VUE_ROUTER_2_TREE_NODE_CONVERTS::convert).collect(toList());
         return Result.success(TreeUtil.build(list, 0L));
     }
 
