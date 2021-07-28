@@ -1,5 +1,25 @@
 # wemirr-platform
 
+### 特点
+
+- 布局优雅：简洁、多套主题以及导览模式任意组合搭配
+- 功能齐全：SAAS/多租户/RBAC权限控制全都具备，下载代码开箱即用
+- 消息推送：内置基于WebSocket、Redis实现的分布式消息
+- 服务治理：整合 `Nepxion` 框架可以快速实现蓝绿/灰度/服务治理 等强大功能
+- 动态网关：支持页面配置(`Redis`)与 `Nacos` 两种推送方式、动态开启关闭网关路由
+- 网关管理：支持流量控制、拉黑名单等
+- 大道至简：代码优雅、简短、不管是开发前端还是后端,快就完事了，下面给出一个简单的示例
+> Vue 开发只需要几行简短的代码即可完成单表的CRUD，大大提升开发效率
+
+``` vue
+<template>
+  <fs-crud ref="crudRef" v-bind="crudBinding"/>
+</template>
+```
+
+
+### 效果图
+
 ![分配用户](./images/binding_user.png)
 
 ![分配权限](./images/binding_res.png)
