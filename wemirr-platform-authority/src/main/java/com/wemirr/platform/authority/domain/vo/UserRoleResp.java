@@ -24,7 +24,7 @@ public class UserRoleResp {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UserRoleDetail {
-        private Long key;
+        private Long id;
         private String nickName;
         private String username;
 

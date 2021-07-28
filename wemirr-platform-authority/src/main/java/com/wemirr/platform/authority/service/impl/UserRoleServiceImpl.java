@@ -36,13 +36,13 @@ public class UserRoleServiceImpl extends SuperServiceImpl<UserRoleMapper, UserRo
     @Override
     public UserRoleResp findUserByRoleId(Long roleId) {
         final List<Long> userIdList = super.list(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId))
-                .stream().mapToLong(UserRole::getUserId).boxed().distinct().collect(Collectors.toList());
+                .stream().map(UserRole::getUserId).distinct().collect(Collectors.toList());
         final List<User> users = userMapper.selectList(Wraps.lbQ());
         if (CollectionUtil.isEmpty(users)) {
             return null;
         }
-        final List<UserRoleResp.UserRoleDetail> userRoleDetails = users.stream().map(user -> UserRoleResp.UserRoleDetail.builder().key(user.getId())
-                .nickName(user.getNickName()).username(user.getUsername()).build()).collect(Collectors.toList());
+        final List<UserRoleResp.UserRoleDetail> userRoleDetails = users.stream().map(user -> UserRoleResp.UserRoleDetail.builder()
+                .id(user.getId()).nickName(user.getNickName()).username(user.getUsername()).build()).collect(Collectors.toList());
         return UserRoleResp.builder().userRoleDetails(userRoleDetails).originTargetKeys(userIdList).build();
     }
 }

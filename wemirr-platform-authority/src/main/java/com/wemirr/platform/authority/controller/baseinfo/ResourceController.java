@@ -83,6 +83,7 @@ public class ResourceController {
                     Map<String, Object> meta = Maps.newHashMap();
                     meta.put("icon", route.getIcon());
                     meta.put("title", route.getLabel());
+                    meta.put("hideMenu", !route.getDisplay());
                     if (isUrl) {
                         meta.put("frameSrc", route.getComponent());
                     }

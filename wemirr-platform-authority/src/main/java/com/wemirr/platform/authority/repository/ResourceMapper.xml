@@ -28,6 +28,7 @@
         sys_role_res
         WHERE
         role_id IN ( SELECT role_id FROM sys_user_role WHERE `user_id` = #{resource.userId} ))
+        OR t1.`global`
         ORDER BY
         t1.`sequence`
     </select>
