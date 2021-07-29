@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.UserSaveDTO;
 import com.wemirr.platform.authority.domain.dto.UserUpdateDTO;
@@ -21,8 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 import static com.wemirr.platform.authority.domain.converts.UserConverts.USER_DTO_2_PO_CONVERTS;
 
@@ -86,11 +83,7 @@ public class UserController {
     @SysLog(value = "删除用户")
     @Operation(summary = "删除用户")
     public Result<ResponseEntity<Void>> del(@PathVariable Long id) {
-        final User user = Optional.ofNullable(this.userService.getById(id)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
-        if (user.getReadonly()) {
-            throw CheckedException.badRequest("内置用户不允许删除");
-        }
-        this.userService.removeById(id);
+        this.userService.deleteById(id);
         return Result.success();
     }
 }

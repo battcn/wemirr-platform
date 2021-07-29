@@ -47,9 +47,10 @@ public class DictionaryController {
     @SysLog(value = "字典查询")
     @Operation(description = "查询字典 - [DONE] - [Levin]")
     @Parameter(name = "name", description = "名称", in = ParameterIn.QUERY)
-    public Result<IPage<Dictionary>> query(PageRequest pageRequest, String name, String code) {
+    public Result<IPage<Dictionary>> query(PageRequest pageRequest, String name, String code, Boolean status) {
         final Page<Dictionary> page = this.dictionaryService.page(pageRequest.buildPage(),
-                Wraps.<Dictionary>lbQ().like(Dictionary::getCode, code).like(Dictionary::getName, name));
+                Wraps.<Dictionary>lbQ().eq(Dictionary::getStatus, status)
+                        .like(Dictionary::getCode, code).like(Dictionary::getName, name));
         return Result.success(page);
     }
 

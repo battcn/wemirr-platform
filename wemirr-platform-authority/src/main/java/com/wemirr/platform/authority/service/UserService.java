@@ -55,4 +55,10 @@ public interface UserService extends SuperService<User> {
      */
     void changePassword(Long userId, String orgPassword, String newPassword);
 
+    /**
+     * 根据ID删除用户
+     *
+     * @param id id
+     */
+    void deleteById(Long id);
 }

@@ -42,9 +42,9 @@ public class DictionaryItemController {
             @Parameter(name = "dictionary_id", description = "字典ID", in = ParameterIn.PATH),
             @Parameter(name = "label", description = "名称", in = ParameterIn.QUERY)
     })
-    public Result<Page<DictionaryItem>> query(@PathVariable("dictionary_id") Long dictionaryId, String label, PageRequest params) {
+    public Result<Page<DictionaryItem>> query(@PathVariable("dictionary_id") Long dictionaryId, String label, Boolean status, PageRequest params) {
         final Page<DictionaryItem> itemPage = this.dictionaryItemService.page(params.buildPage(), Wraps.<DictionaryItem>lbQ()
-                .like(DictionaryItem::getLabel, label)
+                .like(DictionaryItem::getLabel, label).eq(DictionaryItem::getStatus, status)
                 .eq(DictionaryItem::getDictionaryId, dictionaryId));
         return Result.success(itemPage);
     }
@@ -63,7 +63,7 @@ public class DictionaryItemController {
     public Result<ResponseEntity<Void>> edit(@PathVariable("dictionary_id") Long dictionaryId, @PathVariable Long id, @Validated @RequestBody DictionaryItemDTO dto) {
         final DictionaryItem dictionaryItem = DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS.convert(dto);
         dictionaryItem.setId(id);
-        this.dictionaryItemService.editDictionaryItem(dictionaryId,dictionaryItem);
+        this.dictionaryItemService.editDictionaryItem(dictionaryId, dictionaryItem);
         return Result.success();
     }
 
