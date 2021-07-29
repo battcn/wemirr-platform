@@ -34,7 +34,7 @@ public class RouteController {
         data.put("total", limitRules.size());
         data.put("records", limitRules);
         data.put("current", 1);
-        data.put("size", 10);
+        data.put("size", 20);
         data.put("pages", 1);
         return Result.success(data);
     }

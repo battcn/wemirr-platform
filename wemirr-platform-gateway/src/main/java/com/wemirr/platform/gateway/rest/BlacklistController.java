@@ -1,6 +1,5 @@
 package com.wemirr.platform.gateway.rest;
 
-import com.alibaba.fastjson.JSONObject;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.gateway.config.rule.BlacklistHelper;
 import com.wemirr.platform.gateway.rest.domain.BlacklistRule;
@@ -20,15 +19,8 @@ public class BlacklistController {
     private final BlacklistHelper blacklistHelper;
 
     @GetMapping
-    public Result<JSONObject> query() {
-        JSONObject data = new JSONObject();
-        final List<BlacklistRule> limitRules = blacklistHelper.query();
-        data.put("total", limitRules.size());
-        data.put("records", limitRules);
-        data.put("current", 1);
-        data.put("size", 10);
-        data.put("pages", 1);
-        return Result.success(data);
+    public Result<List<BlacklistRule>> query() {
+        return Result.success(blacklistHelper.query());
     }
 
     @PostMapping
