@@ -29,7 +29,7 @@ public class AreaEntity {
 
     @TableId(value = "id", type = IdType.INPUT)
     @NotNull(message = "id不能为空")
-    protected Integer id;
+    protected Long id;
     /**
      * 名称
      */
@@ -41,7 +41,7 @@ public class AreaEntity {
     /**
      * 父ID
      */
-    protected Integer parentId;
+    protected Long parentId;
 
     /**
      * 经度
@@ -93,19 +93,5 @@ public class AreaEntity {
     @Parameter(description = "最后修改人名称")
     @TableField(value = "last_modified_name", fill = FieldFill.INSERT_UPDATE)
     protected String lastModifiedName;
-
-    @TableField(exist = false)
-    private Boolean hasChildren;
-
-    public Boolean getHasChildren() {
-        return count == null || count > 0;
-    }
-
-    public void setHasChildren(Boolean hasChildren) {
-        this.hasChildren = hasChildren;
-    }
-
-    @TableField(exist = false)
-    private Integer count;
 
 }

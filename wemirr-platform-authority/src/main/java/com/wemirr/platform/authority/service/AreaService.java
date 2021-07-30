@@ -18,4 +18,7 @@ public interface AreaService extends SuperService<AreaEntity> {
      */
     List<AreaEntity> listArea(Integer parentId);
 
+
+    void saveOrUpdateArea(AreaEntity area);
+
 }

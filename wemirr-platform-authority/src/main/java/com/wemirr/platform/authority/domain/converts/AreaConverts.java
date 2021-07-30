@@ -21,7 +21,7 @@ public class AreaConverts {
             }
             AreaEntity target = new AreaEntity();
             BeanUtils.copyProperties(source, target);
-            // target.setId(source.getCode());
+            target.setId(source.getId());
             return target;
         }
     }

@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class AreaEntityDTO {
 
     @NotNull(message = "国标码不能为空")
-    private Integer id;
+    private Long id;
     /**
      * 名称
      */
@@ -27,7 +27,7 @@ public class AreaEntityDTO {
      * 父ID
      */
     @NotNull(message = "上级国标码不能为空")
-    protected Integer parentId;
+    protected Long parentId;
 
     /**
      * 经度
