@@ -47,6 +47,8 @@ public class CacheClientDetailsServiceImpl implements ClientDetailsService {
         BaseClientDetails clientDetails = new BaseClientDetails();
         clientDetails.setClientId(details.getClientId());
         clientDetails.setClientSecret(passwordEncoder.encode(details.getClientSecret()));
+        clientDetails.setAccessTokenValiditySeconds(details.getAccessTokenValidity());
+        clientDetails.setRefreshTokenValiditySeconds(details.getRefreshTokenValidity());
         if (StringUtils.isNotBlank(details.getResourceIds())) {
             clientDetails.setResourceIds(StrUtil.split(details.getResourceIds(), ','));
         }
