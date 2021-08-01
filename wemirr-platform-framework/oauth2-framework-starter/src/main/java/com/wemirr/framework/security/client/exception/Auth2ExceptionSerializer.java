@@ -1,5 +1,6 @@
 package com.wemirr.framework.security.client.exception;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
@@ -25,6 +26,7 @@ public class Auth2ExceptionSerializer extends StdSerializer<Auth2Exception> {
         gen.writeStringField("message", value.getMessage());
         gen.writeObjectField("timestamp", System.currentTimeMillis());
         gen.writeBooleanField("successful", false);
+        log.debug("格式化异常信息 - {}", JSON.toJSONString(value));
         gen.writeEndObject();
     }
 }

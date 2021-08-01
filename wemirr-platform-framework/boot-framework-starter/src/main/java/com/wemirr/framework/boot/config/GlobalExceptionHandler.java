@@ -64,7 +64,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     public ResponseEntity<Result<ResponseEntity<Void>>> jsonErrorHandler(Exception e) {
         HttpStatus defaultErrorResult = HttpStatus.OK;
-        e.printStackTrace();
         log.error("错误日志 - {}", e.getMessage());
         if (e instanceof CheckedException) {
             CheckedException exception = (CheckedException) e;

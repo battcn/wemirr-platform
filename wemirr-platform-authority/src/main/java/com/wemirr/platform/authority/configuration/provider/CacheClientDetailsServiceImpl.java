@@ -44,6 +44,9 @@ public class CacheClientDetailsServiceImpl implements ClientDetailsService {
         if (Objects.isNull(details)) {
             throw new Auth2Exception("client_id 或 client_secret 错误", HttpStatus.BAD_REQUEST.value());
         }
+        if (!details.getStatus()) {
+            throw new Auth2Exception("client_id 已被禁用", HttpStatus.BAD_REQUEST.value());
+        }
         BaseClientDetails clientDetails = new BaseClientDetails();
         clientDetails.setClientId(details.getClientId());
         clientDetails.setClientSecret(passwordEncoder.encode(details.getClientSecret()));

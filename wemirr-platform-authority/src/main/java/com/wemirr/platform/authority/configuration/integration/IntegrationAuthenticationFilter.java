@@ -62,6 +62,7 @@ public class IntegrationAuthenticationFilter extends GenericFilterBean implement
             //设置集成登录信息
             IntegrationAuthentication integrationAuthentication = new IntegrationAuthentication();
             integrationAuthentication.setAuthType(request.getParameter(AUTH_TYPE));
+            integrationAuthentication.setTenantCode(request.getParameter(TENANT_CODE));
             integrationAuthentication.setClientId(request.getParameter(CLIENT_ID));
             integrationAuthentication.setAuthParameters(request.getParameterMap());
             IntegrationAuthenticationContext.set(integrationAuthentication);
