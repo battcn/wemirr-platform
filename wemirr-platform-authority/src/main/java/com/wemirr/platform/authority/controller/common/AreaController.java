@@ -53,6 +53,8 @@ public class AreaController {
         final List<TreeNode<Long>> nodes = list.stream().map(area -> {
             TreeNode<Long> treeNode = new TreeNode<>(area.getId(), area.getParentId(), area.getName(), area.getSequence());
             Map<String, Object> extra = Maps.newLinkedHashMap();
+            extra.put("value", area.getId());
+            extra.put("label", area.getName());
             extra.put("sequence", area.getSequence());
             extra.put("level", area.getLevel());
             extra.put("longitude", area.getLongitude());
