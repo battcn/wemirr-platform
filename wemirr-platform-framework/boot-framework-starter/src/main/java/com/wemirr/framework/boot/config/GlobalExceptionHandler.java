@@ -16,6 +16,7 @@ import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.convert.ConversionFailedException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.UnexpectedTypeException;
 import javax.validation.ValidationException;
+import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 
@@ -123,6 +125,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return Result.fail(CommonError.ACCESS_DENIED);
     }
 
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseBody
+    public final Result<ResponseEntity<Void>> dataIntegrityViolationException(DataIntegrityViolationException e, HttpServletRequest request) {
+        log.warn("\n[================================================================]\n" +
+                "[异常信息] - [{}]\n" +
+                "[================================================================]", e.getLocalizedMessage());
+        if (e.getCause() instanceof SQLException) {
+            return Result.fail(e.getCause().getMessage());
+        }
+        return Result.fail(e.getMessage());
+    }
 
     @ExceptionHandler(InsufficientAuthenticationException.class)
     @ResponseBody
