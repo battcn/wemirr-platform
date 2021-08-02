@@ -64,8 +64,16 @@ public class ApplicationController {
     @PutMapping("/{id}")
     @SysLog(value = "修改应用")
     @Operation(summary = "修改应用")
-    public Result<ResponseEntity<Void>> edit(@Validated @RequestBody OAuthClientDetails dto) {
+    public Result<ResponseEntity<Void>> edit(@PathVariable String id, @Validated @RequestBody OAuthClientDetails dto) {
         this.applicationService.updateById(dto);
+        return Result.success();
+    }
+
+    @PutMapping("/{id}/{status}")
+    @SysLog(value = "修改应用")
+    @Operation(summary = "修改应用")
+    public Result<ResponseEntity<Void>> status(@PathVariable String id, @PathVariable Boolean status) {
+        this.applicationService.updateById(OAuthClientDetails.builder().clientId(id).status(status).build());
         return Result.success();
     }
 
