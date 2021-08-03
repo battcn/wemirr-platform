@@ -7,6 +7,7 @@ import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectResult;
 import com.wemirr.framework.storage.domain.DownloadResponse;
 import com.wemirr.framework.storage.domain.StorageItem;
+import com.wemirr.framework.storage.domain.StorageRequest;
 import com.wemirr.framework.storage.domain.StorageResponse;
 import com.wemirr.framework.storage.exception.StorageException;
 import com.wemirr.framework.storage.properties.AliYunStorageProperties;
@@ -137,6 +138,11 @@ public class AliYunStorageOperation implements StorageOperation {
             log.error("[异常信息]", ex);
             return StorageResponse.error(ex.getLocalizedMessage());
         }
+    }
+
+    @Override
+    public StorageResponse upload(StorageRequest request) {
+        return null;
     }
 
 

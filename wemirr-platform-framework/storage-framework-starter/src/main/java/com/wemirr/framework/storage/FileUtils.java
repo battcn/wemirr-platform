@@ -29,15 +29,18 @@ public class FileUtils {
 
 
     public static String targetName(boolean random, String prefix, String originName) {
+        return buildTargetName(random, prefix, originName).replaceAll("//", "/");
+    }
+
+    private static String buildTargetName(boolean random, String prefix, String originName) {
         if (!random) {
             return StringUtils.join(SEPARATOR, originName);
         }
         final String name = randomName(originName);
         if (StringUtils.isNotBlank(name)) {
-            return StringUtils.isBlank(prefix) ? StringUtils.join(SEPARATOR, name) : StringUtils.join(SEPARATOR, prefix, name);
+            return StringUtils.isBlank(prefix) ? StringUtils.join(SEPARATOR, name) : StringUtils.join(SEPARATOR, prefix, SEPARATOR, name);
         }
-        return StringUtils.isBlank(prefix) ? StringUtils.join(SEPARATOR, originName) : StringUtils.join(SEPARATOR, prefix, originName);
-
+        return StringUtils.isBlank(prefix) ? StringUtils.join(SEPARATOR, originName) : StringUtils.join(SEPARATOR, prefix, SEPARATOR, originName);
     }
 
 

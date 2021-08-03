@@ -4,7 +4,7 @@ package com.wemirr.framework.storage.domain;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -14,7 +14,6 @@ import java.util.Map;
  * @author Levin
  */
 @Data
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class StorageResponse extends BaseResponse implements java.io.Serializable {
 
@@ -33,6 +32,7 @@ public class StorageResponse extends BaseResponse implements java.io.Serializabl
      */
     private String fullUrl;
 
+    private String mappingPath;
 
     /**
      * 对应存储的扩展字段
@@ -46,16 +46,31 @@ public class StorageResponse extends BaseResponse implements java.io.Serializabl
         return response;
     }
 
+    public StorageResponse() {
+    }
+
     @Builder
-    public StorageResponse(boolean successful, String message, String originName, String targetName,
-                           long size,
-                           String md5, String fullUrl, Map<String, Object> extend) {
-        super(successful, message);
-        this.size = size;
+    public StorageResponse(boolean successful, String message, String originName, String targetName, String mappingPath,
+                           long size, String md5, String fullUrl, Map<String, Object> extend) {
+        this.successful = successful;
+        this.message = message;
         this.originName = originName;
         this.targetName = targetName;
+        this.size = size;
         this.md5 = md5;
-        this.fullUrl = fullUrl;
         this.extend = extend;
+        this.mappingPath = mappingPath;
+        if (StringUtils.isBlank(fullUrl)) {
+            this.fullUrl = buildFullUrl(mappingPath, targetName);
+        } else {
+            this.fullUrl = fullUrl;
+        }
+    }
+
+    public static String buildFullUrl(String mappingPath, String targetName) {
+        if (mappingPath.endsWith("/") && targetName.startsWith("/")) {
+            mappingPath = mappingPath.substring(0, mappingPath.length() - 1);
+        }
+        return StringUtils.join(mappingPath, targetName);
     }
 }

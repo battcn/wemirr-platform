@@ -3,6 +3,7 @@ package com.wemirr.framework.storage;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.storage.domain.DownloadResponse;
 import com.wemirr.framework.storage.domain.StorageItem;
+import com.wemirr.framework.storage.domain.StorageRequest;
 import com.wemirr.framework.storage.domain.StorageResponse;
 import com.wemirr.framework.storage.exception.StorageException;
 import com.wemirr.framework.storage.properties.BaseStorageProperties;
@@ -159,6 +160,11 @@ public class MinioStorageOperation implements StorageOperation {
     @Override
     public StorageResponse upload(String bucketName, String fileName, byte[] content) {
         return upload(bucketName, fileName, new ByteArrayInputStream(content));
+    }
+
+    @Override
+    public StorageResponse upload(StorageRequest request) {
+        return null;
     }
 
 

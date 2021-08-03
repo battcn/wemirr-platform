@@ -8,9 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>storage-framework-starter</artifactId>
-    <version>20210625.1-RELEASE</version>
     <packaging>jar</packaging>
 
 
@@ -70,6 +68,7 @@
         <dependency>
             <groupId>com.qcloud</groupId>
             <artifactId>cos_api</artifactId>
+            <optional>true</optional>
         </dependency>
         <!--<dependency>
             <groupId>com.tencentcloudapi</groupId>

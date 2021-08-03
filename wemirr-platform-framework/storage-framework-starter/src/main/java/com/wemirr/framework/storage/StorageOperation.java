@@ -2,11 +2,15 @@ package com.wemirr.framework.storage;
 
 import com.wemirr.framework.storage.domain.DownloadResponse;
 import com.wemirr.framework.storage.domain.StorageItem;
+import com.wemirr.framework.storage.domain.StorageRequest;
 import com.wemirr.framework.storage.domain.StorageResponse;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -124,6 +128,15 @@ public interface StorageOperation {
      */
     StorageResponse upload(String bucketName, String fileName, byte[] content);
 
+
+    /**
+     * 简化上传复杂度
+     *
+     * @param request request
+     * @return 上传结果
+     */
+    StorageResponse upload(StorageRequest request);
+
     /**
      * 删除文件
      *
@@ -146,6 +159,41 @@ public interface StorageOperation {
      * @param path       文件路径
      */
     void remove(String bucketName, Path path);
+
+
+    /**
+     * 获取目标名字
+     *
+     * @param request request
+     * @return 目标名称
+     */
+    default String getTargetName(StorageRequest request) {
+        if (request == null) {
+            throw new RuntimeException("request 不能为空");
+        }
+        if (StringUtils.isBlank(request.getOriginName())) {
+            throw new RuntimeException("originName 不能为空");
+        }
+        final StorageRequest.PrefixRule rule = request.getRule();
+        if (rule == null) {
+            return FileUtils.targetName(request.isRandomName(), request.getPrefix(), request.getOriginName());
+        }
+        String prefix;
+        switch (rule) {
+            case now_date_mouth:
+                prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
+                break;
+            case now_date_mouth_day:
+                prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+                break;
+            case none:
+                prefix = request.getPrefix();
+                break;
+            default:
+                return request.getPrefix();
+        }
+        return FileUtils.targetName(request.isRandomName(), prefix, request.getOriginName());
+    }
 
 
 }

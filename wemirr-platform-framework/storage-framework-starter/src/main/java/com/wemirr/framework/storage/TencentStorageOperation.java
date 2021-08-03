@@ -8,6 +8,7 @@ import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
 import com.wemirr.framework.storage.domain.DownloadResponse;
 import com.wemirr.framework.storage.domain.StorageItem;
+import com.wemirr.framework.storage.domain.StorageRequest;
 import com.wemirr.framework.storage.domain.StorageResponse;
 import com.wemirr.framework.storage.properties.TencentStorageProperties;
 import lombok.AllArgsConstructor;
@@ -124,6 +125,11 @@ public class TencentStorageOperation implements StorageOperation {
         }
         return StorageResponse.builder().originName(fileName).targetName(fileName)
                 .size(objectMetadata.getContentLength()).fullUrl(properties.getMappingPath() + fileName).build();
+    }
+
+    @Override
+    public StorageResponse upload(StorageRequest request) {
+        return null;
     }
 
     @Override

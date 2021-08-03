@@ -21,13 +21,24 @@ public class StorageRequest implements java.io.Serializable {
 
     private static final long serialVersionUID = -3607203589216325639L;
 
-
+    /**
+     * 如果为空则取应用配置的
+     */
     private String bucket;
 
-    private String fileName;
+    /**
+     * 原始文件名称
+     */
+    private String originName;
 
+    /**
+     * 如果为 true 则会随机生成文件名
+     */
+    @Builder.Default
     private boolean randomName = true;
+
     private PrefixRule rule;
+
     private String prefix;
 
     /**
@@ -44,7 +55,7 @@ public class StorageRequest implements java.io.Serializable {
 
     public enum PrefixRule {
         /**
-         * 无规则
+         * 无规则 默认提取 prefix 否则自动生成前缀
          */
         none,
         /**
