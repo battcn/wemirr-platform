@@ -49,10 +49,10 @@ public class MinioStorageOperation implements StorageOperation {
         try {
             InputStream inputStream = minioClient.getObject(bucketName, fileName);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            return DownloadResponse.success(bufferedReader);
+            return DownloadResponse.builder().bufferedReader(bufferedReader).build();
         } catch (Exception ex) {
             log.error("[文件下载异常]", ex);
-            return DownloadResponse.error(ex.getLocalizedMessage());
+            throw downloadError(BaseStorageProperties.StorageType.MINIO, ex);
         }
     }
 
@@ -152,7 +152,7 @@ public class MinioStorageOperation implements StorageOperation {
                     .fullUrl(properties.getMappingPath() + fileName).build();
         } catch (Exception e) {
             log.error("[文件上传失败]", e);
-            return StorageResponse.error(e.getLocalizedMessage());
+            throw new StorageException(BaseStorageProperties.StorageType.MINIO, "文件上传失败," + e.getLocalizedMessage());
         }
     }
 

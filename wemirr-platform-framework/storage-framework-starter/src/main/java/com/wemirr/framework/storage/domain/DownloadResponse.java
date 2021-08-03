@@ -1,8 +1,10 @@
 package com.wemirr.framework.storage.domain;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,9 +14,11 @@ import java.io.File;
  *
  * @author Levin
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class DownloadResponse extends BaseResponse implements java.io.Serializable {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class DownloadResponse implements java.io.Serializable {
 
     private static final long serialVersionUID = -498222912510624959L;
 
@@ -39,19 +43,4 @@ public class DownloadResponse extends BaseResponse implements java.io.Serializab
      * 本地文件地址
      */
     private String localFilePath;
-
-    public static DownloadResponse success(BufferedReader bufferedReader) {
-        DownloadResponse response = new DownloadResponse();
-        response.setSuccessful(true);
-        response.setBufferedReader(bufferedReader);
-        return response;
-    }
-
-    public static DownloadResponse error(String message) {
-        DownloadResponse response = new DownloadResponse();
-        response.setSuccessful(false);
-        response.setBufferedReader(null);
-        response.setMessage(message);
-        return response;
-    }
 }

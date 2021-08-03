@@ -40,7 +40,7 @@ public class BaseStorageProperties implements java.io.Serializable {
          */
         MINIO,
         ALIYUN,
-        QCLOUD,
+        TENCENT,
         QINIU,
         ;
     }

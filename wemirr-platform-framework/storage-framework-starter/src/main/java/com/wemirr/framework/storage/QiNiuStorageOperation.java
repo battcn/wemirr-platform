@@ -15,9 +15,9 @@ import com.wemirr.framework.storage.domain.DownloadResponse;
 import com.wemirr.framework.storage.domain.StorageItem;
 import com.wemirr.framework.storage.domain.StorageRequest;
 import com.wemirr.framework.storage.domain.StorageResponse;
+import com.wemirr.framework.storage.properties.BaseStorageProperties;
 import com.wemirr.framework.storage.properties.QiNiuStorageProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -87,6 +87,7 @@ public class QiNiuStorageOperation implements StorageOperation {
             FileUtil.writeFromStream(URLUtil.getStream(URLUtil.url(url.buildURL())), file);
         } catch (QiniuException e) {
             log.error("七牛云下载失败", e);
+            throw downloadError(BaseStorageProperties.StorageType.QINIU, e);
         }
     }
 
@@ -129,7 +130,7 @@ public class QiNiuStorageOperation implements StorageOperation {
             return getStorageResponse(fileName, response);
         } catch (QiniuException e) {
             log.error("[文件上传异常]", e);
-            return StorageResponse.error(e.getLocalizedMessage());
+            throw uploadError(BaseStorageProperties.StorageType.QINIU, e);
         }
     }
 
@@ -141,14 +142,14 @@ public class QiNiuStorageOperation implements StorageOperation {
             return getStorageResponse(fileName, response);
         } catch (QiniuException e) {
             log.error("[文件上传异常]", e);
-            return StorageResponse.error(e.getLocalizedMessage());
+            throw uploadError(BaseStorageProperties.StorageType.QINIU, e);
         }
     }
 
     @Override
     public StorageResponse upload(StorageRequest request) {
         if (request.getInputStream() == null && request.getContent() == null) {
-            return StorageResponse.error("InputStream 与 Content 不能全部为空");
+            throw uploadError(BaseStorageProperties.StorageType.QINIU, "文件上传失败,InputStream 与 Content 不能全部为空");
         }
         try {
             final String bucket = StringUtils.defaultIfBlank(request.getBucket(), properties.getBucket());
@@ -162,24 +163,24 @@ public class QiNiuStorageOperation implements StorageOperation {
             }
             log.debug("七牛上传响应结果 - {}", response);
             if (!response.isOK()) {
-                return StorageResponse.error(response.error);
+                throw uploadError(BaseStorageProperties.StorageType.QINIU, response.error);
             }
             Map<String, Object> extend = Maps.newLinkedHashMap();
             extend.put("reqId", response.reqId);
             return StorageResponse.builder().originName(request.getOriginName())
                     .targetName(targetName).size(response.body().length)
                     .mappingPath(properties.getMappingPath())
-                    .extend(extend).successful(true).message("上传成功").build();
+                    .extend(extend).build();
         } catch (QiniuException e) {
             log.error("[文件上传异常]", e);
-            return StorageResponse.error(e.getLocalizedMessage());
+            throw uploadError(BaseStorageProperties.StorageType.QINIU, e);
         }
     }
 
     private StorageResponse getStorageResponse(String fileName, Response response) throws QiniuException {
         log.debug("七牛上传响应结果 - {}", response);
         if (!response.isOK()) {
-            return StorageResponse.error(response.error);
+            throw uploadError(BaseStorageProperties.StorageType.QINIU, response.error);
         }
         Map<String, Object> extend = Maps.newLinkedHashMap();
         extend.put("reqId", response.reqId);

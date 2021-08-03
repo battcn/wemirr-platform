@@ -10,6 +10,8 @@ import com.wemirr.framework.storage.domain.DownloadResponse;
 import com.wemirr.framework.storage.domain.StorageItem;
 import com.wemirr.framework.storage.domain.StorageRequest;
 import com.wemirr.framework.storage.domain.StorageResponse;
+import com.wemirr.framework.storage.exception.StorageException;
+import com.wemirr.framework.storage.properties.BaseStorageProperties;
 import com.wemirr.framework.storage.properties.TencentStorageProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,9 +48,11 @@ public class TencentStorageOperation implements StorageOperation {
         try {
             bufferedReader = new BufferedReader(new FileReader(file));
         } catch (FileNotFoundException e) {
-            DownloadResponse.error(e.getMessage());
+            throw new StorageException(BaseStorageProperties.StorageType.TENCENT, "文件上传失败," + e.getLocalizedMessage());
         }
-        return DownloadResponse.success(bufferedReader);
+        return DownloadResponse.builder().bufferedReader(bufferedReader)
+                .file(file).localFilePath(file.getPath()).build();
+
     }
 
     @Override
@@ -97,13 +101,13 @@ public class TencentStorageOperation implements StorageOperation {
             PutObjectRequest request = new PutObjectRequest(properties.getBucket(), fileName, content, objectMetadata);
             PutObjectResult result = client.putObject(request);
             if (StringUtils.isEmpty(result.getETag())) {
-                return StorageResponse.error("文件上传失败");
+                throw new StorageException(BaseStorageProperties.StorageType.TENCENT, "文件上传失败,ETag为空");
             }
             return StorageResponse.builder().originName(fileName).targetName(fileName)
                     .size(objectMetadata.getContentLength()).fullUrl(properties.getMappingPath() + fileName).build();
         } catch (IOException e) {
             log.error("[文件上传异常]", e);
-            return StorageResponse.error(e.getLocalizedMessage());
+            throw new StorageException(BaseStorageProperties.StorageType.TENCENT, "文件上传失败," + e.getLocalizedMessage());
         }
     }
 
@@ -121,7 +125,7 @@ public class TencentStorageOperation implements StorageOperation {
                 new ByteArrayInputStream(content), objectMetadata);
         PutObjectResult result = client.putObject(request);
         if (StringUtils.isEmpty(result.getETag())) {
-            return StorageResponse.error("文件上传失败");
+            throw new StorageException(BaseStorageProperties.StorageType.TENCENT, "文件上传失败,ETag为空");
         }
         return StorageResponse.builder().originName(fileName).targetName(fileName)
                 .size(objectMetadata.getContentLength()).fullUrl(properties.getMappingPath() + fileName).build();

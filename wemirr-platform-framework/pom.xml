@@ -30,7 +30,7 @@
         <module>boot-framework-starter</module>
         <module>swagger-framework-starter</module>
         <module>websocket-framework-starter</module>
-
+        <module>storage-framework-starter</module>
     </modules>
 
     <distributionManagement>

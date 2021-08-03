@@ -4,6 +4,8 @@ import com.wemirr.framework.storage.domain.DownloadResponse;
 import com.wemirr.framework.storage.domain.StorageItem;
 import com.wemirr.framework.storage.domain.StorageRequest;
 import com.wemirr.framework.storage.domain.StorageResponse;
+import com.wemirr.framework.storage.exception.StorageException;
+import com.wemirr.framework.storage.properties.BaseStorageProperties;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -195,5 +197,15 @@ public interface StorageOperation {
         return FileUtils.targetName(request.isRandomName(), prefix, request.getOriginName());
     }
 
+    default StorageException uploadError(BaseStorageProperties.StorageType type, String message) {
+        return new StorageException(type, message);
+    }
 
+    default StorageException uploadError(BaseStorageProperties.StorageType type, Exception e) {
+        return new StorageException(type, "文件上传失败," + e.getMessage());
+    }
+
+    default StorageException downloadError(BaseStorageProperties.StorageType type, Exception e) {
+        return new StorageException(type, "文件下载失败," + e.getMessage());
+    }
 }

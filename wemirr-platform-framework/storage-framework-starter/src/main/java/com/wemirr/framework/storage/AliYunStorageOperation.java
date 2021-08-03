@@ -49,10 +49,10 @@ public class AliYunStorageOperation implements StorageOperation {
                     break;
                 }
             }
-            return DownloadResponse.success(reader);
+            return DownloadResponse.builder().bufferedReader(reader).build();
         } catch (Exception e) {
             log.error("[文件下载异常]", e);
-            return DownloadResponse.error(e.getLocalizedMessage());
+            throw downloadError(BaseStorageProperties.StorageType.ALIYUN, e);
         }
     }
 
@@ -108,7 +108,7 @@ public class AliYunStorageOperation implements StorageOperation {
             return upload(properties.getBucket(), fileName, bytes);
         } catch (IOException ex) {
             log.error("[异常信息]", ex);
-            return StorageResponse.error(ex.getLocalizedMessage());
+            throw uploadError(BaseStorageProperties.StorageType.ALIYUN, ex);
         }
     }
 
@@ -127,7 +127,7 @@ public class AliYunStorageOperation implements StorageOperation {
             PutObjectResult objectResult = ossClient.putObject(bucketName, fileName, bis);
             ResponseMessage response = objectResult.getResponse();
             if (!response.isSuccessful()) {
-                return StorageResponse.error(response.getErrorResponseAsString());
+                throw uploadError(BaseStorageProperties.StorageType.ALIYUN, response.getErrorResponseAsString());
             }
             FILE_UPLOAD_SUCCESS.incrementAndGet();
             return StorageResponse.builder().originName(fileName).targetName(fileName)
@@ -136,7 +136,7 @@ public class AliYunStorageOperation implements StorageOperation {
             ossClient.putObject(bucketName, fileName, bis);
             FILE_UPLOAD_FAIL.incrementAndGet();
             log.error("[异常信息]", ex);
-            return StorageResponse.error(ex.getLocalizedMessage());
+            throw uploadError(BaseStorageProperties.StorageType.ALIYUN, ex);
         }
     }
 

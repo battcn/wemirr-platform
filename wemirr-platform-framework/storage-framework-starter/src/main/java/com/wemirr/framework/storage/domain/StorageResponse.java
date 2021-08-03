@@ -3,7 +3,7 @@ package com.wemirr.framework.storage.domain;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
@@ -14,8 +14,8 @@ import java.util.Map;
  * @author Levin
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class StorageResponse extends BaseResponse implements java.io.Serializable {
+@NoArgsConstructor
+public class StorageResponse implements java.io.Serializable {
 
     private static final long serialVersionUID = -498222912510624959L;
 
@@ -39,21 +39,9 @@ public class StorageResponse extends BaseResponse implements java.io.Serializabl
      */
     private Map<String, Object> extend;
 
-    public static StorageResponse error(String message) {
-        StorageResponse response = new StorageResponse();
-        response.setSuccessful(false);
-        response.setMessage(message);
-        return response;
-    }
-
-    public StorageResponse() {
-    }
-
     @Builder
-    public StorageResponse(boolean successful, String message, String originName, String targetName, String mappingPath,
+    public StorageResponse(String originName, String targetName, String mappingPath,
                            long size, String md5, String fullUrl, Map<String, Object> extend) {
-        this.successful = successful;
-        this.message = message;
         this.originName = originName;
         this.targetName = targetName;
         this.size = size;
