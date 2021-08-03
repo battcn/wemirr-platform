@@ -32,11 +32,51 @@
         <springfox.version>2.9.2</springfox.version>
         <swagger.version>1.5.21</swagger.version>
         <opentracing.spring.cloud.version>0.5.9</opentracing.spring.cloud.version>
+
+        <minio.version>3.0.12</minio.version>
+        <aliyun-sdk-oss.version>3.4.2</aliyun-sdk-oss.version>
+        <qiniu-java-sdk.version>[7.7.0, 7.7.99]</qiniu-java-sdk.version>
+        <cos_api.version>5.5.9</cos_api.version>
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
+            <!-- minio 存储-->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+                <optional>true</optional>
+            </dependency>
+            <!-- 阿里云存储 -->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-sdk-oss.version}</version>
+                <optional>true</optional>
+            </dependency>
+            <!-- 七牛云存储开始 -->
+            <dependency>
+                <groupId>com.qiniu</groupId>
+                <artifactId>qiniu-java-sdk</artifactId>
+                <version>${qiniu-java-sdk.version}</version>
+                <optional>true</optional>
+            </dependency>
+            <!-- 七牛云存储结束 -->
+
+            <!-- 腾讯云存储开始 -->
+            <dependency>
+                <groupId>com.qcloud</groupId>
+                <artifactId>cos_api</artifactId>
+                <version>${cos_api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tencentcloudapi</groupId>
+                <artifactId>tencentcloud-sdk-java</artifactId>
+                <version>3.1.77</version>
+            </dependency>
+            <!-- 腾讯云存储结束 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>

@@ -1,4 +1,4 @@
-package com.wemirr.platform.tools.controller;
+package com.wemirr.platform.tools.controller.dynamic;
 
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.tools.domain.DynamicReleaseDragSetting;

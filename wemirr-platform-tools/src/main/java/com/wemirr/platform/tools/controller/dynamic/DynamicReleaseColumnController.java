@@ -1,4 +1,4 @@
-package com.wemirr.platform.tools.controller;
+package com.wemirr.platform.tools.controller.dynamic;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;

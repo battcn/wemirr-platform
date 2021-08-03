@@ -1,4 +1,4 @@
-package com.wemirr.platform.tools.controller;
+package com.wemirr.platform.tools.controller.dynamic;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;

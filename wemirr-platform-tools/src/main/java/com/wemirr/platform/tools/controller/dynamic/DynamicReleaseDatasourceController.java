@@ -1,4 +1,4 @@
-package com.wemirr.platform.tools.controller;
+package com.wemirr.platform.tools.controller.dynamic;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
