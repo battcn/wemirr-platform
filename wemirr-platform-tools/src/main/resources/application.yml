@@ -17,6 +17,26 @@ spring:
     mongodb:
       database: tenant_form
 
+mybatis-plus:
+  mapper-locations:
+    - classpath:com/wemirr/**/repository/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.wemirr.**.entity;com.wemirr.**.database.mybatis.typehandler
+  typeEnumsPackage: com.wemirr.**.enums,com.wemirr.framework.database.mybatis.auth,com.wemirr.framework.database.mybatis
+  global-config:
+    db-config:
+      id-type: auto
+      insert-strategy: NOT_NULL
+      update-strategy: NOT_NULL
+      select-strategy: not_empty
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  extend:
+    include-tables: t_file
+
+
+
 
 security:
   oauth2:
@@ -45,3 +65,13 @@ security:
       token-info-uri: http://wemirr-platform-authority/oauth/check_token
       prefer-token-info: false
       user-info-uri: http://wemirr-platform-authority/oauth/users
+extend:
+  oss:
+    cloud:
+      qiniu:
+        enabled: true
+        #access-key: 写自己的
+        #secret-key: 写自己的
+        region: region0
+        bucket: battcn
+        mapping-path: http://qiniu.battcn.com

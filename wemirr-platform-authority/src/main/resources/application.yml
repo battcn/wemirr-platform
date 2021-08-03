@@ -13,6 +13,9 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
+  extend:
+    include-tables: t_user,sys_role,sys_org,sys_station,sys_station_message_publish
+
 management:
   endpoints:
     web:
@@ -45,8 +48,6 @@ spring:
     throw-exception-if-no-handler-found: true
   resources:
     add-mappings: false
-  mybatis-plus:
-    include-tables: t_user,sys_role,sys_org,sys_station,sys_station_message_publish
 
 swagger:
   title: Swagger API

@@ -127,8 +127,6 @@ public class RewriteTokenEndpoint {
     @GetMapping("/users")
     @Operation(summary = "获取当前用户信息")
     public Principal users(Principal principal) {
-        OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
-        log.debug("获取user信息:{}", JSON.toJSON(oAuth2Authentication));
         return principal;
     }
 
