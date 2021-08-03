@@ -170,7 +170,7 @@ public class QiNiuStorageOperation implements StorageOperation {
             return StorageResponse.builder().originName(request.getOriginName())
                     .targetName(targetName).size(response.body().length)
                     .mappingPath(properties.getMappingPath())
-                    .extend(extend).build();
+                    .bucket(bucket).extend(extend).build();
         } catch (QiniuException e) {
             log.error("[文件上传异常]", e);
             throw uploadError(BaseStorageProperties.StorageType.QINIU, e);

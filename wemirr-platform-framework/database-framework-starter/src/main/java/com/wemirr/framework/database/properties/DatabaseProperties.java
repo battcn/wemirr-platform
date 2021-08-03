@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class DatabaseProperties {
 
-    public static final String PREFIX = "spring.mybatis-plus";
+    public static final String PREFIX = "mybatis-plus.extend";
 
     /**
      * 攻击 SQL 阻断解析器
