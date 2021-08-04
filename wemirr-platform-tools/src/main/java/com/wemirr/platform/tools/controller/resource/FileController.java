@@ -32,6 +32,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.Optional;
+
+import static com.wemirr.framework.commons.entity.Result.OPERATION_SUCCESS;
 import static org.apache.http.protocol.HTTP.USER_AGENT;
 
 /**
@@ -47,6 +50,15 @@ public class FileController {
 
     private final FileService fileService;
     private final StorageOperation storageOperation;
+
+
+    @GetMapping("/token")
+    @Parameter(description = "文件名", name = "originName", in = ParameterIn.QUERY)
+    @Operation(summary = "上传Token获取 - [Levin] - [DONE]")
+    public Result<String> getToken(String key, @RequestParam(defaultValue = "true") boolean random) {
+        final String token = storageOperation.token(key, random);
+        return Result.success(OPERATION_SUCCESS, token);
+    }
 
     @GetMapping
     @Parameters({
@@ -92,6 +104,7 @@ public class FileController {
                 .originName(response.getOriginName())
                 .targetName(response.getTargetName())
                 .mappingPath(response.getMappingPath())
+                .fullUrl(response.getFullUrl())
                 .bucket(response.getBucket())
                 .location(location).ip(ip)
                 .engine(userAgent.getEngineVersion())
@@ -104,6 +117,9 @@ public class FileController {
     @SysLog(value = "删除文件")
     @Operation(summary = "删除文件")
     public Result<ResponseEntity<Void>> del(@PathVariable Long id) {
+        final FileEntity file = Optional.ofNullable(this.fileService.getById(id)).orElseThrow(() -> CheckedException.notFound("文件不存在"));
+        storageOperation.remove(file.getBucket(), file.getTargetName());
+        fileService.removeById(id);
         return Result.success();
     }
 

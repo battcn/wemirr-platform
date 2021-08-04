@@ -43,6 +43,15 @@ public interface StorageOperation {
     AtomicLong FILE_GET_COUNTS = new AtomicLong();
     AtomicLong FILE_DELETE_COUNTS = new AtomicLong();
 
+    default String token(String originName, boolean random) {
+        return null;
+    }
+
+    default String token(String bucket, String originName, boolean random) {
+
+        return null;
+    }
+
     /**
      * 文件下载（流式下载）
      *

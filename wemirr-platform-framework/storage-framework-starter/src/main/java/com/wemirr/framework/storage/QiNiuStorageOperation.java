@@ -50,6 +50,19 @@ public class QiNiuStorageOperation implements StorageOperation {
         this.cdnManager = this.connectionFactory.getCdnManager();
     }
 
+    @Override
+    public String token(String originName, boolean random) {
+        return token(properties.getBucket(), originName, random);
+    }
+
+    @Override
+    public String token(String bucket, String originName, boolean random) {
+        String targetName = null;
+        if (random && StringUtils.isNoneBlank(originName)) {
+            targetName = getTargetName(StorageRequest.builder().originName(originName).build());
+        }
+        return getUploadToken(StringUtils.defaultIfBlank(bucket, properties.getBucket()), targetName);
+    }
 
     @Override
     public DownloadResponse download(String fileName) {
@@ -197,7 +210,8 @@ public class QiNiuStorageOperation implements StorageOperation {
     @Override
     public void remove(String bucketName, String fileName) {
         try {
-            bucketManager.delete(bucketName, fileName);
+            final Response response = bucketManager.delete(bucketName, fileName);
+            log.debug("文件删除成功 - {}", response);
         } catch (QiniuException e) {
             log.error("[文件移除异常]", e);
         }
