@@ -1,5 +1,6 @@
 package com.wemirr.platform.authority.domain.entity.baseinfo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import lombok.Data;
@@ -7,6 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+
+import static com.baomidou.mybatisplus.annotation.FieldStrategy.IGNORED;
 
 /**
  * <p>
@@ -36,12 +39,19 @@ public class Tenant extends SuperEntity<Long> {
     private String contactPhone;
     private String industry;
 
+    @TableField(updateStrategy = IGNORED)
     private Long provinceId;
+    @TableField(updateStrategy = IGNORED)
     private String provinceName;
+    @TableField(updateStrategy = IGNORED)
     private Long cityId;
+    @TableField(updateStrategy = IGNORED)
     private String cityName;
+    @TableField(updateStrategy = IGNORED)
     private Long districtId;
+    @TableField(updateStrategy = IGNORED)
     private String districtName;
+
     private String address;
 
     private String creditCode;

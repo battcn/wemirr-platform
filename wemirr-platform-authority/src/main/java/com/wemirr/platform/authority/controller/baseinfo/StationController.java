@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.controller.baseinfo;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.boot.utils.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.authority.domain.dto.StationPageDTO;
@@ -42,8 +43,7 @@ public class StationController {
     @SysLog(value = "添加岗位")
     @Operation(summary = "添加岗位")
     public Result<ResponseEntity<Void>> add(@Validated @RequestBody StationSaveDTO dto) {
-        final Station bean = BeanUtil.toBean(dto, Station.class);
-        stationService.save(bean);
+        stationService.save(BeanUtil.toBean(dto, Station.class));
         return success();
     }
 
@@ -51,9 +51,7 @@ public class StationController {
     @SysLog(value = "编辑岗位")
     @Operation(summary = "编辑岗位")
     public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody StationSaveDTO dto) {
-        final Station bean = BeanUtil.toBean(dto, Station.class);
-        bean.setId(id);
-        stationService.updateById(bean);
+        stationService.updateById(BeanUtilPlus.toBean(id, dto, Station.class));
         return success();
     }
 

@@ -7,7 +7,7 @@ import com.wemirr.platform.authority.domain.dto.RoleResSaveDTO;
 import com.wemirr.platform.authority.domain.dto.UserRoleSaveDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
 import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;
-import com.wemirr.platform.authority.domain.vo.RoleResMenuMapperVo;
+import com.wemirr.platform.authority.domain.vo.RoleResMenuMapperResp;
 import com.wemirr.platform.authority.domain.vo.RoleResVO;
 import com.wemirr.platform.authority.repository.RoleResMapper;
 import com.wemirr.platform.authority.service.RoleResService;
@@ -42,11 +42,11 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
 
     @Override
     public RoleResVO findAuthorityIdByRoleId(Long roleId) {
-        final List<RoleResMenuMapperVo> list = this.baseMapper.selectRoleResByRoleId(roleId);
+        final List<RoleResMenuMapperResp> list = this.baseMapper.selectRoleResByRoleId(roleId);
         List<Long> menuIdList = list.stream().filter(xx -> xx.getType() == 1 || xx.getType() == 5)
-                .mapToLong(RoleResMenuMapperVo::getId).boxed().distinct().collect(Collectors.toList());
+                .mapToLong(RoleResMenuMapperResp::getId).boxed().distinct().collect(Collectors.toList());
         List<Long> resourceIdList = list.stream().filter(xx -> xx.getType() == 2)
-                .mapToLong(RoleResMenuMapperVo::getId).boxed().distinct().collect(Collectors.toList());
+                .mapToLong(RoleResMenuMapperResp::getId).boxed().distinct().collect(Collectors.toList());
         return RoleResVO.builder()
                 .menuIdList(menuIdList)
                 .resourceIdList(resourceIdList)

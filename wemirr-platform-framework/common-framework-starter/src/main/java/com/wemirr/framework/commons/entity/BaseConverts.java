@@ -22,7 +22,19 @@ public interface BaseConverts<S, T> {
      * @param source 原对象
      * @return 目标对象
      */
-    T convert(S source);
+    default T convert(S source) {
+        return null;
+    }
+
+    /**
+     * 类型转换
+     *
+     * @param source 原对象
+     * @return 目标对象
+     */
+    default T convert(S source, Long id) {
+        return null;
+    }
 
     /**
      * 批量类型转换

@@ -63,7 +63,7 @@ public class UserController {
     @SysLog(value = "添加用户")
     @Operation(summary = "添加用户")
     public Result<ResponseEntity<Void>> save(@Validated @RequestBody UserSaveDTO dto) {
-       this.userService.addUser(dto);
+        this.userService.addUser(dto);
         return Result.success();
     }
 
@@ -72,9 +72,7 @@ public class UserController {
     @SysLog(value = "编辑用户")
     @Operation(summary = "编辑用户")
     public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody UserUpdateDTO dto) {
-        final User user = USER_DTO_2_PO_CONVERTS.convert(dto);
-        user.setId(id);
-        this.userService.updateById(user);
+        this.userService.updateById(USER_DTO_2_PO_CONVERTS.convert(dto, id));
         return Result.success();
     }
 

@@ -7,4 +7,12 @@ import com.wemirr.platform.authority.domain.entity.baseinfo.Tenant;
  * @author Levin
  */
 public interface TenantService extends SuperService<Tenant> {
+
+
+    /**
+     * 保存租户
+     *
+     * @param tenant 租户信息
+     */
+    void saveOrUpdateTenant(Tenant tenant);
 }

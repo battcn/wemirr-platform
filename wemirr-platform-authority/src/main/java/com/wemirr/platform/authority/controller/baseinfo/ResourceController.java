@@ -1,12 +1,13 @@
 package com.wemirr.platform.authority.controller.baseinfo;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
-import com.wemirr.framework.boot.utils.BeanPlusUtil;
+import com.wemirr.framework.boot.utils.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.datasource.TenantEnvironment;
@@ -88,7 +89,7 @@ public class ResourceController {
     @SysLog(value = "添加资源")
     @Operation(summary = "添加资源")
     public Result<ResponseEntity<Void>> save(@Validated @RequestBody ResourceSaveDTO data) {
-        Resource resource = BeanPlusUtil.toBean(data, Resource.class);
+        Resource resource = BeanUtil.toBean(data, Resource.class);
         resourceService.addResource(resource);
         return Result.success();
     }
@@ -106,9 +107,7 @@ public class ResourceController {
     @SysLog(value = "修改资源")
     @Operation(summary = "修改资源")
     public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody ResourceSaveDTO data) {
-        Resource resource = BeanPlusUtil.toBean(data, Resource.class);
-        resource.setId(id);
-        resourceService.editResourceById(resource);
+        resourceService.editResourceById(BeanUtilPlus.toBean(id, data, Resource.class));
         return Result.success();
     }
 

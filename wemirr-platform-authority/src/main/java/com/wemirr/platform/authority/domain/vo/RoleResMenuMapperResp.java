@@ -7,7 +7,7 @@ import lombok.Data;
  * @author Levin
  */
 @Data
-public class RoleResMenuMapperVo {
+public class RoleResMenuMapperResp {
     @Schema(description = "资源ID")
     private Long id;
     @Schema(description = "角色ID")

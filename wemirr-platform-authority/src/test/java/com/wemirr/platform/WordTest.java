@@ -1,6 +1,10 @@
 package com.wemirr.platform;
 
+import com.alibaba.fastjson.JSON;
+import com.wemirr.framework.boot.utils.BeanUtilPlus;
 import com.wemirr.framework.commons.StringUtils;
+import com.wemirr.platform.authority.domain.dto.TenantSaveDTO;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Tenant;
 import org.junit.jupiter.api.Test;
 
 public class WordTest {
@@ -29,5 +33,13 @@ public class WordTest {
         System.out.println(id);
     }
 
+    @Test
+    public void test2() {
+        TenantSaveDTO dto = new TenantSaveDTO();
+        dto.setAddress("哈哈哈");
+        dto.setName("测试一下");
+        final Tenant tenant = BeanUtilPlus.toBean(1, dto, Tenant.class);
+        System.out.println(JSON.toJSONString(tenant));
+    }
 
 }

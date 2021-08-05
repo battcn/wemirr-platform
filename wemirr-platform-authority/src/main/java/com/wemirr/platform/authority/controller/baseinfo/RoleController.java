@@ -3,7 +3,7 @@ package com.wemirr.platform.authority.controller.baseinfo;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.boot.utils.BeanPlusUtil;
+import com.wemirr.framework.boot.utils.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.datasource.TenantEnvironment;
@@ -82,7 +82,7 @@ public class RoleController {
     @Operation(summary = "角色详情")
     public Result<RoleDetailVO> details(@PathVariable Long id) {
         Role role = roleService.getById(id);
-        RoleDetailVO detail = BeanPlusUtil.toBean(role, RoleDetailVO.class);
+        RoleDetailVO detail = BeanUtilPlus.toBean(role, RoleDetailVO.class);
         final RoleResVO authority = this.roleResService.findAuthorityIdByRoleId(id);
         detail.setAuthority(authority);
         return success(detail);

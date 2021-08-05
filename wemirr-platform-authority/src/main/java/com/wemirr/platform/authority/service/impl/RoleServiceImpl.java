@@ -1,9 +1,9 @@
 package com.wemirr.platform.authority.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
-import com.wemirr.framework.boot.utils.BeanPlusUtil;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.database.datasource.TenantEnvironment;
 import com.wemirr.framework.database.mybatis.auth.DataScope;
@@ -74,7 +74,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
 
     @Override
     public void saveRole(Long userId, RoleDTO data) {
-        Role role = BeanPlusUtil.toBean(data, Role.class);
+        Role role = BeanUtil.toBean(data, Role.class);
         role.setReadonly(false);
         super.save(role);
         saveRoleOrg(role, data.getOrgList());
@@ -82,7 +82,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
 
     @Override
     public void updateRole(Long roleId, Long userId, RoleDTO data) {
-        Role role = BeanPlusUtil.toBean(data, Role.class);
+        Role role = BeanUtil.toBean(data, Role.class);
         if (role.getReadonly() != null && role.getReadonly()) {
             throw CheckedException.badRequest("内置角色无法编辑");
         }

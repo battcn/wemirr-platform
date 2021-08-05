@@ -15,7 +15,6 @@ import com.wemirr.framework.storage.StorageOperation;
 import com.wemirr.framework.storage.domain.StorageRequest;
 import com.wemirr.framework.storage.domain.StorageResponse;
 import com.wemirr.platform.tools.domain.entity.FileEntity;
-import com.wemirr.platform.tools.domain.req.resource.FileSaveDTO;
 import com.wemirr.platform.tools.service.FileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,7 +30,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.Optional;
 
 import static com.wemirr.framework.commons.entity.Result.OPERATION_SUCCESS;

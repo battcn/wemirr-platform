@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.controller.baseinfo;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.boot.utils.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
@@ -38,6 +39,9 @@ public class TenantController {
     public Result<IPage<Tenant>> query(TenantPageDTO params) {
         return Result.success(stationService.page(params.buildPage(), Wraps.<Tenant>lbQ()
                 .like(Tenant::getName, params.getName()).eq(Tenant::getCode, params.getCode())
+                .eq(Tenant::getProvinceId, params.getProvinceId())
+                .eq(Tenant::getCityId, params.getCityId())
+                .eq(Tenant::getDistrictId, params.getDistrictId())
                 .eq(Tenant::getIndustry, params.getIndustry()).eq(Tenant::getStatus, params.getStatus())
                 .eq(Tenant::getType, params.getType())));
     }
@@ -46,8 +50,7 @@ public class TenantController {
     @SysLog(value = "添加租户")
     @Operation(summary = "添加租户")
     public Result<ResponseEntity<Void>> add(@Validated @RequestBody TenantSaveDTO dto) {
-        final Tenant bean = BeanUtil.toBean(dto, Tenant.class);
-        stationService.save(bean);
+        stationService.saveOrUpdateTenant(BeanUtil.toBean(dto, Tenant.class));
         return success();
     }
 
@@ -55,9 +58,7 @@ public class TenantController {
     @SysLog(value = "编辑租户")
     @Operation(summary = "编辑租户")
     public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody TenantSaveDTO dto) {
-        final Tenant bean = BeanUtil.toBean(dto, Tenant.class);
-        bean.setId(id);
-        stationService.updateById(bean);
+        stationService.saveOrUpdateTenant(BeanUtilPlus.toBean(id, dto, Tenant.class));
         return success();
     }
 

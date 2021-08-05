@@ -9,6 +9,7 @@ import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.AreaEntityDTO;
 import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
+import com.wemirr.platform.authority.domain.vo.AreaNodeResp;
 import com.wemirr.platform.authority.service.AreaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.wemirr.platform.authority.domain.converts.AreaConverts.AREA_DTO_2_PO_CONVERTS;
+import static com.wemirr.platform.authority.domain.converts.AreaConverts.AREA_ENTITY_2_NODE_RESP_CONVERTS;
 
 /**
  * <p>
@@ -55,11 +57,9 @@ public class AreaController {
             Map<String, Object> extra = Maps.newLinkedHashMap();
             extra.put("value", area.getId());
             extra.put("label", area.getName());
-            extra.put("sequence", area.getSequence());
             extra.put("level", area.getLevel());
             extra.put("longitude", area.getLongitude());
             extra.put("latitude", area.getLatitude());
-            extra.put("source", area.getSource());
             treeNode.setExtra(extra);
             return treeNode;
         }).collect(Collectors.toList());
@@ -68,9 +68,9 @@ public class AreaController {
 
     @GetMapping("/{parent_id}/children")
     @Operation(description = "查询子节点 - [DONE] - [Levin]")
-    public Result<List<AreaEntity>> list(@PathVariable(name = "parent_id") Integer parentId) {
+    public Result<List<AreaNodeResp>> list(@PathVariable(name = "parent_id") Integer parentId) {
         final List<AreaEntity> list = this.areaService.listArea(parentId);
-        return Result.success(list);
+        return Result.success(AREA_ENTITY_2_NODE_RESP_CONVERTS.converts(list));
     }
 
     @PostMapping

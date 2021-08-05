@@ -19,12 +19,13 @@ public class DictionaryConverts {
     public static class DictionaryDto2PoConverts implements BasePageConverts<DictionaryDTO, Dictionary> {
 
         @Override
-        public Dictionary convert(DictionaryDTO source) {
+        public Dictionary convert(DictionaryDTO source, Long id) {
             if (source == null) {
                 return null;
             }
             Dictionary target = new Dictionary();
             BeanUtils.copyProperties(source, target);
+            target.setId(id);
             return target;
         }
     }

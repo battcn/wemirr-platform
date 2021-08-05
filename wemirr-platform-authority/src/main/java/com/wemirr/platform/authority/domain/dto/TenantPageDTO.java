@@ -16,4 +16,8 @@ public class TenantPageDTO extends PageRequest {
     private Integer type;
     private Integer status;
     private Integer industry;
+
+    private Long provinceId;
+    private Long cityId;
+    private Long districtId;
 }

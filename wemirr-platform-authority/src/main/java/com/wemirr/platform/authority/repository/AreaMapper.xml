@@ -4,7 +4,7 @@
 
 
     <select id="listArea" resultType="com.wemirr.platform.authority.domain.entity.common.AreaEntity">
-        SELECT t1.*,(select count(*) FROM common_area WHERE parent_id = t1.id) `count`  FROM common_area t1
+        SELECT t1.*  FROM common_area t1
         where  t1.parent_id = #{parentId} order by `sequence`
     </select>
 

@@ -5,6 +5,7 @@ import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
 import com.google.common.collect.Maps;
+import com.wemirr.framework.boot.utils.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
@@ -74,9 +75,7 @@ public class OrgController {
     @SysLog(value = "编辑组织架构")
     @Operation(summary = "编辑编辑组织架构")
     public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody OrgSaveDTO dto) {
-        final Org bean = BeanUtil.toBean(dto, Org.class);
-        bean.setId(id);
-        orgService.updateById(bean);
+        orgService.updateById(BeanUtilPlus.toBean(id, dto, Org.class));
         return success();
     }
 

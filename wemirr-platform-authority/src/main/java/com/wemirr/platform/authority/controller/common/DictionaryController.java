@@ -66,9 +66,7 @@ public class DictionaryController {
     @SysLog(value = "字典编辑")
     @Operation(description = "编辑字典 - [DONE] - [Levin]")
     public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody DictionaryDTO dto) {
-        final Dictionary dictionary = DICTIONARY_DTO_2_PO_CONVERTS.convert(dto);
-        dictionary.setId(id);
-        this.dictionaryService.editDictionary(dictionary);
+        this.dictionaryService.editDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(dto, id));
         return Result.success();
     }
 

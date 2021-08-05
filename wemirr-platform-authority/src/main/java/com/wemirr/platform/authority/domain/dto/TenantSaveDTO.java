@@ -37,11 +37,8 @@ public class TenantSaveDTO {
     private String industry;
 
     private Long provinceId;
-    private String provinceName;
     private Long cityId;
-    private String cityName;
     private Long districtId;
-    private String districtName;
 
     @Length(min = 2,max = 100,message = "地址长度 {min} - {max} 之间")
     private String address;

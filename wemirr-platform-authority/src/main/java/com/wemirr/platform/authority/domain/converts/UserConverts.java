@@ -33,12 +33,13 @@ public class UserConverts {
     public static class UserDto2PoConverts implements BasePageConverts<UserUpdateDTO, User> {
 
         @Override
-        public User convert(UserUpdateDTO source) {
+        public User convert(UserUpdateDTO source, Long id) {
             if (source == null) {
                 return null;
             }
             User target = new User();
             BeanUtils.copyProperties(source, target);
+            target.setId(id);
             return target;
         }
     }

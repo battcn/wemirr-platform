@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.repository;
 
 import com.wemirr.framework.boot.SuperMapper;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
-import com.wemirr.platform.authority.domain.vo.RoleResMenuMapperVo;
+import com.wemirr.platform.authority.domain.vo.RoleResMenuMapperResp;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +27,6 @@ public interface RoleResMapper extends SuperMapper<RoleRes> {
      * @param roleId 角色ID
      * @return 查询结果
      */
-    List<RoleResMenuMapperVo> selectRoleResByRoleId(@Param("roleId") Long roleId);
+    List<RoleResMenuMapperResp> selectRoleResByRoleId(@Param("roleId") Long roleId);
 
 }
