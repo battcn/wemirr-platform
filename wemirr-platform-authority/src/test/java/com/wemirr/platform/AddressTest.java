@@ -13,6 +13,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -46,7 +47,7 @@ public class AddressTest {
     @Test
     public void test() throws IOException {
         final byte[] addressBytes = Files.readAllBytes(Paths.get("/Users/battcn/Development/opensource/wemirr-platform/wemirr-platform-authority/src/main/resources/pcas-code.json"));
-        final String addressText = IOUtils.toString(addressBytes, "utf-8");
+        final String addressText = new String(addressBytes, StandardCharsets.UTF_8);
         final List<Address> addresses = JSON.parseArray(addressText, Address.class);
         List<Address> excelData = Lists.newArrayList();
         for (Address province : addresses) {
