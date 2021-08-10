@@ -124,6 +124,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
             additionalInfo.put("username", authInfo.getUsername());
             additionalInfo.put("nickName", authInfo.getNickName());
             additionalInfo.put("tenantId", authInfo.getTenantId());
+            additionalInfo.put("tenantCode", authInfo.getTenantCode());
             additionalInfo.put("avatar", authInfo.getAvatar());
             additionalInfo.put("sex", authInfo.getSex());
             additionalInfo.put("email", authInfo.getEmail());

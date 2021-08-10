@@ -29,7 +29,7 @@ public interface UserMapper extends SuperMapper<User> {
     /**
      * 带数据权限用户列表
      *
-     * @param dataScope dataScope
+     * @param dataScope dataScopeAspectJExpressionPointcut
      * @return 用户
      */
     List<User> list(DataScope dataScope);

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.boot.utils.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.database.datasource.TenantEnvironment;
+import com.wemirr.framework.database.TenantEnvironment;
 import com.wemirr.framework.database.mybatis.auth.DataScopeType;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.RoleDTO;

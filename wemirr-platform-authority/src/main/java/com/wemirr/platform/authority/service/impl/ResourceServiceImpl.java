@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.entity.Entity;
-import com.wemirr.framework.database.datasource.TenantEnvironment;
+import com.wemirr.framework.database.TenantEnvironment;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;

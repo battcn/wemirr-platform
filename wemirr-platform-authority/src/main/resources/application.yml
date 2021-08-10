@@ -15,6 +15,8 @@ mybatis-plus:
     cache-enabled: false
   extend:
     include-tables: t_user,sys_role,sys_org,sys_station,sys_station_message_publish
+    multi-tenant:
+      strategy: local
 
 management:
   endpoints:
@@ -23,19 +25,23 @@ management:
         include: '*'
 spring:
   datasource:
-    #druid:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/wemirr-platform?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
-    type: com.zaxxer.hikari.HikariDataSource
-    username: root
-    password: 123456
-    hikari:
-      minimum-idle: 5
-      maximum-pool-size: 15
-      auto-commit: true
-      pool-name: HikariDataSourcePool
-      max-lifetime: 1800000
-      connection-timeout: 30000
+    dynamic:
+      primary: master #设置默认的数据源或者数据源组,默认值即为master
+      strict: false
+      datasource:
+        master:
+          pool-name: HikariDataSourcePool
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/wemirr-platform?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
+          type: com.zaxxer.hikari.HikariDataSource
+          username: root
+          password: 123456
+      hikari:
+        max-pool-size: 15
+        max-lifetime: 1800000
+        connection-timeout: 30000
+        min-idle: 5
+        is-auto-commit: true
   redis:
     port: 6380
     database: 2
@@ -44,6 +50,9 @@ spring:
     redis:
       cache-null-values: false
       time-to-live: 2H
+  rabbitmq:
+    username: guest
+    password: guest
   mvc:
     throw-exception-if-no-handler-found: true
   resources:

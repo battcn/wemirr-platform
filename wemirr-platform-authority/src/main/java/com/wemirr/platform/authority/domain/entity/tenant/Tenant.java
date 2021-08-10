@@ -1,4 +1,4 @@
-package com.wemirr.platform.authority.domain.entity.baseinfo;
+package com.wemirr.platform.authority.domain.entity.tenant;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

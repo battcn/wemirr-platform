@@ -1,8 +1,8 @@
 package com.wemirr.platform.authority.configuration;
 
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
-import com.wemirr.framework.database.datasource.BaseMybatisConfiguration;
-import com.wemirr.framework.database.datasource.TenantEnvironment;
+import com.wemirr.framework.database.TenantEnvironment;
+import com.wemirr.framework.database.configuration.BaseMybatisConfiguration;
 import com.wemirr.framework.database.mybatis.auth.DataScopeInnerInterceptor;
 import com.wemirr.framework.database.properties.DatabaseProperties;
 import com.wemirr.framework.security.client.utils.SecurityUtils;

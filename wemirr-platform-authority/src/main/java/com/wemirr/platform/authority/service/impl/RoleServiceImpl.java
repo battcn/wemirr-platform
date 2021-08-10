@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.database.datasource.TenantEnvironment;
+import com.wemirr.framework.database.TenantEnvironment;
 import com.wemirr.framework.database.mybatis.auth.DataScope;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;

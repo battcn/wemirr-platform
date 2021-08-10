@@ -1,12 +1,13 @@
 package com.wemirr.platform.authority.service.impl;
 
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
-import com.wemirr.platform.authority.domain.entity.baseinfo.Tenant;
 import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
+import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
 import com.wemirr.platform.authority.repository.AreaMapper;
 import com.wemirr.platform.authority.repository.TenantMapper;
 import com.wemirr.platform.authority.service.TenantService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -14,12 +15,12 @@ import java.util.Objects;
 /**
  * @author Levin
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> implements TenantService {
 
     private final AreaMapper areaMapper;
-
 
     @Override
     public void saveOrUpdateTenant(Tenant tenant) {

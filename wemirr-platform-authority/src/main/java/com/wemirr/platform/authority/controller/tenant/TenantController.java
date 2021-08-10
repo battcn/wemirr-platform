@@ -1,4 +1,4 @@
-package com.wemirr.platform.authority.controller.baseinfo;
+package com.wemirr.platform.authority.controller.tenant;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -8,7 +8,8 @@ import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.TenantPageDTO;
 import com.wemirr.platform.authority.domain.dto.TenantSaveDTO;
-import com.wemirr.platform.authority.domain.entity.baseinfo.Tenant;
+import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
+import com.wemirr.platform.authority.service.DynamicDatasourceService;
 import com.wemirr.platform.authority.service.TenantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,12 +33,13 @@ import static com.wemirr.framework.commons.entity.Result.success;
 @Tag(name = "租户管理", description = "租户管理")
 public class TenantController {
 
-    private final TenantService stationService;
+    private final TenantService tenantService;
+    private final DynamicDatasourceService dynamicDatasourceService;
 
     @GetMapping
     @Operation(summary = "租户列表 - [Levin] - [DONE]")
     public Result<IPage<Tenant>> query(TenantPageDTO params) {
-        return Result.success(stationService.page(params.buildPage(), Wraps.<Tenant>lbQ()
+        return Result.success(tenantService.page(params.buildPage(), Wraps.<Tenant>lbQ()
                 .like(Tenant::getName, params.getName()).eq(Tenant::getCode, params.getCode())
                 .eq(Tenant::getProvinceId, params.getProvinceId())
                 .eq(Tenant::getCityId, params.getCityId())
@@ -50,7 +52,7 @@ public class TenantController {
     @SysLog(value = "添加租户")
     @Operation(summary = "添加租户")
     public Result<ResponseEntity<Void>> add(@Validated @RequestBody TenantSaveDTO dto) {
-        stationService.saveOrUpdateTenant(BeanUtil.toBean(dto, Tenant.class));
+        tenantService.saveOrUpdateTenant(BeanUtil.toBean(dto, Tenant.class));
         return success();
     }
 
@@ -58,7 +60,15 @@ public class TenantController {
     @SysLog(value = "编辑租户")
     @Operation(summary = "编辑租户")
     public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody TenantSaveDTO dto) {
-        stationService.saveOrUpdateTenant(BeanUtilPlus.toBean(id, dto, Tenant.class));
+        tenantService.saveOrUpdateTenant(BeanUtilPlus.toBean(id, dto, Tenant.class));
+        return success();
+    }
+
+    @PutMapping("/{id}/config")
+    @SysLog(value = "配置租户")
+    @Operation(summary = "配置租户")
+    public Result<ResponseEntity<Void>> config(@PathVariable Long id) {
+        dynamicDatasourceService.configDataSource(id);
         return success();
     }
 
@@ -66,7 +76,7 @@ public class TenantController {
     @SysLog(value = "删除租户")
     @Operation(summary = "删除租户")
     public Result<ResponseEntity<Void>> del(@PathVariable Long id) {
-        stationService.removeById(id);
+        tenantService.removeById(id);
         return success();
     }
 
