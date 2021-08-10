@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 50727
  Source Host           : localhost:3306
- Source Schema         : wemirr-platform
+ Source Schema         : wemirr_tenant_8888
 
  Target Server Type    : MySQL
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 10/08/2021 10:32:24
+ Date: 10/08/2021 11:20:55
 */
 
 SET NAMES utf8mb4;
@@ -196,12 +196,13 @@ CREATE TABLE `common_login_log` (
   `location` varchar(50) DEFAULT NULL COMMENT '登录地点',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='登录日志';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='登录日志';
 
 -- ----------------------------
 -- Records of common_login_log
 -- ----------------------------
 BEGIN;
+INSERT INTO `common_login_log` VALUES (1, 1, '127.0.0.1', 'client', '长风一梦8888', 'admin', 'Mac', 'Webkit', '537.36', 'Chrome', '92.0.4515.131', 'OSX', '0|0|0|内网IP|内网IP', '2021-08-10 03:18:20');
 COMMIT;
 
 -- ----------------------------
@@ -243,36 +244,6 @@ CREATE TABLE `common_opt_log` (
 -- Records of common_opt_log
 -- ----------------------------
 BEGIN;
-COMMIT;
-
--- ----------------------------
--- Table structure for sys_oauth_client_details
--- ----------------------------
-DROP TABLE IF EXISTS `sys_oauth_client_details`;
-CREATE TABLE `sys_oauth_client_details` (
-  `client_id` varchar(32) NOT NULL COMMENT '客户端ID',
-  `client_secret` varchar(256) DEFAULT NULL COMMENT '客户端秘钥',
-  `status` bit(1) DEFAULT b'1' COMMENT '应用状态',
-  `type` tinyint(2) DEFAULT '0' COMMENT '应用类型（0=综合应用,1=服务应用,2=PC网页,3=手机网页,4=小程序）',
-  `resource_ids` varchar(255) DEFAULT NULL COMMENT '微服务应用名（暂时不建议用）',
-  `client_name` varchar(255) DEFAULT NULL COMMENT '客户端名称',
-  `scope` varchar(256) DEFAULT NULL COMMENT '范围',
-  `authorized_grant_types` varchar(256) DEFAULT NULL COMMENT '认证类型',
-  `web_server_redirect_uri` varchar(256) DEFAULT NULL COMMENT 'web服务站点',
-  `authorities` varchar(256) DEFAULT NULL,
-  `access_token_validity` int(11) DEFAULT '43200' COMMENT 'token 有效期默认12小时',
-  `refresh_token_validity` int(11) DEFAULT '604800' COMMENT 'refresh token  有效期默认7天',
-  `additional_information` varchar(4096) DEFAULT NULL COMMENT '附加信息',
-  `autoapprove` varchar(256) DEFAULT NULL COMMENT '自动审批',
-  PRIMARY KEY (`client_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='终端信息表';
-
--- ----------------------------
--- Records of sys_oauth_client_details
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_oauth_client_details` VALUES ('client', 'client', b'1', 0, NULL, '我是客户端', 'server', 'password,client_credentials,authorization_code', NULL, NULL, 86400, 604800, NULL, NULL);
-INSERT INTO `sys_oauth_client_details` VALUES ('test', 'test', b'1', 0, NULL, '测试客户端', 'server', 'password,refresh_token,client_credentials,authorization_code', NULL, NULL, 86400, 604800, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -355,24 +326,15 @@ CREATE TABLE `sys_resource` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_resource` VALUES (1, '系统管理', ',', 'system:view', 0, '/system/management', 'Layout', 1, 'ant-design:dashboard-filled', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2020-11-20 09:39:19', NULL, NULL, NULL);
-INSERT INTO `sys_resource` VALUES (2, '租户中心', ',', 'tenant:view', 0, '/tenant', 'Layout', 2, 'clarity-thin-client-line', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2021-08-06 09:26:13', NULL, NULL, NULL);
 INSERT INTO `sys_resource` VALUES (20, '资源中心', ',', 'resource:view', 0, '/resource', 'Layout', 20, 'carbon-group-resource', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2021-08-03 05:47:50', NULL, NULL, NULL);
 INSERT INTO `sys_resource` VALUES (30, '消息平台', ',', NULL, 0, '/message', 'Layout', 30, 'bx-bx-message-alt-dots', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2021-07-02 09:48:51', NULL, NULL, NULL);
-INSERT INTO `sys_resource` VALUES (50, '开发平台', ',', 'development:view', 0, '/development', 'Layout', 50, 'ant-design:appstore-add-outlined', NULL, 1, b'1', b'0', b'0', b'1', '运维监控', NULL, NULL, '2020-11-09 09:49:52', 1, '长风一梦', NULL);
 INSERT INTO `sys_resource` VALUES (101, '用户中心', ',1', 'user:info:view', 1, '/system/center', 'Layout', 0, 'ant-design:user-outlined', NULL, 1, b'1', b'0', b'0', b'1', '用户中心', 1, NULL, '2019-07-25 16:11:00', 2, '不告诉你', '2019-11-11 14:28:40');
 INSERT INTO `sys_resource` VALUES (102, '权限管理', ',1', 'auth:view', 1, '/system/auth', NULL, 1, 'ant-design:security-scan-outlined', NULL, 1, b'1', b'0', b'0', b'1', '权限管理', 1, NULL, '2019-07-25 16:11:41', 3, NULL, '2019-11-11 14:28:43');
 INSERT INTO `sys_resource` VALUES (103, '基础数据', ',1', 'basic:view', 1, '/system/basic', NULL, 2, 'file-icons:config-coffeescript', NULL, 1, b'1', b'0', b'0', b'1', '基础配置', 1, NULL, '2019-07-25 16:13:09', 2, '不告诉你', '2019-11-11 14:28:49');
 INSERT INTO `sys_resource` VALUES (120, '日志管理', ',1', 'log:view', 1, '/development/log', NULL, 20, 'radix-icons:activity-log', NULL, 1, b'1', b'0', b'0', b'1', '日志管理', NULL, NULL, '2020-11-12 04:51:38', NULL, NULL, NULL);
-INSERT INTO `sys_resource` VALUES (201, '租户管理', ',2', 'tenant:management', 2, '/tenant/index', '/wemirr/tenant/index', 0, 'clarity-thin-client-line', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2021-07-30 09:11:36', 1, '长风一梦', NULL);
-INSERT INTO `sys_resource` VALUES (202, '连接管理', ',2', NULL, 2, '/tenant/database', '/wemirr/tenant/database/index', 1, 'ant-design:database-filled', NULL, 1, b'1', b'0', b'0', b'1', '', 1, '长风一梦', '2021-08-06 09:33:09', 1, '长风一梦', NULL);
 INSERT INTO `sys_resource` VALUES (2001, '文件管理', ',20', 'resource:file', 20, '/resource/file', '/wemirr/resource/file/index', 1, 'akar-icons:file', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2021-08-03 05:49:21', NULL, NULL, NULL);
 INSERT INTO `sys_resource` VALUES (3001, '我的消息', ',30', 'message:my', 30, '/message/my', '/wemirr/message/my/index', 1, 'wpf-my-topic', NULL, 1, b'1', b'0', b'0', b'1', '我的消息', NULL, NULL, '2020-11-19 02:50:54', NULL, NULL, NULL);
 INSERT INTO `sys_resource` VALUES (3002, '发布消息', ',30', 'message:publish', 30, '/message/publish', '/wemirr/message/publish/index', 1, 'codicon-repo-push', NULL, 1, b'1', b'0', b'0', b'1', '发布消息', NULL, NULL, '2020-11-19 02:48:22', NULL, NULL, NULL);
-INSERT INTO `sys_resource` VALUES (5002, '网关管理', ',50', 'system:gateway:view', 50, '/development/gateway', NULL, 2, 'ant-design:gateway-outlined', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2020-11-20 02:38:13', NULL, NULL, NULL);
-INSERT INTO `sys_resource` VALUES (5030, '应用管理', ',50', 'application:management', 50, '/system/application', '/wemirr/management/application/index', 30, 'carbon-application', NULL, 1, b'1', b'0', b'0', b'1', '', 1, '长风一梦', '2021-07-30 09:10:07', NULL, NULL, NULL);
-INSERT INTO `sys_resource` VALUES (5050, '监控中心', ',50', 'development:view', 50, '/system/monitor', 'http://localhost:9000/monitor', 50, 'eos-icons:monitoring', NULL, 1, b'1', b'0', b'0', b'1', '监控中心', NULL, NULL, '2020-11-09 09:55:04', 1, '长风一梦', NULL);
-INSERT INTO `sys_resource` VALUES (5060, '注册中心', ',50', 'service:governance:nacos:view', 50, 'http://localhost:8848/nacos', '/system/development/nacos', 60, 'simple-icons:theregister', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2020-11-20 05:42:36', 1, '长风一梦', NULL);
-INSERT INTO `sys_resource` VALUES (5070, '服务治理', ',50', 'nepxion:platform', 50, 'http://218.78.55.64:6001/platform', '', 70, 'ri-government-fill', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2021-07-12 08:09:34', 1, '长风一梦', NULL);
 INSERT INTO `sys_resource` VALUES (10101, '用户管理', ',1,101', 'user:management', 101, '/system/user', '/wemirr/management/user/index', 1, 'heroicons-outline:user-group', NULL, 1, b'1', b'0', b'0', b'1', '用户管理', NULL, NULL, '2020-11-09 07:50:53', 1, '长风一梦', NULL);
 INSERT INTO `sys_resource` VALUES (10102, '组织管理', ',1,101', 'org:view', 101, '/system/org', '/wemirr/management/org/index', 1, 'codicon-organization', NULL, 1, b'1', b'0', b'0', b'1', '组织管理', NULL, NULL, '2020-11-09 07:51:00', NULL, NULL, NULL);
 INSERT INTO `sys_resource` VALUES (10103, '岗位管理', ',1,101', 'station:management', 101, '/system/station', '/wemirr/management/station/index', 1, 'eos-icons:job', NULL, 1, b'1', b'0', b'0', b'1', '岗位管理', NULL, NULL, '2020-11-09 07:51:09', NULL, NULL, NULL);
@@ -382,9 +344,6 @@ INSERT INTO `sys_resource` VALUES (10301, '数据字典', ',1,103', 'dict:manage
 INSERT INTO `sys_resource` VALUES (10302, '地区信息', ',1,103', 'area:view', 103, '/system/area', '/wemirr/management/basic/area/index', 1, 'ant-design:area-chart-outlined', NULL, 1, b'1', b'0', b'0', b'1', '地区信息', NULL, NULL, '2020-11-09 07:53:12', NULL, NULL, NULL);
 INSERT INTO `sys_resource` VALUES (12001, '登录日志', ',1,120', 'log:login', 120, '/development/log/login', '/wemirr/development/log/login/index', 1, 'carbon-login', NULL, 1, b'1', b'0', b'0', b'1', '登录日志', NULL, NULL, '2020-11-09 09:50:13', NULL, NULL, NULL);
 INSERT INTO `sys_resource` VALUES (12002, '操作日志', ',1,120', 'log:opt', 120, '/development/log/opt', '/wemirr/development/log/opt/index', 2, 'carbon-operation', NULL, 1, b'1', b'0', b'0', b'1', '操作日志', NULL, NULL, '2020-11-09 09:50:19', NULL, NULL, NULL);
-INSERT INTO `sys_resource` VALUES (500201, '限流规则', ',50,5002', 'development:gateway:limit', 5002, '/development/gateway/limit', '/wemirr/development/gateway/limit/index', 1, 'carbon-rule', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2020-11-20 02:38:51', NULL, NULL, NULL);
-INSERT INTO `sys_resource` VALUES (500202, '限访名单', ',50,5002', 'development:gateway:blacklist', 5002, '/development/gateway/blacklist', '/wemirr/development/gateway/blacklist/index', 2, 'carbon-ai-status-rejected', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2020-11-20 02:39:02', NULL, NULL, NULL);
-INSERT INTO `sys_resource` VALUES (500203, '网关路由', ',50,5002', 'development:gateway:route', 5002, '/development/gateway/route', '/wemirr/development/gateway/route/index', 3, 'mdi-router-wireless-settings', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2021-02-02 07:52:26', NULL, NULL, NULL);
 INSERT INTO `sys_resource` VALUES (1010101, '添加', ',1,101,10101', 'user:management:add', 10101, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', NULL, NULL, '2021-07-05 10:12:11', 1, '长风一梦', NULL);
 INSERT INTO `sys_resource` VALUES (1010102, '编辑', ',1,101,10101', 'user:management:edit', 10101, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', NULL, NULL, '2021-07-05 10:13:50', 1, '长风一梦', NULL);
 INSERT INTO `sys_resource` VALUES (1010104, '删除', ',1,101,10101', 'user:management:remove', 10101, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', NULL, NULL, '2021-07-05 14:25:09', 1, '长风一梦', NULL);
@@ -498,51 +457,39 @@ CREATE TABLE `sys_role_res` (
 -- Records of sys_role_res
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_res` VALUES (1, 1, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 2, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 20, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 30, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 50, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 101, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 102, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 103, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 120, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 201, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 202, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 2001, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 3001, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 3002, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 5002, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 5030, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 5050, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 5060, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 5070, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 10101, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 10102, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 10103, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 10201, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 10202, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 10301, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 10302, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 12001, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 12002, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 500201, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 500202, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 500203, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1010101, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1010102, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1010104, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1010301, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1010302, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1010303, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1020201, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1020202, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1020203, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1020204, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1020205, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1030101, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1030102, '2021-08-10 02:31:23');
-INSERT INTO `sys_role_res` VALUES (1, 1030103, '2021-08-10 02:31:23');
+INSERT INTO `sys_role_res` VALUES (1, 1, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 20, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 30, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 101, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 102, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 103, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 120, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 2001, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 3001, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 3002, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 10101, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 10102, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 10103, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 10201, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 10202, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 10301, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 10302, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 12001, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 12002, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1010101, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1010102, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1010104, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1010301, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1010302, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1010303, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1020201, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1020202, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1020203, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1020204, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1020205, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1030101, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1030102, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res` VALUES (1, 1030103, '2021-08-10 03:20:31');
 COMMIT;
 
 -- ----------------------------
@@ -697,39 +644,6 @@ INSERT INTO `sys_user_role` VALUES (8, 1);
 COMMIT;
 
 -- ----------------------------
--- Table structure for t_dynamic_datasource
--- ----------------------------
-DROP TABLE IF EXISTS `t_dynamic_datasource`;
-CREATE TABLE `t_dynamic_datasource` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `pool_name` varchar(100) DEFAULT NULL COMMENT '连接池名称',
-  `username` varchar(100) NOT NULL COMMENT '用户名',
-  `password` varchar(100) DEFAULT NULL COMMENT '密码',
-  `db_type` varchar(255) DEFAULT NULL COMMENT '数据库类型',
-  `driver_class_name` varchar(255) DEFAULT NULL,
-  `database` varchar(255) DEFAULT NULL COMMENT '数据库名称',
-  `connection_type` tinyint(2) DEFAULT '0' COMMENT '连接类型（0=单库多schema ,1 = 单库单schema）',
-  `host` varchar(50) NOT NULL DEFAULT 'localhost' COMMENT '数据库连接',
-  `port` int(8) NOT NULL DEFAULT '3306' COMMENT '数据库端口',
-  `description` varchar(255) DEFAULT NULL COMMENT '描述信息',
-  `locked` bit(1) DEFAULT b'0' COMMENT '0=正常1=禁用',
-  `created_by` bigint(20) DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(255) DEFAULT NULL COMMENT '创建人名称',
-  `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modified_by` bigint(20) DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(255) DEFAULT NULL COMMENT '最后修改人名称',
-  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='动态数据源';
-
--- ----------------------------
--- Records of t_dynamic_datasource
--- ----------------------------
-BEGIN;
-INSERT INTO `t_dynamic_datasource` VALUES (1, 'TenantDataSourcePool', 'root', '123456', 'mysql', 'com.mysql.cj.jdbc.Driver', 'tenant-8888', 0, 'localhost:3306', 3306, 'tenant-8888', b'0', NULL, NULL, '2021-08-06 13:57:40', NULL, NULL, '2021-08-09 08:26:35');
-COMMIT;
-
--- ----------------------------
 -- Table structure for t_file
 -- ----------------------------
 DROP TABLE IF EXISTS `t_file`;
@@ -765,102 +679,6 @@ CREATE TABLE `t_file` (
 BEGIN;
 INSERT INTO `t_file` VALUES (17, 1, 'image/jpeg', 98, '0|0|0|内网IP|内网IP', '127.0.0.1', '537.36', 'Webkit', 'OSX', 'battcn', '动物.jpg', '/20210804/61990178-5aac-4ba7-9f0b-1a52c36d8bed.jpg', 'http://qiniu.battcn.com', 'http://qiniu.battcn.com/20210804/61990178-5aac-4ba7-9f0b-1a52c36d8bed.jpg', NULL, 2, '不告诉你', '2021-08-04 03:03:20', NULL, NULL, NULL);
 INSERT INTO `t_file` VALUES (18, 1, 'image/jpeg', 98, '0|0|0|内网IP|内网IP', '127.0.0.1', '537.36', 'Webkit', 'OSX', 'battcn', '动物.jpg', '/20210804/9178dfa8-6d57-4e01-856e-6952d3977a45.jpg', 'http://qiniu.battcn.com', 'http://qiniu.battcn.com/20210804/9178dfa8-6d57-4e01-856e-6952d3977a45.jpg', NULL, 2, '不告诉你', '2021-08-04 03:03:38', NULL, NULL, NULL);
-COMMIT;
-
--- ----------------------------
--- Table structure for t_gateway_route
--- ----------------------------
-DROP TABLE IF EXISTS `t_gateway_route`;
-CREATE TABLE `t_gateway_route` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `route_id` varchar(64) NOT NULL COMMENT '路由ID',
-  `uri` varchar(200) DEFAULT NULL COMMENT '企业邮箱',
-  `order` tinyint(4) DEFAULT '0' COMMENT '排序',
-  `predicates` varchar(512) DEFAULT NULL COMMENT '谓语条件',
-  `filters` varchar(512) DEFAULT NULL COMMENT '过滤器',
-  `locked` bit(1) DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
-  `created_by` bigint(20) DEFAULT NULL COMMENT '创建人',
-  `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
-  `last_modified_by` bigint(20) DEFAULT NULL COMMENT '最后修改人',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `unique_route_id` (`route_id`) USING BTREE COMMENT '路由ID唯一索引'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='网关路由表';
-
--- ----------------------------
--- Records of t_gateway_route
--- ----------------------------
-BEGIN;
-COMMIT;
-
--- ----------------------------
--- Table structure for t_tenant
--- ----------------------------
-DROP TABLE IF EXISTS `t_tenant`;
-CREATE TABLE `t_tenant` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `code` varchar(20) DEFAULT NULL COMMENT '租户编码',
-  `name` varchar(64) NOT NULL COMMENT '租户名称',
-  `type` tinyint(2) DEFAULT '0' COMMENT '0=其它,1=企业',
-  `status` tinyint(2) DEFAULT '0' COMMENT '0=未认证,1=已认证',
-  `alias` varchar(50) DEFAULT NULL COMMENT '简称',
-  `logo` varchar(255) DEFAULT NULL COMMENT 'LOGO',
-  `email` varchar(50) DEFAULT NULL COMMENT '租户邮箱',
-  `contact_person` varchar(50) DEFAULT NULL COMMENT '联系人',
-  `contact_phone` varchar(30) DEFAULT NULL COMMENT '联系人方式',
-  `industry` varchar(255) DEFAULT NULL COMMENT '行业',
-  `province_id` int(8) DEFAULT NULL COMMENT '省份',
-  `province_name` varchar(64) DEFAULT NULL COMMENT '省份',
-  `city_id` int(8) DEFAULT NULL COMMENT '市',
-  `city_name` varchar(64) DEFAULT NULL COMMENT '市',
-  `address` varchar(250) DEFAULT NULL COMMENT '详细地址',
-  `district_id` int(8) DEFAULT NULL COMMENT '区县',
-  `district_name` varchar(64) DEFAULT NULL COMMENT '区县',
-  `credit_code` varchar(50) DEFAULT NULL COMMENT '统一信用代码',
-  `legal_person_name` varchar(50) DEFAULT NULL COMMENT '法人',
-  `web_site` varchar(200) DEFAULT NULL COMMENT '企业网址',
-  `description` varchar(1000) DEFAULT NULL COMMENT '描述',
-  `locked` bit(1) DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
-  `created_by` bigint(20) DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modified_by` bigint(20) DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='租户信息';
-
--- ----------------------------
--- Records of t_tenant
--- ----------------------------
-BEGIN;
-INSERT INTO `t_tenant` VALUES (1, '8888', '深圳市腾讯计算机系统有限公司', 1, 1, '腾讯', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '888888@qq.com', '马化腾', '13002178888', '4', 440000, '广东省', 440300, '深圳市', '深圳市南山区粤海街道麻岭社区科技中一路腾讯大厦35层', 440305, '南山区', '91440300708461136T', '马化腾', 'https://cloud.battcn.com', NULL, b'0', 0, NULL, '2021-07-31 07:27:08', 1, '长风一梦', '2021-08-05 08:34:56');
-INSERT INTO `t_tenant` VALUES (2, 'A002', '小米科技有限责任公司', 1, 1, '小米', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '666666@qq.com', '雷军', '13002176666', '4', 110000, '北京市', 110100, '市辖区', '北京市海淀区西二旗中路33号院6号楼6层006号 ', 110108, '海淀区', '91110108551385082Q', '雷军', 'https://cloud.battcn.com', NULL, b'0', 0, NULL, '2021-07-31 08:14:02', 1, '长风一梦', '2021-08-05 08:38:40');
-INSERT INTO `t_tenant` VALUES (3, '0000', '个人租户', 0, 0, '租户', NULL, '1837307557@qq.com', '唐亚峰', '13002170000', '1', 310000, NULL, 310100, NULL, '漕河泾开发区0000号', 310104, NULL, NULL, NULL, NULL, NULL, b'1', 1, '长风一梦', '2021-08-01 08:10:51', NULL, NULL, '2021-08-09 02:44:17');
-COMMIT;
-
--- ----------------------------
--- Table structure for t_tenant_config
--- ----------------------------
-DROP TABLE IF EXISTS `t_tenant_config`;
-CREATE TABLE `t_tenant_config` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
-  `dynamic_datasource_id` bigint(20) NOT NULL COMMENT '动态数据源ID',
-  `created_by` bigint(20) DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-  `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modified_by` bigint(20) DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='租户配置信息';
-
--- ----------------------------
--- Records of t_tenant_config
--- ----------------------------
-BEGIN;
-INSERT INTO `t_tenant_config` VALUES (1, 1, 1, 0, NULL, '2021-08-09 02:25:19', 0, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -901,11 +719,7 @@ CREATE TABLE `t_user` (
 -- Records of t_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_user` VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '长风一梦', 100, 100, b'0', '1837307557@qq.com', '13002171912', '111111111', 1, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '12323', 'mz_daiz', 'SUOSHI', 'WORKING', '2020-11-05', 0, NULL, '2020-10-16 03:25:36', 1, '长风一梦', '2021-07-21 05:21:20');
-INSERT INTO `t_user` VALUES (2, 1, 'nankeyimeng', '{bcrypt}$2a$10$RjxqgHEAdKysnrmB1dteru42i553UOdpJo0BLjy8N671vqGRP557S', '南柯一梦', 101, 101, b'0', '1837307557@qq.com', '13002171912', '111111111', 1, b'1', '/api/upload/form/download?key=file/2021/7/15/18308224025036.png', '描述信息吧', 'mz_acz', 'COLLEGE', 'LEAVE', '2020-11-05', 0, NULL, '2020-10-16 03:26:18', 1, '管理员', '2021-07-21 05:17:08');
-INSERT INTO `t_user` VALUES (3, 2, 'chengfengyimeng', '{bcrypt}$2a$10$RjxqgHEAdKysnrmB1dteru42i553UOdpJo0BLjy8N671vqGRP557S', '唐城一梦', 102, 108, b'0', '1837307557@qq.com', '13002171912', '111111111', 2, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '描述信息吧', 'mz_daz', 'COLLEGE', 'LEAVE', '2020-11-05', 0, NULL, '2020-10-16 06:10:49', 1, '管理员', '2021-07-21 05:17:11');
-INSERT INTO `t_user` VALUES (8, 1, 'tangyafeng', '123456', '禁止操作演示环境的核心数据', 100, 100, b'0', '1837307557@qq.com', '13002171912', NULL, 1, b'0', 'http://www.docmirror.cn:7070/api/upload/form/download?key=file/2021/7/27/51998836180857.png', NULL, NULL, NULL, 'QUIT', NULL, 1, '长风一梦', '2021-07-27 05:34:07', 1, '长风一梦', '2021-07-27 05:36:31');
-INSERT INTO `t_user` VALUES (9, 1, 'tangyafeng1', '{bcrypt}$2a$10$lzUmrNCVW2cdVB8Ys04cQuMetkT2rl169.XTBEv4WhA9eMmuApGj.', '123', 100, 101, b'0', '1837307557@qq.com', '13002171912', NULL, 2, b'0', 'http://qiniu.battcn.com/file/2021/8/4/90280492263528.jpg', NULL, 'mz_baz', 'BOSHIHOU', NULL, NULL, 1, '长风一梦', '2021-08-04 01:56:14', 1, '长风一梦', '2021-08-05 09:56:24');
+INSERT INTO `t_user` VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '长风一梦8888', 100, 100, b'0', '1837307557@qq.com', '13002171912', '111111111', 1, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '12323', 'mz_daiz', 'SUOSHI', 'WORKING', '2020-11-05', 0, NULL, '2020-10-16 03:25:36', 1, '长风一梦', '2021-08-10 03:18:14');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
