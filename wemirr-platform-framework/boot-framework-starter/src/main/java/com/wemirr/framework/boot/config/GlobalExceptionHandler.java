@@ -1,6 +1,7 @@
 package com.wemirr.framework.boot.config;
 
 
+import com.baomidou.dynamic.datasource.exception.CannotFindDataSourceException;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.netflix.client.ClientException;
@@ -78,6 +79,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             if (exception.getCause() instanceof SQLSyntaxErrorException) {
                 return new ResponseEntity<>(Result.fail(exception.getCause().getMessage()), defaultErrorResult);
             }
+            if (e.getCause() instanceof MyBatisSystemException) {
+                if (e.getCause().getCause().getCause() instanceof CannotFindDataSourceException) {
+                    CannotFindDataSourceException sourceException = (CannotFindDataSourceException) e.getCause().getCause().getCause();
+                    return new ResponseEntity<>(Result.fail("未找到数据源" + sourceException.getMessage()), defaultErrorResult);
+                }
+                return new ResponseEntity<>(Result.fail("SQL 异常,错误信息为 " + e.getCause().getMessage()), defaultErrorResult);
+            }
             return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
         } else if (e instanceof RuntimeException) {
             log.warn("[RuntimeException]", e);
@@ -149,6 +157,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return Result.fail("数据主键冲突");
     }
 
+    // InternalAuthenticationServiceException
 
     @ExceptionHandler(MyBatisSystemException.class)
     @ResponseBody

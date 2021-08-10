@@ -26,7 +26,6 @@ public enum MultiTenantType {
     SCHEMA("独立schema模式"),
     /**
      * 独立数据源模式
-     * 研究中...
      */
     DATASOURCE("独立数据源模式"),
     ;

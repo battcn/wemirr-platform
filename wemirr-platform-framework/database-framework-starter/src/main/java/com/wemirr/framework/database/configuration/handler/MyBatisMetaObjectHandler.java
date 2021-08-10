@@ -1,8 +1,9 @@
-package com.wemirr.framework.database.datasource;
+package com.wemirr.framework.database.configuration.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.entity.SuperEntity;
+import com.wemirr.framework.database.TenantEnvironment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;

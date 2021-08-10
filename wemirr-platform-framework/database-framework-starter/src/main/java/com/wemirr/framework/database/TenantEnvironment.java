@@ -1,4 +1,4 @@
-package com.wemirr.framework.database.datasource;
+package com.wemirr.framework.database;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.wemirr.framework.database.datasource.encode;
+package com.wemirr.framework.database.configuration.encode;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

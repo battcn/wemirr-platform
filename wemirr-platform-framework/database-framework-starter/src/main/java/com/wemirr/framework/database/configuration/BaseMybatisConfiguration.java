@@ -1,4 +1,4 @@
-package com.wemirr.framework.database.datasource;
+package com.wemirr.framework.database.configuration;
 
 
 import com.baomidou.mybatisplus.annotation.DbType;
@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.*;
+import com.wemirr.framework.database.TenantEnvironment;
+import com.wemirr.framework.database.configuration.handler.MyBatisMetaObjectHandler;
 import com.wemirr.framework.database.injector.MySqlInjector;
 import com.wemirr.framework.database.mybatis.auth.DataScopeAspect;
 import com.wemirr.framework.database.mybatis.typehandler.FullLikeTypeHandler;

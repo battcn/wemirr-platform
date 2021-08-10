@@ -28,6 +28,7 @@
         <module>common-framework-starter</module>
         <module>database-framework-starter</module>
         <module>boot-framework-starter</module>
+        <module>bus-framework-starter</module>
         <module>swagger-framework-starter</module>
         <module>websocket-framework-starter</module>
         <module>storage-framework-starter</module>
@@ -37,12 +38,12 @@
         <repository>
             <id>nexus-releases</id>
             <name>Internal Releases</name>
-            <url>https://nexus.oneinfitech.com/repository/maven-releases/</url>
+            <url>https://maven.aliyun.com/repository/public</url>
         </repository>
         <snapshotRepository>
             <id>nexus-snapshots</id>
             <name>Internal Snapshots</name>
-            <url>https://nexus.oneinfitech.com/repository/maven-snapshots/</url>
+            <url>https://maven.aliyun.com/repository/public</url>
         </snapshotRepository>
     </distributionManagement>
 

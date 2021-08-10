@@ -37,11 +37,17 @@
         <aliyun-sdk-oss.version>3.4.2</aliyun-sdk-oss.version>
         <qiniu-java-sdk.version>[7.7.0, 7.7.99]</qiniu-java-sdk.version>
         <cos_api.version>5.5.9</cos_api.version>
+        <dynamic-datasource.version>3.4.1</dynamic-datasource.version>
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic-datasource.version}</version>
+            </dependency>
             <!-- minio 存储-->
             <dependency>
                 <groupId>io.minio</groupId>
@@ -231,21 +237,21 @@
     <repositories>
         <repository>
             <id>nexus-snapshots</id>
-            <url>https://nexus.oneinfitech.com/repository/maven-snapshots/</url>
+            <url>https://maven.aliyun.com/repository/public</url>
         </repository>
         <repository>
             <id>nexus-releases</id>
-            <url>https://nexus.oneinfitech.com/repository/maven-releases/</url>
+            <url>https://maven.aliyun.com/repository/public</url>
         </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>nexus-snapshots</id>
-            <url>https://nexus.oneinfitech.com/repository/maven-snapshots/</url>
+            <url>https://maven.aliyun.com/repository/public</url>
         </pluginRepository>
         <pluginRepository>
             <id>nexus-releases</id>
-            <url>https://nexus.oneinfitech.com/repository/maven-releases/</url>
+            <url>https://maven.aliyun.com/repository/public</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -253,12 +259,12 @@
         <repository>
             <id>nexus-releases</id>
             <name>Internal Releases</name>
-            <url>https://nexus.oneinfitech.com/repository/maven-releases/</url>
+            <url>https://maven.aliyun.com/repository/public</url>
         </repository>
         <snapshotRepository>
             <id>nexus-snapshots</id>
             <name>Internal Snapshots</name>
-            <url>https://nexus.oneinfitech.com/repository/maven-snapshots/</url>
+            <url>https://maven.aliyun.com/repository/public</url>
         </snapshotRepository>
     </distributionManagement>
 

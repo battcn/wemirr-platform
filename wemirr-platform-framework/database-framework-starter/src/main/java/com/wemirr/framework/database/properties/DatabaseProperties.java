@@ -36,10 +36,19 @@ public class DatabaseProperties {
 
     private MultiTenant multiTenant = new MultiTenant();
 
+    private String defaultDataSourceName = "master";
     /**
      * 租户id 列名
      */
     private String tenantIdColumn = "tenant_id";
+    /**
+     * 租户id 列名
+     */
+    private String tenantCodeColumn = "tenant_code";
+    /**
+     * 数据库前缀
+     */
+    private String databasePrefix = "wemirr_tenant_";
 
     /**
      * 单页分页条数限制(默认无限制,参见 插件#handlerLimit 方法)
