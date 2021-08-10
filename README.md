@@ -58,6 +58,11 @@
 
 [OpenAPi3](https://springdoc.org/) Swagger 标准版
 
+### 拓展阅读
+
+[Oauth2.0](https://www.ruanyifeng.com/blog/2019/04/github-oauth.html) OAuth2.0 知识点
+
+
 #### 软件架构
 
 Vue、Spring Cloud Alibaba 2.2.5.RELEASE、Spring Cloud Hoxton.SR11、Nacos、Sentinel、
@@ -104,10 +109,9 @@ docker run -i -t -d -p 8858:8858 -p 8719:8719  bladex/sentinel-dashboard
 docker pull nacos/nacos-server
 docker  run --name nacos -d-p 8848:8848 --restart=always -e MODE=standalone
 
-
-安装 MongoDB
-docker pull mongo:latest
-docker run -itd --name mongo -p 27017:27017 mongo
+安装 RabbitMQ
+docker pull docker.io/macintoshplus/rabbitmq-management
+docker run -d  -p 5671:5671 -p 5672:5672  -p 15672:15672 -p 15671:15671  -p 25672:25672  rabbitmq_image_id
 ```
 
 
