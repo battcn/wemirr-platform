@@ -1,8 +1,8 @@
 package com.wemirr.platform.bury.configuration;
 
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
-import com.wemirr.framework.database.datasource.BaseMybatisConfiguration;
-import com.wemirr.framework.database.datasource.TenantEnvironment;
+import com.wemirr.framework.database.TenantEnvironment;
+import com.wemirr.framework.database.configuration.BaseMybatisConfiguration;
 import com.wemirr.framework.database.mybatis.auth.DataScopeInnerInterceptor;
 import com.wemirr.framework.database.properties.DatabaseProperties;
 import org.springframework.beans.factory.annotation.Autowired;

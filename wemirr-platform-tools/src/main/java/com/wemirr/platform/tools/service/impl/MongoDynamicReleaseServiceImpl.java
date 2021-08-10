@@ -23,7 +23,7 @@ import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.times.LocalDateTimeUtils;
-import com.wemirr.framework.database.datasource.TenantEnvironment;
+import com.wemirr.framework.database.TenantEnvironment;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.tools.configuration.handler.CustomCellWriteHandler;
 import com.wemirr.platform.tools.domain.DynamicReleaseDragSetting;

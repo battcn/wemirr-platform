@@ -46,6 +46,12 @@ spring:
           enabled: true
           lowerCaseServiceId: true
       routes:
+        - id: wemirr-platform-tenant
+          uri: lb://wemirr-platform-tenant
+          predicates:
+            - Path=/tenant/**
+          filters:
+            - StripPrefix=1
         - id: wemirr-platform-authority
           uri: lb://wemirr-platform-authority
           predicates:

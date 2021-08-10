@@ -2,7 +2,7 @@ package com.wemirr.platform.tools.service.impl;
 
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.commons.StringUtils;
-import com.wemirr.framework.database.datasource.TenantEnvironment;
+import com.wemirr.framework.database.TenantEnvironment;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDrag;
 import com.wemirr.platform.tools.domain.req.DynamicReleaseDragReq;
 import com.wemirr.platform.tools.mapper.DynamicReleaseDragMapper;
