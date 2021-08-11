@@ -901,11 +901,10 @@ CREATE TABLE `t_user` (
 -- Records of t_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_user` VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '长风一梦', 100, 100, b'0', '1837307557@qq.com', '13002171912', '111111111', 1, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '12323', 'mz_daiz', 'SUOSHI', 'WORKING', '2020-11-05', 0, NULL, '2020-10-16 03:25:36', 1, '长风一梦', '2021-07-21 05:21:20');
-INSERT INTO `t_user` VALUES (2, 1, 'nankeyimeng', '{bcrypt}$2a$10$RjxqgHEAdKysnrmB1dteru42i553UOdpJo0BLjy8N671vqGRP557S', '南柯一梦', 101, 101, b'0', '1837307557@qq.com', '13002171912', '111111111', 1, b'1', '/api/upload/form/download?key=file/2021/7/15/18308224025036.png', '描述信息吧', 'mz_acz', 'COLLEGE', 'LEAVE', '2020-11-05', 0, NULL, '2020-10-16 03:26:18', 1, '管理员', '2021-07-21 05:17:08');
-INSERT INTO `t_user` VALUES (3, 2, 'chengfengyimeng', '{bcrypt}$2a$10$RjxqgHEAdKysnrmB1dteru42i553UOdpJo0BLjy8N671vqGRP557S', '唐城一梦', 102, 108, b'0', '1837307557@qq.com', '13002171912', '111111111', 2, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '描述信息吧', 'mz_daz', 'COLLEGE', 'LEAVE', '2020-11-05', 0, NULL, '2020-10-16 06:10:49', 1, '管理员', '2021-07-21 05:17:11');
-INSERT INTO `t_user` VALUES (8, 1, 'tangyafeng', '123456', '禁止操作演示环境的核心数据', 100, 100, b'0', '1837307557@qq.com', '13002171912', NULL, 1, b'0', 'http://www.docmirror.cn:7070/api/upload/form/download?key=file/2021/7/27/51998836180857.png', NULL, NULL, NULL, 'QUIT', NULL, 1, '长风一梦', '2021-07-27 05:34:07', 1, '长风一梦', '2021-07-27 05:36:31');
-INSERT INTO `t_user` VALUES (9, 1, 'tangyafeng1', '{bcrypt}$2a$10$lzUmrNCVW2cdVB8Ys04cQuMetkT2rl169.XTBEv4WhA9eMmuApGj.', '123', 100, 101, b'0', '1837307557@qq.com', '13002171912', NULL, 2, b'0', 'http://qiniu.battcn.com/file/2021/8/4/90280492263528.jpg', NULL, 'mz_baz', 'BOSHIHOU', NULL, NULL, 1, '长风一梦', '2021-08-04 01:56:14', 1, '长风一梦', '2021-08-05 09:56:24');
+INSERT INTO `t_tenant` VALUES (1, '0000', 'SAAS超级租户', 1, 1, '租户', NULL, '1837307557@qq.com', '唐亚峰', '13002170000', '4', 310000, '上海市', 310100, '市辖区', '漕河泾开发区0000号', 310104, '徐汇区', NULL, NULL, NULL, NULL, b'0', 1, '长风一梦', '2021-08-01 08:10:51', 1, '长风一梦', '2021-08-11 10:07:49');
+INSERT INTO `t_tenant` VALUES (2, '8888', '深圳市腾讯计算机系统有限公司', 1, 1, '腾讯', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '888888@qq.com', '马化腾', '13002178888', '4', 440000, '广东省', 440300, '深圳市', '深圳市南山区粤海街道麻岭社区科技中一路腾讯大厦35层', 440305, '南山区', '91440300708461136T', '马化腾', 'https://cloud.battcn.com', NULL, b'0', 0, NULL, '2021-07-31 07:27:08', 1, '长风一梦', '2021-08-11 08:22:54');
+INSERT INTO `t_tenant` VALUES (3, '6666', '小米科技有限责任公司', 1, 1, '小米', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '666666@qq.com', '雷军', '13002176666', '4', 110000, '北京市', 110100, '市辖区', '北京市海淀区西二旗中路33号院6号楼6层006号 ', 110108, '海淀区', '91110108551385082Q', '雷军', 'https://cloud.battcn.com', NULL, b'0', 0, NULL, '2021-07-31 08:14:02', 1, '长风一梦', '2021-08-11 08:23:01');
+
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
