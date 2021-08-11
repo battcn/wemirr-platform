@@ -51,11 +51,6 @@
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>
-            <artifactId>bus-framework-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.wemirr.framework</groupId>
             <artifactId>boot-framework-starter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
