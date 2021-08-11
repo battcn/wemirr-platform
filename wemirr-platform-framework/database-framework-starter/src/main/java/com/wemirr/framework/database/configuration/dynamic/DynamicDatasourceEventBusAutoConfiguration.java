@@ -4,6 +4,7 @@ import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
 import com.wemirr.framework.commons.StringUtils;
+import com.wemirr.framework.database.SpringUtils;
 import com.wemirr.framework.database.TenantEnvironment;
 import com.wemirr.framework.database.configuration.dynamic.event.DynamicDatasourceEvent;
 import com.wemirr.framework.database.configuration.dynamic.event.DynamicDatasourceEventListener;
@@ -33,15 +34,13 @@ public class DynamicDatasourceEventBusAutoConfiguration {
     @Resource
     private DatabaseProperties properties;
 
-    @Resource
-    private TenantEnvironment tenantEnvironment;
-
     @Bean
     @Primary
     public DsProcessor dsProcessor() {
         // 从登录的上下文读取
         DsProcessor contentProcessor = new DsProcessor() {
             private static final String HEADER_PREFIX = "#content";
+
             @Override
             public boolean matches(String key) {
                 return key.startsWith(HEADER_PREFIX);
@@ -50,6 +49,7 @@ public class DynamicDatasourceEventBusAutoConfiguration {
             @Override
             public String doDetermineDatasource(MethodInvocation invocation, String key) {
                 DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+                TenantEnvironment tenantEnvironment = SpringUtils.getBean(TenantEnvironment.class);
                 String tenantCode = tenantEnvironment.realName();
                 if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
                     return multiTenant.getDefaultDsName();
