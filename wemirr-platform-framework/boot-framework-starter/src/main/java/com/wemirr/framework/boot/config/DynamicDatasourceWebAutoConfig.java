@@ -4,6 +4,7 @@ import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.wemirr.framework.database.properties.DatabaseProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Configuration
+@ConditionalOnProperty(prefix = "mybatis-plus.extend.multi-tenant", name = "ds-interceptor", havingValue = "true")
 public class DynamicDatasourceWebAutoConfig implements WebMvcConfigurer {
 
     @Resource
@@ -30,14 +32,15 @@ public class DynamicDatasourceWebAutoConfig implements WebMvcConfigurer {
             @Override
             public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
                 String requestURI = request.getRequestURI();
-                String tenantCode = request.getHeader(properties.getTenantCodeColumn());
+                DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+                String tenantCode = request.getHeader(multiTenant.getTenantCodeColumn());
                 if (StringUtils.isBlank(tenantCode)) {
-                    tenantCode = request.getParameter(properties.getTenantCodeColumn());
+                    tenantCode = request.getParameter(multiTenant.getTenantCodeColumn());
                 }
-                String databasePrefix = properties.getDatabasePrefix();
-                String dsKey = properties.getDefaultDataSourceName();
+                String prefix = multiTenant.getDsPrefix();
+                String dsKey = multiTenant.getDefaultDsName();
                 if (StringUtils.isNotBlank(tenantCode)) {
-                    dsKey = databasePrefix + tenantCode;
+                    dsKey = prefix + tenantCode;
                 }
                 log.info("经过多数据源Interceptor,数据源是{},路径是{}", dsKey, requestURI);
                 DynamicDataSourceContextHolder.push(dsKey);

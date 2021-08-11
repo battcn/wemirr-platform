@@ -1,5 +1,6 @@
 package com.wemirr.platform.authority.repository;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.wemirr.framework.boot.SuperMapper;
 import com.wemirr.framework.database.mybatis.auth.DataScope;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * @author Levin
  */
+@DS("#header.tenant_code")
 @Repository
 public interface RoleMapper extends SuperMapper<Role> {
 

@@ -20,11 +20,6 @@ public enum MultiTenantType {
      */
     COLUMN("字段模式"),
     /**
-     * 独立schema模式
-     * 在sql中拼接 数据库 schema
-     */
-    SCHEMA("独立schema模式"),
-    /**
      * 独立数据源模式
      */
     DATASOURCE("独立数据源模式"),

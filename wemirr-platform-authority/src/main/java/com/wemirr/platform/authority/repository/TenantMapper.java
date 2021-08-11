@@ -1,6 +1,5 @@
 package com.wemirr.platform.authority.repository;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.wemirr.framework.boot.SuperMapper;
 import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
 import org.apache.ibatis.annotations.Select;
@@ -19,7 +18,6 @@ public interface TenantMapper extends SuperMapper<Tenant> {
      *
      * @return 查询结果
      */
-    @DS("#header.tenantCode")
     @Select("select * from t_tenant")
     List<Tenant> queryDbTestTenant();
 }

@@ -6,10 +6,8 @@ import com.wemirr.framework.boot.entity.PageRequest;
 import com.wemirr.framework.boot.utils.BeanUtilPlus;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
-import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.authority.domain.dto.DynamicDatasourceReq;
 import com.wemirr.platform.authority.domain.entity.tenant.DynamicDatasource;
-import com.wemirr.platform.authority.domain.vo.TenantDynamicDatasourceVO;
 import com.wemirr.platform.authority.service.DynamicDatasourceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,13 +40,11 @@ public class DynamicDatasourceController {
         return Result.success(page);
     }
 
-    @IgnoreAuthorize
     @Operation(summary = "查询可用", description = "查询可用数据源")
     @GetMapping("/active")
-    public Result<List<TenantDynamicDatasourceVO>> queryActive() {
-        return Result.success(this.dynamicDatasourceService.selectTenantDynamicDatasource());
+    public Result<List<DynamicDatasource>> queryActive() {
+        return Result.success(this.dynamicDatasourceService.list(Wraps.<DynamicDatasource>lbQ().eq(DynamicDatasource::getLocked, false)));
     }
-
 
     @Operation(summary = "Ping数据库")
     @GetMapping("/{id}/ping")

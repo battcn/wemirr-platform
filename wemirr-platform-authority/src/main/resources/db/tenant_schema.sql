@@ -1,25 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : localhost
- Source Server Type    : MySQL
- Source Server Version : 50727
- Source Host           : localhost:3306
- Source Schema         : wemirr_tenant_8888
-
- Target Server Type    : MySQL
- Target Server Version : 50727
- File Encoding         : 65001
-
- Date: 10/08/2021 11:20:55
-*/
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for common_dictionary
--- ----------------------------
 DROP TABLE IF EXISTS `common_dictionary`;
 CREATE TABLE `common_dictionary` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -38,9 +16,6 @@ CREATE TABLE `common_dictionary` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='字典类型';
 
--- ----------------------------
--- Records of common_dictionary
--- ----------------------------
 BEGIN;
 INSERT INTO `common_dictionary` VALUES (1, 'NATION', '民族', '123', b'1', b'1', 0, 0, '系统管理员', '2019-06-01 09:42:50', 0, '系统管理员', '2021-07-31 08:11:09');
 INSERT INTO `common_dictionary` VALUES (2, 'POSITION_STATUS', '在职状态', '11', b'1', b'1', 1, 0, '系统管理员', '2019-06-04 11:37:15', 0, '系统管理员', '2021-07-31 08:11:09');
@@ -54,9 +29,7 @@ INSERT INTO `common_dictionary` VALUES (9, 'COLOR', '颜色', NULL, b'1', b'1', 
 INSERT INTO `common_dictionary` VALUES (10, 'INDUSTRY', '行业类型', '行业类型', b'1', b'1', 9, 0, '系统管理员', '2021-07-31 08:10:07', 0, '系统管理员', '2021-07-31 08:20:24');
 COMMIT;
 
--- ----------------------------
--- Table structure for common_dictionary_item
--- ----------------------------
+
 DROP TABLE IF EXISTS `common_dictionary_item`;
 CREATE TABLE `common_dictionary_item` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -78,9 +51,6 @@ CREATE TABLE `common_dictionary_item` (
   KEY `dict_code_item_code_uniq` (`dictionary_code`,`value`) USING BTREE COMMENT '字典编码与字典项目编码联合唯一'
 ) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8mb4 COMMENT='字典项';
 
--- ----------------------------
--- Records of common_dictionary_item
--- ----------------------------
 BEGIN;
 INSERT INTO `common_dictionary_item` VALUES (1, 4, 'AREA_LEVEL', 'COUNTRY', '国家', b'1', 'warning', '', 1, 0, '系统管理员', '2020-01-20 15:12:57', 0, '系统管理员', '2021-07-31 08:11:24');
 INSERT INTO `common_dictionary_item` VALUES (2, 4, 'AREA_LEVEL', 'PROVINCE', '省份', b'1', 'warning', '', 2, 0, '系统管理员', '2020-01-20 15:13:45', 1, '长风一梦', '2021-07-31 08:18:51');
@@ -176,9 +146,6 @@ INSERT INTO `common_dictionary_item` VALUES (123, 10, 'INDUSTRY', '4', '互联�
 INSERT INTO `common_dictionary_item` VALUES (124, 10, 'INDUSTRY', '5', '电商', b'1', 'warning', '', 1, 1, '长风一梦', '2021-07-31 08:17:58', 1, '长风一梦', '2021-07-31 08:20:18');
 COMMIT;
 
--- ----------------------------
--- Table structure for common_login_log
--- ----------------------------
 DROP TABLE IF EXISTS `common_login_log`;
 CREATE TABLE `common_login_log` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -198,16 +165,7 @@ CREATE TABLE `common_login_log` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='登录日志';
 
--- ----------------------------
--- Records of common_login_log
--- ----------------------------
-BEGIN;
-INSERT INTO `common_login_log` VALUES (1, 1, '127.0.0.1', 'client', '长风一梦8888', 'admin', 'Mac', 'Webkit', '537.36', 'Chrome', '92.0.4515.131', 'OSX', '0|0|0|内网IP|内网IP', '2021-08-10 03:18:20');
-COMMIT;
 
--- ----------------------------
--- Table structure for common_opt_log
--- ----------------------------
 DROP TABLE IF EXISTS `common_opt_log`;
 CREATE TABLE `common_opt_log` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -240,15 +198,7 @@ CREATE TABLE `common_opt_log` (
   KEY `index_type` (`type`) USING BTREE COMMENT '日志类型'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统日志';
 
--- ----------------------------
--- Records of common_opt_log
--- ----------------------------
-BEGIN;
-COMMIT;
 
--- ----------------------------
--- Table structure for sys_org
--- ----------------------------
 DROP TABLE IF EXISTS `sys_org`;
 CREATE TABLE `sys_org` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -270,18 +220,6 @@ CREATE TABLE `sys_org` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10205 DEFAULT CHARSET=utf8mb4 COMMENT='组织';
 
--- ----------------------------
--- Records of sys_org
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_org` VALUES (100, '鏖战八方', 1, '鏖战', '0746-8485560转1', ',', 0, 1, b'1', '初始化数据', 1, '1', '2019-07-10 17:02:18', 1, '1', '2021-07-20 06:26:04');
-INSERT INTO `sys_org` VALUES (10001, '鏖战八方上海分部', 1, '鏖战上海', '0746-8485560转2', ',100', 100, 0, b'1', '初始化数据', 1, '1', '2019-08-06 09:10:53', 1, '1', '2021-07-20 06:26:05');
-INSERT INTO `sys_org` VALUES (10002, '鏖战八方北京分部', 1, '鏖战北京', '0746-8485560转3', ',100', 100, 1, b'1', '初始化数据', 1, '1', '2019-11-07 16:13:09', 1, '1', '2021-07-20 06:26:05');
-COMMIT;
-
--- ----------------------------
--- Table structure for sys_resource
--- ----------------------------
 DROP TABLE IF EXISTS `sys_resource`;
 CREATE TABLE `sys_resource` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -310,9 +248,7 @@ CREATE TABLE `sys_resource` (
   KEY `INX_STATUS` (`global`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1030104 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='菜单';
 
--- ----------------------------
--- Records of sys_resource
--- ----------------------------
+
 BEGIN;
 INSERT INTO `sys_resource` VALUES (1, '系统管理', ',', 'system:view', 0, '/system/management', 'Layout', 1, 'ant-design:dashboard-filled', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2020-11-20 09:39:19', NULL, NULL, NULL);
 INSERT INTO `sys_resource` VALUES (20, '资源中心', ',', 'resource:view', 0, '/resource', 'Layout', 20, 'carbon-group-resource', NULL, 1, b'1', b'0', b'0', b'1', '', NULL, NULL, '2021-08-03 05:47:50', NULL, NULL, NULL);
@@ -371,17 +307,10 @@ CREATE TABLE `sys_role` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色';
 
--- ----------------------------
--- Records of sys_role
--- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` VALUES (1, 1, 'PLATFORM_ADMIN', '平台管理员', '平台管理员，拥有所有数据可视权', 50, 0, 1, 1, 0, '超级管理员', '2019-10-25 13:46:00', 57, NULL, '2021-07-15 06:38:17');
-INSERT INTO `sys_role` VALUES (2, 1, 'TEST_ADMIN', '测试管理员', '测试管理员，测试老大', 20, 0, 0, 1, 0, '超级管理员', '2021-07-06 06:07:52', 0, NULL, '2021-07-15 06:38:15');
+INSERT INTO `sys_role` VALUES (1, 1, 'TENANT_ADMIN', '租户管理员', '租户管理员，拥有所有数据可视权', 50, 0, 1, 1, 0, '租户管理员', '2019-10-25 13:46:00', 57, NULL, '2021-07-15 06:38:17');
 COMMIT;
 
--- ----------------------------
--- Table structure for sys_role_org
--- ----------------------------
 DROP TABLE IF EXISTS `sys_role_org`;
 CREATE TABLE `sys_role_org` (
   `role_id` bigint(20) NOT NULL COMMENT '角色ID',
@@ -389,9 +318,6 @@ CREATE TABLE `sys_role_org` (
   UNIQUE KEY `role_id` (`role_id`,`org_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户角色表';
 
--- ----------------------------
--- Records of sys_role_org
--- ----------------------------
 BEGIN;
 INSERT INTO `sys_role_org` VALUES (5, 100);
 INSERT INTO `sys_role_org` VALUES (5, 101);
@@ -441,9 +367,6 @@ CREATE TABLE `sys_role_res` (
   UNIQUE KEY `idx_role_res` (`role_id`,`res_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限表';
 
--- ----------------------------
--- Records of sys_role_res
--- ----------------------------
 BEGIN;
 INSERT INTO `sys_role_res` VALUES (1, 1, '2021-08-10 03:20:31');
 INSERT INTO `sys_role_res` VALUES (1, 20, '2021-08-10 03:20:31');
@@ -479,9 +402,6 @@ INSERT INTO `sys_role_res` VALUES (1, 1030102, '2021-08-10 03:20:31');
 INSERT INTO `sys_role_res` VALUES (1, 1030103, '2021-08-10 03:20:31');
 COMMIT;
 
--- ----------------------------
--- Table structure for sys_station
--- ----------------------------
 DROP TABLE IF EXISTS `sys_station`;
 CREATE TABLE `sys_station` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -502,33 +422,7 @@ CREATE TABLE `sys_station` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=10129 DEFAULT CHARSET=utf8mb4 COMMENT='岗位';
 
--- ----------------------------
--- Records of sys_station
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_station` VALUES (100, 1, '总经理', 'CEO', 2, 0, 100, b'1', '总部-1把手', '2019-07-10 17:03:03', NULL, 1, 1, '长风一梦', '2021-07-20 18:25:05');
-INSERT INTO `sys_station` VALUES (101, 1, '副总经理', NULL, 2, 1, 10001, b'1', '总部-2把手', '2019-07-22 17:07:55', NULL, 1, 1, '长风一梦', '2021-07-28 02:58:53');
-INSERT INTO `sys_station` VALUES (103, 1, '研发经理', NULL, 1, 1, 10002, b'1', '子公司-研发部老大', '2019-11-07 16:08:49', NULL, 3, 1, '长风一梦', '2021-07-20 18:25:06');
-INSERT INTO `sys_station` VALUES (104, 1, '副总经理', NULL, 2, 1, 10001, b'1', '子公司-老大', '2019-11-16 09:51:45', NULL, 3, 1, '长风一梦', '2021-07-28 02:59:29');
-INSERT INTO `sys_station` VALUES (106, 1, '产品经理', NULL, 0, 1, 10002, b'1', '子公司-产品部老大', '2019-11-16 09:53:27', NULL, 3, 1, '长风一梦', '2021-07-20 18:25:07');
-INSERT INTO `sys_station` VALUES (107, 1, '人事经理', NULL, 0, 1, 10002, b'1', '子公司-综合老大', '2019-11-16 09:54:43', NULL, 3, 1, '长风一梦', '2021-07-20 18:25:07');
-INSERT INTO `sys_station` VALUES (108, 1, 'Java研发', 'CTI', 0, 1, 10203, b'1', '普通员工', '2019-11-16 09:55:04', NULL, 3, 1, '长风一梦', '2021-07-28 02:59:38');
-INSERT INTO `sys_station` VALUES (1011, 1, 'UI工程师', 'CTI', 0, 1, 10007, b'1', '普通员工', '2019-11-16 09:55:40', NULL, 3, 1, '长风一梦', '2021-07-20 18:25:08');
-INSERT INTO `sys_station` VALUES (1012, 1, '运维工程师', 'CTI', NULL, 1, 10007, b'1', '普通员工', '2019-11-16 09:55:53', NULL, 3, 1, '长风一梦', '2021-07-20 18:25:09');
-INSERT INTO `sys_station` VALUES (1013, 1, '行政经理', NULL, 0, 1, 10003, b'1', '普通员工', '2019-11-16 09:56:04', NULL, 3, 1, '长风一梦', '2021-07-20 18:25:09');
-INSERT INTO `sys_station` VALUES (1014, 1, '人事经理', NULL, 0, 1, 10007, b'1', '北京分公司-综合部老大', '2019-11-16 09:56:38', NULL, 3, 1, '长风一梦', '2021-07-20 18:25:09');
-INSERT INTO `sys_station` VALUES (1015, 1, '研发经理', NULL, 1, 1, 10007, b'1', '北京分公司-研发部老大', '2019-11-16 09:57:07', NULL, 3, 1, '长风一梦', '2021-07-20 18:25:10');
-INSERT INTO `sys_station` VALUES (1016, 1, '销售经理', NULL, 0, 1, 10007, b'1', '北京销售部老大', '2019-11-16 09:57:40', NULL, 3, 1, '长风一梦', '2021-07-20 18:25:10');
-INSERT INTO `sys_station` VALUES (10121, 1, '销售总监', NULL, 1, 1, 10005, b'1', '总部2把手', '2019-11-16 09:59:10', NULL, 3, 1, '长风一梦', '2021-07-29 02:36:31');
-INSERT INTO `sys_station` VALUES (10122, 1, '销售员工', NULL, 0, 1, 10007, b'1', '普通员工', '2019-11-16 09:58:41', NULL, 3, 1, '长风一梦', '2021-07-20 18:25:11');
-INSERT INTO `sys_station` VALUES (10123, 1, '财务总监', NULL, 2, 1, 10007, b'1', '总部2把手', '2019-11-16 09:59:39', NULL, 3, 1, '长风一梦', '2021-07-20 18:25:11');
-INSERT INTO `sys_station` VALUES (10124, 1, '市场经理', NULL, 0, 1, 10007, b'1', '总部市场部老大', '2019-11-16 10:00:03', NULL, 3, 1, '长风一梦', '2021-07-20 18:25:11');
-INSERT INTO `sys_station` VALUES (10128, 1, '前端工程师', 'CTI', 0, 1, 10007, b'1', '普通员工', '2019-11-16 10:00:43', NULL, 3, 1, '长风一梦', '2021-07-20 18:25:13');
-COMMIT;
 
--- ----------------------------
--- Table structure for sys_station_message
--- ----------------------------
 DROP TABLE IF EXISTS `sys_station_message`;
 CREATE TABLE `sys_station_message` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -547,41 +441,6 @@ CREATE TABLE `sys_station_message` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COMMENT='站内消息';
 
--- ----------------------------
--- Records of sys_station_message
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_station_message` VALUES (1, '1', '测试消息', '<p>测试消息</p>', '测试消息', b'0', 2, 1, '管理员', '2021-07-12 20:05:39', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (5, '1', '测试消息', '<p>测试消息</p>', '测试消息', b'0', 2, 1, '管理员', '2021-07-13 09:26:59', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (7, '1', '测试消息', '<p>测试消息</p>', '测试消息', b'0', 2, 1, '管理员', '2021-07-13 09:26:59', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (9, '1', '测试消息', '<p>测试消息</p>', '测试消息', b'0', 2, 1, '管理员', '2021-07-13 09:26:59', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (16, '1', '测试消息', '<p>测试消息</p>', '测试消息', b'0', 2, 1, '管理员', '2021-07-13 09:27:06', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (18, '1', '测试消息', '<p>测试消息</p>', '测试消息', b'0', 2, 1, '管理员', '2021-07-13 09:27:11', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (28, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '管理员', '2021-07-13 09:28:06', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (34, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '管理员', '2021-07-13 10:01:48', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (37, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '管理员', '2021-07-14 17:33:41', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (39, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '管理员', '2021-07-14 17:33:41', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (41, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '管理员', '2021-07-14 17:33:42', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (49, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '管理员', '2021-07-14 17:33:56', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (51, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '管理员', '2021-07-14 17:33:56', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (53, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '管理员', '2021-07-14 17:33:57', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (59, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '管理员', '2021-07-14 17:51:42', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (61, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '管理员', '2021-07-14 17:51:42', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (63, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '管理员', '2021-07-14 17:51:43', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (71, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '管理员', '2021-07-14 17:51:52', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (72, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '管理员', '2021-07-15 20:10:36', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (76, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '长风一梦', '2021-07-21 15:43:40', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (78, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '长风一梦', '2021-07-21 15:43:40', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (80, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '长风一梦', '2021-07-21 15:43:40', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (83, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '长风一梦', '2021-07-21 15:43:44', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (87, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '长风一梦', '2021-07-21 15:43:48', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (89, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, 1, '长风一梦', '2021-07-22 10:59:20', NULL, NULL, NULL);
-INSERT INTO `sys_station_message` VALUES (90, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'1', 1, 1, '长风一梦', '2021-07-22 10:59:20', 1, '长风一梦', '2021-07-27 10:51:14');
-COMMIT;
-
--- ----------------------------
--- Table structure for sys_station_message_publish
--- ----------------------------
 DROP TABLE IF EXISTS `sys_station_message_publish`;
 CREATE TABLE `sys_station_message_publish` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -602,18 +461,6 @@ CREATE TABLE `sys_station_message_publish` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='站内消息';
 
--- ----------------------------
--- Records of sys_station_message_publish
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_station_message_publish` VALUES (2, 1, '1', 1, '1', '测试消息', '2,1', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', 1, '管理员', '2021-07-12 11:41:31', 1, '长风一梦', '2021-07-21 07:43:39');
-INSERT INTO `sys_station_message_publish` VALUES (3, 1, '0', 1, '1', '测试通知', '1', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', 1, '管理员', '2021-07-12 11:42:15', 1, '长风一梦', '2021-07-21 07:43:40');
-INSERT INTO `sys_station_message_publish` VALUES (4, 2, '2', 0, '1', '测试待办', '1', '<p>测试待办</p><img src=\"http://www.docmirror.cn:7070/api/upload/form/download?key=file/2021/7/15/30369909559790.png\" contenteditable=\"false\"/>', '测试待办', 1, '管理员', '2021-07-12 11:42:26', 1, '管理员', '2021-07-20 07:30:23');
-COMMIT;
-
--- ----------------------------
--- Table structure for sys_user_role
--- ----------------------------
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role` (
   `user_id` bigint(20) NOT NULL COMMENT '用户ID',
@@ -626,13 +473,8 @@ CREATE TABLE `sys_user_role` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_user_role` VALUES (1, 1);
-INSERT INTO `sys_user_role` VALUES (2, 2);
-INSERT INTO `sys_user_role` VALUES (8, 1);
 COMMIT;
 
--- ----------------------------
--- Table structure for t_file
--- ----------------------------
 DROP TABLE IF EXISTS `t_file`;
 CREATE TABLE `t_file` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -660,17 +502,6 @@ CREATE TABLE `t_file` (
   UNIQUE KEY `UN_TARGET_NAME` (`target_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='文件';
 
--- ----------------------------
--- Records of t_file
--- ----------------------------
-BEGIN;
-INSERT INTO `t_file` VALUES (17, 1, 'image/jpeg', 98, '0|0|0|内网IP|内网IP', '127.0.0.1', '537.36', 'Webkit', 'OSX', 'battcn', '动物.jpg', '/20210804/61990178-5aac-4ba7-9f0b-1a52c36d8bed.jpg', 'http://qiniu.battcn.com', 'http://qiniu.battcn.com/20210804/61990178-5aac-4ba7-9f0b-1a52c36d8bed.jpg', NULL, 2, '不告诉你', '2021-08-04 03:03:20', NULL, NULL, NULL);
-INSERT INTO `t_file` VALUES (18, 1, 'image/jpeg', 98, '0|0|0|内网IP|内网IP', '127.0.0.1', '537.36', 'Webkit', 'OSX', 'battcn', '动物.jpg', '/20210804/9178dfa8-6d57-4e01-856e-6952d3977a45.jpg', 'http://qiniu.battcn.com', 'http://qiniu.battcn.com/20210804/9178dfa8-6d57-4e01-856e-6952d3977a45.jpg', NULL, 2, '不告诉你', '2021-08-04 03:03:38', NULL, NULL, NULL);
-COMMIT;
-
--- ----------------------------
--- Table structure for t_user
--- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -702,11 +533,6 @@ CREATE TABLE `t_user` (
   UNIQUE KEY `UN_ACCOUNT` (`username`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='用户';
 
--- ----------------------------
--- Records of t_user
--- ----------------------------
 BEGIN;
 INSERT INTO `t_user` VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '长风一梦8888', 100, 100, b'0', '1837307557@qq.com', '13002171912', '111111111', 1, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '12323', 'mz_daiz', 'SUOSHI', 'WORKING', '2020-11-05', 0, NULL, '2020-10-16 03:25:36', 1, '长风一梦', '2021-08-10 03:18:14');
 COMMIT;
-
-SET FOREIGN_KEY_CHECKS = 1;

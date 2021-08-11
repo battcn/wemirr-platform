@@ -3,6 +3,7 @@ package com.wemirr.framework.database.configuration.dynamic;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
+import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.database.configuration.dynamic.event.DynamicDatasourceEvent;
 import com.wemirr.framework.database.configuration.dynamic.event.DynamicDatasourceEventListener;
 import com.wemirr.framework.database.properties.DatabaseProperties;
@@ -17,7 +18,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 
 /**
  * @author levin
@@ -44,8 +44,17 @@ public class DynamicDatasourceEventBusAutoConfiguration {
 
             @Override
             public String doDetermineDatasource(MethodInvocation invocation, String key) {
-                HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-                return properties.getDatabasePrefix() + request.getHeader(key.substring(8));
+                ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+                DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+                if (attributes == null) {
+                    return multiTenant.getDefaultDsName();
+                }
+                HttpServletRequest request = attributes.getRequest();
+                String tenantCode = request.getHeader(key.substring(8));
+                if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
+                    return multiTenant.getDefaultDsName();
+                }
+                return multiTenant.getDsPrefix() + request.getHeader(key.substring(8));
             }
         };
         DsSessionProcessor sessionProcessor = new DsSessionProcessor();

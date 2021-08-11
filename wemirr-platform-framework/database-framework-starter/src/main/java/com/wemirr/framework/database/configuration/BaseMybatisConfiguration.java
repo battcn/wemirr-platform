@@ -68,14 +68,14 @@ public abstract class BaseMybatisConfiguration {
 
                 @Override
                 public boolean ignoreTable(String tableName) {
-                    final List<String> tables = properties.getIncludeTables();
+                    final List<String> tables = properties.getMultiTenant().getIncludeTables();
                     //  判断哪些表不需要尽心多租户判断,返回false表示都需要进行多租户判断
                     return tenantEnvironment.anonymous() || !tables.contains(tableName);
                 }
 
                 @Override
                 public String getTenantIdColumn() {
-                    return properties.getTenantIdColumn();
+                    return properties.getMultiTenant().getTenantIdColumn();
                 }
 
             }));

@@ -80,6 +80,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 return new ResponseEntity<>(Result.fail(exception.getCause().getMessage()), defaultErrorResult);
             }
             if (e.getCause() instanceof MyBatisSystemException) {
+                if (e.getCause().getCause() instanceof PersistenceException) {
+                    if (e.getCause().getCause().getCause().getCause() instanceof SQLSyntaxErrorException) {
+                        SQLSyntaxErrorException sqlSyntaxErrorException = (SQLSyntaxErrorException) e.getCause().getCause().getCause().getCause();
+                        return new ResponseEntity<>(Result.fail("未找到数据源" + sqlSyntaxErrorException.getMessage()), defaultErrorResult);
+                    }
+                }
                 if (e.getCause().getCause().getCause() instanceof CannotFindDataSourceException) {
                     CannotFindDataSourceException sourceException = (CannotFindDataSourceException) e.getCause().getCause().getCause();
                     return new ResponseEntity<>(Result.fail("未找到数据源" + sourceException.getMessage()), defaultErrorResult);
@@ -106,7 +112,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(OAuth2Exception.class)
     @ResponseBody
-    public final ResponseEntity<Result> oAuth2Exception(OAuth2Exception e, HttpServletResponse response) {
+    public final ResponseEntity<Result<?>> oAuth2Exception(OAuth2Exception e, HttpServletResponse response) {
         log.error("[错误内容]", e);
         if (e instanceof InvalidGrantException) {
             log.warn("[error message] - [{}]", e.getMessage());

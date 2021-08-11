@@ -1,5 +1,6 @@
 package com.wemirr.platform.authority.repository;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Repository;
  * @author Levin
  * @since 2019-07-22
  */
+@DS("#header.tenant_code")
 @Repository
 public interface StationMapper extends SuperMapper<Station> {
     /**

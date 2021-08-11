@@ -1,16 +1,23 @@
 package com.wemirr.platform.authority.service.impl;
 
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
+import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.database.configuration.dynamic.event.body.EventAction;
+import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
 import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
+import com.wemirr.platform.authority.domain.entity.tenant.TenantConfig;
 import com.wemirr.platform.authority.repository.AreaMapper;
+import com.wemirr.platform.authority.repository.TenantConfigMapper;
 import com.wemirr.platform.authority.repository.TenantMapper;
+import com.wemirr.platform.authority.service.DynamicDatasourceService;
 import com.wemirr.platform.authority.service.TenantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author Levin
@@ -21,6 +28,8 @@ import java.util.Objects;
 public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> implements TenantService {
 
     private final AreaMapper areaMapper;
+    private final TenantConfigMapper tenantConfigMapper;
+    private final DynamicDatasourceService dynamicDatasourceService;
 
     @Override
     public void saveOrUpdateTenant(Tenant tenant) {
@@ -45,5 +54,18 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         return areaEntity.getName();
     }
 
-
+    @Override
+    public void tenantConfig(TenantConfig tenantConfig) {
+        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantConfig.getTenantId())).orElseThrow(() -> CheckedException.notFound("租户不存在"));
+        if (tenant.getLocked()) {
+            throw CheckedException.badRequest("租户已被禁用");
+        }
+        if (tenantConfig.getId() == null) {
+            tenantConfigMapper.delete(Wraps.<TenantConfig>lbQ().eq(TenantConfig::getTenantId, tenantConfig.getTenantId()));
+            tenantConfigMapper.insert(tenantConfig);
+        } else {
+            tenantConfigMapper.updateById(tenantConfig);
+        }
+        dynamicDatasourceService.publishEvent(EventAction.ADD, tenantConfig.getTenantId());
+    }
 }

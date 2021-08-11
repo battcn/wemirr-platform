@@ -4,7 +4,6 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author Levin
@@ -21,8 +20,6 @@ public class DynamicDatasourceReq {
     private String username;
     @NotBlank(message = "密码不能为空")
     private String password;
-    @NotNull(message = "连接类型不能为空")
-    private Integer connectionType;
     @NotBlank(message = "host 不能为空")
     private String host;
     @NotBlank(message = "驱动类不能为空")

@@ -2,7 +2,6 @@ package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
-import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.database.configuration.dynamic.event.DynamicDatasourceEvent;
@@ -11,7 +10,6 @@ import com.wemirr.framework.database.configuration.dynamic.event.body.TenantDyna
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.entity.tenant.DynamicDatasource;
-import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
 import com.wemirr.platform.authority.domain.vo.TenantDynamicDatasourceVO;
 import com.wemirr.platform.authority.repository.DynamicDatasourceMapper;
 import com.wemirr.platform.authority.repository.TenantConfigMapper;
@@ -52,8 +50,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
 
     @Override
     public void ping(Long id) {
-        final List<Tenant> tenants = tenantMapper.queryDbTestTenant();
-        log.debug("查询结果 - {}", JSON.toJSONString(tenants));
+        log.debug("查询结果 - {}", JSON.toJSONString(""));
     }
 
     @PostConstruct
@@ -64,7 +61,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
             return;
         }
         for (TenantDynamicDatasourceVO dynamicDatasource : dataSourceList) {
-            configDataSource(EventAction.ADD, dynamicDatasource);
+            publishEvent(EventAction.ADD, dynamicDatasource);
         }
     }
 
@@ -89,22 +86,23 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
         this.baseMapper.deleteById(id);
         final List<TenantDynamicDatasourceVO> dataSourceList = this.tenantConfigMapper.selectTenantDynamicDatasource(id);
         for (TenantDynamicDatasourceVO tenantDynamicDatasource : dataSourceList) {
-            configDataSource(EventAction.DEL, tenantDynamicDatasource);
+            publishEvent(EventAction.DEL, tenantDynamicDatasource);
         }
     }
 
     @Override
-    public DynamicRoutingDataSource configDataSource(Long tenantId) {
-        final Tenant tenant = Optional.ofNullable(this.tenantMapper.selectById(tenantId)).orElseThrow(() -> CheckedException.notFound("租户不存在"));
-        if (tenant.getLocked()) {
-            throw CheckedException.badRequest("租户已被禁用");
-        }
+    public void publishEvent(EventAction action, Long tenantId) {
         final TenantDynamicDatasourceVO dynamicDatasource = this.tenantConfigMapper.getTenantDynamicDatasourceByTenantId(tenantId);
-        configDataSource(EventAction.ADD, dynamicDatasource);
-        return null;
+        publishEvent(action, dynamicDatasource);
     }
 
-    private void configDataSource(EventAction action, TenantDynamicDatasourceVO dynamicDatasource) {
+    @Override
+    public void initSqlScript() {
+
+
+    }
+
+    private void publishEvent(EventAction action, TenantDynamicDatasourceVO dynamicDatasource) {
         if (Objects.isNull(dynamicDatasource)) {
             throw CheckedException.notFound("租户未关联数据源信息");
         }

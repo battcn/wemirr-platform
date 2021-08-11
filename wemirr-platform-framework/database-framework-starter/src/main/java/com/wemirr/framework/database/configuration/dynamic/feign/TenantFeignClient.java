@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Levin
  */
-@FeignClient(name = "wemirr-platform-tenant", decode404 = true, fallback = TenantFeignClient.TenantFeignClientFallback.class)
+@FeignClient(name = "wemirr-platform-authority", decode404 = true, fallback = TenantFeignClient.TenantFeignClientFallback.class)
 public interface TenantFeignClient {
 
     /**
@@ -20,7 +20,7 @@ public interface TenantFeignClient {
      *
      * @return 查询结果
      */
-    @GetMapping("/databases/active")
+    @GetMapping("/tenants/databases/active")
     Result<List<TenantDynamicDatasource>> selectAll();
 
     @Component

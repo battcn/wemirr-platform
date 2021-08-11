@@ -34,31 +34,12 @@ public class DatabaseProperties {
     private boolean illegalSql = false;
 
 
-    private MultiTenant multiTenant = new MultiTenant();
-
-    private String defaultDataSourceName = "master";
-    /**
-     * 租户id 列名
-     */
-    private String tenantIdColumn = "tenant_id";
-    /**
-     * 租户id 列名
-     */
-    private String tenantCodeColumn = "tenant_code";
-    /**
-     * 数据库前缀
-     */
-    private String databasePrefix = "wemirr_tenant_";
-
     /**
      * 单页分页条数限制(默认无限制,参见 插件#handlerLimit 方法)
      */
     private long maxLimit = 1000L;
 
-    /**
-     *
-     */
-    private List<String> includeTables = Lists.newArrayList();
+    private MultiTenant multiTenant = new MultiTenant();
 
     /**
      * Id 生成策略
@@ -73,11 +54,44 @@ public class DatabaseProperties {
          */
         private MultiTenantType type = MultiTenantType.COLUMN;
 
+        /**
+         * 包含租户字段的表
+         */
+        private List<String> includeTables = Lists.newArrayList();
 
         /**
          * 多租户数据权限策略
          */
         private MultiTenantStrategy strategy = MultiTenantStrategy.LOCAL;
+
+        /**
+         * 在多租户模式为 数据源 时生效
+         */
+        private String defaultDsName = "master";
+        /**
+         * 租户id 列名
+         */
+        private String tenantIdColumn = "tenant_id";
+        /**
+         * 租户字段列名
+         */
+        private String tenantCodeColumn = "tenant_code";
+
+        private String superTenantCode = "0000";
+        /**
+         * 租户数据库前缀
+         */
+        private String dsPrefix = "wemirr_tenant_";
+
+        /**
+         * 租户SQL脚本
+         */
+        private List<String> tenantSqlScripts = Lists.newArrayList("classpath*:db/tenant_schema.sql");
+
+        /**
+         * 租户数据源切换拦截器（不建议使用）
+         */
+        private boolean dsInterceptor;
     }
 
     @Data

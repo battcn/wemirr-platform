@@ -14,8 +14,8 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
   extend:
-    include-tables: t_user,sys_role,sys_org,sys_station,sys_station_message_publish
     multi-tenant:
+      include-tables: t_user,sys_role,sys_org,sys_station,sys_station_message_publish
       strategy: local
 
 management:
@@ -27,7 +27,7 @@ spring:
   datasource:
     dynamic:
       primary: master #设置默认的数据源或者数据源组,默认值即为master
-      strict: false
+      strict: true
       datasource:
         master:
           pool-name: HikariDataSourcePool

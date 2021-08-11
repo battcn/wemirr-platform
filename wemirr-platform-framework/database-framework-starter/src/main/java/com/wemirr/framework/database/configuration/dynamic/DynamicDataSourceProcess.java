@@ -1,8 +1,10 @@
 package com.wemirr.framework.database.configuration.dynamic;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.HikariDataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
+import com.baomidou.dynamic.datasource.support.ScriptRunner;
 import com.wemirr.framework.database.configuration.dynamic.event.body.EventAction;
 import com.wemirr.framework.database.configuration.dynamic.event.body.TenantDynamicDatasource;
 import com.wemirr.framework.database.properties.DatabaseProperties;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -39,7 +42,8 @@ public class DynamicDataSourceProcess {
         }
         log.info("接收租户事件消息: - {} - {}", action, dynamicDatasource);
         DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
-        String database = properties.getDatabasePrefix() + dynamicDatasource.getCode();
+        final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+        String database = multiTenant.getDsPrefix() + dynamicDatasource.getCode();
         if (action == EventAction.DEL) {
             ds.removeDataSource(database);
             log.info("数据源移除成功 - {}", database);
@@ -60,6 +64,20 @@ public class DynamicDataSourceProcess {
             final Set<String> dsSets = ds.getDataSources().keySet();
             log.debug("连接池信息 - {}", dsSets);
         }
+    }
+
+    public void initSqlScript(String dsKey) {
+        DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
+        // 从ThreadLocal中获取当前数据源
+        final DataSource dataSource = ds.getDataSource(dsKey);
+        ScriptRunner scriptRunner = new ScriptRunner(false, ";");
+        final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+        final List<String> tenantSqlScripts = multiTenant.getTenantSqlScripts();
+
+        if (CollectionUtil.isEmpty(tenantSqlScripts)) {
+            return;
+        }
+        tenantSqlScripts.forEach(script -> scriptRunner.runScript(dataSource, script));
     }
 
 }

@@ -3,12 +3,14 @@ package com.wemirr.platform.authority.configuration.integration.primary;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.database.configuration.dynamic.feign.TenantFeignClient;
+import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.security.client.entity.UserInfoDetails;
 import com.wemirr.framework.security.client.exception.Auth2Exception;
 import com.wemirr.platform.authority.configuration.integration.AbstractPreparedIntegrationAuthenticator;
 import com.wemirr.platform.authority.configuration.integration.IntegrationAuthentication;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
+import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
+import com.wemirr.platform.authority.service.TenantService;
 import com.wemirr.platform.authority.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +39,7 @@ public class UsernamePasswordAuthenticator extends AbstractPreparedIntegrationAu
     @Resource
     private UserService userService;
     @Resource
-    private TenantFeignClient tenantFeignClient;
+    private TenantService tenantService;
 
     @Override
     public int getOrder() {
@@ -55,16 +57,15 @@ public class UsernamePasswordAuthenticator extends AbstractPreparedIntegrationAu
         if (StringUtils.isBlank(tenantCode)) {
             throw new Auth2Exception("租户编码不能为空");
         }
-//        DynamicDataSourceContextHolder.push("wemirr_tenant_" + tenantCode);
         final String grantType = integrationAuthentication.getAuthParameter(GRANT_TYPE);
         if (StringUtils.isBlank(grantType) || !StringUtils.equalsIgnoreCase(grantType, REFRESH_TOKEN)) {
             // 如果说是每次登陆都要清空以前的信息那么需要调用一下注销，这个注销的功能就是注销以前的token信息
         }
-//        final Tenant tenant = Optional.ofNullable(tenantService.getOne(Wraps.<Tenant>lbQ().eq(Tenant::getCode, tenantCode)))
-//                .orElseThrow(() -> CheckedException.notFound("{1}租户不存在", tenantCode));
-//        if (tenant.getLocked()) {
-//            throw CheckedException.badRequest("租户已被禁用,请联系管理员");
-//        }
+        final Tenant tenant = Optional.ofNullable(tenantService.getOne(Wraps.<Tenant>lbQ().eq(Tenant::getCode, tenantCode)))
+                .orElseThrow(() -> CheckedException.notFound("{1}租户不存在", tenantCode));
+        if (tenant.getLocked()) {
+            throw CheckedException.badRequest("租户已被禁用,请联系管理员");
+        }
         final User user = Optional.ofNullable(this.userService.getOne(Wrappers.<User>lambdaQuery()
                 .eq(User::getUsername, username))).orElseThrow(() -> CheckedException.notFound("账户不存在"));
 //        DynamicDataSourceContextHolder.poll();
