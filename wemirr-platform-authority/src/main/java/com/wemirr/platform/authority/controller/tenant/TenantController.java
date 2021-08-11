@@ -88,7 +88,7 @@ public class TenantController {
         return success();
     }
 
-    @PostMapping("/{id}/init_sql_script")
+    @PutMapping("/{id}/init_sql_script")
     @SysLog(value = "加载初始数据")
     @Operation(summary = "加载初始数据")
     public Result<ResponseEntity<Void>> initSqlScript(@PathVariable Long id) {
