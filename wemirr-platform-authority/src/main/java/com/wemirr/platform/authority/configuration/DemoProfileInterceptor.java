@@ -21,7 +21,7 @@ import java.util.List;
 public class DemoProfileInterceptor implements HandlerInterceptor {
 
     private static final int MAX_ID = 10;
-    private static final List<String> URLS = Lists.newArrayList("tenants", "applications", "change_password", "resources", "dictionaries");
+    private static final List<String> URLS = Lists.newArrayList("tenants", "databases", ""applications", "change_password", "resources", "dictionaries");
 
     @Override
     public boolean preHandle(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable Object handler) {
