@@ -4,6 +4,7 @@ import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
 import com.wemirr.framework.commons.StringUtils;
+import com.wemirr.framework.database.TenantEnvironment;
 import com.wemirr.framework.database.configuration.dynamic.event.DynamicDatasourceEvent;
 import com.wemirr.framework.database.configuration.dynamic.event.DynamicDatasourceEventListener;
 import com.wemirr.framework.database.properties.DatabaseProperties;
@@ -20,6 +21,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 如果要实现自定义 database 库名的话 也很容易
+ *
  * @author levin
  */
 @Configuration
@@ -30,9 +33,30 @@ public class DynamicDatasourceEventBusAutoConfiguration {
     @Resource
     private DatabaseProperties properties;
 
+    @Resource
+    private TenantEnvironment tenantEnvironment;
+
     @Bean
     @Primary
     public DsProcessor dsProcessor() {
+        // 从登录的上下文读取
+        DsProcessor contentProcessor = new DsProcessor() {
+            private static final String HEADER_PREFIX = "#content";
+            @Override
+            public boolean matches(String key) {
+                return key.startsWith(HEADER_PREFIX);
+            }
+
+            @Override
+            public String doDetermineDatasource(MethodInvocation invocation, String key) {
+                DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+                String tenantCode = tenantEnvironment.realName();
+                if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
+                    return multiTenant.getDefaultDsName();
+                }
+                return multiTenant.getDsPrefix() + tenantCode;
+            }
+        };
         // 重写 DsHeaderProcessor
         DsProcessor headerProcessor = new DsProcessor() {
             private static final String HEADER_PREFIX = "#header";
@@ -54,11 +78,12 @@ public class DynamicDatasourceEventBusAutoConfiguration {
                 if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
                     return multiTenant.getDefaultDsName();
                 }
-                return multiTenant.getDsPrefix() + request.getHeader(key.substring(8));
+                return multiTenant.getDsPrefix() + tenantCode;
             }
         };
         DsSessionProcessor sessionProcessor = new DsSessionProcessor();
         DsSpelExpressionProcessor expressionProcessor = new DsSpelExpressionProcessor();
+        contentProcessor.setNextProcessor(headerProcessor);
         headerProcessor.setNextProcessor(sessionProcessor);
         sessionProcessor.setNextProcessor(expressionProcessor);
         return headerProcessor;
