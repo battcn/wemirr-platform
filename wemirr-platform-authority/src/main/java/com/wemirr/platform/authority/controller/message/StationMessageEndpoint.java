@@ -2,6 +2,8 @@ package com.wemirr.platform.authority.controller.message;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
+import com.wemirr.framework.database.configuration.dynamic.DynamicDataSourceProcess;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.websocket.BaseWebSocketEndpoint;
 import com.wemirr.framework.websocket.utils.SpringContextHolder;
@@ -24,19 +26,25 @@ import java.util.List;
  */
 @Slf4j
 @Component
-@ServerEndpoint(value = "/message/{identifier}")
+@ServerEndpoint(value = "/message/{tenantCode}/{identifier}")
 public class StationMessageEndpoint extends BaseWebSocketEndpoint {
 
     @OnOpen
-    public void openSession(@PathParam(IDENTIFIER) String userId, Session session) {
+    public void openSession(@PathParam("tenantCode") String tenantCode, @PathParam(IDENTIFIER) String userId, Session session) {
         connect(userId, session);
+        final DynamicDataSourceProcess dataSourceProcess = SpringContextHolder.getBean(DynamicDataSourceProcess.class);
+        final String dsKey = dataSourceProcess.buildDb(tenantCode);
+        DynamicDataSourceContextHolder.push(dsKey);
+        log.debug("设置当前线程数据源 - {}", dsKey);
         final StationMessageService stationMessageService = SpringContextHolder.getBean(StationMessageService.class);
         final List<StationMessage> messages = stationMessageService.list(Wraps.<StationMessage>lbQ().eq(StationMessage::getMark, false)
                 .eq(StationMessage::getReceiveId, userId).orderByAsc(StationMessage::getId));
+        DynamicDataSourceContextHolder.poll();
+        log.debug("清空当前线程数据源...");
         if (CollectionUtil.isEmpty(messages)) {
             return;
         }
-        messages.forEach(message-> senderMessage(userId, JSON.toJSONString(message)));
+        messages.forEach(message -> senderMessage(userId, JSON.toJSONString(message)));
     }
 
     @OnMessage

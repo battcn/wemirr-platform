@@ -1,10 +1,10 @@
 package com.wemirr.platform.authority.repository;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.wemirr.framework.boot.SuperMapper;
+import com.wemirr.framework.database.configuration.dynamic.ann.DynamicDS;
 import com.wemirr.framework.database.mybatis.auth.DataScope;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
 import org.apache.ibatis.annotations.Param;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
  * @author Levin
  * @since 2019-07-22
  */
-@DS("#header.tenant_code")
+@DynamicDS
 @Repository
 public interface StationMapper extends SuperMapper<Station> {
     /**

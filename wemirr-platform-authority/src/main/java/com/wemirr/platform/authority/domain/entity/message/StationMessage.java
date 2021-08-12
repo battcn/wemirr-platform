@@ -9,8 +9,8 @@ import lombok.EqualsAndHashCode;
 /**
  * @author Levin
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 @TableName(value = "sys_station_message")
 public class StationMessage extends SuperEntity<Long> {
 

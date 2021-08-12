@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.repository;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.wemirr.framework.boot.SuperMapper;
+import com.wemirr.framework.database.configuration.dynamic.ann.DynamicDS;
 import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Levin
  */
-@DS("#header.tenant_code")
+@DynamicDS
 @Repository
 public interface AreaMapper extends SuperMapper<AreaEntity> {
 

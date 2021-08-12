@@ -7,6 +7,8 @@ import com.wemirr.framework.boot.entity.PageRequest;
 import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
+import com.wemirr.framework.database.configuration.dynamic.ann.DynamicDS;
+import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.StationMessagePublishReq;
 import com.wemirr.platform.authority.domain.entity.message.StationMessagePublish;
 import com.wemirr.platform.authority.domain.enums.ReceiverType;
@@ -27,6 +29,7 @@ import static com.wemirr.platform.authority.domain.converts.StationMessagePublis
 /**
  * @author Levin
  */
+@DynamicDS
 @RequestMapping("station_messages_publish")
 @RestController
 @RequiredArgsConstructor
@@ -35,8 +38,10 @@ public class StationMessagePublishController {
     private final StationMessagePublishService stationMessagePublishService;
 
     @GetMapping
-    public Result<IPage<StationMessagePublishResp>> publishList(PageRequest request) {
-        final Page<StationMessagePublish> page = stationMessagePublishService.page(request.buildPage());
+    public Result<IPage<StationMessagePublishResp>> publishList(PageRequest request, String title, Integer level, Integer type) {
+        final Page<StationMessagePublish> page = stationMessagePublishService.page(request.buildPage(), Wraps.<StationMessagePublish>lbQ()
+                .eq(StationMessagePublish::getTitle, title).eq(StationMessagePublish::getLevel, level)
+                .eq(StationMessagePublish::getType, ReceiverType.of(type)));
         return Result.success(STATION_MESSAGE_PUBLISH_2_VO_CONVERTS.convertPage(page));
     }
 

@@ -1,8 +1,8 @@
 package com.wemirr.platform.authority.repository;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.boot.SuperMapper;
+import com.wemirr.framework.database.configuration.dynamic.ann.DynamicDS;
 import com.wemirr.framework.database.mybatis.auth.DataScope;
 import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author Levin
  */
-@DS("#header.tenant_code")
+@DynamicDS
 @Repository
 public interface UserMapper extends SuperMapper<User> {
 

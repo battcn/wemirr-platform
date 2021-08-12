@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.repository;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.wemirr.framework.boot.SuperMapper;
+import com.wemirr.framework.database.configuration.dynamic.ann.DynamicDS;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
 import com.wemirr.platform.authority.domain.vo.RoleResMenuMapperResp;
 import org.apache.ibatis.annotations.Param;
@@ -18,7 +18,7 @@ import java.util.List;
  * @author Levin
  * @since 2019-07-03
  */
-@DS("#header.tenant_code")
+@DynamicDS
 @Repository
 public interface RoleResMapper extends SuperMapper<RoleRes> {
 

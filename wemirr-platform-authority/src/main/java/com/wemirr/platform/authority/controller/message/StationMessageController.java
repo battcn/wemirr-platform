@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.boot.entity.PageRequest;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.TenantEnvironment;
+import com.wemirr.framework.database.configuration.dynamic.ann.DynamicDS;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.entity.message.StationMessage;
 import com.wemirr.platform.authority.service.StationMessageService;
@@ -25,6 +26,7 @@ import java.util.List;
 @RestController
 @Tag(name = "站内消息")
 @RequiredArgsConstructor
+@DynamicDS
 public class StationMessageController {
 
     private final TenantEnvironment tenantEnvironment;
