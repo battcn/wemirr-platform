@@ -43,6 +43,7 @@ public class DynamicDatasourceEventBusAutoConfiguration {
         // 重写 DsHeaderProcessor
         DsProcessor contentProcessor = new DsProcessor() {
             private static final String CUSTOM_PREFIX = "#custom";
+
             @Override
             public boolean matches(String key) {
                 return key.startsWith(CUSTOM_PREFIX);
@@ -50,7 +51,13 @@ public class DynamicDatasourceEventBusAutoConfiguration {
 
             @Override
             public String doDetermineDatasource(MethodInvocation invocation, String key) {
+                ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
                 DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+                if (attributes == null) {
+                    log.debug("attributes为空,切换默认数据源 - {}", multiTenant.getDefaultDsName());
+                    return multiTenant.getDefaultDsName();
+                }
+                HttpServletRequest request = attributes.getRequest();
                 if (multiTenant.isUseTenantContent()) {
                     TenantEnvironment tenantEnvironment = SpringUtils.getBean(TenantEnvironment.class);
                     if (tenantEnvironment.anonymous()) {
@@ -58,17 +65,10 @@ public class DynamicDatasourceEventBusAutoConfiguration {
                         return multiTenant.getDefaultDsName();
                     }
                     String tenantCode = tenantEnvironment.tenantCode();
-                    return getTenantDB(multiTenant, tenantCode);
+                    return getTenantDB(request, multiTenant, tenantCode);
                 }
-                ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
-                if (attributes == null) {
-                    log.debug("attributes为空,切换默认数据源 - {}", multiTenant.getDefaultDsName());
-                    return multiTenant.getDefaultDsName();
-                }
-                HttpServletRequest request = attributes.getRequest();
                 String tenantCode = request.getHeader(key.substring(8));
-                log.debug("tenantCode - {}", tenantCode);
-                return getTenantDB(multiTenant, tenantCode);
+                return getTenantDB(request, multiTenant, tenantCode);
             }
         };
         DsHeaderProcessor headerProcessor = new DsHeaderProcessor();
@@ -80,13 +80,13 @@ public class DynamicDatasourceEventBusAutoConfiguration {
         return contentProcessor;
     }
 
-    private String getTenantDB(DatabaseProperties.MultiTenant multiTenant, String tenantCode) {
+    private String getTenantDB(HttpServletRequest request, DatabaseProperties.MultiTenant multiTenant, String tenantCode) {
         if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
             log.debug("tenantCode 为空或者为超级租户,切换默认数据源 - {}", multiTenant.getDefaultDsName());
             return multiTenant.getDefaultDsName();
         }
         String db = multiTenant.getDsPrefix() + tenantCode;
-        log.debug("数据源切换至 - {}", db);
+        log.debug("数据源切换至 - {} - {} - {}", tenantCode, db, request.getRequestURI());
         return db;
     }
 

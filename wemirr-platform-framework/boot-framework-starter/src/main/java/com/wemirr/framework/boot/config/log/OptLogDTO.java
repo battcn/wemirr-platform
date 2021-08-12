@@ -113,5 +113,9 @@ public class OptLogDTO {
     private String platform;
     private String version;
     private String engineVersion;
+    /**
+     * 数据源
+     */
+    private String dsKey;
 
 }

@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.wemirr.framework.boot.config.log.OptLogDTO;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.boot.utils.RegionUtils;
@@ -24,10 +25,12 @@ public class OptLogServiceImpl extends SuperServiceImpl<OptLogMapper, OptLog> im
 
     @Override
     public void save(OptLogDTO dto) {
+        DynamicDataSourceContextHolder.push(dto.getDsKey());
         log.info("[日志信息] - {}", JSON.toJSONString(dto));
         final OptLog record = BeanUtil.toBean(dto, OptLog.class);
         record.setLocation(RegionUtils.getRegion(dto.getIp()));
         this.optLogMapper.insert(record);
+        DynamicDataSourceContextHolder.poll();
     }
 
 }

@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Objects;
@@ -73,6 +74,10 @@ public class DynamicDataSourceProcess {
             return multiTenant.getDefaultDsName();
         }
         return multiTenant.getDsPrefix() + tenantCode;
+    }
+
+    public String getHeaderDsKey(HttpServletRequest request) {
+        return buildDb(request.getHeader(properties.getMultiTenant().getTenantCodeColumn()));
     }
 
     public void initSqlScript(String dsKey) {
