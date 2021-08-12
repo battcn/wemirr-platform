@@ -1,0 +1,34 @@
+server:
+  port: 5001
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+  application:
+    name: wemirr-platform-tools
+  cloud:
+    nacos:
+      discovery:
+        metadata:
+          group: ${spring.application.name}
+          version: 1.0
+      config:
+        # 本地申明空间
+        namespace: wemirr
+        refresh-enabled: true
+        # 默认会自动加载一个 applicationName.properties
+        extension-configs:
+          - data-id: mybatis-plus-default.yaml
+extend:
+  oss:
+    cloud:
+      qiniu:
+        enabled: true
+        #access-key: 写自己的
+        #secret-key: 写自己的
+        region: region0
+        bucket: battcn
+        mapping-path: http://qiniu.battcn.com

@@ -11,7 +11,7 @@
     <artifactId>wemirr-platform-tools</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>wemirr-platform-tools</name>
-    <description>wemirr oauth2 授权登录</description>
+    <description>wemirr tools 工具</description>
     <packaging>jar</packaging>
 
     <properties>
@@ -39,7 +39,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
