@@ -1,6 +1,5 @@
 package com.wemirr.platform.authority.configuration.provider;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.wemirr.framework.security.client.entity.UserInfoDetails;
@@ -56,7 +55,6 @@ public class JdbcUserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("用户名或密码错误");
         }
         this.setAuthorize(userInfoDetails, integrationAuthentication);
-        log.debug("[用户信息] - [{}]", JSON.toJSONString(userInfoDetails));
         try {
             // 写个登录日志
             this.loginLogService.saveLoginLog(userInfoDetails.getUserId(), username, userInfoDetails.getRealName());

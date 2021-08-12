@@ -9,6 +9,7 @@ import com.wemirr.framework.database.TenantEnvironment;
 import com.wemirr.framework.database.configuration.dynamic.event.DynamicDatasourceEvent;
 import com.wemirr.framework.database.configuration.dynamic.event.DynamicDatasourceEventListener;
 import com.wemirr.framework.database.properties.DatabaseProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author levin
  */
+@Slf4j
 @Configuration
 @RemoteApplicationEventScan(basePackageClasses = DynamicDatasourceEvent.class)
 @Import({DynamicDataSourceProcess.class, DynamicDatasourceEventListener.class})
@@ -71,14 +73,19 @@ public class DynamicDatasourceEventBusAutoConfiguration {
                 ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
                 DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
                 if (attributes == null) {
+                    log.debug("attributes为空,数据源切换至 - {}", multiTenant.getDefaultDsName());
                     return multiTenant.getDefaultDsName();
                 }
                 HttpServletRequest request = attributes.getRequest();
                 String tenantCode = request.getHeader(key.substring(8));
+                log.debug("tenantCode - {}", tenantCode);
                 if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
+                    log.debug("tenantCode 为空,数据源切换至 - {}", multiTenant.getDefaultDsName());
                     return multiTenant.getDefaultDsName();
                 }
-                return multiTenant.getDsPrefix() + tenantCode;
+                String db = multiTenant.getDsPrefix() + tenantCode;
+                log.debug("数据源切换至 - {}", db);
+                return db;
             }
         };
         DsSessionProcessor sessionProcessor = new DsSessionProcessor();
