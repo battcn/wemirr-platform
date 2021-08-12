@@ -17,7 +17,7 @@ import java.util.List;
  * @author levin
  */
 @Slf4j
-@ConditionalOnProperty(prefix = "mybatis-plus.extend.multi-tenant", name = "strategy", havingValue = "feign")
+@ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "strategy", havingValue = "feign")
 @AutoConfigureAfter(DynamicDatasourceEventBusAutoConfiguration.class)
 public class DynamicDatasourceLoadAutoConfiguration {
 
@@ -28,14 +28,14 @@ public class DynamicDatasourceLoadAutoConfiguration {
 
     @PostConstruct
     public void init() {
-        log.debug("mybatis-plus.extend.multi-tenant.strategy eq feign , pull dynamic begin...");
+        log.debug("extend.mybatis-plus.multi-tenant.strategy eq feign , pull dynamic begin...");
         final Result<List<TenantDynamicDatasource>> result = tenantFeignClient.selectAll();
         if (!result.isSuccessful() || CollectionUtil.isEmpty(result.getData())) {
             log.warn("feign pull tenantDynamicDataSources is null......");
             return;
         }
         result.getData().forEach(tenantDynamicDataSource -> dynamicDataSourceProcess.handler(EventAction.ADD, tenantDynamicDataSource));
-        log.debug("mybatis-plus.extend.multi-tenant.strategy eq feign , pull dynamic end...");
+        log.debug("extend.mybatis-plus.multi-tenant.strategy eq feign , pull dynamic end...");
     }
 
 

@@ -1,91 +1,43 @@
+# 不校验验证码终端
+ignore:
+  clients:
+    - test
+  swagger-providers:
+    - wemirr-platform-gateway
+swagger:
+  enabled: false
+
 server:
   port: 9000
 spring:
-  profiles:
-    active: local
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: wemirr-platform-gateway
-    strategy:
-      gateway:
-        original:
-          header:
-            ignored: false
-        header:
-          priority: false
-      control:
-        enabled: true
-      monitor:
-        enabled: true     # 启动和关闭监控，一旦关闭，调用链和日志输出都将关闭。缺失则默认为false
-      logger:
-        debug:
-          enabled: true    # 启动和关闭日志输出。缺失则默认为false
   cloud:
     nacos:
+      server-addr: localhost:8848
       discovery:
         metadata:
+          group: ${spring.application.name}
           version: 1.0
-        server-addr: localhost:8848
       config:
-        server-addr: localhost:8848
-    sentinel:
-      datasource:
-        flow:
-          nacos:
-            data-id: gateway-sentinel.json
-            rule-type: gw_flow
-            server-addr: localhost:8848
-      enabled: true
-      transport:
-        dashboard: localhost:8858
+        namespace: wemirr
     gateway:
-      header:
-        priority: false
+      # 动态路由
+      dynamic-route:
+        data-type: redis
+        enabled: true
       enabled: true
       discovery:
         locator:
           enabled: true
           lowerCaseServiceId: true
       routes:
-        - id: wemirr-platform-tenant
-          uri: lb://wemirr-platform-tenant
-          predicates:
-            - Path=/tenant/**
-          filters:
-            - StripPrefix=1
         - id: wemirr-platform-authority
           uri: lb://wemirr-platform-authority
           predicates:
             - Path=/authority/**
-          filters:
-            - StripPrefix=1
-        - id: wemirr-platform-authority-websocket
-          uri: lb:ws://wemirr-platform-authority
-          predicates:
-            - Path=/authority/**
-          filters:
-            - StripPrefix=1
-        - id: wemirr-platform-monitor
-          uri: lb://wemirr-platform-monitor
-          predicates:
-            - Path=/monitor/**
-          filters:
-            - StripPrefix=1
-        - id: wemirr-platform-tools
-          uri: lb://wemirr-platform-tools
-          predicates:
-            - Path=/tools/**
-          filters:
-            - StripPrefix=1
-        - id: wemirr-platform-bury
-          uri: lb://wemirr-platform-bury
-          predicates:
-            - Path=/bury/**
-          filters:
-            - StripPrefix=1
-        - id: wemirr-platform-nepxion
-          uri: lb://wemirr-platform-nepxion
-          predicates:
-            - Path=/nepxion/**
           filters:
             - name: RequestRateLimiter
               args:
@@ -104,45 +56,36 @@ spring:
                   factor: 1
                   basedOnPreviousValue: false
                   exceptions: TimeoutException
+        - id: wemirr-platform-authority-websocket
+          uri: lb:ws://wemirr-platform-authority
+          predicates:
+            - Path=/authority/**
+          filters:
+            - StripPrefix=1
+        - id: wemirr-platform-tools
+          uri: lb://wemirr-platform-tools
+          predicates:
+            - Path=/tools/**
+          filters:
+            - StripPrefix=1
+        - id: wemirr-platform-monitor
+          uri: lb://wemirr-platform-monitor
+          predicates:
+            - Path=/monitor/**
+          filters:
+            - StripPrefix=1
       loadbalancer:
         use404: true
       httpclient:
-        ssl:
-          use-insecure-trust-manager: true
         response-timeout: 300s
         pool:
-          type: fixed
+          type: elastic
+          max-idle-time: 30s
           max-connections: 1000
           acquire-timeout: 180000
-          max-idle-time: 30s
     loadbalancer:
       ribbon:
         enabled: true
     discovery:
       reactive:
         enabled: false
-
-ribbon:
-  ReadTimeout: 5000000
-  ConnectTimeout: 5000000
-  MaxAutoRetries: 0
-  MaxAutoRetriesNextServer: 1
-
-
----
-#### 本地环境 #####
-spring:
-  profiles: local
-  # 跨域配置 如果在nginx 配置了跨域 这里可以注释或者不启用  建议只在开发使用
-  cloud:
-    gateway:
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allow-credentials: true
-            allowedHeaders:
-              - "*"
-            allowedOrigins:
-              - "*"
-            allowedMethods:
-              - "*"

@@ -1,0 +1,26 @@
+server:
+  port: 5002
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  resources:
+    add-mappings: false
+  application:
+    name: wemirr-platform-authority
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        metadata:
+          group: ${spring.application.name}
+          version: 1.0
+      config:
+        # 本地申明空间
+        namespace: wemirr
+        refresh-enabled: true
+        # 默认会自动加载一个 applicationName.properties
+        extension-configs:
+          - data-id: swagger.yaml
+            refresh: true
+            group: DEFAULT_GROUP # 默认就是 DEFAULT_GROUP
+          - data-id: mybatis-plus-default.yaml

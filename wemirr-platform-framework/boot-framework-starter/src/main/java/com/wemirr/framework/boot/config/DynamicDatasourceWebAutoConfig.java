@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Configuration
-@ConditionalOnProperty(prefix = "mybatis-plus.extend.multi-tenant", name = "ds-interceptor", havingValue = "true")
+@ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "ds-interceptor", havingValue = "true")
 public class DynamicDatasourceWebAutoConfig implements WebMvcConfigurer {
 
     @Resource
