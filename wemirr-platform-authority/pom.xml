@@ -31,13 +31,6 @@
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>websocket-framework-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -47,12 +40,10 @@
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>swagger-framework-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>boot-framework-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -124,7 +115,6 @@
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>oauth2-framework-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
