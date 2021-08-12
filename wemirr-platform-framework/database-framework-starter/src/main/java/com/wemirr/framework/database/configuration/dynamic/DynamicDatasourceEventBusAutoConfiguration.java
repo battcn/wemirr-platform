@@ -1,5 +1,6 @@
 package com.wemirr.framework.database.configuration.dynamic;
 
+import com.baomidou.dynamic.datasource.processor.DsHeaderProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
@@ -39,61 +40,54 @@ public class DynamicDatasourceEventBusAutoConfiguration {
     @Bean
     @Primary
     public DsProcessor dsProcessor() {
-        // 从登录的上下文读取
-        DsProcessor contentProcessor = new DsProcessor() {
-            private static final String HEADER_PREFIX = "#content";
-
-            @Override
-            public boolean matches(String key) {
-                return key.startsWith(HEADER_PREFIX);
-            }
-
-            @Override
-            public String doDetermineDatasource(MethodInvocation invocation, String key) {
-                DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
-                TenantEnvironment tenantEnvironment = SpringUtils.getBean(TenantEnvironment.class);
-                String tenantCode = tenantEnvironment.realName();
-                if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
-                    return multiTenant.getDefaultDsName();
-                }
-                return multiTenant.getDsPrefix() + tenantCode;
-            }
-        };
         // 重写 DsHeaderProcessor
-        DsProcessor headerProcessor = new DsProcessor() {
-            private static final String HEADER_PREFIX = "#header";
-
+        DsProcessor contentProcessor = new DsProcessor() {
+            private static final String CUSTOM_PREFIX = "#custom";
             @Override
             public boolean matches(String key) {
-                return key.startsWith(HEADER_PREFIX);
+                return key.startsWith(CUSTOM_PREFIX);
             }
 
             @Override
             public String doDetermineDatasource(MethodInvocation invocation, String key) {
-                ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
                 DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+                if (multiTenant.isUseTenantContent()) {
+                    TenantEnvironment tenantEnvironment = SpringUtils.getBean(TenantEnvironment.class);
+                    if (tenantEnvironment.anonymous()) {
+                        log.debug("匿名用户,切换默认数据源 - {}", multiTenant.getDefaultDsName());
+                        return multiTenant.getDefaultDsName();
+                    }
+                    String tenantCode = tenantEnvironment.tenantCode();
+                    return getTenantDB(multiTenant, tenantCode);
+                }
+                ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
                 if (attributes == null) {
-                    log.debug("attributes为空,数据源切换至 - {}", multiTenant.getDefaultDsName());
+                    log.debug("attributes为空,切换默认数据源 - {}", multiTenant.getDefaultDsName());
                     return multiTenant.getDefaultDsName();
                 }
                 HttpServletRequest request = attributes.getRequest();
                 String tenantCode = request.getHeader(key.substring(8));
                 log.debug("tenantCode - {}", tenantCode);
-                if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
-                    log.debug("tenantCode 为空,数据源切换至 - {}", multiTenant.getDefaultDsName());
-                    return multiTenant.getDefaultDsName();
-                }
-                String db = multiTenant.getDsPrefix() + tenantCode;
-                log.debug("数据源切换至 - {}", db);
-                return db;
+                return getTenantDB(multiTenant, tenantCode);
             }
         };
+        DsHeaderProcessor headerProcessor = new DsHeaderProcessor();
         DsSessionProcessor sessionProcessor = new DsSessionProcessor();
         DsSpelExpressionProcessor expressionProcessor = new DsSpelExpressionProcessor();
         contentProcessor.setNextProcessor(headerProcessor);
         headerProcessor.setNextProcessor(sessionProcessor);
         sessionProcessor.setNextProcessor(expressionProcessor);
-        return headerProcessor;
+        return contentProcessor;
+    }
+
+    private String getTenantDB(DatabaseProperties.MultiTenant multiTenant, String tenantCode) {
+        if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
+            log.debug("tenantCode 为空或者为超级租户,切换默认数据源 - {}", multiTenant.getDefaultDsName());
+            return multiTenant.getDefaultDsName();
+        }
+        String db = multiTenant.getDsPrefix() + tenantCode;
+        log.debug("数据源切换至 - {}", db);
+        return db;
     }
 
 }

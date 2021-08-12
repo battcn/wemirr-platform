@@ -89,6 +89,10 @@ public class DatabaseProperties {
         private List<String> tenantSqlScripts = Lists.newArrayList("classpath*:db/tenant_schema.sql");
 
         /**
+         * 是否从登陆上下文获取数据库信息
+         */
+        private boolean useTenantContent;
+        /**
          * 租户数据源切换拦截器（不建议使用）
          */
         private boolean dsInterceptor;

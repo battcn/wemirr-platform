@@ -5,6 +5,7 @@ import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.HikariDataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.dynamic.datasource.support.ScriptRunner;
+import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.database.configuration.dynamic.event.body.EventAction;
 import com.wemirr.framework.database.configuration.dynamic.event.body.TenantDynamicDatasource;
 import com.wemirr.framework.database.properties.DatabaseProperties;
@@ -64,6 +65,14 @@ public class DynamicDataSourceProcess {
             final Set<String> dsSets = ds.getDataSources().keySet();
             log.debug("连接池信息 - {}", dsSets);
         }
+    }
+
+    public String buildDb(String tenantCode) {
+        final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+        if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
+            return multiTenant.getDefaultDsName();
+        }
+        return multiTenant.getDsPrefix() + tenantCode;
     }
 
     public void initSqlScript(String dsKey) {
