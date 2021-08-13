@@ -89,7 +89,7 @@ public class DatabaseProperties {
         /**
          * 租户SQL脚本
          */
-        private List<String> tenantSqlScripts = Lists.newArrayList("classpath*:db/tenant_schema.sql");
+        private List<String> tenantSqlScripts = Lists.newArrayList("classpath*:db/tenant_schema.sql", "classpath*:db/tenant_common_area.sql");
 
         /**
          * 是否从登陆上下文获取数据库信息
