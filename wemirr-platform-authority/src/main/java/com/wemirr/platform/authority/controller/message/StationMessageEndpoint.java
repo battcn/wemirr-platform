@@ -3,8 +3,10 @@ package com.wemirr.platform.authority.controller.message;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
-import com.wemirr.framework.database.configuration.dynamic.DynamicDataSourceProcess;
+import com.wemirr.framework.database.configuration.dynamic.TenantDynamicDataSourceProcess;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.database.properties.DatabaseProperties;
+import com.wemirr.framework.database.properties.MultiTenantType;
 import com.wemirr.framework.websocket.BaseWebSocketEndpoint;
 import com.wemirr.framework.websocket.utils.SpringContextHolder;
 import com.wemirr.platform.authority.domain.entity.message.StationMessage;
@@ -32,15 +34,22 @@ public class StationMessageEndpoint extends BaseWebSocketEndpoint {
     @OnOpen
     public void openSession(@PathParam("tenantCode") String tenantCode, @PathParam(IDENTIFIER) String userId, Session session) {
         connect(userId, session);
-        final DynamicDataSourceProcess dataSourceProcess = SpringContextHolder.getBean(DynamicDataSourceProcess.class);
-        final String dsKey = dataSourceProcess.buildDb(tenantCode);
-        DynamicDataSourceContextHolder.push(dsKey);
-        log.debug("设置当前线程数据源 - {}", dsKey);
+        List<StationMessage> messages;
+        final DatabaseProperties properties = SpringContextHolder.getBean(DatabaseProperties.class);
         final StationMessageService stationMessageService = SpringContextHolder.getBean(StationMessageService.class);
-        final List<StationMessage> messages = stationMessageService.list(Wraps.<StationMessage>lbQ().eq(StationMessage::getMark, false)
-                .eq(StationMessage::getReceiveId, userId).orderByAsc(StationMessage::getId));
-        DynamicDataSourceContextHolder.poll();
-        log.debug("清空当前线程数据源...");
+        if (properties.getMultiTenant().getType() == MultiTenantType.DATASOURCE) {
+            final TenantDynamicDataSourceProcess dataSourceProcess = SpringContextHolder.getBean(TenantDynamicDataSourceProcess.class);
+            final String dsKey = dataSourceProcess.buildDb(tenantCode);
+            DynamicDataSourceContextHolder.push(dsKey);
+            log.debug("设置当前线程数据源 - {}", dsKey);
+            messages = stationMessageService.list(Wraps.<StationMessage>lbQ().eq(StationMessage::getMark, false)
+                    .eq(StationMessage::getReceiveId, userId).orderByAsc(StationMessage::getId));
+            DynamicDataSourceContextHolder.poll();
+            log.debug("清空当前线程数据源...");
+        } else {
+            messages = stationMessageService.list(Wraps.<StationMessage>lbQ().eq(StationMessage::getMark, false)
+                    .eq(StationMessage::getReceiveId, userId).orderByAsc(StationMessage::getId));
+        }
         if (CollectionUtil.isEmpty(messages)) {
             return;
         }

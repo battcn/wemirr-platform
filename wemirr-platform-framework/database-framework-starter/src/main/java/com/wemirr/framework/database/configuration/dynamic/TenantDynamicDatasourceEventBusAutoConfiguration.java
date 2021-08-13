@@ -12,15 +12,15 @@ import com.wemirr.framework.database.configuration.dynamic.event.DynamicDatasour
 import com.wemirr.framework.database.properties.DatabaseProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -30,16 +30,24 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Slf4j
 @Configuration
+@ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "type", havingValue = "datasource")
 @RemoteApplicationEventScan(basePackageClasses = DynamicDatasourceEvent.class)
-@Import({DynamicDataSourceProcess.class, DynamicDatasourceEventListener.class})
-public class DynamicDatasourceEventBusAutoConfiguration {
+public class TenantDynamicDatasourceEventBusAutoConfiguration {
 
-    @Resource
-    private DatabaseProperties properties;
+
+    @Bean
+    public TenantDynamicDataSourceProcess tenantDynamicDataSourceProcess() {
+        return new TenantDynamicDataSourceProcess();
+    }
+
+    @Bean
+    public ApplicationListener<DynamicDatasourceEvent> dynamicDatasourceEventListener(TenantDynamicDataSourceProcess process) {
+        return new DynamicDatasourceEventListener(process);
+    }
 
     @Bean
     @Primary
-    public DsProcessor dsProcessor() {
+    public DsProcessor dsProcessor(DatabaseProperties properties) {
         // 重写 DsHeaderProcessor
         DsProcessor contentProcessor = new DsProcessor() {
             private static final String CUSTOM_PREFIX = "#custom";

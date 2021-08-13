@@ -14,7 +14,8 @@ import com.wemirr.framework.boot.config.log.event.SysLogEvent;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.TenantEnvironment;
-import com.wemirr.framework.database.configuration.dynamic.DynamicDataSourceProcess;
+import com.wemirr.framework.database.properties.DatabaseProperties;
+import com.wemirr.framework.database.properties.MultiTenantType;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -60,7 +61,8 @@ public class SysLogAspect {
     @Autowired(required = false)
     private TenantEnvironment tenantEnvironment;
     @Autowired
-    private DynamicDataSourceProcess dynamicDataSourceProcess;
+    private DatabaseProperties properties;
+
     /**
      * 用于SpEL表达式解析.
      */
@@ -221,7 +223,11 @@ public class SysLogAspect {
             HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
             String strArgs = getArgs(sysLogAnnotation, args, request);
             sysLog.setParams(getText(strArgs));
-            sysLog.setDsKey(dynamicDataSourceProcess.getHeaderDsKey(request));
+            final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+            if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
+                String dsKey = request.getHeader(multiTenant.getTenantCodeColumn());
+                sysLog.setDsKey(dsKey);
+            }
 //            sysLog.setTrace(MDC.get(BaseContextConstants.LOG_TRACE_ID));
 
             sysLog.setIp(ServletUtil.getClientIP(request));

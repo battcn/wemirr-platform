@@ -18,11 +18,11 @@ import java.util.List;
  */
 @Slf4j
 @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "strategy", havingValue = "feign")
-@AutoConfigureAfter(DynamicDatasourceEventBusAutoConfiguration.class)
-public class DynamicDatasourceLoadAutoConfiguration {
+@AutoConfigureAfter(TenantDynamicDatasourceEventBusAutoConfiguration.class)
+public class TenantDynamicDatasourceLoadAutoConfiguration {
 
     @Resource
-    private DynamicDataSourceProcess dynamicDataSourceProcess;
+    private TenantDynamicDataSourceProcess tenantDynamicDataSourceProcess;
     @Resource
     private TenantFeignClient tenantFeignClient;
 
@@ -34,7 +34,7 @@ public class DynamicDatasourceLoadAutoConfiguration {
             log.warn("feign pull tenantDynamicDataSources is null......");
             return;
         }
-        result.getData().forEach(tenantDynamicDataSource -> dynamicDataSourceProcess.handler(EventAction.ADD, tenantDynamicDataSource));
+        result.getData().forEach(tenantDynamicDataSource -> tenantDynamicDataSourceProcess.handler(EventAction.ADD, tenantDynamicDataSource));
         log.debug("extend.mybatis-plus.multi-tenant.strategy eq feign , pull dynamic end...");
     }
 

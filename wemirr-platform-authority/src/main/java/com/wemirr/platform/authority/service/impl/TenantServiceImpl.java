@@ -3,10 +3,12 @@ package com.wemirr.platform.authority.service.impl;
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.database.configuration.dynamic.DynamicDataSourceProcess;
+import com.wemirr.framework.database.SpringUtils;
+import com.wemirr.framework.database.configuration.dynamic.TenantDynamicDataSourceProcess;
 import com.wemirr.framework.database.configuration.dynamic.event.body.EventAction;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.database.properties.DatabaseProperties;
+import com.wemirr.framework.database.properties.MultiTenantType;
 import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
 import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
 import com.wemirr.platform.authority.domain.entity.tenant.TenantConfig;
@@ -32,7 +34,6 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
 
     private final AreaMapper areaMapper;
     private final TenantConfigMapper tenantConfigMapper;
-    private final DynamicDataSourceProcess dynamicDataSourceProcess;
     private final DynamicDatasourceService dynamicDatasourceService;
     private final DatabaseProperties properties;
 
@@ -85,10 +86,13 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         if (tenant.getLocked()) {
             throw CheckedException.badRequest("租户已被禁用");
         }
-        if (StringUtils.equals(tenant.getCode(), properties.getMultiTenant().getSuperTenantCode())) {
+        final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+        if (StringUtils.equals(tenant.getCode(), multiTenant.getSuperTenantCode())) {
             throw CheckedException.badRequest("超级租户,禁止操作");
         }
-        dynamicDataSourceProcess.initSqlScript(tenant.getCode());
-
+        if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
+            TenantDynamicDataSourceProcess tenantDynamicDataSourceProcess = SpringUtils.getBean(TenantDynamicDataSourceProcess.class);
+            tenantDynamicDataSourceProcess.initSqlScript(tenant.getCode());
+        }
     }
 }

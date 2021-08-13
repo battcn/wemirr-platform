@@ -26,7 +26,7 @@ import java.util.Set;
  */
 @Slf4j
 @Component
-public class DynamicDataSourceProcess {
+public class TenantDynamicDataSourceProcess {
 
     private static final String CREATE_DATABASE_SCRIPT = "CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
 
