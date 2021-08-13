@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -25,6 +27,9 @@ import java.util.Set;
 @Slf4j
 @Component
 public class DynamicDataSourceProcess {
+
+    private static final String CREATE_DATABASE_SCRIPT = "CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
+
 
     @Resource
     private DataSource dataSource;
@@ -49,23 +54,48 @@ public class DynamicDataSourceProcess {
         if (action == EventAction.DEL) {
             ds.removeDataSource(database);
             log.info("数据源移除成功 - {}", database);
-        } else {
+            return;
+        }
+        if (action == EventAction.INIT) {
+            // 创建数据库
             DataSourceProperty dataSourceProperty = new DataSourceProperty();
             dataSourceProperty.setPoolName(dynamicDatasource.getPoolName() + "_" + dynamicDatasource.getCode());
             dataSourceProperty.setDriverClassName(dynamicDatasource.getDriverClassName());
-            String url = "jdbc:mysql://" + dynamicDatasource.getHost() +
-                    "/" + database + "?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true";
+            String url = "jdbc:mysql://" + dynamicDatasource.getHost();
             dataSourceProperty.setUrl(url);
             dataSourceProperty.setUsername(dynamicDatasource.getUsername());
             dataSourceProperty.setPassword(dynamicDatasource.getPassword());
-            dataSourceProperty.setLazy(true);
+            dataSourceProperty.setLazy(false);
             DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
             log.debug("数据源信息 - {} - {} - {}", dataSourceProperty.getUsername(), dataSourceProperty.getPassword(), database);
-            ds.addDataSource(database, dataSource);
-            log.info("数据源添加成功 - {}", database);
-            final Set<String> dsSets = ds.getDataSources().keySet();
-            log.debug("连接池信息 - {}", dsSets);
+            final String createDatabaseScript = String.format(CREATE_DATABASE_SCRIPT, database);
+//            ScriptRunner scriptRunner = new ScriptRunner(false, ";");
+//            File file = new File(database);
+//            FileUtil.writeString(createDatabaseScript, file, CharsetUtil.UTF_8);
+//            scriptRunner.runScript(dataSource, file.getPath());
+            log.debug("数据库创建执行成功 - {}", createDatabaseScript);
+            try (Connection conn = dataSource.getConnection(); Statement stat = conn.createStatement()) {
+                stat.executeUpdate(createDatabaseScript);
+            } catch (Exception e) {
+                log.error("执行创建数据库脚本异常", e);
+            }
         }
+        DataSourceProperty dataSourceProperty = new DataSourceProperty();
+        dataSourceProperty.setPoolName(dynamicDatasource.getPoolName() + "_" + dynamicDatasource.getCode());
+        dataSourceProperty.setDriverClassName(dynamicDatasource.getDriverClassName());
+        String url = "jdbc:mysql://" + dynamicDatasource.getHost() +
+                "/" + database + "?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true";
+        dataSourceProperty.setUrl(url);
+        dataSourceProperty.setUsername(dynamicDatasource.getUsername());
+        dataSourceProperty.setPassword(dynamicDatasource.getPassword());
+        dataSourceProperty.setLazy(true);
+        DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
+        log.debug("数据源信息 - {} - {} - {}", dataSourceProperty.getUsername(), dataSourceProperty.getPassword(), database);
+        ds.addDataSource(database, dataSource);
+        log.info("数据源添加成功 - {}", database);
+        final Set<String> dsSets = ds.getDataSources().keySet();
+        log.debug("连接池信息 - {}", dsSets);
+
     }
 
     public String buildDb(String tenantCode) {
@@ -80,7 +110,11 @@ public class DynamicDataSourceProcess {
         return buildDb(request.getHeader(properties.getMultiTenant().getTenantCodeColumn()));
     }
 
-    public void initSqlScript(String dsKey) {
+    public void initSqlScript(String tenantCode) {
+        runScript(buildDb(tenantCode));
+    }
+
+    private void runScript(String dsKey) {
         DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
         // 从ThreadLocal中获取当前数据源
         final DataSource dataSource = ds.getDataSource(dsKey);

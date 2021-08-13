@@ -13,7 +13,6 @@ import com.wemirr.platform.authority.domain.entity.tenant.DynamicDatasource;
 import com.wemirr.platform.authority.domain.vo.TenantDynamicDatasourceVO;
 import com.wemirr.platform.authority.repository.DynamicDatasourceMapper;
 import com.wemirr.platform.authority.repository.TenantConfigMapper;
-import com.wemirr.platform.authority.repository.TenantMapper;
 import com.wemirr.platform.authority.service.DynamicDatasourceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +38,6 @@ import static com.wemirr.platform.authority.domain.converts.TenantDynamicDatasou
 public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDatasourceMapper, DynamicDatasource> implements DynamicDatasourceService {
 
     private final TenantConfigMapper tenantConfigMapper;
-    private final TenantMapper tenantMapper;
     private final ApplicationEventPublisher eventPublisher;
     private final BusProperties busProperties;
 

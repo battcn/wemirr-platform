@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.boot.utils.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.database.configuration.dynamic.DynamicDataSourceProcess;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.authority.domain.dto.TenantConfigDTO;
@@ -41,7 +40,6 @@ import static com.wemirr.framework.commons.entity.Result.success;
 public class TenantController {
 
     private final TenantService tenantService;
-    private final DynamicDataSourceProcess dynamicDataSourceProcess;
     private final DynamicDatasourceService dynamicDatasourceService;
 
     @GetMapping
@@ -92,7 +90,7 @@ public class TenantController {
     @SysLog(value = "加载初始数据")
     @Operation(summary = "加载初始数据")
     public Result<ResponseEntity<Void>> initSqlScript(@PathVariable Long id) {
-        dynamicDataSourceProcess.initSqlScript("wemirr_tenant_6666");
+        tenantService.initSqlScript(id);
         return success();
     }
 

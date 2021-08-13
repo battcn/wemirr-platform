@@ -18,4 +18,6 @@ public interface TenantService extends SuperService<Tenant> {
     void saveOrUpdateTenant(Tenant tenant);
 
     void tenantConfig(TenantConfig tenantConfig);
+
+    void initSqlScript(Long id);
 }

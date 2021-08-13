@@ -77,6 +77,9 @@ public class DatabaseProperties {
          */
         private String tenantCodeColumn = "tenant_code";
 
+        /**
+         * 超级租户编码
+         */
         private String superTenantCode = "0000";
         /**
          * 租户数据库前缀

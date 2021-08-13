@@ -21,7 +21,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonFormat
 public enum EventAction {
-
+    /**
+     * 初始化
+     */
+    INIT(0, "在添加之前初始化"),
     /**
      * 添加
      */

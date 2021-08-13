@@ -1,9 +1,12 @@
 package com.wemirr.platform.authority.service.impl;
 
 import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
+import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.database.configuration.dynamic.DynamicDataSourceProcess;
 import com.wemirr.framework.database.configuration.dynamic.event.body.EventAction;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.database.properties.DatabaseProperties;
 import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
 import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
 import com.wemirr.platform.authority.domain.entity.tenant.TenantConfig;
@@ -29,7 +32,9 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
 
     private final AreaMapper areaMapper;
     private final TenantConfigMapper tenantConfigMapper;
+    private final DynamicDataSourceProcess dynamicDataSourceProcess;
     private final DynamicDatasourceService dynamicDatasourceService;
+    private final DatabaseProperties properties;
 
     @Override
     public void saveOrUpdateTenant(Tenant tenant) {
@@ -56,9 +61,13 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
 
     @Override
     public void tenantConfig(TenantConfig tenantConfig) {
-        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantConfig.getTenantId())).orElseThrow(() -> CheckedException.notFound("租户不存在"));
+        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantConfig.getTenantId()))
+                .orElseThrow(() -> CheckedException.notFound("租户不存在"));
         if (tenant.getLocked()) {
             throw CheckedException.badRequest("租户已被禁用");
+        }
+        if (StringUtils.equals(tenant.getCode(), properties.getMultiTenant().getSuperTenantCode())) {
+            throw CheckedException.badRequest("超级租户,禁止操作");
         }
         if (tenantConfig.getId() == null) {
             tenantConfigMapper.delete(Wraps.<TenantConfig>lbQ().eq(TenantConfig::getTenantId, tenantConfig.getTenantId()));
@@ -66,6 +75,20 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         } else {
             tenantConfigMapper.updateById(tenantConfig);
         }
-        dynamicDatasourceService.publishEvent(EventAction.ADD, tenantConfig.getTenantId());
+        // 先创建
+        dynamicDatasourceService.publishEvent(EventAction.INIT, tenantConfig.getTenantId());
+    }
+
+    @Override
+    public void initSqlScript(Long id) {
+        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("租户信息不存在"));
+        if (tenant.getLocked()) {
+            throw CheckedException.badRequest("租户已被禁用");
+        }
+        if (StringUtils.equals(tenant.getCode(), properties.getMultiTenant().getSuperTenantCode())) {
+            throw CheckedException.badRequest("超级租户,禁止操作");
+        }
+        dynamicDataSourceProcess.initSqlScript(tenant.getCode());
+
     }
 }
