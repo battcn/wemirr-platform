@@ -69,10 +69,6 @@ public class DynamicDataSourceProcess {
             DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
             log.debug("数据源信息 - {} - {} - {}", dataSourceProperty.getUsername(), dataSourceProperty.getPassword(), database);
             final String createDatabaseScript = String.format(CREATE_DATABASE_SCRIPT, database);
-//            ScriptRunner scriptRunner = new ScriptRunner(false, ";");
-//            File file = new File(database);
-//            FileUtil.writeString(createDatabaseScript, file, CharsetUtil.UTF_8);
-//            scriptRunner.runScript(dataSource, file.getPath());
             log.debug("数据库创建执行成功 - {}", createDatabaseScript);
             try (Connection conn = dataSource.getConnection(); Statement stat = conn.createStatement()) {
                 stat.executeUpdate(createDatabaseScript);
