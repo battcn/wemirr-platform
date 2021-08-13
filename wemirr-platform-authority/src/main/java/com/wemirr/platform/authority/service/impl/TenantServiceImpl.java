@@ -9,17 +9,20 @@ import com.wemirr.framework.database.configuration.dynamic.event.body.EventActio
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.framework.database.properties.DatabaseProperties;
 import com.wemirr.framework.database.properties.MultiTenantType;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
+import com.wemirr.platform.authority.domain.entity.baseinfo.User;
+import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;
 import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
 import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
 import com.wemirr.platform.authority.domain.entity.tenant.TenantConfig;
-import com.wemirr.platform.authority.repository.AreaMapper;
-import com.wemirr.platform.authority.repository.TenantConfigMapper;
-import com.wemirr.platform.authority.repository.TenantMapper;
+import com.wemirr.platform.authority.repository.*;
 import com.wemirr.platform.authority.service.DynamicDatasourceService;
 import com.wemirr.platform.authority.service.TenantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -33,9 +36,13 @@ import java.util.Optional;
 public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> implements TenantService {
 
     private final AreaMapper areaMapper;
+    private final RoleMapper roleMapper;
+    private final UserRoleMapper userRoleMapper;
     private final TenantConfigMapper tenantConfigMapper;
     private final DynamicDatasourceService dynamicDatasourceService;
     private final DatabaseProperties properties;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void saveOrUpdateTenant(Tenant tenant) {
@@ -81,6 +88,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void initSqlScript(Long id) {
         final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("租户信息不存在"));
         if (tenant.getLocked()) {
@@ -90,7 +98,23 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         if (StringUtils.equals(tenant.getCode(), multiTenant.getSuperTenantCode())) {
             throw CheckedException.badRequest("超级租户,禁止操作");
         }
-        if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
+        if (multiTenant.getType() == MultiTenantType.COLUMN) {
+            final Role role = Optional.ofNullable(roleMapper.selectOne(Wraps.<Role>lbQ()
+                    .eq(Role::getCode, "TENANT-ADMIN"))).orElseThrow(() -> CheckedException.notFound("角色不存在"));
+            final User user = this.userMapper.selectOne(Wraps.<User>lbQ().eq(User::getUsername, "admin").eq(User::getTenantId, id));
+            if (user != null) {
+                this.userMapper.deleteById(user.getId());
+                this.userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getUserId, user.getId()));
+            }
+            User record = new User();
+            record.setUsername("admin");
+            record.setPassword(passwordEncoder.encode("123456"));
+            record.setTenantId(id);
+            record.setStatus(true);
+            this.userMapper.insert(record);
+            this.userRoleMapper.insert(UserRole.builder().userId(record.getId()).roleId(role.getId()).build());
+
+        } else if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
             TenantDynamicDataSourceProcess tenantDynamicDataSourceProcess = SpringUtils.getBean(TenantDynamicDataSourceProcess.class);
             tenantDynamicDataSourceProcess.initSqlScript(tenant.getCode());
         }
