@@ -9,7 +9,15 @@
 > 租户账号 8888 账号 admin 密码 123456
 
 
-## 特点
+## 软件架构
+
+> 技术交流Q群： 789517089
+
+Vue、Spring Cloud Alibaba 2.2.5.RELEASE、Spring Cloud Hoxton.SR11、Nacos、Sentinel、
+Nepxion、Mybatis-Plus、多租户、灰度、Oauth2.0、Spring Security、Redis、Mysql、MongoDB、
+ShardingJdbc、ShardingSphere
+
+### 特点
 
 - 布局优雅：简洁、多套主题以及导览模式任意组合搭配
 - 功能齐全：SAAS/多租户/RBAC权限控制全都具备，下载代码开箱即用
@@ -27,7 +35,7 @@
 ```
 
 
-### 效果图
+## 效果图
 
 ![分配用户](./images/binding_user.png)
 
@@ -62,13 +70,6 @@
 ### 拓展阅读
 
 [Oauth2.0](https://www.ruanyifeng.com/blog/2019/04/github-oauth.html) OAuth2.0 知识点
-
-
-### 软件架构
-
-Vue、Spring Cloud Alibaba 2.2.5.RELEASE、Spring Cloud Hoxton.SR11、Nacos、Sentinel、
-Nepxion、Mybatis-Plus、多租户、灰度、Oauth2.0、Spring Security、Redis、Mysql、MongoDB、
-ShardingJdbc、ShardingSphere
 
 
 `wemirr-platform-bury` 是一个用 `shardingsphere` 做分表分库收集日志的，常见埋点日志手段
