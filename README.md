@@ -1,10 +1,15 @@
 # wemirr-platform
 
-### 演示地址
+## 演示地址
 
-[演示地址](https://cloud.battcn.com/) 在线演示地址，尽量别删数据。没有做一键回滚数据
+[演示地址](https://cloud.battcn.com/) 
 
-### 特点
+> 平台账号 0000 账号 admin 密码 123456
+
+> 租户账号 8888 账号 admin 密码 123456
+
+
+## 特点
 
 - 布局优雅：简洁、多套主题以及导览模式任意组合搭配
 - 功能齐全：SAAS/多租户/RBAC权限控制全都具备，下载代码开箱即用
@@ -44,17 +49,13 @@
 
 ## 介绍
 
-一个业余时间写的开源项目、欢迎使用和提建议、包括低码平台、常见 中台 、SAAS 、 多租户功能、最最少的代码实现功能
-
-[演示地址](https://cloud.battcn.com/) 在线演示地址，尽量别删数据。没有做一键回滚数据
+开源里面UI最好、最容易上手的、中台 、SAAS 、 多租户功能、最最少的代码实现功能
 
 [文档地址](https://www.yuque.com/books/share/c5467c7b-ae67-4d3e-a6cd-541ce5a90bb7?#《wemirr-platform-doc》) 
 
 [配套前端](https://gitee.com/battcn/wemirr-platform-ui) 配套的 UI 
 
 [Nepxion-Discovery](https://github.com/Nepxion/Discovery) 蓝绿、灰度、流量保护
-
-[d2-curd-plus](http://greper.gitee.io/d2-crud-plus) 前端的 CRUD 
 
 [OpenAPi3](https://springdoc.org/) Swagger 标准版
 
@@ -63,7 +64,7 @@
 [Oauth2.0](https://www.ruanyifeng.com/blog/2019/04/github-oauth.html) OAuth2.0 知识点
 
 
-#### 软件架构
+### 软件架构
 
 Vue、Spring Cloud Alibaba 2.2.5.RELEASE、Spring Cloud Hoxton.SR11、Nacos、Sentinel、
 Nepxion、Mybatis-Plus、多租户、灰度、Oauth2.0、Spring Security、Redis、Mysql、MongoDB、
@@ -75,11 +76,7 @@ ShardingJdbc、ShardingSphere
 - **`日志量小的话可以写到库`**
 - **`日志量大可以分表分库记录埋点日志，定期清理`**
 
-
-#### 多端登录
-
-
-#### 注意事项
+### 注意事项
 
 **如果需要使用低码平台，需要安装 MongoDB 的支持**
 
