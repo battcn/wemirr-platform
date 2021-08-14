@@ -110,6 +110,10 @@ docker  run --name nacos -d-p 8848:8848 --restart=always -e MODE=standalone
 安装 RabbitMQ
 docker pull docker.io/macintoshplus/rabbitmq-management
 docker run -d  -p 5671:5671 -p 5672:5672  -p 15672:15672 -p 15671:15671  -p 25672:25672  rabbitmq_image_id
+
+安装 XXL-JOB-ADMIN(暂时不行没找到好方法,自己fork代码执行) 配置外网IP应该可以
+docker pull xuxueli/xxl-job-admin:2.3.0
+docker run -e PARAMS="--spring.datasource.username=root --spring.datasource.password=123456 --spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver --spring.datasource.url=jdbc:mysql://127.0.0.1:3306/wemirr-platform?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true" -p 9999:8080 -v /Users/battcn/Development:/data/applogs --name xxl-job-admin  -d xuxueli/xxl-job-admin:2.3.0
 ```
 
 

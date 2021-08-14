@@ -31,6 +31,7 @@
         <module>swagger-framework-starter</module>
         <module>websocket-framework-starter</module>
         <module>storage-framework-starter</module>
+        <module>xxl-job-framework-starter</module>
     </modules>
 
     <distributionManagement>
