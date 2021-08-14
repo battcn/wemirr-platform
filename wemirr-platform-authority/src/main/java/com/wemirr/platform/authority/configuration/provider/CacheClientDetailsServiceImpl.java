@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -33,8 +34,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CacheClientDetailsServiceImpl implements ClientDetailsService {
 
-    private final PasswordEncoder passwordEncoder;
-    private final OAuthClientDetailsMapper oAuthClientDetailsMapper;
+    @Resource
+    private PasswordEncoder passwordEncoder;
+    @Resource
+    private OAuthClientDetailsMapper oAuthClientDetailsMapper;
 
     @SneakyThrows
     @Override

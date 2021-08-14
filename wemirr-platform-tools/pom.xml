@@ -19,6 +19,10 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>xxl-job-framework-starter</artifactId>
+        </dependency>
         <!--<dependency>
             <groupId>com.nepxion</groupId>
             <artifactId>discovery-plugin-register-center-starter-nacos</artifactId>

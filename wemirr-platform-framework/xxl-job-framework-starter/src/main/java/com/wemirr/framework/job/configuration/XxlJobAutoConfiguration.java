@@ -6,13 +6,14 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 
 /**
  * @author Levin
  */
 @Slf4j
-@Data
 @EnableConfigurationProperties(XxlJobProperties.class)
+@Order(9999)
 public class XxlJobAutoConfiguration {
 
     @Bean
