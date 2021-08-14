@@ -26,13 +26,13 @@ public class DemoJobHandler {
      */
     @XxlJob("demoJobHandler")
     public void demoJobHandler() throws Exception {
-        XxlJobHelper.log("XXL-JOB, Hello World.");
-
+        XxlJobHelper.log("================= 内置日志开始 =================");
         for (int i = 0; i < 5; i++) {
-            XxlJobHelper.log("beat at:" + i);
+            XxlJobHelper.log("我是tools程序输出的日志哦 beat at:" + i);
             TimeUnit.SECONDS.sleep(2);
         }
-        // default success
+        XxlJobHelper.log("================= 内置日志结束 =================");
+        // ReturnT.SUCCESS 也可以
     }
 
     /**
