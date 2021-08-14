@@ -5,28 +5,21 @@ import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.configuration.dynamic.event.body.EventAction;
 import com.wemirr.framework.database.configuration.dynamic.event.body.TenantDynamicDatasource;
 import com.wemirr.framework.database.configuration.dynamic.feign.TenantFeignClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * @author levin
  */
 @Slf4j
-@ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "strategy", havingValue = "feign")
-@AutoConfigureAfter(TenantDynamicDatasourceEventBusAutoConfiguration.class)
-public class TenantDynamicDatasourceLoadAutoConfiguration {
+@RequiredArgsConstructor
+public class TenantDynamicDataSourceLoad {
 
-    @Resource
-    private TenantDynamicDataSourceProcess tenantDynamicDataSourceProcess;
-    @Resource
-    private TenantFeignClient tenantFeignClient;
+    private final TenantDynamicDataSourceProcess tenantDynamicDataSourceProcess;
+    private final TenantFeignClient tenantFeignClient;
 
-    @PostConstruct
     public void init() {
         log.debug("extend.mybatis-plus.multi-tenant.strategy eq feign , pull dynamic begin...");
         final Result<List<TenantDynamicDatasource>> result = tenantFeignClient.selectAll();

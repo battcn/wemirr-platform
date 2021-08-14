@@ -9,6 +9,7 @@ import com.wemirr.framework.database.SpringUtils;
 import com.wemirr.framework.database.TenantEnvironment;
 import com.wemirr.framework.database.configuration.dynamic.event.DynamicDatasourceEvent;
 import com.wemirr.framework.database.configuration.dynamic.event.DynamicDatasourceEventListener;
+import com.wemirr.framework.database.configuration.dynamic.feign.TenantFeignClient;
 import com.wemirr.framework.database.properties.DatabaseProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInvocation;
@@ -32,7 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 @Configuration
 @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "type", havingValue = "datasource")
 @RemoteApplicationEventScan(basePackageClasses = DynamicDatasourceEvent.class)
-public class TenantDynamicDatasourceEventBusAutoConfiguration {
+public class TenantDynamicDataSourceEventBusAutoConfiguration {
 
 
     @Bean
@@ -43,6 +44,12 @@ public class TenantDynamicDatasourceEventBusAutoConfiguration {
     @Bean
     public ApplicationListener<DynamicDatasourceEvent> dynamicDatasourceEventListener(TenantDynamicDataSourceProcess process) {
         return new DynamicDatasourceEventListener(process);
+    }
+
+    @Bean(initMethod = "init")
+    @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "strategy", havingValue = "feign")
+    public TenantDynamicDataSourceLoad tenantDynamicDataSourceLoad(TenantDynamicDataSourceProcess process, TenantFeignClient tenantFeignClient) {
+        return new TenantDynamicDataSourceLoad(process, tenantFeignClient);
     }
 
     @Bean

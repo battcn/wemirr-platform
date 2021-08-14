@@ -10,7 +10,6 @@ import com.wemirr.framework.database.configuration.dynamic.event.body.EventActio
 import com.wemirr.framework.database.configuration.dynamic.event.body.TenantDynamicDatasource;
 import com.wemirr.framework.database.properties.DatabaseProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +24,6 @@ import java.util.Set;
  * @author Levin
  */
 @Slf4j
-@Component
 public class TenantDynamicDataSourceProcess {
 
     private static final String CREATE_DATABASE_SCRIPT = "CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
