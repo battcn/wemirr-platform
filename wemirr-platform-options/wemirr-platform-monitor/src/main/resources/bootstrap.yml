@@ -38,8 +38,3 @@ spring:
   boot:
     admin:
       context-path: /monitor
-#server:
-#  ssl:
-#    enabled: true
-#    key-store: /opt/wemirr-platform/4869096_cloud.battcn.com_tomcat/4869096_cloud.battcn.com.pfx
-#    key-store-password: 0w1O2S8f
