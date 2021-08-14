@@ -226,7 +226,7 @@ public class SysLogAspect {
             final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
             if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
                 String dsKey = request.getHeader(multiTenant.getTenantCodeColumn());
-                sysLog.setDsKey(dsKey);
+                sysLog.setDsKey(multiTenant.getDsPrefix() + dsKey);
             }
 //            sysLog.setTrace(MDC.get(BaseContextConstants.LOG_TRACE_ID));
 

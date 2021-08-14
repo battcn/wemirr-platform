@@ -49,7 +49,6 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         Throwable error = super.getError(request);
         final String message = error.getMessage();
         if (StringUtils.contains(message, UNABLE_ERROR)) {
-            log.warn("[调用内部服务失败] - [{}]", message);
             return response(HttpStatus.NOT_FOUND.value(), "网络异常，请稍后再试");
         }
         if (error instanceof ParamFlowException) {

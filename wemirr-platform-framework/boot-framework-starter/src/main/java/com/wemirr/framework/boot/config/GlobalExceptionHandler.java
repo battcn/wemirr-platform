@@ -4,18 +4,13 @@ package com.wemirr.framework.boot.config;
 import com.baomidou.dynamic.datasource.exception.CannotFindDataSourceException;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.netflix.client.ClientException;
-import com.netflix.hystrix.exception.HystrixRuntimeException;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.entity.enums.CommonError;
 import com.wemirr.framework.commons.exception.CheckedException;
 import feign.RetryableException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
@@ -27,8 +22,6 @@ import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -42,12 +35,10 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.UnexpectedTypeException;
 import javax.validation.ValidationException;
 import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
-import java.util.List;
 
 /**
  * @author Levin
@@ -56,10 +47,6 @@ import java.util.List;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
-    @Autowired(required = false)
-    private DiscoveryClient discoveryClient;
-
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
@@ -110,20 +97,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String DISABLED_TEXT = "User is disabled";
 
 
-    @ExceptionHandler(OAuth2Exception.class)
-    @ResponseBody
-    public final ResponseEntity<Result<?>> oAuth2Exception(OAuth2Exception e, HttpServletResponse response) {
-        log.error("[错误内容]", e);
-        if (e instanceof InvalidGrantException) {
-            log.warn("[error message] - [{}]", e.getMessage());
-            InvalidGrantException exception = (InvalidGrantException) e;
-            if (exception.getMessage().contains(DISABLED_TEXT)) {
-                return new ResponseEntity<>(Result.fail(e.getHttpErrorCode(), "用户已禁用"), HttpStatus.OK);
-            }
-            return new ResponseEntity<>(Result.fail(e.getHttpErrorCode(), "账号或密码错误"), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(Result.fail(e.getHttpErrorCode(), e.getMessage()), HttpStatus.OK);
-    }
+//    @ExceptionHandler(OAuth2Exception.class)
+//    @ResponseBody
+//    public final ResponseEntity<Result<?>> oAuth2Exception(OAuth2Exception e, HttpServletResponse response) {
+//        log.error("[错误内容]", e);
+//        if (e instanceof InvalidGrantException) {
+//            log.warn("[error message] - [{}]", e.getMessage());
+//            InvalidGrantException exception = (InvalidGrantException) e;
+//            if (exception.getMessage().contains(DISABLED_TEXT)) {
+//                return new ResponseEntity<>(Result.fail(e.getHttpErrorCode(), "用户已禁用"), HttpStatus.OK);
+//            }
+//            return new ResponseEntity<>(Result.fail(e.getHttpErrorCode(), "账号或密码错误"), HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(Result.fail(e.getHttpErrorCode(), e.getMessage()), HttpStatus.OK);
+//    }
 
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseBody
@@ -200,33 +187,33 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return Result.fail(e.getMessage());
     }
 
-    @ExceptionHandler(HystrixRuntimeException.class)
-    @ResponseBody
-    public final Result<ResponseEntity<Void>> hystrixRuntimeException(HystrixRuntimeException e) {
-        if (e.getCause() instanceof RuntimeException) {
-            RuntimeException runtimeException = (RuntimeException) e.getCause();
-            if (runtimeException.getCause() instanceof ClientException) {
-                ClientException clientException = (ClientException) runtimeException.getCause();
-                List<String> services = discoveryClient.getServices();
-                for (String serviceId : services) {
-                    String message = clientException.getMessage();
-                    if (StringUtils.contains(message, serviceId)) {
-                        log.warn("[服务访问失败] - [{}] - [错误信息] - [{}]", serviceId, message);
-                        return Result.fail(CommonError.INNER_SERVICE_ERROR);
-                    }
-                }
-            }
-        }
-        log.warn("[服务调用失败] - [{}]", e.getMessage());
-        return Result.fail("服务响应失败，请稍后再试");
-    }
-
-    @ExceptionHandler(ClientException.class)
-    @ResponseBody
-    public final Result<ResponseEntity<Void>> clientException(ClientException e) {
-        log.error("内部服务响应失败", e);
-        return Result.fail(CommonError.INNER_SERVICE_ERROR);
-    }
+//    @ExceptionHandler(HystrixRuntimeException.class)
+//    @ResponseBody
+//    public final Result<ResponseEntity<Void>> hystrixRuntimeException(HystrixRuntimeException e) {
+//        if (e.getCause() instanceof RuntimeException) {
+//            RuntimeException runtimeException = (RuntimeException) e.getCause();
+//            if (runtimeException.getCause() instanceof ClientException) {
+//                ClientException clientException = (ClientException) runtimeException.getCause();
+//                List<String> services = discoveryClient.getServices();
+//                for (String serviceId : services) {
+//                    String message = clientException.getMessage();
+//                    if (StringUtils.contains(message, serviceId)) {
+//                        log.warn("[服务访问失败] - [{}] - [错误信息] - [{}]", serviceId, message);
+//                        return Result.fail(CommonError.INNER_SERVICE_ERROR);
+//                    }
+//                }
+//            }
+//        }
+//        log.warn("[服务调用失败] - [{}]", e.getMessage());
+//        return Result.fail("服务响应失败，请稍后再试");
+//    }
+//
+//    @ExceptionHandler(ClientException.class)
+//    @ResponseBody
+//    public final Result<ResponseEntity<Void>> clientException(ClientException e) {
+//        log.error("内部服务响应失败", e);
+//        return Result.fail(CommonError.INNER_SERVICE_ERROR);
+//    }
 
 
 //    @ExceptionHandler(ExcelAnalysisException.class)

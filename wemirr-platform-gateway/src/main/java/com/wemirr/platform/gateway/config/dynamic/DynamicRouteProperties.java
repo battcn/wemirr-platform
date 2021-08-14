@@ -18,7 +18,7 @@ public class DynamicRouteProperties {
     @Data
     public static class DynamicRoute {
         private Boolean enabled = false;
-        private DataType dataType = DataType.redis;
+        private DataType type = DataType.redis;
     }
 
     @AllArgsConstructor

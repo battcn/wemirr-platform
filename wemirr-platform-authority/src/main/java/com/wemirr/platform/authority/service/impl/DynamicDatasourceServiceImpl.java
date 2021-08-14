@@ -16,7 +16,7 @@ import com.wemirr.platform.authority.repository.TenantConfigMapper;
 import com.wemirr.platform.authority.service.DynamicDatasourceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.bus.BusProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +39,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
 
     private final TenantConfigMapper tenantConfigMapper;
     private final ApplicationEventPublisher eventPublisher;
-    private final BusProperties busProperties;
+    private final ApplicationContext applicationContext;
 
     @Override
     public List<TenantDynamicDatasourceVO> selectTenantDynamicDatasource() {
@@ -105,7 +105,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
             throw CheckedException.notFound("租户未关联数据源信息");
         }
         final TenantDynamicDatasource datasource = TENANT_DYNAMIC_DATASOURCE_VO_2_TENANT_DYNAMIC_DATASOURCE_CONVERTS.convert(dynamicDatasource);
-        eventPublisher.publishEvent(new DynamicDatasourceEvent(this, busProperties.getId(), datasource, action.getType()));
+        eventPublisher.publishEvent(new DynamicDatasourceEvent(this, applicationContext.getId(), datasource, action.getType()));
         log.debug("event publish successful - {}", datasource);
     }
 }

@@ -22,28 +22,28 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(DynamicRouteProperties.class)
-@ConditionalOnProperty(prefix = "spring.cloud.gateway", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.cloud.gateway", name = "enabled", havingValue = "true",matchIfMissing = true)
 public class DynamicRouteAutoConfiguration {
 
     private final ApplicationEventPublisher publisher;
 
 
     @Bean
-    @ConditionalOnProperty(prefix = "spring.cloud.gateway.dynamic-route", name = "dataType", havingValue = "redis", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "spring.cloud.gateway.dynamic-route", name = "type", havingValue = "redis", matchIfMissing = true)
     public RedisRouteDefinitionRepository redisRouteDefinitionRepository(StringRedisTemplate redisTemplate) {
         log.info(" init redisRouteDefinitionRepository ");
         return new RedisRouteDefinitionRepository(redisTemplate);
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "spring.cloud.gateway.dynamic-route", name = "dataType", havingValue = "redis", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "spring.cloud.gateway.dynamic-route", name = "type", havingValue = "redis", matchIfMissing = true)
     public RedisRouteDynamicGatewayService redisRouteDynamicGatewayService(RedisRouteDefinitionRepository redisRouteDefinitionRepository) {
         log.info(" init redisRouteDynamicGatewayService ");
         return new RedisRouteDynamicGatewayService(publisher, redisRouteDefinitionRepository);
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "spring.cloud.gateway.dynamic-route", name = "dataType", havingValue = "nacos")
+    @ConditionalOnProperty(prefix = "spring.cloud.gateway.dynamic-route", name = "type", havingValue = "nacos")
     public NacosRouteDefinitionRepository nacosRouteDefinitionRepository(NacosConfigManager nacosConfigManager) {
         log.info(" init nacosRouteDefinitionRepository ");
         return new NacosRouteDefinitionRepository(publisher, nacosConfigManager);

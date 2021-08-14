@@ -82,7 +82,8 @@ public class TenantDynamicDataSourceEventBusAutoConfiguration {
                     String tenantCode = tenantEnvironment.tenantCode();
                     return getTenantDB(request, multiTenant, tenantCode);
                 }
-                String tenantCode = request.getHeader(key.substring(8));
+                String name = key.substring(8);
+                String tenantCode = StringUtils.defaultIfBlank(request.getHeader(name), request.getParameter(name));
                 return getTenantDB(request, multiTenant, tenantCode);
             }
         };
