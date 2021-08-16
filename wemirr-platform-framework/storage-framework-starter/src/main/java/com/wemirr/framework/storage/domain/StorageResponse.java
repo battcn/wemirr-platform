@@ -58,8 +58,10 @@ public class StorageResponse implements java.io.Serializable {
         }
     }
 
+    private static final String separator = "/";
+
     public static String buildFullUrl(String mappingPath, String targetName) {
-        if (mappingPath.endsWith("/") && targetName.startsWith("/")) {
+        if (mappingPath.endsWith(separator) && targetName.startsWith(separator)) {
             mappingPath = mappingPath.substring(0, mappingPath.length() - 1);
         }
         return StringUtils.join(mappingPath, targetName);

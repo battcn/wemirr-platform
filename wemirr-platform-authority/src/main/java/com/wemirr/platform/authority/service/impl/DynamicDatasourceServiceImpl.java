@@ -94,12 +94,6 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
         publishEvent(action, dynamicDatasource);
     }
 
-    @Override
-    public void initSqlScript() {
-
-
-    }
-
     private void publishEvent(EventAction action, TenantDynamicDatasourceVO dynamicDatasource) {
         if (Objects.isNull(dynamicDatasource)) {
             throw CheckedException.notFound("租户未关联数据源信息");

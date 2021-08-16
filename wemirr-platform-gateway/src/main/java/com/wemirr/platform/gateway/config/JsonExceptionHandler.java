@@ -7,7 +7,7 @@ import com.wemirr.platform.gateway.config.rule.BlacklistHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
-import org.springframework.boot.autoconfigure.web.ResourceProperties;
+import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
@@ -31,10 +31,10 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
     private final BlacklistHelper blacklistHelper;
 
     JsonExceptionHandler(ErrorAttributes errorAttributes, BlacklistHelper blacklistHelper,
-                         ResourceProperties resourceProperties,
+                         WebProperties webProperties,
                          ErrorProperties errorProperties,
                          ApplicationContext applicationContext) {
-        super(errorAttributes, resourceProperties, errorProperties, applicationContext);
+        super(errorAttributes, webProperties.getResources(), errorProperties, applicationContext);
         this.blacklistHelper = blacklistHelper;
     }
 

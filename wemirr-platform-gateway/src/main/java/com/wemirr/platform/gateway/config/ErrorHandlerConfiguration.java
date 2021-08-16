@@ -3,8 +3,8 @@ package com.wemirr.platform.gateway.config;
 
 import com.wemirr.platform.gateway.config.rule.BlacklistHelper;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -25,35 +25,35 @@ import java.util.List;
  * @author Levin
  */
 @Configuration
-@EnableConfigurationProperties({ServerProperties.class, ResourceProperties.class})
+@EnableConfigurationProperties({ServerProperties.class, WebProperties.class})
 public class ErrorHandlerConfiguration {
 
     private final BlacklistHelper blacklistHelper;
     private final ServerProperties serverProperties;
     private final ApplicationContext applicationContext;
-    private final ResourceProperties resourceProperties;
     private final List<ViewResolver> viewResolvers;
+    private final WebProperties webProperties;
     private final ServerCodecConfigurer serverCodecConfigurer;
 
     public ErrorHandlerConfiguration(ServerProperties serverProperties,
                                      BlacklistHelper blacklistHelper,
-                                     ResourceProperties resourceProperties,
+                                     WebProperties webProperties,
                                      ObjectProvider<List<ViewResolver>> viewResolversProvider,
                                      ServerCodecConfigurer serverCodecConfigurer,
                                      ApplicationContext applicationContext) {
         this.serverProperties = serverProperties;
         this.blacklistHelper = blacklistHelper;
         this.applicationContext = applicationContext;
-        this.resourceProperties = resourceProperties;
         this.viewResolvers = viewResolversProvider.getIfAvailable(Collections::emptyList);
         this.serverCodecConfigurer = serverCodecConfigurer;
+        this.webProperties = webProperties;
     }
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public ErrorWebExceptionHandler errorWebExceptionHandler(ErrorAttributes errorAttributes) {
         JsonExceptionHandler exceptionHandler = new JsonExceptionHandler(errorAttributes, blacklistHelper,
-                this.resourceProperties, this.serverProperties.getError(), this.applicationContext);
+                this.webProperties, this.serverProperties.getError(), this.applicationContext);
         exceptionHandler.setViewResolvers(this.viewResolvers);
         exceptionHandler.setMessageWriters(this.serverCodecConfigurer.getWriters());
         exceptionHandler.setMessageReaders(this.serverCodecConfigurer.getReaders());

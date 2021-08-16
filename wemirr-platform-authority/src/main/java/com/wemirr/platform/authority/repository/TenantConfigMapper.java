@@ -22,6 +22,12 @@ public interface TenantConfigMapper extends SuperMapper<TenantConfig> {
      */
     List<TenantDynamicDatasourceVO> selectTenantDynamicDatasource(@Param("datasourceId") Long datasourceId);
 
+    /**
+     * 获取租户动态数据源
+     *
+     * @param tenantId tenantId
+     * @return 查询结果
+     */
     TenantDynamicDatasourceVO getTenantDynamicDatasourceByTenantId(Long tenantId);
 
 }

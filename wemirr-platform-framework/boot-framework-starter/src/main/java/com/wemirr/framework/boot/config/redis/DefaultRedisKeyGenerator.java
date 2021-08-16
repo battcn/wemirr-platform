@@ -4,12 +4,12 @@ package com.wemirr.framework.boot.config.redis;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Objects;
 
 /**
  * 默认的Key生成器
@@ -33,7 +33,7 @@ public class DefaultRedisKeyGenerator implements RedisKeyGenerator {
             }
             builder.append(delimiter).append(args[i]);
         }
-        if (StringUtils.isEmpty(builder.toString())) {
+        if (Objects.isNull(builder)) {
             final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
             for (int i = 0; i < parameterAnnotations.length; i++) {
                 final Object object = args[i];

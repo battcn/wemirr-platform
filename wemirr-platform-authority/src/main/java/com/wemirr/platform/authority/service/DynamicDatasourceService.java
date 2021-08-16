@@ -26,6 +26,4 @@ public interface DynamicDatasourceService extends SuperService<DynamicDatasource
     void removeDatabaseById(Long id);
 
     void publishEvent(EventAction action, Long tenantId);
-
-    void initSqlScript();
 }

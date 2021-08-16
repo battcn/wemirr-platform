@@ -10,10 +10,7 @@ import com.qiniu.util.StringMap;
 import com.wemirr.framework.storage.cloud.qiniu.QiNiuScope;
 import com.wemirr.framework.storage.properties.QiNiuStorageProperties;
 import lombok.AllArgsConstructor;
-import org.springframework.cglib.beans.BeanCopier;
-import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
@@ -81,13 +78,21 @@ public class QiNiuOssClientConnectionFactory implements QiNiuConnectionFactory {
         return getUploadToken(bucket, key, QiNiuScope.DEFAULT);
     }
 
-    // 指定上传的目标资源空间 Bucket 和资源键 Key（最大为 750 字节）。有三种格式：
-    // <bucket>，表示允许用户上传文件到指定的bucket。
-    // 在这种格式下文件只能新增，若已存在同名资源（且文件内容/etag不一致），上传会失败；若已存在资源的内容/etag一致，则上传会返回成功。
-    // <bucket>:<key>，表示只允许用户上传指定 key 的文件。在这种格式下文件默认允许修改，若已存在同名资源则会被覆盖。如果只希望上传指定
-    // key 的文件，并且不允许修改，那么可以将下面的 insertOnly 属性值设为 1。
-    // <bucket>:<keyPrefix>，表示只允许用户上传指定以 keyPrefix 为前缀的文件，当且仅当 isPrefixalScope
-    // 字段为 1 时生效，isPrefixalScope 为 1 时无法覆盖上传。
+    /**
+     * // 指定上传的目标资源空间 Bucket 和资源键 Key（最大为 750 字节）。有三种格式：
+     * // <bucket>，表示允许用户上传文件到指定的bucket。
+     * // 在这种格式下文件只能新增，若已存在同名资源（且文件内容/etag不一致），上传会失败；若已存在资源的内容/etag一致，则上传会返回成功。
+     * // <bucket>:<key>，表示只允许用户上传指定 key 的文件。在这种格式下文件默认允许修改，若已存在同名资源则会被覆盖。如果只希望上传指定
+     * // key 的文件，并且不允许修改，那么可以将下面的 insertOnly 属性值设为 1。
+     * // <bucket>:<keyPrefix>，表示只允许用户上传指定以 keyPrefix 为前缀的文件，当且仅当 isPrefixalScope
+     * // 字段为 1 时生效，isPrefixalScope 为 1 时无法覆盖上传。
+     *
+     * @param strategy strategy
+     * @param scope    scope
+     * @param bucket   bucket
+     * @param key      key
+     * @param policy   policy
+     */
     private void applyScope(QiNiuStorageProperties.QiNiuStrategy strategy, QiNiuScope scope, String bucket, String key, StringMap policy) {
         if (QiNiuScope.REPLACE.equals(scope)) {
             policy.put("scope", bucket + ":" + key);
@@ -99,19 +104,6 @@ public class QiNiuOssClientConnectionFactory implements QiNiuConnectionFactory {
         } else {
             policy.put("scope", bucket);
         }
-    }
-
-    private void clone(QiNiuStorageProperties.QiNiuStrategy source, QiNiuStorageProperties.QiNiuStrategy strategy) {
-        BeanCopier copier = BeanCopier.create(QiNiuStorageProperties.QiNiuStrategy.class, QiNiuStorageProperties.QiNiuStrategy.class, true);
-        copier.copy(source, strategy, (value, target, setterMethod) -> {
-            String getterMethodName = ((String) setterMethod).replace("set", "get");
-            if (value == null) {
-                Method getterMethod = ReflectionUtils.findMethod(QiNiuStorageProperties.QiNiuStrategy.class, getterMethodName);
-                ReflectionUtils.makeAccessible(getterMethod);
-                return ReflectionUtils.invokeMethod(getterMethod, strategy);
-            }
-            return value;
-        });
     }
 
     private StringMap createPolicy(QiNiuStorageProperties.QiNiuStrategy strategy) {

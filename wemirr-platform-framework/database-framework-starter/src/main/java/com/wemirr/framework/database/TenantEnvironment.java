@@ -8,6 +8,11 @@ package com.wemirr.framework.database;
  */
 public interface TenantEnvironment {
 
+    /**
+     * 租户编码
+     *
+     * @return 租户编码
+     */
     default String tenantCode() {
         return null;
     }

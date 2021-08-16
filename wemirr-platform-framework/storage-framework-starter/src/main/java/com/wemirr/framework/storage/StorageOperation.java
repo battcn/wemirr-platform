@@ -43,10 +43,25 @@ public interface StorageOperation {
     AtomicLong FILE_GET_COUNTS = new AtomicLong();
     AtomicLong FILE_DELETE_COUNTS = new AtomicLong();
 
+    /**
+     * 获取临时token
+     *
+     * @param originName originName
+     * @param random     random
+     * @return token
+     */
     default String token(String originName, boolean random) {
         return null;
     }
 
+    /**
+     * 获取临时token
+     *
+     * @param bucket     bucket
+     * @param originName originName
+     * @param random     random
+     * @return token
+     */
     default String token(String bucket, String originName, boolean random) {
 
         return null;
@@ -206,14 +221,36 @@ public interface StorageOperation {
         return FileUtils.targetName(request.isRandomName(), prefix, request.getOriginName());
     }
 
+    /**
+     * 上传失败异常
+     *
+     * @param type    type
+     * @param message message
+     * @return StorageException
+     * @see StorageException
+     */
     default StorageException uploadError(BaseStorageProperties.StorageType type, String message) {
         return new StorageException(type, message);
     }
 
+    /**
+     * 上传失败异常
+     *
+     * @param type type
+     * @return StorageException
+     * @see StorageException
+     */
     default StorageException uploadError(BaseStorageProperties.StorageType type, Exception e) {
         return new StorageException(type, "文件上传失败," + e.getMessage());
     }
 
+    /**
+     * 下载失败异常
+     *
+     * @param type type
+     * @return StorageException
+     * @see StorageException
+     */
     default StorageException downloadError(BaseStorageProperties.StorageType type, Exception e) {
         return new StorageException(type, "文件下载失败," + e.getMessage());
     }

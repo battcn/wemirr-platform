@@ -30,6 +30,7 @@ public interface BaseConverts<S, T> {
      * 类型转换
      *
      * @param source 原对象
+     * @param id     ID
      * @return 目标对象
      */
     default T convert(S source, Long id) {
