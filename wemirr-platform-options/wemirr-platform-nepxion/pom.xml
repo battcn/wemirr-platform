@@ -11,7 +11,7 @@
     <artifactId>wemirr-platform-nepxion</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>wemirr-platform-nepxion</name>
-    <description>wemirr nepxion 测试模块</description>
+    <description>wemirr 中间件测试模块</description>
     <packaging>jar</packaging>
 
     <properties>
@@ -20,6 +20,25 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>database-framework-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.camunda.bpm.springboot</groupId>
+            <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
+            <version>7.15.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.camunda.bpm.springboot</groupId>
+            <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
+            <version>7.15.0</version>
+        </dependency>
+
+        <!--<dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.200</version>
@@ -43,7 +62,7 @@
         <dependency>
             <groupId>com.nepxion</groupId>
             <artifactId>discovery-plugin-register-center-starter-nacos</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>

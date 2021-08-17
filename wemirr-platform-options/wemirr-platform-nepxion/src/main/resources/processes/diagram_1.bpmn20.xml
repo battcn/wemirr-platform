@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0vl15c1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.2.0">
+    <bpmn:process id="Process_007jh58" isExecutable="true">
+        <bpmn:startEvent id="StartEvent_1">
+            <bpmn:outgoing>Flow_1l7o4ts</bpmn:outgoing>
+        </bpmn:startEvent>
+        <bpmn:sequenceFlow id="Flow_1l7o4ts" sourceRef="StartEvent_1" targetRef="Activity_1almw37" />
+        <bpmn:exclusiveGateway id="Gateway_1l7w1cq">
+            <bpmn:incoming>Flow_05ef0ej</bpmn:incoming>
+            <bpmn:outgoing>Flow_16oi0x8</bpmn:outgoing>
+            <bpmn:outgoing>Flow_1yq2gkb</bpmn:outgoing>
+        </bpmn:exclusiveGateway>
+        <bpmn:sequenceFlow id="Flow_16oi0x8" name="小于等于7天" sourceRef="Gateway_1l7w1cq" targetRef="Activity_0kms1lj">
+            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ts &lt;= 7}</bpmn:conditionExpression>
+        </bpmn:sequenceFlow>
+        <bpmn:sequenceFlow id="Flow_1yq2gkb" name="大于七天" sourceRef="Gateway_1l7w1cq" targetRef="Activity_0uw0hfc">
+            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ts &gt; 7}</bpmn:conditionExpression>
+        </bpmn:sequenceFlow>
+        <bpmn:exclusiveGateway id="Gateway_1sx3v29">
+            <bpmn:incoming>Flow_0808fzz</bpmn:incoming>
+            <bpmn:incoming>Flow_0y6yarx</bpmn:incoming>
+            <bpmn:outgoing>Flow_122u7os</bpmn:outgoing>
+        </bpmn:exclusiveGateway>
+        <bpmn:sequenceFlow id="Flow_0808fzz" sourceRef="Activity_0kms1lj" targetRef="Gateway_1sx3v29" />
+        <bpmn:sequenceFlow id="Flow_0y6yarx" sourceRef="Activity_0uw0hfc" targetRef="Gateway_1sx3v29" />
+        <bpmn:userTask id="Activity_1almw37" name="申请人" camunda:assignee="sqr">
+            <bpmn:incoming>Flow_1l7o4ts</bpmn:incoming>
+            <bpmn:outgoing>Flow_15p6u4g</bpmn:outgoing>
+        </bpmn:userTask>
+        <bpmn:sequenceFlow id="Flow_15p6u4g" sourceRef="Activity_1almw37" targetRef="Activity_1wm4vx9" />
+        <bpmn:sequenceFlow id="Flow_05ef0ej" sourceRef="Activity_1wm4vx9" targetRef="Gateway_1l7w1cq" />
+        <bpmn:sequenceFlow id="Flow_122u7os" sourceRef="Gateway_1sx3v29" targetRef="Activity_01orex7" />
+        <bpmn:endEvent id="Event_0cuwhfb">
+            <bpmn:incoming>Flow_0zfntyp</bpmn:incoming>
+        </bpmn:endEvent>
+        <bpmn:sequenceFlow id="Flow_0zfntyp" sourceRef="Activity_01orex7" targetRef="Event_0cuwhfb" />
+        <bpmn:userTask id="Activity_1wm4vx9" name="申请人上级" camunda:assignee="sjld">
+            <bpmn:incoming>Flow_15p6u4g</bpmn:incoming>
+            <bpmn:outgoing>Flow_05ef0ej</bpmn:outgoing>
+        </bpmn:userTask>
+        <bpmn:userTask id="Activity_0kms1lj" name="人事经理" camunda:assignee="rsjl">
+            <bpmn:incoming>Flow_16oi0x8</bpmn:incoming>
+            <bpmn:outgoing>Flow_0808fzz</bpmn:outgoing>
+        </bpmn:userTask>
+        <bpmn:userTask id="Activity_0uw0hfc" name="人事总监" camunda:assignee="rszj">
+            <bpmn:incoming>Flow_1yq2gkb</bpmn:incoming>
+            <bpmn:outgoing>Flow_0y6yarx</bpmn:outgoing>
+        </bpmn:userTask>
+        <bpmn:userTask id="Activity_01orex7" name="归档" camunda:assignee="sqr">
+            <bpmn:incoming>Flow_122u7os</bpmn:incoming>
+            <bpmn:outgoing>Flow_0zfntyp</bpmn:outgoing>
+        </bpmn:userTask>
+    </bpmn:process>
+</bpmn:definitions>

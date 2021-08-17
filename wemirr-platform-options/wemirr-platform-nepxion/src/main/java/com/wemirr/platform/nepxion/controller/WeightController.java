@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Validated
 public class WeightController {
 
-    @Value("${spring.cloud.nacos.discovery.metadata.version}")
+    @Value("${spring.cloud.nacos.discovery.metadata.version:1.0}")
     private String version;
     private final AtomicInteger atomicInteger = new AtomicInteger(1);
 
