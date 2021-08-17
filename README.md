@@ -27,6 +27,7 @@ ShardingJdbc、ShardingSphere
 - 动态网关：支持页面配置(`Redis`)与 `Nacos` 两种推送方式、动态开启关闭网关路由
 - 网关管理：支持流量控制、拉黑名单等
 - 消息总线：使用 `RabbitMq` 做总线用于支持`动态数据`源消息广播
+- 插拔组件：除去必要工程，可选的都在 `options` 按需使用
 - 大道至简：代码优雅、简短、不管是开发前端还是后端,快就完事了，下面给出一个简单的示例
 - 分布式任务：整合 `xxl-job` 提供分布式调度任务功能
 - 工作流：集成 `camunda-bpm` 工作流（暂未实现UI nepxion 已提供工作流案例）
@@ -42,7 +43,9 @@ ShardingJdbc、ShardingSphere
 
 ## 效果图
 
-![监控](./images/skywalking.png)
+![监控-1](./images/skywalking.png)
+
+![监控-2](./images/skywalking-2.png)
 
 ![分配用户](./images/binding_user.png)
 
@@ -98,6 +101,10 @@ ShardingJdbc、ShardingSphere
 
 一般安装 `latest` 版本即可，也可以自行指定版本 `docker search` 或者自己上 `docker hub` 看版本
 
+如果 `docker` 运行开发环境，建议先创建一个网络 `docker network create wemirr` 后面容器都走统一网络 
+
+> 具体用法: **`docker run --net wemirr --name xxx`**
+
 **如果需要体验低码平台一键发布需要安装 `MongoDB` 除此之外其它中间件是必须的**
 
 
@@ -122,27 +129,33 @@ docker  run --name nacos -d-p 8848:8848 --restart=always -e MODE=standalone
 docker pull docker.io/macintoshplus/rabbitmq-management
 docker run -d  -p 5671:5671 -p 5672:5672  -p 15672:15672 -p 15671:15671  -p 25672:25672  rabbitmq_image_id
 
-安装 XXL-JOB-ADMIN(暂时不行没找到好方法,自己fork代码执行) 配置外网IP应该可以
+安装 XXL-JOB-ADMIN(如果数据库也是docker 运行需要配置统一网络 例如： docker network create wemirr )
 docker pull xuxueli/xxl-job-admin:2.3.0
 docker run -e PARAMS="--spring.datasource.username=root --spring.datasource.password=123456 --spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver --spring.datasource.url=jdbc:mysql://127.0.0.1:3306/wemirr-platform?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true" -p 9999:8080 -v /Users/battcn/Development:/data/applogs --name xxl-job-admin  -d xuxueli/xxl-job-admin:2.3.0
 
 安装 skywalking
 
-docker pull apache/skywalking-oap-server:8.7.0-es7
-docker pull apache/skywalking-ui:8.7.0
+# 8.7.0 启动有问题
+
+docker pull elasticsearch:7.9.3
+docker pull apache/skywalking-oap-server:8.5.0-es7
+docker pull apache/skywalking-ui:8.5.0
 
 # 如果要后台运行 请加 -d 
 docker network create wemirr
 docker run --name elasticsearch --net wemirr -p 9200:9200 -p 9300:9300 -d -e "discovery.type=single-node" elasticsearch:7.9.3
-docker run --name oap --net wemirr --restart always -p 1234:1234 -p 12800:12800 -p 11800:11800 -d -e SW_STORAGE=elasticsearch7 -e SW_STORAGE_ES_CLUSTER_NODES=elasticsearch:9200 apache/skywalking-oap-server:8.7.0-es7
-# 8.7.0 启动有问题，版本回退一下就可以
-docker run --name oap-ui --net wemirr --restart always -p 10086:8080 -d -e TZ=Asia/Shanghai -e SW_OAP_ADDRESS=oap:12800 apache/skywalking-ui:8.2.0
+docker run --name oap --net wemirr --restart always -p 1234:1234 -p 12800:12800 -p 11800:11800 -d -e SW_STORAGE=elasticsearch7 -e SW_STORAGE_ES_CLUSTER_NODES=elasticsearch:9200 apache/skywalking-oap-server:8.5.0-es7
+docker run --name oap-ui --net wemirr --restart always -p 10086:8080 -d -e TZ=Asia/Shanghai -e SW_OAP_ADDRESS=oap:12800 apache/skywalking-ui:8.5.0
 
 # IDEA 配置
 VmOption -javaagent:/Users/battcn/Desktop/apache-skywalking-apm-bin/agent/skywalking-agent.jar
-
 Environment variables SW_AGENT_NAME=wemirr-platform-gateway
 Environment variables SW_AGENT_NAME=wemirr-platform-authority
+
+# 启动命令
+nohup java -javaagent:/opt/wemirr-platform/skywalking/agent/skywalking-agent.jar -Dskywalking.agent.service_name=wemirr-platform-gateway -Dskywalking.collector.backend_service=127.0.0.1:11800 -jar wemirr-platform-gateway.jar -d > logs/start_gateway.log &
+nohup java -javaagent:/opt/wemirr-platform/skywalking/agent/skywalking-agent.jar -Dskywalking.agent.service_name=wemirr-platform-authority -Dskywalking.collector.backend_service=127.0.0.1:11800 -jar wemirr-platform-authority.jar -d --spring.profiles.active=demo > logs/start_authority.log &
+
 ```
 
 
