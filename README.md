@@ -19,14 +19,18 @@ ShardingJdbc、ShardingSphere
 
 ### 特点
 
+- 链路追踪：支持 `skywalking`、`zikpin`、`pinpoint` 等多种链路追踪（案例采用 `skywalking`）
 - 布局优雅：简洁、多套主题以及导览模式任意组合搭配
 - 功能齐全：SAAS/多租户/RBAC权限控制全都具备，下载代码开箱即用
 - 消息推送：内置基于WebSocket、Redis实现的分布式消息
 - 服务治理：整合 `Nepxion` 框架可以快速实现蓝绿/灰度/服务治理 等强大功能
 - 动态网关：支持页面配置(`Redis`)与 `Nacos` 两种推送方式、动态开启关闭网关路由
 - 网关管理：支持流量控制、拉黑名单等
+- 消息总线：使用 `RabbitMq` 做总线用于支持`动态数据`源消息广播
 - 大道至简：代码优雅、简短、不管是开发前端还是后端,快就完事了，下面给出一个简单的示例
 - 分布式任务：整合 `xxl-job` 提供分布式调度任务功能
+- 工作流：集成 `camunda-bpm` 工作流（暂未实现UI nepxion 已提供工作流案例）
+
 > Vue 开发只需要几行简短的代码即可完成单表的CRUD，大大提升开发效率
 
 ``` vue
@@ -37,6 +41,8 @@ ShardingJdbc、ShardingSphere
 
 
 ## 效果图
+
+![监控](./images/skywalking.png)
 
 ![分配用户](./images/binding_user.png)
 
@@ -55,6 +61,10 @@ ShardingJdbc、ShardingSphere
 ![发布消息](./images/publish_message.png)
 
 ![用户列表](./images/users.png)
+
+![定时任务](./images/xxl-job.png)
+
+![监控配置](./images/skywalking-config.png)
 
 ## 介绍
 
@@ -115,6 +125,24 @@ docker run -d  -p 5671:5671 -p 5672:5672  -p 15672:15672 -p 15671:15671  -p 2567
 安装 XXL-JOB-ADMIN(暂时不行没找到好方法,自己fork代码执行) 配置外网IP应该可以
 docker pull xuxueli/xxl-job-admin:2.3.0
 docker run -e PARAMS="--spring.datasource.username=root --spring.datasource.password=123456 --spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver --spring.datasource.url=jdbc:mysql://127.0.0.1:3306/wemirr-platform?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true" -p 9999:8080 -v /Users/battcn/Development:/data/applogs --name xxl-job-admin  -d xuxueli/xxl-job-admin:2.3.0
+
+安装 skywalking
+
+docker pull apache/skywalking-oap-server:8.7.0-es7
+docker pull apache/skywalking-ui:8.7.0
+
+# 如果要后台运行 请加 -d 
+docker network create wemirr
+docker run --name elasticsearch --net wemirr -p 9200:9200 -p 9300:9300 -d -e "discovery.type=single-node" elasticsearch:7.9.3
+docker run --name oap --net wemirr --restart always -p 1234:1234 -p 12800:12800 -p 11800:11800 -d -e SW_STORAGE=elasticsearch7 -e SW_STORAGE_ES_CLUSTER_NODES=elasticsearch:9200 apache/skywalking-oap-server:8.7.0-es7
+# 8.7.0 启动有问题，版本回退一下就可以
+docker run --name oap-ui --net wemirr --restart always -p 10086:8080 -d -e TZ=Asia/Shanghai -e SW_OAP_ADDRESS=oap:12800 apache/skywalking-ui:8.2.0
+
+# IDEA 配置
+VmOption -javaagent:/Users/battcn/Desktop/apache-skywalking-apm-bin/agent/skywalking-agent.jar
+
+Environment variables SW_AGENT_NAME=wemirr-platform-gateway
+Environment variables SW_AGENT_NAME=wemirr-platform-authority
 ```
 
 
