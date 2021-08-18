@@ -2,6 +2,7 @@ package com.wemirr.framework.security.client.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @since 2019-04-04
  */
 @Data
+@RefreshScope
 @ConfigurationProperties(prefix = "security.oauth2.client.ignore")
 public class SecurityIgnoreProperties {
 
