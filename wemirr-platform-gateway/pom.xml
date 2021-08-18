@@ -32,15 +32,11 @@
             <artifactId>hutool-all</artifactId>
         </dependency>
         <!--swagger-->
-        <!--<dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>swagger-framework-starter</artifactId>
-        </dependency>
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>-->
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-webflux-ui</artifactId>
+            <version>${springdoc-openapi.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -117,6 +113,10 @@
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>common-framework-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
     </dependencies>
 

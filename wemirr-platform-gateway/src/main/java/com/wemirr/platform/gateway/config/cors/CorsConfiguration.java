@@ -19,11 +19,13 @@ import org.springframework.web.server.WebFilter;
 import reactor.core.publisher.Mono;
 
 /**
+ * 不建议使用了，因为高版本Gateway 可以通过配置文件进行了
  * 解决跨域 建议非开发环境使用 nginx 做跨域处理
  *
  * @author Levin
  */
 @Profile({"local", "dev"})
+@Deprecated
 @Configuration
 public class CorsConfiguration {
 

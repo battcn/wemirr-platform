@@ -23,6 +23,7 @@ spring:
           version: 1.0
       config:
         namespace: wemirr
+        refresh-enabled: true
     gateway:
       # 动态路由
       dynamic-route:
