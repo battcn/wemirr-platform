@@ -25,7 +25,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +39,6 @@ import java.util.Map;
  * @author Levin
  */
 @Slf4j
-@ApiIgnore
 @Controller
 @Tag(name = "认证管理", description = "认证管理")
 @RequestMapping("/oauth")

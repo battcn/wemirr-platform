@@ -3,11 +3,11 @@ package com.wemirr.framework.boot.config.log.feign;
 
 import com.wemirr.framework.boot.config.log.OptLogDTO;
 import com.wemirr.framework.commons.entity.Result;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @author Levin

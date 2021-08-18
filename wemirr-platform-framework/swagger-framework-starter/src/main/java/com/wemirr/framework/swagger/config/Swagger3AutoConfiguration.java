@@ -16,8 +16,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Levin
@@ -42,6 +45,9 @@ public class Swagger3AutoConfiguration {
 
     @Bean
     public OpenAPI springDocOpenAPI(Swagger3Properties swagger3Properties) {
+        if (swagger3Properties == null) {
+            return new OpenAPI();
+        }
         //配置认证、请求头参数
         Components components = new Components();
         List<SecurityRequirement> security = new ArrayList<>();
@@ -70,15 +76,20 @@ public class Swagger3AutoConfiguration {
             ;
         }
         // 接口调试路径
-        List<Server> servers = Optional.ofNullable(swagger3Properties.getServers()).orElseGet(() -> Collections.singletonList(localServer()));
-        return new OpenAPI().components(components)
+        List<Server> servers = swagger3Properties.getServers();
+        if (CollectionUtils.isEmpty(servers)) {
+            servers = new ArrayList<>();
+        }
+        servers.add(localServer());
+        return new OpenAPI().components(components).servers(servers)
                 .info(info).externalDocs(swagger3Properties.getExternal())
-                .security(security).servers(servers);
+                .security(security);
     }
 
     private Server localServer() {
         Server server = new Server();
         server.setUrl("http://localhost:" + port + "" + servletPath);
+        server.setDescription("本地服务环境");
         return server;
     }
 
