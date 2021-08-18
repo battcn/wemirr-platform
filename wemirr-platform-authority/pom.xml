@@ -38,11 +38,6 @@
             <artifactId>websocket-framework-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webmvc-core</artifactId>
-            <version>1.5.0</version>
-        </dependency>
-        <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>swagger-framework-starter</artifactId>
         </dependency>
@@ -58,41 +53,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-register-center-starter-nacos</artifactId>
-            <version>${nepxion-discovery.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>springfox-swagger2</artifactId>
-                    <groupId>io.springfox</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>springfox-swagger-ui</artifactId>
-                    <groupId>io.springfox</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>discovery-plugin-admin-center</artifactId>
-                    <groupId>com.nepxion</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
-            <version>${nepxion-discovery.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-strategy-starter-service</artifactId>
-            <version>${nepxion-discovery.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>

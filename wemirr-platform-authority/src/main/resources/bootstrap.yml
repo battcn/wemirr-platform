@@ -3,8 +3,6 @@ server:
 spring:
   main:
     allow-bean-definition-overriding: true
-  resources:
-    add-mappings: false
   application:
     name: wemirr-platform-authority
   cloud:
