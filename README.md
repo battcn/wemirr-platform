@@ -30,6 +30,7 @@ ShardingJdbc、ShardingSphere
 - 插拔组件：除去必要工程，可选的都在 `options` 按需使用
 - 大道至简：代码优雅、简短、不管是开发前端还是后端,快就完事了，下面给出一个简单的示例
 - 性能高效：集成链路追踪在2M网络环境下接口最慢不超过 `300毫秒` 普遍 `10-150 毫秒` 之间
+- 标准文档：集成标准的 `SpringDoc => Swagger V3` 功能更强大,UI更优美
 - 分布式任务：整合 `xxl-job` 提供分布式调度任务功能
 - 工作流：集成 `camunda-bpm` 工作流（暂未实现UI nepxion 已提供工作流案例）
 
@@ -69,6 +70,8 @@ ShardingJdbc、ShardingSphere
 ![定时任务](./images/xxl-job.png)
 
 ![监控配置](./images/skywalking-config.png)
+
+![监控配置](./images/springdoc.png)
 
 ## 介绍
 

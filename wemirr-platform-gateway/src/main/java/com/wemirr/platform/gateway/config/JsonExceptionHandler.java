@@ -1,6 +1,5 @@
 package com.wemirr.platform.gateway.config;
 
-import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.platform.gateway.config.rule.BlacklistHelper;
@@ -51,13 +50,13 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         if (StringUtils.contains(message, UNABLE_ERROR)) {
             return response(HttpStatus.NOT_FOUND.value(), "网络异常，请稍后再试");
         }
-        if (error instanceof ParamFlowException) {
-            // 触发限流规则直接拉黑名单
-            ParamFlowException flowException = (ParamFlowException) error;
-            log.error("[触发限流规则] - {} - {}", flowException.getResourceName(), flowException.getRule());
-            blacklistHelper.setBlack(request.exchange());
-            return response(HttpStatus.SERVICE_UNAVAILABLE.value(), "访问量过大，请稍后再试");
-        }
+//        if (error instanceof ParamFlowException) {
+//            // 触发限流规则直接拉黑名单
+//            ParamFlowException flowException = (ParamFlowException) error;
+//            log.error("[触发限流规则] - {} - {}", flowException.getResourceName(), flowException.getRule());
+//            blacklistHelper.setBlack(request.exchange());
+//            return response(HttpStatus.SERVICE_UNAVAILABLE.value(), "访问量过大，请稍后再试");
+//        }
         if (error instanceof ResponseStatusException) {
             code = HttpStatus.SERVICE_UNAVAILABLE.value();
         }

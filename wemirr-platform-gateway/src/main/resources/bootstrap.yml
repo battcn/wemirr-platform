@@ -4,9 +4,6 @@ ignore:
     - test
   swagger-providers:
     - wemirr-platform-gateway
-swagger:
-  enabled: false
-
 server:
   port: 9000
 spring:
