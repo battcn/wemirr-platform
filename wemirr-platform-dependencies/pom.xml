@@ -153,6 +153,12 @@
                 <artifactId>opentracing-spring-cloud-starter</artifactId>
                 <version>${opentracing.spring.cloud.version}</version>
             </dependency>
+            <!-- 如果安装的nacos 版本高于2.x 请放开 8848  9848 9849 10848 10849  -->
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>2.0.3</version>
+            </dependency>
             <dependency>
                 <groupId>com.nepxion</groupId>
                 <artifactId>discovery-plugin-register-center-starter-nacos</artifactId>
