@@ -97,6 +97,8 @@ ShardingJdbc、ShardingSphere
 
 ### 注意事项
 
+**下载项目后请先本地 `mvn install wemirr-platform-dependencies` 和 `mvn install wemirr-platform-framework`**
+
 **如果需要使用低码平台，需要安装 MongoDB 的支持**
 
 **nepxion 项目是本人用于测试一些中间件的工程、完全可以忽略**
