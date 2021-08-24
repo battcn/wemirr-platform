@@ -4,6 +4,7 @@ import com.wemirr.platform.authority.domain.enums.ReceiverType;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class StationMessagePublishReq {
     /**
      * 接收的Id
      */
+    @NotEmpty(message = "接收者不能为空")
     private List<Long> receiver;
 
 
