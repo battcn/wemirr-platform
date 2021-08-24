@@ -11,6 +11,7 @@ import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.wemirr.framework.boot.config.log.event.SysLogEvent;
+import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.annotation.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.TenantEnvironment;
@@ -225,8 +226,13 @@ public class SysLogAspect {
             sysLog.setParams(getText(strArgs));
             final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
             if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
-                String dsKey = request.getHeader(multiTenant.getTenantCodeColumn());
-                sysLog.setDsKey(multiTenant.getDsPrefix() + dsKey);
+                String tenantCode = request.getHeader(multiTenant.getTenantCodeColumn());
+                if (StringUtils.equals(multiTenant.getSuperTenantCode(), tenantCode)) {
+                    sysLog.setDsKey(multiTenant.getDefaultDsName());
+                }else {
+                    sysLog.setDsKey(multiTenant.getDsPrefix() + tenantCode);
+                }
+
             }
 //            sysLog.setTrace(MDC.get(BaseContextConstants.LOG_TRACE_ID));
 
