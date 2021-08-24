@@ -24,13 +24,13 @@
 
 
     <modules>
-        <module>oauth2-framework-starter</module>
         <module>common-framework-starter</module>
+        <module>swagger-framework-starter</module>
+        <module>storage-framework-starter</module>
+        <module>oauth2-framework-starter</module>
         <module>database-framework-starter</module>
         <module>boot-framework-starter</module>
-        <module>swagger-framework-starter</module>
         <module>websocket-framework-starter</module>
-        <module>storage-framework-starter</module>
         <module>xxl-job-framework-starter</module>
     </modules>
 
