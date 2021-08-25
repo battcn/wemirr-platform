@@ -1,0 +1,84 @@
+version: '2'
+# 如果执行失败,请选尝试创建 docker network create wemirr
+networks:
+  default:
+    driver: bridge
+    external:
+      name: wemirr
+services:
+  wemirr-platform-mysql:
+    image: mysql:8.0.19
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_HOST: '%'
+      TZ: Asia/Shanghai
+    restart: always
+    container_name: wemirr-platform-mysql
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+      --max_allowed_packet=128M
+      --default-authentication-plugin=caching_sha2_password
+    ports:
+      - 3306:3306
+  wemirr-platform-redis:
+    image: redis:5.0
+    ports:
+      - 6379:6379
+    restart: always
+    container_name: wemirr-platform-redis
+  wemirr-platform-nacos:
+    container_name: wemirr-platform-nacos
+    image: nacos/nacos-server:2.0.3
+    environment:
+      MODE: standalone
+      JVM_XMS: 512m
+      JVM_MMS: 320m
+    ports:
+      - 8848:8848
+      - 9848:9848
+      - 9849:9849
+    restart: always
+  wemirr-platform-rabbitmq:
+    container_name: wemirr-platform-rabbitmq
+    image: docker.io/macintoshplus/rabbitmq-management
+    ports:
+      - 5671:5671
+      - 5672:5672
+      - 15672:15672
+      - 25672:25672
+    restart: always
+  #安装 XXL-JOB-ADMIN(如果数据库也是docker 运行需要配置统一网络 例如： docker network create wemirr )
+  #docker pull xuxueli/xxl-job-admin:2.3.0
+  #docker run -e PARAMS="--spring.datasource.username=root --spring.datasource.password=123456 --spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver --spring.datasource.url=jdbc:mysql://127.0.0.1:3306/wemirr-platform?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true" -p 9999:8080 -v /Users/battcn/Development:/data/applogs --name xxl-job-admin  -d xuxueli/xxl-job-admin:2.3.0
+  wemirr-platform-elasticsearch:
+    image: elasticsearch:7.9.3
+    environment:
+      discovery.type: single-node
+    ports:
+      - 9200:9200
+      - 9300:9300
+    restart: always
+    container_name: wemirr-platform-elasticsearch
+  wemirr-platform-oap:
+    container_name: wemirr-platform-oap
+    image: apache/skywalking-oap-server:8.5.0-es7
+    environment:
+      SW_STORAGE: elasticsearch7
+      SW_STORAGE_ES_CLUSTER_NODES: wemirr-platform-elasticsearch:9200
+    ports:
+      - 1234:1234
+      - 11800:11800
+      - 12800:12800
+    restart: always
+  wemirr-platform-oap-ui:
+    container_name: wemirr-platform-oap-ui
+    image: apache/skywalking-ui:8.5.0
+    environment:
+      SW_OAP_ADDRESS: wemirr-platform-oap:12800
+      TZ: Asia/Shanghai
+    ports:
+      - 10086:8080
+    restart: always
