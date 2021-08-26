@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceS
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.security.oauth2.client.OAuth2RestOperations;
@@ -58,7 +57,7 @@ public class LoadBalancedRestTemplateAutoConfigurer {
 
 
     @Bean
-    @Primary
+    @ConditionalOnExpression("${security.oauth2.resource.loadBalanced}")
     public UserInfoTokenServices userInfoTokenServices(ResourceServerProperties sso, OAuth2RestOperations restTemplate) {
         UserInfoTokenServices services = new UserInfoTokenServices(
                 sso.getUserInfoUri(), sso.getClientId());
