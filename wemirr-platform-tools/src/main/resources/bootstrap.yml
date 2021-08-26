@@ -21,6 +21,8 @@ spring:
         refresh-enabled: true
         # 默认会自动加载一个 applicationName.properties
         extension-configs:
+          - data-id: swagger.yaml
+            refresh: true
           - data-id: mybatis-plus-default.yaml
 extend:
   oss:

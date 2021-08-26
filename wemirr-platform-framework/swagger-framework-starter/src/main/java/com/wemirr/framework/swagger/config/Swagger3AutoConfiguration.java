@@ -51,12 +51,15 @@ public class Swagger3AutoConfiguration {
         //配置认证、请求头参数
         Components components = new Components();
         List<SecurityRequirement> security = new ArrayList<>();
-        for (Map.Entry<String, SecurityScheme> entry : swagger3Properties.getSecuritySchemes().entrySet()) {
-            components.addSecuritySchemes(entry.getKey(), entry.getValue());
-            SecurityRequirement requirement = new SecurityRequirement();
-            requirement.addList(entry.getKey());
-            security.add(requirement);
+        if (!CollectionUtils.isEmpty(swagger3Properties.getSecuritySchemes())) {
+            for (Map.Entry<String, SecurityScheme> entry : swagger3Properties.getSecuritySchemes().entrySet()) {
+                components.addSecuritySchemes(entry.getKey(), entry.getValue());
+                SecurityRequirement requirement = new SecurityRequirement();
+                requirement.addList(entry.getKey());
+                security.add(requirement);
+            }
         }
+
         Info info = new Info();
         Swagger3Properties.PlusInfo plusInfo = swagger3Properties.getInfo();
         if (plusInfo != null) {
