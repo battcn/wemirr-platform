@@ -27,9 +27,9 @@ public class ShardingDynamicDataSourceConfiguration {
      * //特别注意，有的spring版本不用加Lazy一样能注入，有的会空指针。
      * 根据自己测试选择，但是如果加了lazy就没强转了，也就无法添加其内部的数据源了。
      */
-    @Resource(name = "masterSlaveDataSource")
     @Lazy
-    private DataSource masterSlaveDataSource;
+    @Resource(name = "shardingDataSource")
+    private DataSource shardingDataSource;
 
     @Bean
     public DynamicDataSourceProvider dynamicDataSourceProvider() {
@@ -38,7 +38,7 @@ public class ShardingDynamicDataSourceConfiguration {
             @Override
             public Map<String, DataSource> loadDataSources() {
                 Map<String, DataSource> dataSourceMap = new HashMap<>();
-                dataSourceMap.put("sharding", masterSlaveDataSource);
+                dataSourceMap.put("sharding", shardingDataSource);
                 //打开下面的代码可以把 shardingJdbc 内部管理的子数据源也同时添加到动态数据源里 (根据自己需要选择开启)
 //                dataSourceMap.putAll(((MasterSlaveDataSource) masterSlaveDataSource).getDataSourceMap());
                 return dataSourceMap;

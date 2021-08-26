@@ -16,8 +16,8 @@ spring:
           group: ${spring.application.name}
           version: 1.0
       config:
-        # 本地申明空间
-        namespace: wemirr
+        # 本地申明空间（默认 public 如果有需要空间隔离可以配置）
+        # namespace: wemirr
         refresh-enabled: true
         # 默认会自动加载一个 applicationName.properties
         extension-configs:

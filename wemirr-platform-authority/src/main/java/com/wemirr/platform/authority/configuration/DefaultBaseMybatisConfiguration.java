@@ -29,7 +29,6 @@ public class DefaultBaseMybatisConfiguration extends BaseMybatisConfiguration {
             public Long tenantId() {
                 return SecurityUtils.getAuthInfo().getTenantId();
             }
-
             @Override
             public Long userId() {
                 return SecurityUtils.getAuthInfo().getUserId();

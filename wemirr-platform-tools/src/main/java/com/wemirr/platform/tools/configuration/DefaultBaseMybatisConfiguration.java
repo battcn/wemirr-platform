@@ -5,6 +5,7 @@ import com.wemirr.framework.database.TenantEnvironment;
 import com.wemirr.framework.database.configuration.BaseMybatisConfiguration;
 import com.wemirr.framework.database.mybatis.auth.DataScopeInnerInterceptor;
 import com.wemirr.framework.database.properties.DatabaseProperties;
+import com.wemirr.framework.security.client.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
@@ -26,22 +27,21 @@ public class DefaultBaseMybatisConfiguration extends BaseMybatisConfiguration {
         return new TenantEnvironment() {
             @Override
             public Long tenantId() {
-                return 1L;
+                return SecurityUtils.getAuthInfo().getTenantId();
             }
-
             @Override
             public Long userId() {
-                return 2L;
+                return SecurityUtils.getAuthInfo().getUserId();
             }
 
             @Override
             public String realName() {
-                return "不告诉你";
+                return SecurityUtils.getAuthInfo().getRealName();
             }
 
             @Override
             public boolean anonymous() {
-                return false;
+                return SecurityUtils.anonymous();
             }
         };
     }

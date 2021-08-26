@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author Levin
@@ -38,7 +37,6 @@ public class UserInfoDetails implements UserDetails, CredentialsContainer, java.
     private String avatar;
     private Boolean enabled;
     private String description;
-    private List<SecurityDictionary<Long>> departments;
     private Collection<String> permissions = new ArrayList<>();
     private Collection<String> roles = new ArrayList<>();
     private Collection<GrantedAuthority> authorities;
