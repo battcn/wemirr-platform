@@ -1,6 +1,7 @@
 package com.wemirr.framework.security.client.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.security.client.entity.UserInfoDetails;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -32,10 +33,12 @@ public class SecurityUtils {
         if (userAuthentication.getPrincipal() instanceof UserInfoDetails) {
             return (UserInfoDetails) userAuthentication.getPrincipal();
         }
-        String json = JSON.toJSONString(userAuthentication.getDetails());
-        return JSON.parseObject(json, UserInfoDetails.class);
+        String detailsText = JSON.toJSONString(userAuthentication.getDetails());
+        final JSONObject detailJson = JSON.parseObject(detailsText);
+        return detailJson.getObject(AUTH_DETAILS_PRINCIPAL, UserInfoDetails.class);
     }
 
+    public static final String AUTH_DETAILS_PRINCIPAL = "principal";
     public static final String ANONYMOUS_USER = "anonymousUser";
 
     /**
