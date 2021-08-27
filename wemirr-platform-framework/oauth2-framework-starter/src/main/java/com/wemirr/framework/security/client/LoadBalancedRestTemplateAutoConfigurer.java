@@ -57,7 +57,7 @@ public class LoadBalancedRestTemplateAutoConfigurer {
 
 
     @Bean
-    @ConditionalOnExpression("${security.oauth2.resource.loadBalanced}")
+    @ConditionalOnExpression("${security.oauth2.resource.loadBalanced:false}")
     public UserInfoTokenServices userInfoTokenServices(ResourceServerProperties sso, OAuth2RestOperations restTemplate) {
         UserInfoTokenServices services = new UserInfoTokenServices(
                 sso.getUserInfoUri(), sso.getClientId());

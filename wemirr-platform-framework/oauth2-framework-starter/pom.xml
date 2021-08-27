@@ -40,6 +40,8 @@
         </dependency>
 
         <!--
+        官方为 OAuth2 提供的新的项目
+        https://github.com/spring-projects/spring-authorization-server
          为升级 Spring Security 埋下伏笔
         <dependency>
             <groupId>org.springframework.boot</groupId>
