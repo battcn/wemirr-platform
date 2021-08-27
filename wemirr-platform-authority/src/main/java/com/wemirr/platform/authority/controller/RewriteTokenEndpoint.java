@@ -8,6 +8,7 @@ import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.database.TenantEnvironment;
+import com.wemirr.framework.security.client.utils.SecurityUtils;
 import com.wemirr.platform.authority.domain.dto.ChangePasswordDTO;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,8 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -48,7 +51,7 @@ public class RewriteTokenEndpoint {
     private final TenantEnvironment tenantEnvironment;
     private final TokenEndpoint tokenEndpoint;
     private final UserService userService;
-
+    private final TokenStore tokenStore;
 
     @ResponseBody
     @RequestMapping(value = "/token", method = {RequestMethod.GET, RequestMethod.POST})
@@ -87,6 +90,15 @@ public class RewriteTokenEndpoint {
     @DeleteMapping("/logout")
     @ResponseBody
     public Result<ResponseEntity<Void>> removeToken() {
+        final OAuth2AccessToken accessToken = tokenStore.getAccessToken(SecurityUtils.getAuthentication());
+        if (accessToken == null) {
+            return Result.success();
+        }
+        tokenStore.removeAccessToken(accessToken);
+        final OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(accessToken.getValue());
+        if (refreshToken != null) {
+            tokenStore.removeRefreshToken(refreshToken);
+        }
         return Result.success();
     }
 

@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class VerificationServiceImpl implements VerificationService {
 
     private final StringRedisTemplate stringRedisTemplate;
+    private static final String CAPTCHA_KEY_PREFIX = "captcha:prefix:%s";
 
 
     @SneakyThrows
@@ -34,7 +35,7 @@ public class VerificationServiceImpl implements VerificationService {
         }
         Captcha captcha = new ArithmeticCaptcha(115, 42);
         captcha.setCharType(2);
-        stringRedisTemplate.opsForValue().set(key, captcha.text(), 3, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(geyKey(key), captcha.text(), 3, TimeUnit.MINUTES);
         log.debug("验证码结果 - {}", captcha.text());
         return captcha;
     }
@@ -44,15 +45,18 @@ public class VerificationServiceImpl implements VerificationService {
         if (StringUtils.isBlank(value)) {
             return Result.fail("请输入验证码");
         }
-        String code = stringRedisTemplate.opsForValue().get(key);
+        String code = stringRedisTemplate.opsForValue().get(geyKey(key));
         if (StrUtil.isEmpty(code)) {
             return Result.fail("验证码已过期");
         }
         if (!StringUtils.equalsIgnoreCase(value, code)) {
             return Result.fail("验证码不正确");
         }
-        stringRedisTemplate.delete(key);
+        stringRedisTemplate.delete(geyKey(key));
         return Result.success();
     }
 
+    private String geyKey(String key) {
+        return String.format(CAPTCHA_KEY_PREFIX, key);
+    }
 }
