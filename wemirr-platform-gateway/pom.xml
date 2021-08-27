@@ -27,10 +27,6 @@
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-        </dependency>
         <!--swagger-->
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -114,10 +110,6 @@
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>common-framework-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
         </dependency>
     </dependencies>
 
