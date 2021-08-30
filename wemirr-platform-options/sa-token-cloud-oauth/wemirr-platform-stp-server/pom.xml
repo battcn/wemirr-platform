@@ -23,6 +23,17 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+        <!--<dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-dao-redis-jackson</artifactId>
+            <version>1.25.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-oauth2</artifactId>
+            <version>1.25.0</version>
+        </dependency>
+        -->
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-oauth2</artifactId>
@@ -72,6 +83,12 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.ejlchina</groupId>
+            <artifactId>okhttps</artifactId>
+            <version>3.1.1</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

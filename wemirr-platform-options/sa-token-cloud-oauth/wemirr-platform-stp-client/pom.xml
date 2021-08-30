@@ -27,11 +27,11 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-oauth2</artifactId>
             <version>1.25.0</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.ejlchina</groupId>
             <artifactId>okhttps</artifactId>
