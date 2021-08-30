@@ -1,11 +1,12 @@
 # sa-token配置
 sa-token:
   # token名称 (同时也是cookie名称)
-  token-name: satoken-client
+  token-name: Authorization
   oauth2:
     enhance:
       load-balanced: true
-      token-info-uri: http://wemirr-platform-stp-server/oauth2/userinfo
+      token-info-uri: http://wemirr-platform-stp-server/oauth2/check
+      user-info-uri: http://wemirr-platform-stp-server/oauth2/userinfo
 
 
 

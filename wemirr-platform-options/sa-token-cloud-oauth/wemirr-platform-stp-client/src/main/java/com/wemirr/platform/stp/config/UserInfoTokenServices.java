@@ -1,16 +1,17 @@
 package com.wemirr.platform.stp.config;
 
-import cn.dev33.satoken.context.SaHolder;
+import cn.dev33.satoken.id.SaIdUtil;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.wemirr.platform.stp.utils.SoMap;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Collections;
 
 /**
  * @author Levin
@@ -23,7 +24,7 @@ public class UserInfoTokenServices {
     private final SaTokenExtProperties properties;
 
     public SaResult getUserInfo() {
-        final String authorization = SaHolder.getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+        final String authorization = SaIdUtil.getToken();
         // 调用Server端接口，查询开放的资源
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, authorization);

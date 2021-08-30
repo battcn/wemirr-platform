@@ -1,16 +1,14 @@
 package com.wemirr.platform.stp.controller;
 
-import cn.dev33.satoken.stp.SaTokenInfo;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.ejlchina.okhttps.OkHttps;
 import com.wemirr.platform.stp.config.UserInfoTokenServices;
 import com.wemirr.platform.stp.utils.SoMap;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -155,7 +153,7 @@ public class SaOAuthClientController {
     @Resource
     private UserInfoTokenServices userInfoTokenServices;
 
-    // 根据 Access-Token 置换相关的资源: 获取账号昵称、头像、性别等信息
+    @SaCheckPermission("user:info")
     @RequestMapping("/info")
     public SaResult getUserInfo(String accessToken) {
         // 调用Server端接口，查询开放的资源

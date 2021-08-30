@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 @Configuration
 @EnableConfigurationProperties(SaTokenExtProperties.class)
-public class StpCloudOAuthConfig {
+public class StpCloudOAuthConfiguration {
 
     // 相关参数配置
 //    private String clientId = "1001";                                // 应用id
@@ -46,6 +46,9 @@ public class StpCloudOAuthConfig {
                                                        SaTokenExtProperties properties) {
         return new UserInfoTokenServices(lbRestTemplate, properties);
     }
+
+
+
 
 
 }
