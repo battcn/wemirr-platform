@@ -116,6 +116,8 @@ ShardingJdbc、ShardingSphere
 
 ### 环境安装
 
+提供 `docker-compose.yml` 安装（文件在`附件/docker/docker-compose.yml`） 
+
 一般安装 `latest` 版本即可，也可以自行指定版本 `docker search` 或者自己上 `docker hub` 看版本
 
 如果 `docker` 运行开发环境，建议先创建一个网络 `docker network create wemirr` 后面容器都走统一网络 

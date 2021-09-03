@@ -4,9 +4,11 @@
 
 如果 `docker` 运行开发环境，建议先创建一个网络 `docker network create wemirr` 后面容器都走统一网络
 
-> 具体用法: **`docker run --net wemirr --name xxx`**
+**提供 `docker-compose.yml` 安装（文件在`附件/docker/docker-compose.yml`）**
 
 ## 必要组件
+
+- 创建网络: **`docker run --net wemirr --name xxx`**
 
 **最小中间件依赖，`数据库`、`缓存`,`Naocs`** 当然你也可以切换其它注册中心或者配置中心,这样需要开发者自己去修改了
 
