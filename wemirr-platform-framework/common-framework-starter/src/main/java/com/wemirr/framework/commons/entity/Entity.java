@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 
 
 /**
+ * 在考虑是否应该移动到 database 模块
  * 基础实体
  *
  * @author Levin
