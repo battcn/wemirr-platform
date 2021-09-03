@@ -45,7 +45,7 @@ spring.datasource.dynamic.hikari.is-auto-commit=true
 
 ### 注意事项
 
-**如果多租户类型不是`动态数据源方案`，请代码注释掉 `@DynamicDS` 注解或注释掉里面的 `@DS("#custom.tenant_code")` 代码即可**
+**如果多租户类型不是 `动态数据源`，请代码注释掉 `@DynamicDS` 及里面的 `@DS("#custom.tenant_code")` 即可**
 
 
 ### 自定义规则
