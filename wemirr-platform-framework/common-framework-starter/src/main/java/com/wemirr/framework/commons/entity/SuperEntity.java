@@ -28,16 +28,16 @@ public class SuperEntity<T> extends Entity<T> {
     private static final long serialVersionUID = 5169873634279173683L;
 
     @Parameter(description = "最后修改时间")
-    @TableField(value = "last_modified_time")
+    @TableField(value = UPDATE_TIME)
     protected LocalDateTime lastModifiedTime;
 
     @Parameter(description = "最后修改人ID")
-    @TableField(value = "last_modified_by", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = UPDATE_USER, fill = FieldFill.INSERT_UPDATE)
     protected T lastModifiedBy;
 
 
     @Parameter(description = "最后修改人名称")
-    @TableField(value = "last_modified_name", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = UPDATE_USER_NAME, fill = FieldFill.INSERT_UPDATE)
     protected String lastModifiedName;
 
 }
