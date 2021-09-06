@@ -142,7 +142,7 @@ docker run -i -t -d -p 8858:8858 -p 8719:8719  bladex/sentinel-dashboard
 
 安装 Nacos
 docker pull nacos/nacos-server
-docker  run --name nacos -d-p 8848:8848 --restart=always -e MODE=standalone
+docker run --name nacos -itd -p 8848:8848 --restart=always -e MODE=standalone nacos/nacos-server
 
 安装 RabbitMQ
 docker pull docker.io/macintoshplus/rabbitmq-management

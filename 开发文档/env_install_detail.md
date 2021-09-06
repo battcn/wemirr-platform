@@ -19,11 +19,11 @@ docker run -itd --name redis -p 6379:6379 redis
 
 安装 Mysql （>= 5.7）
 docker pull mysql:latest
-docker run -itd --name mysql-test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
+docker run -itd --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
 
 安装 Nacos （>=2.0）
 docker pull nacos/nacos-server
-docker  run --name nacos -d-p 8848:8848 --restart=always -e MODE=standalone
+docker run -itd --name nacos -p 8848:8848 --restart=always -e MODE=standalone nacos/nacos-server
 ```
 
 ## 可选组件
@@ -33,8 +33,8 @@ docker  run --name nacos -d-p 8848:8848 --restart=always -e MODE=standalone
 *多租户 => 动态数据源之间同步用到了消息总线* 本项目默认使用 `RabbitMQ` 做消息总线和消息队列，如与公司中间件不符可自行修改 
 
 ```shell
-docker pull docker.io/macintoshplus/rabbitmq-management
-docker run -d  -p 5671:5671 -p 5672:5672  -p 15672:15672 -p 15671:15671  -p 25672:25672  rabbitmq_image_id
+docker pull macintoshplus/rabbitmq-management
+docker run -d  -p 5671:5671 -p 5672:5672  -p 15672:15672 -p 15671:15671  -p 25672:25672  macintoshplus/rabbitmq-management
 ```
 
 > 流量控制
