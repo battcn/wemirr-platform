@@ -8,8 +8,6 @@ import com.wemirr.framework.database.mybatis.DictionaryEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.io.Serializable;
-
 /**
  * <p>
  * 数据权限范围，值越大，权限越大
@@ -107,7 +105,7 @@ public enum DataScopeType implements DictionaryEnum<Integer> {
     }
 
     @Override
-    public Serializable getValue() {
+    public Integer getValue() {
         return this.val;
     }
 }

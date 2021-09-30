@@ -25,19 +25,23 @@ public class SuperEntity<T> extends Entity<T> {
     public static final String UPDATE_USER = "lastModifiedBy";
     public static final String UPDATE_USER_NAME = "lastModifiedName";
 
+    public static final String UPDATE_TIME_COLUMN = "last_modified_time";
+    public static final String UPDATE_USER_COLUMN = "last_modified_by";
+    public static final String UPDATE_USER_NAME_COLUMN = "last_modified_name";
+
     private static final long serialVersionUID = 5169873634279173683L;
 
     @Parameter(description = "最后修改时间")
-    @TableField(value = UPDATE_TIME)
+    @TableField(value = UPDATE_TIME_COLUMN)
     protected LocalDateTime lastModifiedTime;
 
     @Parameter(description = "最后修改人ID")
-    @TableField(value = UPDATE_USER, fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = UPDATE_USER_COLUMN, fill = FieldFill.INSERT_UPDATE)
     protected T lastModifiedBy;
 
 
     @Parameter(description = "最后修改人名称")
-    @TableField(value = UPDATE_USER_NAME, fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = UPDATE_USER_NAME_COLUMN, fill = FieldFill.INSERT_UPDATE)
     protected String lastModifiedName;
 
 }

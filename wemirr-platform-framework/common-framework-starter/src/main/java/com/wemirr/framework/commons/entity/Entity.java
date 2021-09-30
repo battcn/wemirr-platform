@@ -34,6 +34,7 @@ public class Entity<T> implements Serializable {
     public static final String CREATE_TIME_COLUMN = "created_time";
     public static final String CREATE_USER = "createdBy";
     public static final String CREATE_USER_NAME = "createdName";
+    public static final String CREATE_USER_NAME_COLUMN = "created_name";
 
     public static final String CREATE_USER_COLUMN = "created_by";
 
@@ -47,14 +48,14 @@ public class Entity<T> implements Serializable {
     /**
      * 创建人ID
      */
-    @TableField(value = CREATE_USER, fill = FieldFill.INSERT)
+    @TableField(value = CREATE_USER_COLUMN, fill = FieldFill.INSERT)
     @Parameter(description = "创建人ID")
     protected T createdBy;
 
     /**
      * 创建人名称
      */
-    @TableField(value = CREATE_USER_NAME, fill = FieldFill.INSERT)
+    @TableField(value = CREATE_USER_NAME_COLUMN, fill = FieldFill.INSERT)
     @Parameter(description = "创建人名称")
     protected String createdName;
 

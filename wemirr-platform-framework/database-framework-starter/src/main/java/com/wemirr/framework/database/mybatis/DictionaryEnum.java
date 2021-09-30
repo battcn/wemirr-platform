@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toList;
  * @author Levin
  * @since 2019/07/26
  */
-public interface DictionaryEnum<T extends Serializable> extends IEnum<Serializable> {
+public interface DictionaryEnum<T extends Serializable> extends IEnum<T> {
 
     /**
      * 描述信息
@@ -62,10 +62,10 @@ public interface DictionaryEnum<T extends Serializable> extends IEnum<Serializab
      * @param <E>       包装类
      * @return 枚举值
      */
-    static <E extends DictionaryEnum<?>> E of(Class<E> enumClass, int type) {
+    static <E extends DictionaryEnum<?>> E of(Class<E> enumClass, Serializable type) {
         E[] enumConstants = enumClass.getEnumConstants();
         for (E e : enumConstants) {
-            final int value = (int) e.getValue();
+            final Serializable value = e.getValue();
             if (value == type) {
                 return e;
             }

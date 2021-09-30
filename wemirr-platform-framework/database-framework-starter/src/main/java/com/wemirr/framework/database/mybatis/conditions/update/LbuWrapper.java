@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.SharedString;
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.core.conditions.update.Update;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.wemirr.framework.database.mybatis.typehandler.BaseLikeTypeHandler;
@@ -76,12 +77,14 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
 
 
     @Override
-    public LbuWrapper<T> set(boolean condition, SFunction<T, ?> column, Object val) {
+    public LbuWrapper<T> set(boolean condition, SFunction<T, ?> column, Object val, String mapping) {
         if (condition) {
-            this.sqlSet.add(String.format("%s=%s", this.columnToString(column), this.formatSql("{0}", val)));
+            String sql = formatParam(mapping, val);
+            sqlSet.add(column + Constants.EQUALS + sql);
         }
         return this.typedThis;
     }
+
 
     @Override
     public LbuWrapper<T> setSql(boolean condition, String sql) {
