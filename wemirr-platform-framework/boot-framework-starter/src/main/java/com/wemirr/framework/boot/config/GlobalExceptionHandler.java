@@ -11,6 +11,8 @@ import feign.RetryableException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
@@ -34,19 +36,26 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.UnexpectedTypeException;
 import javax.validation.ValidationException;
 import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 
+import static com.wemirr.framework.boot.config.GlobalExceptionHandler.GLOBAL_EXCEPTION;
+
 /**
  * @author Levin
  * @since 2019-01-21
  */
 @Slf4j
+@Configuration
 @ControllerAdvice
+@ConditionalOnProperty(prefix = GLOBAL_EXCEPTION, name = "enabled", havingValue = "true")
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+    public static final String GLOBAL_EXCEPTION = "extend.exception.global";
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
@@ -254,9 +263,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * 通用的接口映射异常处理方法
      */
     @Override
-    protected @ResponseBody
-    ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-                                                   HttpStatus status, WebRequest request) {
+    @ResponseBody
+    @Nonnull
+    protected ResponseEntity<Object> handleExceptionInternal(@Nonnull Exception ex, Object body, @Nonnull HttpHeaders headers,
+                                                             @Nonnull HttpStatus status, @Nonnull WebRequest request) {
         String uri = ((ServletWebRequest) request).getRequest().getRequestURI();
         if (ex instanceof MethodArgumentNotValidException) {
             MethodArgumentNotValidException exception = (MethodArgumentNotValidException) ex;

@@ -65,7 +65,7 @@ public class RequestUtils {
     }
 
 
-    public static String getURI(HttpServletRequest request) throws IllegalStateException {
+    public static String getUri(HttpServletRequest request) throws IllegalStateException {
         String uri = request.getRequestURI();
         String contextPath = request.getContextPath();
         int start = uri.indexOf(contextPath);

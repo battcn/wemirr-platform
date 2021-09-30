@@ -237,6 +237,7 @@ public interface StorageOperation {
      * 上传失败异常
      *
      * @param type type
+     * @param e    异常
      * @return StorageException
      * @see StorageException
      */
@@ -248,6 +249,7 @@ public interface StorageOperation {
      * 下载失败异常
      *
      * @param type type
+     * @param e    异常
      * @return StorageException
      * @see StorageException
      */

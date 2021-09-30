@@ -210,7 +210,7 @@ public class SysLogAspect {
                 Object[] args = joinPoint.getArgs();
 
                 MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-                controllerMethodDescription = getValBySpEL(controllerMethodDescription, methodSignature, args);
+                controllerMethodDescription = getExpression(controllerMethodDescription, methodSignature, args);
             }
             sysLog.setDescription(controllerMethodDescription);
             // 类名
@@ -281,7 +281,7 @@ public class SysLogAspect {
     /**
      * 解析spEL表达式
      */
-    private String getValBySpEL(String spel, MethodSignature methodSignature, Object[] args) {
+    private String getExpression(String spel, MethodSignature methodSignature, Object[] args) {
         try {
             //获取方法形参名数组
             String[] paramNames = nameDiscoverer.getParameterNames(methodSignature.getMethod());

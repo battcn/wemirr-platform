@@ -44,7 +44,7 @@ public class Swagger3AutoConfiguration {
     }
 
     @Bean
-    public OpenAPI springDocOpenAPI(Swagger3Properties swagger3Properties) {
+    public OpenAPI springDocOpenApi(Swagger3Properties swagger3Properties) {
         if (swagger3Properties == null) {
             return new OpenAPI();
         }

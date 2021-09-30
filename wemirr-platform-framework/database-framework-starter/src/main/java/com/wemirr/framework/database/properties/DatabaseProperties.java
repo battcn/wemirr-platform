@@ -14,9 +14,9 @@ import java.util.List;
  * @author Levin
  * @since 2018/11/20
  */
-@ConfigurationProperties(prefix = DatabaseProperties.PREFIX)
 @Data
 @NoArgsConstructor
+@ConfigurationProperties(prefix = DatabaseProperties.PREFIX)
 public class DatabaseProperties {
 
     public static final String PREFIX = "extend.mybatis-plus";

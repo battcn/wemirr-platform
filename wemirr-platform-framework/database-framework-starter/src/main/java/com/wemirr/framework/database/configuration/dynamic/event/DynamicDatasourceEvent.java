@@ -7,6 +7,9 @@ import org.springframework.cloud.bus.event.Destination;
 import org.springframework.cloud.bus.event.RemoteApplicationEvent;
 
 
+/**
+ * @author Levin
+ */
 public class DynamicDatasourceEvent extends RemoteApplicationEvent {
 
     @Getter
