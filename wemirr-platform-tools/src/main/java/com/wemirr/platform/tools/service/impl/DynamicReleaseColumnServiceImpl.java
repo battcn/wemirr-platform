@@ -44,7 +44,7 @@ public class DynamicReleaseColumnServiceImpl extends SuperServiceImpl<DynamicRel
                 .eq(DynamicReleaseColumn::getKey, req.getKey())
                 .eq(DynamicReleaseColumn::getGridId, gridId);
         DynamicReleaseColumn column = DYNAMIC_RELEASE_GRID_COLUMN_REQ_2_PO.convert(req);
-        final Integer count = this.baseMapper.selectCount(wrapper);
+        final Long count = this.baseMapper.selectCount(wrapper);
         if (count == null || count == 0) {
             column.setGridId(gridId);
             this.baseMapper.insert(column);

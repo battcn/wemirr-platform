@@ -1,17 +1,15 @@
 package com.wemirr.platform.stp.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ejlchina.okhttps.OkHttps;
-
 import cn.dev33.satoken.config.SaTokenConfig;
 import cn.dev33.satoken.sso.SaSsoHandle;
 import cn.dev33.satoken.sso.SaSsoUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
+import com.ejlchina.okhttps.OkHttps;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Sa-Token-SSO Client端 Controller 

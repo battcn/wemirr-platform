@@ -6,6 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
+ * "bpmn-js": "^8.7.3",
+ * "bpmn-js-properties-panel": "^0.44.0",
+ * "camunda-bpmn-moddle": "^6.0.0",
+ *
  * @author Levin
  */
 @SpringBootApplication

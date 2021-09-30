@@ -3,7 +3,8 @@ package com.wemirr.platform.tools.domain.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.generator.config.po.TableFill;
+import com.baomidou.mybatisplus.generator.IFill;
+import com.baomidou.mybatisplus.generator.fill.Column;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import lombok.*;
 
@@ -42,14 +43,14 @@ public class GenerateRequest extends SuperEntity<Long> {
     private String logicDeleteField;
     private String superControllerClass;
     @TableField(exist = false)
-    private List<TableFill> fillList;
+    private List<IFill> fillList;
     private Long platformId;
 
     public GenerateRequest addFill(String fieldName, FieldFill fieldFill) {
         if (fillList == null) {
             fillList = new ArrayList<>();
         }
-        fillList.add(new TableFill(fieldName, fieldFill));
+        fillList.add(new Column(fieldName, fieldFill));
         return this;
     }
 }
