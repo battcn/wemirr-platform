@@ -33,7 +33,7 @@ public class DictionaryItemServiceImpl extends SuperServiceImpl<DictionaryItemMa
 
     @Override
     public void addDictionaryItem(Long dictionaryId, DictionaryItem item) {
-        final int count = this.baseMapper.selectCount(Wraps.<DictionaryItem>lbQ()
+        final long count = this.baseMapper.selectCount(Wraps.<DictionaryItem>lbQ()
                 .eq(DictionaryItem::getValue, item.getValue())
                 .eq(DictionaryItem::getDictionaryId, dictionaryId));
         if (count > 0) {
@@ -48,7 +48,7 @@ public class DictionaryItemServiceImpl extends SuperServiceImpl<DictionaryItemMa
 
     @Override
     public void editDictionaryItem(Long dictionaryId, DictionaryItem item) {
-        final int count = this.baseMapper.selectCount(Wraps.<DictionaryItem>lbQ()
+        final long count = this.baseMapper.selectCount(Wraps.<DictionaryItem>lbQ()
                 .eq(DictionaryItem::getValue, item.getValue())
                 .ne(DictionaryItem::getId, item.getId())
                 .eq(DictionaryItem::getDictionaryId, dictionaryId));

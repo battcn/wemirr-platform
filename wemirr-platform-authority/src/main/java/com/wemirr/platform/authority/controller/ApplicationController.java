@@ -53,7 +53,7 @@ public class ApplicationController {
     @SysLog(value = "添加应用")
     @Operation(summary = "添加应用")
     public Result<ResponseEntity<Void>> save(@Validated @RequestBody OAuthClientDetails dto) {
-        final int count = this.applicationService.count(Wraps.<OAuthClientDetails>lbQ().eq(OAuthClientDetails::getClientId, dto.getClientId()));
+        final long count = this.applicationService.count(Wraps.<OAuthClientDetails>lbQ().eq(OAuthClientDetails::getClientId, dto.getClientId()));
         if (count > 0) {
             throw CheckedException.badRequest("客户ID已存在");
         }

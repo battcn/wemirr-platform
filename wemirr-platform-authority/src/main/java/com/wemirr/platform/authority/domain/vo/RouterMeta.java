@@ -27,7 +27,7 @@ public class RouterMeta implements Serializable {
     @Schema(description = "标题")
     private String title;
     @Schema(description = "图标")
-    private String icon = "";
+    private String icon;
     @Schema(description = "面包屑")
     private Boolean breadcrumb = true;
 

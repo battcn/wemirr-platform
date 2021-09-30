@@ -70,7 +70,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
         if (dynamicDatasource.getId() != null) {
             lbqWrapper.ne(DynamicDatasource::getId, dynamicDatasource.getId());
         }
-        final int count = super.count(lbqWrapper);
+        final long count = super.count(lbqWrapper);
         if (count > 0) {
             throw CheckedException.badRequest("连接池名称已存在");
         }

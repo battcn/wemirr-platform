@@ -39,7 +39,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
     @Override
     public void addUser(UserSaveDTO dto) {
-        final int count = super.count(Wraps.<User>lbQ().eq(User::getUsername, dto.getUsername()));
+        final long count = super.count(Wraps.<User>lbQ().eq(User::getUsername, dto.getUsername()));
         if (count > 0) {
             throw CheckedException.badRequest("账号已存在");
         }

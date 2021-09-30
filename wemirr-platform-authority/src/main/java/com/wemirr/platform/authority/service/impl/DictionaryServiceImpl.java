@@ -37,7 +37,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
         if (dictionary == null) {
             throw CheckedException.notFound("字典内容不能为空");
         }
-        final Integer count = this.baseMapper.selectCount(Wraps.<Dictionary>lbQ().eq(Dictionary::getCode, dictionary.getCode()));
+        final Long count = this.baseMapper.selectCount(Wraps.<Dictionary>lbQ().eq(Dictionary::getCode, dictionary.getCode()));
         if (count != 0 && count > 0) {
             throw CheckedException.badRequest("字典类型编码重复");
         }
@@ -64,7 +64,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
         if (record.getReadonly()) {
             throw CheckedException.notFound("内置数据无法删除");
         }
-        final Integer count = this.baseMapper.selectCount(Wraps.<Dictionary>lbQ().ne(Dictionary::getId, dictionary.getId())
+        final Long count = this.baseMapper.selectCount(Wraps.<Dictionary>lbQ().ne(Dictionary::getId, dictionary.getId())
                 .eq(Dictionary::getCode, dictionary.getCode()));
         if (count != 0 && count > 0) {
             throw CheckedException.badRequest("字典类型编码重复");

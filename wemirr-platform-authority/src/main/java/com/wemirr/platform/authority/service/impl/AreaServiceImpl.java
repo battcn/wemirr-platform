@@ -24,7 +24,7 @@ public class AreaServiceImpl extends SuperServiceImpl<AreaMapper, AreaEntity> im
 
     @Override
     public void saveOrUpdateArea(AreaEntity area) {
-        final int count = count(Wraps.<AreaEntity>lbQ().eq(AreaEntity::getId, area.getId()));
+        final long count = count(Wraps.<AreaEntity>lbQ().eq(AreaEntity::getId, area.getId()));
         if (count == 0) {
             baseMapper.insert(area);
         } else {
