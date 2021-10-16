@@ -3,7 +3,7 @@ package com.wemirr.platform.authority.controller.baseinfo;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.boot.utils.BeanUtilPlus;
-import com.wemirr.framework.commons.annotation.SysLog;
+import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.authority.domain.dto.StationPageDTO;
 import com.wemirr.platform.authority.domain.dto.StationSaveDTO;

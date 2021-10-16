@@ -6,7 +6,7 @@ import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.boot.utils.BeanUtilPlus;
-import com.wemirr.framework.commons.annotation.SysLog;
+import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.OrgSaveDTO;

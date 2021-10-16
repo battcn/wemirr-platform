@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.commons.annotation.SysLog;
+import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.database.mybatis.conditions.Wraps;
