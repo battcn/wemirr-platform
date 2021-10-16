@@ -12,6 +12,7 @@ import com.wemirr.framework.redis.plus.anontation.RedisLock;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -26,7 +27,6 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -98,7 +98,7 @@ public class RedisLockInterceptor {
     private String parse(String key, Method method, Object[] args, ProceedingJoinPoint point) {
         String[] params = discoverer.getParameterNames(method);
         //指定 SPEL 表达式，并且有适配参数时
-        if (!ObjectUtils.isEmpty(params) && !StringUtils.isEmpty(key)) {
+        if (!ObjectUtils.isEmpty(params) && StringUtils.isNotEmpty(key)) {
             EvaluationContext context = new StandardEvaluationContext();
             for (int i = 0; i < params.length; i++) {
                 context.setVariable(params[i], args[i]);
