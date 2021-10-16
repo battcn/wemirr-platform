@@ -1,6 +1,6 @@
 ## 云存储方案
 
-支持`阿里云`、`腾讯云`、`自建Minio`、`七牛云`、等多种云存储，提供丰富的API开箱即用，如不满足业务需要，可以自行扩展`storage-framework-starter`
+支持`阿里云`、`腾讯云`、`自建Minio`、`七牛云`、等多种云存储，提供丰富的API开箱即用，如不满足业务需要，可以自行扩展`storage-spring-boot-starter`
 
 ```properties
 # 阿里云

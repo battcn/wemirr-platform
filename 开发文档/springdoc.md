@@ -2,7 +2,7 @@
 
 **SpringDoc 基于 swagger，并做了更多的对 Spring 系列各框架的兼容，用法与 Swagger3 基本相同，并多了一些自己的配置，相较于Swagger3来说，好用，支持更好**
 
-> `swagger-framework-starter` 基于 `SpringDoc` 做了增强,相关属性(`springdoc.plus.xxxx`)
+> `swagger-spring-boot-starter` 基于 `SpringDoc` 做了增强,相关属性(`springdoc.plus.xxxx`)
 
 ``` properties
 # 应用名称,建议同 ${spring.application.name}
