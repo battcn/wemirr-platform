@@ -15,7 +15,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <jdk.version>1.8</jdk.version>
-
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
         <!--
         <spring-boot.version>2.3.10.RELEASE</spring-boot.version>
@@ -311,32 +312,32 @@
             <!-- 自定义SDK -->
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
-                <artifactId>oauth2-framework-starter</artifactId>
+                <artifactId>oauth2-spring-boot-starter</artifactId>
                 <version>${wemirr-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
-                <artifactId>common-framework-starter</artifactId>
+                <artifactId>common-framework-core</artifactId>
                 <version>${wemirr-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
-                <artifactId>database-framework-starter</artifactId>
+                <artifactId>db-spring-boot-starter</artifactId>
                 <version>${wemirr-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
-                <artifactId>boot-framework-starter</artifactId>
+                <artifactId>common-spring-boot-starter</artifactId>
                 <version>${wemirr-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
-                <artifactId>swagger-framework-starter</artifactId>
+                <artifactId>swagger-spring-boot-starter</artifactId>
                 <version>${wemirr-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
-                <artifactId>websocket-framework-starter</artifactId>
+                <artifactId>websocket-spring-boot-starter</artifactId>
                 <exclusions>
                     <exclusion>
                         <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -347,12 +348,12 @@
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
-                <artifactId>xxl-job-framework-starter</artifactId>
+                <artifactId>xxl-job-spring-boot-starter</artifactId>
                 <version>${wemirr-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
-                <artifactId>storage-framework-starter</artifactId>
+                <artifactId>storage-spring-boot-starter</artifactId>
                 <version>${wemirr-framework.version}</version>
             </dependency>
             <dependency>

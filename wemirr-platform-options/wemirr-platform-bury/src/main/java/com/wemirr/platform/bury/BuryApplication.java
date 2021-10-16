@@ -1,6 +1,5 @@
 package com.wemirr.platform.bury;
 
-import com.wemirr.framework.boot.config.EnableGlobalException;
 import com.wemirr.framework.security.client.annotation.EnableOauth2ClientResourceServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Repository;
 /**
  * @author Levin
  */
-@EnableGlobalException
 @EnableOauth2ClientResourceServer
 @EnableDiscoveryClient
 @SpringBootApplication

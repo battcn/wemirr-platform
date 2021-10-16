@@ -2,7 +2,6 @@ package com.wemirr.platform.tools;
 
 import cn.hutool.core.lang.generator.Generator;
 import cn.hutool.core.lang.generator.SnowflakeGenerator;
-import com.wemirr.framework.boot.config.EnableGlobalException;
 import com.wemirr.framework.security.client.annotation.EnableOauth2ClientResourceServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Repository;
 /**
  * @author Levin
  */
-@EnableGlobalException
 @EnableOauth2ClientResourceServer
 @EnableDiscoveryClient
 @SpringBootApplication
