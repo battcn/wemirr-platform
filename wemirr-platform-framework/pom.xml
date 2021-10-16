@@ -24,14 +24,16 @@
 
 
     <modules>
-        <module>common-framework-starter</module>
-        <module>swagger-framework-starter</module>
-        <module>storage-framework-starter</module>
-        <module>oauth2-framework-starter</module>
-        <module>database-framework-starter</module>
-        <module>boot-framework-starter</module>
-        <module>websocket-framework-starter</module>
-        <module>xxl-job-framework-starter</module>
+        <module>common-framework-core</module>
+        <module>swagger-spring-boot-starter</module>
+        <module>storage-spring-boot-starter</module>
+        <module>oauth2-spring-boot-starter</module>
+        <module>db-spring-boot-starter</module>
+        <module>common-spring-boot-starter</module>
+        <module>websocket-spring-boot-starter</module>
+        <module>xxl-job-spring-boot-starter</module>
+        <!--<module>feign-plugin-spring-boot-starter</module>-->
+        <module>redis-plus-spring-boot-starter</module>
     </modules>
 
     <distributionManagement>

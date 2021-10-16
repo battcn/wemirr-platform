@@ -1,0 +1,7 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.wemirr.framework.boot.config.InitBaseConfiguration,\
+  com.wemirr.framework.boot.config.log.LogAutoConfiguration,\
+  com.wemirr.framework.boot.config.DynamicDatasourceWebAutoConfig,\
+  com.wemirr.framework.boot.config.GlobalExceptionHandler,\
+  com.wemirr.framework.boot.config.redis.lock.RedisLockAutoConfiguration

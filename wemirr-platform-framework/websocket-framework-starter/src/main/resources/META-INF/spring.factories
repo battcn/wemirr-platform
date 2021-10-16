@@ -1,3 +1,0 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.wemirr.framework.websocket.config.WebSocketSchedulingConfiguration
