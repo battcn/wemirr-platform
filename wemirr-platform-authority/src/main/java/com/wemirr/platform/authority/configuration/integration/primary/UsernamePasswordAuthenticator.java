@@ -3,7 +3,7 @@ package com.wemirr.platform.authority.configuration.integration.primary;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.security.client.entity.UserInfoDetails;
 import com.wemirr.framework.security.client.exception.Auth2Exception;
 import com.wemirr.platform.authority.configuration.integration.AbstractPreparedIntegrationAuthenticator;

@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.domain.dto;
 
-import com.wemirr.framework.boot.entity.PageRequest;
+import com.wemirr.framework.db.page.PageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

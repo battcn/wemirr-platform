@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.domain.dto;
 
-import com.wemirr.framework.boot.entity.PageRequest;
+import com.wemirr.framework.db.page.PageRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;

@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority;
 
-import com.wemirr.framework.boot.config.log.event.SysLogListener;
+import com.wemirr.framework.boot.log.event.SysLogListener;
 import com.wemirr.framework.security.client.annotation.EnableOauth2ClientResourceServer;
 import com.wemirr.framework.websocket.redis.EnableRedisWebSocket;
 import com.wemirr.platform.authority.service.OptLogService;

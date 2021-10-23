@@ -1,8 +1,8 @@
 package com.wemirr.platform.authority.repository;
 
-import com.wemirr.framework.boot.SuperMapper;
-import com.wemirr.framework.database.configuration.dynamic.ann.DynamicDS;
-import com.wemirr.framework.database.mybatis.auth.DataScope;
+import com.wemirr.framework.db.configuration.dynamic.ann.DynamicDS;
+import com.wemirr.framework.db.mybatis.SuperMapper;
+import com.wemirr.framework.db.mybatis.auth.DataScope;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import org.springframework.stereotype.Repository;
 

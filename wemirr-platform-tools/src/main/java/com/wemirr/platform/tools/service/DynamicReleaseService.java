@@ -1,7 +1,7 @@
 package com.wemirr.platform.tools.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.boot.entity.PageRequest;
+import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.tools.domain.entity.ExportExcelReq;
 import com.wemirr.platform.tools.domain.req.DynamicReleaseQueryDrag;
 import com.wemirr.platform.tools.domain.resp.DynamicReleaseCurdOptionResp;

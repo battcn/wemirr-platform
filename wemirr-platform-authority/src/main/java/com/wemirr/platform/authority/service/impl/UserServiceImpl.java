@@ -2,11 +2,11 @@ package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.database.mybatis.auth.DataScope;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
-import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
+import com.wemirr.framework.db.mybatis.SuperServiceImpl;
+import com.wemirr.framework.db.mybatis.auth.DataScope;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.dto.UserSaveDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;

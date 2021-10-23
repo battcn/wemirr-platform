@@ -1,9 +1,9 @@
 package com.wemirr.platform.authority.service.impl;
 
 
-import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatis.SuperServiceImpl;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.entity.common.Dictionary;
 import com.wemirr.platform.authority.domain.entity.common.DictionaryItem;
 import com.wemirr.platform.authority.repository.DictionaryItemMapper;

@@ -4,7 +4,7 @@ package com.wemirr.platform.authority.domain.entity.baseinfo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.Entity;
-import com.wemirr.framework.database.mybatis.auth.DataScopeType;
+import com.wemirr.framework.db.mybatis.auth.DataScopeType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

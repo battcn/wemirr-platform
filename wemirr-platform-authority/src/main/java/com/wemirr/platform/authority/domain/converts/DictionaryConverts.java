@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.domain.converts;
 
-import com.wemirr.framework.boot.entity.BasePageConverts;
+import com.wemirr.framework.db.page.BasePageConverts;
 import com.wemirr.platform.authority.domain.dto.DictionaryDTO;
 import com.wemirr.platform.authority.domain.dto.DictionaryItemDTO;
 import com.wemirr.platform.authority.domain.entity.common.Dictionary;

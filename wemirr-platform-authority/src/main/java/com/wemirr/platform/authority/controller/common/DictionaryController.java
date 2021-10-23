@@ -3,10 +3,10 @@ package com.wemirr.platform.authority.controller.common;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.boot.entity.PageRequest;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.dto.DictionaryDTO;
 import com.wemirr.platform.authority.domain.entity.common.Dictionary;
 import com.wemirr.platform.authority.domain.entity.common.DictionaryItem;

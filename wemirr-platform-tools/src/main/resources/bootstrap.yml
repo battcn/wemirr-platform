@@ -5,8 +5,6 @@ spring:
     allow-bean-definition-overriding: true
   mvc:
     throw-exception-if-no-handler-found: true
-  resources:
-    add-mappings: false
   application:
     name: wemirr-platform-tools
   cloud:

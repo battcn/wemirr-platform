@@ -1,14 +1,14 @@
 package com.wemirr.platform.authority.service.impl;
 
-import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
 import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.database.SpringUtils;
-import com.wemirr.framework.database.configuration.dynamic.TenantDynamicDataSourceProcess;
-import com.wemirr.framework.database.configuration.dynamic.event.body.EventAction;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
-import com.wemirr.framework.database.properties.DatabaseProperties;
-import com.wemirr.framework.database.properties.MultiTenantType;
+import com.wemirr.framework.db.SpringUtils;
+import com.wemirr.framework.db.configuration.dynamic.TenantDynamicDataSourceProcess;
+import com.wemirr.framework.db.configuration.dynamic.event.body.EventAction;
+import com.wemirr.framework.db.mybatis.SuperServiceImpl;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.properties.DatabaseProperties;
+import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;

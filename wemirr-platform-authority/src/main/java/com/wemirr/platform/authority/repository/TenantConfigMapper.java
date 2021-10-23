@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.repository;
 
-import com.wemirr.framework.boot.SuperMapper;
+import com.wemirr.framework.db.mybatis.SuperMapper;
 import com.wemirr.platform.authority.domain.entity.tenant.TenantConfig;
 import com.wemirr.platform.authority.domain.vo.TenantDynamicDatasourceVO;
 import org.apache.ibatis.annotations.Param;

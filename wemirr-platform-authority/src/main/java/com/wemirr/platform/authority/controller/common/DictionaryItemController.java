@@ -2,9 +2,9 @@ package com.wemirr.platform.authority.controller.common;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.boot.entity.PageRequest;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.dto.DictionaryItemDTO;
 import com.wemirr.platform.authority.domain.entity.common.DictionaryItem;
 import com.wemirr.platform.authority.service.DictionaryItemService;

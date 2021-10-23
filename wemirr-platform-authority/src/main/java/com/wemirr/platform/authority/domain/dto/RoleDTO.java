@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.domain.dto;
 
-import com.wemirr.framework.database.mybatis.auth.DataScopeType;
+import com.wemirr.framework.db.mybatis.auth.DataScopeType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;

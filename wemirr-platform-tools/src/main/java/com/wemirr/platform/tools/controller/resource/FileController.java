@@ -6,11 +6,11 @@ import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.boot.utils.RegionUtils;
+import com.wemirr.framework.boot.RegionUtils;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.storage.StorageOperation;
 import com.wemirr.framework.storage.domain.StorageRequest;
 import com.wemirr.framework.storage.domain.StorageResponse;
@@ -64,7 +64,7 @@ public class FileController {
             @Parameter(description = "文件类型", name = "fileType", in = ParameterIn.QUERY),
     })
     @Operation(summary = "文件列表 - [Levin] - [DONE]")
-    public Result<IPage<?>> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
+    public Result<IPage<FileEntity>> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
                                   @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
                                   String originName, String fileType) {
         return Result.success(fileService.page(new Page<>(current, size), Wraps.<FileEntity>lbQ()

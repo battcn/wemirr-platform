@@ -2,11 +2,11 @@ package com.wemirr.platform.authority.controller.message;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.boot.entity.PageRequest;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.database.TenantEnvironment;
-import com.wemirr.framework.database.configuration.dynamic.ann.DynamicDS;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.db.configuration.dynamic.ann.DynamicDS;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.entity.message.StationMessage;
 import com.wemirr.platform.authority.service.StationMessageService;
 import io.swagger.v3.oas.annotations.tags.Tag;

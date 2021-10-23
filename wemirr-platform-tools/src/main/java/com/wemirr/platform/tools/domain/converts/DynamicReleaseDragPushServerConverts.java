@@ -1,7 +1,7 @@
 package com.wemirr.platform.tools.domain.converts;
 
-import com.wemirr.framework.boot.entity.BasePageConverts;
 import com.wemirr.framework.commons.StringUtils;
+import com.wemirr.framework.db.page.BasePageConverts;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDragPushServer;
 import com.wemirr.platform.tools.domain.resp.DynamicReleaseDragPushServerResp;
 

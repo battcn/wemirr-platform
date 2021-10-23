@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.database.TenantEnvironment;
+import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.security.client.utils.SecurityUtils;
 import com.wemirr.platform.authority.domain.dto.ChangePasswordDTO;
 import com.wemirr.platform.authority.service.UserService;

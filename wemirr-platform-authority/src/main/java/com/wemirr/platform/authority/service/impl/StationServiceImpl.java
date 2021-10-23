@@ -2,12 +2,12 @@ package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.boot.entity.PageRequest;
-import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
-import com.wemirr.framework.database.mybatis.auth.DataScope;
-import com.wemirr.framework.database.mybatis.auth.DataScopeType;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
-import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
+import com.wemirr.framework.db.mybatis.SuperServiceImpl;
+import com.wemirr.framework.db.mybatis.auth.DataScope;
+import com.wemirr.framework.db.mybatis.auth.DataScopeType;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
+import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.dto.StationPageDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
 import com.wemirr.platform.authority.repository.StationMapper;

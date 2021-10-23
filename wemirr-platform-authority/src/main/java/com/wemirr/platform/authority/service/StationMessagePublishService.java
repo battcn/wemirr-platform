@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.service;
 
-import com.wemirr.framework.boot.service.SuperService;
+import com.wemirr.framework.db.mybatis.SuperService;
 import com.wemirr.platform.authority.domain.entity.message.StationMessagePublish;
 import com.wemirr.platform.authority.domain.enums.ReceiverType;
 import com.wemirr.platform.authority.domain.vo.CommonDataResp;

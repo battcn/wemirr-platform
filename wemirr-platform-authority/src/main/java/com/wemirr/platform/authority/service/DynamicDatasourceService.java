@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.service;
 
-import com.wemirr.framework.boot.service.SuperService;
-import com.wemirr.framework.database.configuration.dynamic.event.body.EventAction;
+import com.wemirr.framework.db.configuration.dynamic.event.body.EventAction;
+import com.wemirr.framework.db.mybatis.SuperService;
 import com.wemirr.platform.authority.domain.entity.tenant.DynamicDatasource;
 import com.wemirr.platform.authority.domain.vo.TenantDynamicDatasourceVO;
 

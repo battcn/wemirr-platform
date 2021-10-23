@@ -1,8 +1,8 @@
 package com.wemirr.platform.tools.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatis.SuperServiceImpl;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDrag;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDragPushServer;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDragPushServerModel;

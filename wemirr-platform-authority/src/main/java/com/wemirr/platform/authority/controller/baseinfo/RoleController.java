@@ -3,12 +3,12 @@ package com.wemirr.platform.authority.controller.baseinfo;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.boot.utils.BeanUtilPlus;
+import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.database.TenantEnvironment;
-import com.wemirr.framework.database.mybatis.auth.DataScopeType;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.db.mybatis.auth.DataScopeType;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.RoleDTO;
 import com.wemirr.platform.authority.domain.dto.RoleResSaveDTO;
 import com.wemirr.platform.authority.domain.dto.RoleUserDTO;

@@ -1,9 +1,9 @@
 package com.wemirr.platform.authority.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.boot.service.SuperService;
-import com.wemirr.framework.database.mybatis.auth.DataScope;
-import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
+import com.wemirr.framework.db.mybatis.SuperService;
+import com.wemirr.framework.db.mybatis.auth.DataScope;
+import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.dto.UserSaveDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.vo.UserResp;

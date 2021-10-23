@@ -1,10 +1,10 @@
 package com.wemirr.platform.authority.repository;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.boot.SuperMapper;
-import com.wemirr.framework.database.configuration.dynamic.ann.DynamicDS;
-import com.wemirr.framework.database.mybatis.auth.DataScope;
-import com.wemirr.framework.database.mybatis.conditions.query.LbqWrapper;
+import com.wemirr.framework.db.configuration.dynamic.ann.DynamicDS;
+import com.wemirr.framework.db.mybatis.SuperMapper;
+import com.wemirr.framework.db.mybatis.auth.DataScope;
+import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.vo.UserResp;
 import org.springframework.stereotype.Repository;

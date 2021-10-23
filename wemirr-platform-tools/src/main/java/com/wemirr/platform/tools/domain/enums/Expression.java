@@ -3,7 +3,7 @@ package com.wemirr.platform.tools.domain.enums;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wemirr.framework.database.mybatis.DictionaryEnum;
+import com.wemirr.framework.db.mybatis.DictionaryEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

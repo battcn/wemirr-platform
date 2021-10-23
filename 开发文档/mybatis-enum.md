@@ -2,7 +2,7 @@
 
 > 用法一（Mybatis-Plus 内置API）
 
-创建一个枚举实现 `com.wemirr.framework.database.mybatis.DictionaryEnum<T>` 接口 
+创建一个枚举实现 `com.wemirr.framework.db.mybatis.DictionaryEnum<T>` 接口 
 
 ```
 @TableField(value = "sex")
@@ -17,6 +17,6 @@ private Sex sex;
 <resultMap id="xxxx" type="com.xxx.xxx">
     <id column="id" property="id"/>
     <result column="sex" property="sex" javaType="com.wemirr.platform.authority.domain.enums.Sex"
-        typeHandler="com.wemirr.framework.database.mybatis.typehandler.EnumTypeHandler"/>
+        typeHandler="com.wemirr.framework.db.mybatis.typehandler.EnumTypeHandler"/>
 </resultMap>
 ```

@@ -1,9 +1,9 @@
 package com.wemirr.platform.authority.controller.log;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.boot.entity.PageRequest;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.entity.log.LoginLog;
 import com.wemirr.platform.authority.service.LoginLogService;
 import io.swagger.v3.oas.annotations.Operation;

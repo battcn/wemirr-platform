@@ -1,10 +1,10 @@
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.wemirr.framework.database.mybatis.auth.DataScope;
-import com.wemirr.framework.database.mybatis.auth.DataScopeService;
-import com.wemirr.framework.database.mybatis.auth.DataScopeType;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatis.auth.DataScope;
+import com.wemirr.framework.db.mybatis.auth.DataScopeService;
+import com.wemirr.framework.db.mybatis.auth.DataScopeType;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Org;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleOrg;

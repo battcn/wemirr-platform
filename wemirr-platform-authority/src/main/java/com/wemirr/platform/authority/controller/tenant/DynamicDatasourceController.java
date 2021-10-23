@@ -2,10 +2,10 @@ package com.wemirr.platform.authority.controller.tenant;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.boot.entity.PageRequest;
-import com.wemirr.framework.boot.utils.BeanUtilPlus;
+import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.dto.DynamicDatasourceReq;
 import com.wemirr.platform.authority.domain.entity.tenant.DynamicDatasource;
 import com.wemirr.platform.authority.service.DynamicDatasourceService;

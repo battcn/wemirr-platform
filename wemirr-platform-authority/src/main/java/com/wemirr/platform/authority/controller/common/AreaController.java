@@ -6,7 +6,7 @@ import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.database.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.AreaEntityDTO;
 import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
 import com.wemirr.platform.authority.domain.vo.AreaNodeResp;

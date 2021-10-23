@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.service.impl;
 
-import com.wemirr.framework.boot.service.impl.SuperServiceImpl;
+import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.platform.authority.domain.entity.baseinfo.OAuthClientDetails;
 import com.wemirr.platform.authority.repository.OAuthClientDetailsMapper;
 import com.wemirr.platform.authority.service.ApplicationService;

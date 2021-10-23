@@ -2,8 +2,8 @@ package com.wemirr.platform.tools.controller.dynamic;
 
 import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.boot.entity.PageRequest;
 import com.wemirr.framework.commons.entity.Result;
+import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.tools.domain.resp.DynamicReleaseCurdOptionResp;
 import com.wemirr.platform.tools.service.DynamicReleaseService;
 import io.swagger.v3.oas.annotations.tags.Tag;

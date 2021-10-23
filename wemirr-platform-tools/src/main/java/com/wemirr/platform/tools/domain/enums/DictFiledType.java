@@ -2,7 +2,7 @@ package com.wemirr.platform.tools.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wemirr.framework.database.mybatis.DictionaryEnum;
+import com.wemirr.framework.db.mybatis.DictionaryEnum;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

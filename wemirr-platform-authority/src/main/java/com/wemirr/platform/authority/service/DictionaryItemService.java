@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.service;
 
 
-import com.wemirr.framework.boot.service.SuperService;
+import com.wemirr.framework.db.mybatis.SuperService;
 import com.wemirr.platform.authority.domain.entity.common.DictionaryItem;
 
 /**

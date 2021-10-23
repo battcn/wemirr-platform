@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-dependencies</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>wemirr-platform-dependencies</name>
     <description>wemirr 平台包版本管理</description>
 
@@ -49,7 +49,7 @@
         <dynamic-datasource.version>3.4.1</dynamic-datasource.version>
         <xxl-job.version>2.3.0</xxl-job.version>
         <easyexcel.version>2.2.10</easyexcel.version>
-        <wemirr-framework.version>0.0.1-SNAPSHOT</wemirr-framework.version>
+        <wemirr-framework.version>0.0.2-SNAPSHOT</wemirr-framework.version>
         <guava.version>30.1.1-jre</guava.version>
         <jackson.version>2.12.4</jackson.version>
         <springdoc-openapi.version>1.5.10</springdoc-openapi.version>

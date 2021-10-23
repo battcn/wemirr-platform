@@ -1,10 +1,10 @@
 package com.wemirr.platform.authority.configuration;
 
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
-import com.wemirr.framework.database.TenantEnvironment;
-import com.wemirr.framework.database.configuration.BaseMybatisConfiguration;
-import com.wemirr.framework.database.mybatis.auth.DataScopeInnerInterceptor;
-import com.wemirr.framework.database.properties.DatabaseProperties;
+import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.db.configuration.BaseMybatisConfiguration;
+import com.wemirr.framework.db.mybatis.auth.DataScopeInnerInterceptor;
+import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.security.client.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
