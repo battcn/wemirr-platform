@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2-SNAPSHOT</version>
     </parent>
     <groupId>com.wemirr.framework</groupId>
     <artifactId>wemirr-platform-framework</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -32,7 +32,7 @@
         <module>common-spring-boot-starter</module>
         <module>websocket-spring-boot-starter</module>
         <module>xxl-job-spring-boot-starter</module>
-        <!--<module>feign-plugin-spring-boot-starter</module>-->
+        <module>feign-plugin-spring-boot-starter</module>
         <module>redis-plus-spring-boot-starter</module>
     </modules>
 

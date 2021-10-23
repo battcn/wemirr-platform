@@ -61,7 +61,7 @@ public @interface Remote {
     @interface FieldRef {
         String original() default EMPTY;
 
-        String source();
+        String target();
     }
 
 
