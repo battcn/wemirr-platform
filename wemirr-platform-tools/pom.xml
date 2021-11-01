@@ -23,21 +23,9 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>xxl-job-spring-boot-starter</artifactId>
-        </dependency>
-        <!--<dependency>
-            <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-register-center-starter-nacos</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-strategy-starter-service</artifactId>
         </dependency>-->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -63,6 +51,10 @@
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>swagger-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>db-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>

@@ -1,8 +1,8 @@
 package com.wemirr.platform.authority.service.impl;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.SpringUtils;
 import com.wemirr.framework.db.configuration.dynamic.TenantDynamicDataSourceProcess;
 import com.wemirr.framework.db.configuration.dynamic.event.body.EventAction;
 import com.wemirr.framework.db.mybatis.SuperServiceImpl;
@@ -115,7 +115,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             this.userRoleMapper.insert(UserRole.builder().userId(record.getId()).roleId(role.getId()).build());
 
         } else if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
-            TenantDynamicDataSourceProcess tenantDynamicDataSourceProcess = SpringUtils.getBean(TenantDynamicDataSourceProcess.class);
+            TenantDynamicDataSourceProcess tenantDynamicDataSourceProcess = SpringUtil.getBean(TenantDynamicDataSourceProcess.class);
             tenantDynamicDataSourceProcess.initSqlScript(tenant.getCode());
         }
     }

@@ -71,7 +71,11 @@ public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<Str
     private final Generator<Long> generator;
     private final DynamicReleaseDragMapper dynamicReleaseDragMapper;
     private final TenantEnvironment tenantEnvironment;
-    private final MongoTemplate mongoTemplate;
+
+    /**
+     * fix: mongoTemplate  暂时无效
+     */
+    private MongoTemplate mongoTemplate;
 
     @Override
     public DynamicReleaseCurdOptionResp curdOptions(String model) {
@@ -356,8 +360,8 @@ public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<Str
             return null;
         }
         List<DynamicReleaseCurdOptionResp.DynamicReleaseColumnDictData> data = options.stream().map(option ->
-                DynamicReleaseCurdOptionResp.DynamicReleaseColumnDictData.builder()
-                        .label(option.getLabel()).value(option.getValue()).build())
+                        DynamicReleaseCurdOptionResp.DynamicReleaseColumnDictData.builder()
+                                .label(option.getLabel()).value(option.getValue()).build())
                 .collect(toList());
         return DynamicReleaseCurdOptionResp.DynamicReleaseColumnDictResp.builder()
                 .data(data)

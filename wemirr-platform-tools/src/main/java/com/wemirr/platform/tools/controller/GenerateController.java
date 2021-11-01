@@ -35,7 +35,6 @@ import java.nio.file.Paths;
 @RequiredArgsConstructor
 @Tag(name = "代码生成", description = "代码生成")
 @Validated
-@Deprecated
 public class GenerateController {
 
     private final GenerateService generateService;

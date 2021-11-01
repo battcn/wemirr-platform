@@ -205,7 +205,6 @@ public class SysLogAspect {
             OptLogDTO sysLog = get();
             sysLog.setCreatedBy(tenantEnvironment.userId());
             sysLog.setCreatedName(tenantEnvironment.realName());
-            // String controllerDescription = joinPoint.getTarget().getClass().getSimpleName()
             String controllerMethodDescription = LogUtil.getDescription(sysLogAnnotation);
             if (StrUtil.isNotEmpty(controllerMethodDescription) && StrUtil.contains(controllerMethodDescription, JING_HAO)) {
                 //获取方法参数值
@@ -234,10 +233,7 @@ public class SysLogAspect {
                 }else {
                     sysLog.setDsKey(multiTenant.getDsPrefix() + tenantCode);
                 }
-
             }
-//            sysLog.setTrace(MDC.get(BaseContextConstants.LOG_TRACE_ID));
-
             sysLog.setIp(ServletUtil.getClientIP(request));
             sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
             sysLog.setHttpMethod(request.getMethod());
@@ -251,11 +247,6 @@ public class SysLogAspect {
             sysLog.setBrowser(browser.getName());
             String ua = request.getHeader(USER_AGENT);
             sysLog.setBrowserVersion(browser.getVersion(ua));
-
-            //sysLog.setTenantCode(request.getHeader(BaseContextConstants.TENANT));
-//            if (StrUtil.isEmpty(sysLog.getTrace())) {
-//                sysLog.setTrace(request.getHeader(BaseContextConstants.TRACE_ID_HEADER));
-//            }
             sysLog.setStartTime(LocalDateTime.now());
 
             THREAD_LOCAL.set(sysLog);

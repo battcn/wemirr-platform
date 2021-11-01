@@ -1,11 +1,11 @@
 package com.wemirr.framework.db.configuration.dynamic;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.processor.DsHeaderProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
 import com.wemirr.framework.commons.StringUtils;
-import com.wemirr.framework.db.SpringUtils;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.configuration.dynamic.event.DynamicDatasourceEvent;
 import com.wemirr.framework.db.configuration.dynamic.event.DynamicDatasourceEventListener;
@@ -74,7 +74,7 @@ public class TenantDynamicDataSourceEventBusAutoConfiguration {
                 }
                 HttpServletRequest request = attributes.getRequest();
                 if (multiTenant.isUseTenantContent()) {
-                    TenantEnvironment tenantEnvironment = SpringUtils.getBean(TenantEnvironment.class);
+                    TenantEnvironment tenantEnvironment = SpringUtil.getBean(TenantEnvironment.class);
                     if (tenantEnvironment.anonymous()) {
                         log.debug("匿名用户,切换默认数据源 - {}", multiTenant.getDefaultDsName());
                         return multiTenant.getDefaultDsName();
