@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("common_generate")
-public class GenerateRequest extends SuperEntity<Long> {
+public class GenerateEntity extends SuperEntity<Long> {
 
     /**
      * 开发人员
@@ -41,12 +41,11 @@ public class GenerateRequest extends SuperEntity<Long> {
      * 逻辑删除属性名称
      */
     private String logicDeleteField;
-    private String superControllerClass;
     @TableField(exist = false)
     private List<IFill> fillList;
     private Long platformId;
 
-    public GenerateRequest addFill(String fieldName, FieldFill fieldFill) {
+    public GenerateEntity addFill(String fieldName, FieldFill fieldFill) {
         if (fillList == null) {
             fillList = new ArrayList<>();
         }

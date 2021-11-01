@@ -5,8 +5,9 @@ import cn.hutool.core.util.ZipUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
-import com.wemirr.platform.tools.domain.entity.GenerateRequest;
+import com.wemirr.platform.tools.domain.entity.GenerateEntity;
 import com.wemirr.platform.tools.domain.req.GenerateReq;
 import com.wemirr.platform.tools.service.GenerateService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,8 +42,9 @@ public class GenerateController {
 
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping
-    public Result<Page<GenerateRequest>> page(PageRequest pageRequest) {
-        final Page<GenerateRequest> page = generateService.page(pageRequest.buildPage());
+    public Result<Page<GenerateEntity>> page(PageRequest pageRequest, String author) {
+        final Page<GenerateEntity> page = generateService.page(pageRequest.buildPage(),
+                Wraps.<GenerateEntity>lbQ().eq(GenerateEntity::getAuthor, author));
         return Result.success(page);
     }
 
@@ -50,8 +52,8 @@ public class GenerateController {
     @Operation(summary = "代码生成")
     @PatchMapping("/{id}/download")
     public void add(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        final GenerateRequest generateRequest = this.generateService.getById(id);
-        final String path = generateService.generate(generateRequest);
+        final GenerateEntity generateEntity = this.generateService.getById(id);
+        final String path = generateService.generate(generateEntity);
         final File file = ZipUtil.zip(path);
         if (!file.exists()) {
             throw CheckedException.badRequest("文件不存在");
@@ -79,7 +81,7 @@ public class GenerateController {
     @Operation(summary = "添加代码生成")
     @PostMapping
     public Result<ResponseEntity<Void>> add(@Validated @RequestBody GenerateReq req) {
-        generateService.save(BeanUtil.toBean(req, GenerateRequest.class));
+        generateService.save(BeanUtil.toBean(req, GenerateEntity.class));
         return Result.success();
     }
 
@@ -87,7 +89,7 @@ public class GenerateController {
     @Operation(summary = "编辑代码生成")
     @PutMapping("/{id}")
     public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody GenerateReq req) {
-        final GenerateRequest request = BeanUtil.toBean(req, GenerateRequest.class);
+        final GenerateEntity request = BeanUtil.toBean(req, GenerateEntity.class);
         request.setId(id);
         generateService.updateById(request);
         return Result.success();

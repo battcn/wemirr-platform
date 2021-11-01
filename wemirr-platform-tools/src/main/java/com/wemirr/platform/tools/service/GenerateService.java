@@ -2,12 +2,12 @@ package com.wemirr.platform.tools.service;
 
 
 import com.wemirr.framework.db.mybatis.SuperService;
-import com.wemirr.platform.tools.domain.entity.GenerateRequest;
+import com.wemirr.platform.tools.domain.entity.GenerateEntity;
 
 /**
  * @author Levin
  */
-public interface GenerateService extends SuperService<GenerateRequest> {
+public interface GenerateService extends SuperService<GenerateEntity> {
 
     /**
      * 生成
@@ -15,5 +15,5 @@ public interface GenerateService extends SuperService<GenerateRequest> {
      * @param request request
      * @return 生成结果
      */
-    String generate(GenerateRequest request);
+    String generate(GenerateEntity request);
 }

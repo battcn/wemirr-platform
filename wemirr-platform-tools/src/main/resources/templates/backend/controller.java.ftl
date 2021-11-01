@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
+import com.wemirr.framework.db.page.PageRequest;
 import ${package.Entity}.${entity};
 import ${package.Service}.${table.serviceName};
 import lombok.AllArgsConstructor;
@@ -49,23 +49,24 @@ public class ${table.controllerName} {
      * 分页查询
      */
     @GetMapping
-    public Result<${entity}> get${entity}Page(Page<${entity}> page, ${entity} query) {
-        final LbqWrapper<DynamicDatasource> lbqWrapper = Wraps.lbQ();
-        return Result.success(${table.entityPath}Service.page(page, lbqWrapper));
+    public Result<Page<${entity}>> get${entity}Page(PageRequest pageRequest) {
+        return Result.success(${table.entityPath}Service.page(pageRequest.buildPage()));
     }
 
     /**
      * 通过id查询${table.comment!}
+     *
      * @param id id
      * @return Ret
      */
     @GetMapping("{id}")
     public Result<${entity}> getById(@PathVariable("id") Long id) {
-        return Result.success("",${table.entityPath}Service.getById(id));
+        return Result.success(${table.entityPath}Service.getById(id));
     }
 
     /**
      * 新增${table.comment!}
+     *
      * @param ${table.entityPath} ${table.comment!}
      * @return Result
      */
@@ -78,6 +79,7 @@ public class ${table.controllerName} {
 
     /**
      * 修改${table.comment!}
+     *
      * @param ${table.entityPath} ${table.comment!}
      * @return Ret
      */
@@ -88,15 +90,16 @@ public class ${table.controllerName} {
     }
 
     /**
-    * 通过id删除${table.comment!}
-    * @param id id
-    * @return Result
-    */
-    @PostMapping("/delete")
+     * 通过id删除${table.comment!}
+     *
+     * @param id id
+     * @return Result
+     */
+    @DeleteMapping("{id}")
     <#-- @PreAuthorize("@pms.hasPermission('${package.ModuleName}:${table.entityPath}:del')")-->
-    public Result<?> removeById(@RequestParam Long id) {
+    public Result<?> removeById(@PathVariable Long id) {
         ${table.entityPath}Service.removeById(id);
-     return Result.success();
+        return Result.success();
     }
 
 }
