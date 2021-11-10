@@ -74,20 +74,18 @@ public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements 
 
     @Override
     public Map<Serializable, Object> findOrgByIds(Set<Serializable> ids) {
-        List<Org> list = getOrgs(ids);
-
+        List<Org> list = getOrgList(ids);
         //key 是 组织id， value 是org 对象
         return MapHelper.uniqueIndex(list, Org::getId, (org) -> org);
     }
 
     private static final int INT_1000 = 1000;
 
-    private List<Org> getOrgs(Set<Serializable> ids) {
+    private List<Org> getOrgList(Set<Serializable> ids) {
         if (ids.isEmpty()) {
             return Collections.emptyList();
         }
         List<Long> idList = ids.stream().mapToLong(Convert::toLong).boxed().collect(toList());
-
         List<Org> list;
         if (idList.size() <= INT_1000) {
             list = idList.stream().map(id -> this.baseMapper.selectById(id)).filter(Objects::nonNull).collect(toList());

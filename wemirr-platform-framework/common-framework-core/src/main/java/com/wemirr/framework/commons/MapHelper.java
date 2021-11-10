@@ -4,10 +4,12 @@ package com.wemirr.framework.commons;
 import cn.hutool.core.map.MapUtil;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -58,6 +60,59 @@ public class MapHelper {
                     duplicateKeys.getMessage()
                             + ".若要在键下索引多个值，请使用: Multimaps.index.");
         }
+    }
+
+
+    /**
+     * 增强 guava 的 Maps.uniqueIndex方法
+     * <p>
+     * guava 的 Maps.uniqueIndex方法可以实现：
+     * <br>
+     * 将 list&lt;V&gt 转成 Map&lt;K , V&gt
+     * K 需要自己指定， V不能指定
+     * </p>
+     * <p>
+     * 本方法实现了：
+     * <p>
+     * 将 list&lt;V&gt 转成 Map&lt;K , M&gt
+     * K 需要自己指定， M需要自己指定
+     * </p>
+     *
+     * @param values        需要转换的集合 可以是任何实现了 Iterable 接口的集合(如List, Set, Collection)
+     * @param keyFunction   转换后Map的键的转换方式
+     * @param valueFunction 转换后Map的值的转换方式
+     * @param <K>           转换后Map的键 类型
+     * @param <V>           转换前Iterable的迭代类型
+     * @param <M>           转换后Map的值 类型
+     * @return ImmutableMap<K, M>
+     */
+    public static <K, V, M> Map<K, M> toImmutableMap(Iterable<V> values, Function<? super V, K> keyFunction, Function<? super V, M> valueFunction) {
+        return uniqueIndex(values, keyFunction, valueFunction);
+    }
+
+    /**
+     * List 转 HashMap
+     * K 需要自己指定， M需要自己指定
+     * </p>
+     *
+     * @param values        需要转换的集合 可以是任何实现了 Iterable 接口的集合(如List, Set, Collection)
+     * @param keyFunction   转换后Map的键的转换方式
+     * @param valueFunction 转换后Map的值的转换方式
+     * @param <K>           转换后Map的键 类型
+     * @param <V>           转换前Iterable的迭代类型
+     * @param <M>           转换后Map的值 类型
+     * @return ImmutableMap<K, M>
+     */
+    public static <K, V, M> Map<K, M> toHashMap(Iterable<V> values, Function<? super V, K> keyFunction, Function<? super V, M> valueFunction) {
+        checkNotNull(values);
+        Iterator<V> iterator = values.iterator();
+        checkNotNull(keyFunction);
+        Map<K, M> map = Maps.newHashMap();
+        while (iterator.hasNext()) {
+            V value = iterator.next();
+            map.put(keyFunction.apply(value), Objects.isNull(value) ? null : valueFunction.apply(value));
+        }
+        return map;
     }
 
     /**
