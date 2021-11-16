@@ -52,10 +52,7 @@ import static com.wemirr.framework.boot.base.GlobalExceptionHandler.GLOBAL_EXCEP
 @Slf4j
 @Configuration
 @ControllerAdvice
-@ConditionalOnProperty(prefix = GLOBAL_EXCEPTION, name = "enabled", havingValue = "true")
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
-    public static final String GLOBAL_EXCEPTION = "extend.exception.global";
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
