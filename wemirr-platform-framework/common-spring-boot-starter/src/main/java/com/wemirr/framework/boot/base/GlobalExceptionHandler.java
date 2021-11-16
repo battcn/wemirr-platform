@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
@@ -50,7 +49,6 @@ import static com.wemirr.framework.boot.base.GlobalExceptionHandler.GLOBAL_EXCEP
  * @since 2019-01-21
  */
 @Slf4j
-@Configuration
 @ControllerAdvice
 @ConditionalOnProperty(prefix = GLOBAL_EXCEPTION, name = "enabled", havingValue = "true")
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -61,7 +59,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     public ResponseEntity<Result<ResponseEntity<Void>>> jsonErrorHandler(HttpServletRequest request, Exception e) {
         HttpStatus defaultErrorResult = HttpStatus.OK;
-        log.error("错误日志 - {} - {}", request.getRequestURI(), e);
+        log.error("错误日志 - {} - {}", request.getRequestURI(), e.getLocalizedMessage());
         if (e instanceof CheckedException) {
             CheckedException exception = (CheckedException) e;
             return new ResponseEntity<>(Result.fail(exception.getCode(), exception.getMessage()), defaultErrorResult);
@@ -90,7 +88,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             }
             return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
         } else if (e instanceof RuntimeException) {
-            log.warn("[RuntimeException]", e);
             RuntimeException exception = (RuntimeException) e;
             return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
         }

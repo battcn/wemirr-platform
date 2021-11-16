@@ -16,6 +16,7 @@ import com.wemirr.framework.boot.log.event.SysLogEvent;
 import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.commons.entity.Result;
+import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
@@ -178,8 +179,11 @@ public class SysLogAspect {
                 String strArgs = getArgs(sysLogAnnotation, args, request);
                 sysLog.setParams(getText(strArgs));
             }
-            // 异常对象
-            sysLog.setExDetail(ExceptionUtil.stacktraceToString(e, MAX_LENGTH));
+            if (e.getCause() instanceof CheckedException) {
+                sysLog.setExDetail(e.getLocalizedMessage());
+            } else {
+                sysLog.setExDetail(ExceptionUtil.stacktraceToString(e, MAX_LENGTH));
+            }
             sysLog.setExDesc(e.getMessage());
             publishEvent(sysLog);
         });
@@ -230,7 +234,7 @@ public class SysLogAspect {
                 String tenantCode = request.getHeader(multiTenant.getTenantCodeColumn());
                 if (StringUtils.equals(multiTenant.getSuperTenantCode(), tenantCode)) {
                     sysLog.setDsKey(multiTenant.getDefaultDsName());
-                }else {
+                } else {
                     sysLog.setDsKey(multiTenant.getDsPrefix() + tenantCode);
                 }
             }
