@@ -79,4 +79,8 @@
         <logger name="com.wemirr" level="debug"/>
     </springProfile>
 
+    <logger name="com.alibaba.nacos" level="warn"/>
+    <logger name="org.springframework.amqp.rabbit" level="warn"/>
+
+
 </configuration>
