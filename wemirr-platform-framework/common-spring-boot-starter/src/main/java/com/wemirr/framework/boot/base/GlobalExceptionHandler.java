@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
@@ -49,6 +50,7 @@ import static com.wemirr.framework.boot.base.GlobalExceptionHandler.GLOBAL_EXCEP
  * @since 2019-01-21
  */
 @Slf4j
+@Configuration
 @ControllerAdvice
 @ConditionalOnProperty(prefix = GLOBAL_EXCEPTION, name = "enabled", havingValue = "true")
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
