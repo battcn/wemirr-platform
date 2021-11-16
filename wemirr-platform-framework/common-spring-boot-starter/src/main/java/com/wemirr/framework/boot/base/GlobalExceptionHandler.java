@@ -43,7 +43,6 @@ import javax.validation.ValidationException;
 import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 
-import static com.wemirr.framework.boot.base.GlobalExceptionHandler.GLOBAL_EXCEPTION;
 
 /**
  * @author Levin
