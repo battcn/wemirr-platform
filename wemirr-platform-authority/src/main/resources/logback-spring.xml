@@ -61,7 +61,7 @@
     </appender>
 
     <!-- region 根据不同的环境设置不同的日志输出级别 -->
-    <springProfile name="default,local,dev">
+    <springProfile name="default,local,dev,demo">
         <root level="info">
             <appender-ref ref="console"/>
             <appender-ref ref="ordinaryFile"/>
