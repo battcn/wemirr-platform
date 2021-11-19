@@ -71,13 +71,9 @@ public class QiNiuStorageOperation implements StorageOperation {
         final File file = new File(path + File.separator + fileName);
         log.debug("[文件目录] - [{}]", file.getPath());
         try {
-//            String encodedFileName = URLEncoder.encode(fileName, "utf-8");
-//            String format = String.format("%s/%s", domainOfBucket, encodedFileName);
             DownloadUrl url = new DownloadUrl(domainOfBucket, true, fileName);
             String urlString = url.buildURL();
-//            FileUtil.writeFromStream(URLUtil.getStream(URLUtil.url(url.buildURL())), file);
-//            final InputStream stream = URLUtil.getStream(URLUtil.url(url.buildURL()));
-//            DownloadResponse.success(stream);
+            log.debug(urlString);
         } catch (QiniuException e) {
             e.printStackTrace();
         }
