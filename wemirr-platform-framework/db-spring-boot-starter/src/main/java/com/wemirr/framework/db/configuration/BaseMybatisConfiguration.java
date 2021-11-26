@@ -10,9 +10,6 @@ import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.configuration.handler.MyBatisMetaObjectHandler;
 import com.wemirr.framework.db.injector.MySqlInjector;
 import com.wemirr.framework.db.mybatis.auth.DataScopeAspect;
-import com.wemirr.framework.db.mybatis.typehandler.FullLikeTypeHandler;
-import com.wemirr.framework.db.mybatis.typehandler.LeftLikeTypeHandler;
-import com.wemirr.framework.db.mybatis.typehandler.RightLikeTypeHandler;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import lombok.RequiredArgsConstructor;
@@ -137,42 +134,6 @@ public abstract class BaseMybatisConfiguration {
     public MetaObjectHandler myBatisMetaObjectHandler() {
         DatabaseProperties.Id id = properties.getId();
         return new MyBatisMetaObjectHandler(id.getWorkerId(), id.getDataCenterId(), tenantEnvironment);
-    }
-
-    /**
-     * Mybatis 自定义的类型处理器： 处理XML中  #{name,typeHandler=leftLike} 类型的参数
-     * 用于左模糊查询时使用
-     * <p>
-     * eg：
-     * and name like #{name,typeHandler=leftLike}
-     */
-    @Bean
-    public LeftLikeTypeHandler getLeftLikeTypeHandler() {
-        return new LeftLikeTypeHandler();
-    }
-
-    /**
-     * Mybatis 自定义的类型处理器： 处理XML中  #{name,typeHandler=rightLike} 类型的参数
-     * 用于右模糊查询时使用
-     * <p>
-     * eg：
-     * and name like #{name,typeHandler=rightLike}
-     */
-    @Bean
-    public RightLikeTypeHandler getRightLikeTypeHandler() {
-        return new RightLikeTypeHandler();
-    }
-
-    /**
-     * Mybatis 自定义的类型处理器： 处理XML中  #{name,typeHandler=fullLike} 类型的参数
-     * 用于全模糊查询时使用
-     * <p>
-     * eg：
-     * and name like #{name,typeHandler=fullLike}
-     */
-    @Bean
-    public FullLikeTypeHandler getFullLikeTypeHandler() {
-        return new FullLikeTypeHandler();
     }
 
 

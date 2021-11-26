@@ -11,7 +11,6 @@ import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.framework.db.mybatis.typehandler.BaseLikeTypeHandler;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -227,17 +226,17 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
 
     @Override
     public LbqWrapper<T> like(SFunction<T, ?> column, Object val) {
-        return super.like(this.checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
+        return super.like(this.checkCondition(val), column, val);
     }
 
     @Override
     public LbqWrapper<T> likeLeft(SFunction<T, ?> column, Object val) {
-        return super.likeLeft(this.checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
+        return super.likeLeft(this.checkCondition(val), column, val);
     }
 
     @Override
     public LbqWrapper<T> likeRight(SFunction<T, ?> column, Object val) {
-        return super.likeRight(this.checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
+        return super.likeRight(this.checkCondition(val), column, val);
     }
 
     /**
@@ -251,7 +250,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
 
     @Override
     public LbqWrapper<T> notLike(SFunction<T, ?> column, Object val) {
-        return super.notLike(this.checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
+        return super.notLike(this.checkCondition(val), column, val);
     }
 
 

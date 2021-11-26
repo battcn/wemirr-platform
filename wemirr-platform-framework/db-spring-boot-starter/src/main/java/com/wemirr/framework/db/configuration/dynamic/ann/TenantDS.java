@@ -6,8 +6,8 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import java.lang.annotation.*;
 
 /**
- * 如果租户类型为 字段隔离 请注释  @DS("#custom.tenant_code")
- * todo 从登陆上下问取感觉意义不大的样子
+ * 如果租户类型为 字段隔离 请注释
+ * spring.datasource.dynamic.aop.enabled=false
  * 自定义动态切换
  * 上下文 -> header -> session -> expression
  *
@@ -17,6 +17,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @DS("#custom.tenant_code")
-public @interface DynamicDS {
+public @interface TenantDS {
 
 }

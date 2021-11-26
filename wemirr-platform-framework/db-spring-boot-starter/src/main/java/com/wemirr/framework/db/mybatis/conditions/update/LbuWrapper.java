@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.wemirr.framework.db.mybatis.typehandler.BaseLikeTypeHandler;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -145,22 +144,22 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
 
     @Override
     public LbuWrapper<T> like(SFunction<T, ?> column, Object val) {
-        return super.like(checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
+        return super.like(checkCondition(val), column, val);
     }
 
     @Override
     public LbuWrapper<T> notLike(SFunction<T, ?> column, Object val) {
-        return super.notLike(checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
+        return super.notLike(checkCondition(val), column, val);
     }
 
     @Override
     public LbuWrapper<T> likeLeft(SFunction<T, ?> column, Object val) {
-        return super.likeLeft(checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
+        return super.likeLeft(checkCondition(val), column, val);
     }
 
     @Override
     public LbuWrapper<T> likeRight(SFunction<T, ?> column, Object val) {
-        return super.likeRight(checkCondition(val), column, BaseLikeTypeHandler.likeConvert(val));
+        return super.likeRight(checkCondition(val), column, val);
     }
 
     @Override
