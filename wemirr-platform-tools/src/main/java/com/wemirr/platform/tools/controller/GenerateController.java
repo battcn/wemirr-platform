@@ -50,7 +50,7 @@ public class GenerateController {
 
 
     @Operation(summary = "代码生成")
-    @PatchMapping("/{id}/download")
+    @PostMapping("/{id}/download")
     public void add(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         final GenerateEntity generateEntity = this.generateService.getById(id);
         final String path = generateService.generate(generateEntity);
@@ -59,7 +59,6 @@ public class GenerateController {
             throw CheckedException.badRequest("文件不存在");
         }
         try (FileInputStream fis = new FileInputStream(file)) {
-            request.setCharacterEncoding("utf-8");
             response.setCharacterEncoding("utf-8");
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
