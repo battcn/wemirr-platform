@@ -85,6 +85,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             }
             return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
         } else if (e instanceof RuntimeException) {
+            log.error("异常信息", e);
             RuntimeException exception = (RuntimeException) e;
             return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
         }

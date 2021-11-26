@@ -1,4 +1,4 @@
-package com.wemirr.framework.db.configuration.dynamic.ann;
+package com.wemirr.framework.db.configuration.dynamic.annotation;
 
 
 import com.baomidou.dynamic.datasource.annotation.DS;
