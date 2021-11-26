@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.db.configuration.dynamic.ann.DynamicDS;
+import com.wemirr.framework.db.configuration.dynamic.ann.TenantDS;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.dto.StationMessagePublishReq;
@@ -29,7 +29,7 @@ import static com.wemirr.platform.authority.domain.converts.StationMessagePublis
 /**
  * @author Levin
  */
-@DynamicDS
+@TenantDS
 @RequestMapping("station_messages_publish")
 @RestController
 @RequiredArgsConstructor

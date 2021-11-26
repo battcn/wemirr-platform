@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.controller.log;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.db.configuration.dynamic.ann.DynamicDS;
+import com.wemirr.framework.db.configuration.dynamic.ann.TenantDS;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.entity.log.OptLog;
@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/opt_logs")
 @Tag(name = "操作日志", description = "操作日志")
-@DynamicDS
+@TenantDS
 @RequiredArgsConstructor
 public class OptLogController {
 

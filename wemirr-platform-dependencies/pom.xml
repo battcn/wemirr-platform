@@ -28,7 +28,7 @@
         <spring-boot.version>2.5.6</spring-boot.version>
         <spring-cloud.version>2020.0.4</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
-        <nepxion-discovery.version>6.12.0</nepxion-discovery.version>
+        <nepxion-discovery.version>6.12.1</nepxion-discovery.version>
         <hutool.version>5.7.2</hutool.version>
         <!-- 别升级： 后面的版本有小BUG -->
         <mybatis-plus.version>3.4.3.4</mybatis-plus.version>
@@ -46,7 +46,7 @@
         <aliyun-sdk-oss.version>3.4.2</aliyun-sdk-oss.version>
         <qiniu-java-sdk.version>[7.7.0, 7.7.99]</qiniu-java-sdk.version>
         <cos_api.version>5.5.9</cos_api.version>
-        <dynamic-datasource.version>3.4.1</dynamic-datasource.version>
+        <dynamic-datasource.version>3.5.0</dynamic-datasource.version>
         <xxl-job.version>2.3.0</xxl-job.version>
         <easyexcel.version>2.2.10</easyexcel.version>
         <wemirr-framework.version>0.0.2-SNAPSHOT</wemirr-framework.version>

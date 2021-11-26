@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.repository;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import com.wemirr.framework.db.configuration.dynamic.ann.DynamicDS;
+import com.wemirr.framework.db.configuration.dynamic.ann.TenantDS;
 import com.wemirr.framework.db.mybatis.SuperMapper;
 import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
@@ -20,7 +20,7 @@ import java.util.List;
  * @author Levin
  * @since 2019-07-03
  */
-@DynamicDS
+@TenantDS
 @Repository
 public interface ResourceMapper extends SuperMapper<Resource> {
     /**

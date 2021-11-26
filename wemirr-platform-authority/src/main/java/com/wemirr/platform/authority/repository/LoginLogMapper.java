@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.repository;
 
-import com.wemirr.framework.db.configuration.dynamic.ann.DynamicDS;
+import com.wemirr.framework.db.configuration.dynamic.ann.TenantDS;
 import com.wemirr.framework.db.mybatis.SuperMapper;
 import com.wemirr.platform.authority.domain.entity.log.LoginLog;
 import org.apache.ibatis.annotations.Select;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author Levin
  * @since 2019-10-20
  */
-@DynamicDS
+@TenantDS
 @Repository
 public interface LoginLogMapper extends SuperMapper<LoginLog> {
 

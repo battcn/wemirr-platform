@@ -3,7 +3,7 @@ package com.wemirr.platform.authority.repository;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
-import com.wemirr.framework.db.configuration.dynamic.ann.DynamicDS;
+import com.wemirr.framework.db.configuration.dynamic.ann.TenantDS;
 import com.wemirr.framework.db.mybatis.SuperMapper;
 import com.wemirr.framework.db.mybatis.auth.DataScope;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
  * @author Levin
  * @since 2019-07-22
  */
-@DynamicDS
+@TenantDS
 @Repository
 public interface StationMapper extends SuperMapper<Station> {
     /**
