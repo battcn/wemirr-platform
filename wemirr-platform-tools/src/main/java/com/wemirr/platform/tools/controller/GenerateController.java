@@ -3,7 +3,6 @@ package com.wemirr.platform.tools.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ZipUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
@@ -15,7 +14,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,10 +40,9 @@ public class GenerateController {
 
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping
-    public Result<Page<GenerateEntity>> page(PageRequest pageRequest, String author) {
-        final Page<GenerateEntity> page = generateService.page(pageRequest.buildPage(),
+    public Page<GenerateEntity> page(PageRequest pageRequest, String author) {
+        return generateService.page(pageRequest.buildPage(),
                 Wraps.<GenerateEntity>lbQ().eq(GenerateEntity::getAuthor, author));
-        return Result.success(page);
     }
 
 
@@ -79,25 +76,22 @@ public class GenerateController {
 
     @Operation(summary = "添加代码生成")
     @PostMapping
-    public Result<ResponseEntity<Void>> add(@Validated @RequestBody GenerateReq req) {
+    public void add(@Validated @RequestBody GenerateReq req) {
         generateService.save(BeanUtil.toBean(req, GenerateEntity.class));
-        return Result.success();
     }
 
 
     @Operation(summary = "编辑代码生成")
     @PutMapping("/{id}")
-    public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody GenerateReq req) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody GenerateReq req) {
         final GenerateEntity request = BeanUtil.toBean(req, GenerateEntity.class);
         request.setId(id);
         generateService.updateById(request);
-        return Result.success();
     }
 
     @Operation(summary = "删除代码生成")
     @DeleteMapping("/{id}")
-    public Result<ResponseEntity<Void>> remove(@PathVariable Long id) {
+    public void remove(@PathVariable Long id) {
         generateService.removeById(id);
-        return Result.success();
     }
 }

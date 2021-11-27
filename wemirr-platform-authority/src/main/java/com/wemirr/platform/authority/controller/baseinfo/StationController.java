@@ -4,7 +4,6 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.SysLog;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.authority.domain.dto.StationPageDTO;
 import com.wemirr.platform.authority.domain.dto.StationSaveDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
@@ -13,11 +12,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import static com.wemirr.framework.commons.entity.Result.success;
 
 /**
  * 岗位管理
@@ -35,32 +31,29 @@ public class StationController {
 
     @GetMapping
     @Operation(summary = "岗位列表 - [Levin] - [DONE]")
-    public Result<IPage<Station>> query(StationPageDTO params) {
-        return Result.success(stationService.findStationPage(params, params));
+    public IPage<Station> query(StationPageDTO params) {
+        return stationService.findStationPage(params, params);
     }
 
     @PostMapping
     @SysLog(value = "添加岗位")
     @Operation(summary = "添加岗位")
-    public Result<ResponseEntity<Void>> add(@Validated @RequestBody StationSaveDTO dto) {
+    public void add(@Validated @RequestBody StationSaveDTO dto) {
         stationService.save(BeanUtil.toBean(dto, Station.class));
-        return success();
     }
 
     @PutMapping("/{id}")
     @SysLog(value = "编辑岗位")
     @Operation(summary = "编辑岗位")
-    public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody StationSaveDTO dto) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody StationSaveDTO dto) {
         stationService.updateById(BeanUtilPlus.toBean(id, dto, Station.class));
-        return success();
     }
 
     @DeleteMapping("/{id}")
     @SysLog(value = "删除岗位")
     @Operation(summary = "删除岗位")
-    public Result<ResponseEntity<Void>> del(@PathVariable Long id) {
+    public void del(@PathVariable Long id) {
         stationService.removeById(id);
-        return success();
     }
 
 }

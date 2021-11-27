@@ -21,7 +21,8 @@ import java.util.List;
 public class DemoProfileInterceptor implements HandlerInterceptor {
 
     private static final int MAX_ID = 10;
-    private static final List<String> URLS = Lists.newArrayList("users", "roles", "stations", "tenants", "databases", "applications", "change_password", "resources", "dictionaries");
+    private static final List<String> REJECT_POST = Lists.newArrayList("resources", "dictionaries");
+    private static final List<String> REJECT_OPTION = Lists.newArrayList("users", "roles", "stations", "tenants", "databases", "applications", "change_password", "resources", "dictionaries");
 
     @Override
     public boolean preHandle(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable Object handler) {
@@ -30,11 +31,17 @@ public class DemoProfileInterceptor implements HandlerInterceptor {
         }
         final HttpMethod method = HttpMethod.valueOf(request.getMethod());
         final String uri = request.getRequestURI();
-
-        if (method != HttpMethod.PUT && method != HttpMethod.DELETE) {
+        if (method == HttpMethod.GET) {
             return true;
         }
-        for (String url : URLS) {
+        if (method == HttpMethod.POST) {
+            for (String url : REJECT_POST) {
+                if (StringUtils.contains(uri, url)) {
+                    throw CheckedException.notFound("演示环境,禁止破坏性的数据新增");
+                }
+            }
+        }
+        for (String url : REJECT_OPTION) {
             if (StringUtils.contains(uri, url)) {
                 throw CheckedException.notFound("禁止操作演示环境的核心数据,");
             }

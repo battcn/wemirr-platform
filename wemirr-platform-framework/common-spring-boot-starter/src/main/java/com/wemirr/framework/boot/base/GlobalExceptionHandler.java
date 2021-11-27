@@ -191,50 +191,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return Result.fail(e.getMessage());
     }
 
-//    @ExceptionHandler(HystrixRuntimeException.class)
-//    @ResponseBody
-//    public final Result<ResponseEntity<Void>> hystrixRuntimeException(HystrixRuntimeException e) {
-//        if (e.getCause() instanceof RuntimeException) {
-//            RuntimeException runtimeException = (RuntimeException) e.getCause();
-//            if (runtimeException.getCause() instanceof ClientException) {
-//                ClientException clientException = (ClientException) runtimeException.getCause();
-//                List<String> services = discoveryClient.getServices();
-//                for (String serviceId : services) {
-//                    String message = clientException.getMessage();
-//                    if (StringUtils.contains(message, serviceId)) {
-//                        log.warn("[服务访问失败] - [{}] - [错误信息] - [{}]", serviceId, message);
-//                        return Result.fail(CommonError.INNER_SERVICE_ERROR);
-//                    }
-//                }
-//            }
-//        }
-//        log.warn("[服务调用失败] - [{}]", e.getMessage());
-//        return Result.fail("服务响应失败，请稍后再试");
-//    }
-//
-//    @ExceptionHandler(ClientException.class)
-//    @ResponseBody
-//    public final Result<ResponseEntity<Void>> clientException(ClientException e) {
-//        log.error("内部服务响应失败", e);
-//        return Result.fail(CommonError.INNER_SERVICE_ERROR);
-//    }
-
-
-//    @ExceptionHandler(ExcelAnalysisException.class)
-//    @ResponseBody
-//    public final Result<ResponseEntity<Void>> excelAnalysisException(ExcelAnalysisException e) {
-//        log.error("Excel 解析失败", e);
-//        if (e.getCause() instanceof CheckedException) {
-//            CheckedException exception = (CheckedException) e.getCause();
-//            return Result.fail(exception.getMessage());
-//        } else if (e.getCause() instanceof ExcelDataConvertException) {
-//            ExcelDataConvertException exception = (ExcelDataConvertException) e.getCause();
-//            return Result.fail("导入失败,类型转换错误,请检查内容或者模板是否正确");
-//        }
-//        return Result.fail(e.getMessage());
-//    }
-
-
     @ExceptionHandler(RetryableException.class)
     @ResponseBody
     public final Result<ResponseEntity<Void>> retryableException(RetryableException e) {

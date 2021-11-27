@@ -17,7 +17,6 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -89,17 +88,19 @@ public class RewriteTokenEndpoint {
 
     @DeleteMapping("/logout")
     @ResponseBody
-    public Result<ResponseEntity<Void>> removeToken() {
+    public void removeToken() {
+        if (SecurityUtils.anonymous()) {
+            return;
+        }
         final OAuth2AccessToken accessToken = tokenStore.getAccessToken(SecurityUtils.getAuthentication());
         if (accessToken == null) {
-            return Result.success();
+            return;
         }
         tokenStore.removeAccessToken(accessToken);
         final OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(accessToken.getValue());
         if (refreshToken != null) {
             tokenStore.removeRefreshToken(refreshToken);
         }
-        return Result.success();
     }
 
     /**
@@ -141,14 +142,11 @@ public class RewriteTokenEndpoint {
     @ResponseBody
     @PutMapping("/change_password")
     @Operation(summary = "修改密码")
-    public Result<Void> changePassword(@Validated @RequestBody ChangePasswordDTO dto) {
+    public void changePassword(@Validated @RequestBody ChangePasswordDTO dto) {
         if (!StringUtils.equals(dto.getPassword(), dto.getConfirmPassword())) {
             throw CheckedException.badRequest("新密码与确认密码不一致");
         }
         final Long userId = tenantEnvironment.userId();
         this.userService.changePassword(userId, dto.getOriginalPassword(), dto.getPassword());
-        return Result.success();
     }
-
-
 }

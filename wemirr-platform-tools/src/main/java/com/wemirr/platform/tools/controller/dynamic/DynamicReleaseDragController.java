@@ -3,7 +3,6 @@ package com.wemirr.platform.tools.controller.dynamic;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDrag;
 import com.wemirr.platform.tools.domain.entity.ExportExcelReq;
@@ -20,8 +19,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,54 +42,48 @@ public class DynamicReleaseDragController {
     private final DynamicReleaseService<String> dynamicReleaseService;
 
     @PostMapping("/{model}/pages")
-    public Result<IPage<?>> pages(@PathVariable String model, @RequestBody DynamicReleaseQueryDrag params) {
+    public IPage<?> pages(@PathVariable String model, @RequestBody DynamicReleaseQueryDrag params) {
         log.debug("[查询条件] - {}", params);
-        final IPage<?> pages = this.dynamicReleaseService.pages(model, params);
-        return Result.success(pages);
+        return this.dynamicReleaseService.pages(model, params);
     }
 
     @GetMapping("/{model}/curd_options")
-    public Result<DynamicReleaseCurdOptionResp> curdOptions(@PathVariable String model) {
-        return Result.success(this.dynamicReleaseService.curdOptions(model));
+    public DynamicReleaseCurdOptionResp curdOptions(@PathVariable String model) {
+        return this.dynamicReleaseService.curdOptions(model);
     }
 
     @Operation(summary = "修改数据记录")
     @PutMapping("/{model}/{id}")
-    public Result<ResponseEntity<Void>> edit(@PathVariable String model, @PathVariable String id, @RequestBody Map<String, Object> body) {
+    public void edit(@PathVariable String model, @PathVariable String id, @RequestBody Map<String, Object> body) {
         this.dynamicReleaseService.updateById(model, id, body);
-        return Result.success();
     }
 
     @Operation(summary = "添加数据记录")
     @PostMapping("/{model}")
-    public Result<ResponseEntity<Void>> save(@PathVariable String model, @RequestBody Map<String, Object> body) {
+    public void save(@PathVariable String model, @RequestBody Map<String, Object> body) {
         this.dynamicReleaseService.save(model, body);
-        return Result.success();
     }
 
     @Operation(summary = "获取推送日志")
     @GetMapping("/{model}/{id}/log_tracks")
-    public Result<List<DynamicReleaseLogTrackResp<String>>> logTrack(@PathVariable String model, @PathVariable String id) {
-        return Result.success(this.dynamicReleaseService.logTrack(model, id));
+    public List<DynamicReleaseLogTrackResp<String>> logTrack(@PathVariable String model, @PathVariable String id) {
+        return this.dynamicReleaseService.logTrack(model, id);
     }
 
     @Operation(summary = "推送数据")
     @PatchMapping("/{model}/{id}/push_tracks")
-    public Result<RequestEntity<Void>> pushLogTrack(@PathVariable String model, @PathVariable String id) {
+    public void pushLogTrack(@PathVariable String model, @PathVariable String id) {
         this.dynamicReleaseService.pushTrack(model, id);
-        return Result.success();
     }
 
     @DeleteMapping("/{model}/{id}")
-    public Result<RequestEntity<Void>> del(@PathVariable String model, @PathVariable String id) {
+    public void del(@PathVariable String model, @PathVariable String id) {
         this.dynamicReleaseService.deleteById(model, id);
-        return Result.success();
     }
 
     @DeleteMapping("/{model}/batch_delete")
-    public Result<RequestEntity<Void>> batchDel(@PathVariable String model, @RequestBody BatchKey<String> batchKey) {
+    public void batchDel(@PathVariable String model, @RequestBody BatchKey<String> batchKey) {
         this.dynamicReleaseService.batchDeleteByKeys(model, batchKey.getIds());
-        return Result.success();
     }
 
     @SneakyThrows
@@ -115,29 +106,26 @@ public class DynamicReleaseDragController {
 
     @Operation(summary = "添加模板列表")
     @PostMapping
-    public Result<ResponseEntity<Void>> add(@Validated @RequestBody DynamicReleaseDragReq req) {
+    public void add(@Validated @RequestBody DynamicReleaseDragReq req) {
         this.dynamicReleaseDragService.add(req);
-        return Result.success();
     }
 
     @Operation(summary = "修改模板列表")
     @PutMapping("/{id}")
-    public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody DynamicReleaseDragReq req) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody DynamicReleaseDragReq req) {
         this.dynamicReleaseDragService.edit(id, req);
-        return Result.success();
     }
 
     @Operation(summary = "查询模板列表")
     @GetMapping
-    public Result<Page<DynamicReleaseDrag>> list(PageRequest request) {
-        final Page<DynamicReleaseDrag> page = dynamicReleaseDragService.page(request.buildPage());
-        return Result.success(page);
+    public Page<DynamicReleaseDrag> list(PageRequest request) {
+        return dynamicReleaseDragService.page(request.buildPage());
     }
 
     @Operation(summary = "删除模板列表")
     @DeleteMapping("/{id}")
-    public Result<Page<DynamicReleaseDrag>> del(@PathVariable Long id) {
+    public void del(@PathVariable Long id) {
         this.dynamicReleaseDragService.removeById(id);
-        return Result.success();
     }
 }
+

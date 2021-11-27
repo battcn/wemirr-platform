@@ -54,9 +54,8 @@ public class OptLogController {
             @Parameter(name = "day", description = "天数", in = ParameterIn.PATH),
     })
     @Operation(description = "查询日志 - [DONE] - [Levin]")
-    public Result<Void> batchDelete(@PathVariable Integer day) {
+    public void batchDelete(@PathVariable Integer day) {
         this.optLogService.remove(Wraps.<OptLog>lbQ().le(OptLog::getStartTime, LocalDateTime.now().plusDays(-day)));
-        return Result.success();
     }
 
 

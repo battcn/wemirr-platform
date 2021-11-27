@@ -64,6 +64,11 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
             resource.setPath(String.format(DEFAULT_PATH, tenantEnvironment.tenantId()) + "/" + resource.getModel());
             resource.setComponent(DEFAULT_COMPONENT);
         }
+        if (ResourceType.MENU == resource.getType()) {
+            if (!StringUtils.startsWith(resource.getPath(), "/")) {
+                resource.setPath("/" + resource.getPath());
+            }
+        }
         final String treePath = this.baseMapper.getTreePathByParentId(resource.getParentId());
         if (StringUtils.isNotBlank(treePath)) {
             resource.setTreePath(treePath);

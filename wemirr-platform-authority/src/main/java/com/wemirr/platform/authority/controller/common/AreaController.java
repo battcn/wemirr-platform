@@ -17,7 +17,6 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,23 +75,23 @@ public class AreaController {
     @PostMapping
     @Parameter(name = "id", description = "国标码", in = ParameterIn.PATH)
     @Operation(description = "保存地址 - [DONE] - [Levin]")
-    public Result<ResponseEntity<Void>> save(@Validated @RequestBody AreaEntityDTO dto) {
+    public void save(@Validated @RequestBody AreaEntityDTO dto) {
         this.areaService.saveOrUpdateArea(AREA_DTO_2_PO_CONVERTS.convert(dto));
-        return Result.success();
+        
     }
 
     @DeleteMapping
     @Operation(description = "批量删除 - [DONE] - [Levin]")
-    public Result<ResponseEntity<Void>> batchDel(@RequestBody List<Long> ids) {
+    public void batchDel(@RequestBody List<Long> ids) {
         this.areaService.removeByIds(ids);
-        return Result.success();
+        
     }
 
     @DeleteMapping("/{id}")
     @Parameter(name = "id", description = "国标码", in = ParameterIn.PATH)
     @Operation(description = "删除地址 - [DONE] - [Levin]")
-    public Result<ResponseEntity<Void>> del(@PathVariable Integer id) {
+    public void del(@PathVariable Integer id) {
         this.areaService.removeById(id);
-        return Result.success();
+        
     }
 }

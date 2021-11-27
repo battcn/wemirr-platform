@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,24 +40,24 @@ public class DynamicReleaseGridController {
 
     @Operation(summary = "添加数据源")
     @PostMapping
-    public Result<ResponseEntity<Void>> add(@Validated @RequestBody DynamicReleaseGridReq req) {
+    public void add(@Validated @RequestBody DynamicReleaseGridReq req) {
         dynamicReleaseGridService.save(BeanUtil.toBean(req, DynamicReleaseGrid.class));
-        return Result.success();
+        
     }
 
     @Operation(summary = "编辑数据源")
     @PutMapping("/{id}")
-    public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody DynamicReleaseGridReq req) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody DynamicReleaseGridReq req) {
         final DynamicReleaseGrid request = BeanUtil.toBean(req, DynamicReleaseGrid.class);
         request.setId(id);
         dynamicReleaseGridService.updateById(request);
-        return Result.success();
+        
     }
 
     @Operation(summary = "删除数据源")
     @DeleteMapping("/{id}")
-    public Result<ResponseEntity<Void>> remove(@PathVariable Long id) {
+    public void remove(@PathVariable Long id) {
         dynamicReleaseGridService.removeById(id);
-        return Result.success();
+        
     }
 }

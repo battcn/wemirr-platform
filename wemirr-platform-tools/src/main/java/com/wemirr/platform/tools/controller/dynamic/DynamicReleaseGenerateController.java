@@ -1,13 +1,11 @@
 package com.wemirr.platform.tools.controller.dynamic;
 
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.tools.domain.DynamicReleaseDragSetting;
 import com.wemirr.platform.tools.service.DynamicReleaseGenerateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,9 +28,9 @@ public class DynamicReleaseGenerateController {
 
     @Operation(summary = "添加代码生成")
     @PostMapping
-    public Result<ResponseEntity<Void>> add(@Validated @RequestBody DynamicReleaseDragSetting req) {
+    public void add(@Validated @RequestBody DynamicReleaseDragSetting req) {
         this.dynamicReleaseGenerateService.add(req);
-        return Result.success();
+        
     }
 
 

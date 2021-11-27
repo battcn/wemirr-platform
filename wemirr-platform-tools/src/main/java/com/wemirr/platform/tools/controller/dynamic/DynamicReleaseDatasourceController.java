@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,39 +40,39 @@ public class DynamicReleaseDatasourceController {
 
     @Operation(summary = "Ping数据库")
     @GetMapping("/{id}/ping")
-    public Result<ResponseEntity<Void>> ping(@PathVariable Long id) {
+    public void ping(@PathVariable Long id) {
         this.dynamicReleaseDatasourceService.ping(id);
-        return Result.success();
+        
     }
 
     @Deprecated
     @Operation(summary = "获取所有表")
     @GetMapping("/{id}/tables")
-    public Result<ResponseEntity<Void>> tables(@PathVariable Long id) {
+    public void tables(@PathVariable Long id) {
         List<String> tables = this.dynamicReleaseDatasourceService.tables(id);
-        return Result.success();
+        
     }
 
     @Operation(summary = "添加数据源")
     @PostMapping
-    public Result<ResponseEntity<Void>> add(@Validated @RequestBody DynamicReleaseDatasourceReq req) {
+    public void add(@Validated @RequestBody DynamicReleaseDatasourceReq req) {
         dynamicReleaseDatasourceService.save(BeanUtil.toBean(req, DynamicReleaseDatasource.class));
-        return Result.success();
+        
     }
 
     @Operation(summary = "编辑数据源")
     @PutMapping("/{id}")
-    public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody DynamicReleaseDatasourceReq req) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody DynamicReleaseDatasourceReq req) {
         final DynamicReleaseDatasource request = BeanUtil.toBean(req, DynamicReleaseDatasource.class);
         request.setId(id);
         dynamicReleaseDatasourceService.updateById(request);
-        return Result.success();
+        
     }
 
     @Operation(summary = "删除数据源")
     @DeleteMapping("/{id}")
-    public Result<ResponseEntity<Void>> remove(@PathVariable Long id) {
+    public void remove(@PathVariable Long id) {
         dynamicReleaseDatasourceService.removeById(id);
-        return Result.success();
+        
     }
 }

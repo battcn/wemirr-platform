@@ -26,7 +26,6 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,38 +76,34 @@ public class ResourceController {
             @Parameter(description = "名称", name = "name", in = ParameterIn.QUERY),
     })
     @Operation(summary = "资源列表 - [Levin] - [DONE]")
-    public Result<IPage<Resource>> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
+    public IPage<Resource> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
                                          @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
                                          Long parentId, Integer type) {
         final LbqWrapper<Resource> wrapper = Wraps.<Resource>lbQ().eq(Resource::getParentId, parentId).eq(Resource::getType, ResourceType.BUTTON);
-        IPage<Resource> page = resourceService.page(new Page<>(current, size), wrapper);
-        return Result.success(page);
+        return resourceService.page(new Page<>(current, size), wrapper);
     }
 
     @PostMapping
     @SysLog(value = "添加资源")
     @Operation(summary = "添加资源")
-    public Result<ResponseEntity<Void>> save(@Validated @RequestBody ResourceSaveDTO data) {
+    public void save(@Validated @RequestBody ResourceSaveDTO data) {
         Resource resource = BeanUtil.toBean(data, Resource.class);
         resourceService.addResource(resource);
-        return Result.success();
     }
 
 
     @DeleteMapping("/{id}")
     @SysLog(value = "删除资源")
     @Operation(summary = "删除资源")
-    public Result<ResponseEntity<Void>> del(@PathVariable Long id) {
+    public void del(@PathVariable Long id) {
         this.resourceService.delResource(id);
-        return Result.success();
     }
 
     @PutMapping("/{id}")
     @SysLog(value = "修改资源")
     @Operation(summary = "修改资源")
-    public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody ResourceSaveDTO data) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody ResourceSaveDTO data) {
         resourceService.editResourceById(BeanUtilPlus.toBean(id, data, Resource.class));
-        return Result.success();
     }
 
 

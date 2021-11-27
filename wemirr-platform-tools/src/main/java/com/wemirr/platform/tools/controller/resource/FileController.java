@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.boot.RegionUtils;
 import com.wemirr.framework.commons.annotation.log.SysLog;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.storage.StorageOperation;
@@ -24,7 +23,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
-import static com.wemirr.framework.commons.entity.Result.OPERATION_SUCCESS;
 import static org.apache.http.protocol.HTTP.USER_AGENT;
 
 /**
@@ -53,9 +50,8 @@ public class FileController {
     @GetMapping("/token")
     @Parameter(description = "文件名", name = "originName", in = ParameterIn.QUERY)
     @Operation(summary = "上传Token获取 - [Levin] - [DONE]")
-    public Result<String> getToken(String key, @RequestParam(defaultValue = "true") boolean random) {
-        final String token = storageOperation.token(key, random);
-        return Result.success(OPERATION_SUCCESS, token);
+    public String getToken(String key, @RequestParam(defaultValue = "true") boolean random) {
+        return storageOperation.token(key, random);
     }
 
     @GetMapping
@@ -64,11 +60,11 @@ public class FileController {
             @Parameter(description = "文件类型", name = "fileType", in = ParameterIn.QUERY),
     })
     @Operation(summary = "文件列表 - [Levin] - [DONE]")
-    public Result<IPage<FileEntity>> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
-                                  @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
-                                  String originName, String fileType) {
-        return Result.success(fileService.page(new Page<>(current, size), Wraps.<FileEntity>lbQ()
-                .eq(FileEntity::getContentType, fileType).like(FileEntity::getOriginName, originName)));
+    public IPage<FileEntity> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
+                                   @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
+                                   String originName, String fileType) {
+        return fileService.page(new Page<>(current, size), Wraps.<FileEntity>lbQ()
+                .eq(FileEntity::getContentType, fileType).like(FileEntity::getOriginName, originName));
     }
 
     @SneakyThrows
@@ -78,8 +74,8 @@ public class FileController {
     })
     @PostMapping("/upload")
     @Operation(summary = "文件上传 - [Levin] - [DONE]")
-    public Result<StorageResponse> upload(@RequestParam MultipartFile file, HttpServletRequest request, String bucket,
-                                          @RequestParam(defaultValue = "true") boolean random) {
+    public StorageResponse upload(@RequestParam MultipartFile file, HttpServletRequest request, String bucket,
+                                  @RequestParam(defaultValue = "true") boolean random) {
         if (file == null) {
             throw CheckedException.badRequest("文件内容不能为空");
         }
@@ -87,7 +83,7 @@ public class FileController {
                 .inputStream(file.getInputStream()).contentType(file.getContentType()).randomName(random)
                 .originName(file.getOriginalFilename()).rule(StorageRequest.PrefixRule.now_date_mouth_day).build());
         saveFileUploadRecord(request, file.getContentType(), response);
-        return Result.success(response);
+        return response;
     }
 
     private void saveFileUploadRecord(HttpServletRequest request, String contentType, StorageResponse response) {
@@ -114,11 +110,10 @@ public class FileController {
     @DeleteMapping("{id}")
     @SysLog(value = "删除文件")
     @Operation(summary = "删除文件")
-    public Result<ResponseEntity<Void>> del(@PathVariable Long id) {
+    public void del(@PathVariable Long id) {
         final FileEntity file = Optional.ofNullable(this.fileService.getById(id)).orElseThrow(() -> CheckedException.notFound("文件不存在"));
         storageOperation.remove(file.getBucket(), file.getTargetName());
         fileService.removeById(id);
-        return Result.success();
     }
 
 

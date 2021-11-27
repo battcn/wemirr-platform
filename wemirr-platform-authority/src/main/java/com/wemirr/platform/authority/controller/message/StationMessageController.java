@@ -12,7 +12,6 @@ import com.wemirr.platform.authority.service.StationMessageService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,25 +48,25 @@ public class StationMessageController {
     }
 
     @PatchMapping("/station_messages/{message_id}/mark")
-    public Result<ResponseEntity<Void>> mark(@PathVariable("message_id") Long messageId) {
+    public void mark(@PathVariable("message_id") Long messageId) {
         StationMessage message = new StationMessage();
         message.setId(messageId);
         message.setMark(true);
         this.stationMessageService.updateById(message);
-        return Result.success();
+        
     }
 
 
     @DeleteMapping("/station_messages/{message_id}")
-    public Result<ResponseEntity<Void>> del(@PathVariable("message_id") Long messageId) {
+    public void del(@PathVariable("message_id") Long messageId) {
         this.stationMessageService.removeById(messageId);
-        return Result.success();
+        
     }
 
     @DeleteMapping("/station_messages")
-    public Result<ResponseEntity<Void>> batchDel(@RequestBody List<Long> ids) {
+    public void batchDel(@RequestBody List<Long> ids) {
         this.stationMessageService.removeByIds(ids);
-        return Result.success();
+        
     }
 
 

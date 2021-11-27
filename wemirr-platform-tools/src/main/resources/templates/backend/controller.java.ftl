@@ -74,7 +74,7 @@ public class ${table.controllerName} {
     <#-- @PreAuthorize("@pms.hasPermission('${package.moduleName}:${table.entityPath}:add')")-->
     public Result<?> save(@RequestBody ${entity} ${table.entityPath}) {
         ${table.entityPath}Service.save(${table.entityPath});
-        return Result.success();
+
     }
 
     /**
@@ -99,7 +99,7 @@ public class ${table.controllerName} {
     <#-- @PreAuthorize("@pms.hasPermission('${package.ModuleName}:${table.entityPath}:del')")-->
     public Result<?> removeById(@PathVariable Long id) {
         ${table.entityPath}Service.removeById(id);
-        return Result.success();
+
     }
 
 }

@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.RequestEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,9 +30,8 @@ public class DynamicReleaseController {
     private final DynamicReleaseService<Long> dynamicReleaseService;
 
     @GetMapping("/pages")
-    public Result<IPage<?>> pages(@PathVariable String model, PageRequest request, @RequestParam Map<String, Object> params) {
-        final IPage<?> pages = this.dynamicReleaseService.pages(model, request, params);
-        return Result.success(pages);
+    public IPage<?> pages(@PathVariable String model, PageRequest request, @RequestParam Map<String, Object> params) {
+        return this.dynamicReleaseService.pages(model, request, params);
     }
 
 
@@ -44,25 +42,22 @@ public class DynamicReleaseController {
     }
 
     @PostMapping
-    public Result<RequestEntity<Void>> add(@PathVariable String model, @RequestBody Map<String, Object> map) {
+    public void add(@PathVariable String model, @RequestBody Map<String, Object> map) {
         this.dynamicReleaseService.save(model, map);
-        return Result.success();
     }
 
     @PutMapping("/{id}")
-    public Result<RequestEntity<Void>> edit(@PathVariable String model, @PathVariable Long id, @RequestBody Map<String, Object> map) {
+    public void edit(@PathVariable String model, @PathVariable Long id, @RequestBody Map<String, Object> map) {
         if (MapUtil.isNotEmpty(map)) {
             // 删除主键ID
             map.remove("id");
             this.dynamicReleaseService.updateById(model, id, map);
         }
-        return Result.success();
     }
 
     @DeleteMapping("/{id}")
-    public Result<RequestEntity<Void>> del(@PathVariable String model, @PathVariable Long id) {
+    public void del(@PathVariable String model, @PathVariable Long id) {
         this.dynamicReleaseService.deleteById(model, id);
-        return Result.success();
     }
 
 }

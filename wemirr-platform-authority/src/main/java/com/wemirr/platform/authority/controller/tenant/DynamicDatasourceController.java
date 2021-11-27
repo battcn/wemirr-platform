@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,29 +47,29 @@ public class DynamicDatasourceController {
 
     @Operation(summary = "Ping数据库")
     @GetMapping("/{id}/ping")
-    public Result<ResponseEntity<Void>> ping(@PathVariable Long id) {
+    public void ping(@PathVariable Long id) {
         this.dynamicDatasourceService.ping(id);
-        return Result.success();
+        
     }
 
     @Operation(summary = "添加数据源")
     @PostMapping
-    public Result<ResponseEntity<Void>> add(@Validated @RequestBody DynamicDatasourceReq req) {
+    public void add(@Validated @RequestBody DynamicDatasourceReq req) {
         dynamicDatasourceService.saveOrUpdateDatabase(BeanUtil.toBean(req, DynamicDatasource.class));
-        return Result.success();
+        
     }
 
     @Operation(summary = "编辑数据源")
     @PutMapping("/{id}")
-    public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody DynamicDatasourceReq req) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody DynamicDatasourceReq req) {
         dynamicDatasourceService.saveOrUpdateDatabase(BeanUtilPlus.toBean(id, req, DynamicDatasource.class));
-        return Result.success();
+        
     }
 
     @Operation(summary = "删除数据源")
     @DeleteMapping("/{id}")
-    public Result<ResponseEntity<Void>> remove(@PathVariable Long id) {
+    public void remove(@PathVariable Long id) {
         dynamicDatasourceService.removeDatabaseById(id);
-        return Result.success();
+        
     }
 }

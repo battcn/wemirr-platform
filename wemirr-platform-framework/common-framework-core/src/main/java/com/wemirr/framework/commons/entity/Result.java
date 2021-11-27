@@ -97,6 +97,7 @@ public class Result<T> implements Serializable {
         this.data = data;
         this.message = message;
         this.successful = code == SUCCESS_CODE;
+        this.timestamp = System.currentTimeMillis();
         this.defExec = false;
     }
 
@@ -106,6 +107,7 @@ public class Result<T> implements Serializable {
         this.message = message;
         this.successful = successful;
         this.defExec = defExec;
+        this.timestamp = System.currentTimeMillis();
     }
 
     /**

@@ -15,7 +15,6 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,27 +51,27 @@ public class DictionaryItemController {
     @PostMapping
     @Operation(description = "添加字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dictionary_id", description = "字典ID", in = ParameterIn.PATH)
-    public Result<ResponseEntity<Void>> save(@PathVariable("dictionary_id") Long dictionaryId, @Validated @RequestBody DictionaryItemDTO dto) {
+    public void save(@PathVariable("dictionary_id") Long dictionaryId, @Validated @RequestBody DictionaryItemDTO dto) {
         this.dictionaryItemService.addDictionaryItem(dictionaryId, DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS.convert(dto));
-        return Result.success();
+        
     }
 
     @PutMapping("/{id}")
     @Operation(description = "编辑字典子项 - [DONE] - [Levin]")
     @Parameter(name = "id", description = "子项ID", in = ParameterIn.PATH)
-    public Result<ResponseEntity<Void>> edit(@PathVariable("dictionary_id") Long dictionaryId, @PathVariable Long id, @Validated @RequestBody DictionaryItemDTO dto) {
+    public void edit(@PathVariable("dictionary_id") Long dictionaryId, @PathVariable Long id, @Validated @RequestBody DictionaryItemDTO dto) {
         final DictionaryItem dictionaryItem = DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS.convert(dto);
         dictionaryItem.setId(id);
         this.dictionaryItemService.editDictionaryItem(dictionaryId, dictionaryItem);
-        return Result.success();
+        
     }
 
     @DeleteMapping("/{id}")
     @Operation(description = "删除字典子项 - [DONE] - [Levin]")
     @Parameter(name = "id", description = "子项ID", in = ParameterIn.PATH)
-    public Result<ResponseEntity<Void>> del(@PathVariable Long id) {
+    public void del(@PathVariable Long id) {
         this.dictionaryItemService.removeById(id);
-        return Result.success();
+        
     }
 
 }

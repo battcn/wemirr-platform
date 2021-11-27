@@ -16,15 +16,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static com.wemirr.framework.commons.entity.Result.success;
 
 
 /**
@@ -66,25 +63,22 @@ public class OrgController {
     @PostMapping
     @SysLog(value = "保存组织架构")
     @Operation(summary = "保存编辑组织架构")
-    public Result<ResponseEntity<Void>> save(@Validated @RequestBody OrgSaveDTO dto) {
+    public void save(@Validated @RequestBody OrgSaveDTO dto) {
         orgService.addOrg(BeanUtil.toBean(dto, Org.class));
-        return success();
     }
 
     @PutMapping("/{id}")
     @SysLog(value = "编辑组织架构")
     @Operation(summary = "编辑编辑组织架构")
-    public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody OrgSaveDTO dto) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody OrgSaveDTO dto) {
         orgService.updateById(BeanUtilPlus.toBean(id, dto, Org.class));
-        return success();
     }
 
     @DeleteMapping("/{id}")
     @SysLog(value = "删除组织架构")
     @Operation(summary = "删除组织架构")
-    public Result<ResponseEntity<Void>> del(@PathVariable Long id) {
+    public void del(@PathVariable Long id) {
         orgService.remove(id);
-        return success();
     }
 
 

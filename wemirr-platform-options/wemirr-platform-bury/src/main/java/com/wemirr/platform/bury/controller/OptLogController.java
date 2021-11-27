@@ -17,7 +17,6 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,12 +49,12 @@ public class OptLogController {
 
     @PostMapping
     @IgnoreAuthorize
-    public Result<ResponseEntity<Void>> save(@RequestBody OptLogDTO dto) {
+    public void save(@RequestBody OptLogDTO dto) {
         log.info("[日志信息] - {}", JSON.toJSONString(dto));
         final OptLog record = BeanUtil.toBean(dto, OptLog.class);
         record.setLocation(RegionUtils.getRegion(dto.getIp()));
         this.optLogService.save(record);
-        return Result.success();
+        
     }
 
 }

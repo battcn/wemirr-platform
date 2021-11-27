@@ -30,13 +30,10 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static com.wemirr.framework.commons.entity.Result.success;
 
 /**
  * 角色管理
@@ -70,46 +67,42 @@ public class RoleController {
             @Parameter(description = "名称", name = "name", in = ParameterIn.QUERY),
     })
     @Operation(summary = "角色列表 - [Levin] - [DONE]")
-    public Result<IPage<Role>> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
-                                     @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
-                                     String name, Boolean locked, DataScopeType scopeType) {
-        final Page<Role> page = this.roleService.page(new Page<>(current, size), Wraps.<Role>lbQ()
+    public IPage<Role> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
+                             @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
+                             String name, Boolean locked, DataScopeType scopeType) {
+        return this.roleService.page(new Page<>(current, size), Wraps.<Role>lbQ()
                 .eq(Role::getLocked, locked).like(Role::getName, name).eq(Role::getScopeType, scopeType));
-        return Result.success(page);
     }
 
     @GetMapping("/{id}/detail")
     @Operation(summary = "角色详情")
-    public Result<RoleDetailVO> details(@PathVariable Long id) {
+    public RoleDetailVO details(@PathVariable Long id) {
         Role role = roleService.getById(id);
         RoleDetailVO detail = BeanUtilPlus.toBean(role, RoleDetailVO.class);
         final RoleResVO authority = this.roleResService.findAuthorityIdByRoleId(id);
         detail.setAuthority(authority);
-        return success(detail);
+        return detail;
     }
 
     @PostMapping
     @SysLog(value = "添加角色")
     @Operation(summary = "添加角色")
-    public Result<ResponseEntity<Void>> add(@Validated @RequestBody RoleDTO data) {
+    public void add(@Validated @RequestBody RoleDTO data) {
         roleService.saveRole(tenantEnvironment.userId(), data);
-        return success();
     }
 
     @PutMapping("/{id}")
     @SysLog(value = "编辑角色")
     @Operation(summary = "编辑角色")
-    public Result<ResponseEntity<Void>> edit(@PathVariable Long id, @Validated @RequestBody RoleDTO data) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody RoleDTO data) {
         roleService.updateRole(id, tenantEnvironment.userId(), data);
-        return success();
     }
 
     @DeleteMapping("/{id}")
     @SysLog(value = "删除角色")
     @Operation(summary = "删除角色")
-    public Result<ResponseEntity<Void>> del(@PathVariable Long id) {
+    public void del(@PathVariable Long id) {
         this.roleService.removeByRoleId(id);
-        return success();
     }
 
     @Operation(summary = "角色关联的用户")
@@ -128,30 +121,29 @@ public class RoleController {
 
     @Operation(summary = "角色关联的资源")
     @GetMapping("/{roleId}/role_res")
-    public Result<List<RoleRes>> resByRoleId(@PathVariable Long roleId) {
-        return Result.success(roleResService.list(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, roleId)));
+    public List<RoleRes> resByRoleId(@PathVariable Long roleId) {
+        return roleResService.list(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, roleId));
     }
 
 
     @Operation(summary = "角色关联的组织")
     @GetMapping("/{roleId}/role_rog")
-    public Result<List<RoleOrg>> orgByRoleId(@PathVariable Long roleId) {
-        return Result.success(roleOrgService.list(Wraps.<RoleOrg>lbQ().eq(RoleOrg::getRoleId, roleId)));
+    public List<RoleOrg> orgByRoleId(@PathVariable Long roleId) {
+        return roleOrgService.list(Wraps.<RoleOrg>lbQ().eq(RoleOrg::getRoleId, roleId));
     }
 
 
     @Operation(summary = "角色分配操作资源")
     @PostMapping("/{roleId}/authority")
-    public Result<ResponseEntity<Void>> distributionAuthority(@PathVariable Long roleId, @RequestBody RoleResSaveDTO dto) {
+    public void distributionAuthority(@PathVariable Long roleId, @RequestBody RoleResSaveDTO dto) {
         this.roleResService.saveRoleAuthority(dto);
-        return Result.success();
+
     }
 
     @Operation(summary = "角色分配用户")
     @PostMapping("/{roleId}/users")
-    public Result<ResponseEntity<Void>> distributionUser(@PathVariable Long roleId, @RequestBody RoleUserDTO dto) {
+    public void distributionUser(@PathVariable Long roleId, @RequestBody RoleUserDTO dto) {
         this.roleService.saveUserRole(roleId, dto.getUserIdList());
-        return Result.success();
     }
 
 

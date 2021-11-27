@@ -5,4 +5,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.wemirr.framework.boot.log.configuration.LogAutoConfiguration,\
   com.wemirr.framework.boot.base.configuration.DynamicDatasourceWebAutoConfigurer,\
   com.wemirr.framework.boot.remote.configuration.RemoteAutoConfiguration,\
-  com.wemirr.framework.boot.undertow.UndertowPoolCustomizer
+  com.wemirr.framework.boot.undertow.UndertowPoolCustomizer,\
+    com.wemirr.framework.boot.response.GlobalResponseBodyAdvice
