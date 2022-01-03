@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.properties.DatabaseProperties;
+import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.framework.security.client.entity.UserInfoDetails;
 import com.wemirr.framework.security.client.exception.Auth2Exception;
 import com.wemirr.platform.authority.configuration.integration.AbstractPreparedIntegrationAuthenticator;
@@ -40,6 +42,9 @@ public class UsernamePasswordAuthenticator extends AbstractPreparedIntegrationAu
     private UserService userService;
     @Resource
     private TenantService tenantService;
+    @Resource
+    private DatabaseProperties databaseProperties;
+
 
     @Override
     public int getOrder() {
@@ -66,8 +71,9 @@ public class UsernamePasswordAuthenticator extends AbstractPreparedIntegrationAu
         if (tenant.getLocked()) {
             throw CheckedException.badRequest("租户已被禁用,请联系管理员");
         }
+        final boolean multiTenantType = MultiTenantType.COLUMN.eq(databaseProperties.getMultiTenant().getType());
         final User user = Optional.ofNullable(this.userService.getOne(Wrappers.<User>lambdaQuery()
-                .eq(User::getTenantId, tenant.getId()).eq(User::getUsername, username)))
+                        .eq(multiTenantType, User::getTenantId, tenant.getId()).eq(User::getUsername, username)))
                 .orElseThrow(() -> CheckedException.notFound("账户不存在"));
         final UserInfoDetails info = new UserInfoDetails();
         info.setTenantCode(tenantCode);
