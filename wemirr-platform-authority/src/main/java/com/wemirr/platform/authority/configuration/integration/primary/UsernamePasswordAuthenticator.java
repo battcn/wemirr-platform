@@ -67,7 +67,7 @@ public class UsernamePasswordAuthenticator extends AbstractPreparedIntegrationAu
             // 如果说是每次登陆都要清空以前的信息那么需要调用一下注销，这个注销的功能就是注销以前的token信息
         }
         final Tenant tenant = Optional.ofNullable(tenantService.getOne(Wraps.<Tenant>lbQ().eq(Tenant::getCode, tenantCode)))
-                .orElseThrow(() -> CheckedException.notFound("{1}租户不存在", tenantCode));
+                .orElseThrow(() -> CheckedException.notFound("{0}租户不存在", tenantCode));
         if (tenant.getLocked()) {
             throw CheckedException.badRequest("租户已被禁用,请联系管理员");
         }
