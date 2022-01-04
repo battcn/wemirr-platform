@@ -1,6 +1,7 @@
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.extra.spring.SpringUtil;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.configuration.dynamic.TenantDynamicDataSourceProcess;
@@ -22,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -88,7 +88,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public void initSqlScript(Long id) {
         final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("租户信息不存在"));
         if (tenant.getLocked()) {

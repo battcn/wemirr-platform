@@ -1,6 +1,7 @@
 package com.wemirr.platform.tools.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatis.SuperServiceImpl;
@@ -15,7 +16,6 @@ import com.wemirr.platform.tools.service.DynamicReleaseColumnService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -55,7 +55,7 @@ public class DynamicReleaseColumnServiceImpl extends SuperServiceImpl<DynamicRel
 
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public List<DynamicReleaseGridColumnResp> listByGridId(Long gridId) {
         final DynamicReleaseGrid grid = Optional.ofNullable(this.dynamicReleaseGridMapper.selectById(gridId))
                 .orElseThrow(() -> CheckedException.notFound("模型不存在"));

@@ -2,6 +2,7 @@ package com.wemirr.platform.tools.service.impl;
 
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.ConstVal;
@@ -22,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.util.Collections;
@@ -41,7 +41,7 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
 
     @SneakyThrows
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public String generate(GenerateEntity request) {
         Map<String, Object> customMap = Maps.newHashMap();
         customMap.put("apiUrlPrefix", request.getApiUrlPrefix());

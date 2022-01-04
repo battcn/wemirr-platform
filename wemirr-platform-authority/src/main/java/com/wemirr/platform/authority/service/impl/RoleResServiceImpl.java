@@ -1,6 +1,7 @@
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.dto.RoleResSaveDTO;
@@ -15,7 +16,6 @@ import com.wemirr.platform.authority.service.UserRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -69,7 +69,7 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public void saveRoleAuthority(RoleResSaveDTO dto) {
         //删除角色和资源的关联
         super.remove(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, dto.getRoleId()));

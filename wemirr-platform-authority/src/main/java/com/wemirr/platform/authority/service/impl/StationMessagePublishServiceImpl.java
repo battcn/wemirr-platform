@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatis.SuperServiceImpl;
@@ -18,7 +19,6 @@ import com.wemirr.platform.authority.repository.*;
 import com.wemirr.platform.authority.service.StationMessagePublishService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -65,7 +65,7 @@ public class StationMessagePublishServiceImpl extends SuperServiceImpl<StationMe
 
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public void publish(Long id) {
         final StationMessagePublish messagePublish = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("需要发布的消息不存在"));
         final List<Long> receiver = Optional.of(Arrays.stream(messagePublish.getReceiver().split(",")).mapToLong(Long::parseLong).boxed().collect(toList()))

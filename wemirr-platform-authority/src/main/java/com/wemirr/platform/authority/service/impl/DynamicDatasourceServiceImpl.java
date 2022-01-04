@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.configuration.dynamic.event.DynamicDatasourceEvent;
 import com.wemirr.framework.db.configuration.dynamic.event.body.EventAction;
@@ -19,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -64,7 +64,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public void saveOrUpdateDatabase(DynamicDatasource dynamicDatasource) {
         final LbqWrapper<DynamicDatasource> lbqWrapper = Wraps.<DynamicDatasource>lbQ().eq(DynamicDatasource::getPoolName, dynamicDatasource.getPoolName());
         if (dynamicDatasource.getId() != null) {
@@ -78,7 +78,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public void removeDatabaseById(Long id) {
         Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("数据连接信息不存在"));
         this.baseMapper.deleteById(id);

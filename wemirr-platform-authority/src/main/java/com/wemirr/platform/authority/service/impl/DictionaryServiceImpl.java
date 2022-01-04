@@ -1,6 +1,7 @@
 package com.wemirr.platform.authority.service.impl;
 
 
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
@@ -12,7 +13,6 @@ import com.wemirr.platform.authority.service.DictionaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -44,7 +44,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
         this.baseMapper.insert(dictionary);
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     @Override
     public void deleteById(Long id) {
         final Dictionary dictionary = Optional.ofNullable(this.baseMapper.selectById(id))
@@ -56,7 +56,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
         this.dictionaryItemMapper.delete(Wraps.<DictionaryItem>lbQ().eq(DictionaryItem::getDictionaryId, id));
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     @Override
     public void editDictionary(Dictionary dictionary) {
         final Dictionary record = Optional.ofNullable(this.baseMapper.selectById(dictionary.getId()))

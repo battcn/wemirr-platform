@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.entity.Entity;
@@ -22,7 +23,6 @@ import com.wemirr.platform.authority.service.RoleResService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
 
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public void addResource(Resource resource) {
         if (ResourceType.BUILD_PUBLISH.eq(resource.getType())) {
             resource.setPath(String.format(DEFAULT_PATH, tenantEnvironment.tenantId()) + "/" + resource.getModel());
@@ -95,7 +95,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public void delResource(Long resourceId) {
         List<Long> resourceIds = Lists.newArrayList(resourceId);
         final List<Resource> children = this.baseMapper.findChildrenById(resourceId);

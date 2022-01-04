@@ -1,6 +1,7 @@
 package com.wemirr.platform.tools.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDrag;
@@ -14,7 +15,6 @@ import com.wemirr.platform.tools.mapper.DynamicReleaseDragPushServerModelMapper;
 import com.wemirr.platform.tools.service.DynamicReleaseDragPushServerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +46,7 @@ public class DynamicReleaseDragPushServerServiceImpl extends SuperServiceImpl<Dy
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public void binding(Long id, BatchKey<Long> ids) {
         this.dynamicReleaseDragPushServerModelMapper.deleteById(id);
         if (ids == null || CollectionUtil.isEmpty(ids.getIds())) {
