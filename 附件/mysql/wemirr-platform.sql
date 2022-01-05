@@ -904,4 +904,32 @@ BEGIN;
 INSERT INTO `t_user` VALUES (1, 3, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '长风一梦8888', 100, 100, b'0', '1837307557@qq.com', '13002171912', '111111111', 1, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '12323', 'mz_daiz', 'SUOSHI', 'WORKING', '2020-11-05', 0, NULL, '2020-10-16 03:25:36', 1, '长风一梦', '2021-08-10 03:18:14');
 COMMIT;
 
+
+DROP TABLE IF EXISTS `common_generate`;
+CREATE TABLE `common_generate` (
+    `id` bigint NOT NULL AUTO_INCREMENT,
+    `root_dir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '根目录',
+    `swagger2` bit(2) DEFAULT b'0' COMMENT '是否添加swagger2',
+    `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '作者',
+    `table_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '表名',
+    `parent_package` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '父包',
+    `module_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '模块名',
+    `table_prefix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '表前缀',
+    `api_url_prefix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'api地址前缀',
+    `logic_delete_field` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '逻辑删除字段',
+    `platform_id` bigint DEFAULT '0' COMMENT '平台ID',
+    `created_by` bigint DEFAULT '0' COMMENT '创建人id',
+    `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作人',
+    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modified_by` bigint DEFAULT NULL,
+    `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='代码生成器';
+
+BEGIN;
+INSERT INTO `common_generate` (`id`, `root_dir`, `swagger2`, `author`, `table_name`, `parent_package`, `module_name`, `table_prefix`, `api_url_prefix`, `logic_delete_field`, `platform_id`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (6, NULL, b'01', 'Levin', 't_user', 'com.wemirr.platform', 'authority', 't_', '/api/users', 'locked', 1, 0, NULL, '2020-11-06 09:34:40', 2, '不告诉你', '2021-11-26 06:11:03');
+INSERT INTO `common_generate` (`id`, `root_dir`, `swagger2`, `author`, `table_name`, `parent_package`, `module_name`, `table_prefix`, `api_url_prefix`, `logic_delete_field`, `platform_id`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (31, NULL, b'00', 'Levin', 't_user', 'com.wemirr.platform.authority', 'User', 't_', '/api/users', 'locked', 1, 2, '不告诉你', '2020-11-06 09:34:40', 2, '不告诉你', '2021-11-26 06:11:04');
+COMMIT;
+
 SET FOREIGN_KEY_CHECKS = 1;
