@@ -84,7 +84,8 @@ public class Swagger3AutoConfiguration {
             servers = new ArrayList<>();
         }
         servers.add(localServer());
-        return new OpenAPI().components(components).servers(servers)
+        return new OpenAPI().components(components)
+                .servers(servers)
                 .info(info).externalDocs(swagger3Properties.getExternal())
                 .security(security);
     }
