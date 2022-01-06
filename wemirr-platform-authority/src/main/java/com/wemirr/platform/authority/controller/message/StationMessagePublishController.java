@@ -15,6 +15,7 @@ import com.wemirr.platform.authority.domain.vo.CommonDataResp;
 import com.wemirr.platform.authority.domain.vo.StationMessagePublishResp;
 import com.wemirr.platform.authority.service.StationMessagePublishService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ import static com.wemirr.platform.authority.domain.converts.StationMessagePublis
 @RequestMapping("station_messages_publish")
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "站内消息")
 public class StationMessagePublishController {
 
     private final StationMessagePublishService stationMessagePublishService;
