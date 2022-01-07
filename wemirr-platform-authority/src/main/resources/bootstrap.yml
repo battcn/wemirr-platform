@@ -13,6 +13,7 @@ spring:
           group: ${spring.application.name}
           version: 1.0
       config:
+        server-addr: localhost:8848
         # 本地申明空间（默认 public 如果有需要空间隔离可以配置）
         # namespace: wemirr
         refresh-enabled: true
