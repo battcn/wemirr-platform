@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!-- 应用名称-->
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="demo.log"/>
+    <!-- 普通日志信息：看看SQL、LOG之类的 -->
+    <property name="ORDINARY_LOG_FILE_NAME_PATTERN" value="logs/${appName}-ordinary.%d{yyyy-MM-dd}.%i.log"/>
+    <!-- 关键信息：用于排查问题 -->
+    <property name="CRUX_LOG_FILE_NAME_PATTERN" value="logs/${appName}-crux.%d{yyyy-MM-dd}.%i.log"/>
+    <!-- 日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} - [%X{n-d-trace-id}] -%clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%c){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="FILE_LOG_PATTERN"
+              value="%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} - [%X{n-d-trace-id}] - ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %c : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <!--输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!--输出到普通信息文件-->
+    <appender name="ordinaryFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${ORDINARY_LOG_FILE_NAME_PATTERN}</fileNamePattern>
+            <!-- 日志保留天数 -->
+            <maxHistory>30</maxHistory>
+            <!-- 日志文件上限大小，达到指定大小后删除旧的日志文件 -->
+            <totalSizeCap>2GB</totalSizeCap>
+            <!-- 每个日志文件的最大值 -->
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="cruxFileWarn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${CRUX_LOG_FILE_NAME_PATTERN}</fileNamePattern>
+            <!-- 日志保留天数 -->
+            <maxHistory>30</maxHistory>
+            <!-- 日志文件上限大小，达到指定大小后删除旧的日志文件 -->
+            <totalSizeCap>1GB</totalSizeCap>
+            <!-- 每个日志文件的最大值 -->
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>warn</level>
+        </filter>
+    </appender>
+
+    <!-- region 根据不同的环境设置不同的日志输出级别 -->
+    <springProfile name="default,local,dev">
+        <root level="info">
+            <appender-ref ref="console"/>
+            <appender-ref ref="ordinaryFile"/>
+            <appender-ref ref="cruxFileWarn"/>
+        </root>
+        <logger name="com.wemirr" level="debug"/>
+    </springProfile>
+
+    <springProfile name="prod,pre,test">
+        <root level="info">
+            <appender-ref ref="console"/>
+            <appender-ref ref="ordinaryFile"/>
+            <appender-ref ref="cruxFileWarn"/>
+        </root>
+        <logger name="com.wemirr" level="debug"/>
+    </springProfile>
+
+</configuration>

@@ -74,6 +74,12 @@ spring:
             - Path=/monitor/**
           filters:
             - StripPrefix=1
+        - id: wemirr-platform-demo
+          uri: lb://wemirr-platform-demo
+          predicates:
+            - Path=/demo/**
+          filters:
+            - StripPrefix=1
       loadbalancer:
         use404: true
       httpclient:

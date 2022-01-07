@@ -1,0 +1,26 @@
+server:
+  port: 5004
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+  application:
+    name: wemirr-platform-demo
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        metadata:
+          group: ${spring.application.name}
+          version: 1.0
+      config:
+        server-addr: localhost:8848
+        # 本地申明空间（默认 public 如果有需要空间隔离可以配置）
+        # namespace: wemirr
+        refresh-enabled: true
+        # 默认会自动加载一个 applicationName.properties
+        extension-configs:
+          - data-id: swagger.yaml
+            refresh: true
+          - data-id: mybatis-plus-default.yaml
