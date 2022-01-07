@@ -2,16 +2,13 @@ package com.wemirr.platform.demo;
 
 import cn.hutool.core.lang.generator.Generator;
 import cn.hutool.core.lang.generator.SnowflakeGenerator;
-import com.wemirr.framework.db.configuration.dynamic.TenantDynamicDataSourceEventBusAutoConfiguration;
 import com.wemirr.framework.security.client.annotation.EnableOauth2ClientResourceServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,8 +16,7 @@ import org.springframework.stereotype.Repository;
  */
 @EnableOauth2ClientResourceServer
 @EnableDiscoveryClient
-@SpringBootApplication(exclude = MongoAutoConfiguration.class)
-@Import(TenantDynamicDataSourceEventBusAutoConfiguration.class)
+@SpringBootApplication
 @EnableFeignClients("com.wemirr")
 @MapperScan(value = "com.wemirr.**.mapper", annotationClass = Repository.class)
 public class DemoApplication {
