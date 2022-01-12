@@ -84,6 +84,6 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
         final List<RoleRes> roleRes = set.stream().filter(Objects::nonNull)
                 .map(resId -> RoleRes.builder().resId(resId).roleId(roleId).build())
                 .collect(toList());
-        super.saveBatch(roleRes);
+        super.insertBatch(roleRes);
     }
 }
