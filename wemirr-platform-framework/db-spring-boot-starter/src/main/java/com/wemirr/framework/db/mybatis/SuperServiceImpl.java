@@ -1,12 +1,13 @@
 package com.wemirr.framework.db.mybatis;
 
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.commons.exception.ValidException;
+import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
-import static com.wemirr.framework.commons.exception.ExceptionCode.SERVICE_MAPPER_ERROR;
+import java.util.List;
 
 /**
  * 不含缓存的Service实现
@@ -24,89 +25,68 @@ import static com.wemirr.framework.commons.exception.ExceptionCode.SERVICE_MAPPE
  */
 public class SuperServiceImpl<M extends SuperMapper<T>, T> extends ServiceImpl<M, T> implements SuperService<T> {
 
+    /**
+     * 默认批次提交数量
+     */
+    private static final int DEFAULT_BATCH_SIZE = 500;
+
+    private static final Logger logger = LoggerFactory.getLogger(SuperServiceImpl.class);
+
     public SuperMapper<T> getSuperMapper() {
         if (baseMapper != null) {
             return baseMapper;
         }
-        throw new ValidException(SERVICE_MAPPER_ERROR);
-    }
-
-    private static final String COLON = ":";
-
-    /**
-     * 构建没有租户信息的key
-     *
-     * @param args
-     * @return
-     */
-    protected static String buildKey(Object... args) {
-        if (args.length == 1) {
-            return String.valueOf(args[0]);
-        } else if (args.length > 0) {
-            return StrUtil.join(COLON, args);
-        } else {
-            return "";
-        }
-    }
-
-    /**
-     * 构建key
-     *
-     * @param args args
-     * @return key
-     */
-    protected String key(Object... args) {
-        return buildKey(args);
+        throw new RuntimeException("Mapper类转换异常");
     }
 
     @Override
-    public boolean save(T model) {
-        Result<Boolean> result = handlerSave(model);
-        if (result.getDefExec()) {
-            return super.save(model);
+    public boolean insertBatch(List<T> list) {
+        if (CollectionUtils.isEmpty(list)) {
+            logger.warn("请求数据为空....");
+            return false;
         }
-        return result.getData();
+        if (list.size() <= DEFAULT_BATCH_SIZE) {
+            return this.baseMapper.insertBatchSomeColumn(list) > 0;
+        }
+        int size = list.size();
+        int i = 1;
+        List<T> recordList = Lists.newArrayList();
+        for (T element : list) {
+            recordList.add(element);
+            if ((i % DEFAULT_BATCH_SIZE == 0) || i == size) {
+                logger.info("数据写入数据库.....");
+                this.baseMapper.insertBatchSomeColumn(recordList);
+                logger.info("清空临时容器内容.....");
+                recordList.clear();
+            }
+            i++;
+        }
+        return true;
     }
-
-    /**
-     * 处理新增相关处理
-     *
-     * @param model model
-     * @return Result
-     */
-    protected Result<Boolean> handlerSave(T model) {
-        return Result.successDef();
-    }
-
-    /**
-     * 处理修改相关处理
-     *
-     * @param model model
-     * @return Result
-     */
-    protected Result<Boolean> handlerUpdateAllById(T model) {
-        return Result.successDef();
-    }
-
-    /**
-     * 处理修改相关处理
-     *
-     * @param model model
-     * @return Result
-     */
-    protected Result<Boolean> handlerUpdateById(T model) {
-        return Result.successDef();
-    }
-
 
     @Override
-    public boolean updateById(T model) {
-        Result<Boolean> result = handlerUpdateById(model);
-        if (result.getDefExec()) {
-            return super.updateById(model);
+    public boolean updateBatch(List<T> list) {
+        if (CollectionUtils.isEmpty(list)) {
+            logger.warn("请求数据为空....");
+            return false;
         }
-        return result.getData();
+        if (list.size() <= DEFAULT_BATCH_SIZE) {
+            return this.baseMapper.updateBatchSomeColumnById(list) > 0;
+        }
+        int size = list.size();
+        int i = 1;
+        List<T> recordList = Lists.newArrayList();
+        for (T element : list) {
+            recordList.add(element);
+            if ((i % DEFAULT_BATCH_SIZE == 0) || i == size) {
+                logger.info("数据写入数据库.....");
+                this.baseMapper.updateBatchSomeColumnById(recordList);
+                logger.info("清空临时容器内容.....");
+                recordList.clear();
+            }
+            i++;
+        }
+        return true;
     }
-
 
 }
