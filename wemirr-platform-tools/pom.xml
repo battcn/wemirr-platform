@@ -23,10 +23,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>xxl-job-spring-boot-starter</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>

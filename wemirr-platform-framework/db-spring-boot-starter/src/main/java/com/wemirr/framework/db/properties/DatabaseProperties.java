@@ -3,6 +3,7 @@ package com.wemirr.framework.db.properties;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
@@ -69,11 +70,11 @@ public class DatabaseProperties {
          */
         private String defaultDsName = "master";
         /**
-         * 租户id 列名
+         * 租户 ID 列名 （数据库查询使用）
          */
         private String tenantIdColumn = "tenant_id";
         /**
-         * 租户字段列名
+         * 租户字段参数名称（前端传递给后端）
          */
         private String tenantCodeColumn = "tenant_code";
 
@@ -99,6 +100,10 @@ public class DatabaseProperties {
          * 租户数据源切换拦截器（不建议使用）
          */
         private boolean dsInterceptor;
+
+        public boolean isSuperTenant(String tenantCode) {
+            return StringUtils.isNotBlank(tenantCode) && StringUtils.equals(tenantCode, superTenantCode);
+        }
     }
 
     @Data

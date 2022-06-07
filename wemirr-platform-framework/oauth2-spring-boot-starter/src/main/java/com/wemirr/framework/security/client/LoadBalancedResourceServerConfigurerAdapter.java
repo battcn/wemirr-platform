@@ -13,11 +13,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 带负载均衡的请求
@@ -58,7 +60,11 @@ public class LoadBalancedResourceServerConfigurerAdapter extends ResourceServerC
                 log.debug("[key] - [{}] - [value] - [{}]", key, value);
             }
             if (annotation != null && !annotation.web()) {
-                key.getPatternsCondition().getPatterns().forEach(url -> registry.antMatchers(url).permitAll());
+                final PatternsRequestCondition patternsCondition = key.getPatternsCondition();
+                if (Objects.isNull(patternsCondition)) {
+                    continue;
+                }
+                patternsCondition.getPatterns().forEach(url -> registry.antMatchers(url).permitAll());
             }
         }
         List<String> ignoreUrls = securityIgnoreProperties.getResourceUrls();

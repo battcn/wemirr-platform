@@ -17,17 +17,21 @@ import com.wemirr.framework.db.mybatis.SuperMapper;
 import com.wemirr.framework.db.mybatis.SuperService;
 import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.platform.tools.domain.entity.GenerateEntity;
+import com.wemirr.platform.tools.domain.resp.GenerateTableResp;
 import com.wemirr.platform.tools.mapper.GenerateMapper;
 import com.wemirr.platform.tools.service.GenerateService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Levin
@@ -92,6 +96,17 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
                 .execute();
         log.info("{}生成完成:{}", request.getTableName(), rootDir);
         return rootDir;
+    }
+
+    @Override
+    public List<GenerateTableResp> loadTables() {
+        final List<String> tables = this.baseMapper.loadTables();
+        if (CollectionUtils.isEmpty(tables)) {
+            return null;
+        }
+        return tables.stream().filter(StringUtils::isNotBlank)
+                .map(table -> GenerateTableResp.builder().label(table).value(table).build())
+                .collect(Collectors.toList());
     }
 
 }

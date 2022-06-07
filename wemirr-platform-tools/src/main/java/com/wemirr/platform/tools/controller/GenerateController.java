@@ -8,6 +8,7 @@ import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.tools.domain.entity.GenerateEntity;
 import com.wemirr.platform.tools.domain.req.GenerateReq;
+import com.wemirr.platform.tools.domain.resp.GenerateTableResp;
 import com.wemirr.platform.tools.service.GenerateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * @author Levin
@@ -45,6 +47,11 @@ public class GenerateController {
                 Wraps.<GenerateEntity>lbQ().eq(GenerateEntity::getAuthor, author));
     }
 
+    @Operation(summary = "获取所有的表", description = "获取所有的表")
+    @GetMapping("/tables")
+    public List<GenerateTableResp> tables() {
+        return generateService.loadTables();
+    }
 
     @Operation(summary = "代码生成")
     @PostMapping("/{id}/download")

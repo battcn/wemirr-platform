@@ -43,7 +43,7 @@ public class DynamicDatasourceWebAutoConfigurer implements WebMvcConfigurer {
                 }
                 String prefix = multiTenant.getDsPrefix();
                 String dsKey = multiTenant.getDefaultDsName();
-                if (StringUtils.isNotBlank(tenantCode)) {
+                if (!multiTenant.isSuperTenant(tenantCode)) {
                     dsKey = prefix + tenantCode;
                 }
                 log.info("经过多数据源Interceptor,数据源是{},路径是{}", dsKey, requestUri);

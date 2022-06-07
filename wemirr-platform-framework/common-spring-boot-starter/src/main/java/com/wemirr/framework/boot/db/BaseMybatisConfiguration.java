@@ -1,4 +1,4 @@
-package com.wemirr.framework.db.configuration;
+package com.wemirr.framework.boot.db;
 
 
 import com.baomidou.mybatisplus.annotation.DbType;
@@ -10,6 +10,7 @@ import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.configuration.handler.MyBatisMetaObjectHandler;
 import com.wemirr.framework.db.injector.MySqlInjector;
 import com.wemirr.framework.db.mybatis.auth.DataScopeAspect;
+import com.wemirr.framework.db.mybatis.auth.DataScopeInnerInterceptor;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,12 +40,16 @@ import java.util.List;
  */
 @Slf4j
 @RequiredArgsConstructor
+@Configuration
+@EnableConfigurationProperties(DatabaseProperties.class)
 public abstract class BaseMybatisConfiguration {
 
     @Resource
     protected DatabaseProperties properties;
     @Resource
-    protected TenantEnvironment tenantEnvironment;
+    private TenantEnvironment tenantEnvironment;
+    @Resource
+    private ApplicationContext applicationContext;
 
 
     /**
@@ -121,7 +130,12 @@ public abstract class BaseMybatisConfiguration {
      * @return List<InnerInterceptor>
      */
     protected List<InnerInterceptor> getPaginationBeforeInnerInterceptor() {
-        return Collections.emptyList();
+        List<InnerInterceptor> list = new ArrayList<>();
+        boolean isDataScope = properties.isDataScope();
+        if (isDataScope) {
+            list.add(new DataScopeInnerInterceptor(applicationContext, tenantEnvironment));
+        }
+        return list;
     }
 
     /**

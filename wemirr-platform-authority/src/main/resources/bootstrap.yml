@@ -1,25 +1,37 @@
-server:
-  port: 5002
-spring:
-  main:
-    allow-bean-definition-overriding: true
-  application:
-    name: wemirr-platform-authority
-  cloud:
-    nacos:
-      server-addr: localhost:8848
-      discovery:
-        metadata:
-          group: ${spring.application.name}
-          version: 1.0
-      config:
-        server-addr: localhost:8848
-        # 本地申明空间（默认 public 如果有需要空间隔离可以配置）
-        # namespace: wemirr
-        refresh-enabled: true
-        # 默认会自动加载一个 applicationName.properties
-        extension-configs:
-          - data-id: swagger.yaml
-            refresh: true
-            group: DEFAULT_GROUP # 默认就是 DEFAULT_GROUP
-          - data-id: mybatis-plus-default.yaml
+springdoc:
+  swagger-ui:
+    oauth:
+      app-name: authority
+      client-id: client
+      client-secret: client
+      use-pkce-with-authorization-code-grant: true
+  plus:
+#    servers:
+#      - url: http://localhost:9000/authority/
+#        description: 认证授权服务网关地址
+#      - url: http://localhost:9000/tools/
+#        description: 工具服务网关地址
+#      - url: http://localhost:9000/demo/
+#        description: DEMO务网关地址
+    info:
+      title: Swagger API
+      description: 聚合文档
+      terms-of-service: https://blog.battcn.com/
+      license:
+        name: apache
+        url: apache
+      contact:
+        name: 唐亚峰
+        url:  https://cloud.battcn.com/
+        email: 1837307557@qq.com
+    security-schemes:
+      oauth2:
+        name: oauth2
+        type: oauth2
+        in: header
+        bearer-format: Bearer
+        flows:
+          password:
+            scopes:
+              server: server
+            token-url: http://localhost:9000/authority/oauth/token?tenant_code=0000

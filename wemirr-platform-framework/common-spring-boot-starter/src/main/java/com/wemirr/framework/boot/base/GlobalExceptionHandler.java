@@ -66,6 +66,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         } else if (e instanceof MultipartException) {
             return new ResponseEntity<>(Result.fail("文件过大,请控制文件大小"), defaultErrorResult);
         } else if (e instanceof InternalAuthenticationServiceException) {
+            log.error("InternalAuthenticationServiceException",e);
             InternalAuthenticationServiceException exception = (InternalAuthenticationServiceException) e;
             if (exception.getCause() instanceof SQLSyntaxErrorException) {
                 return new ResponseEntity<>(Result.fail(exception.getCause().getMessage()), defaultErrorResult);

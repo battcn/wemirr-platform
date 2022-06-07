@@ -1,6 +1,5 @@
 # wemirr-platform
 
-
 [![个人信息](https://img.shields.io/badge/author-唐亚峰-blue.svg)](http://blog.battcn.com/)
 [![项目交流群](https://img.shields.io/badge/chat-项目交流群-yellow.svg)](https://qm.qq.com/cgi-bin/qm/qr?k=7HSbjhK2b23CyodXUX2tR_ldigjrAlPT&jump_from=webapi)
 ![JDK Version](https://img.shields.io/badge/JAVA-JDK8+-red.svg)
@@ -9,7 +8,19 @@
 
 [![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-dependencies.svg?label=Spring%20Boot&logo=Spring)](https://search.maven.org/artifact/org.springframework.boot/spring-boot-dependencies)  [![Spring Cloud](https://img.shields.io/maven-central/v/org.springframework.cloud/spring-cloud-dependencies.svg?label=Spring%20Cloud&logo=Spring)](https://search.maven.org/artifact/org.springframework.cloud/spring-cloud-dependencies)  [![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.alibaba.cloud/spring-cloud-alibaba-dependencies.svg?label=Spring%20Cloud%20Alibaba&logo=Spring)](https://search.maven.org/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies) 
 
+> 项目代码全部开源,非阉割版,有`Spring Cloud` 工作经验的 **基本** 无需购买付费文档一样可以玩转项目
 
+> 开发文档
+
+**请看项目 开发文档 目录下的相关 md 文件,同时需要搞懂租户策略已经配置规则**
+
+> 付费文档地址
+
+[付费文档地址](https://cloud.battcn.com/)
+
+> 赞赏 188 进微信交流群解答疑惑
+
+![微信和攒赏码](./images/wx_and_zsm.png)
 
 ## 演示地址
 
@@ -176,21 +187,3 @@ nohup java -javaagent:/opt/wemirr-platform/skywalking/agent/skywalking-agent.jar
 nohup java -javaagent:/opt/wemirr-platform/skywalking/agent/skywalking-agent.jar -Dskywalking.agent.service_name=wemirr-platform-authority -Dskywalking.collector.backend_service=127.0.0.1:11800 -jar wemirr-platform-authority.jar -d --spring.profiles.active=demo > logs/start_authority.log &
 
 ```
-
-
-### 关于埋点日志
-
-``` java
-@Bean
-public SysLogListener sysLogListener(OptLogService optLogService) {
-    return new SysLogListener(optLogService::save);
-}
-
-// 如果操作量大又想记录到数据库，请用该组件
-@Bean
-@ConditionalOnExpression
-public SysLogListener sysLogListener(BuryPointClient buryPointClient) {
-    return new SysLogListener(buryPointClient::buryPoint);
-}
-```
-

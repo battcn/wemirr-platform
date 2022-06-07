@@ -1,0 +1,21 @@
+server:
+  port: 5002
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: wemirr-platform-authority
+  config:
+    import:
+      - optional:nacos:swagger.yaml # 这是有默认值的写法
+      - optional:nacos:mybatis-plus-default.yaml?group=DEFAULT_GROUP&refreshEnabled=true #这是完写法
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        metadata:
+          group: ${spring.application.name}
+          version: 1.0
+      config:
+        server-addr: localhost:8848
+        refresh-enabled: true

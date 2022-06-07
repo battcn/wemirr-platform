@@ -7,6 +7,8 @@
 extend.mybatis-plus.multi-tenant.type=column
 # 表示需要进行租户数据隔离的表名(逗号分隔)
 extend.mybatis-plus.multi-tenant.include-tables=t_user,t_file
+# 字段隔离需要关掉动态AOP
+spring.datasource.dynamic.aop.enabled=false
 ```
 
 
@@ -42,11 +44,6 @@ spring.datasource.dynamic.hikari.is-auto-commit=true
 ### 使用方式
 
 **在 Mapper/Service/Controller 处添加 `@DynamicDS` 注解，即可根据规则动态切换数据源了**
-
-### 注意事项
-
-**如果多租户类型不是 `动态数据源`，请代码注释掉 `@DynamicDS` 及里面的 `@DS("#custom.tenant_code")` 即可**
-
 
 ### 自定义规则
 

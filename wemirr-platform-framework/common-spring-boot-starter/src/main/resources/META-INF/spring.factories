@@ -6,4 +6,6 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.wemirr.framework.boot.base.configuration.DynamicDatasourceWebAutoConfigurer,\
   com.wemirr.framework.boot.remote.configuration.RemoteAutoConfiguration,\
   com.wemirr.framework.boot.undertow.UndertowPoolCustomizer,\
-    com.wemirr.framework.boot.response.GlobalResponseBodyAdvice
+  com.wemirr.framework.boot.response.GlobalResponseBodyAdvice,\
+  com.wemirr.framework.boot.db.TenantEnvironmentConfiguration,\
+  com.wemirr.framework.boot.db.BaseMybatisConfiguration
