@@ -2,22 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wemirr.platform.authority.repository.UserMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.wemirr.platform.authority.domain.entity.baseinfo.User">
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
-        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
-        <result column="last_modified_by" jdbcType="BIGINT" property="lastModifiedBy"/>
-        <result column="last_modified_time" jdbcType="TIMESTAMP" property="lastModifiedTime"/>
-        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
-        <result column="org_id" jdbcType="BIGINT" property="org"/>
-        <result column="email" jdbcType="VARCHAR" property="email"/>
-        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
-        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
-        <result column="password" jdbcType="VARCHAR" property="password"/>
-    </resultMap>
-
-
     <select id="findPage" resultType="com.wemirr.platform.authority.domain.vo.UserResp">
         SELECT
         *

@@ -1,5 +1,6 @@
 package com.wemirr.platform.authority.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.StringUtils;
@@ -24,8 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Levin
@@ -100,16 +103,22 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         }
         if (multiTenant.getType() == MultiTenantType.COLUMN) {
             final Role role = Optional.ofNullable(roleMapper.selectOne(Wraps.<Role>lbQ()
-                    .eq(Role::getCode, "TENANT-ADMIN"))).orElseThrow(() -> CheckedException.notFound("角色不存在"));
-            final User user = this.userMapper.selectOne(Wraps.<User>lbQ().eq(User::getUsername, "admin").eq(User::getTenantId, id));
-            if (user != null) {
-                this.userMapper.deleteById(user.getId());
-                this.userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getUserId, user.getId()));
+                    .eq(Role::getCode, "TENANT-ADMIN"))).orElseThrow(() -> CheckedException.notFound("内置租户管理员角色不存在"));
+            final List<User> users = this.userMapper.selectByTenantId(tenant.getId());
+            if (CollUtil.isNotEmpty(users)) {
+                final List<Long> userIdList = users.stream().map(User::getId).distinct().collect(Collectors.toList());
+                log.warn("开始清除租户 - {} 的系统数据,危险动作", tenant.getName());
+                this.userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getUserId, userIdList));
+                this.userMapper.deleteByTenantId(tenant.getId());
+                this.roleMapper.deleteByTenantId(tenant.getId());
+                log.warn("开始初始化租户 - {} 的系统数据,危险动作", tenant.getName());
             }
             User record = new User();
             record.setUsername("admin");
             record.setPassword(passwordEncoder.encode("123456"));
             record.setTenantId(id);
+            record.setNickName(tenant.getContactPerson());
+            record.setMobile(tenant.getContactPhone());
             record.setStatus(true);
             this.userMapper.insert(record);
             this.userRoleMapper.insert(UserRole.builder().userId(record.getId()).roleId(role.getId()).build());
