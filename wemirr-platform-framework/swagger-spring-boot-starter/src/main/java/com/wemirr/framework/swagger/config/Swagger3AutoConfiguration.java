@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -26,15 +27,16 @@ import java.util.Map;
  * @author Levin
  * swagger配置
  */
+@Slf4j
 @Configuration
 @ConditionalOnProperty(name = "springdoc.plus.enabled", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties(Swagger3Properties.class)
 public class Swagger3AutoConfiguration {
 
-    @Value("${server.port:8080}")
-    private int port;
     @Value("${spring.mvc.servlet.path:/}")
     private String servletPath;
+    @Value("${spring.application.name}")
+    private String applicationName;
 
 
     @Bean
@@ -92,7 +94,10 @@ public class Swagger3AutoConfiguration {
 
     private Server localServer() {
         Server server = new Server();
-        server.setUrl("http://localhost:" + port + "" + servletPath);
+        log.warn("=================================== 提示 =================================== ");
+        log.warn("如果你要修改项目名称规则或网关路由配置或者网关端口,请调整此处取值逻辑");
+        server.setUrl("http://localhost:9000/" + applicationName.substring(applicationName.lastIndexOf("-") + 1) + servletPath);
+        log.warn("=================================== 提示 =================================== ");
         server.setDescription("本地服务环境");
         return server;
     }
@@ -100,6 +105,4 @@ public class Swagger3AutoConfiguration {
     private String version() {
         return "Spring Boot Version: " + SpringBootVersion.getVersion();
     }
-
-
 }
