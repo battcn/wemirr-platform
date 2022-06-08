@@ -125,7 +125,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
 
         } else if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
             TenantDynamicDataSourceProcess tenantDynamicDataSourceProcess = SpringUtil.getBean(TenantDynamicDataSourceProcess.class);
-            tenantDynamicDataSourceProcess.initSqlScript(tenant.getCode());
+            tenantDynamicDataSourceProcess.initSqlScript(tenant.getId(), tenant.getCode());
         }
     }
 }

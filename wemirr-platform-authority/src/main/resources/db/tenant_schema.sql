@@ -308,7 +308,7 @@ CREATE TABLE `sys_role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色';
 
 BEGIN;
-INSERT INTO `sys_role` VALUES (1, 1, 'TENANT_ADMIN', '租户管理员', '租户管理员，拥有所有数据可视权', 50, 0, 1, 1, 0, '租户管理员', '2019-10-25 13:46:00', 57, NULL, '2021-07-15 06:38:17');
+INSERT INTO `sys_role` VALUES (1, ${tenant_id}, 'TENANT_ADMIN', '租户管理员', '租户管理员，拥有所有数据可视权', 50, 0, 1, 1, 0, '租户管理员', '2019-10-25 13:46:00', 57, NULL, '2021-07-15 06:38:17');
 COMMIT;
 
 DROP TABLE IF EXISTS `sys_role_org`;
@@ -317,44 +317,6 @@ CREATE TABLE `sys_role_org` (
   `org_id` bigint(20) NOT NULL COMMENT '组织ID',
   UNIQUE KEY `role_id` (`role_id`,`org_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户角色表';
-
-BEGIN;
-INSERT INTO `sys_role_org` VALUES (5, 100);
-INSERT INTO `sys_role_org` VALUES (5, 101);
-INSERT INTO `sys_role_org` VALUES (5, 102);
-INSERT INTO `sys_role_org` VALUES (5, 10001);
-INSERT INTO `sys_role_org` VALUES (5, 10005);
-INSERT INTO `sys_role_org` VALUES (5, 10007);
-INSERT INTO `sys_role_org` VALUES (5, 10009);
-INSERT INTO `sys_role_org` VALUES (5, 10010);
-INSERT INTO `sys_role_org` VALUES (5, 10011);
-INSERT INTO `sys_role_org` VALUES (5, 10018);
-INSERT INTO `sys_role_org` VALUES (7, 100);
-INSERT INTO `sys_role_org` VALUES (7, 101);
-INSERT INTO `sys_role_org` VALUES (7, 102);
-INSERT INTO `sys_role_org` VALUES (7, 10001);
-INSERT INTO `sys_role_org` VALUES (7, 10002);
-INSERT INTO `sys_role_org` VALUES (7, 10003);
-INSERT INTO `sys_role_org` VALUES (7, 10004);
-INSERT INTO `sys_role_org` VALUES (7, 10005);
-INSERT INTO `sys_role_org` VALUES (7, 10006);
-INSERT INTO `sys_role_org` VALUES (7, 10007);
-INSERT INTO `sys_role_org` VALUES (7, 10009);
-INSERT INTO `sys_role_org` VALUES (7, 10010);
-INSERT INTO `sys_role_org` VALUES (7, 10011);
-INSERT INTO `sys_role_org` VALUES (7, 10018);
-INSERT INTO `sys_role_org` VALUES (8, 10001);
-INSERT INTO `sys_role_org` VALUES (8, 10002);
-INSERT INTO `sys_role_org` VALUES (8, 10003);
-INSERT INTO `sys_role_org` VALUES (8, 10004);
-INSERT INTO `sys_role_org` VALUES (8, 10005);
-INSERT INTO `sys_role_org` VALUES (8, 10006);
-INSERT INTO `sys_role_org` VALUES (8, 10007);
-INSERT INTO `sys_role_org` VALUES (8, 10009);
-INSERT INTO `sys_role_org` VALUES (8, 10010);
-INSERT INTO `sys_role_org` VALUES (8, 10011);
-INSERT INTO `sys_role_org` VALUES (8, 10018);
-COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_role_res
@@ -504,29 +466,29 @@ CREATE TABLE `t_file` (
 
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
   `username` varchar(30) NOT NULL COMMENT '账号',
-  `password` varchar(200) DEFAULT '' COMMENT '密码',
+  `password` varchar(200) DEFAULT NULL COMMENT '密码',
   `nick_name` varchar(50) DEFAULT NULL COMMENT '昵称',
-  `org_id` bigint(20) DEFAULT NULL COMMENT '组织ID\n#c_core_org\n@InjectionField(api = ORG_ID_CLASS, method = ORG_ID_METHOD, beanClass = Org.class) RemoteData<Long, com.github.zuihou.authority.entity.core.Org>',
-  `station_id` bigint(20) DEFAULT NULL COMMENT '岗位ID\n#c_core_station\n@InjectionField(api = STATION_ID_CLASS, method = STATION_ID_NAME_METHOD) RemoteData<Long, String>',
+  `org_id` bigint DEFAULT NULL COMMENT '组织ID',
+  `station_id` bigint DEFAULT NULL COMMENT '岗位ID',
   `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否内置',
   `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
-  `mobile` varchar(20) DEFAULT '' COMMENT '手机',
+  `mobile` varchar(20) DEFAULT NULL COMMENT '手机',
   `id_card` varchar(50) DEFAULT NULL COMMENT '身份证',
-  `sex` tinyint(2) DEFAULT '1' COMMENT '性别\n#Sex{W:女;M:男;N:未知}',
-  `status` bit(1) DEFAULT b'0' COMMENT '状态 \n1启用 0禁用',
-  `avatar` varchar(255) DEFAULT '' COMMENT '头像',
+  `sex` tinyint DEFAULT '1' COMMENT '性别（1=男;2=女）',
+  `status` bit(1) DEFAULT b'0' COMMENT '状态 1启用 0禁用',
+  `avatar` varchar(255) DEFAULT NULL COMMENT '头像',
   `description` varchar(255) DEFAULT NULL COMMENT '描述',
-  `nation` varchar(20) DEFAULT NULL COMMENT '民族\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.NATION) RemoteData<String, String>\n',
-  `education` varchar(20) DEFAULT NULL COMMENT '学历\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.EDUCATION) RemoteData<String, String>',
-  `position_status` varchar(20) DEFAULT NULL COMMENT '职位状态\n@InjectionField(api = DICTIONARY_ITEM_CLASS, method = DICTIONARY_ITEM_METHOD, dictType = DictionaryType.POSITION_STATUS) RemoteData<String, String>',
+  `nation` varchar(20) DEFAULT NULL COMMENT '民族',
+  `education` varchar(20) DEFAULT NULL COMMENT '学历',
+  `position_status` varchar(20) DEFAULT NULL COMMENT '职位状态',
   `birthday` date DEFAULT NULL COMMENT '生日',
-  `created_by` bigint(20) DEFAULT '0' COMMENT '创建人id',
+  `created_by` bigint DEFAULT '0' COMMENT '创建人id',
   `created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modified_by` bigint(20) DEFAULT '0' COMMENT '更新人id',
+  `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
   `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -534,5 +496,5 @@ CREATE TABLE `t_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='用户';
 
 BEGIN;
-INSERT INTO `t_user` VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '长风一梦8888', 100, 100, b'0', '1837307557@qq.com', '13002171912', '111111111', 1, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '12323', 'mz_daiz', 'SUOSHI', 'WORKING', '2020-11-05', 0, NULL, '2020-10-16 03:25:36', 1, '长风一梦', '2021-08-10 03:18:14');
+INSERT INTO `t_user` VALUES (1, ${tenant_id}, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '长风一梦8888', 100, 100, b'0', '1837307557@qq.com', '13002171912', '111111111', 1, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '12323', 'mz_daiz', 'SUOSHI', 'WORKING', '2020-11-05', 0, NULL, '2020-10-16 03:25:36', 1, '长风一梦', '2021-08-10 03:18:14');
 COMMIT;
