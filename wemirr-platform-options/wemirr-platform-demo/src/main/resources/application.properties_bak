@@ -1,9 +1,15 @@
 logging.level.com.wemirr=debug
 springdoc.packages-to-scan=com.wemirr
 
-extend.mybatis-plus.multi-tenant.include-tables=t_file
+
 extend.mybatis-plus.multi-tenant.strategy=feign
+# ???????????????
 #extend.mybatis-plus.multi-tenant.type=datasource
+# ?????????????
+spring.datasource.dynamic.aop.enabled=false
+extend.mybatis-plus.multi-tenant.type=column
+extend.mybatis-plus.multi-tenant.include-tables=t_file
+
 
 # ????
 management.endpoints.web.exposure.include=*
@@ -13,7 +19,7 @@ spring.datasource.dynamic.primary=master
 spring.datasource.dynamic.strict=true
 spring.datasource.dynamic.datasource.master.pool-name=HikariDataSourcePool
 spring.datasource.dynamic.datasource.master.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.datasource.dynamic.datasource.master.url=jdbc:mysql://localhost:3306/wemirr-platform?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
+spring.datasource.dynamic.datasource.master.url=jdbc:mysql://wemirr-mysql:3306/wemirr-platform?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
 spring.datasource.dynamic.datasource.master.type=com.zaxxer.hikari.HikariDataSource
 spring.datasource.dynamic.datasource.master.username=root
 spring.datasource.dynamic.datasource.master.password=123456
@@ -24,15 +30,22 @@ spring.datasource.dynamic.hikari.min-idle=5
 spring.datasource.dynamic.hikari.is-auto-commit=true
 
 # Redis ??
+spring.redis.host=wemirr-redis
 spring.redis.database=2
 spring.cache.type=redis
 spring.cache.redis.cache-null-values=false
 spring.cache.redis.time-to-live=2H
 
 
+extend.xxl.job.admin-addresses=http://localhost:9999/job-admin
+extend.xxl.job.executor.app-name=wemirr-platform-tools
+extend.xxl.job.executor.logpath=../logs/xxl-job/jobhandler
+extend.xxl.job.executor.log-retention-days=30
+
+
 #
-security.oauth2.client.client-id=demo
-security.oauth2.client.client-secret=demo
+security.oauth2.client.client-id=tools
+security.oauth2.client.client-secret=tools
 security.oauth2.client.scope=server
 security.oauth2.client.grant-type=client_credentials,password
 security.oauth2.client.access-token-uri=http://wemirr-platform-authority/oauth/token
@@ -53,3 +66,7 @@ security.oauth2.resource.prefer-token-info=false
 security.oauth2.resource.user-info-uri=http://wemirr-platform-authority/oauth/users
 
 
+# Nepxion discovery config
+# ?????Header???????????????Header???????Header?????????????????true???????????????????????????true
+spring.application.strategy.gateway.header.priority=false
+spring.application.strategy.control.enabled=true

@@ -1,10 +1,10 @@
 server:
-  port: 5001
+  port: 5003
 spring:
   main:
     allow-bean-definition-overriding: true
   application:
-    name: wemirr-platform-tools
+    name: wemirr-platform-demo
   config:
     import:
       - optional:nacos:swagger.yaml # 这是有默认值的写法
@@ -20,13 +20,3 @@ spring:
       config:
         server-addr: wemirr-nacos:8848
         refresh-enabled: true
-extend:
-  oss:
-    cloud:
-      qiniu:
-        enabled: true
-        #access-key: 写自己的
-        #secret-key: 写自己的
-        region: region0
-        bucket: battcn
-        mapping-path: http://qiniu.battcn.com

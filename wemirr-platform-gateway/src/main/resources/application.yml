@@ -16,13 +16,13 @@ spring:
       - optional:nacos:${spring.application.name}.properties
   cloud:
     nacos:
-      server-addr: localhost:8848
+      server-addr: wemirr-nacos:8848
       discovery:
         metadata:
           group: ${spring.application.name}
           version: 1.0
       config:
-        server-addr: localhost:8848
+        server-addr: wemirr-nacos:8848
         refresh-enabled: true
     gateway:
       # 动态路由
