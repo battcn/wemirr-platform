@@ -7,6 +7,11 @@ spring:
     throw-exception-if-no-handler-found: true
   application:
     name: wemirr-platform-tools
+  config:
+    import:
+      - optional:nacos:swagger.yaml # 这是有默认值的写法
+      - optional:nacos:${spring.application.name}.properties
+      - optional:nacos:mybatis-plus-default.yaml?group=DEFAULT_GROUP&refreshEnabled=true #这是完写法
   cloud:
     nacos:
       discovery:
@@ -14,14 +19,7 @@ spring:
           group: ${spring.application.name}
           version: 1.0
       config:
-        # 本地申明空间（默认 public 如果有需要空间隔离可以配置）
-        # namespace: wemirr
         refresh-enabled: true
-        # 默认会自动加载一个 applicationName.properties
-        extension-configs:
-          - data-id: swagger.yaml
-            refresh: true
-          - data-id: mybatis-plus-default.yaml
 extend:
   oss:
     cloud:

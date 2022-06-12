@@ -11,6 +11,9 @@ spring:
     allow-bean-definition-overriding: true
   application:
     name: wemirr-platform-gateway
+  config:
+    import:
+      - optional:nacos:${spring.application.name}.properties
   cloud:
     nacos:
       server-addr: localhost:8848

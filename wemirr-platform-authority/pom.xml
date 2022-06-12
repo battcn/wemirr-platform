@@ -19,11 +19,6 @@
     </properties>
 
     <dependencies>
-        <!-- 或者在 AppMain.java 里面设置  spring.cloud.bootstrap.enabled 或者在启动命令上加-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
