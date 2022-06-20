@@ -267,7 +267,7 @@ public class RemoteService {
             // 将新的值 反射 到指定字段
             if (ArrayUtil.isNotEmpty(fieldRefs)) {
                 for (Remote.FieldRef fieldRef : fieldRefs) {
-                    setFieldValue(obj, remoteValue, remote.rule(), fieldRef.original(), fieldRef.target());
+                    setFieldValue(obj, remoteValue, remote.rule(), fieldRef.source(), fieldRef.target());
                 }
             } else {
                 ReflectUtil.setFieldValue(obj, field, remoteValue);

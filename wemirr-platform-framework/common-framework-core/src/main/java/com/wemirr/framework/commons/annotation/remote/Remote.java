@@ -59,7 +59,7 @@ public @interface Remote {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(value = {ElementType.METHOD, ElementType.TYPE, ElementType.FIELD})
     @interface FieldRef {
-        String original() default EMPTY;
+        String source() default EMPTY;
 
         String target();
     }
