@@ -13,8 +13,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static com.wemirr.framework.storage.StorageOperation.MINIO_STORAGE_OPERATION;
-import static com.wemirr.framework.storage.StorageOperation.OSS_CONFIG_PREFIX_ALIYUN;
+import static com.wemirr.framework.storage.StorageOperation.*;
 
 /**
  * 阿里云 OSS
@@ -34,7 +33,7 @@ public class AliYunOssAutoConfiguration {
         return new OSSClient(properties.getEndpoint(), provider, new ClientConfiguration());
     }
 
-    @Bean(MINIO_STORAGE_OPERATION)
+    @Bean(ALI_YUN_STORAGE_OPERATION)
     public AliYunStorageOperation aliYunStorageOperation(OSSClient ossClient, AliYunStorageProperties properties) {
         return new AliYunStorageOperation(ossClient, properties);
     }

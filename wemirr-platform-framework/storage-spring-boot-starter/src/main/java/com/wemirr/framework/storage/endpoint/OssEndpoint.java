@@ -3,7 +3,6 @@ package com.wemirr.framework.storage.endpoint;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.storage.AliYunStorageOperation;
 import com.wemirr.framework.storage.properties.AliYunStorageProperties;
-import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 
 import javax.annotation.Resource;
@@ -13,7 +12,6 @@ import java.util.Map;
  * @author <a href="mailto:1837307557@qq.com">Levin</a>
  * @since 2.0.2
  */
-@Endpoint(id = "/storage/oss")
 public class OssEndpoint {
 
     @Resource

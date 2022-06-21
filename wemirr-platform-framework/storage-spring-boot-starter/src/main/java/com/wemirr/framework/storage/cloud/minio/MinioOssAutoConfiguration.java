@@ -15,8 +15,7 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-import static com.wemirr.framework.storage.StorageOperation.ALI_YUN_STORAGE_OPERATION;
-import static com.wemirr.framework.storage.StorageOperation.OSS_CONFIG_PREFIX_MINIO;
+import static com.wemirr.framework.storage.StorageOperation.*;
 
 
 /**
@@ -53,7 +52,7 @@ public class MinioOssAutoConfiguration {
         return minioClient;
     }
 
-    @Bean(ALI_YUN_STORAGE_OPERATION)
+    @Bean(MINIO_STORAGE_OPERATION)
     public MinioStorageOperation minioStorageOperation(MinioClient minioClient, MinioStorageProperties properties) {
         return new MinioStorageOperation(minioClient, properties);
     }
