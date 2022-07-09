@@ -1,5 +1,7 @@
 package com.wemirr.platform.demo.controller;
 
+import com.wemirr.framework.commons.entity.Result;
+import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.demo.service.DemoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,9 +23,19 @@ public class DemoController {
 
     private final DemoService demoService;
 
-    @GetMapping
+    @IgnoreAuthorize
+    @GetMapping("/ignore")
     @Operation(summary = "查询")
-    public void say() {
+    public Result<?> ignore() {
         log.info("输出内容 - {}", demoService.sayHello());
+        return Result.success();
     }
+
+    @GetMapping("/say")
+    @Operation(summary = "查询")
+    public String say() {
+        log.info("输出内容 - {}", demoService.sayHello());
+        return "say...";
+    }
+
 }

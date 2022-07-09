@@ -15,7 +15,8 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-import static com.wemirr.framework.storage.StorageOperation.*;
+import static com.wemirr.framework.storage.StorageOperation.MINIO_STORAGE_OPERATION;
+import static com.wemirr.framework.storage.StorageOperation.OSS_CONFIG_PREFIX_MINIO;
 
 
 /**

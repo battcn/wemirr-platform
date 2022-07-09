@@ -13,7 +13,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static com.wemirr.framework.storage.StorageOperation.*;
+import static com.wemirr.framework.storage.StorageOperation.ALI_YUN_STORAGE_OPERATION;
+import static com.wemirr.framework.storage.StorageOperation.OSS_CONFIG_PREFIX_ALIYUN;
 
 /**
  * 阿里云 OSS

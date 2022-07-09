@@ -17,11 +17,14 @@ import org.springframework.security.oauth2.provider.token.UserAuthenticationConv
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 带负载均衡的请求
@@ -66,7 +69,14 @@ public class LoadBalancedTokenInfoResourceServerConfigurerAdapter extends Resour
                 log.debug("[key] - [{}] - [value] - [{}]", key, value);
             }
             if (annotation != null && !annotation.web()) {
-                key.getPatternsCondition().getPatterns().forEach(url -> registry.antMatchers(url).permitAll());
+                final PatternsRequestCondition patternsCondition = key.getPatternsCondition();
+                if (Objects.nonNull(patternsCondition)) {
+                    patternsCondition.getPatterns().forEach(url -> registry.antMatchers(url).permitAll());
+                }
+                final PathPatternsRequestCondition pathPatternsCondition = key.getPathPatternsCondition();
+                if (Objects.nonNull(pathPatternsCondition)) {
+                    pathPatternsCondition.getPatterns().forEach(url -> registry.antMatchers(url.getPatternString()).permitAll());
+                }
             }
         }
         List<String> ignoreUrls = securityIgnoreProperties.getResourceUrls();

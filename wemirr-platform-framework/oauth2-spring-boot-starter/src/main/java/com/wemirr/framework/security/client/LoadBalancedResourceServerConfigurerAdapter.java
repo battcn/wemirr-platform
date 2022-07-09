@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
 import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -48,9 +49,7 @@ public class LoadBalancedResourceServerConfigurerAdapter extends ResourceServerC
     public void configure(HttpSecurity http) throws Exception {
         //允许使用iframe 嵌套，避免swagger-ui 不被加载的问题
         http.headers().frameOptions().disable();
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>
-                .ExpressionInterceptUrlRegistry registry = http
-                .authorizeRequests();
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http.authorizeRequests();
         Map<RequestMappingInfo, HandlerMethod> handlerMethods = requestMappingHandlerMapping.getHandlerMethods();
         for (Map.Entry<RequestMappingInfo, HandlerMethod> handlerMethodEntry : handlerMethods.entrySet()) {
             RequestMappingInfo key = handlerMethodEntry.getKey();
@@ -61,10 +60,13 @@ public class LoadBalancedResourceServerConfigurerAdapter extends ResourceServerC
             }
             if (annotation != null && !annotation.web()) {
                 final PatternsRequestCondition patternsCondition = key.getPatternsCondition();
-                if (Objects.isNull(patternsCondition)) {
-                    continue;
+                if (Objects.nonNull(patternsCondition)) {
+                    patternsCondition.getPatterns().forEach(url -> registry.antMatchers(url).permitAll());
                 }
-                patternsCondition.getPatterns().forEach(url -> registry.antMatchers(url).permitAll());
+                final PathPatternsRequestCondition pathPatternsCondition = key.getPathPatternsCondition();
+                if (Objects.nonNull(pathPatternsCondition)) {
+                    pathPatternsCondition.getPatterns().forEach(url -> registry.antMatchers(url.getPatternString()).permitAll());
+                }
             }
         }
         List<String> ignoreUrls = securityIgnoreProperties.getResourceUrls();
