@@ -27,7 +27,7 @@ public class XxlJobAutoConfiguration {
         if (executor.getIp() != null) {
             xxlJobSpringExecutor.setIp(executor.getIp());
         }
-        if (executor.getIp() != null) {
+        if (executor.getPort() != null) {
             xxlJobSpringExecutor.setPort(executor.getPort());
         }
         xxlJobSpringExecutor.setLogPath(executor.getLogPath());
