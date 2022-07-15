@@ -83,9 +83,10 @@ public class Swagger3AutoConfiguration {
         // 接口调试路径
         List<Server> servers = new ArrayList<>();
         servers.add(localServer());
-        servers.addAll(swagger3Properties.getServers());
-        return new OpenAPI().components(components)
-                .servers(servers)
+        if (!CollectionUtils.isEmpty(swagger3Properties.getServers())) {
+            servers.addAll(swagger3Properties.getServers());
+        }
+        return new OpenAPI().components(components).servers(servers)
                 .info(info).externalDocs(swagger3Properties.getExternal())
                 .security(security);
     }
