@@ -10,6 +10,8 @@ import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.framework.websocket.BaseWebSocketEndpoint;
 import com.wemirr.framework.websocket.utils.SpringContextHolder;
 import com.wemirr.platform.authority.domain.entity.message.StationMessage;
+import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
+import com.wemirr.platform.authority.repository.TenantMapper;
 import com.wemirr.platform.authority.service.StationMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -34,18 +36,23 @@ public class StationMessageEndpoint extends BaseWebSocketEndpoint {
     @OnOpen
     public void openSession(@PathParam("tenantCode") String tenantCode, @PathParam(IDENTIFIER) String userId, Session session) {
         connect(userId, session);
-        List<StationMessage> messages;
+        List<StationMessage> messages = null;
         final DatabaseProperties properties = SpringContextHolder.getBean(DatabaseProperties.class);
         final StationMessageService stationMessageService = SpringContextHolder.getBean(StationMessageService.class);
         if (properties.getMultiTenant().getType() == MultiTenantType.DATASOURCE) {
-            final TenantDynamicDataSourceProcess dataSourceProcess = SpringContextHolder.getBean(TenantDynamicDataSourceProcess.class);
-            final String dsKey = dataSourceProcess.buildDb(tenantCode);
-            DynamicDataSourceContextHolder.push(dsKey);
-            log.debug("设置当前线程数据源 - {}", dsKey);
-            messages = stationMessageService.list(Wraps.<StationMessage>lbQ().eq(StationMessage::getMark, false)
-                    .eq(StationMessage::getReceiveId, userId).orderByAsc(StationMessage::getId));
-            DynamicDataSourceContextHolder.poll();
-            log.debug("清空当前线程数据源...");
+            log.info("WebSocket 租户编码 - {}", tenantCode);
+            final TenantMapper tenantMapper = SpringContextHolder.getBean(TenantMapper.class);
+            final Long count = tenantMapper.selectCount(Wraps.<Tenant>lbQ().eq(Tenant::getCode, tenantCode));
+            if (count == null || count == 0) {
+                final TenantDynamicDataSourceProcess dataSourceProcess = SpringContextHolder.getBean(TenantDynamicDataSourceProcess.class);
+                final String dsKey = dataSourceProcess.buildDb(tenantCode);
+                DynamicDataSourceContextHolder.push(dsKey);
+                log.debug("设置当前线程数据源 - {}", dsKey);
+                messages = stationMessageService.list(Wraps.<StationMessage>lbQ().eq(StationMessage::getMark, false)
+                        .eq(StationMessage::getReceiveId, userId).orderByAsc(StationMessage::getId));
+                DynamicDataSourceContextHolder.poll();
+                log.debug("清空当前线程数据源...");
+            }
         } else {
             messages = stationMessageService.list(Wraps.<StationMessage>lbQ().eq(StationMessage::getMark, false)
                     .eq(StationMessage::getReceiveId, userId).orderByAsc(StationMessage::getId));
