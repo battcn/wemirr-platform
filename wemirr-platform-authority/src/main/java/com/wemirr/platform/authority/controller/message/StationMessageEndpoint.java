@@ -45,7 +45,7 @@ public class StationMessageEndpoint extends BaseWebSocketEndpoint {
             log.info("WebSocket 租户编码 - {}", tenantCode);
             final DataSource dataSource = SpringContextHolder.getBean(DataSource.class);
             DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
-            log.info("所有的数据源信息 - {}", JSON.toJSONString(ds.getDataSources()));
+            log.info("所有的数据源信息 - {}", ds.getDataSources());
             DynamicDataSourceContextHolder.poll();
             final TenantMapper tenantMapper = SpringContextHolder.getBean(TenantMapper.class);
             final Long count = tenantMapper.selectCount(Wraps.<Tenant>lbQ().eq(Tenant::getCode, tenantCode));
