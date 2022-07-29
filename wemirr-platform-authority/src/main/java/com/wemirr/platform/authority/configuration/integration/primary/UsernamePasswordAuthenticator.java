@@ -71,9 +71,8 @@ public class UsernamePasswordAuthenticator extends AbstractPreparedIntegrationAu
         if (tenant.getLocked()) {
             throw CheckedException.badRequest("租户已被禁用,请联系管理员");
         }
-        final boolean multiTenantType = MultiTenantType.COLUMN.eq(databaseProperties.getMultiTenant().getType());
         final User user = Optional.ofNullable(this.userService.getOne(Wrappers.<User>lambdaQuery()
-                        .eq(multiTenantType, User::getTenantId, tenant.getId()).eq(User::getUsername, username)))
+                        .eq(User::getTenantId, tenant.getId()).eq(User::getUsername, username)))
                 .orElseThrow(() -> CheckedException.notFound("账户不存在"));
         final UserInfoDetails info = new UserInfoDetails();
         info.setTenantCode(tenantCode);

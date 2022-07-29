@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.controller.message;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.wemirr.framework.db.configuration.dynamic.TenantDynamicDataSourceProcess;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
@@ -16,6 +17,7 @@ import com.wemirr.platform.authority.service.StationMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -41,13 +43,17 @@ public class StationMessageEndpoint extends BaseWebSocketEndpoint {
         final StationMessageService stationMessageService = SpringContextHolder.getBean(StationMessageService.class);
         if (properties.getMultiTenant().getType() == MultiTenantType.DATASOURCE) {
             log.info("WebSocket 租户编码 - {}", tenantCode);
+            final DataSource dataSource = SpringContextHolder.getBean(DataSource.class);
+            DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
+            log.info("所有的数据源信息 - {}", JSON.toJSONString(ds.getDataSources()));
+            DynamicDataSourceContextHolder.poll();
             final TenantMapper tenantMapper = SpringContextHolder.getBean(TenantMapper.class);
             final Long count = tenantMapper.selectCount(Wraps.<Tenant>lbQ().eq(Tenant::getCode, tenantCode));
             if (count == null || count == 0) {
                 final TenantDynamicDataSourceProcess dataSourceProcess = SpringContextHolder.getBean(TenantDynamicDataSourceProcess.class);
                 final String dsKey = dataSourceProcess.buildDb(tenantCode);
-                DynamicDataSourceContextHolder.push(dsKey);
                 log.debug("设置当前线程数据源 - {}", dsKey);
+                DynamicDataSourceContextHolder.push(dsKey);
                 messages = stationMessageService.list(Wraps.<StationMessage>lbQ().eq(StationMessage::getMark, false)
                         .eq(StationMessage::getReceiveId, userId).orderByAsc(StationMessage::getId));
                 DynamicDataSourceContextHolder.poll();
