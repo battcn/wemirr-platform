@@ -25,8 +25,8 @@
         -->
         <spring-boot-admin.version>2.3.1</spring-boot-admin.version>
         <spring-boot-admin-client.version>2.3.0</spring-boot-admin-client.version>
-        <spring-boot.version>2.6.3</spring-boot.version>
-        <spring-cloud.version>2021.0.1</spring-cloud.version>
+        <spring-boot.version>2.6.8</spring-boot.version>
+        <spring-cloud.version>2021.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
         <nepxion-discovery.version>6.12.1</nepxion-discovery.version>
         <hutool.version>5.7.2</hutool.version>
