@@ -18,7 +18,7 @@
 
 **可以进微信群交流和提需求（提了不一定做,请理性付费）**
 
-> 赞赏 188 进微信交流群解答疑惑
+> 赞赏 288 进微信交流群解答疑惑
 
 - 敬请期待（**微信： battcn2022**）
 
@@ -99,8 +99,6 @@ ShardingJdbc、ShardingSphere
 
 开源里面UI最好、最容易上手的、中台 、SAAS 、 多租户功能、最最少的代码实现功能
 
-[文档地址](https://www.yuque.com/books/share/c5467c7b-ae67-4d3e-a6cd-541ce5a90bb7?#《wemirr-platform-doc》) 
-
 [配套前端](https://gitee.com/battcn/wemirr-platform-ui) 配套的 UI 
 
 [Nepxion-Discovery](https://github.com/battcn/wemirr-platform) 蓝绿、灰度、流量保护
@@ -112,7 +110,7 @@ ShardingJdbc、ShardingSphere
 [Oauth2.0](https://www.ruanyifeng.com/blog/2019/04/github-oauth.html) OAuth2.0 知识点
 
 
-`wemirr-platform-bury` 是一个用 `shardingsphere` 做分表分库收集日志的，常见埋点日志手段
+`wemirr-platform-bury` 是一个用 `shardingsphere` 做分表分库收集日志的，常见埋点日志手段(存在不完善的地方,一般也用不上)
 - **`记录日志文件,EFK/ELK采集日志`**
 - **`日志量小的话可以写到库`**
 - **`日志量大可以分表分库记录埋点日志，定期清理`**
@@ -121,9 +119,7 @@ ShardingJdbc、ShardingSphere
 
 **下载项目后请先本地 `mvn install wemirr-platform-dependencies` 和 `mvn install wemirr-platform-framework`**
 
-**如果需要使用低码平台，需要安装 MongoDB 的支持**
-
-**nepxion 项目是本人用于测试一些中间件的工程、完全可以忽略**
+**options 项目是本人用于测试一些中间件的工程、完全可以忽略**
 
 ### 环境安装
 
@@ -135,8 +131,7 @@ ShardingJdbc、ShardingSphere
 
 > 具体用法: **`docker run --net wemirr --name xxx`**
 
-**如果需要体验低码平台一键发布需要安装 `MongoDB` 除此之外其它中间件是必须的**
-
+> 必要环境
 
 ``` shell script
 docker pull redis:latest
@@ -147,10 +142,6 @@ docker pull mysql:latest
 docker run -itd --name mysql-test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
 
 
-安装 Sentinel-Dashboard
-docker pull bladex/sentinel-dashboard
-docker run -i -t -d -p 8858:8858 -p 8719:8719  bladex/sentinel-dashboard
-
 安装 Nacos
 docker pull nacos/nacos-server
 docker run --name nacos -itd -p 8848:8848 -p 9848:9848 -p 9849:9849 --restart=always -e MODE=standalone nacos/nacos-server
@@ -158,20 +149,29 @@ docker run --name nacos -itd -p 8848:8848 -p 9848:9848 -p 9849:9849 --restart=al
 安装 RabbitMQ
 docker pull docker.io/macintoshplus/rabbitmq-management
 docker run -d  -p 5671:5671 -p 5672:5672  -p 15672:15672 -p 15671:15671  -p 25672:25672  rabbitmq_image_id
+```
 
+> 可选环境
+
+``` shell script
+## 非必须 =>  Sentinel 流量保护大部分公司是用不上的,如果为了技术而技术,当我没说
+安装 Sentinel-Dashboard
+docker pull bladex/sentinel-dashboard
+docker run -i -t -d -p 8858:8858 -p 8719:8719  bladex/sentinel-dashboard
+
+## 非必须 =>  如果你没有过多的定时任务也没有对任务进行管理的要求， xxl-job 也是非必须品
 安装 XXL-JOB-ADMIN(如果数据库也是docker 运行需要配置统一网络 例如： docker network create wemirr )
 docker pull xuxueli/xxl-job-admin:2.3.0
 docker run -e PARAMS="--spring.datasource.username=root --spring.datasource.password=123456 --spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver --spring.datasource.url=jdbc:mysql://127.0.0.1:3306/wemirr-platform?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true" -p 9999:8080 -v /Users/battcn/Development:/data/applogs --name xxl-job-admin  -d xuxueli/xxl-job-admin:2.3.0
 
-安装 skywalking
-
+##非必须 => 安装 skywalking（如果你公司没运维，那你大概率用不上 skywalking 如不需要使用那后面的命令都可以不用看了 ）
 # 8.7.0 启动有问题
 
 docker pull elasticsearch:7.9.3
 docker pull apache/skywalking-oap-server:8.5.0-es7
 docker pull apache/skywalking-ui:8.5.0
 
-# 如果要后台运行 请加 -d 
+# 如果要后台运行 请加 -d
 docker network create wemirr
 docker run --name elasticsearch --net wemirr -p 9200:9200 -p 9300:9300 -d -e "discovery.type=single-node" elasticsearch:7.9.3
 docker run --name oap --net wemirr --restart always -p 1234:1234 -p 12800:12800 -p 11800:11800 -d -e SW_STORAGE=elasticsearch7 -e SW_STORAGE_ES_CLUSTER_NODES=elasticsearch:9200 apache/skywalking-oap-server:8.5.0-es7
@@ -185,5 +185,4 @@ Environment variables SW_AGENT_NAME=wemirr-platform-authority
 # 启动命令
 nohup java -javaagent:/opt/wemirr-platform/skywalking/agent/skywalking-agent.jar -Dskywalking.agent.service_name=wemirr-platform-gateway -Dskywalking.collector.backend_service=127.0.0.1:11800 -jar wemirr-platform-gateway.jar -d > logs/start_gateway.log &
 nohup java -javaagent:/opt/wemirr-platform/skywalking/agent/skywalking-agent.jar -Dskywalking.agent.service_name=wemirr-platform-authority -Dskywalking.collector.backend_service=127.0.0.1:11800 -jar wemirr-platform-authority.jar -d --spring.profiles.active=demo > logs/start_authority.log &
-
 ```
