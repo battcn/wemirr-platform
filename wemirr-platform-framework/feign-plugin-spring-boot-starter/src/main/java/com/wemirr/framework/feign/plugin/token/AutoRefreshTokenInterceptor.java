@@ -39,7 +39,7 @@ public class AutoRefreshTokenInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate template) {
         final Map<String, Collection<String>> headers = template.headers();
-        if (headers.containsKey(properties.getIncludeTokenHeader())) {
+        if (!headers.containsKey(properties.getIncludeTokenHeader())) {
             return;
         }
         final String tokenHeader = properties.getServerTokenHeader();
