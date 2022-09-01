@@ -1,8 +1,10 @@
 package com.wemirr.platform.demo.controller;
 
 import com.wemirr.framework.commons.entity.Result;
+import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.demo.service.DemoService;
+import com.wemirr.platform.demo.service.client.DemoTestFeignClient;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController {
 
     private final DemoService demoService;
+    private final DemoTestFeignClient demoTestFeignClient;
 
     @IgnoreAuthorize
     @GetMapping("/ignore")
@@ -38,4 +41,13 @@ public class DemoController {
         return "say...";
     }
 
+
+    @IgnoreAuthorize
+    @GetMapping("/feign")
+    @Operation(summary = "查询")
+    public Result<?> feign() {
+        final Result<?> result = demoTestFeignClient.query();
+        log.info("输出内容 - {}", result);
+        return result;
+    }
 }
