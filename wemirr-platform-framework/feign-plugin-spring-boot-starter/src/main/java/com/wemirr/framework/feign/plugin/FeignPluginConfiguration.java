@@ -1,8 +1,12 @@
 package com.wemirr.framework.feign.plugin;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.wemirr.framework.feign.plugin.mock.FeignPluginInterceptor;
 import com.wemirr.framework.feign.plugin.mock.MockLoadBalancerFeignClient;
 import com.wemirr.framework.feign.plugin.mock.MockProperties;
+import com.wemirr.framework.feign.plugin.token.AutoRefreshTokenInterceptor;
+import com.wemirr.framework.feign.plugin.token.AutoRefreshTokenProperties;
 import feign.Client;
 import feign.Logger;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +18,9 @@ import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -21,12 +28,11 @@ import org.springframework.context.annotation.Primary;
  */
 @Slf4j
 @Configuration
-@EnableConfigurationProperties(value = {FeignPluginProperties.class, MockProperties.class})
+@EnableConfigurationProperties(value = {FeignPluginProperties.class, AutoRefreshTokenProperties.class, MockProperties.class})
 public class FeignPluginConfiguration {
 
 
     @Bean
-    @Primary
     public Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
     }
@@ -45,5 +51,14 @@ public class FeignPluginConfiguration {
     @ConditionalOnProperty(prefix = FeignPluginProperties.PLUGIN_PREFIX, name = "enabled", havingValue = "true")
     public FeignPluginInterceptor mockFeignInterceptor(FeignPluginProperties properties) {
         return new FeignPluginInterceptor(properties);
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = AutoRefreshTokenProperties.TOKEN_PREFIX, name = "enabled", havingValue = "true")
+    public AutoRefreshTokenInterceptor feignTokenInterceptor(AutoRefreshTokenProperties properties, RestTemplate lbRestTemplate) {
+        final AutoRefreshTokenProperties.Cache cache = properties.getCache();
+        Cache<String, String> tokenCache = CacheBuilder.newBuilder().initialCapacity(cache.getInitialCapacity())
+                .maximumSize(cache.getMaximumSize()).expireAfterWrite(cache.getExpire(), TimeUnit.SECONDS).build();
+        return new AutoRefreshTokenInterceptor(properties, lbRestTemplate, tokenCache);
     }
 }
