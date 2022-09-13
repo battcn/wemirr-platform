@@ -1,10 +1,12 @@
 package com.wemirr.framework.feign.plugin.mock;
 
+import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.feign.plugin.FeignPluginProperties;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -31,6 +33,9 @@ public class FeignPluginInterceptor implements RequestInterceptor {
             while (headerNames.hasMoreElements()) {
                 final String headerKey = (String) headerNames.nextElement();
                 final String headerValue = request.getHeader(headerKey);
+                if (headerKey.contains(HttpHeaders.CONTENT_TYPE) || StrUtil.equalsIgnoreCase(headerKey, HttpHeaders.CONTENT_TYPE)) {
+                    continue;
+                }
                 template.header(headerKey, headerValue);
             }
         }
