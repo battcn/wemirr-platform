@@ -33,7 +33,7 @@ public class FeignPluginInterceptor implements RequestInterceptor {
             while (headerNames.hasMoreElements()) {
                 final String headerKey = (String) headerNames.nextElement();
                 final String headerValue = request.getHeader(headerKey);
-                if (headerKey.contains(HttpHeaders.CONTENT_TYPE) || StrUtil.equalsIgnoreCase(headerKey, HttpHeaders.CONTENT_TYPE)) {
+                if (headerKey.contains(HttpHeaders.CONTENT_LENGTH) || StrUtil.equalsIgnoreCase(headerKey, HttpHeaders.CONTENT_LENGTH)) {
                     continue;
                 }
                 template.header(headerKey, headerValue);
