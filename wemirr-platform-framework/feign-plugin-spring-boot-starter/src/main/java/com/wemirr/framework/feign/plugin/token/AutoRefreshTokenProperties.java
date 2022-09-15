@@ -14,11 +14,12 @@ import org.springframework.http.HttpMethod;
 public class AutoRefreshTokenProperties {
 
     public static final String TOKEN_PREFIX = "extend.feign.plugin.token";
-    public static final String X_AUTO_TOKEN = "X-Auto-Token";
+    public static final String X_AUTO_TOKEN = "X-Auto-Token=true";
+    public static final String X_AUTO_TOKEN_KEYWORD = "X-Auto-Token";
     public static final String AUTHORIZATION = "Authorization";
 
     private boolean enabled;
-    private String includeTokenHeader = X_AUTO_TOKEN;
+    private String includeTokenHeader = X_AUTO_TOKEN_KEYWORD;
     private String serverTokenHeader = AUTHORIZATION;
     private OAuth oAuth;
     private String method = HttpMethod.POST.name();
