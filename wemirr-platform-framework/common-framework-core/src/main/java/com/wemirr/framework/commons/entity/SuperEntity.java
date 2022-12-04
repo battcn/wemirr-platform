@@ -2,6 +2,7 @@ package com.wemirr.framework.commons.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -43,5 +44,9 @@ public class SuperEntity<T> extends Entity<T> {
     @Parameter(description = "最后修改人名称")
     @TableField(value = UPDATE_USER_NAME_COLUMN, fill = FieldFill.INSERT_UPDATE)
     protected String lastModifiedName;
+
+    @TableLogic
+    @Parameter(description = "逻辑删除")
+    private Boolean deleted;
 
 }
