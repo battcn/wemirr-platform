@@ -96,8 +96,10 @@ public class TenantDynamicDataSourceEventBusAutoConfiguration {
         return contentProcessor;
     }
 
+    private static final String UNDEFINED = "undefined";
+
     private String getTenantDB(HttpServletRequest request, DatabaseProperties.MultiTenant multiTenant, String tenantCode) {
-        if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
+        if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, UNDEFINED) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
             log.debug("tenantCode 为空或者为超级租户,切换默认数据源 - {}", multiTenant.getDefaultDsName());
             return multiTenant.getDefaultDsName();
         }
