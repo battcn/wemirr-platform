@@ -19,7 +19,7 @@ CREATE TABLE `common_dictionary` (
                                      `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
                                      `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                      PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典类型';
+) ENGINE=InnoDB AUTO_INCREMENT=11  COMMENT='字典类型';
 
 -- ----------------------------
 -- Records of common_dictionary
@@ -62,7 +62,7 @@ CREATE TABLE `common_dictionary_item` (
                                           `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                           PRIMARY KEY (`id`) USING BTREE,
                                           KEY `dict_code_item_code_uniq` (`dictionary_code`,`value`) USING BTREE COMMENT '字典编码与字典项目编码联合唯一'
-) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典项';
+) ENGINE=InnoDB AUTO_INCREMENT=125  COMMENT='字典项';
 
 -- ----------------------------
 -- Records of common_dictionary_item
@@ -179,7 +179,7 @@ CREATE TABLE `common_login_log` (
   `location` varchar(50) DEFAULT NULL COMMENT '登录地点',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='登录日志';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='登录日志';
 
 
 DROP TABLE IF EXISTS `common_opt_log`;
@@ -212,7 +212,7 @@ CREATE TABLE `common_opt_log` (
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `index_type` (`type`) USING BTREE COMMENT '日志类型'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统日志';
 
 
 -- ----------------------------
@@ -238,7 +238,7 @@ CREATE TABLE `sys_org` (
                            `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
                            `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                            PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10205 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='组织';
+) ENGINE=InnoDB AUTO_INCREMENT=10205  COMMENT='组织';
 
 -- ----------------------------
 -- Records of sys_org
@@ -276,7 +276,7 @@ CREATE TABLE `sys_resource` (
                                 `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
                                 PRIMARY KEY (`id`) USING BTREE,
                                 KEY `INX_STATUS` (`global`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1030104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=1030104  ROW_FORMAT=DYNAMIC COMMENT='菜单';
 
 -- ----------------------------
 -- Records of sys_resource
@@ -338,7 +338,7 @@ CREATE TABLE `sys_role` (
                             `last_modified_name` varchar(255) DEFAULT NULL,
                             `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                             PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='角色';
+) ENGINE=InnoDB AUTO_INCREMENT=3  ROW_FORMAT=DYNAMIC COMMENT='角色';
 
 -- ----------------------------
 -- Records of sys_role
@@ -355,7 +355,7 @@ CREATE TABLE `sys_role_org` (
                                 `role_id` bigint NOT NULL COMMENT '角色ID',
                                 `org_id` bigint NOT NULL COMMENT '组织ID',
                                 UNIQUE KEY `role_id` (`role_id`,`org_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户角色表';
+) ENGINE=InnoDB  COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of sys_role_org
@@ -434,7 +434,7 @@ CREATE TABLE `sys_station` (
                                `last_modified_name` varchar(255) DEFAULT NULL,
                                `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
                                PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10129 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='岗位';
+) ENGINE=InnoDB AUTO_INCREMENT=10129  COMMENT='岗位';
 
 -- ----------------------------
 -- Records of sys_station
@@ -462,7 +462,7 @@ CREATE TABLE `sys_station_message` (
                                        `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
                                        `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                        PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='站内消息';
+) ENGINE=InnoDB AUTO_INCREMENT=91  COMMENT='站内消息';
 
 -- ----------------------------
 -- Records of sys_station_message
@@ -492,7 +492,7 @@ CREATE TABLE `sys_station_message_publish` (
                                                `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
                                                `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                                PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='站内消息';
+) ENGINE=InnoDB AUTO_INCREMENT=5  COMMENT='站内消息';
 
 -- ----------------------------
 -- Records of sys_station_message_publish
@@ -508,7 +508,7 @@ CREATE TABLE `sys_user_role` (
                                  `user_id` bigint NOT NULL COMMENT '用户ID',
                                  `role_id` bigint NOT NULL COMMENT '角色ID',
                                  UNIQUE KEY `role_id` (`user_id`,`role_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户角色表';
+) ENGINE=InnoDB  COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of sys_user_role
@@ -546,7 +546,7 @@ CREATE TABLE `t_file` (
                           `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                           PRIMARY KEY (`id`) USING BTREE,
                           UNIQUE KEY `UN_TARGET_NAME` (`target_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文件';
+) ENGINE=InnoDB AUTO_INCREMENT=19  COMMENT='文件';
 
 -- ----------------------------
 -- Records of t_file
@@ -587,7 +587,7 @@ CREATE TABLE `t_user` (
                           `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                           PRIMARY KEY (`id`) USING BTREE,
                           UNIQUE KEY `UN_ACCOUNT` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=10  COMMENT='用户';
 
 -- ----------------------------
 -- Records of t_user
