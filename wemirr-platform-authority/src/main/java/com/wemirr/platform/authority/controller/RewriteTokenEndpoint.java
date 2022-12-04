@@ -88,19 +88,20 @@ public class RewriteTokenEndpoint {
 
     @DeleteMapping("/logout")
     @ResponseBody
-    public void removeToken() {
+    public Result<?> removeToken() {
         if (SecurityUtils.anonymous()) {
-            return;
+            return Result.success();
         }
         final OAuth2AccessToken accessToken = tokenStore.getAccessToken(SecurityUtils.getAuthentication());
         if (accessToken == null) {
-            return;
+            return Result.success();
         }
         tokenStore.removeAccessToken(accessToken);
         final OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(accessToken.getValue());
         if (refreshToken != null) {
             tokenStore.removeRefreshToken(refreshToken);
         }
+        return Result.success();
     }
 
     /**
