@@ -1,13 +1,12 @@
 package com.wemirr.framework.feign.plugin.mock;
 
 
+import cn.hutool.core.io.IoUtil;
 import feign.Client;
 import feign.Request;
 import feign.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerProperties;
 import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.cloud.openfeign.loadbalancer.FeignBlockingLoadBalancerClient;
 import org.springframework.http.HttpEntity;
@@ -32,9 +31,9 @@ public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient
     private final MockProperties mockProperties;
 
     public MockLoadBalancerFeignClient(Client.Default delegate, LoadBalancerClient loadBalancerClient,
-                                       LoadBalancerProperties properties, LoadBalancerClientFactory loadBalancerClientFactory, MockProperties mockProperties) {
+                                       LoadBalancerClientFactory loadBalancerClientFactory, MockProperties mockProperties) {
 
-        super(delegate, loadBalancerClient, properties, loadBalancerClientFactory);
+        super(delegate, loadBalancerClient, loadBalancerClientFactory);
         this.mockProperties = mockProperties;
         log.info("mock feign 负载均衡器初始化");
     }
@@ -85,10 +84,10 @@ public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient
         InputStream inputStream = null;
         if (Objects.nonNull(body)) {
             log.debug("响应结果 - {}", body);
-            inputStream = IOUtils.toInputStream(body);
+            inputStream = IoUtil.toUtf8Stream(body);
         }
         return Response.builder().request(request)
-                .body(inputStream == null ? new byte[0] : IOUtils.toByteArray(Objects.requireNonNull(inputStream)))
+                .body(inputStream == null ? new byte[0] : IoUtil.readBytes(inputStream))
                 .headers(request.headers())
                 .status(exchange.getStatusCode().value()).build();
     }

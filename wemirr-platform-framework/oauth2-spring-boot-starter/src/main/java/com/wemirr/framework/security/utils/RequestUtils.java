@@ -1,9 +1,9 @@
 package com.wemirr.framework.security.utils;
 
+import cn.hutool.core.io.IoUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -72,8 +72,8 @@ public class RequestUtils {
         return uri.substring(start + contextPath.length());
     }
 
-    public static String getBodyParamsStr(InputStream stream, Charset charset) throws IOException {
-        return IOUtils.toString(stream, charset.name());
+    public static String getBodyParamsStr(InputStream stream, Charset charset) {
+        return IoUtil.read(stream, charset);
     }
 
     public static String getBodyParamsStr(HttpServletRequest request) throws IOException {
@@ -100,7 +100,7 @@ public class RequestUtils {
 
     public static Map<String, String> getHeadParams(HttpServletRequest request) {
         Map<String, String> result = Maps.newHashMap();
-        Enumeration headerNames = request.getHeaderNames();
+        Enumeration<?> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String key = (String) headerNames.nextElement();
             String value = request.getHeader(key);
@@ -111,7 +111,7 @@ public class RequestUtils {
 
     public static JSONObject getHeadParams2Json(HttpServletRequest request) {
         JSONObject jsonObject = new JSONObject();
-        Enumeration headerNames = request.getHeaderNames();
+        Enumeration<?> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String key = (String) headerNames.nextElement();
             String value = request.getHeader(key);

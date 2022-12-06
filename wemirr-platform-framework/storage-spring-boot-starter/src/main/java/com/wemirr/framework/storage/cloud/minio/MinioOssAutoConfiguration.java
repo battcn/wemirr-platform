@@ -2,18 +2,13 @@ package com.wemirr.framework.storage.cloud.minio;
 
 import com.wemirr.framework.storage.MinioStorageOperation;
 import com.wemirr.framework.storage.properties.MinioStorageProperties;
+import io.minio.BucketExistsArgs;
 import io.minio.MinioClient;
-import io.minio.errors.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
 import static com.wemirr.framework.storage.StorageOperation.MINIO_STORAGE_OPERATION;
 import static com.wemirr.framework.storage.StorageOperation.OSS_CONFIG_PREFIX_MINIO;
@@ -30,23 +25,17 @@ public class MinioOssAutoConfiguration {
     @SneakyThrows
     @Bean
     public MinioClient minioClient(MinioStorageProperties properties) {
-        MinioClient minioClient;
-        try {
-            minioClient = new MinioClient(properties.getUrl(), properties.getAccessKey(),
-                    properties.getSecretKey(), properties.isSecure());
-            minioClient.setTimeout(properties.getConnectTimeout().toMillis(), properties.getWriteTimeout().toMillis(),
-                    properties.getReadTimeout().toMillis());
-        } catch (InvalidEndpointException | InvalidPortException e) {
-            log.error("Error while connecting to Minio", e);
-            throw e;
-        }
+        MinioClient minioClient = MinioClient.builder().endpoint(properties.getUrl(), properties.getPort(), properties.isSecure())
+                .credentials(properties.getAccessKey(), properties.getSecretKey()).region(properties.getRegion()).build();
+        minioClient.setTimeout(properties.getConnectTimeout().toMillis(), properties.getWriteTimeout().toMillis(),
+                properties.getReadTimeout().toMillis());
         try {
             log.debug("Checking if bucket {} exists", properties.getBucket());
-            boolean b = minioClient.bucketExists(properties.getBucket());
+            boolean b = minioClient.bucketExists(BucketExistsArgs.builder().bucket(properties.getBucket()).build());
             if (!b) {
-                throw new InvalidBucketNameException(properties.getBucket(), "Bucket does not exists");
+                throw new RuntimeException(properties.getBucket() + "Bucket does not exists");
             }
-        } catch (InvalidBucketNameException | NoSuchAlgorithmException | InsufficientDataException | IOException | InvalidKeyException | NoResponseException | XmlPullParserException | ErrorResponseException | InternalException e) {
+        } catch (Exception e) {
             log.error("Error while checking bucket", e);
             throw e;
         }

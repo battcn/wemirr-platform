@@ -25,6 +25,9 @@ public class MinioStorageProperties extends BaseStorageProperties {
      */
     private String url = "https://play.min.io";
 
+    private int port = 80;
+
+    private String region;
     /**
      * minio实例上的访问
      */

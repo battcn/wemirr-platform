@@ -1,7 +1,6 @@
 package com.wemirr.platform.demo.controller;
 
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.demo.service.DemoService;
 import com.wemirr.platform.demo.service.client.DemoTestFeignClient;

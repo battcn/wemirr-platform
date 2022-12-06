@@ -8,20 +8,15 @@ import com.wemirr.framework.storage.domain.StorageResponse;
 import com.wemirr.framework.storage.exception.StorageException;
 import com.wemirr.framework.storage.properties.BaseStorageProperties;
 import com.wemirr.framework.storage.properties.MinioStorageProperties;
-import io.minio.MinioClient;
-import io.minio.Result;
-import io.minio.errors.*;
+import io.minio.*;
 import io.minio.messages.Item;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ContentType;
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -47,7 +42,7 @@ public class MinioStorageOperation implements StorageOperation {
     @Override
     public DownloadResponse download(String bucketName, String fileName) {
         try {
-            InputStream inputStream = minioClient.getObject(bucketName, fileName);
+            InputStream inputStream = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(fileName).build());
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             return DownloadResponse.builder().bufferedReader(bufferedReader).build();
         } catch (Exception ex) {
@@ -60,7 +55,7 @@ public class MinioStorageOperation implements StorageOperation {
     @Override
     public void download(String bucketName, String fileName, File file) {
         try {
-            InputStream inputStream = minioClient.getObject(bucketName, fileName);
+            InputStream inputStream = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(fileName).build());
             OutputStream outputStream = new FileOutputStream(file);
             IOUtils.copy(inputStream, outputStream);
         } catch (Exception e) {
@@ -89,38 +84,24 @@ public class MinioStorageOperation implements StorageOperation {
                         StorageItem storageItem = new StorageItem();
                         Item item = itemResult.get();
                         storageItem.setName(item.objectName());
-                        storageItem.setSize(item.objectSize());
+                        storageItem.setSize(item.size());
                         Map<String, Object> extended = Maps.newHashMap();
                         extended.put("tag", item.etag());
                         extended.put("storageClass", item.storageClass());
                         extended.put("lastModified", item.lastModified());
                         storageItem.setExtended(extended);
                         return storageItem;
-                    } catch (InvalidBucketNameException |
-                            NoSuchAlgorithmException |
-                            InsufficientDataException |
-                            IOException |
-                            InvalidKeyException |
-                            NoResponseException |
-                            XmlPullParserException |
-                            ErrorResponseException |
-                            InternalException e) {
+                    } catch (Exception e) {
                         throw new StorageException(BaseStorageProperties.StorageType.MINIO, "Error while parsing list of objects", e);
                     }
-                })
-                .collect(Collectors.toList());
+                }).collect(Collectors.toList());
     }
 
 
     @Override
     public List<StorageItem> list() {
-        try {
-            Iterable<Result<Item>> iterable = minioClient.listObjects(properties.getBucket());
-            return getStorageItems(iterable);
-        } catch (XmlPullParserException e) {
-            log.error("[文件列表异常]", e);
-        }
-        return null;
+        Iterable<Result<Item>> iterable = minioClient.listObjects(ListObjectsArgs.builder().bucket(properties.getBucket()).region(properties.getRegion()).build());
+        return getStorageItems(iterable);
     }
 
 
@@ -146,8 +127,10 @@ public class MinioStorageOperation implements StorageOperation {
     @Override
     public StorageResponse upload(String bucketName, String fileName, InputStream content) {
         try {
-            minioClient.putObject(bucketName, fileName, content, content.available(),
-                    ContentType.APPLICATION_OCTET_STREAM.getMimeType());
+            minioClient.putObject(PutObjectArgs.builder().bucket(bucketName)
+                    .object(fileName)
+                    .stream(content, content.available(), -1)
+                    .contentType(ContentType.APPLICATION_OCTET_STREAM.getMimeType()).build());
             return StorageResponse.builder().originName(fileName).targetName(fileName)
                     .fullUrl(properties.getMappingPath() + fileName).build();
         } catch (Exception e) {
@@ -177,7 +160,7 @@ public class MinioStorageOperation implements StorageOperation {
     @Override
     public void remove(String bucketName, String fileName) {
         try {
-            minioClient.removeObject(bucketName, fileName);
+            minioClient.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(fileName).build());
         } catch (Exception e) {
             log.error("[文件删除失败]", e);
         }

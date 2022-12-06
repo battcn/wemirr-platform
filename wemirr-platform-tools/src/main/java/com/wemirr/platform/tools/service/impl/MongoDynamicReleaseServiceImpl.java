@@ -25,7 +25,6 @@ import com.wemirr.framework.commons.times.LocalDateTimeUtils;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
-import com.wemirr.platform.tools.configuration.handler.CustomCellWriteHandler;
 import com.wemirr.platform.tools.domain.DynamicReleaseDragSetting;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDrag;
 import com.wemirr.platform.tools.domain.entity.ExportExcelReq;
@@ -418,7 +417,7 @@ public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<Str
         final WriteSheet writeSheet = EasyExcel.writerSheet("表格数据")
                 .head(titles)
                 .registerWriteHandler(horizontalCellStyleStrategy)
-                .registerWriteHandler(new CustomCellWriteHandler())
+//                .registerWriteHandler(new CustomCellWriteHandler())
                 .autoTrim(true).build();
         ExcelWriter excelWriter = EasyExcel.write(response.getOutputStream()).build();
         excelWriter.write(lists, writeSheet);
