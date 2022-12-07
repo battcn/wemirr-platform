@@ -18,7 +18,7 @@
 
 **可以进微信群交流和提需求（提了不一定做,请理性付费）**
 
-> 赞赏 288 进微信交流群解答疑惑
+> 赞赏 388 进微信交流群解答疑惑
 
 - 敬请期待（**微信： battcn2022**）
 
@@ -35,8 +35,8 @@
 
 > 技术交流Q群： 789517089
 
-Vue、Spring Cloud Alibaba 2.2.5.RELEASE、Spring Cloud Hoxton.SR11、Nacos、Sentinel、
-Nepxion、Mybatis-Plus、多租户、灰度、Oauth2.0、Spring Security、Redis、Mysql、MongoDB、
+Vue、Spring Cloud Alibaba 2021.0.4.0、Spring Cloud 2021.0.4、Nacos、Sentinel、
+Nepxion、Mybatis-Plus、多租户、灰度、Oauth2.0、Spring Security、Redis、Mysql、
 ShardingJdbc、ShardingSphere
 
 ### 特点
