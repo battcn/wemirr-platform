@@ -7586,6 +7586,7 @@ CREATE TABLE `t_tenant_config` (
                                    `id` bigint NOT NULL AUTO_INCREMENT,
                                    `tenant_id` bigint NOT NULL COMMENT '租户ID',
                                    `dynamic_datasource_id` bigint NOT NULL COMMENT '动态数据源ID',
+                                   `deleted` bit(1) DEFAULT b'0',
                                    `created_by` bigint DEFAULT '0' COMMENT '创建人id',
                                    `created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
                                    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -7599,11 +7600,11 @@ CREATE TABLE `t_tenant_config` (
 -- Records of t_tenant_config
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_tenant_config` VALUES (3, 1, 1, 1, '长风一梦8888', '2021-11-16 12:08:03', NULL, NULL, NULL);
-INSERT INTO `t_tenant_config` VALUES (4, 4, 1, 1, '长风一梦8888', '2022-01-03 06:48:52', NULL, NULL, NULL);
-INSERT INTO `t_tenant_config` VALUES (6, 5, 1, 1, '长风一梦8888', '2022-01-04 09:48:02', NULL, NULL, NULL);
-INSERT INTO `t_tenant_config` VALUES (7, 6, 1, 1, '长风一梦8888', '2022-01-04 09:52:40', NULL, NULL, NULL);
-INSERT INTO `t_tenant_config` VALUES (9, 2, 1, 1, '长风一梦8888', '2022-06-08 02:11:17', NULL, NULL, NULL);
+INSERT INTO `t_tenant_config` VALUES (3, 1, 1,b'0', 1, '长风一梦8888', '2021-11-16 12:08:03', NULL, NULL, NULL);
+INSERT INTO `t_tenant_config` VALUES (4, 4, 1,b'0', 1, '长风一梦8888', '2022-01-03 06:48:52', NULL, NULL, NULL);
+INSERT INTO `t_tenant_config` VALUES (6, 5, 1,b'0', 1, '长风一梦8888', '2022-01-04 09:48:02', NULL, NULL, NULL);
+INSERT INTO `t_tenant_config` VALUES (7, 6, 1,b'0', 1, '长风一梦8888', '2022-01-04 09:52:40', NULL, NULL, NULL);
+INSERT INTO `t_tenant_config` VALUES (9, 2, 1,b'0', 1, '长风一梦8888', '2022-06-08 02:11:17', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
