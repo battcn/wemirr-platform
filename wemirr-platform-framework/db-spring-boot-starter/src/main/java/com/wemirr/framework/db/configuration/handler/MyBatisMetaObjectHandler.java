@@ -47,6 +47,10 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
+        if (tenantEnvironment.anonymous()) {
+            log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
+            return;
+        }
         final Long userId = tenantEnvironment.userId();
         final String realName = tenantEnvironment.realName();
         if (userId == null) {
@@ -74,6 +78,10 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
+        if (tenantEnvironment.anonymous()) {
+            log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
+            return;
+        }
         log.debug("开始给 Entity SuperEntity 字段赋值....");
         final Long userId = tenantEnvironment.userId();
         final String realName = tenantEnvironment.realName();
