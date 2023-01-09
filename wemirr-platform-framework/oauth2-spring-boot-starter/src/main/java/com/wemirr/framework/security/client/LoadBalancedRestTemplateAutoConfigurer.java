@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceS
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.security.oauth2.client.OAuth2RestOperations;
@@ -21,6 +22,7 @@ import java.io.IOException;
  * @since 2019-04-03
  */
 @RequiredArgsConstructor
+@Lazy
 public class LoadBalancedRestTemplateAutoConfigurer {
 
     @Bean
