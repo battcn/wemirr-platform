@@ -3664,6 +3664,7 @@ CREATE TABLE `common_generate` (
                                    `api_url_prefix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'api地址前缀',
                                    `logic_delete_field` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '逻辑删除字段',
                                    `platform_id` bigint DEFAULT '0' COMMENT '平台ID',
+                                   `deleted` bit(1) DEFAULT b'0',
                                    `created_by` bigint DEFAULT '0' COMMENT '创建人id',
                                    `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作人',
                                    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -3677,8 +3678,8 @@ CREATE TABLE `common_generate` (
 -- Records of common_generate
 -- ----------------------------
 BEGIN;
-INSERT INTO `common_generate` VALUES (6, NULL, b'01', 'Levin', 't_user', 'com.wemirr.platform', 'authority', 't_', '/api/users', 'locked', 1, 0, NULL, '2020-11-06 09:34:40', 1, '长风一梦8888', '2022-06-06 05:04:37');
-INSERT INTO `common_generate` VALUES (31, NULL, b'00', 'Levin', 't_user', 'com.wemirr.platform.authority', 'User', 't_', '/api/users', 'locked', 1, 2, '不告诉你', '2020-11-06 09:34:40', 2, '不告诉你', '2021-11-26 06:11:04');
+INSERT INTO `common_generate` VALUES (6, NULL, b'01', 'Levin', 't_user', 'com.wemirr.platform', 'authority', 't_', '/api/users', 'locked', 1,0, 0, NULL, '2020-11-06 09:34:40', 1, '长风一梦8888', '2022-06-06 05:04:37');
+INSERT INTO `common_generate` VALUES (31, NULL, b'00', 'Levin', 't_user', 'com.wemirr.platform.authority', 'User', 't_', '/api/users', 'locked', 1,0, 2, '不告诉你', '2020-11-06 09:34:40', 2, '不告诉你', '2021-11-26 06:11:04');
 COMMIT;
 
 -- ----------------------------

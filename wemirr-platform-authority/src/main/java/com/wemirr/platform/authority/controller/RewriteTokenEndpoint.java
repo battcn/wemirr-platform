@@ -129,6 +129,9 @@ public class RewriteTokenEndpoint {
     @GetMapping("/info")
     @Operation(summary = "获取当前用户信息")
     public Result<Object> userInfo(Principal principal) {
+        if (tenantEnvironment.anonymous()) {
+            return Result.fail("用户信息不存在");
+        }
         OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
         return Result.success(oAuth2Authentication.getPrincipal());
     }
@@ -137,6 +140,9 @@ public class RewriteTokenEndpoint {
     @GetMapping("/users")
     @Operation(summary = "获取当前用户信息")
     public Principal users(Principal principal) {
+        if (tenantEnvironment.anonymous()) {
+            throw CheckedException.notFound("用户信息不存在");
+        }
         return principal;
     }
 
