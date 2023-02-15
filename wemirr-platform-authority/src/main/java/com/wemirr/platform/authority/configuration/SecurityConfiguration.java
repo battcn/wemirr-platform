@@ -39,7 +39,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory) {
         // redis 存储 token
-        return new RedisTokenStore(redisConnectionFactory);
+        RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
+        tokenStore.setAuthenticationKeyGenerator(new TenantAuthenticationKeyGenerator());
+        return tokenStore;
     }
 
     @Bean

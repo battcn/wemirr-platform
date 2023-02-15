@@ -238,12 +238,13 @@ CREATE TABLE `sys_org` (
                            `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
                            `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                            PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10205  COMMENT='组织';
+) ENGINE=InnoDB AUTO_INCREMENT=1  COMMENT='组织';
 
 -- ----------------------------
 -- Records of sys_org
 -- ----------------------------
 BEGIN;
+INSERT INTO `sys_org` (`label`, `tenant_id`, `alias`, `tel`, `tree_path`, `parent_id`, `sequence`, `status`, `deleted`, `description`) VALUES ('根节点', ${tenant_id}, '根节点', '', ',', 0, 1, b'1', b'0', '初始化数据');
 COMMIT;
 
 -- ----------------------------
