@@ -427,6 +427,7 @@ CREATE TABLE `sys_station` (
                                `org_id` bigint DEFAULT '0' COMMENT '组织ID\n#c_core_org',
                                `status` bit(1) DEFAULT b'1' COMMENT '状态',
                                `description` varchar(255) DEFAULT '' COMMENT '描述',
+                               `deleted` bit(1) DEFAULT b'0',
                                `created_time` datetime DEFAULT CURRENT_TIMESTAMP,
                                `created_name` varchar(255) DEFAULT NULL,
                                `created_by` bigint DEFAULT NULL,
