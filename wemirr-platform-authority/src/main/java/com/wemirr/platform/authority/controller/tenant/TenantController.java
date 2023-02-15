@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.authority.domain.dto.TenantConfigDTO;
 import com.wemirr.platform.authority.domain.dto.TenantPageDTO;
 import com.wemirr.platform.authority.domain.dto.TenantSaveDTO;
@@ -50,7 +49,7 @@ public class TenantController {
                 .eq(Tenant::getType, params.getType()));
     }
 
-    @IgnoreAuthorize
+//    @IgnoreAuthorize
     @Operation(summary = "查询可用", description = "查询可用数据源")
     @GetMapping("/databases/active")
     public List<TenantDynamicDatasourceVO> queryActive() {

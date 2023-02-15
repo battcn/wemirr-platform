@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.TimeUnit;
 
@@ -55,10 +54,10 @@ public class FeignPluginConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = AutoRefreshTokenProperties.TOKEN_PREFIX, name = "enabled", havingValue = "true")
-    public AutoRefreshTokenInterceptor feignTokenInterceptor(AutoRefreshTokenProperties properties, RestTemplate lbRestTemplate) {
+    public AutoRefreshTokenInterceptor feignTokenInterceptor(AutoRefreshTokenProperties properties) {
         final AutoRefreshTokenProperties.Cache cache = properties.getCache();
         Cache<String, String> tokenCache = CacheBuilder.newBuilder().initialCapacity(cache.getInitialCapacity())
                 .maximumSize(cache.getMaximumSize()).expireAfterWrite(cache.getExpire(), TimeUnit.SECONDS).build();
-        return new AutoRefreshTokenInterceptor(properties, lbRestTemplate, tokenCache);
+        return new AutoRefreshTokenInterceptor(properties, tokenCache);
     }
 }

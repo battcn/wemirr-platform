@@ -20,7 +20,7 @@ public interface TenantFeignClient {
      *
      * @return 查询结果
      */
-    @GetMapping("/tenants/databases/active")
+    @GetMapping(value = "/tenants/databases/active", headers = {"X-Auto-Token=true"})
     Result<List<TenantDynamicDatasource>> selectAll();
 
     @Component
