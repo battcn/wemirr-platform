@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.framework.db.mybatis.auth.DataScope;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
@@ -35,6 +36,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     private final UserMapper userMapper;
     private final UserRoleMapper userRoleMapper;
     private final PasswordEncoder passwordEncoder;
+    private final TenantEnvironment tenantEnvironment;
 
 
     @Override
@@ -45,6 +47,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         }
         final User user = BeanUtil.toBean(dto, User.class);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setTenantId(tenantEnvironment.tenantId());
         super.save(user);
     }
 
