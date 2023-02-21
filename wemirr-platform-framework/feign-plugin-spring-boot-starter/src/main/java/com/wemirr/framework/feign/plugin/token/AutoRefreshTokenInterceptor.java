@@ -35,7 +35,6 @@ public class AutoRefreshTokenInterceptor implements RequestInterceptor {
 
 
     private final AutoRefreshTokenProperties properties;
-    //    private final RestTemplate lbRestTemplate;
     private final Cache<String, String> tokenCache;
 
     @SneakyThrows
@@ -46,6 +45,10 @@ public class AutoRefreshTokenInterceptor implements RequestInterceptor {
             return;
         }
         final String tokenHeader = properties.getServerTokenHeader();
+        if (template.headers().containsKey(tokenHeader)) {
+            log.debug("当前上下文中已包含token,跳过自动获取流程...");
+            return;
+        }
         template.header(tokenHeader, tokenCache.get(tokenHeader, this::loadCache));
     }
 
