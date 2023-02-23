@@ -13,8 +13,7 @@
         t1.*
         FROM
         sys_resource t1
-        WHERE
-        1 = 1
+        WHERE t1.deleted = 0
         <if test="resource.type != null">
             and t1.type = #{resource.type}
         </if>
