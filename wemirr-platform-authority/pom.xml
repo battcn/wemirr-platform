@@ -38,6 +38,10 @@
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>
+            <artifactId>redis-plus-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
             <artifactId>swagger-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
