@@ -1,5 +1,6 @@
 package com.wemirr.framework.security.feign;
 
+import cn.hutool.core.net.NetUtil;
 import com.wemirr.framework.commons.entity.enums.CommonError;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.security.client.annotation.InnerService;
@@ -34,6 +35,10 @@ public class SecurityInnerServiceAspect implements Ordered {
     @Around("@annotation(inner)")
     public Object around(ProceedingJoinPoint point, InnerService inner) throws Throwable {
         String ipAddress = RequestUtils.getIpAddress(request);
+        boolean innerIP = NetUtil.isInnerIP(ipAddress);
+        if (innerIP) {
+            return point.proceed();
+        }
         List<String> whiteLists = innerServiceProperties.getWhiteLists();
         String signatureName = point.getSignature().getName();
         if (!whiteLists.contains(ipAddress)) {
