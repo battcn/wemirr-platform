@@ -19,6 +19,8 @@ public class StorageResponse implements java.io.Serializable {
 
     private static final long serialVersionUID = -498222912510624959L;
 
+    private String fileId;
+    private String etag;
     private String originName;
     private String targetName;
     private long size;
@@ -41,9 +43,11 @@ public class StorageResponse implements java.io.Serializable {
     private Map<String, Object> extend;
 
     @Builder
-    public StorageResponse(String originName, String targetName, String mappingPath,
+    public StorageResponse(String fileId, String etag, String originName, String targetName, String mappingPath,
                            String bucket,
                            long size, String md5, String fullUrl, Map<String, Object> extend) {
+        this.fileId = fileId;
+        this.etag = etag;
         this.originName = originName;
         this.targetName = targetName;
         this.size = size;

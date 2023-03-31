@@ -23,7 +23,7 @@ public class MinioStorageProperties extends BaseStorageProperties {
     /**
      * minio实例的URL。包括端口。如果未提供端口，则采用HTTP端口。
      */
-    private String url = "https://play.min.io";
+    private String endpoint = "https://play.min.io";
 
     private int port = 80;
 

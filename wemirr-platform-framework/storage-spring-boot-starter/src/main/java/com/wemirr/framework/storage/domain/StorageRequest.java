@@ -1,12 +1,17 @@
 package com.wemirr.framework.storage.domain;
 
 
+import cn.hutool.extra.spring.SpringUtil;
+import com.wemirr.framework.storage.FileUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 请求参数
@@ -52,6 +57,9 @@ public class StorageRequest implements java.io.Serializable {
 
     private String contentType;
 
+    private Object tenantId;
+
+    private Object userId;
 
     public enum PrefixRule {
         /**
@@ -66,7 +74,48 @@ public class StorageRequest implements java.io.Serializable {
         /**
          * 当前年月日
          */
-        now_date_mouth_day;
+        now_date_mouth_day,
+
+        /**
+         * 租户当前日期策略
+         */
+        tenant_now_date_mouth_day;
     }
 
+
+    /**
+     * 获取目标名字
+     *
+     * @return 目标名称
+     */
+    public String buildTargetName() {
+        if (StringUtils.isBlank(this.getOriginName())) {
+            throw new RuntimeException("originName 不能为空");
+        }
+        final PrefixRule rule = this.getRule();
+        if (rule == null) {
+            return FileUtils.targetName(this.isRandomName(), this.getPrefix(), this.getOriginName());
+        }
+        String prefix;
+        switch (rule) {
+            case now_date_mouth:
+                prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
+                break;
+            case now_date_mouth_day:
+                prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+                break;
+            case tenant_now_date_mouth_day:
+                if (tenantId == null || userId == null) {
+                    throw new RuntimeException("tenantId or userId not null");
+                }
+                prefix = tenantId + "/" + userId + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+                break;
+            case none:
+                prefix = this.getPrefix();
+                break;
+            default:
+                return this.getPrefix();
+        }
+        return FileUtils.targetName(this.isRandomName(), prefix, this.getOriginName());
+    }
 }

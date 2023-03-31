@@ -13,6 +13,7 @@ import io.minio.messages.Item;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 
 import java.io.*;
@@ -43,8 +44,7 @@ public class MinioStorageOperation implements StorageOperation {
     public DownloadResponse download(String bucketName, String fileName) {
         try {
             InputStream inputStream = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(fileName).build());
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            return DownloadResponse.builder().bufferedReader(bufferedReader).build();
+            return DownloadResponse.builder().inputStream(inputStream).build();
         } catch (Exception ex) {
             log.error("[文件下载异常]", ex);
             throw downloadError(BaseStorageProperties.StorageType.MINIO, ex);
@@ -126,17 +126,7 @@ public class MinioStorageOperation implements StorageOperation {
 
     @Override
     public StorageResponse upload(String bucketName, String fileName, InputStream content) {
-        try {
-            minioClient.putObject(PutObjectArgs.builder().bucket(bucketName)
-                    .object(fileName)
-                    .stream(content, content.available(), -1)
-                    .contentType(ContentType.APPLICATION_OCTET_STREAM.getMimeType()).build());
-            return StorageResponse.builder().originName(fileName).targetName(fileName)
-                    .fullUrl(properties.getMappingPath() + fileName).build();
-        } catch (Exception e) {
-            log.error("[文件上传失败]", e);
-            throw new StorageException(BaseStorageProperties.StorageType.MINIO, "文件上传失败," + e.getLocalizedMessage());
-        }
+        return upload(StorageRequest.builder().bucket(bucketName).originName(fileName).inputStream(content).build());
     }
 
 
@@ -147,7 +137,20 @@ public class MinioStorageOperation implements StorageOperation {
 
     @Override
     public StorageResponse upload(StorageRequest request) {
-        return null;
+        try {
+            String bucket = StringUtils.defaultString(request.getBucket(), properties.getBucket());
+            String fileName = request.isRandomName() ? request.buildTargetName() : request.getOriginName();
+            final InputStream inputStream = request.getInputStream();
+            final ObjectWriteResponse object = minioClient.putObject(PutObjectArgs.builder().bucket(bucket)
+                    .object(fileName).stream(inputStream, inputStream.available(), -1)
+                    .contentType(ContentType.APPLICATION_OCTET_STREAM.getMimeType()).build());
+            return StorageResponse.builder().etag(object.etag())
+                    .originName(request.getOriginName()).targetName(fileName)
+                    .fullUrl(properties.getMappingPath() + fileName).build();
+        } catch (Exception e) {
+            log.error("[文件上传失败]", e);
+            throw new StorageException(BaseStorageProperties.StorageType.MINIO, "文件上传失败," + e.getLocalizedMessage());
+        }
     }
 
 

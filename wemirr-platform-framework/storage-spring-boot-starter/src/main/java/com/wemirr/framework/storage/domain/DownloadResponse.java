@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * 响应结果
@@ -22,7 +23,10 @@ public class DownloadResponse implements java.io.Serializable {
 
     private static final long serialVersionUID = -498222912510624959L;
 
+    @Deprecated
     private BufferedReader bufferedReader;
+
+    private InputStream inputStream;
     /**
      * 上下文类型
      */

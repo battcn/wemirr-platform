@@ -1,9 +1,10 @@
 package com.wemirr.framework.storage;
 
-import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.OSS;
 import com.aliyun.oss.common.comm.ResponseMessage;
 import com.aliyun.oss.model.GetObjectRequest;
 import com.aliyun.oss.model.OSSObject;
+import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import com.wemirr.framework.storage.domain.DownloadResponse;
 import com.wemirr.framework.storage.domain.StorageItem;
@@ -14,8 +15,12 @@ import com.wemirr.framework.storage.properties.AliYunStorageProperties;
 import com.wemirr.framework.storage.properties.BaseStorageProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -27,7 +32,7 @@ import java.util.List;
 public class AliYunStorageOperation implements StorageOperation {
 
 
-    private final OSSClient ossClient;
+    private final OSS ossClient;
     private final AliYunStorageProperties properties;
 
 
@@ -42,18 +47,7 @@ public class AliYunStorageOperation implements StorageOperation {
         // ossObject包含文件所在的存储空间名称、文件名称、文件元信息以及一个输入流。
         OSSObject ossObject = ossClient.getObject(bucketName, fileName);
         // 读取文件内容。
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(ossObject.getObjectContent()))) {
-            while (true) {
-                String line = reader.readLine();
-                if (line == null) {
-                    break;
-                }
-            }
-            return DownloadResponse.builder().bufferedReader(reader).build();
-        } catch (Exception e) {
-            log.error("[文件下载异常]", e);
-            throw downloadError(BaseStorageProperties.StorageType.ALIYUN, e);
-        }
+        return DownloadResponse.builder().inputStream(ossObject.getObjectContent()).build();
     }
 
 
@@ -142,7 +136,18 @@ public class AliYunStorageOperation implements StorageOperation {
 
     @Override
     public StorageResponse upload(StorageRequest request) {
-        return null;
+        try {
+            String bucket = StringUtils.defaultString(request.getBucket(), properties.getBucket());
+            String fileName = request.isRandomName() ? request.buildTargetName() : request.getOriginName();
+            PutObjectRequest objectRequest = new PutObjectRequest(bucket, fileName, request.getInputStream());
+            final PutObjectResult object = ossClient.putObject(objectRequest);
+            return StorageResponse.builder().etag(object.getETag())
+                    .originName(request.getOriginName()).targetName(fileName)
+                    .fullUrl(properties.getMappingPath() + fileName).build();
+        } catch (Exception e) {
+            log.error("[文件上传失败]", e);
+            throw new StorageException(BaseStorageProperties.StorageType.ALIYUN, "文件上传失败," + e.getLocalizedMessage());
+        }
     }
 
 

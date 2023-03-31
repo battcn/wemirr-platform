@@ -25,7 +25,7 @@ public class MinioOssAutoConfiguration {
     @SneakyThrows
     @Bean
     public MinioClient minioClient(MinioStorageProperties properties) {
-        MinioClient minioClient = MinioClient.builder().endpoint(properties.getUrl(), properties.getPort(), properties.isSecure())
+        MinioClient minioClient = MinioClient.builder().endpoint(properties.getEndpoint())
                 .credentials(properties.getAccessKey(), properties.getSecretKey()).region(properties.getRegion()).build();
         minioClient.setTimeout(properties.getConnectTimeout().toMillis(), properties.getWriteTimeout().toMillis(),
                 properties.getReadTimeout().toMillis());

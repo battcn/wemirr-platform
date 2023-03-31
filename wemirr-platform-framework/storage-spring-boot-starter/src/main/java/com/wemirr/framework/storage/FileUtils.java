@@ -38,9 +38,9 @@ public class FileUtils {
         }
         final String name = randomName(originName);
         if (StringUtils.isNotBlank(name)) {
-            return StringUtils.isBlank(prefix) ? StringUtils.join(SEPARATOR, name) : StringUtils.join(SEPARATOR, prefix, SEPARATOR, name);
+            return StringUtils.isBlank(prefix) ? name : StringUtils.join(prefix, SEPARATOR, name);
         }
-        return StringUtils.isBlank(prefix) ? StringUtils.join(SEPARATOR, originName) : StringUtils.join(SEPARATOR, prefix, SEPARATOR, originName);
+        return StringUtils.isBlank(prefix) ? name : StringUtils.join(prefix, name);
     }
 
 

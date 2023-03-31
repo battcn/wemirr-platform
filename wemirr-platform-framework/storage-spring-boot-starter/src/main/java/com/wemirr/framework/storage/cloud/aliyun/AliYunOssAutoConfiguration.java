@@ -1,9 +1,7 @@
 package com.wemirr.framework.storage.cloud.aliyun;
 
-import com.aliyun.oss.ClientConfiguration;
-import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.common.auth.CredentialsProvider;
-import com.aliyun.oss.common.auth.DefaultCredentialProvider;
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
 import com.wemirr.framework.storage.AliYunStorageOperation;
 import com.wemirr.framework.storage.endpoint.OssEndpoint;
 import com.wemirr.framework.storage.properties.AliYunStorageProperties;
@@ -29,13 +27,12 @@ public class AliYunOssAutoConfiguration {
 
 
     @Bean
-    public OSSClient ossClient(AliYunStorageProperties properties) {
-        CredentialsProvider provider = new DefaultCredentialProvider(properties.getAccessKey(), properties.getSecretKey());
-        return new OSSClient(properties.getEndpoint(), provider, new ClientConfiguration());
+    public OSS ossClient(AliYunStorageProperties properties) {
+        return new OSSClientBuilder().build(properties.getEndpoint(), properties.getAccessKey(), properties.getSecretKey());
     }
 
     @Bean(ALI_YUN_STORAGE_OPERATION)
-    public AliYunStorageOperation aliYunStorageOperation(OSSClient ossClient, AliYunStorageProperties properties) {
+    public AliYunStorageOperation aliYunStorageOperation(OSS ossClient, AliYunStorageProperties properties) {
         return new AliYunStorageOperation(ossClient, properties);
     }
 

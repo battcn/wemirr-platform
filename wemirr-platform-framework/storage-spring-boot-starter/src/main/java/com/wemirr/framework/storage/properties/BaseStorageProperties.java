@@ -16,7 +16,7 @@ public class BaseStorageProperties implements java.io.Serializable {
     @Value("${spring.application.name:'oss'}")
     private String bucket;
 
-    private String mappingPath = "http://blog.battcn.com/";
+    private String mappingPath = "http://minio.battcn.com/";
 
     /**
      * 访问key
