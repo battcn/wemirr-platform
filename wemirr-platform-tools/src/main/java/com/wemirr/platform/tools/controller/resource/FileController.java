@@ -1,19 +1,20 @@
 package com.wemirr.platform.tools.controller.resource;
 
-import cn.hutool.extra.servlet.ServletUtil;
-import cn.hutool.http.useragent.OS;
-import cn.hutool.http.useragent.UserAgent;
-import cn.hutool.http.useragent.UserAgentUtil;
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.boot.RegionUtils;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.framework.storage.StorageOperation;
+import com.wemirr.framework.storage.domain.DownloadResponse;
 import com.wemirr.framework.storage.domain.StorageRequest;
 import com.wemirr.framework.storage.domain.StorageResponse;
 import com.wemirr.platform.tools.domain.entity.FileEntity;
+import com.wemirr.platform.tools.domain.req.BatchKey;
 import com.wemirr.platform.tools.service.FileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -23,14 +24,22 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.compress.utils.Lists;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-
-import static org.apache.http.protocol.HTTP.USER_AGENT;
 
 /**
  * @author Levin
@@ -44,6 +53,7 @@ import static org.apache.http.protocol.HTTP.USER_AGENT;
 public class FileController {
 
     private final FileService fileService;
+    private final TenantEnvironment tenantEnvironment;
     private final StorageOperation storageOperation;
 
 
@@ -74,46 +84,72 @@ public class FileController {
     })
     @PostMapping("/upload")
     @Operation(summary = "文件上传 - [Levin] - [DONE]")
-    public StorageResponse upload(@RequestParam MultipartFile file, HttpServletRequest request, String bucket,
+    public StorageResponse upload(@RequestParam MultipartFile file, @RequestParam(required = false) String bucket, HttpServletRequest request,
                                   @RequestParam(defaultValue = "true") boolean random) {
         if (file == null) {
             throw CheckedException.badRequest("文件内容不能为空");
         }
-        final StorageResponse response = storageOperation.upload(StorageRequest.builder().bucket(bucket)
-                .inputStream(file.getInputStream()).contentType(file.getContentType()).randomName(random)
-                .originName(file.getOriginalFilename()).rule(StorageRequest.PrefixRule.now_date_mouth_day).build());
-        saveFileUploadRecord(request, file.getContentType(), response);
-        return response;
+        final StorageRequest storage = StorageRequest.builder().bucket(bucket).inputStream(file.getInputStream())
+                .contentType(file.getContentType()).randomName(random)
+                .originName(file.getOriginalFilename())
+                .tenantId(tenantEnvironment.tenantId()).userId(tenantEnvironment.userId())
+                .rule(StorageRequest.PrefixRule.tenant_now_date_mouth_day).build();
+        return fileService.upload(storage, request);
     }
 
-    private void saveFileUploadRecord(HttpServletRequest request, String contentType, StorageResponse response) {
-        String ua = request.getHeader(USER_AGENT);
-        String ip = ServletUtil.getClientIP(request);
-        String location = RegionUtils.getRegion(ip);
-        final UserAgent userAgent = UserAgentUtil.parse(ua);
-        final OS os = userAgent.getOs();
-        this.fileService.save(FileEntity.builder()
-                .contentType(contentType)
-                .size(response.getSize())
-                .originName(response.getOriginName())
-                .targetName(response.getTargetName())
-                .mappingPath(response.getMappingPath())
-                .fullUrl(response.getFullUrl())
-                .bucket(response.getBucket())
-                .location(location).ip(ip)
-                .engine(userAgent.getEngineVersion())
-                .engineVersion(userAgent.getEngine().getName())
-                .os(os.getName())
-                .build());
+
+    @IgnoreAuthorize
+    @Parameters({@Parameter(name = "id", description = "文件ID", in = ParameterIn.PATH),})
+    @GetMapping("/{id}/download")
+    @Operation(summary = "文件下载 - [Levin] - [DONE]")
+    public void download(@PathVariable String id, HttpServletResponse response) {
+        final FileEntity file = this.fileService.getById(id);
+        if (file == null) {
+            return;
+        }
+        final DownloadResponse download = storageOperation.download(file.getTargetName());
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=" + file.getOriginName());
+        try (ServletOutputStream outputStream = response.getOutputStream()) {
+            outputStream.write(IoUtil.readBytes(download.getInputStream()));
+        } catch (Exception e) {
+            log.error("文件预览失败", e);
+        }
     }
 
-    @DeleteMapping("{id}")
+
+    @IgnoreAuthorize
+    @Parameters({@Parameter(name = "id", description = "文件KEY", in = ParameterIn.PATH),})
+    @GetMapping("/{id}/preview")
+    @Operation(summary = "文件预览 - [Levin] - [DONE]")
+    public ResponseEntity<Resource> preview(@PathVariable String id) {
+        final FileEntity file = this.fileService.getById(id);
+        if (file == null) {
+            return ResponseEntity.ok(null);
+        }
+        final DownloadResponse download = storageOperation.download(file.getTargetName());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, file.getContentType());
+        return new ResponseEntity<>(new InputStreamResource(download.getInputStream()), headers, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
     @SysLog(value = "删除文件")
     @Operation(summary = "删除文件")
     public void del(@PathVariable Long id) {
         final FileEntity file = Optional.ofNullable(this.fileService.getById(id)).orElseThrow(() -> CheckedException.notFound("文件不存在"));
         storageOperation.remove(file.getBucket(), file.getTargetName());
         fileService.removeById(id);
+    }
+
+    @PostMapping("/ids_query")
+    @Operation(summary = "通过ID查询文件信息 - [Aaron] - [DONE]")
+    public List<FileEntity> batchQueryByIds(@RequestBody BatchKey<String> param) {
+        if (Objects.isNull(param) || CollUtil.isEmpty(param.getIds())) {
+            return Lists.newArrayList();
+        }
+        return fileService.list(Wraps.<FileEntity>lbQ().in(FileEntity::getId, param.getIds()));
     }
 
 

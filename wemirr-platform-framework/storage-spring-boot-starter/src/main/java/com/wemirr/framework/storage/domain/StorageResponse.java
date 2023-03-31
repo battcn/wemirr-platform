@@ -19,7 +19,7 @@ public class StorageResponse implements java.io.Serializable {
 
     private static final long serialVersionUID = -498222912510624959L;
 
-    private String fileId;
+    private Object fileId;
     private String etag;
     private String originName;
     private String targetName;
