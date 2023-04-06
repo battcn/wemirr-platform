@@ -16,6 +16,7 @@ import com.wemirr.framework.storage.properties.BaseStorageProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.DisposableBean;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -29,7 +30,7 @@ import java.util.List;
  */
 @Slf4j
 @AllArgsConstructor
-public class AliYunStorageOperation implements StorageOperation {
+public class AliYunStorageOperation implements StorageOperation, DisposableBean {
 
 
     private final OSS ossClient;
@@ -40,7 +41,6 @@ public class AliYunStorageOperation implements StorageOperation {
     public DownloadResponse download(String fileName) {
         return download(properties.getBucket(), fileName);
     }
-
 
     @Override
     public DownloadResponse download(String bucketName, String fileName) {
@@ -166,5 +166,12 @@ public class AliYunStorageOperation implements StorageOperation {
     @Override
     public void remove(String bucketName, Path path) {
         remove(bucketName, path.toString());
+    }
+
+    @Override
+    public void destroy() {
+        if (ossClient != null) {
+            ossClient.shutdown();
+        }
     }
 }

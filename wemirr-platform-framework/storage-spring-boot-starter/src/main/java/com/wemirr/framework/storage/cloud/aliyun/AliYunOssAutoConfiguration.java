@@ -26,7 +26,7 @@ import static com.wemirr.framework.storage.StorageOperation.OSS_CONFIG_PREFIX_AL
 public class AliYunOssAutoConfiguration {
 
 
-    @Bean
+    @Bean(destroyMethod = "shutdown")
     public OSS ossClient(AliYunStorageProperties properties) {
         return new OSSClientBuilder().build(properties.getEndpoint(), properties.getAccessKey(), properties.getSecretKey());
     }
