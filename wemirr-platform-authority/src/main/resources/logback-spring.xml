@@ -3,10 +3,13 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <!-- 应用名称-->
     <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="authority.log"/>
+
+    <property name="MAX_HISTORY" value="30" />
+
     <!-- 普通日志信息：看看SQL、LOG之类的 -->
-    <property name="ORDINARY_LOG_FILE_NAME_PATTERN" value="logs/${appName}-ordinary.%d{yyyy-MM-dd}.%i.log"/>
+    <property name="ORDINARY_LOG_FILE_NAME_PATTERN" value="logs/${appName}-ordinary.%d{yyyy-MM-dd}.%i.log.gz"/>
     <!-- 关键信息：用于排查问题 -->
-    <property name="CRUX_LOG_FILE_NAME_PATTERN" value="logs/${appName}-crux.%d{yyyy-MM-dd}.%i.log"/>
+    <property name="CRUX_LOG_FILE_NAME_PATTERN" value="logs/${appName}-crux.%d{yyyy-MM-dd}.%i.log.gz"/>
     <!-- 日志格式 -->
     <property name="CONSOLE_LOG_PATTERN"
               value="%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} - [%X{n-d-trace-id}] -%clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%c){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
@@ -24,13 +27,12 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${ORDINARY_LOG_FILE_NAME_PATTERN}</fileNamePattern>
             <!-- 日志保留天数 -->
-            <maxHistory>30</maxHistory>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
             <!-- 日志文件上限大小，达到指定大小后删除旧的日志文件 -->
-            <totalSizeCap>2GB</totalSizeCap>
+            <totalSizeCap>3GB</totalSizeCap>
             <!-- 每个日志文件的最大值 -->
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>50MB</maxFileSize>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
@@ -43,13 +45,12 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${CRUX_LOG_FILE_NAME_PATTERN}</fileNamePattern>
             <!-- 日志保留天数 -->
-            <maxHistory>30</maxHistory>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
             <!-- 日志文件上限大小，达到指定大小后删除旧的日志文件 -->
-            <totalSizeCap>1GB</totalSizeCap>
+            <totalSizeCap>5GB</totalSizeCap>
             <!-- 每个日志文件的最大值 -->
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10MB</maxFileSize>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>30MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>

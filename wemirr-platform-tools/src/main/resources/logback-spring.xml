@@ -4,9 +4,9 @@
     <!-- 应用名称-->
     <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="tools.log"/>
     <!-- 普通日志信息：看看SQL、LOG之类的 -->
-    <property name="ORDINARY_LOG_FILE_NAME_PATTERN" value="logs/${appName}-ordinary.%d{yyyy-MM-dd}.%i.log"/>
+    <property name="ORDINARY_LOG_FILE_NAME_PATTERN" value="logs/${appName}-ordinary.%d{yyyy-MM-dd}.%i.log.gz"/>
     <!-- 关键信息：用于排查问题 -->
-    <property name="CRUX_LOG_FILE_NAME_PATTERN" value="logs/${appName}-crux.%d{yyyy-MM-dd}.%i.log"/>
+    <property name="CRUX_LOG_FILE_NAME_PATTERN" value="logs/${appName}-crux.%d{yyyy-MM-dd}.%i.log.gz"/>
     <!-- 日志格式 -->
     <property name="CONSOLE_LOG_PATTERN"
               value="%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} - [%X{n-d-trace-id}] -%clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%c){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
