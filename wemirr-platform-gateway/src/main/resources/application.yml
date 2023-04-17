@@ -40,6 +40,11 @@ spring:
           predicates:
             - Path=/authority/**
           filters:
+#            - name: BlackWhiteList
+#              args:
+#                type: BLACK_LIST
+#                ip-list: 127.0.0.1,0:0:0:0:0:0:0:1
+#                ignore-intranet: true
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter.replenishRate: 100   # 允许用户每秒处理多少个请求

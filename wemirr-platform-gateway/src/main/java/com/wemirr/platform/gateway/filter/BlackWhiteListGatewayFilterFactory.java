@@ -14,8 +14,10 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.List;
 
@@ -46,31 +48,42 @@ public class BlackWhiteListGatewayFilterFactory extends AbstractGatewayFilterFac
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             InetSocketAddress remoteAddress = XForwardedRemoteAddressResolver.maxTrustedIndex(1).resolve(exchange);
-            String ip = remoteAddress.getAddress().getHostAddress();
+            final InetAddress inetAddress = remoteAddress.getAddress();
+            String ip = inetAddress.getHostAddress();
             log.debug("[访问者IP地址] - [{}]", ip);
+            if (config.isIgnoreIntranet() && inetAddress.isSiteLocalAddress()) {
+                log.info("[忽略内网IP] - {}", inetAddress.isSiteLocalAddress());
+                return chain.filter(exchange);
+            }
             if (config.type == BlackWhiteListType.BLACK_LIST) {
-                boolean access = config.getWhiteLists().contains(ip);
+                boolean access = config.getIpList().contains(ip);
+                if (access) {
+                    log.warn("[访问受限，该地址在黑名单列表] - [{}]", ip);
+                    return accessRestricted(exchange);
+                }
+            } else if (config.type == BlackWhiteListType.WHITE_LIST) {
+                boolean access = config.getIpList().contains(ip);
                 if (access) {
                     return chain.filter(exchange);
+                } else {
+                    log.warn("[访问受限，该地址不在白名单列表] - [{}]", ip);
+                    return accessRestricted(exchange);
                 }
             }
-            if (config.type == BlackWhiteListType.WHITE_LIST) {
-                boolean access = config.getWhiteLists().contains(ip);
-                if (!access) {
-                    return chain.filter(exchange);
-                }
-            }
-            log.warn("[访问受限，该地址在黑名单或者不在白名单里] - [{}]", ip);
-            ServerHttpResponse response = exchange.getResponse();
-            response.setStatusCode(HttpStatus.FORBIDDEN);
-            response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            JSONObject result = new JSONObject();
-            result.put("messageId", HttpStatus.FORBIDDEN.value());
-            result.put("message", "访问受限，请联系管理员");
-            result.put("successful", false);
-            result.put("timestamp", System.currentTimeMillis());
-            return response.writeWith(Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(result))));
+            return chain.filter(exchange);
         };
+    }
+
+    private Mono<Void> accessRestricted(ServerWebExchange exchange) {
+        ServerHttpResponse response = exchange.getResponse();
+        response.setStatusCode(HttpStatus.FORBIDDEN);
+        response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        JSONObject result = new JSONObject();
+        result.put("messageId", HttpStatus.FORBIDDEN.value());
+        result.put("message", "访问受限，请联系管理员");
+        result.put("successful", false);
+        result.put("timestamp", System.currentTimeMillis());
+        return response.writeWith(Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(result))));
     }
 
     @Data
@@ -78,8 +91,8 @@ public class BlackWhiteListGatewayFilterFactory extends AbstractGatewayFilterFac
 
         private Integer maxTrustedIndex = 1;
         private BlackWhiteListType type;
-        private List<String> blackLists;
-        private List<String> whiteLists;
+        private boolean ignoreIntranet;
+        private List<String> ipList;
     }
 
     @AllArgsConstructor
