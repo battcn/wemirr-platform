@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @author Levin
@@ -47,6 +49,7 @@ public class PlatformGatewayStrategyRouteFilter implements GlobalFilter {
         if (limitHelper.hostTrace(exchange)) {
             return wrap(exchange, HttpStatus.SERVICE_UNAVAILABLE, "访问失败,已达到最大阈值");
         }
+//        final Object serviceName = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ORIGINAL_REQUEST_URL_ATTR);
         // 通过过滤器设置路由Header头部信息，并全链路传递到服务端  true 不擦除外部请求头 false 擦除
 //        GatewayStrategyFilterResolver.setHeader(exchange.getRequest(), exchange.getRequest().mutate(), TRACE_ID, traceId, true);
         return chain.filter(exchange);

@@ -52,6 +52,7 @@ spring:
                 # 使用 IP 限流策略（使用 SpEL 按名称引用 bean）
                 key-resolver: "#{@ipKeyResolver}"
             - StripPrefix=1
+            - PreserveHostHeader
             - name: Retry
               args:
                 retries: 1
@@ -74,18 +75,21 @@ spring:
             - Path=/tools/**
           filters:
             - StripPrefix=1
+            - PreserveHostHeader
         - id: wemirr-platform-monitor
           uri: lb://wemirr-platform-monitor
           predicates:
             - Path=/monitor/**
           filters:
             - StripPrefix=1
+            - PreserveHostHeader
         - id: wemirr-platform-demo
           uri: lb://wemirr-platform-demo
           predicates:
             - Path=/demo/**
           filters:
             - StripPrefix=1
+            - PreserveHostHeader
       loadbalancer:
         use404: true
       httpclient:
