@@ -5,11 +5,6 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.MD5;
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.wemirr.framework.redis.plus.RedisPlusProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +25,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -79,37 +72,6 @@ public class RedisCacheAutoConfiguration extends CachingConfigurerSupport {
         };
     }
 
-    /**
-     * 二级缓存实例
-     *
-     * @param redisConnectionFactory redisConnectionFactory
-     * @return redisTemplate
-     */
-    @Primary
-    @Bean(name = "mybatisCache")
-    @Order(value = Ordered.HIGHEST_PRECEDENCE)
-    @ConditionalOnBean({RedisConnectionFactory.class})
-    public RedisTemplate<String, Object> mybatisCache(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
-        // 设置值（value）的序列化采用Jackson2JsonRedisSerializer。
-        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-        // 设置键（key）的序列化采用StringRedisSerializer。
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        // 设置值（hashKey）的序列化采用Jackson2JsonRedisSerializer。
-        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        // 设置键（hashValue）的序列化采用Jackson2JsonRedisSerializer。
-        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
-        redisTemplate.afterPropertiesSet();
-        //开启事务支持
-        redisTemplate.setEnableTransactionSupport(true);
-        return redisTemplate;
-    }
 
     /**
      * 自定义缓存SimpleCacheManager

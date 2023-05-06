@@ -17,19 +17,16 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2RefreshToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.config.annotation.web.oauth2.login.TokenEndpointDsl;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
@@ -48,20 +45,20 @@ import java.util.Map;
 public class RewriteTokenEndpoint {
 
     private final TenantEnvironment tenantEnvironment;
-    private final TokenEndpoint tokenEndpoint;
+//    private final TokenEndpoint tokenEndpoint;
     private final UserService userService;
-    private final TokenStore tokenStore;
+//    private final TokenStore tokenStore;
 
-    @ResponseBody
-    @RequestMapping(value = "/token", method = {RequestMethod.GET, RequestMethod.POST})
-    public SwaggerEnhancer<OAuth2AccessToken> postAccessToken(Principal principal, @RequestParam Map<String, String> parameters, HttpServletRequest request) throws HttpRequestMethodNotSupportedException {
-        final Result<OAuth2AccessToken> success = Result.success(tokenEndpoint.postAccessToken(principal, parameters).getBody());
-        SwaggerEnhancer<OAuth2AccessToken> r = new SwaggerEnhancer<>(success.getCode(), success.getData(), success.getMessage());
-        r.setTimestamp(System.currentTimeMillis());
-        // 说明是swagger 来的请求，那么增强实现
-        r.setAccessToken(success.getData().getValue());
-        return r;
-    }
+//    @ResponseBody
+//    @RequestMapping(value = "/token", method = {RequestMethod.GET, RequestMethod.POST})
+//    public SwaggerEnhancer<OAuth2AccessToken> postAccessToken(Principal principal, @RequestParam Map<String, String> parameters, HttpServletRequest request) throws HttpRequestMethodNotSupportedException {
+//        final Result<OAuth2AccessToken> success = Result.success(tokenEndpoint.postAccessToken(principal, parameters).getBody());
+//        SwaggerEnhancer<OAuth2AccessToken> r = new SwaggerEnhancer<>(success.getCode(), success.getData(), success.getMessage());
+//        r.setTimestamp(System.currentTimeMillis());
+//        // 说明是swagger 来的请求，那么增强实现
+//        r.setAccessToken(success.getData().getValue());
+//        return r;
+//    }
 
 
     /**
@@ -86,23 +83,23 @@ public class RewriteTokenEndpoint {
         }
     }
 
-    @DeleteMapping("/logout")
-    @ResponseBody
-    public Result<?> removeToken() {
-        if (SecurityUtils.anonymous()) {
-            return Result.success();
-        }
-        final OAuth2AccessToken accessToken = tokenStore.getAccessToken(SecurityUtils.getAuthentication());
-        if (accessToken == null) {
-            return Result.success();
-        }
-        tokenStore.removeAccessToken(accessToken);
-        final OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(accessToken.getValue());
-        if (refreshToken != null) {
-            tokenStore.removeRefreshToken(refreshToken);
-        }
-        return Result.success();
-    }
+//    @DeleteMapping("/logout")
+//    @ResponseBody
+//    public Result<?> removeToken() {
+//        if (SecurityUtils.anonymous()) {
+//            return Result.success();
+//        }
+//        final OAuth2AccessToken accessToken = tokenStore.getAccessToken(SecurityUtils.getAuthentication());
+//        if (accessToken == null) {
+//            return Result.success();
+//        }
+//        tokenStore.removeAccessToken(accessToken);
+//        final OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(accessToken.getValue());
+//        if (refreshToken != null) {
+//            tokenStore.removeRefreshToken(refreshToken);
+//        }
+//        return Result.success();
+//    }
 
     /**
      * 支持 POST 流传输方式
@@ -125,16 +122,16 @@ public class RewriteTokenEndpoint {
         return view;
     }
 
-    @ResponseBody
-    @GetMapping("/info")
-    @Operation(summary = "获取当前用户信息")
-    public Result<Object> userInfo(Principal principal) {
-        if (tenantEnvironment.anonymous()) {
-            return Result.fail("用户信息不存在");
-        }
-        OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
-        return Result.success(oAuth2Authentication.getPrincipal());
-    }
+//    @ResponseBody
+//    @GetMapping("/info")
+//    @Operation(summary = "获取当前用户信息")
+//    public Result<Object> userInfo(Principal principal) {
+//        if (tenantEnvironment.anonymous()) {
+//            return Result.fail("用户信息不存在");
+//        }
+//        OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
+//        return Result.success(oAuth2Authentication.getPrincipal());
+//    }
 
     @ResponseBody
     @GetMapping("/users")

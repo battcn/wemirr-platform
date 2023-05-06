@@ -5,7 +5,6 @@ import com.wemirr.framework.security.feign.HeaderFeignConfiguration;
 import com.wemirr.framework.security.feign.SecurityInnerServiceAspect;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 import java.lang.annotation.*;
 
@@ -19,7 +18,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@EnableResourceServer
+//@EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Import({SecurityBeanDefinitionRegistrar.class,
         HeaderFeignConfiguration.class,

@@ -5,17 +5,17 @@
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.17.3-SNAPSHOT</version>
     </parent>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-demo</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.17.3-SNAPSHOT</version>
     <name>wemirr-platform-demo</name>
     <description>wemirr demo便于开发者开发的时候copy项目用</description>
     <packaging>jar</packaging>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
     </properties>
 
     <dependencies>

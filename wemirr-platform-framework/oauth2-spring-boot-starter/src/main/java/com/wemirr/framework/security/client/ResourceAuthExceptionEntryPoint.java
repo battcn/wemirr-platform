@@ -8,11 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
+//import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -40,16 +40,16 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
         if (authException != null) {
             String localizedMessage = authException.getLocalizedMessage();
             log.error("[访问受限] - [{}] - [{}]", localizedMessage, uri);
-            if (authException.getCause() instanceof InvalidTokenException) {
-                InvalidTokenException invalidTokenException = (InvalidTokenException) authException.getCause();
-                int httpErrorCode = invalidTokenException.getHttpErrorCode();
-                result.setCode(httpErrorCode);
-                result.setMessage("Token已失效");
-            } else if (authException instanceof InsufficientAuthenticationException) {
-                int httpErrorCode = HttpStatus.UNAUTHORIZED.value();
-                result.setCode(httpErrorCode);
-                result.setMessage("未授权的用户");
-            }
+//            if (authException.getCause() instanceof InvalidTokenException) {
+//                InvalidTokenException invalidTokenException = (InvalidTokenException) authException.getCause();
+//                int httpErrorCode = invalidTokenException.getHttpErrorCode();
+//                result.setCode(httpErrorCode);
+//                result.setMessage("Token已失效");
+//            } else if (authException instanceof InsufficientAuthenticationException) {
+//                int httpErrorCode = HttpStatus.UNAUTHORIZED.value();
+//                result.setCode(httpErrorCode);
+//                result.setMessage("未授权的用户");
+//            }
         } else {
             result.setCode(HttpStatus.UNAUTHORIZED.value());
             result.setMessage(HttpStatus.UNAUTHORIZED.name());

@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
 import java.util.List;

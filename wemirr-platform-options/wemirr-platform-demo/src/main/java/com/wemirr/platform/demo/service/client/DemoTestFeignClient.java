@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 /**
  * @author Levin
  */
-@FeignClient(name = "wemirr-platform-authority", decode404 = true)
+@FeignClient(name = "wemirr-platform-authority", dismiss404 =  true)
 public interface DemoTestFeignClient {
 
     @GetMapping(value = "/opt_logs", headers = {AutoRefreshTokenProperties.X_AUTO_TOKEN})

@@ -1,6 +1,6 @@
 package com.wemirr.framework.websocket.utils;
 
-import javax.websocket.Session;
+import jakarta.websocket.Session;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.Future;

@@ -35,7 +35,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -238,7 +238,7 @@ public class SysLogAspect {
                     sysLog.setDsKey(multiTenant.getDsPrefix() + tenantCode);
                 }
             }
-            sysLog.setIp(ServletUtil.getClientIP(request));
+//            sysLog.setIp(ServletUtil.getClientIP(request));
             sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
             sysLog.setHttpMethod(request.getMethod());
             final UserAgent userAgent = UserAgentUtil.parse(request.getHeader("user-agent"));

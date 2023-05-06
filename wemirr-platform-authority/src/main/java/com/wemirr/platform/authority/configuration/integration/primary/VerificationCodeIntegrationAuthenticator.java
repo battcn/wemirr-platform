@@ -6,7 +6,7 @@ import com.wemirr.platform.authority.service.VerificationService;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 集成验证码认证

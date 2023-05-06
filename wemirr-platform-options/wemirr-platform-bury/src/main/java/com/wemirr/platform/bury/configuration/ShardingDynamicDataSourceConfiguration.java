@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 
-import javax.annotation.Resource;
-import javax.sql.DataSource;
+import jakarta.annotation.Resource;
+import jakarta.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 

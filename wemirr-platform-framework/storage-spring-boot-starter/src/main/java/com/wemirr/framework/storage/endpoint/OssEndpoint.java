@@ -5,7 +5,7 @@ import com.wemirr.framework.storage.AliYunStorageOperation;
 import com.wemirr.framework.storage.properties.AliYunStorageProperties;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 
 /**

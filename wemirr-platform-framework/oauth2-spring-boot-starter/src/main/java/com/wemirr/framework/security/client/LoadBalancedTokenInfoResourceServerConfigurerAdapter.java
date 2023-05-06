@@ -8,12 +8,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
-import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
-import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.HandlerMethod;
@@ -36,26 +30,26 @@ import java.util.Objects;
 @AllArgsConstructor
 @Import({ResourceAuthExceptionEntryPoint.class, LoadBalancedRestTemplateAutoConfigurer.class})
 @EnableConfigurationProperties(SecurityIgnoreProperties.class)
-public class LoadBalancedTokenInfoResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
+public class LoadBalancedTokenInfoResourceServerConfigurerAdapter {
 
 
     private final RestTemplate lbRestTemplate;
-    private final RemoteTokenServices remoteTokenServices;
+    //    private final RemoteTokenServices remoteTokenServices;
     private final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
     private final SecurityIgnoreProperties securityIgnoreProperties;
     private final RequestMappingHandlerMapping requestMappingHandlerMapping;
 
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) {
-        DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
-        UserAuthenticationConverter userAuthenticationConverter = new DefaultUserAuthenticationConverter();
-        accessTokenConverter.setUserTokenConverter(userAuthenticationConverter);
-        remoteTokenServices.setRestTemplate(lbRestTemplate);
-        remoteTokenServices.setAccessTokenConverter(accessTokenConverter);
-        resources.authenticationEntryPoint(resourceAuthExceptionEntryPoint).tokenServices(remoteTokenServices);
-    }
+//    @Override
+//    public void configure(ResourceServerSecurityConfigurer resources) {
+//        DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
+//        UserAuthenticationConverter userAuthenticationConverter = new DefaultUserAuthenticationConverter();
+//        accessTokenConverter.setUserTokenConverter(userAuthenticationConverter);
+//        remoteTokenServices.setRestTemplate(lbRestTemplate);
+//        remoteTokenServices.setAccessTokenConverter(accessTokenConverter);
+//        resources.authenticationEntryPoint(resourceAuthExceptionEntryPoint).tokenServices(remoteTokenServices);
+//    }
 
-    @Override
+    //    @Override
     public void configure(HttpSecurity http) throws Exception {
         //允许使用iframe 嵌套，避免swagger-ui 不被加载的问题
         http.headers().frameOptions().disable();
@@ -71,18 +65,18 @@ public class LoadBalancedTokenInfoResourceServerConfigurerAdapter extends Resour
             if (annotation != null && !annotation.web()) {
                 final PatternsRequestCondition patternsCondition = key.getPatternsCondition();
                 if (Objects.nonNull(patternsCondition)) {
-                    patternsCondition.getPatterns().forEach(url -> registry.antMatchers(url).permitAll());
+//                    patternsCondition.getPatterns().forEach(url -> registry.antMatchers(url).permitAll());
                 }
                 final PathPatternsRequestCondition pathPatternsCondition = key.getPathPatternsCondition();
                 if (Objects.nonNull(pathPatternsCondition)) {
-                    pathPatternsCondition.getPatterns().forEach(url -> registry.antMatchers(url.getPatternString()).permitAll());
+//                    pathPatternsCondition.getPatterns().forEach(url -> registry.antMatchers(url.getPatternString()).permitAll());
                 }
             }
         }
         List<String> ignoreUrls = securityIgnoreProperties.getResourceUrls();
         if (!CollectionUtils.isEmpty(ignoreUrls)) {
             String[] arr = ignoreUrls.toArray(new String[0]);
-            registry.antMatchers(arr).permitAll();
+//            registry.antMatchers(arr).permitAll();
         }
         registry.anyRequest().authenticated()
                 .and().csrf().disable();

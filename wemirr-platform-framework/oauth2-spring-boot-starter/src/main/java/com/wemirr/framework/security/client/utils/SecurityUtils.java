@@ -8,15 +8,15 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthenticationContext;
 
 /**
  * @author Levin
  */
 public class SecurityUtils {
 
-    public static OAuth2Authentication getAuthentication() {
-        return (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+    public static OAuth2AuthenticationContext getAuthentication() {
+        return (OAuth2AuthenticationContext) SecurityContextHolder.getContext().getAuthentication();
     }
 
     /**
@@ -25,11 +25,11 @@ public class SecurityUtils {
      * @return 结果
      */
     public static UserInfoDetails getAuthInfo() {
-        OAuth2Authentication authentication = getAuthentication();
+        OAuth2AuthenticationContext authentication = getAuthentication();
         if (authentication == null || anonymous()) {
             throw CheckedException.forbidden("认证信息不存在");
         }
-        Authentication userAuthentication = authentication.getUserAuthentication();
+        Authentication userAuthentication = authentication.getAuthentication();
         if (userAuthentication.getPrincipal() instanceof UserInfoDetails) {
             return (UserInfoDetails) userAuthentication.getPrincipal();
         }

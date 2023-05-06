@@ -14,12 +14,12 @@ public class UnauthorizedException extends Auth2Exception {
         super(msg);
     }
 
-    @Override
+//    @Override
     public String getOAuth2ErrorCode() {
         return "unauthorized";
     }
 
-    @Override
+//    @Override
     public int getHttpErrorCode() {
         return HttpStatus.UNAUTHORIZED.value();
     }

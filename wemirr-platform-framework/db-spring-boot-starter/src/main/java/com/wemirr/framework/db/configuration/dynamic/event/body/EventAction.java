@@ -35,7 +35,7 @@ public enum EventAction {
     DEL(-1, "删除"),
     ;
     @EnumValue
-    @JsonValue
+    // @JsonValue
     private Integer type;
 
     private String desc;

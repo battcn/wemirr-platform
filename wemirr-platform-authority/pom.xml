@@ -5,17 +5,17 @@
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.17.3-SNAPSHOT</version>
     </parent>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-authority</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.17.3-SNAPSHOT</version>
     <name>wemirr-platform-authority</name>
     <description>wemirr oauth2 授权登录</description>
     <packaging>jar</packaging>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
     </properties>
 
     <dependencies>

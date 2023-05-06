@@ -4,7 +4,7 @@ import com.wemirr.framework.websocket.utils.SpringContextHolder;
 import com.wemirr.framework.websocket.utils.WebSocketUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.websocket.Session;
+import jakarta.websocket.Session;
 import java.util.Date;
 
 /**

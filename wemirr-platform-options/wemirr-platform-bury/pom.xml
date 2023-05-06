@@ -5,17 +5,17 @@
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.17.3-SNAPSHOT</version>
     </parent>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-bury</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.17.3-SNAPSHOT</version>
     <name>wemirr-platform-bury</name>
     <description>wemirr 埋点管理</description>
     <packaging>jar</packaging>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <shardingsphere.version>4.1.1</shardingsphere.version>
     </properties>
 

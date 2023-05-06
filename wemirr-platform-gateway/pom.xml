@@ -5,20 +5,32 @@
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.17.3-SNAPSHOT</version>
     </parent>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-gateway</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.17.3-SNAPSHOT</version>
     <name>wemirr-platform-gateway</name>
     <packaging>jar</packaging>
     <description>wemirr 平台网关，包括限流，熔断，灰度</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
@@ -33,7 +45,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!-- sentinel 与 nacos2 有兼容性问题 没找到好的解决方案之前暂时注释pom导入 -->
         <!--<dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
@@ -67,18 +78,6 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--<dependency>
-            <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-register-center-starter-nacos</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.nepxion</groupId>
-            <artifactId>discovery-plugin-strategy-starter-gateway</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>

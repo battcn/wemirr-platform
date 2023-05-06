@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Levin
  */
-@FeignClient(name = "wemirr-platform-authority", decode404 = true, fallback = TenantFeignClient.TenantFeignClientFallback.class)
+@FeignClient(name = "wemirr-platform-authority", dismiss404 =  true, fallback = TenantFeignClient.TenantFeignClientFallback.class)
 public interface TenantFeignClient {
 
     /**

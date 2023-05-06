@@ -44,7 +44,7 @@ public enum ResourceType implements DictionaryEnum<Integer> {
     BUILD_PUBLISH(5, "一键发布模板"),
     ;
     @EnumValue
-    @JsonValue
+    // @JsonValue
     private Integer type;
 
     @Schema(description = "描述")

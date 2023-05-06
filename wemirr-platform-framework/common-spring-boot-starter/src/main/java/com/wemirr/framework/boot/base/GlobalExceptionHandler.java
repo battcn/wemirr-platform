@@ -35,10 +35,10 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.annotation.Nonnull;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.UnexpectedTypeException;
-import javax.validation.ValidationException;
+import jakarta.annotation.Nonnull;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.UnexpectedTypeException;
+import jakarta.validation.ValidationException;
 import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 
@@ -214,7 +214,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * 通用的接口映射异常处理方法
      */
-    @Override
+//    @Override
     @ResponseBody
     @Nonnull
     protected ResponseEntity<Object> handleExceptionInternal(@Nonnull Exception ex, Object body, @Nonnull HttpHeaders headers,

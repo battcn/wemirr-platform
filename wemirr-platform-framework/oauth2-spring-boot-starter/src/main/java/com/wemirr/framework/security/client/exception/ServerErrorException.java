@@ -14,12 +14,12 @@ public class ServerErrorException extends Auth2Exception {
         super(msg);
     }
 
-    @Override
+//    @Override
     public String getOAuth2ErrorCode() {
         return "server_error";
     }
 
-    @Override
+//    @Override
     public int getHttpErrorCode() {
         return HttpStatus.INTERNAL_SERVER_ERROR.value();
     }

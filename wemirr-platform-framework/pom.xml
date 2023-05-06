@@ -5,16 +5,16 @@
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.17.3-SNAPSHOT</version>
     </parent>
     <groupId>com.wemirr.framework</groupId>
     <artifactId>wemirr-platform-framework</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.17.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <!-- 打包跳过单元测试 -->
         <skipTests>true</skipTests>
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
@@ -27,14 +27,25 @@
         <module>common-framework-core</module>
         <module>swagger-spring-boot-starter</module>
         <module>storage-spring-boot-starter</module>
+
+        <!-- 需要解决oauth2.0 和 websocket 的问题 -->
         <module>oauth2-spring-boot-starter</module>
         <module>db-spring-boot-starter</module>
         <module>common-spring-boot-starter</module>
-        <module>websocket-spring-boot-starter</module>
+        <!--<module>websocket-spring-boot-starter</module>-->
+
         <module>xxl-job-spring-boot-starter</module>
         <module>feign-plugin-spring-boot-starter</module>
         <module>redis-plus-spring-boot-starter</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-properties-migrator</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
 
     <distributionManagement>
         <repository>

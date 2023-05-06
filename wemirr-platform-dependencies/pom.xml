@@ -6,17 +6,17 @@
     <packaging>pom</packaging>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-dependencies</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.17.3-SNAPSHOT</version>
     <name>wemirr-platform-dependencies</name>
     <description>wemirr 平台包版本管理</description>
 
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-        <jdk.version>1.8</jdk.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>17</java.version>
+        <jdk.version>17</jdk.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
         <!--
         <spring-boot.version>2.3.10.RELEASE</spring-boot.version>
@@ -25,114 +25,39 @@
         -->
         <spring-boot-admin.version>2.7.8</spring-boot-admin.version>
         <spring-boot-admin-client.version>2.7.8</spring-boot-admin-client.version>
-        <spring-boot.version>2.6.11</spring-boot.version>
-        <spring-cloud.version>2021.0.4</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
-        <nepxion-discovery.version>6.12.1</nepxion-discovery.version>
-        <hutool.version>5.8.10</hutool.version>
-        <!-- 别升级： 后面的版本有小BUG -->
-        <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <spring-boot.version>3.0.6</spring-boot.version>
+        <spring-cloud.version>2022.0.2</spring-cloud.version>
+        <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
+        <nepxion-discovery.version>6.21.0</nepxion-discovery.version>
+        <hutool.version>5.8.18</hutool.version>
+        <!-- 别升级： 后面的版本有小BUG   稳定版本是 3.5.2-->
+        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <!-- 打包跳过单元测试 -->
         <skipTests>true</skipTests>
-        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-        <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-        <fastjson.version>1.2.83</fastjson.version>
-<!--        <springfox.version>2.9.2</springfox.version>
-        <swagger.version>1.5.21</swagger.version>-->
+        <fastjson.version>2.0.29</fastjson.version>
         <opentracing.spring.cloud.version>0.5.9</opentracing.spring.cloud.version>
 
         <minio.version>8.4.6</minio.version>
         <aliyun-sdk-oss.version>3.16.1</aliyun-sdk-oss.version>
         <qiniu-java-sdk.version>[7.7.0, 7.7.99]</qiniu-java-sdk.version>
         <cos_api.version>5.5.9</cos_api.version>
-        <dynamic-datasource.version>3.5.1</dynamic-datasource.version>
+        <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
         <xxl-job.version>2.3.0</xxl-job.version>
-        <easyexcel.version>3.1.3</easyexcel.version>
-        <wemirr-framework.version>0.0.2-SNAPSHOT</wemirr-framework.version>
+        <easyexcel.version>3.2.1</easyexcel.version>
+        <wemirr-framework.version>0.17.3-SNAPSHOT</wemirr-framework.version>
         <guava.version>31.1-jre</guava.version>
-        <jackson.version>2.12.4</jackson.version>
-        <springdoc-openapi.version>1.6.9</springdoc-openapi.version>
-        <sentinel.version>1.8.6</sentinel.version>
+        <jackson.version>2.15.0</jackson.version>
+        <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
+        <!--<sentinel.version>1.8.6</sentinel.version>-->
 
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
-            <!-- 手动升级不好使 -->
-            <!--<dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-transport-simple-http</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-core</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-datasource-nacos</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-datasource-extension</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-annotation-aspectj</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-reactor-adapter</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-spring-webflux-adapter</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-spring-webmvc-adapter</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-parameter-flow-control</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-api-gateway-adapter-common</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-cluster-server-default</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-cluster-client-default</artifactId>
-                <version>${sentinel.version}</version>
-            </dependency>-->
-
-
-
-
-
-
-
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-webmvc-core</artifactId>
@@ -213,7 +138,7 @@
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-annotations</artifactId>
-                <version>2.2.0</version>
+                <version>2.2.9</version>
             </dependency>
 
 
@@ -466,7 +391,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.11.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>

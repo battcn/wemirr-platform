@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 /**
  * @author Levin
  */
-@FeignClient(name = "wemirr-platform-bury", decode404 = true, fallback = BuryPointClient.BuryPointClientFallback.class)
+@FeignClient(name = "wemirr-platform-bury", dismiss404 =  true, fallback = BuryPointClient.BuryPointClientFallback.class)
 public interface BuryPointClient {
 
 

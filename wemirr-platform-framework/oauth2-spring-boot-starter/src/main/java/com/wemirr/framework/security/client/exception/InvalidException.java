@@ -15,17 +15,17 @@ public class InvalidException extends Auth2Exception {
         super(msg);
     }
 
-    @Override
+//    @Override
     public String getOAuth2ErrorCode() {
         return "用户名或密码错误";
     }
 
-    @Override
+//    @Override
     public int getHttpErrorCode() {
         return HttpStatus.UPGRADE_REQUIRED.value();
     }
 
-    @Override
+//    @Override
     public HttpStatus getHttpStatus() {
         return HttpStatus.UPGRADE_REQUIRED;
     }

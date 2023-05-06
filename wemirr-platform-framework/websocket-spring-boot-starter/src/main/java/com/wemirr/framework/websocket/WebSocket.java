@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.websocket.Session;
+import jakarta.websocket.Session;
 import java.util.Date;
 
 /**

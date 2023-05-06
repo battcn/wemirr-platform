@@ -14,12 +14,12 @@ public class MethodNotAllowedException extends Auth2Exception {
         super(msg);
     }
 
-    @Override
+//    @Override
     public String getOAuth2ErrorCode() {
         return "method_not_allowed";
     }
 
-    @Override
+//    @Override
     public int getHttpErrorCode() {
         return HttpStatus.METHOD_NOT_ALLOWED.value();
     }

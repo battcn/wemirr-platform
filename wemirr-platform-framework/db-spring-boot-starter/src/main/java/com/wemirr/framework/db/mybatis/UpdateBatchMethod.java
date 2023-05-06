@@ -20,8 +20,8 @@ import java.util.function.Predicate;
  * @author Levin
  */
 @Slf4j
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class UpdateBatchMethod extends AbstractMethod {
     /**
      * 字段筛选条件
@@ -29,6 +29,14 @@ public class UpdateBatchMethod extends AbstractMethod {
     @Setter
     @Accessors(chain = true)
     private Predicate<TableFieldInfo> predicate;
+
+    /**
+     * @param methodName 方法名
+     * @since 3.5.0
+     */
+    protected UpdateBatchMethod(String methodName) {
+        super(methodName);
+    }
 
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
@@ -39,13 +47,14 @@ public class UpdateBatchMethod extends AbstractMethod {
         String sqlResult = String.format(sql, tableInfo.getTableName(), setSql, tableInfo.getKeyColumn(), "item." + tableInfo.getKeyProperty(), additional);
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, sqlResult, modelClass);
         // 第三个参数必须和Mapper的自定义方法名一致
-        return this.addUpdateMappedStatement(mapperClass, modelClass, getMethod(sqlMethod), sqlSource);
+//        return this.addUpdateMappedStatement(mapperClass, modelClass, getMethod(sqlMethod), sqlSource);
+        return null;
     }
 
 
-    @Override
-    public String getMethod(SqlMethod sqlMethod) {
-        // 自定义 mapper 方法名
-        return "updateBatchSomeColumnById";
-    }
+//    @Override
+//    public String getMethod(SqlMethod sqlMethod) {
+//        // 自定义 mapper 方法名
+//        return "updateBatchSomeColumnById";
+//    }
 }

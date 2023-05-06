@@ -22,7 +22,7 @@ public class MySqlInjector extends DefaultSqlInjector {
         List<AbstractMethod> methodList = super.getMethodList(mapperClass, tableInfo);
         //增加自定义方法
         methodList.add(new InsertBatchSomeColumn(i -> i.getFieldFill() != FieldFill.UPDATE));
-        methodList.add(new UpdateBatchMethod(i -> i.getFieldFill() != FieldFill.INSERT));
+//        methodList.add(new UpdateBatchMethod(i -> i.getFieldFill() != FieldFill.INSERT));
         return methodList;
     }
 

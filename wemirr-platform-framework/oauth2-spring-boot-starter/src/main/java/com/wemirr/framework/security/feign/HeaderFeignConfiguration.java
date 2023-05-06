@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
 
 /**
  * fegin 配置增强
@@ -22,11 +20,11 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 @Import(HeaderFeignClientInterceptor.class)
 public class HeaderFeignConfiguration {
 
-    @Primary
-    @Bean
-    public OAuth2ClientContext oAuth2ClientContext() {
-        return new DefaultOAuth2ClientContext();
-    }
+//    @Primary
+//    @Bean
+//    public OAuth2ClientContext oAuth2ClientContext() {
+//        return new DefaultOAuth2ClientContext();
+//    }
 
     @Primary
     @Bean

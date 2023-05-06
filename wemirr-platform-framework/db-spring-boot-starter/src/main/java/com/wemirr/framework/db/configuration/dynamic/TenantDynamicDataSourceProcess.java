@@ -16,7 +16,8 @@ import com.wemirr.framework.db.properties.DatabaseProperties;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
+
 import javax.sql.DataSource;
 import java.io.File;
 import java.sql.Connection;

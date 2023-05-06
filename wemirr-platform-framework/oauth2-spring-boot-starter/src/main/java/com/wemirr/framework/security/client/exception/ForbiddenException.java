@@ -16,12 +16,12 @@ public class ForbiddenException extends Auth2Exception {
         super(msg);
     }
 
-    @Override
+//    @Override
     public String getOAuth2ErrorCode() {
         return "access_denied";
     }
 
-    @Override
+//    @Override
     public int getHttpErrorCode() {
         return HttpStatus.FORBIDDEN.value();
     }

@@ -3,7 +3,7 @@ package com.wemirr.framework.security.client.exception;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+//import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 /**
  * 自定义OAuth2Exception
@@ -13,7 +13,8 @@ import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
  */
 @Getter
 @JsonSerialize(using = Auth2ExceptionSerializer.class)
-public class Auth2Exception extends OAuth2Exception {
+public class Auth2Exception extends RuntimeException {
+    //OAuth2Exception
 
     private static final long serialVersionUID = -3092808061454515372L;
     private int code;

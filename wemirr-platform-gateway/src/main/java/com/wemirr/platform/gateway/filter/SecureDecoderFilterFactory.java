@@ -26,8 +26,8 @@
 //import org.springframework.web.util.UriComponentsBuilder;
 //import reactor.core.publisher.Mono;
 //
-//import javax.crypto.spec.IvParameterSpec;
-//import javax.crypto.spec.SecretKeySpec;
+//import jakarta.crypto.spec.IvParameterSpec;
+//import jakarta.crypto.spec.SecretKeySpec;
 //import java.net.URI;
 //import java.util.List;
 //import java.util.Map;
