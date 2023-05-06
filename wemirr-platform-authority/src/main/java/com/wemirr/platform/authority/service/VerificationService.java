@@ -2,7 +2,6 @@ package com.wemirr.platform.authority.service;
 
 import cn.hutool.captcha.CircleCaptcha;
 import com.wemirr.framework.commons.entity.Result;
-import com.wf.captcha.base.Captcha;
 
 /**
  * @author Levin

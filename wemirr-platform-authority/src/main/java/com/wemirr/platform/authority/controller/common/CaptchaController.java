@@ -3,7 +3,6 @@ package com.wemirr.platform.authority.controller.common;
 import cn.hutool.captcha.CircleCaptcha;
 import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.authority.service.VerificationService;
-import com.wf.captcha.base.Captcha;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
