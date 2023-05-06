@@ -28,11 +28,6 @@
             <artifactId>spring-boot-admin-starter-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.whvcse</groupId>
-            <artifactId>easy-captcha</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-        <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>websocket-spring-boot-starter</artifactId>
         </dependency>

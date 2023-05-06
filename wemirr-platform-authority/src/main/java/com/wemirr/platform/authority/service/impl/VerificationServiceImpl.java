@@ -1,11 +1,11 @@
 package com.wemirr.platform.authority.service.impl;
 
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.platform.authority.service.VerificationService;
-import com.wf.captcha.ArithmeticCaptcha;
-import com.wf.captcha.base.Captcha;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -29,14 +29,13 @@ public class VerificationServiceImpl implements VerificationService {
 
     @SneakyThrows
     @Override
-    public Captcha create(String key) {
+    public CircleCaptcha create(String key) {
         if (StrUtil.isBlank(key)) {
             throw CheckedException.badRequest("验证码key不能为空");
         }
-        Captcha captcha = new ArithmeticCaptcha(115, 42);
-        captcha.setCharType(2);
-        stringRedisTemplate.opsForValue().set(geyKey(key), captcha.text(), 3, TimeUnit.MINUTES);
-        log.debug("验证码结果 - {}", captcha.text());
+        final CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(115, 42, 5, 3);
+        stringRedisTemplate.opsForValue().set(geyKey(key), captcha.getCode(), 3, TimeUnit.MINUTES);
+        log.debug("验证码结果 - {}", captcha.getCode());
         return captcha;
     }
 

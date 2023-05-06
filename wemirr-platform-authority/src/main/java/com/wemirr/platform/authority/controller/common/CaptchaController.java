@@ -1,5 +1,6 @@
 package com.wemirr.platform.authority.controller.common;
 
+import cn.hutool.captcha.CircleCaptcha;
 import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.authority.service.VerificationService;
 import com.wf.captcha.base.Captcha;
@@ -40,8 +41,8 @@ public class CaptchaController {
         response.setHeader(HttpHeaders.PRAGMA, "No-cache");
         response.setHeader(HttpHeaders.CACHE_CONTROL, "No-cache");
         response.setDateHeader(HttpHeaders.EXPIRES, 0L);
-        final Captcha captcha = verificationService.create(key);
-        captcha.out(response.getOutputStream());
+        final CircleCaptcha captcha = verificationService.create(key);
+        response.getOutputStream().write(captcha.getImageBytes());
     }
 
 

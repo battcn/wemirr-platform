@@ -1,5 +1,6 @@
 package com.wemirr.platform.authority.service;
 
+import cn.hutool.captcha.CircleCaptcha;
 import com.wemirr.framework.commons.entity.Result;
 import com.wf.captcha.base.Captcha;
 
@@ -14,7 +15,7 @@ public interface VerificationService {
      * @param key key
      * @return 验证码结果
      */
-    Captcha create(String key);
+    CircleCaptcha create(String key);
 
     /**
      * 验证图形验证码
