@@ -25,7 +25,7 @@
 
     <modules>
         <module>common-framework-core</module>
-        <module>swagger-spring-boot-starter</module>
+        <!--<module>swagger-spring-boot-starter</module>-->
         <module>storage-spring-boot-starter</module>
         <module>oauth2-spring-boot-starter</module>
         <module>db-spring-boot-starter</module>
