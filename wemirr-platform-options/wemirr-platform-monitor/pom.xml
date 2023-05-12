@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
     </parent>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-monitor</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <name>wemirr-platform-monitor</name>
     <description>wemirr monitor admin 模块</description>
     <packaging>jar</packaging>

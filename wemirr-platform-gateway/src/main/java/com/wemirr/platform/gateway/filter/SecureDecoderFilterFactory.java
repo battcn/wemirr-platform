@@ -58,7 +58,7 @@
 //
 //
 //    private static final String CONTENT = "content";
-//    private static final String SWAGGER_UI_HTML = "swagger-ui.html";
+//    private static final String SWAGGER_UI_HTML = "doc.html";
 //    private static AES aes;
 //
 //    private static AES getInstant(String pass) {
@@ -79,7 +79,7 @@
 //            if (!StrUtil.containsAnyIgnoreCase(request.getURI().getPath(), config.getUrl())) {
 //                return chain.filter(exchange);
 //            }
-//            // 如果从 swagger-ui.html 来的不做加密处理
+//            // 如果从 doc.html 来的不做加密处理
 //            final List<String> referer = request.getHeaders().get("Referer");
 //            if (CollectionUtils.isNotEmpty(referer)) {
 //                final long count = referer.stream().filter(r -> r.contains(SWAGGER_UI_HTML)).count();

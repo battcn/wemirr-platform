@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
     </parent>
     <groupId>com.wemirr.framework</groupId>
     <artifactId>wemirr-platform-framework</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -25,7 +25,6 @@
 
     <modules>
         <module>common-framework-core</module>
-        <!--<module>swagger-spring-boot-starter</module>-->
         <module>storage-spring-boot-starter</module>
         <module>oauth2-spring-boot-starter</module>
         <module>db-spring-boot-starter</module>

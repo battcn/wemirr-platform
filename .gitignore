@@ -37,16 +37,6 @@ HELP.md
 /logs
 *.log
 rebel.xml
-oit-authority/src/main/resources/rebel.xml
-oit-cloud-framework/common-spring-boot-starter/src/main/resources/rebel.xml
-oit-cloud-framework/common-framework-core/src/main/java/rebel.xml
-oit-cloud-framework/db-spring-boot-starter/src/main/resources/rebel.xml
-oit-cloud-framework/oauth2-spring-boot-starter/src/main/java/rebel.xml
-oit-cloud-framework/slider-spring-boot-starter/src/main/resources/rebel.xml
-oit-cloud-framework/swagger-spring-boot-starter/src/main/resources/rebel.xml
-oit-gateway/src/main/resources/rebel.xml
-oit-products/src/main/resources/rebel.xml
-oit-cloud-tcn/src/main/resources/rebel.xml
 /bak/**
 /bak/oitcloud/repository/*
 /oit-cloud-authority/**
