@@ -34,7 +34,7 @@ public class CaptchaController {
     @SneakyThrows
     @IgnoreAuthorize
     @GetMapping(produces = "image/png")
-    @Operation(description = "验证码 - [DONE] - [Levin]")
+    @Operation(summary = "验证码 - [DONE] - [Levin]", description = "验证码 - [DONE] - [Levin]")
     public void create(@RequestParam(value = "key") String key, HttpServletResponse response) {
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
         response.setHeader(HttpHeaders.PRAGMA, "No-cache");

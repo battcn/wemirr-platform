@@ -66,7 +66,7 @@ public class AreaController {
     }
 
     @GetMapping("/{parent_id}/children")
-    @Operation(description = "查询子节点 - [DONE] - [Levin]")
+    @Operation(summary = "查询子节点 - [DONE] - [Levin]", description = "查询子节点 - [DONE] - [Levin]")
     public Result<List<AreaNodeResp>> list(@PathVariable(name = "parent_id") Integer parentId) {
         final List<AreaEntity> list = this.areaService.listArea(parentId);
         return Result.success(AREA_ENTITY_2_NODE_RESP_CONVERTS.converts(list));
@@ -74,14 +74,14 @@ public class AreaController {
 
     @PostMapping
     @Parameter(name = "id", description = "国标码", in = ParameterIn.PATH)
-    @Operation(description = "保存地址 - [DONE] - [Levin]")
+    @Operation(summary = "保存地址 - [DONE] - [Levin]", description = "保存地址 - [DONE] - [Levin]")
     public void save(@Validated @RequestBody AreaEntityDTO dto) {
         this.areaService.saveOrUpdateArea(AREA_DTO_2_PO_CONVERTS.convert(dto));
         
     }
 
     @DeleteMapping
-    @Operation(description = "批量删除 - [DONE] - [Levin]")
+    @Operation(summary = "批量删除 - [DONE] - [Levin]", description = "批量删除 - [DONE] - [Levin]")
     public void batchDel(@RequestBody List<Long> ids) {
         this.areaService.removeByIds(ids);
         
@@ -89,7 +89,7 @@ public class AreaController {
 
     @DeleteMapping("/{id}")
     @Parameter(name = "id", description = "国标码", in = ParameterIn.PATH)
-    @Operation(description = "删除地址 - [DONE] - [Levin]")
+    @Operation(summary = "删除地址 - [DONE] - [Levin]", description = "删除地址 - [DONE] - [Levin]")
     public void del(@PathVariable Integer id) {
         this.areaService.removeById(id);
         

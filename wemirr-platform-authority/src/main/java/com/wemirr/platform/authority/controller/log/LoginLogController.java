@@ -38,7 +38,7 @@ public class LoginLogController {
             @Parameter(name = "name", description = "名称", in = ParameterIn.QUERY),
             @Parameter(name = "principal", description = "账号", in = ParameterIn.QUERY)
     })
-    @Operation(description = "查询日志 - [DONE] - [Levin]")
+    @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
     public Result<Page<LoginLog>> query(PageRequest request, String name, String principal) {
         final Page<LoginLog> page = this.loginLogService.page(request.buildPage(), Wraps.<LoginLog>lbQ()
                 .like(LoginLog::getName, name)
