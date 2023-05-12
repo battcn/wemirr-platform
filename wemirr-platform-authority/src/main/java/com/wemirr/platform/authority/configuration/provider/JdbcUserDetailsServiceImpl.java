@@ -64,6 +64,14 @@ public class JdbcUserDetailsServiceImpl implements UserDetailsService {
         return userInfoDetails;
     }
 
+    private String buildRoleText(String code) {
+        String defaultRolePrefix = "ROLE_";
+        if (StringUtils.contains(code, defaultRolePrefix)) {
+            return code;
+        }
+        return defaultRolePrefix + code;
+    }
+
     /**
      * 设置授权信息
      *
@@ -71,7 +79,9 @@ public class JdbcUserDetailsServiceImpl implements UserDetailsService {
      */
     private void setAuthorize(UserInfoDetails user, IntegrationAuthentication integrationAuthentication) {
         final List<String> roles = Optional.ofNullable(this.roleMapper.findRoleByUserId(user.getUserId())).orElseGet(Lists::newArrayList)
-                .stream().map(Role::getCode).collect(toList());
+                .stream()
+                .map(Role::getCode).distinct()
+                .map(this::buildRoleText).collect(toList());
         final List<String> permissions = Optional.ofNullable(this.resourceMapper.queryPermissionByUserId(user.getUserId())).orElseGet(Lists::newArrayList);
         // 验证角色和登录系统
         Set<String> authorize = Sets.newHashSet();
