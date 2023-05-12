@@ -35,9 +35,19 @@ public class SecurityInnerServiceAspect implements Ordered {
     @Around("@annotation(inner)")
     public Object around(ProceedingJoinPoint point, InnerService inner) throws Throwable {
         String ipAddress = RequestUtils.getIpAddress(request);
-        boolean innerIP = NetUtil.isInnerIP(ipAddress);
-        if (innerIP) {
-            return point.proceed();
+        if (ipAddress.contains(",")) {
+            String[] ips = ipAddress.split(",");
+            for (String ip : ips) {
+                boolean innerIP = NetUtil.isInnerIP(ip);
+                if (innerIP) {
+                    return point.proceed();
+                }
+            }
+        } else {
+            boolean innerIP = NetUtil.isInnerIP(ipAddress);
+            if (innerIP) {
+                return point.proceed();
+            }
         }
         List<String> whiteLists = innerServiceProperties.getWhiteLists();
         String signatureName = point.getSignature().getName();
