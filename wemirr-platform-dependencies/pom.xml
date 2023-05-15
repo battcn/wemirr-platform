@@ -29,7 +29,7 @@
         <spring-cloud.version>2021.0.7</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
         <nepxion-discovery.version>6.12.1</nepxion-discovery.version>
-        <hutool.version>5.8.10</hutool.version>
+        <hutool.version>5.8.11</hutool.version>
         <!-- 别升级： 后面的版本有小BUG -->
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <!-- 打包跳过单元测试 -->
@@ -57,6 +57,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>8.0.33</version>
+            </dependency>
             <dependency>
                 <groupId>com.yomahub</groupId>
                 <artifactId>tlog-gateway-spring-boot-starter</artifactId>
