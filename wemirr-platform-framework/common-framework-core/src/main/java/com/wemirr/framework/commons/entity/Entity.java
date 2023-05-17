@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -40,7 +41,7 @@ public class Entity<T> implements Serializable {
 
     private static final long serialVersionUID = -4603650115461757622L;
 
-    @Parameter(description = "ID")
+    @Schema(description = "ID")
     @TableId(value = FIELD_ID, type = IdType.AUTO)
     @NotNull(message = "id不能为空", groups = Update.class)
     protected T id;
@@ -49,21 +50,21 @@ public class Entity<T> implements Serializable {
      * 创建人ID
      */
     @TableField(value = CREATE_USER_COLUMN, fill = FieldFill.INSERT)
-    @Parameter(description = "创建人ID")
+    @Schema(description = "创建人ID")
     protected T createdBy;
 
     /**
      * 创建人名称
      */
     @TableField(value = CREATE_USER_NAME_COLUMN, fill = FieldFill.INSERT)
-    @Parameter(description = "创建人名称")
+    @Schema(description = "创建人名称")
     protected String createdName;
 
     /**
      * 创建时间（依托数据库功能）
      */
     @TableField(value = CREATE_TIME_COLUMN)
-    @Parameter(description = "创建时间")
+    @Schema(description = "创建时间")
     protected LocalDateTime createdTime;
 
 
