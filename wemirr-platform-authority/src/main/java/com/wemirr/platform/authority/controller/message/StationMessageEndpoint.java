@@ -49,7 +49,7 @@ public class StationMessageEndpoint extends BaseWebSocketEndpoint {
             DynamicDataSourceContextHolder.poll();
             final TenantMapper tenantMapper = SpringContextHolder.getBean(TenantMapper.class);
             final Long count = tenantMapper.selectCount(Wraps.<Tenant>lbQ().eq(Tenant::getCode, tenantCode));
-            if (count == null || count == 0) {
+            if (count != null && count != 0) {
                 final TenantDynamicDataSourceProcess dataSourceProcess = SpringContextHolder.getBean(TenantDynamicDataSourceProcess.class);
                 final String dsKey = dataSourceProcess.buildDb(tenantCode);
                 log.debug("设置当前线程数据源 - {}", dsKey);
