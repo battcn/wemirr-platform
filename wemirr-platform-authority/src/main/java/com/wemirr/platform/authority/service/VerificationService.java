@@ -14,7 +14,7 @@ public interface VerificationService {
      * @param key key
      * @return 验证码结果
      */
-    CircleCaptcha create(String key);
+    CircleCaptcha create(String key,Integer width,Integer height);
 
     /**
      * 验证图形验证码
