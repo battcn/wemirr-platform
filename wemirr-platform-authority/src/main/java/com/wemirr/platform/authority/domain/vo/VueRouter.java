@@ -46,4 +46,6 @@ public class VueRouter {
     private Boolean status;
     @Schema(description = "显示/隐藏")
     private Boolean display;
+    @Schema(description = "描述")
+    private String description;
 }
