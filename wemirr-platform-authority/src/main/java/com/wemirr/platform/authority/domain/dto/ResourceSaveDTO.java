@@ -97,4 +97,8 @@ public class ResourceSaveDTO implements Serializable {
 
     private ResourceType type;
 
+    /**
+     * 是否隐藏
+     */
+    private Boolean display;
 }

@@ -51,6 +51,8 @@ public class MenuConverts {
             }
             extra.put("meta", meta);
             extra.put("description", route.getDescription());
+            extra.put("display", route.getDisplay());
+
             node.setExtra(extra);
             node.setWeight(route.getSequence());
             return node;
