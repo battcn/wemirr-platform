@@ -44,7 +44,6 @@ import static java.util.stream.Collectors.toList;
 public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resource> implements ResourceService {
 
     private final RoleMapper roleMapper;
-    private final RoleResService roleResService;
     private final RoleResMapper roleResMapper;
     private final TenantEnvironment tenantEnvironment;
 
@@ -80,9 +79,12 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
             return;
         }
         // 给管理员角色挂载权限
-        final List<RoleRes> resList = roles.stream().map(role -> RoleRes.builder()
-                .roleId(role.getId()).resId(resource.getId()).build()).collect(toList());
-        roleResService.saveBatch(resList);
+        for (Role role : roles) {
+            RoleRes bean = new RoleRes();
+            bean.setResId(resource.getId());
+            bean.setRoleId(role.getId());
+            roleResMapper.insert(bean);
+        }
     }
 
     @Override
