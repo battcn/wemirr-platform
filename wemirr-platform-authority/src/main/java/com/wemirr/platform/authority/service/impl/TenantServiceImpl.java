@@ -11,6 +11,7 @@ import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
+import com.wemirr.platform.authority.domain.entity.baseinfo.Org;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;
@@ -45,6 +46,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     private final DynamicDatasourceService dynamicDatasourceService;
     private final DatabaseProperties properties;
     private final UserMapper userMapper;
+    private final OrgMapper orgMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -108,11 +110,25 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             if (CollUtil.isNotEmpty(users)) {
                 final List<Long> userIdList = users.stream().map(User::getId).distinct().collect(Collectors.toList());
                 log.warn("开始清除租户 - {} 的系统数据,危险动作", tenant.getName());
-                this.userRoleMapper.delete(Wraps.<UserRole>lbQ().in(UserRole::getUserId, userIdList));
+                if (userIdList.size() > 0) {
+                    //等于0全表会删。
+                    this.userRoleMapper.delete(Wraps.<UserRole>lbQ().in(UserRole::getUserId, userIdList));
+                }
                 this.userMapper.deleteByTenantId(tenant.getId());
                 this.roleMapper.deleteByTenantId(tenant.getId());
+                this.orgMapper.deleteByTenantId(tenant.getId());
                 log.warn("开始初始化租户 - {} 的系统数据,危险动作", tenant.getName());
             }
+            Org org = new Org();
+            org.setLabel(tenant.getName());
+            org.setTenantId(tenant.getId());
+            String treePath = orgMapper.getTreePathByParentId(org.getParentId());
+            org.setTreePath(treePath);
+            org.setStatus(true);
+            org.setDescription("不可删除不可修改");
+            org.setParentId(0L);
+            org.setSequence(0);
+            this.orgMapper.insert(org);
             User record = new User();
             record.setUsername("admin");
             record.setPassword(passwordEncoder.encode("123456"));
