@@ -1,4 +1,4 @@
-package com.wemirr.framework.boot.db;
+package com.wemirr.framework.db.configuration;
 
 
 import com.baomidou.mybatisplus.annotation.DbType;

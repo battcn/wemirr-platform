@@ -1,4 +1,4 @@
-package com.wemirr.framework.boot.base.configuration;
+package com.wemirr.framework.db.configuration.dynamic;
 
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.wemirr.framework.db.properties.DatabaseProperties;

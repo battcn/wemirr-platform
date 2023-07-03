@@ -1,7 +1,6 @@
 package com.wemirr.framework.storage.domain;
 
 
-import cn.hutool.extra.spring.SpringUtil;
 import com.wemirr.framework.storage.FileUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -19,7 +19,6 @@ import com.wemirr.platform.authority.repository.ResourceMapper;
 import com.wemirr.platform.authority.repository.RoleMapper;
 import com.wemirr.platform.authority.repository.RoleResMapper;
 import com.wemirr.platform.authority.service.ResourceService;
-import com.wemirr.platform.authority.service.RoleResService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

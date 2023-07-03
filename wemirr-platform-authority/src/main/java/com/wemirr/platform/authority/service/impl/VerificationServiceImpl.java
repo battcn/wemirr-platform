@@ -9,12 +9,10 @@ import com.wemirr.platform.authority.service.VerificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
 /**
