@@ -27,7 +27,6 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class Result<T> implements Serializable {
 
-    private static final long serialVersionUID = 5657829410109424730L;
 
     public static final String OPERATION_SUCCESS = "操作成功!";
     public static final String DEF_ERROR_MESSAGE = "系统繁忙，请稍候再试";

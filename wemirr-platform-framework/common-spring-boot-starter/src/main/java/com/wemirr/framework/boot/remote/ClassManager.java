@@ -22,7 +22,7 @@ import java.util.Map;
 @Slf4j
 public class ClassManager implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
 
     private static final Map<String, List<Field>> CACHE = new HashMap<>();
 

@@ -30,7 +30,6 @@ public class SuperEntity<T> extends Entity<T> {
     public static final String UPDATE_USER_COLUMN = "last_modified_by";
     public static final String UPDATE_USER_NAME_COLUMN = "last_modified_name";
 
-    private static final long serialVersionUID = 5169873634279173683L;
 
     @Schema(description = "最后修改时间")
     @TableField(value = UPDATE_TIME_COLUMN)

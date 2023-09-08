@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 public class OptLogDTO {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 操作IP

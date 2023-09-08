@@ -27,7 +27,7 @@ import java.io.Serializable;
 @Schema(name = "OrgSaveDTO", description = "组织")
 public class OrgSaveDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 名称

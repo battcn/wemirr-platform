@@ -22,7 +22,6 @@ import java.util.Objects;
 public class Area implements java.io.Serializable {
 
 
-    private static final long serialVersionUID = 6873716596871564410L;
 
     private Integer id;
     /**

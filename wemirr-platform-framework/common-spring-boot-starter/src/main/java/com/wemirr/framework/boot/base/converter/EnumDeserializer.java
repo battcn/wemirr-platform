@@ -25,7 +25,6 @@ public class EnumDeserializer extends StdDeserializer<Enum<?>> {
     public final static EnumDeserializer INSTANCE = new EnumDeserializer();
     private final static String ALL_ENUM_STRING_CONVERT_METHOD = "get";
     private final static String ALL_ENUM_KEY_FIELD = "code";
-    private static final long serialVersionUID = -3474670699700177033L;
 
     private EnumDeserializer() {
         super(Enum.class);

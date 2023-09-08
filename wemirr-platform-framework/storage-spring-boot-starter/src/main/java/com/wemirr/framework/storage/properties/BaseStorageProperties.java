@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 @Data
 public class BaseStorageProperties implements java.io.Serializable {
 
-    private static final long serialVersionUID = 3372604246046939938L;
     private boolean enabled = false;
 
 

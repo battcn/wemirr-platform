@@ -22,7 +22,6 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RouterMeta implements Serializable {
 
-    private static final long serialVersionUID = 5499925008927195914L;
 
     @Schema(description = "标题")
     private String title;

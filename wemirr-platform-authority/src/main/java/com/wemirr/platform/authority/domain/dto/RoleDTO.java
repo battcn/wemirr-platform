@@ -30,7 +30,7 @@ import java.util.List;
 @Schema(name= "RoleDTO", description = "角色")
 public class RoleDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 角色名称

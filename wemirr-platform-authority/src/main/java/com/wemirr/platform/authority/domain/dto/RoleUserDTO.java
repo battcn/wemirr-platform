@@ -27,7 +27,7 @@ import java.util.List;
 @Schema(name= "RoleUserDTO", description = "角色的资源")
 public class RoleUserDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 用户ID

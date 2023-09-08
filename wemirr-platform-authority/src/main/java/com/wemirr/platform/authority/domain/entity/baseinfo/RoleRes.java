@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RoleRes {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 资源id

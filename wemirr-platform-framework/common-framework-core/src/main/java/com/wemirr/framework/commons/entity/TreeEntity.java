@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.SqlCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.google.common.collect.Lists;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -26,7 +27,6 @@ import java.util.List;
 @ToString(callSuper = true)
 public class TreeEntity<E, T extends Serializable> extends SuperEntity<T> {
 
-    private static final long serialVersionUID = 1788431089674465975L;
     /**
      * 名称
      */

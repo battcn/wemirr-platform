@@ -27,7 +27,7 @@ import java.util.List;
 @Schema(name= "RoleSaveDTO", description = "角色")
 public class RoleQueryDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
     @Schema(description = "ID")
     private Long id;
 

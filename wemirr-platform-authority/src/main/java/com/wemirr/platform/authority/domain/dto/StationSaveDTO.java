@@ -28,7 +28,7 @@ import java.io.Serializable;
 @Schema(name= "StationSaveDTO", description = "岗位")
 public class StationSaveDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 名称

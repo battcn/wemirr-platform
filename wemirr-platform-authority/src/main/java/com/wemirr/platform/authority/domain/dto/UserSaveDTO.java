@@ -26,7 +26,7 @@ import java.io.Serializable;
 @Schema(name= "UserSaveDTO", description = "用户")
 public class UserSaveDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 账号

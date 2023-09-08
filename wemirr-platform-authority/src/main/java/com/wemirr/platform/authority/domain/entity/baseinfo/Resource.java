@@ -29,7 +29,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Schema(name = "Resource", description = "资源")
 public class Resource extends SuperEntity<Long> {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 资源编码

@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
-        <version>0.17.3-SNAPSHOT</version>
+        <version>0.17.4-SNAPSHOT</version>
     </parent>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-authority</artifactId>
-    <version>0.17.3-SNAPSHOT</version>
+    <version>0.17.4-SNAPSHOT</version>
     <name>wemirr-platform-authority</name>
     <description>wemirr oauth2 授权登录</description>
     <packaging>jar</packaging>
@@ -55,10 +55,6 @@
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>redis-plus-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>swagger-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>

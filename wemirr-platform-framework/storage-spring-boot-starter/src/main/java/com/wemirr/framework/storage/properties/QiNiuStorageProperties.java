@@ -21,7 +21,6 @@ import static com.wemirr.framework.storage.StorageOperation.OSS_CONFIG_PREFIX_QI
 @ConfigurationProperties(prefix = OSS_CONFIG_PREFIX_QINIU)
 public class QiNiuStorageProperties extends BaseStorageProperties {
 
-    private static final long serialVersionUID = -4666211741817264708L;
     /**
      * 存储区域
      **/

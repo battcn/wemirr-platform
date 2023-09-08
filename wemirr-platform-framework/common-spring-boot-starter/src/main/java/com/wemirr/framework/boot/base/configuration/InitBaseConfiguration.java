@@ -61,7 +61,6 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
 
     static class JavaTimeModule extends SimpleModule {
 
-        private static final long serialVersionUID = 3442962414919080292L;
 
 
         private static final String NORM_DATE_PATTERN = "yyyy-MM-dd";

@@ -15,7 +15,6 @@ import static com.wemirr.framework.storage.StorageOperation.OSS_CONFIG_PREFIX_TE
 @ConfigurationProperties(prefix = OSS_CONFIG_PREFIX_TENCENT)
 public class TencentStorageProperties extends BaseStorageProperties {
 
-    private static final long serialVersionUID = -4336190295449006211L;
 
     /**
      * AppId

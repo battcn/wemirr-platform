@@ -10,7 +10,6 @@ import lombok.Setter;
 
 public class StorageException extends RuntimeException {
 
-    private static final long serialVersionUID = 388661075870145232L;
 
     @Getter
     @Setter

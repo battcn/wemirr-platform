@@ -34,7 +34,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Schema(name = "User", description = "用户")
 public class User extends SuperEntity<Long> {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 账号

@@ -45,7 +45,7 @@ public class ${entity} implements Serializable {
 </#if>
 
 <#if entitySerialVersionUID>
-    private static final long serialVersionUID = 1L;
+
 </#if>
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>

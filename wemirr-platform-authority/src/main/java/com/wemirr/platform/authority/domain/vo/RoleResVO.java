@@ -26,7 +26,7 @@ import java.util.List;
 @Schema(name= "RoleResVO", description = "角色的资源")
 public class RoleResVO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 菜单ID

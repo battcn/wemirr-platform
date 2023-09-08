@@ -29,7 +29,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Schema(description = "组织")
 public class Org extends TreeEntity<Org, Long> {
 
-    private static final long serialVersionUID = 1L;
+    
 
     protected String label;
 

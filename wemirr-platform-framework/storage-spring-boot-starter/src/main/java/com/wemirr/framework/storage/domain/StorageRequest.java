@@ -23,7 +23,6 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 public class StorageRequest implements java.io.Serializable {
 
-    private static final long serialVersionUID = -3607203589216325639L;
 
     /**
      * 如果为空则取应用配置的

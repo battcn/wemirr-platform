@@ -33,7 +33,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @TableName("common_login_log")
 public class LoginLog {
 
-    private static final long serialVersionUID = 1L;
+    
 
     @TableId(value = "id", type = IdType.AUTO)
     @Schema(description = "主键")

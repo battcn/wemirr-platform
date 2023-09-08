@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
-        <version>0.17.3-SNAPSHOT</version>
+        <version>0.17.4-SNAPSHOT</version>
     </parent>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-bury</artifactId>
-    <version>0.17.3-SNAPSHOT</version>
+    <version>0.17.4-SNAPSHOT</version>
     <name>wemirr-platform-bury</name>
     <description>wemirr 埋点管理</description>
     <packaging>jar</packaging>
@@ -32,10 +32,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>swagger-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>

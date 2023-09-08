@@ -27,7 +27,7 @@ import java.io.Serializable;
 @Schema(name= "MenuSaveDTO", description = "菜单")
 public class MenuSaveDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 菜单名称

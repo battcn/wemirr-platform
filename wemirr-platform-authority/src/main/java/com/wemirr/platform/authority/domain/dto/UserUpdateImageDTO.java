@@ -28,7 +28,7 @@ import java.io.Serializable;
 @Schema(name= "UserUpdateAvatarDTO", description = "用户")
 public class UserUpdateImageDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
 
     @Schema(description = "主键")
     @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)

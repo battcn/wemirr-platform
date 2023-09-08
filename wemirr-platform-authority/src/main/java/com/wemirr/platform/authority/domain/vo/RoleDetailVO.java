@@ -24,7 +24,7 @@ import java.io.Serializable;
 @Builder
 public class RoleDetailVO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
     @Schema(description = "ID")
     private Long id;
 

@@ -41,7 +41,6 @@ import java.util.function.Predicate;
  */
 public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         implements Query<LbqWrapper<T>, T, SFunction<T, ?>> {
-    private static final long serialVersionUID = -6842140106034506889L;
     /**
      * 查询字段
      */

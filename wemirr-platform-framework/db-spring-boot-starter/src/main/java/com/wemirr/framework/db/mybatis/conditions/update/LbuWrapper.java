@@ -26,7 +26,6 @@ import java.util.function.Consumer;
 public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
         implements Update<LbuWrapper<T>, SFunction<T, ?>> {
 
-    private static final long serialVersionUID = -4194344880194881367L;
     /**
      * SQL 更新字段内容，例如：name='1', age=2
      */

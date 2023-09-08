@@ -17,7 +17,6 @@ import java.text.MessageFormat;
 @EqualsAndHashCode(callSuper = true)
 public class CheckedException extends RuntimeException {
 
-    private static final long serialVersionUID = -5552347741420562795L;
 
     private static final int BAD_REQUEST = 400;
     private static final int FORBIDDEN = 403;

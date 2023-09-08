@@ -27,7 +27,7 @@ import java.io.Serializable;
 @Schema(name = "StationPageDTO", description = "岗位")
 public class StationPageDTO extends PageRequest implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 名称

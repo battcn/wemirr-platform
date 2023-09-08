@@ -18,8 +18,6 @@ import static com.wemirr.framework.storage.StorageOperation.OSS_CONFIG_PREFIX_MI
 @ConfigurationProperties(prefix = OSS_CONFIG_PREFIX_MINIO)
 public class MinioStorageProperties extends BaseStorageProperties {
 
-    private static final long serialVersionUID = -7689095309309838184L;
-
     /**
      * minio实例的URL。包括端口。如果未提供端口，则采用HTTP端口。
      */

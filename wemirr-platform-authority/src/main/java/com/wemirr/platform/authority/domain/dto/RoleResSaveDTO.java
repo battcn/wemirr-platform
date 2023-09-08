@@ -27,7 +27,7 @@ import java.util.Set;
 @Schema(name = "RoleResSaveDTO", description = "角色的资源")
 public class RoleResSaveDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    
 
 
     /**

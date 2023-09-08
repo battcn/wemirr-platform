@@ -192,8 +192,6 @@ import java.util.*;
  */
 public final class CronExpression implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = 12423409423L;
-    
     protected static final int SECOND = 0;
     protected static final int MINUTE = 1;
     protected static final int HOUR = 2;

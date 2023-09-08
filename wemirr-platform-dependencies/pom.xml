@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-dependencies</artifactId>
-    <version>0.17.3-SNAPSHOT</version>
+    <version>0.17.4-SNAPSHOT</version>
     <name>wemirr-platform-dependencies</name>
     <description>wemirr 平台包版本管理</description>
 
@@ -41,7 +41,7 @@
         <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
         <xxl-job.version>2.3.0</xxl-job.version>
         <easyexcel.version>3.2.1</easyexcel.version>
-        <wemirr-framework.version>0.17.3-SNAPSHOT</wemirr-framework.version>
+        <wemirr-framework.version>0.17.4-SNAPSHOT</wemirr-framework.version>
         <guava.version>31.1-jre</guava.version>
         <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
         <spring-authorization-server.version>1.1.0</spring-authorization-server.version>
@@ -237,11 +237,6 @@
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
                 <artifactId>common-spring-boot-starter</artifactId>
-                <version>${wemirr-framework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.wemirr.framework</groupId>
-                <artifactId>swagger-spring-boot-starter</artifactId>
                 <version>${wemirr-framework.version}</version>
             </dependency>
             <dependency>

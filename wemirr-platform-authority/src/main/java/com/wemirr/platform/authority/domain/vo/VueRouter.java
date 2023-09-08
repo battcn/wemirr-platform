@@ -12,7 +12,6 @@ import lombok.Data;
 @Data
 public class VueRouter {
 
-    private static final long serialVersionUID = -3327478146308500708L;
 
     private Long id;
     private Long parentId;

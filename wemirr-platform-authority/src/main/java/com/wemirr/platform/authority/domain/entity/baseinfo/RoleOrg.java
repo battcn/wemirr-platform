@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @TableName("sys_role_org")
 public class RoleOrg {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 角色ID

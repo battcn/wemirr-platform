@@ -17,7 +17,6 @@ import java.util.Map;
 @NoArgsConstructor
 public class StorageResponse implements java.io.Serializable {
 
-    private static final long serialVersionUID = -498222912510624959L;
 
     private Object fileId;
     private String etag;
