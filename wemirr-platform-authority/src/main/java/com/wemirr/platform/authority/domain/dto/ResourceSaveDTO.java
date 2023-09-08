@@ -26,10 +26,8 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Builder
-@Schema(name= "ResourceSaveDTO", description = "资源")
+@Schema(name = "ResourceSaveDTO", description = "资源")
 public class ResourceSaveDTO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     /**
      * 菜单名称
@@ -96,5 +94,11 @@ public class ResourceSaveDTO implements Serializable {
     private String model;
 
     private ResourceType type;
+
+
+    /**
+     * 是否隐藏
+     */
+    private Boolean display;
 
 }
