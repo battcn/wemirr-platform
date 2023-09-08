@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.wemirr.framework.db.configuration.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatis.SuperMapper;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Org;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,4 +35,7 @@ public interface OrgMapper extends SuperMapper<Org> {
      */
     List<Org> findChildrenById(Long id);
 
+    @InterceptorIgnore(tenantLine = "true")
+    @Delete("delete from sys_org where tenant_id = #{tenantId}")
+    void deleteByTenantId(@Param("tenantId") Long tenantId);
 }

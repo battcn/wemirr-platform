@@ -4,8 +4,7 @@ package com.wemirr.framework.commons.entity;
 import com.baomidou.mybatisplus.annotation.SqlCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.google.common.collect.Lists;
-import io.swagger.v3.oas.annotations.Parameter;
-import jakarta.validation.constraints.NotEmpty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -31,7 +30,7 @@ public class TreeEntity<E, T extends Serializable> extends SuperEntity<T> {
     /**
      * 名称
      */
-    @Parameter(description = "名称")
+    @Schema(description = "名称")
     @NotEmpty(message = "名称不能为空")
     @Length(max = 255, message = "名称长度不能超过255")
     @TableField(value = "label", condition = SqlCondition.LIKE)
@@ -40,7 +39,7 @@ public class TreeEntity<E, T extends Serializable> extends SuperEntity<T> {
     /**
      * 父ID
      */
-    @Parameter(description = "父ID")
+    @Schema(description = "父ID")
     @TableField(value = "parent_id")
     protected T parentId;
 
@@ -50,12 +49,12 @@ public class TreeEntity<E, T extends Serializable> extends SuperEntity<T> {
     /**
      * 排序
      */
-    @Parameter(description = "排序号")
+    @Schema(description = "排序号")
     @TableField(value = "`sequence`")
     protected Integer sequence;
 
 
-    @Parameter(description = "子节点")
+    @Schema(description = "子节点")
     @TableField(exist = false)
     protected List<E> children = Lists.newArrayList();
 

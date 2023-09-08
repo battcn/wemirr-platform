@@ -1,3 +1,19 @@
+knife4j:
+  gateway:
+    enabled: true
+    strategy: manual
+    routes:
+      - name: 授权认证服务
+        url: /authority/v3/api-docs?group=default
+        # 目前这种配置存在BUG,不过可以忽略  在页面的 Curl 中实际显示的是 http://localhost:9000/authority//authority/resources/  但是发送的HTTP却 是 http://localhost:9000/authority/resources
+        context-path: /authority
+        service-name: wemirr-platform-authority
+        order: 2
+      - name: 工具服务
+        url: /tools/v3/api-docs?group=default
+        context-path: /tools
+        service-name: wemirr-platform-tools
+        order: 3
 # 不校验验证码终端
 ignore:
   clients:

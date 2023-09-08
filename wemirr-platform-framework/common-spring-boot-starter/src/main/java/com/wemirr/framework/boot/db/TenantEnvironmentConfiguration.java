@@ -20,6 +20,15 @@ public class TenantEnvironmentConfiguration {
             }
 
             @Override
+            public String tenantCode() {
+                if (SecurityUtils.anonymous() || SecurityUtils.getAuthInfo() == null) {
+                    return null;
+                }
+                return SecurityUtils.getAuthInfo().getTenantCode();
+
+            }
+
+            @Override
             public Long userId() {
                 return SecurityUtils.getAuthInfo().getUserId();
             }

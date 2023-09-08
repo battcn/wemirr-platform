@@ -36,7 +36,7 @@ public class DictionaryItemController {
     private final DictionaryItemService dictionaryItemService;
 
     @GetMapping
-    @Operation(description = "查询字典子项 - [DONE] - [Levin]")
+    @Operation(summary = "查询字典子项", description = "查询字典子项 - [DONE] - [Levin]")
     @Parameters({
             @Parameter(name = "dictionary_id", description = "字典ID", in = ParameterIn.PATH),
             @Parameter(name = "label", description = "名称", in = ParameterIn.QUERY)
@@ -49,7 +49,7 @@ public class DictionaryItemController {
     }
 
     @PostMapping
-    @Operation(description = "添加字典子项 - [DONE] - [Levin]")
+    @Operation(summary = "添加字典子项", description = "添加字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dictionary_id", description = "字典ID", in = ParameterIn.PATH)
     public void save(@PathVariable("dictionary_id") Long dictionaryId, @Validated @RequestBody DictionaryItemDTO dto) {
         this.dictionaryItemService.addDictionaryItem(dictionaryId, DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS.convert(dto));
@@ -57,7 +57,7 @@ public class DictionaryItemController {
     }
 
     @PutMapping("/{id}")
-    @Operation(description = "编辑字典子项 - [DONE] - [Levin]")
+    @Operation(summary = "编辑字典子项 - [DONE] - [Levin]", description = "编辑字典子项 - [DONE] - [Levin]")
     @Parameter(name = "id", description = "子项ID", in = ParameterIn.PATH)
     public void edit(@PathVariable("dictionary_id") Long dictionaryId, @PathVariable Long id, @Validated @RequestBody DictionaryItemDTO dto) {
         final DictionaryItem dictionaryItem = DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS.convert(dto);
@@ -67,7 +67,7 @@ public class DictionaryItemController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(description = "删除字典子项 - [DONE] - [Levin]")
+    @Operation(summary = "删除字典子项 - [DONE] - [Levin]", description = "删除字典子项 - [DONE] - [Levin]")
     @Parameter(name = "id", description = "子项ID", in = ParameterIn.PATH)
     public void del(@PathVariable Long id) {
         this.dictionaryItemService.removeById(id);

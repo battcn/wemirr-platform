@@ -41,7 +41,7 @@ public class OptLogController {
             @Parameter(name = "location", description = "地区", in = ParameterIn.QUERY),
             @Parameter(name = "description", description = "描述信息", in = ParameterIn.QUERY)
     })
-    @Operation(description = "查询日志 - [DONE] - [Levin]")
+    @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
     public Result<Page<OptLog>> query(PageRequest request, String location, String description) {
         final Page<OptLog> page = this.optLogService.page(request.buildPage(), Wraps.<OptLog>lbQ()
                 .like(OptLog::getLocation, location)
@@ -53,7 +53,7 @@ public class OptLogController {
     @Parameters({
             @Parameter(name = "day", description = "天数", in = ParameterIn.PATH),
     })
-    @Operation(description = "查询日志 - [DONE] - [Levin]")
+    @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
     public void batchDelete(@PathVariable Integer day) {
         this.optLogService.remove(Wraps.<OptLog>lbQ().le(OptLog::getStartTime, LocalDateTime.now().plusDays(-day)));
     }

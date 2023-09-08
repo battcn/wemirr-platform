@@ -3,7 +3,7 @@ package com.wemirr.framework.commons.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -32,21 +32,21 @@ public class SuperEntity<T> extends Entity<T> {
 
     private static final long serialVersionUID = 5169873634279173683L;
 
-    @Parameter(description = "最后修改时间")
+    @Schema(description = "最后修改时间")
     @TableField(value = UPDATE_TIME_COLUMN)
     protected LocalDateTime lastModifiedTime;
 
-    @Parameter(description = "最后修改人ID")
+    @Schema(description = "最后修改人ID")
     @TableField(value = UPDATE_USER_COLUMN, fill = FieldFill.INSERT_UPDATE)
     protected T lastModifiedBy;
 
 
-    @Parameter(description = "最后修改人名称")
+    @Schema(description = "最后修改人名称")
     @TableField(value = UPDATE_USER_NAME_COLUMN, fill = FieldFill.INSERT_UPDATE)
     protected String lastModifiedName;
 
     @TableLogic
-    @Parameter(description = "逻辑删除")
+    @Schema(description = "逻辑删除")
     private Boolean deleted;
 
 }

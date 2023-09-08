@@ -1,8 +1,8 @@
 package com.wemirr.platform.authority.controller.common;
 
+import cn.hutool.captcha.CircleCaptcha;
 import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.authority.service.VerificationService;
-import com.wf.captcha.base.Captcha;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,14 +33,17 @@ public class CaptchaController {
     @SneakyThrows
     @IgnoreAuthorize
     @GetMapping(produces = "image/png")
-    @Operation(description = "验证码 - [DONE] - [Levin]")
-    public void create(@RequestParam(value = "key") String key, HttpServletResponse response) {
+    @Operation(summary = "验证码 - [DONE] - [Levin]", description = "验证码 - [DONE] - [Levin]")
+    public void create(@RequestParam(value = "key") String key,
+                       @RequestParam(defaultValue = "200", required = false) Integer width,
+                       @RequestParam(defaultValue = "50", required = false) Integer height,
+                       HttpServletResponse response) {
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
         response.setHeader(HttpHeaders.PRAGMA, "No-cache");
         response.setHeader(HttpHeaders.CACHE_CONTROL, "No-cache");
         response.setDateHeader(HttpHeaders.EXPIRES, 0L);
-        final Captcha captcha = verificationService.create(key);
-        captcha.out(response.getOutputStream());
+        final CircleCaptcha captcha = verificationService.create(key, width, height);
+        response.getOutputStream().write(captcha.getImageBytes());
     }
 
 

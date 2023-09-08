@@ -1,0 +1,12 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.wemirr.framework.boot.base.GlobalExceptionHandler,\
+  com.wemirr.framework.boot.base.configuration.InitBaseConfiguration ,\
+  com.wemirr.framework.boot.log.configuration.LogAutoConfiguration,\
+  com.wemirr.framework.db.configuration.dynamic.DynamicDatasourceWebAutoConfigurer,\
+  com.wemirr.framework.boot.remote.configuration.RemoteAutoConfiguration,\
+  com.wemirr.framework.boot.undertow.UndertowPoolCustomizer,\
+  com.wemirr.framework.boot.response.GlobalResponseBodyAdvice,\
+  com.wemirr.framework.boot.db.TenantEnvironmentConfiguration,\
+  com.wemirr.framework.boot.async.AsyncConfiguration,\
+  com.wemirr.framework.db.configuration.BaseMybatisConfiguration
