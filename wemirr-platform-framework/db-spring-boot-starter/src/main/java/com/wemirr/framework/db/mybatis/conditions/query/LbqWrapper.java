@@ -16,7 +16,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -104,6 +106,14 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
     @Override
     public final LbqWrapper<T> select(SFunction<T, ?>... columns) {
         if (ArrayUtils.isNotEmpty(columns)) {
+            this.sqlSelect.setStringValue(columnsToString(false, columns));
+        }
+        return this.typedThis;
+    }
+
+    @Override
+    public LbqWrapper<T> select(boolean condition, List<SFunction<T, ?>> columns) {
+        if (Objects.nonNull(columns)) {
             this.sqlSelect.setStringValue(columnsToString(false, columns));
         }
         return this.typedThis;

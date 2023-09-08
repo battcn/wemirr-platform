@@ -1,6 +1,0 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.wemirr.framework.db.configuration.encode.EncryptHikariDataSourceConfiguration,\
-  com.wemirr.framework.db.configuration.dynamic.TenantDynamicDataSourceEventBusAutoConfiguration
-
-

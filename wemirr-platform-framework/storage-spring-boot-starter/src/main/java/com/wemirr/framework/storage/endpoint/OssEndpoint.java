@@ -3,9 +3,9 @@ package com.wemirr.framework.storage.endpoint;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.storage.AliYunStorageOperation;
 import com.wemirr.framework.storage.properties.AliYunStorageProperties;
+import jakarta.annotation.Resource;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 
-import jakarta.annotation.Resource;
 import java.util.Map;
 
 /**

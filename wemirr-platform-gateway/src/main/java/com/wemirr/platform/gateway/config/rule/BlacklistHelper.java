@@ -5,12 +5,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.nacos.common.utils.UuidUtils;
 import com.google.common.collect.Lists;
 import com.wemirr.platform.gateway.rest.domain.BlacklistRule;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
-import jakarta.annotation.Resource;
 import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
 import java.util.List;

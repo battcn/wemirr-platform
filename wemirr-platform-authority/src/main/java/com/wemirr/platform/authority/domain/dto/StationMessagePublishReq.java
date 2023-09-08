@@ -1,11 +1,11 @@
 package com.wemirr.platform.authority.domain.dto;
 
 import com.wemirr.platform.authority.domain.enums.ReceiverType;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
 import java.util.List;
 
 /**

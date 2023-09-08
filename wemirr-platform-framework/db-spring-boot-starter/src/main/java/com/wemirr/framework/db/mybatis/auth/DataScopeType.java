@@ -3,6 +3,7 @@ package com.wemirr.framework.db.mybatis.auth;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.wemirr.framework.db.mybatis.DictionaryEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -46,7 +47,7 @@ public enum DataScopeType implements DictionaryEnum<Integer> {
     ;
 
     @EnumValue
-//    // @JsonValue
+    @JsonValue
     private final Integer val;
     private final String desc;
 

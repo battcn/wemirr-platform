@@ -19,9 +19,8 @@ import java.io.InputStream;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DownloadResponse implements java.io.Serializable {
+public class DownloadResponse {
 
-    private static final long serialVersionUID = -498222912510624959L;
 
     @Deprecated
     private BufferedReader bufferedReader;

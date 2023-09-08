@@ -95,7 +95,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
             return ex.getLocalizedMessage();
         }
         StringBuilder message = new StringBuilder("Failed to handle request [");
-        message.append(request.methodName());
+        message.append(request.method().name());
         message.append(" ");
         message.append(request.uri());
         message.append("]");

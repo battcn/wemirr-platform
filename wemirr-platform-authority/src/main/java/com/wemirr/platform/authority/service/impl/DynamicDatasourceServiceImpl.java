@@ -15,13 +15,13 @@ import com.wemirr.platform.authority.domain.vo.TenantDynamicDatasourceVO;
 import com.wemirr.platform.authority.repository.DynamicDatasourceMapper;
 import com.wemirr.platform.authority.repository.TenantConfigMapper;
 import com.wemirr.platform.authority.service.DynamicDatasourceService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.PostConstruct;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;

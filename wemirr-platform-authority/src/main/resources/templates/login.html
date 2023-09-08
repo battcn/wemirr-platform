@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1 minimum-scale=1 maximum-scale=1 user-scalable=no"/>
+    <link rel="stylesheet" href="./assets/css/style.css" type="text/css" th:href="@{/assets/css/style.css}"/>
+    <title>西镜-统一认证平台</title>
+</head>
+
+<body>
+<div class="bottom-container">
+</div>
+<!-- <div th:if="${error}" class="alert" id="alert">
+<div class="error-alert">
+<img src="./image/logo.png" alt="logo" width="30">
+<div th:text="${error}">
+
+</div>
+</div>
+</div> -->
+<div id="error_box">
+</div>
+<div class="form-container">
+
+    <form class="form-signin" method="post" th:action="@{/login}">
+        <input type="hidden" id="captchaId" name="captchaId" value=""/>
+        <input type="hidden" id="loginType" name="login_type" value="password"/>
+        <div class="welcome-text">
+            <img src="./assets/img/logo.png" alt="logo" width="60">
+            <span>
+                    西镜-统一认证平台
+                </span>
+        </div>
+        <div>
+            <input type="text" id="username" name="username" class="form-control" placeholder="手机 / 邮箱" autofocus
+                   onblur="leave()"/>
+        </div>
+        <div id="passContainer">
+            <input type="password" id="password" name="password" class="form-control" placeholder="请输入密码"
+                   onblur="leave()"/>
+        </div>
+        <div class="code-container" id="codeContainer">
+            <input type="text" id="code" name="code" class="form-control" placeholder="请输入验证码" onblur="leave()"/>
+            <img src="" id="code-image" onclick="getVerifyCode()"/>
+        </div>
+        <div style="display: none; margin-bottom: 0" class="code-container" id="smsContainer">
+            <input type="text" name="" class="form-control" placeholder="请输入验证码" onblur="leave()"/>
+            <a id="getSmsCaptchaBtn" class="btn btn-light btn-block bg-white getCaptcha"
+               href="javascript:getSmsCaptcha()">获取验证码</a>
+        </div>
+        <div class="change-login-type">
+            <div></div>
+            <a id="changeLoginType" href="javascript:showSmsCaptchaPage()">短信验证登录</a>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+        <div class="text-placeholder">
+            第三方登录
+        </div>
+        <div class="third-box">
+            <a href="/oauth2/authorization/gitee" title="Gitee登录">
+                <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg" name="zi_tmGitee"
+                     viewBox="0 0 2000 2000">
+                    <path fill="red"
+                          d="M898 1992q183 0 344-69.5t283-191.5q122-122 191.5-283t69.5-344q0-183-69.5-344T1525 477q-122-122-283-191.5T898 216q-184 0-345 69.5T270 477Q148 599 78.5 760T9 1104q0 183 69.5 344T270 1731q122 122 283 191.5t345 69.5zm199-400H448q-17 0-30.5-14t-13.5-30V932q0-89 43.5-163.5T565 649q74-45 166-45h616q17 0 30.5 14t13.5 31v111q0 16-13.5 30t-30.5 14H731q-54 0-93.5 39.5T598 937v422q0 17 14 30.5t30 13.5h416q55 0 94.5-39.5t39.5-93.5v-22q0-17-14-30.5t-31-13.5H842q-17 0-30.5-14t-13.5-31v-111q0-16 13.5-30t30.5-14h505q17 0 30.5 14t13.5 30v250q0 121-86.5 207.5T1097 1592z"/>
+                </svg>
+            </a>
+
+            <a href="/oauth2/authorization/github" title="GitHub登录">
+                <img width="36" style="margin-right: 5px;" alt="Sign in with GitHub"
+                     src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"/>
+            </a>
+
+            <a href="/oauth2/authorization/wechat" title="GitHub登录">
+                <img width="28" style="margin-right: 5px; position: static;" alt="Sign in with GitHub"
+                     src="./assets/img/wechat_login.png"/>
+            </a>
+        </div>
+    </form>
+</div>
+</body>
+
+</html>
+<script>
+    function showSmsCaptchaPage() {
+        // 隐藏密码框
+        let passContainer = document.getElementById('passContainer');
+        passContainer.style.display = 'none';
+        // 设置password输入框的name为空
+        passContainer.children[0].setAttribute('name', '')
+        // 隐藏验证码框
+        let codeContainer = document.getElementById('codeContainer');
+        codeContainer.style.display = 'none';
+        // 设置登录类型为短信验证码
+        let loginType = document.getElementById('loginType');
+        loginType.value = 'smsCaptcha';
+        // 显示获取短信验证码按钮与输入框
+        let smsContainer = document.getElementById('smsContainer');
+        smsContainer.style.display = '';
+        smsContainer.children[0].setAttribute('name', 'password')
+        // 设置切换按钮文字与点击效果
+        let changeLoginType = document.getElementById('changeLoginType');
+        changeLoginType.innerText = '账号密码登录';
+        changeLoginType.setAttribute('href', 'javascript:showPasswordPage()')
+        changeLoginType.style.paddingTop = '25px';
+        changeLoginType.style.paddingBottom = '5px';
+    }
+
+    function showPasswordPage() {
+        // 显示密码框
+        let passContainer = document.getElementById('passContainer');
+        passContainer.style.display = '';
+        // 设置password输入框
+        passContainer.children[0].setAttribute('name', 'password')
+        // 显示验证码框
+        let codeContainer = document.getElementById('codeContainer');
+        codeContainer.style.display = '';
+        // 设置登录类型为账号密码
+        let loginType = document.getElementById('login_type');
+        loginType.value = 'password';
+        // 隐藏获取短信验证码按钮与输入框
+        let smsContainer = document.getElementById('smsContainer');
+        smsContainer.style.display = 'none';
+        smsContainer.children[0].setAttribute('name', '')
+        // 设置切换按钮文字与点击效果
+        let changeLoginType = document.getElementById('changeLoginType');
+        changeLoginType.innerText = '短信验证登录'
+        changeLoginType.setAttribute('href', 'javascript:showSmsCaptchaPage()')
+        changeLoginType.style.paddingTop = '0';
+    }
+
+    function leave() {
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+    }
+
+    function getVerifyCode() {
+        let requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch(`${window.location.origin}/getCaptcha`, requestOptions)
+            .then(response => response.text())
+            .then(r => {
+                if (r) {
+                    let result = JSON.parse(r);
+                    document.getElementById('captchaId').value = result.data.captchaId
+                    document.getElementById('code-image').src = result.data.imageData
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    function getSmsCaptcha() {
+
+        let phone = document.getElementById('username').value;
+        if (phone === null || phone === '' || typeof phone === 'undefined') {
+            showError('手机号码不能为空.')
+            return;
+        }
+
+        // 禁用按钮
+        let getSmsCaptchaBtn = document.getElementById('getSmsCaptchaBtn');
+        getSmsCaptchaBtn.style.pointerEvents = 'none';
+        // 开始1分钟倒计时
+        resetBtn(getSmsCaptchaBtn);
+
+        let requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch(`${window.location.origin}/getSmsCaptcha?phone=${phone}`, requestOptions)
+            .then(response => response.text())
+            .then(r => {
+                if (r) {
+                    let result = JSON.parse(r);
+                    if (result.success) {
+                        showError('获取验证码成功.固定为：' + result.data)
+                    }
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    /**
+     * 1分钟倒计时
+     */
+    function resetBtn(getSmsCaptchaBtn) {
+        let s = 60;
+        getSmsCaptchaBtn.innerText = `重新获取(${--s})`
+        // 定时器 每隔一秒变化一次（1000ms = 1s）
+        let t = setInterval(() => {
+            getSmsCaptchaBtn.innerText = `重新获取(${--s})`
+            if (s === 0) {
+                clearInterval(t)
+                getSmsCaptchaBtn.innerText = '获取验证码'
+                getSmsCaptchaBtn.style.pointerEvents = '';
+            }
+        }, 1000);
+
+    }
+
+    getVerifyCode();
+</script>
+<script th:inline="javascript">
+
+    function showError(message) {
+        let errorBox = document.getElementById("error_box");
+        errorBox.innerHTML = message;
+        errorBox.style.display = "block";
+        setTimeout(() => {
+            closeError();
+        }, 3000)
+    }
+
+    function closeError() {
+        let errorBox = document.getElementById("error_box");
+        errorBox.style.display = "none";
+    }
+
+    let error = [[${ error }]]
+    if (error) {
+        if (window.Notification) {
+            Notification.requestPermission(function () {
+                if (Notification.permission === 'granted') {
+                    // 用户点击了允许
+                    let n = new Notification('登录失败', {
+                        body: error,
+                        icon: './assets/img/logo.png'
+                    })
+
+                    setTimeout(() => {
+                        n.close();
+                    }, 3000)
+                } else {
+                    showError(error);
+                }
+            })
+        }
+    }
+</script>

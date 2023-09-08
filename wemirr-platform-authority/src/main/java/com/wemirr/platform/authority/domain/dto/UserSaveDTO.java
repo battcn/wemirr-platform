@@ -2,11 +2,11 @@ package com.wemirr.platform.authority.domain.dto;
 
 import com.wemirr.platform.authority.domain.enums.Sex;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
-import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**

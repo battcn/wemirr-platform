@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
-import jakarta.sql.DataSource;
+import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;

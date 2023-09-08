@@ -51,7 +51,6 @@ public class TenantController {
                 .eq(Tenant::getType, params.getType()));
     }
 
-    //    @IgnoreAuthorize
     @Operation(summary = "查询可用", description = "查询可用数据源")
     @GetMapping("/databases/active")
     public List<TenantDynamicDatasourceVO> queryActive() {

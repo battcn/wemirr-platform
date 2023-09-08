@@ -1,7 +1,0 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.wemirr.framework.storage.cloud.aliyun.AliYunOssAutoConfiguration,\
-com.wemirr.framework.storage.cloud.tencent.TencentOssAutoConfiguration,\
-com.wemirr.framework.storage.cloud.qiniu.QiNiuOssAutoConfiguration,\
-com.wemirr.framework.storage.cloud.minio.MinioOssAutoConfiguration
-

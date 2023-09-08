@@ -12,12 +12,12 @@ import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Org;
 import com.wemirr.platform.authority.repository.OrgMapper;
 import com.wemirr.platform.authority.service.OrgService;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.*;
 

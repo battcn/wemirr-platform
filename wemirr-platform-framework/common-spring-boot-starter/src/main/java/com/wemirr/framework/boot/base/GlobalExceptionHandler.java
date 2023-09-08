@@ -8,6 +8,10 @@ import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.entity.enums.CommonError;
 import com.wemirr.framework.commons.exception.CheckedException;
 import feign.RetryableException;
+import jakarta.annotation.Nonnull;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.UnexpectedTypeException;
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
@@ -17,6 +21,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.jdbc.BadSqlGrammarException;
@@ -35,10 +40,6 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import jakarta.annotation.Nonnull;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.UnexpectedTypeException;
-import jakarta.validation.ValidationException;
 import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 
@@ -66,20 +67,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         } else if (e instanceof MultipartException) {
             return new ResponseEntity<>(Result.fail("文件过大,请控制文件大小"), defaultErrorResult);
         } else if (e instanceof InternalAuthenticationServiceException) {
-            log.error("InternalAuthenticationServiceException",e);
+            log.error("InternalAuthenticationServiceException", e);
             InternalAuthenticationServiceException exception = (InternalAuthenticationServiceException) e;
             if (exception.getCause() instanceof SQLSyntaxErrorException) {
                 return new ResponseEntity<>(Result.fail(exception.getCause().getMessage()), defaultErrorResult);
             }
             if (e.getCause() instanceof MyBatisSystemException) {
                 if (e.getCause().getCause() instanceof PersistenceException) {
-                    if (e.getCause().getCause().getCause().getCause() instanceof SQLSyntaxErrorException) {
-                        SQLSyntaxErrorException sqlSyntaxErrorException = (SQLSyntaxErrorException) e.getCause().getCause().getCause().getCause();
+                    if (e.getCause().getCause().getCause().getCause() instanceof SQLSyntaxErrorException sqlSyntaxErrorException) {
                         return new ResponseEntity<>(Result.fail("未找到数据源" + sqlSyntaxErrorException.getMessage()), defaultErrorResult);
                     }
                 }
-                if (e.getCause().getCause().getCause() instanceof CannotFindDataSourceException) {
-                    CannotFindDataSourceException sourceException = (CannotFindDataSourceException) e.getCause().getCause().getCause();
+                if (e.getCause().getCause().getCause() instanceof CannotFindDataSourceException sourceException) {
                     return new ResponseEntity<>(Result.fail("未找到数据源" + sourceException.getMessage()), defaultErrorResult);
                 }
                 return new ResponseEntity<>(Result.fail("SQL 异常,错误信息为 " + e.getCause().getMessage()), defaultErrorResult);
@@ -102,40 +101,29 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String DISABLED_TEXT = "User is disabled";
 
 
-//    @ExceptionHandler(OAuth2Exception.class)
-//    @ResponseBody
-//    public final ResponseEntity<Result<?>> oAuth2Exception(OAuth2Exception e, HttpServletResponse response) {
-//        log.error("[错误内容]", e);
-//        if (e instanceof InvalidGrantException) {
-//            log.warn("[error message] - [{}]", e.getMessage());
-//            InvalidGrantException exception = (InvalidGrantException) e;
-//            if (exception.getMessage().contains(DISABLED_TEXT)) {
-//                return new ResponseEntity<>(Result.fail(e.getHttpErrorCode(), "用户已禁用"), HttpStatus.OK);
-//            }
-//            return new ResponseEntity<>(Result.fail(e.getHttpErrorCode(), "账号或密码错误"), HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(Result.fail(e.getHttpErrorCode(), e.getMessage()), HttpStatus.OK);
-//    }
-
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseBody
     public final Result<ResponseEntity<Void>> accessDeniedException(AccessDeniedException e, HttpServletRequest request) {
         String method = request.getMethod();
         String uri = request.getRequestURI();
-        log.warn("\n[================================================================]\n" +
-                "[异常信息] - [{}]\n" +
-                "[请求地址] - [{}] - [{}]\n" +
-                "[返回消息] - [{}]\n" +
-                "[================================================================]", e.getLocalizedMessage(), method, uri, CommonError.ACCESS_DENIED.desc());
+        log.warn("""
+
+                [================================================================]
+                [异常信息] - [{}]
+                [请求地址] - [{}] - [{}]
+                [返回消息] - [{}]
+                [================================================================]""", e.getLocalizedMessage(), method, uri, CommonError.ACCESS_DENIED.desc());
         return Result.fail(CommonError.ACCESS_DENIED);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseBody
     public final Result<ResponseEntity<Void>> dataIntegrityViolationException(DataIntegrityViolationException e, HttpServletRequest request) {
-        log.warn("\n[================================================================]\n" +
-                "[异常信息] - [{}]\n" +
-                "[================================================================]", e.getLocalizedMessage());
+        log.warn("""
+
+                [================================================================]
+                [异常信息] - [{}]
+                [================================================================]""", e.getLocalizedMessage());
         if (e.getCause() instanceof SQLException) {
             return Result.fail(e.getCause().getMessage());
         }
@@ -155,7 +143,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return Result.fail("数据主键冲突");
     }
 
-    // InternalAuthenticationServiceException
 
     @ExceptionHandler(MyBatisSystemException.class)
     @ResponseBody
@@ -163,8 +150,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("[Mybatis 系统异常]", e);
         if (e.getCause() instanceof PersistenceException) {
             if (e.getCause().getCause() instanceof MybatisPlusException) {
-                if (e.getCause().getCause().getCause() instanceof SQLSyntaxErrorException) {
-                    SQLSyntaxErrorException sqlSyntaxErrorException = (SQLSyntaxErrorException) e.getCause().getCause().getCause();
+                if (e.getCause().getCause().getCause() instanceof SQLSyntaxErrorException sqlSyntaxErrorException) {
                     return Result.fail("SQL 异常,错误信息为 " + sqlSyntaxErrorException.getMessage());
                 }
                 return Result.fail(e.getLocalizedMessage());
@@ -178,8 +164,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     public final Result<ResponseEntity<Void>> badSqlGrammarException(BadSqlGrammarException e) {
         log.error("[Mybatis SQL 异常]", e);
-        if (e.getCause() instanceof SQLSyntaxErrorException) {
-            SQLSyntaxErrorException sqlSyntaxErrorException = (SQLSyntaxErrorException) e.getCause();
+        if (e.getCause() instanceof SQLSyntaxErrorException sqlSyntaxErrorException) {
             return Result.fail("Mybatis SQL绑定异常,错误信息为 " + sqlSyntaxErrorException.getMessage());
         }
         return Result.fail(e.getLocalizedMessage());
@@ -210,15 +195,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return Result.fail(CommonError.REQUEST_PARAM_ERROR.type(), exception.getMessage());
     }
 
-
     /**
      * 通用的接口映射异常处理方法
      */
-//    @Override
     @ResponseBody
-    @Nonnull
-    protected ResponseEntity<Object> handleExceptionInternal(@Nonnull Exception ex, Object body, @Nonnull HttpHeaders headers,
-                                                             @Nonnull HttpStatus status, @Nonnull WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(@Nonnull Exception ex, Object body, @Nonnull HttpHeaders headers, @Nonnull HttpStatusCode statusCode, @Nonnull WebRequest request) {
         String uri = ((ServletWebRequest) request).getRequest().getRequestURI();
         if (ex instanceof MethodArgumentNotValidException) {
             MethodArgumentNotValidException exception = (MethodArgumentNotValidException) ex;
@@ -229,8 +210,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             HttpRequestMethodNotSupportedException e = (HttpRequestMethodNotSupportedException) ex;
             final String method = e.getMethod();
             return new ResponseEntity<>(Result.fail("%s 请求方式 %s 不存在", uri, method), HttpStatus.OK);
-        } else if (ex instanceof MethodArgumentTypeMismatchException) {
-            MethodArgumentTypeMismatchException exception = (MethodArgumentTypeMismatchException) ex;
+        } else if (ex instanceof MethodArgumentTypeMismatchException exception) {
             logger.error("参数转换失败，方法：" + exception.getParameter().getMethod().getName() + "，参数：" + exception.getName()
                     + ",信息：" + exception.getLocalizedMessage());
             if (ex.getCause() instanceof ConversionFailedException &&
@@ -241,8 +221,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         } else if (ex instanceof HttpMessageNotReadableException) {
             HttpMessageNotReadableException e = (HttpMessageNotReadableException) ex;
             logger.error("参数转换失败" + ex.getLocalizedMessage());
-            if (e.getCause() instanceof InvalidFormatException) {
-                InvalidFormatException invalid = (InvalidFormatException) e.getCause();
+            if (e.getCause() instanceof InvalidFormatException invalid) {
                 return new ResponseEntity<>(Result.fail("字段类型映射错误 " + invalid.getMessage()), HttpStatus.OK);
             }
         } else if (ex instanceof NoHandlerFoundException) {

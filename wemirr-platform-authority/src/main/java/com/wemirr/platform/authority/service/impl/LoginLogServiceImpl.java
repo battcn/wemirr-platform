@@ -1,6 +1,5 @@
 package com.wemirr.platform.authority.service.impl;
 
-import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.OS;
 import cn.hutool.http.useragent.UserAgent;
@@ -10,11 +9,10 @@ import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.platform.authority.domain.entity.log.LoginLog;
 import com.wemirr.platform.authority.repository.LoginLogMapper;
 import com.wemirr.platform.authority.service.LoginLogService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -37,7 +35,8 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
 
     @Override
     public LoginLog saveLoginLog(Long userId, String principal, String realName) {
-        String ip = ServletUtil.getClientIP(request);
+        String ip = "未知";
+//        ServletUtil.getClientIP(request)
         final String clientId = request.getParameter("client_id");
         String region = RegionUtils.getRegion(ip);
         String ua = request.getHeader(USER_AGENT);

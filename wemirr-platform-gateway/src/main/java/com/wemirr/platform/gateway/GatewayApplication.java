@@ -23,7 +23,7 @@ public class GatewayApplication {
         String port = StringUtils.defaultString(env.getProperty("server.port"), "8080");
         log.info("\n----------------------------------------------------------\n\t" +
                         "Application '{}' is running! Access URLs:\n\t" +
-                        "Doc: \thttp://{}:{}/swagger-ui.html\n" +
+                        "Doc: \thttp://{}:{}/doc.html\n" +
                         "----------------------------------------------------------",
                 appName, "localhost", port);
     }

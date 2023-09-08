@@ -14,7 +14,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.CachingConfigurer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.cache.support.SimpleCacheManager;
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @EnableConfigurationProperties(RedisPlusProperties.class)
 @ConditionalOnProperty(prefix = "extend.redis.cache", name = "enabled", havingValue = "true")
-public class RedisCacheAutoConfiguration extends CachingConfigurerSupport {
+public class RedisCacheAutoConfiguration implements CachingConfigurer {
 
     private final RedisPlusProperties redisPlusProperties;
 

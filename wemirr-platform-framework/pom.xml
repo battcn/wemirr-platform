@@ -32,7 +32,7 @@
         <module>oauth2-spring-boot-starter</module>
         <module>db-spring-boot-starter</module>
         <module>common-spring-boot-starter</module>
-        <!--<module>websocket-spring-boot-starter</module>-->
+        <module>websocket-spring-boot-starter</module>
 
         <module>xxl-job-spring-boot-starter</module>
         <module>feign-plugin-spring-boot-starter</module>

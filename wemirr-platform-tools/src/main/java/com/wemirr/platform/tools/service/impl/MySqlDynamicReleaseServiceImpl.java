@@ -25,12 +25,12 @@ import com.wemirr.platform.tools.mapper.DynamicReleaseColumnMapper;
 import com.wemirr.platform.tools.mapper.DynamicReleaseGridMapper;
 import com.wemirr.platform.tools.mapper.DynamicReleaseMapper;
 import com.wemirr.platform.tools.service.DynamicReleaseService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Service;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

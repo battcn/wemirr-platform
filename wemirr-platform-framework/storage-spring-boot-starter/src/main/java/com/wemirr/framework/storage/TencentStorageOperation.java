@@ -1,5 +1,6 @@
 package com.wemirr.framework.storage;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.model.GetObjectRequest;
@@ -17,7 +18,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -44,15 +48,8 @@ public class TencentStorageOperation implements StorageOperation {
         final File file = new File(path + File.separator + fileName);
         log.debug("[文件目录] - [{}]", file.getPath());
         download(bucketName, fileName, file);
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e) {
-            throw new StorageException(BaseStorageProperties.StorageType.TENCENT, "文件上传失败," + e.getLocalizedMessage());
-        }
-        return DownloadResponse.builder().bufferedReader(bufferedReader)
+        return DownloadResponse.builder().inputStream(FileUtil.getInputStream(file))
                 .file(file).localFilePath(file.getPath()).build();
-
     }
 
     @Override

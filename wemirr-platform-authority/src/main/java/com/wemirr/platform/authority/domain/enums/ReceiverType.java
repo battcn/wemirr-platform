@@ -38,7 +38,7 @@ public enum ReceiverType implements DictionaryEnum<Integer> {
 
     ;
     @EnumValue
-    // @JsonValue
+    @JsonValue
     private Integer type;
 
     @Schema(description = "描述")

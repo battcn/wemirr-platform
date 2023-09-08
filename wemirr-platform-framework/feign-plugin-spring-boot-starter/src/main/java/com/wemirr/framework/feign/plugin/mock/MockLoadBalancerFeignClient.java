@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.cloud.openfeign.loadbalancer.FeignBlockingLoadBalancerClient;
+import org.springframework.cloud.openfeign.loadbalancer.LoadBalancerFeignRequestTransformer;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -31,9 +32,11 @@ public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient
     private final MockProperties mockProperties;
 
     public MockLoadBalancerFeignClient(Client.Default delegate, LoadBalancerClient loadBalancerClient,
-                                       LoadBalancerClientFactory loadBalancerClientFactory, MockProperties mockProperties) {
+                                       LoadBalancerClientFactory loadBalancerClientFactory,
+                                       List<LoadBalancerFeignRequestTransformer> transformers,
+                                       MockProperties mockProperties) {
 
-        super(delegate, loadBalancerClient, loadBalancerClientFactory);
+        super(delegate, loadBalancerClient, loadBalancerClientFactory, transformers);
         this.mockProperties = mockProperties;
         log.info("mock feign 负载均衡器初始化");
     }

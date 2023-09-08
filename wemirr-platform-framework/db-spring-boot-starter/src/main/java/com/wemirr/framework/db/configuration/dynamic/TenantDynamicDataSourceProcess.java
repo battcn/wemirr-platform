@@ -13,10 +13,9 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.configuration.dynamic.event.body.EventAction;
 import com.wemirr.framework.db.configuration.dynamic.event.body.TenantDynamicDatasource;
 import com.wemirr.framework.db.properties.DatabaseProperties;
+import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-
-import jakarta.annotation.Resource;
 
 import javax.sql.DataSource;
 import java.io.File;

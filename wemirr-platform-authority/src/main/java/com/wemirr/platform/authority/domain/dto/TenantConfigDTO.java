@@ -1,8 +1,7 @@
 package com.wemirr.platform.authority.domain.dto;
 
-import lombok.Data;
-
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 /**
  * @author Levin

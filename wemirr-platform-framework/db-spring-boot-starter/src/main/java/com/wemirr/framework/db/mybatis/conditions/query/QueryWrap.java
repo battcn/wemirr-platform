@@ -17,7 +17,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -91,6 +93,14 @@ public class QueryWrap<T> extends AbstractWrapper<T, String, QueryWrap<T>>
     @Override
     public QueryWrap<T> select(String... columns) {
         if (ArrayUtils.isNotEmpty(columns)) {
+            this.sqlSelect.setStringValue(String.join(StringPool.COMMA, columns));
+        }
+        return typedThis;
+    }
+
+    @Override
+    public QueryWrap<T> select(boolean condition, List<String> columns) {
+        if (Objects.nonNull(columns)) {
             this.sqlSelect.setStringValue(String.join(StringPool.COMMA, columns));
         }
         return typedThis;

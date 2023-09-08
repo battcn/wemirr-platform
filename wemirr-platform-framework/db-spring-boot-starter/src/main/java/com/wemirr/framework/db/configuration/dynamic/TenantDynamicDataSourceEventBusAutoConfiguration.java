@@ -11,9 +11,11 @@ import com.wemirr.framework.db.configuration.dynamic.event.DynamicDatasourceEven
 import com.wemirr.framework.db.configuration.dynamic.event.DynamicDatasourceEventListener;
 import com.wemirr.framework.db.configuration.dynamic.feign.TenantFeignClient;
 import com.wemirr.framework.db.properties.DatabaseProperties;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +23,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 如果要实现自定义 database 库名的话 也很容易
@@ -32,6 +32,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @Slf4j
 @Configuration
 @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "type", havingValue = "datasource")
+@EnableConfigurationProperties(DatabaseProperties.class)
 @RemoteApplicationEventScan(basePackageClasses = DynamicDatasourceEvent.class)
 public class TenantDynamicDataSourceEventBusAutoConfiguration {
 
@@ -80,12 +81,12 @@ public class TenantDynamicDataSourceEventBusAutoConfiguration {
                         return multiTenant.getDefaultDsName();
                     }
                     String tenantCode = tenantEnvironment.tenantCode();
-                    return getTenantDB(request, multiTenant, tenantCode);
+                    return getTenantDb(request, multiTenant, tenantCode);
                 }
                 String name = key.substring(8);
                 String tenantCode = StringUtils.defaultIfBlank(request.getHeader(name), request.getParameter(name));
                 log.info("name - {} - {}", name, tenantCode);
-                return getTenantDB(request, multiTenant, tenantCode);
+                return getTenantDb(request, multiTenant, tenantCode);
             }
         };
         DsHeaderProcessor headerProcessor = new DsHeaderProcessor();
@@ -99,7 +100,7 @@ public class TenantDynamicDataSourceEventBusAutoConfiguration {
 
     private static final String UNDEFINED = "undefined";
 
-    private String getTenantDB(HttpServletRequest request, DatabaseProperties.MultiTenant multiTenant, String tenantCode) {
+    private String getTenantDb(HttpServletRequest request, DatabaseProperties.MultiTenant multiTenant, String tenantCode) {
         if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, UNDEFINED) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
             log.debug("tenantCode 为空或者为超级租户,切换默认数据源 - {}", multiTenant.getDefaultDsName());
             return multiTenant.getDefaultDsName();

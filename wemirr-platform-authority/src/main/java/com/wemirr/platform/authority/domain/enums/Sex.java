@@ -38,7 +38,7 @@ public enum Sex implements DictionaryEnum<Integer> {
     WOMAN(2, "女"),
     ;
     @EnumValue
-    // @JsonValue
+    @JsonValue
     private Integer type;
 
     @Schema(description = "描述")

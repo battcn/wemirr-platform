@@ -1,8 +1,7 @@
 package com.wemirr.platform.tools.domain.req;
 
-import lombok.Data;
-
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 /**
  * @author Levin

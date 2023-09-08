@@ -179,7 +179,7 @@ public class RedisCacheRepository implements Cache {
         try {
             object = get(key, valueLoader.call().getClass());
         } catch (Exception e) {
-            log.error("redis cache get object error key:{},valueLoader:{},error:{}", key, valueLoader, e);
+            log.error("redis cache get object error key:{},valueLoader:{},error:{}", key, valueLoader, e.getLocalizedMessage());
         }
         return (T) object;
     }

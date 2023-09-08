@@ -10,6 +10,8 @@ spring:
       - optional:nacos:swagger.yaml # 这是有默认值的写法
       - optional:nacos:${spring.application.name}.properties
       - optional:nacos:mybatis-plus-default.yaml?group=DEFAULT_GROUP&refreshEnabled=true #这是完写法
+  thymeleaf:
+    prefix: classpath:/templates/
   cloud:
     nacos:
       server-addr: wemirr-nacos:8848
@@ -20,3 +22,19 @@ spring:
       config:
         server-addr: wemirr-nacos:8848
         refresh-enabled: true
+
+
+extend:
+  redis:
+    enabled: true
+  oauth2:
+    authorization:
+      type: redis
+      registered-client: jdbc
+      consent: jdbc
+
+knife4j:
+  enable: false
+springdoc:
+  plus:
+    enabled: true

@@ -1,5 +1,0 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.wemirr.framework.redis.plus.RedisPlusAutoConfiguration,\
-   com.wemirr.framework.redis.plus.cache.RedisCacheAutoConfiguration
-  

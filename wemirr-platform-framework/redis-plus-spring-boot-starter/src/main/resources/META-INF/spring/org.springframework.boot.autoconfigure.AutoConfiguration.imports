@@ -1,0 +1,2 @@
+com.wemirr.framework.redis.plus.RedisPlusAutoConfiguration
+com.wemirr.framework.redis.plus.cache.RedisCacheAutoConfiguration

@@ -2,10 +2,10 @@ package com.wemirr.framework.commons;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.wemirr.framework.commons.entity.Area;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

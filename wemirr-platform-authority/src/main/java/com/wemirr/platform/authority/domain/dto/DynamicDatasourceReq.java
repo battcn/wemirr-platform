@@ -1,9 +1,8 @@
 package com.wemirr.platform.authority.domain.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-
-import jakarta.validation.constraints.NotBlank;
 
 /**
  * @author Levin

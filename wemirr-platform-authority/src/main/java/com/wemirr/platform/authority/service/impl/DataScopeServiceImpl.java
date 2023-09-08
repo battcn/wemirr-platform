@@ -13,12 +13,12 @@ import com.wemirr.platform.authority.repository.OrgMapper;
 import com.wemirr.platform.authority.repository.RoleMapper;
 import com.wemirr.platform.authority.repository.RoleOrgMapper;
 import com.wemirr.platform.authority.repository.UserMapper;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 

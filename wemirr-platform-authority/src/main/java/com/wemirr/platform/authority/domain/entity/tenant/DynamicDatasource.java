@@ -31,7 +31,7 @@ public class DynamicDatasource extends SuperEntity<Long> {
     /**
      * 单库单 schema 需要配置 database
      */
-    @TableField(value = "`database`", updateStrategy = FieldStrategy.IGNORED)
+    @TableField(value = "`database`", updateStrategy = FieldStrategy.NEVER)
     private String database;
 
     @TableField("`username`")

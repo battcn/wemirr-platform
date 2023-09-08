@@ -38,6 +38,7 @@ import com.wemirr.platform.tools.mapper.DynamicReleaseDragMapper;
 import com.wemirr.platform.tools.mapper.DynamicReleaseDragPushServerMapper;
 import com.wemirr.platform.tools.mapper.DynamicReleaseDragPushServerModelMapper;
 import com.wemirr.platform.tools.service.DynamicReleaseService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -51,10 +52,9 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.xml.parsers.DocumentBuilder;
-import jakarta.xml.parsers.DocumentBuilderFactory;
-import jakarta.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -164,33 +164,16 @@ public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<Str
 
     private void buildCriteria(Query query, DynamicReleaseQuery releaseQuery) {
         switch (releaseQuery.getExpression()) {
-            case LIKE:
-                query.addCriteria(Criteria.where(releaseQuery.getColumn()).regex(releaseQuery.getValue().toString()));
-                break;
-            case GT:
-                query.addCriteria(Criteria.where(releaseQuery.getColumn()).gt(releaseQuery.getValue()));
-                break;
-            case GE:
-                query.addCriteria(Criteria.where(releaseQuery.getColumn()).gte(releaseQuery.getValue()));
-                break;
-            case LT:
-                query.addCriteria(Criteria.where(releaseQuery.getColumn()).lt(releaseQuery.getValue()));
-                break;
-            case LE:
-                query.addCriteria(Criteria.where(releaseQuery.getColumn()).lte(releaseQuery.getValue()));
-                break;
-            case IS_NULL:
-                query.addCriteria(Criteria.where(releaseQuery.getColumn()).is(null));
-                break;
-            case IS_NOT_NULL:
-                query.addCriteria(Criteria.where(releaseQuery.getColumn()).ne(null));
-                break;
-            case NE:
-                query.addCriteria(Criteria.where(releaseQuery.getColumn()).ne(releaseQuery.getValue()));
-                break;
-            default:
-                query.addCriteria(Criteria.where(releaseQuery.getColumn()).is(releaseQuery.getValue()));
-                break;
+            case LIKE ->
+                    query.addCriteria(Criteria.where(releaseQuery.getColumn()).regex(releaseQuery.getValue().toString()));
+            case GT -> query.addCriteria(Criteria.where(releaseQuery.getColumn()).gt(releaseQuery.getValue()));
+            case GE -> query.addCriteria(Criteria.where(releaseQuery.getColumn()).gte(releaseQuery.getValue()));
+            case LT -> query.addCriteria(Criteria.where(releaseQuery.getColumn()).lt(releaseQuery.getValue()));
+            case LE -> query.addCriteria(Criteria.where(releaseQuery.getColumn()).lte(releaseQuery.getValue()));
+            case IS_NULL -> query.addCriteria(Criteria.where(releaseQuery.getColumn()).is(null));
+            case IS_NOT_NULL -> query.addCriteria(Criteria.where(releaseQuery.getColumn()).ne(null));
+            case NE -> query.addCriteria(Criteria.where(releaseQuery.getColumn()).ne(releaseQuery.getValue()));
+            default -> query.addCriteria(Criteria.where(releaseQuery.getColumn()).is(releaseQuery.getValue()));
         }
     }
 

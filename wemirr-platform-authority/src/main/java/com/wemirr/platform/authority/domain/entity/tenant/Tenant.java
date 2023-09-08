@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import static com.baomidou.mybatisplus.annotation.FieldStrategy.IGNORED;
+import static com.baomidou.mybatisplus.annotation.FieldStrategy.NEVER;
 
 /**
  * <p>
@@ -39,17 +39,17 @@ public class Tenant extends SuperEntity<Long> {
     private String contactPhone;
     private String industry;
 
-    @TableField(updateStrategy = IGNORED)
+    @TableField(updateStrategy = NEVER)
     private Long provinceId;
-    @TableField(updateStrategy = IGNORED)
+    @TableField(updateStrategy = NEVER)
     private String provinceName;
-    @TableField(updateStrategy = IGNORED)
+    @TableField(updateStrategy = NEVER)
     private Long cityId;
-    @TableField(updateStrategy = IGNORED)
+    @TableField(updateStrategy = NEVER)
     private String cityName;
-    @TableField(updateStrategy = IGNORED)
+    @TableField(updateStrategy = NEVER)
     private Long districtId;
-    @TableField(updateStrategy = IGNORED)
+    @TableField(updateStrategy = NEVER)
     private String districtName;
 
     private String address;
