@@ -36,7 +36,7 @@ public class IntegrationAuthentication {
         this.setUsername(request.getParameter("username"));
         this.setPassword(request.getParameter("password"));
         this.setClientId(request.getParameter("client_id"));
-        this.setClientId(request.getParameter("tenant_code"));
+        this.setTenantCode(request.getParameter("tenant_code"));
         this.setAuthParameters(request.getParameterMap());
     }
 }

@@ -43,7 +43,7 @@ public class LoginTargetAuthenticationEntryPoint extends LoginUrlAuthenticationE
         final String redirect = request.getHeader("redirect");
         final String deviceVerificationUri = "/oauth2/device_verification";
         // 兼容设备码前后端分离
-        if (StringUtils.isBlank("redirect") || (request.getRequestURI().equals(deviceVerificationUri)
+        if (StringUtils.isBlank(redirect) || (request.getRequestURI().equals(deviceVerificationUri)
                 && request.getMethod().equals(HttpMethod.POST.name())
                 && UrlUtils.isAbsoluteUrl(SecurityConstants.DEVICE_ACTIVATE_URI))) {
             SecurityUtils.exceptionHandler(request, response, authException);

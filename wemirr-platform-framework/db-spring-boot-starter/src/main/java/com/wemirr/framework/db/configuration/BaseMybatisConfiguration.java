@@ -69,7 +69,7 @@ public abstract class BaseMybatisConfiguration {
                 public Expression getTenantId() {
                     // 租户ID
                     log.debug("当前租户ID - {}", tenantEnvironment.tenantId());
-                    return new LongValue(tenantEnvironment.tenantId());
+                    return tenantEnvironment.tenantId() == null ? null : new LongValue(tenantEnvironment.tenantId());
                 }
 
                 @Override

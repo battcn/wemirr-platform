@@ -32,10 +32,6 @@
             <artifactId>bootstrap</artifactId>
             <version>5.2.3</version>
         </dependency>
-  <!--      <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-springdoc-ui</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>

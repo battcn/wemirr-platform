@@ -32,7 +32,6 @@ public class RedisOAuth2AuthorizationServiceImpl implements OAuth2AuthorizationS
     @Override
     public void save(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
-//        String value = JSON.toJSONString(authorization);
         if (isState(authorization)) {
             String state = authorization.getAttribute(STATE);
             tokenStore.opsForValue().set(buildKey(OAuth2ParameterNames.STATE, state), authorization, TIMEOUT, TimeUnit.MINUTES);

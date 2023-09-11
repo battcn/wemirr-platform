@@ -3,19 +3,24 @@ package com.wemirr.platform.authority.controller;
 import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.security.entity.UserInfoDetails;
 import com.wemirr.platform.authority.domain.dto.ChangePasswordDTO;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * @author Levin
@@ -28,6 +33,7 @@ public class TokenEndpoint {
 
     private final TenantEnvironment tenantEnvironment;
     private final UserService userService;
+    private final OAuth2AuthorizationService oAuth2AuthorizationService;
 
     @GetMapping("/oauth2/check_token")
     public Authentication checkToken() {
@@ -35,11 +41,18 @@ public class TokenEndpoint {
     }
 
     @GetMapping("/oauth2/userinfo")
-    public Object userinfo(HttpServletRequest request, Principal principal) {
-        final Iterator<String> iterator = request.getHeaderNames().asIterator();
-        while (iterator.hasNext()) {
-            final String next = iterator.next();
-            log.info("KEY - {} - VAL - {}", next, request.getHeader(next));
+    public Object userinfo(Principal principal) {
+        // 账号密码模式登陆
+        if (principal instanceof UsernamePasswordAuthenticationToken token) {
+            if (token.getPrincipal() instanceof UserInfoDetails user) {
+                return user;
+            }
+        }
+        if (principal instanceof JwtAuthenticationToken token) {
+            final String tokenValue = token.getToken().getTokenValue();
+            final OAuth2Authorization oAuth2Authorization = oAuth2AuthorizationService.findByToken(tokenValue, OAuth2TokenType.ACCESS_TOKEN);
+            final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) Objects.requireNonNull(oAuth2Authorization).getAttributes().get(Principal.class.getName());
+            return usernamePasswordAuthenticationToken.getPrincipal();
         }
         return principal;
     }

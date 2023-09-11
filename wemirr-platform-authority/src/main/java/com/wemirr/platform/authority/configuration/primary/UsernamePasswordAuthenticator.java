@@ -2,7 +2,6 @@ package com.wemirr.platform.authority.configuration.primary;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.security.entity.UserInfoDetails;
@@ -65,13 +64,11 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
             // 如果说是每次登陆都要清空以前的信息那么需要调用一下注销，这个注销的功能就是注销以前的token信息
         }
         final Tenant tenant = Optional.ofNullable(tenantMapper.selectOne(Wraps.<Tenant>lbQ().eq(Tenant::getCode, tenantCode)))
-                .orElseThrow(() -> CheckedException.notFound("{1}租户不存在", tenantCode));
+                .orElseThrow(() -> CheckedException.notFound("{0}租户不存在", tenantCode));
         if (tenant.getLocked()) {
             throw CheckedException.badRequest("租户已被禁用,请联系管理员");
         }
-        final User user = Optional.ofNullable(this.userMapper.selectOne(Wrappers.<User>lambdaQuery()
-                        .eq(User::getTenantId, tenant.getId()).eq(User::getUsername, username)))
-                .orElseThrow(() -> CheckedException.notFound("账户不存在"));
+        final User user = Optional.ofNullable(this.userMapper.selectUserByTenantId(username, tenant.getId())).orElseThrow(() -> CheckedException.notFound("账户不存在"));
         final UserInfoDetails info = new UserInfoDetails();
         info.setTenantCode(tenantCode);
         info.setTenantId(user.getTenantId());
