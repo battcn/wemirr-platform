@@ -2,14 +2,8 @@ package com.wemirr.framework.security.server;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.google.common.collect.Lists;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
-import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.SecurityContext;
-import com.wemirr.framework.security.constant.SecurityConstants;
+import com.wemirr.framework.security.client.RedisOpaqueTokenIntrospector;
 import com.wemirr.framework.security.properties.CustomSecurityProperties;
-import com.wemirr.framework.security.server.federation.FederatedIdentityIdTokenCustomizer;
 import com.wemirr.framework.security.server.handler.LoginTargetAuthenticationEntryPoint;
 import com.wemirr.framework.security.server.integration.IntegrationAuthenticator;
 import com.wemirr.framework.security.server.integration.custom.CustomLoginAuthenticationProvider;
@@ -34,25 +28,19 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2RefreshTokenGenerator;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
-import org.springframework.util.ObjectUtils;
 
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 认证配置
@@ -108,6 +96,11 @@ public class AuthorizationServerConfiguration {
         return http.build();
     }
 
+    @Bean
+    private OpaqueTokenIntrospector opaqueTokenIntrospector() {
+        return new RedisOpaqueTokenIntrospector();
+    }
+
     /**
      * 配置认证相关的过滤器链(资源服务，客户端配置)
      *
@@ -131,26 +124,14 @@ public class AuthorizationServerConfiguration {
             // 使用redis存储、读取登录的认证信息
             http.securityContext(context -> context.securityContextRepository(securityContextRepository));
         }
-
         // form 登录策略
         SecurityApply.applyFormLoginSecurity(http, properties);
         // 添加BearerTokenAuthenticationFilter，将认证服务当做一个资源服务，解析请求头中的token
-        http.oauth2ResourceServer((resourceServer) -> resourceServer.jwt(Customizer.withDefaults())
+        http.oauth2ResourceServer((resourceServer) -> resourceServer.opaqueToken(opaqueTokenConfigurer -> opaqueTokenConfigurer.introspector(opaqueTokenIntrospector()))
                 .accessDeniedHandler(SecurityUtils::exceptionHandler).authenticationEntryPoint(SecurityUtils::exceptionHandler));
         // 当未登录时访问认证端点时重定向至login页面 [兼容前后端分离与不分离配置]
         http.exceptionHandling((exceptions) -> exceptions.defaultAuthenticationEntryPointFor(new LoginTargetAuthenticationEntryPoint(properties.getLoginFormUrl()), new MediaTypeRequestMatcher(MediaType.APPLICATION_JSON)));
         return http.build();
-    }
-
-
-    /**
-     * 自定义jwt，将权限信息放至jwt中
-     *
-     * @return OAuth2TokenCustomizer的实例
-     */
-    @Bean
-    public OAuth2TokenCustomizer<JwtEncodingContext> oAuth2TokenCustomizer() {
-        return new FederatedIdentityIdTokenCustomizer();
     }
 
 
@@ -175,11 +156,21 @@ public class AuthorizationServerConfiguration {
         return new CustomLoginAuthenticationProvider(userDetailsService, passwordEncoder);
     }
 
-    /**
+    /*  *//**
+     * 自定义jwt，将权限信息放至jwt中
+     *
+     * @return OAuth2TokenCustomizer的实例
+     *//*
+    @Bean
+    public OAuth2TokenCustomizer<JwtEncodingContext> oAuth2TokenCustomizer() {
+        return new FederatedIdentityIdTokenCustomizer();
+    }
+
+    *//**
      * 配置jwk源，使用非对称加密，公开用于检索匹配指定选择器的JWK的方法
      *
      * @return JWKSource
-     */
+     *//*
     @Bean
     @SneakyThrows
     public JWKSource<SecurityContext> jwkSource() {
@@ -203,11 +194,11 @@ public class AuthorizationServerConfiguration {
         return new ImmutableJWKSet<>(jwkSet);
     }
 
-    /**
+    *//**
      * 生成rsa密钥对，提供给jwk
      *
      * @return 密钥对
-     */
+     *//*
     private static KeyPair generateRsaKey() {
         KeyPair keyPair;
         try {
@@ -220,11 +211,11 @@ public class AuthorizationServerConfiguration {
         return keyPair;
     }
 
-    /**
+    *//**
      * 自定义jwt解析器，设置解析出来的权限信息的前缀与在jwt中的key
      *
      * @return jwt解析器 JwtAuthenticationConverter
-     */
+     *//*
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
@@ -237,6 +228,17 @@ public class AuthorizationServerConfiguration {
         return jwtAuthenticationConverter;
     }
 
+    *//**
+     * 配置jwt解析器
+     *
+     * @param jwkSource jwk源
+     * @return JwtDecoder
+     *//*
+    @Bean
+    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    }
+*/
 
     /**
      * 将AuthenticationManager注入ioc中，其它需要使用地方可以直接从ioc中获取
@@ -250,17 +252,12 @@ public class AuthorizationServerConfiguration {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-
-    /**
-     * 配置jwt解析器
-     *
-     * @param jwkSource jwk源
-     * @return JwtDecoder
-     */
     @Bean
-    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    public OAuth2TokenGenerator<OAuth2Token> oAuth2TokenGenerator() {
+        CustomOAuth2AccessTokenGenerator accessTokenGenerator = new CustomOAuth2AccessTokenGenerator();
+        return new DelegatingOAuth2TokenGenerator(accessTokenGenerator, new OAuth2RefreshTokenGenerator());
     }
+
 
     /**
      * 添加认证服务器配置，设置jwt签发者、默认端点请求地址等
