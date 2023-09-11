@@ -1,6 +1,8 @@
 package com.wemirr.framework.security.client;
 
 import cn.hutool.extra.spring.SpringUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.wemirr.framework.security.entity.UserInfoDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -35,8 +37,12 @@ public class RedisOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
             return new DefaultOAuth2AuthenticatedPrincipal(oAuth2Authorization.getPrincipalName(), oAuth2Authorization.getAttributes(), AuthorityUtils.NO_AUTHORITIES);
         }
         try {
-            UsernamePasswordAuthenticationToken principal = (UsernamePasswordAuthenticationToken) Objects.requireNonNull(oAuth2Authorization).getAttributes().get(Principal.class.getName());
-            return (OAuth2AuthenticatedPrincipal) principal.getPrincipal();
+            final Object object = Objects.requireNonNull(oAuth2Authorization).getAttributes().get(Principal.class.getName());
+            if (object instanceof UsernamePasswordAuthenticationToken principal) {
+                return (OAuth2AuthenticatedPrincipal) principal.getPrincipal();
+            }
+            JSONObject principal = (JSONObject) Objects.requireNonNull(oAuth2Authorization).getAttributes().get(Principal.class.getName());
+            return principal.getObject("principal", UserInfoDetails.class);
         } catch (Exception ex) {
             log.error("introspect error {}", ex.getLocalizedMessage());
         }
