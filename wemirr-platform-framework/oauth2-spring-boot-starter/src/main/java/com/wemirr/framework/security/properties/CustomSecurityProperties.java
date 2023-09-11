@@ -21,7 +21,8 @@ import static com.wemirr.framework.security.properties.CustomSecurityProperties.
 public class CustomSecurityProperties {
 
     public static final String PLUGIN_PREFIX = "extend.oauth2.authorization";
-
+    
+    private TokenType tokenType = TokenType.custom;
     private LoadType registeredClient = LoadType.jdbc;
     private LoadType type = LoadType.redis;
     /**
@@ -37,7 +38,7 @@ public class CustomSecurityProperties {
     /**
      * 默认的过滤地址
      */
-    private List<String> defaultIgnoreUrls = List.of("/favicon.ico","/swagger-ui.html","/doc.html","/v3/api-docs/**","/assets/**","/css/**", "/captcha", "/sms_captcha", "/webjars/**", "/login", "/error", "/oauth2/**");
+    private List<String> defaultIgnoreUrls = List.of("/favicon.ico", "/swagger-ui.html", "/doc.html", "/v3/api-docs/**", "/assets/**", "/css/**", "/captcha", "/sms_captcha", "/webjars/**", "/login", "/error", "/oauth2/**");
 
     @Data
     public static class Ignore {
@@ -75,6 +76,18 @@ public class CustomSecurityProperties {
          * 用户信息端口
          */
         private String userinfo = "http://cloud-platform-base/oauth2/userinfo";
+    }
+
+    /**
+     * token 类型
+     * jwt = jwt 自行百度（常用信息都会注入到token,且token默认情况下不会存在redis,没意义）
+     * custom = uuid 也可以自行魔改成自己想要的（默认存redis）
+     */
+    public enum TokenType {
+        /**
+         * jwt / custom = uuid
+         */
+        jwt, custom
     }
 
     public enum OpaqueTokenType {

@@ -21,7 +21,7 @@ import org.redisson.RedissonMultiLock;
 import org.redisson.RedissonRedLock;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -46,7 +46,7 @@ public class RedisLockInterceptor {
 
     private final ExpressionParser parser = new SpelExpressionParser();
 
-    private final LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
+    private final StandardReflectionParameterNameDiscoverer discoverer = new StandardReflectionParameterNameDiscoverer();
 
 
     @SneakyThrows
@@ -151,21 +151,28 @@ public class RedisLockInterceptor {
      */
     private RLock getLock(String key, RedisLock.LockType lockType) {
         switch (lockType) {
-            case REENTRANT_LOCK:
+            case REENTRANT_LOCK -> {
                 return redissonClient.getLock(key);
-            case FAIR_LOCK:
+            }
+            case FAIR_LOCK -> {
                 return redissonClient.getFairLock(key);
-            case READ_LOCK:
+            }
+            case READ_LOCK -> {
                 return redissonClient.getReadWriteLock(key).readLock();
-            case WRITE_LOCK:
+            }
+            case WRITE_LOCK -> {
                 return redissonClient.getReadWriteLock(key).writeLock();
-            case RED_LOCK:
+            }
+            case RED_LOCK -> {
                 return new RedissonRedLock(redissonClient.getLock(key));
-            case MULTI_LOCK:
+            }
+            case MULTI_LOCK -> {
                 return new RedissonMultiLock(redissonClient.getLock(key));
-            default:
+            }
+            default -> {
                 log.error("do not support lock type:" + lockType.name());
                 throw new RuntimeException("do not support lock type:" + lockType.name());
+            }
         }
     }
 }

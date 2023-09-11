@@ -2,8 +2,15 @@ package com.wemirr.framework.security.server;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.google.common.collect.Lists;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
 import com.wemirr.framework.security.client.RedisOpaqueTokenIntrospector;
+import com.wemirr.framework.security.constant.SecurityConstants;
 import com.wemirr.framework.security.properties.CustomSecurityProperties;
+import com.wemirr.framework.security.server.federation.FederatedIdentityIdTokenCustomizer;
 import com.wemirr.framework.security.server.handler.LoginTargetAuthenticationEntryPoint;
 import com.wemirr.framework.security.server.integration.IntegrationAuthenticator;
 import com.wemirr.framework.security.server.integration.custom.CustomLoginAuthenticationProvider;
@@ -13,6 +20,8 @@ import com.wemirr.framework.security.service.IntegrationUserDetailsServiceImpl;
 import com.wemirr.framework.security.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -29,18 +38,24 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.OAuth2Token;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2RefreshTokenGenerator;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
+import org.springframework.security.oauth2.server.authorization.token.*;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 认证配置
@@ -53,7 +68,7 @@ import java.util.List;
  *
  * @author Levin
  */
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @RequiredArgsConstructor
 @Import({RedisSecurityContextRepository.class, RedisTokenStore.class, CustomSecurityProperties.class})
 @EnableMethodSecurity(jsr250Enabled = true, securedEnabled = true)
@@ -156,23 +171,25 @@ public class AuthorizationServerConfiguration {
         return new CustomLoginAuthenticationProvider(userDetailsService, passwordEncoder);
     }
 
-    /*  *//**
+    /**
      * 自定义jwt，将权限信息放至jwt中
      *
      * @return OAuth2TokenCustomizer的实例
-     *//*
+     */
     @Bean
+    @ConditionalOnExpression("'${extend.oauth2.authorization.token-type}'.equalsIgnoreCase('jwt')")
     public OAuth2TokenCustomizer<JwtEncodingContext> oAuth2TokenCustomizer() {
         return new FederatedIdentityIdTokenCustomizer();
     }
 
-    *//**
+    /**
      * 配置jwk源，使用非对称加密，公开用于检索匹配指定选择器的JWK的方法
      *
      * @return JWKSource
-     *//*
+     */
     @Bean
     @SneakyThrows
+    @ConditionalOnExpression("'${extend.oauth2.authorization.token-type}'.equalsIgnoreCase('jwt')")
     public JWKSource<SecurityContext> jwkSource() {
         // 先从redis获取
         String jwkSetCache = redisTokenStore.get(SecurityConstants.RedisConstants.AUTHORIZATION_JWS_PREFIX_KEY);
@@ -194,11 +211,11 @@ public class AuthorizationServerConfiguration {
         return new ImmutableJWKSet<>(jwkSet);
     }
 
-    *//**
+    /**
      * 生成rsa密钥对，提供给jwk
      *
      * @return 密钥对
-     *//*
+     */
     private static KeyPair generateRsaKey() {
         KeyPair keyPair;
         try {
@@ -211,12 +228,13 @@ public class AuthorizationServerConfiguration {
         return keyPair;
     }
 
-    *//**
+    /**
      * 自定义jwt解析器，设置解析出来的权限信息的前缀与在jwt中的key
      *
      * @return jwt解析器 JwtAuthenticationConverter
-     *//*
+     */
     @Bean
+    @ConditionalOnExpression("'${extend.oauth2.authorization.token-type}'.equalsIgnoreCase('jwt')")
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         // 设置解析权限信息的前缀，设置为空是去掉前缀
@@ -228,17 +246,27 @@ public class AuthorizationServerConfiguration {
         return jwtAuthenticationConverter;
     }
 
-    *//**
+
+    /**
      * 配置jwt解析器
      *
      * @param jwkSource jwk源
      * @return JwtDecoder
-     *//*
+     */
     @Bean
+    @ConditionalOnExpression("'${extend.oauth2.authorization.token-type}'.equalsIgnoreCase('jwt')")
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
-*/
+
+
+    @Bean
+    @ConditionalOnExpression("'${extend.oauth2.authorization.token-type}'.equalsIgnoreCase('custom')")
+    public OAuth2TokenGenerator<OAuth2Token> oAuth2TokenGenerator() {
+        CustomOAuth2AccessTokenGenerator accessTokenGenerator = new CustomOAuth2AccessTokenGenerator();
+        return new DelegatingOAuth2TokenGenerator(accessTokenGenerator, new OAuth2RefreshTokenGenerator());
+    }
+
 
     /**
      * 将AuthenticationManager注入ioc中，其它需要使用地方可以直接从ioc中获取
@@ -250,12 +278,6 @@ public class AuthorizationServerConfiguration {
     @SneakyThrows
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) {
         return authenticationConfiguration.getAuthenticationManager();
-    }
-
-    @Bean
-    public OAuth2TokenGenerator<OAuth2Token> oAuth2TokenGenerator() {
-        CustomOAuth2AccessTokenGenerator accessTokenGenerator = new CustomOAuth2AccessTokenGenerator();
-        return new DelegatingOAuth2TokenGenerator(accessTokenGenerator, new OAuth2RefreshTokenGenerator());
     }
 
 
