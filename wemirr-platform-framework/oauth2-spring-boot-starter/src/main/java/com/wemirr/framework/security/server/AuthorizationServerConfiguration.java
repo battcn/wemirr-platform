@@ -12,6 +12,7 @@ import com.wemirr.framework.security.constant.SecurityConstants;
 import com.wemirr.framework.security.properties.CustomSecurityProperties;
 import com.wemirr.framework.security.server.federation.FederatedIdentityIdTokenCustomizer;
 import com.wemirr.framework.security.server.handler.LoginTargetAuthenticationEntryPoint;
+import com.wemirr.framework.security.server.integration.CustomOAuth2AccessTokenGenerator;
 import com.wemirr.framework.security.server.integration.IntegrationAuthenticator;
 import com.wemirr.framework.security.server.integration.custom.CustomLoginAuthenticationProvider;
 import com.wemirr.framework.security.server.store.RedisTokenStore;
@@ -112,6 +113,7 @@ public class AuthorizationServerConfiguration {
     }
 
     @Bean
+    @ConditionalOnExpression("'${extend.oauth2.authorization.token-type}'.equalsIgnoreCase('custom')")
     private OpaqueTokenIntrospector opaqueTokenIntrospector() {
         return new RedisOpaqueTokenIntrospector();
     }
@@ -141,9 +143,13 @@ public class AuthorizationServerConfiguration {
         }
         // form 登录策略
         SecurityApply.applyFormLoginSecurity(http, properties);
-        // 添加BearerTokenAuthenticationFilter，将认证服务当做一个资源服务，解析请求头中的token
-        http.oauth2ResourceServer((resourceServer) -> resourceServer.opaqueToken(opaqueTokenConfigurer -> opaqueTokenConfigurer.introspector(opaqueTokenIntrospector()))
-                .accessDeniedHandler(SecurityUtils::exceptionHandler).authenticationEntryPoint(SecurityUtils::exceptionHandler));
+        if (properties.getTokenType() == CustomSecurityProperties.TokenType.jwt) {
+            // 添加BearerTokenAuthenticationFilter，将认证服务当做一个资源服务，解析请求头中的token
+            http.oauth2ResourceServer((resourceServer) -> resourceServer.jwt(Customizer.withDefaults()));
+        } else {
+            http.oauth2ResourceServer((resourceServer) -> resourceServer.opaqueToken(opaqueTokenConfigurer -> opaqueTokenConfigurer.introspector(opaqueTokenIntrospector())));
+        }
+        http.oauth2ResourceServer((resourceServer) -> resourceServer.accessDeniedHandler(SecurityUtils::exceptionHandler).authenticationEntryPoint(SecurityUtils::exceptionHandler));
         // 当未登录时访问认证端点时重定向至login页面 [兼容前后端分离与不分离配置]
         http.exceptionHandling((exceptions) -> exceptions.defaultAuthenticationEntryPointFor(new LoginTargetAuthenticationEntryPoint(properties.getLoginFormUrl()), new MediaTypeRequestMatcher(MediaType.APPLICATION_JSON)));
         return http.build();

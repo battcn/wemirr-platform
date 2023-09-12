@@ -32,7 +32,7 @@ extend:
       type: redis
       registered-client: jdbc
       consent: jdbc
-      token-type: custom
+      token-type: jwt
 
 knife4j:
   enable: false

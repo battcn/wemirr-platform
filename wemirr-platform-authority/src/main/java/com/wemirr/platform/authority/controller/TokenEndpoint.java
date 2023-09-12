@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +46,11 @@ public class TokenEndpoint {
     public Object userinfo(Principal principal) {
         // 账号密码模式登陆
         if (principal instanceof UsernamePasswordAuthenticationToken token) {
+            if (token.getPrincipal() instanceof UserInfoDetails user) {
+                return user;
+            }
+        }
+        if (principal instanceof BearerTokenAuthentication token) {
             if (token.getPrincipal() instanceof UserInfoDetails user) {
                 return user;
             }

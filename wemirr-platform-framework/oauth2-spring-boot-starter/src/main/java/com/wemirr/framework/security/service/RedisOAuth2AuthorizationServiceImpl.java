@@ -93,9 +93,6 @@ public class RedisOAuth2AuthorizationServiceImpl implements OAuth2AuthorizationS
         Assert.notNull(tokenType, "tokenType cannot be empty");
         String key = buildKey(tokenType.getValue(), token);
         return (OAuth2Authorization) tokenStore.opsForValue().get(key);
-//        final String value = tokenStore.opsForValue().get(key);
-//        Assert.hasText(value, "redis value cannot be empty");
-//        return JSON.parseObject(value, OAuth2Authorization.class);
     }
 
     private String buildKey(String type, String id) {

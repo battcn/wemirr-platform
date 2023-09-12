@@ -1,4 +1,4 @@
-package com.wemirr.framework.security.server;
+package com.wemirr.framework.security.server.integration;
 
 import cn.hutool.core.util.IdUtil;
 import org.springframework.lang.Nullable;
@@ -29,8 +29,8 @@ public class CustomOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OA
     @Nullable
     @Override
     public OAuth2AccessToken generate(OAuth2TokenContext context) {
-        if (!OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType()) || !OAuth2TokenFormat.REFERENCE
-                .equals(context.getRegisteredClient().getTokenSettings().getAccessTokenFormat())) {
+        if (!OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())
+                || !OAuth2TokenFormat.REFERENCE.equals(context.getRegisteredClient().getTokenSettings().getAccessTokenFormat())) {
             return null;
         }
 
