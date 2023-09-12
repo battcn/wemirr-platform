@@ -17,7 +17,17 @@ public interface TenantService extends SuperService<Tenant> {
      */
     void saveOrUpdateTenant(Tenant tenant);
 
+    /**
+     * 租户配置
+     *
+     * @param tenantConfig 租户配置
+     */
     void tenantConfig(TenantConfig tenantConfig);
 
+    /**
+     * 初始化SQL脚本
+     *
+     * @param id id
+     */
     void initSqlScript(Long id);
 }

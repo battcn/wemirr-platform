@@ -82,7 +82,7 @@ public class RedisCacheRepository implements Cache {
         final String ukPrefix = getUkPrefix(key.toString());
         Object object = redisTemplate.execute((RedisCallback<Object>) connection -> {
             byte[] ukByteKey = ukPrefix.getBytes();
-            byte[] value = connection.get(ukByteKey);
+            byte[] value = connection.stringCommands().get(ukByteKey);
             return value == null ? null : toObject(value);
         });
         return (object != null ? new SimpleValueWrapper(object) : null);
@@ -104,9 +104,9 @@ public class RedisCacheRepository implements Cache {
         redisTemplate.execute((RedisCallback<Long>) connection -> {
             byte[] cacheKey = ukPrefix.getBytes();
             byte[] valueByte = toByteArray(value);
-            connection.set(cacheKey, valueByte);
+            connection.stringCommands().set(cacheKey, valueByte);
             if (liveTime > 0) {
-                connection.expire(cacheKey, liveTime);
+                connection.keyCommands().expire(cacheKey, liveTime);
             }
             return 1L;
         });
@@ -157,7 +157,7 @@ public class RedisCacheRepository implements Cache {
             ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
             object = valueOperations.get(getUkPrefix(key.toString()));
         } catch (Exception e) {
-            log.error("redis cache get object error key:{},type:{},error:{}", key, type, e);
+            log.error("redis cache get object error key:{},type:{},error:{}", key, type, e.getLocalizedMessage());
         }
         return isEmpty(object) ? null : (T) object;
     }

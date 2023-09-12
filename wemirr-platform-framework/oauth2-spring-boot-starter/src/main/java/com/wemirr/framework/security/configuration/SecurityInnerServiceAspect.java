@@ -1,11 +1,11 @@
 package com.wemirr.framework.security.configuration;
 
 import cn.hutool.core.net.NetUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import com.wemirr.framework.commons.entity.enums.CommonError;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.security.client.annotation.InnerService;
 import com.wemirr.framework.security.properties.InnerServiceProperties;
-import com.wemirr.framework.security.utils.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +36,7 @@ public class SecurityInnerServiceAspect implements Ordered {
 
     @Around("@annotation(inner)")
     public Object around(ProceedingJoinPoint point, InnerService inner) throws Throwable {
-        String ipAddress = RequestUtils.getIpAddress(request);
+        String ipAddress = JakartaServletUtil.getClientIP(request);
         if (ipAddress.contains(SEPARATOR)) {
             String[] ips = ipAddress.split(SEPARATOR);
             for (String ip : ips) {

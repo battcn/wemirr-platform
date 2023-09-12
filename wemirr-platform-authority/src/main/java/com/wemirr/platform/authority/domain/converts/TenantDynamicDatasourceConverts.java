@@ -10,9 +10,9 @@ import org.springframework.beans.BeanUtils;
  */
 public class TenantDynamicDatasourceConverts {
 
-    public static final TenantDynamicDatasourceVO2TenantDynamicDatasourceConverts TENANT_DYNAMIC_DATASOURCE_VO_2_TENANT_DYNAMIC_DATASOURCE_CONVERTS = new TenantDynamicDatasourceVO2TenantDynamicDatasourceConverts();
+    public static final TenantDynamicDatasourceVo2TenantDynamicDatasourceConverts TENANT_DYNAMIC_DATASOURCE_VO_2_TENANT_DYNAMIC_DATASOURCE_CONVERTS = new TenantDynamicDatasourceVo2TenantDynamicDatasourceConverts();
 
-    public static class TenantDynamicDatasourceVO2TenantDynamicDatasourceConverts implements BaseConverts<TenantDynamicDatasourceVO, TenantDynamicDatasource> {
+    public static class TenantDynamicDatasourceVo2TenantDynamicDatasourceConverts implements BaseConverts<TenantDynamicDatasourceVO, TenantDynamicDatasource> {
         @Override
         public TenantDynamicDatasource convert(TenantDynamicDatasourceVO source) {
             if (source == null) {

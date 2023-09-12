@@ -54,17 +54,18 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
     public static final String DEFAULT_PATH = "/system/development/release/tenant_%s";
     public static final String DEFAULT_COMPONENT = "/system/development/build/standard";
 
+    private static final String SPEL = "/";
 
     @Override
     @DSTransactional
     public void addResource(Resource resource) {
         if (ResourceType.BUILD_PUBLISH.eq(resource.getType())) {
-            resource.setPath(String.format(DEFAULT_PATH, tenantEnvironment.tenantId()) + "/" + resource.getModel());
+            resource.setPath(String.format(DEFAULT_PATH, tenantEnvironment.tenantId()) + SPEL + resource.getModel());
             resource.setComponent(DEFAULT_COMPONENT);
         }
         if (ResourceType.MENU == resource.getType()) {
-            if (!StringUtils.startsWith(resource.getPath(), "/")) {
-                resource.setPath("/" + resource.getPath());
+            if (!StringUtils.startsWith(resource.getPath(), SPEL)) {
+                resource.setPath(SPEL + resource.getPath());
             }
         }
         final String treePath = this.baseMapper.getTreePathByParentId(resource.getParentId());

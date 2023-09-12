@@ -1,5 +1,6 @@
 package com.wemirr.platform.authority.service.impl;
 
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.OS;
 import cn.hutool.http.useragent.UserAgent;
@@ -35,8 +36,7 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
 
     @Override
     public LoginLog saveLoginLog(Long userId, String principal, String realName) {
-        String ip = "未知";
-//        ServletUtil.getClientIP(request)
+        String ip = JakartaServletUtil.getClientIP(request);
         final String clientId = request.getParameter("client_id");
         String region = RegionUtils.getRegion(ip);
         String ua = request.getHeader(USER_AGENT);

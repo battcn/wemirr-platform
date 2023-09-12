@@ -35,6 +35,11 @@ public interface OrgMapper extends SuperMapper<Org> {
      */
     List<Org> findChildrenById(Long id);
 
+    /**
+     * 根据租户ID删除组织机构数据
+     *
+     * @param tenantId 租户ID
+     */
     @InterceptorIgnore(tenantLine = "true")
     @Delete("delete from sys_org where tenant_id = #{tenantId}")
     void deleteByTenantId(@Param("tenantId") Long tenantId);

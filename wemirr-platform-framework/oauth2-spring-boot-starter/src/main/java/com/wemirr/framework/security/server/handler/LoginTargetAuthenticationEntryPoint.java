@@ -40,12 +40,16 @@ public class LoginTargetAuthenticationEntryPoint extends LoginUrlAuthenticationE
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        final String redirect = request.getHeader("redirect");
+        final String redirect = request.getParameter("redirect");
         final String deviceVerificationUri = "/oauth2/device_verification";
+        if (StringUtils.isBlank(redirect)) {
+            SecurityUtils.exceptionHandler(request, response, authException);
+            return;
+        }
         // 兼容设备码前后端分离
-        if (StringUtils.isBlank(redirect) || (request.getRequestURI().equals(deviceVerificationUri)
+        if (request.getRequestURI().equals(deviceVerificationUri)
                 && request.getMethod().equals(HttpMethod.POST.name())
-                && UrlUtils.isAbsoluteUrl(SecurityConstants.DEVICE_ACTIVATE_URI))) {
+                && UrlUtils.isAbsoluteUrl(SecurityConstants.DEVICE_ACTIVATE_URI)) {
             SecurityUtils.exceptionHandler(request, response, authException);
             return;
         }

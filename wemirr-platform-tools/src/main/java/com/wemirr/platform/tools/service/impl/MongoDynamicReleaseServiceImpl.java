@@ -400,7 +400,6 @@ public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<Str
         final WriteSheet writeSheet = EasyExcel.writerSheet("表格数据")
                 .head(titles)
                 .registerWriteHandler(horizontalCellStyleStrategy)
-//                .registerWriteHandler(new CustomCellWriteHandler())
                 .autoTrim(true).build();
         ExcelWriter excelWriter = EasyExcel.write(response.getOutputStream()).build();
         excelWriter.write(lists, writeSheet);

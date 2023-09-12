@@ -54,10 +54,6 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
 
         Map<String, String> customFiles = Maps.newHashMap();
         // todo 还得重新写支持 vue 3.0 的
-//        customFiles.put("/templates/front/crud.js.ftl", "/crud.js");
-//        customFiles.put("/templates/front/index.vue.ftl", "/index.vue");
-//        customFiles.put("/templates/front/api.js.ftl", "/api.js");
-//        customFiles.put("/templates/sql/resource.sql.ftl", "_menu.sql");
         final String peek = DynamicDataSourceContextHolder.peek();
         final DataSource ds = ((DynamicRoutingDataSource) dataSource).getDataSource(peek);
         final String rootDir = StringUtils.defaultString(request.getRootDir(), System.getProperty("user.dir") + "/.generated/");
@@ -82,7 +78,6 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
                         .superServiceImplClass(SuperServiceImpl.class)
                         .controllerBuilder().enableRestStyle())
                 .templateConfig(builder -> builder
-//                        .entity("/templates/backend/entity.java")
                         .service("/templates/backend/service.java")
                         .serviceImpl("/templates/backend/serviceImpl.java")
                         .mapper("/templates/backend/mapper.java")

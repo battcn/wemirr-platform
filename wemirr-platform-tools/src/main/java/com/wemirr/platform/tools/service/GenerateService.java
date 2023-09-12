@@ -20,6 +20,10 @@ public interface GenerateService extends SuperService<GenerateEntity> {
      */
     String generate(GenerateEntity request);
 
-
+    /**
+     * 显示所有表
+     *
+     * @return 表名
+     */
     List<GenerateTableResp> loadTables();
 }

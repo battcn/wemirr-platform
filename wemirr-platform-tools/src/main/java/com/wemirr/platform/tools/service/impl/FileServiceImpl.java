@@ -1,5 +1,6 @@
 package com.wemirr.platform.tools.service.impl;
 
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.useragent.OS;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
@@ -31,8 +32,7 @@ public class FileServiceImpl extends SuperServiceImpl<FileMapper, FileEntity> im
     @Transactional(rollbackFor = Exception.class)
     public StorageResponse upload(StorageRequest storage, HttpServletRequest request) {
         String ua = request.getHeader(USER_AGENT);
-        String ip = "暂未实现";
-//        String ip = ServletUtil.getClientIP(request);
+        String ip = JakartaServletUtil.getClientIP(request);
         String location = RegionUtils.getRegion(ip);
         final UserAgent userAgent = UserAgentUtil.parse(ua);
         final OS os = userAgent.getOs();
@@ -40,7 +40,6 @@ public class FileServiceImpl extends SuperServiceImpl<FileMapper, FileEntity> im
         final FileEntity entity = FileEntity.builder().contentType(storage.getContentType()).location(location).ip(ip).engine(userAgent.getEngineVersion())
                 .os(os.getName()).engineVersion(userAgent.getEngine().getName()).bucket(response.getBucket())
                 .size(response.getSize())
-                //.etag(response.getEtag())
                 .originName(response.getOriginName()).targetName(response.getTargetName())
                 .mappingPath(response.getMappingPath()).fullUrl(response.getFullUrl()).build();
         this.baseMapper.insert(entity);

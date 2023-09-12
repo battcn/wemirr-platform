@@ -35,6 +35,11 @@ public interface RoleMapper extends SuperMapper<Role> {
      */
     List<Role> list(DataScope scope);
 
+    /**
+     * 根据租户ID删除
+     *
+     * @param tenantId 租户ID
+     */
     @InterceptorIgnore(tenantLine = "true")
     @Delete("delete from sys_role where tenant_id = #{tenantId}")
     void deleteByTenantId(@Param("tenantId") Long tenantId);

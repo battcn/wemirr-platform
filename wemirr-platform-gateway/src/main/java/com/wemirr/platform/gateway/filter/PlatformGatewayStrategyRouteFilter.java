@@ -39,23 +39,20 @@ public class PlatformGatewayStrategyRouteFilter implements GlobalFilter {
         final String traceId = IdUtil.fastSimpleUUID();
         MDC.put(TRACE_ID, traceId);
         if (blacklistHelper.valid(exchange)) {
-            return wrap(exchange, HttpStatus.SERVICE_UNAVAILABLE, "访问失败,您已进入黑名单");
+            return wrap(exchange, "访问失败,您已进入黑名单");
         }
         if (limitHelper.hostTrace(exchange)) {
-            return wrap(exchange, HttpStatus.SERVICE_UNAVAILABLE, "访问失败,已达到最大阈值");
+            return wrap(exchange, "访问失败,已达到最大阈值");
         }
-//        final Object serviceName = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ORIGINAL_REQUEST_URL_ATTR);
-        // 通过过滤器设置路由Header头部信息，并全链路传递到服务端  true 不擦除外部请求头 false 擦除
-//        GatewayStrategyFilterResolver.setHeader(exchange.getRequest(), exchange.getRequest().mutate(), TRACE_ID, traceId, true);
         return chain.filter(exchange);
     }
 
-    private Mono<Void> wrap(ServerWebExchange exchange, HttpStatus status, String message) {
+    private Mono<Void> wrap(ServerWebExchange exchange, String message) {
         ServerHttpResponse response = exchange.getResponse();
-        response.setStatusCode(status);
+        response.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE);
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         JSONObject result = new JSONObject();
-        result.put("code", status.value());
+        result.put("code", HttpStatus.SERVICE_UNAVAILABLE.value());
         result.put("message", message);
         result.put("successful", false);
         result.put("timestamp", System.currentTimeMillis());

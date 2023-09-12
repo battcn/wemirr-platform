@@ -32,6 +32,13 @@ public interface UserMapper extends SuperMapper<User> {
      */
     IPage<UserResp> findPage(IPage<User> page, LbqWrapper<User> wrapper);
 
+    /**
+     * 查询用户
+     *
+     * @param username 用户名
+     * @param tenantId 租户ID
+     * @return 查询结果
+     */
     @InterceptorIgnore(tenantLine = "true")
     @Select("select * from t_user where username = #{username} and tenant_id = #{tenantId}")
     User selectUserByTenantId(@Param("username") String username, @Param("tenantId") Long tenantId);
@@ -44,10 +51,21 @@ public interface UserMapper extends SuperMapper<User> {
      */
     List<User> list(DataScope dataScope);
 
+    /**
+     * 删除指定租户用户数据
+     *
+     * @param tenantId 租户ID
+     */
     @InterceptorIgnore(tenantLine = "true")
     @Delete("delete from t_user where tenant_id = #{tenantId}")
     void deleteByTenantId(@Param("tenantId") Long tenantId);
 
+    /**
+     * 查询指定租户用户信息
+     *
+     * @param tenantId 租户ID
+     * @return 查询结果
+     */
     @InterceptorIgnore(tenantLine = "true")
     @Select("select * from t_user where tenant_id = #{tenantId}")
     List<User> selectByTenantId(@Param("tenantId") Long tenantId);
