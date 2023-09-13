@@ -1,8 +1,8 @@
-package com.wemirr.framework.security.configuration.server.support.custom;
+package com.wemirr.framework.security.configuration.server.support;
 
 import cn.hutool.core.util.StrUtil;
-import com.wemirr.framework.security.configuration.server.support.IntegrationAuthentication;
-import com.wemirr.framework.security.configuration.server.support.IntegrationAuthenticator;
+import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthentication;
+import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthenticator;
 import com.wemirr.framework.security.exception.OAuth2InvalidException;
 import com.wemirr.framework.security.utils.SecurityUtils;
 import lombok.Setter;

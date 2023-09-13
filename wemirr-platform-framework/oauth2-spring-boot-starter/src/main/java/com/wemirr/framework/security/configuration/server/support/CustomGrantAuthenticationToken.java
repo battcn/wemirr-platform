@@ -1,4 +1,4 @@
-package com.wemirr.framework.security.configuration.server.support.custom;
+package com.wemirr.framework.security.configuration.server.support;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;

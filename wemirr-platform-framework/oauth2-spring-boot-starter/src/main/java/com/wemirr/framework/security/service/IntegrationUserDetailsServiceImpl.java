@@ -1,7 +1,7 @@
 package com.wemirr.framework.security.service;
 
-import com.wemirr.framework.security.configuration.server.support.IntegrationAuthentication;
-import com.wemirr.framework.security.configuration.server.support.IntegrationAuthenticator;
+import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthentication;
+import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthenticator;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.framework.security.exception.OAuth2InvalidException;
 import jakarta.servlet.http.HttpServletRequest;

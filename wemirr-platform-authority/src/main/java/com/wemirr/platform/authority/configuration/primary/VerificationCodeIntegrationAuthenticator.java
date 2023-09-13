@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.configuration.primary;
 
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.security.configuration.server.support.IntegrationAuthentication;
+import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthentication;
 import com.wemirr.framework.security.exception.OAuth2InvalidException;
 import com.wemirr.platform.authority.service.VerificationService;
 import jakarta.annotation.Resource;

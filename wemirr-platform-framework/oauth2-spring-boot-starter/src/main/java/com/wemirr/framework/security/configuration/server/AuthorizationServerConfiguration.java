@@ -14,8 +14,8 @@ import com.wemirr.framework.security.configuration.server.store.RedisSecurityCon
 import com.wemirr.framework.security.configuration.server.store.RedisTokenStore;
 import com.wemirr.framework.security.configuration.server.support.CustomIdTokenCustomizer;
 import com.wemirr.framework.security.configuration.server.support.CustomOAuth2AccessTokenGenerator;
-import com.wemirr.framework.security.configuration.server.support.IntegrationAuthenticator;
-import com.wemirr.framework.security.configuration.server.support.custom.CustomLoginAuthenticationProvider;
+import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthenticator;
+import com.wemirr.framework.security.configuration.server.support.CustomLoginAuthenticationProvider;
 import com.wemirr.framework.security.constant.SecurityConstants;
 import com.wemirr.framework.security.service.IntegrationUserDetailsServiceImpl;
 import com.wemirr.framework.security.utils.SecurityUtils;

@@ -1,4 +1,4 @@
-package com.wemirr.framework.security.configuration.server.support.custom;
+package com.wemirr.framework.security.configuration.server.support;
 
 import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.security.exception.OAuth2InvalidException;
