@@ -38,11 +38,4 @@ HELP.md
 *.log
 rebel.xml
 /bak/**
-/bak/oitcloud/repository/*
-/oit-cloud-authority/**
-/oit-cloud-authority/*
-/oit-cloud-authority/
-/oit-cloud-authority/**/**
-/oit-cloud-authority/src/
-/oit-cloud-authority/pom.xml
 /.idea/
