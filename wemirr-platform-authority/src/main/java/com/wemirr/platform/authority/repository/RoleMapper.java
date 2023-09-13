@@ -25,6 +25,7 @@ public interface RoleMapper extends SuperMapper<Role> {
      * @param userId 用户ID
      * @return 查询结果
      */
+    @InterceptorIgnore(tenantLine = "true")
     List<Role> findRoleByUserId(Long userId);
 
     /**

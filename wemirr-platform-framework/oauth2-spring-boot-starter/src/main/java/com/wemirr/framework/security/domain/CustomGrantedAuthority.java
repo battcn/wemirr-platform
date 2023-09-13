@@ -1,9 +1,7 @@
 package com.wemirr.framework.security.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -13,11 +11,27 @@ import org.springframework.security.core.GrantedAuthority;
  */
 @Data
 @JsonSerialize
-@NoArgsConstructor
-@AllArgsConstructor
 public class CustomGrantedAuthority implements GrantedAuthority {
 
-    private String authority;
+    private final String authority;
+    private final boolean role;
+    private static final String ROLE_ = "ROLE_";
+
+    public CustomGrantedAuthority(String authority) {
+        this.authority = authority;
+        this.role = false;
+    }
+
+    public CustomGrantedAuthority(String authority, boolean role) {
+        this.role = role;
+        if (role) {
+            // 拼接 ROLE_ 以便于支持 @PreAuthorize("hasRole('ROLE_ADMIN')")
+            this.authority = authority.contains(ROLE_) ? authority : ROLE_ + authority;
+        } else {
+            this.authority = authority;
+        }
+
+    }
 
     @Override
     public String getAuthority() {

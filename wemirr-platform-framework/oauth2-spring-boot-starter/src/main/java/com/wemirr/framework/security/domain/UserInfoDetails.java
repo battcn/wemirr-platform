@@ -1,6 +1,8 @@
 package com.wemirr.framework.security.domain;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,10 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Levin
@@ -31,7 +30,7 @@ public class UserInfoDetails implements UserDetails, OAuth2AuthenticatedPrincipa
     private String mobile;
     private Long tenantId;
     private String tenantCode;
-    private String companyName;
+    private String tenantName;
     private String nickName;
     private String realName;
     private String username;
@@ -57,7 +56,17 @@ public class UserInfoDetails implements UserDetails, OAuth2AuthenticatedPrincipa
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.authorities;
+        if (CollUtil.isNotEmpty(authorities)) {
+            return this.authorities;
+        }
+        final List<GrantedAuthority> authorities = Lists.newArrayList();
+        if (CollUtil.isNotEmpty(roles)) {
+            authorities.addAll(roles.stream().map(x -> new CustomGrantedAuthority(x, true)).toList());
+        }
+        if (CollUtil.isNotEmpty(permissions)) {
+            authorities.addAll(permissions.stream().map(CustomGrantedAuthority::new).toList());
+        }
+        return authorities;
     }
 
     @Override
