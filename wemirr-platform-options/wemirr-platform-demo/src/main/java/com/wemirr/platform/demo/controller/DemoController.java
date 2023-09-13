@@ -1,7 +1,7 @@
 package com.wemirr.platform.demo.controller;
 
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
+import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.demo.service.DemoService;
 import com.wemirr.platform.demo.service.client.DemoTestFeignClient;
 import io.swagger.v3.oas.annotations.Operation;

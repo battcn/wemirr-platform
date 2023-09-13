@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.controller;
 
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.TenantEnvironment;
-import com.wemirr.framework.security.entity.UserInfoDetails;
+import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.platform.authority.domain.req.ChangePasswordReq;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;

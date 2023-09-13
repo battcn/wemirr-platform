@@ -5,12 +5,14 @@ import com.google.common.collect.Maps;
 import com.wemirr.framework.db.mybatis.DictionaryEnum;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
+import org.springframework.lang.Nullable;
 
 import java.util.Map;
 
 /**
  * @author Levin
  */
+@SuppressWarnings("all")
 public class StringCodeToEnumConverterFactory implements ConverterFactory<String, DictionaryEnum<?>> {
 
     private static final Map<Class, Converter> CONVERTERS = Maps.newHashMap();
@@ -33,17 +35,17 @@ public class StringCodeToEnumConverterFactory implements ConverterFactory<String
     }
 
     public static class StringToEnumConverter<T extends DictionaryEnum<?>> implements Converter<String, T> {
-        private Map<String, T> enumMap = Maps.newHashMap();
+        private final Map<String, T> enumMap = Maps.newHashMap();
 
         public StringToEnumConverter(Class<T> enumType) {
             T[] enums = enumType.getEnumConstants();
             for (T e : enums) {
-                enumMap.put(e.getCode().toString(), e);
+                enumMap.put(e.getCode(), e);
             }
         }
 
         @Override
-        public T convert(String source) {
+        public T convert(@Nullable String source) {
             T t = enumMap.get(source);
             if (ObjectUtil.isNull(t)) {
                 throw new IllegalArgumentException("无法匹配对应的枚举类型");

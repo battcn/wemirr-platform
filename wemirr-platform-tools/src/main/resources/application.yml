@@ -30,7 +30,6 @@ extend:
         bucket: battcn
         mapping-path: http://qiniu.battcn.com
   oauth2:
-    authorization:
-      client:
-        opaque-token:
-          type: redis
+    client:
+      opaque-token:
+        type: redis

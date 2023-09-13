@@ -1,7 +1,7 @@
 package com.wemirr.platform.tools.controller;
 
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
+import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;

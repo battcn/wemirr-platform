@@ -44,7 +44,7 @@
         <wemirr-framework.version>1.17.4-SNAPSHOT</wemirr-framework.version>
         <guava.version>31.1-jre</guava.version>
         <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
-        <spring-authorization-server.version>1.1.0</spring-authorization-server.version>
+        <spring-authorization-server.version>1.1.2</spring-authorization-server.version>
         <knife4j.version>4.3.0</knife4j.version>
         <knife4j-springdoc-ui.version>3.0.3</knife4j-springdoc-ui.version>
     </properties>

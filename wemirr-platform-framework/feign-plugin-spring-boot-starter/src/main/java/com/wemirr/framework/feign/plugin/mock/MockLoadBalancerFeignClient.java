@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -72,7 +73,7 @@ public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient
     /**
      * 请求响应
      */
-    private Response getResponse(Request request, MockProperties.Server server) throws IOException {
+    private Response getResponse(Request request, MockProperties.Server server) {
         HttpHeaders headers = new HttpHeaders();
         headers.put(HttpHeaders.CONTENT_TYPE, Collections.singletonList("application/json"));
         final Map<String, Collection<String>> requestHeaders = request.headers();
@@ -81,8 +82,8 @@ public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient
         }
         RestTemplate template = new RestTemplate();
         HttpEntity<byte[]> entity = new HttpEntity<>(request.body(), headers);
-        final HttpMethod httpMethod = Objects.requireNonNull(HttpMethod.resolve(request.httpMethod().name()));
-        final ResponseEntity<String> exchange = template.exchange(URLDecoder.decode(request.url(), "UTF-8"), httpMethod, entity, String.class);
+        final HttpMethod httpMethod = Objects.requireNonNull(HttpMethod.valueOf(request.httpMethod().name()));
+        final ResponseEntity<String> exchange = template.exchange(URLDecoder.decode(request.url(), StandardCharsets.UTF_8), httpMethod, entity, String.class);
         final String body = exchange.getBody();
         InputStream inputStream = null;
         if (Objects.nonNull(body)) {

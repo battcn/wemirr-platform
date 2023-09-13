@@ -4,8 +4,7 @@ import cn.hutool.core.net.NetUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import com.wemirr.framework.commons.entity.enums.CommonError;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.security.client.annotation.InnerService;
-import com.wemirr.framework.security.properties.InnerServiceProperties;
+import com.wemirr.framework.security.configuration.client.annotation.InnerService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +25,11 @@ import java.util.List;
 @Slf4j
 @Aspect
 @AllArgsConstructor
-@EnableConfigurationProperties(InnerServiceProperties.class)
+@EnableConfigurationProperties(SecurityExtProperties.class)
 public class SecurityInnerServiceAspect implements Ordered {
 
     private final HttpServletRequest request;
-    private final InnerServiceProperties innerServiceProperties;
+    private final SecurityExtProperties properties;
 
     private static final String SEPARATOR = ",";
 
@@ -51,14 +50,15 @@ public class SecurityInnerServiceAspect implements Ordered {
                 return point.proceed();
             }
         }
-        List<String> whiteLists = innerServiceProperties.getWhiteLists();
+        final SecurityExtProperties.InnerService innerService = properties.getInnerService();
+        List<String> whiteLists = innerService.getWhiteLists();
         String signatureName = point.getSignature().getName();
         if (!whiteLists.contains(ipAddress)) {
             log.warn("访问受限，非白名单，[IP] - [{}] - [方法] - [{}]", ipAddress, signatureName);
             throw CheckedException.badRequest(CommonError.ACCESS_DENIED);
         }
-        String header = request.getHeader(innerServiceProperties.getHeader());
-        String headerValue = innerServiceProperties.getHeaderValue();
+        String header = request.getHeader(innerService.getHeader());
+        String headerValue = innerService.getHeaderValue();
         if (inner.value() && !StringUtils.equals(headerValue, header)) {
             log.warn("访问受限，非白名单，[IP] - [{}] - [方法] - [{}]", ipAddress, signatureName);
             throw CheckedException.badRequest(CommonError.ACCESS_DENIED);

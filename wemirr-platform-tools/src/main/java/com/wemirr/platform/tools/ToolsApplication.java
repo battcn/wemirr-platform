@@ -2,7 +2,7 @@ package com.wemirr.platform.tools;
 
 import cn.hutool.core.lang.generator.Generator;
 import cn.hutool.core.lang.generator.SnowflakeGenerator;
-import com.wemirr.framework.security.client.annotation.EnableOAuth2Client;
+import com.wemirr.framework.security.configuration.client.annotation.EnableOAuth2Client;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;

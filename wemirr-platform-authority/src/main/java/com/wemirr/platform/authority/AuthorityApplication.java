@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority;
 
 import com.wemirr.framework.boot.log.event.SysLogListener;
-import com.wemirr.framework.security.server.annotation.EnableOAuth2Server;
+import com.wemirr.framework.security.configuration.server.annotation.EnableOAuth2Server;
 import com.wemirr.framework.websocket.redis.EnableRedisWebSocket;
 import com.wemirr.platform.authority.service.OptLogService;
 import lombok.SneakyThrows;

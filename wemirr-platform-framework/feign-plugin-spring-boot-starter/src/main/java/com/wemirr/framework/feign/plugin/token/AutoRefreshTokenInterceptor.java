@@ -21,10 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Levin
@@ -54,7 +51,7 @@ public class AutoRefreshTokenInterceptor implements RequestInterceptor {
 
     @SneakyThrows
     private String loadCache() {
-        final HttpMethod method = Optional.ofNullable(HttpMethod.resolve(properties.getMethod())).orElse(HttpMethod.GET);
+        final HttpMethod method = Optional.of(HttpMethod.valueOf(properties.getMethod())).orElse(HttpMethod.GET);
         final AutoRefreshTokenProperties.OAuth auth = properties.getOAuth();
         //设置访问参数
         Map<String, Object> params = new LinkedHashMap<>();
@@ -79,7 +76,10 @@ public class AutoRefreshTokenInterceptor implements RequestInterceptor {
         }
         final String exchangeUrl = HttpUtil.urlWithForm(url, params, Charset.defaultCharset(), true);
         final ResponseEntity<String> exchange = restTemplate.exchange(exchangeUrl, method, entity, String.class);
-        JSONObject object = JSON.parseObject(exchange.getBody());
+        final JSONObject object = JSON.parseObject(exchange.getBody());
+        if (Objects.isNull(object)) {
+            return null;
+        }
         log.info("自动获取Token响应结果 - {}", object.toJSONString());
         final String accessToken = object.getString("access_token");
         if (StrUtil.isBlank(accessToken)) {

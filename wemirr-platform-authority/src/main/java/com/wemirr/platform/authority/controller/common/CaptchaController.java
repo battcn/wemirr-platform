@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.controller.common;
 
 import cn.hutool.captcha.CircleCaptcha;
-import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
+import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.authority.service.VerificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

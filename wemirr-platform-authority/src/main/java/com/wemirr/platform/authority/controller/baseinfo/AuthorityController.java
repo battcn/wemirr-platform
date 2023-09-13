@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatis.auth.DataScope;
 import com.wemirr.framework.db.mybatis.auth.DataScopeService;
-import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
+import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.resp.DictResp;

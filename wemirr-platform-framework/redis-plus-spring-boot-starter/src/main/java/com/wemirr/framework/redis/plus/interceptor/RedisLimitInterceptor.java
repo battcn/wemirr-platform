@@ -12,7 +12,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
@@ -38,7 +38,7 @@ public class RedisLimitInterceptor {
     private final RedisLimitHelper redisLimitHelper;
 
     private final ExpressionParser parser = new SpelExpressionParser();
-    private final LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
+    private final StandardReflectionParameterNameDiscoverer discoverer = new StandardReflectionParameterNameDiscoverer();
 
     @Pointcut("@annotation(com.wemirr.framework.redis.plus.anontation.RedisLimit)")
     public void redissonRateAspectPointcut() {
@@ -70,7 +70,7 @@ public class RedisLimitInterceptor {
                 return point.proceed();
             }
         } catch (InterruptedException e) {
-            log.error("redisson rate limiter obtained the token error with key:{},error:{}", key, e);
+            log.error("redisson rate limiter obtained the token error with key:{},error:", key, e);
         }
         return null;
     }

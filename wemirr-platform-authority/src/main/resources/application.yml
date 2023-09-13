@@ -27,14 +27,13 @@ extend:
   redis:
     enabled: true
   oauth2:
-    authorization:
-      server:
-        type: redis
-        registered-client: jdbc
-        consent: jdbc
-        token-type: jwt
-        ignore:
-          # 配置权限过滤的地址
-          resource-urls:
-            - /captcha
-            - /instances/**
+    server:
+      type: redis
+      registered-client: jdbc
+      consent: jdbc
+      token-type: jwt
+      ignore:
+        # 配置权限过滤的地址
+        resource-urls:
+          - /captcha
+          - /instances/**

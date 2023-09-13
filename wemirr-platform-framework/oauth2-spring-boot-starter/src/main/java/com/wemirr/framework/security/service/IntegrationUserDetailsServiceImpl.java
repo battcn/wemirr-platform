@@ -1,9 +1,9 @@
 package com.wemirr.framework.security.service;
 
-import com.wemirr.framework.security.entity.UserInfoDetails;
+import com.wemirr.framework.security.configuration.server.support.IntegrationAuthentication;
+import com.wemirr.framework.security.configuration.server.support.IntegrationAuthenticator;
+import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.framework.security.exception.OAuth2InvalidException;
-import com.wemirr.framework.security.server.integration.IntegrationAuthentication;
-import com.wemirr.framework.security.server.integration.IntegrationAuthenticator;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
