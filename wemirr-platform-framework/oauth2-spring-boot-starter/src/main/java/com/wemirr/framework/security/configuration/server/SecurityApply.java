@@ -35,7 +35,7 @@ public class SecurityApply {
         // 指定登录页面
         http.formLogin(formLogin -> {
             formLogin.loginPage("/login");
-            if (UrlUtils.isAbsoluteUrl(properties.getLoginFormUrl())) {
+            if (UrlUtils.isAbsoluteUrl(properties.getServer().getLoginFormUrl())) {
                 // 绝对路径代表是前后端分离，登录成功和失败改为写回json，不重定向了
                 formLogin.successHandler(new LoginSuccessHandler());
                 formLogin.failureHandler(new LoginFailureHandler());

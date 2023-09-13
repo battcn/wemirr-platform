@@ -1,6 +1,5 @@
 package com.wemirr.framework.security.configuration.server.store;
 
-import com.wemirr.framework.security.configuration.server.store.RedisTokenStore;
 import com.wemirr.framework.security.constant.SecurityConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

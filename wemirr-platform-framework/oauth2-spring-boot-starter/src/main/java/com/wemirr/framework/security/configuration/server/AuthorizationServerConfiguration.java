@@ -7,15 +7,15 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import com.wemirr.framework.security.configuration.client.RedisOpaqueTokenIntrospector;
 import com.wemirr.framework.security.configuration.SecurityExtProperties;
-import com.wemirr.framework.security.configuration.server.support.CustomIdTokenCustomizer;
+import com.wemirr.framework.security.configuration.client.RedisOpaqueTokenIntrospector;
 import com.wemirr.framework.security.configuration.server.handler.LoginTargetAuthenticationEntryPoint;
+import com.wemirr.framework.security.configuration.server.store.RedisSecurityContextRepository;
+import com.wemirr.framework.security.configuration.server.store.RedisTokenStore;
+import com.wemirr.framework.security.configuration.server.support.CustomIdTokenCustomizer;
 import com.wemirr.framework.security.configuration.server.support.CustomOAuth2AccessTokenGenerator;
 import com.wemirr.framework.security.configuration.server.support.IntegrationAuthenticator;
 import com.wemirr.framework.security.configuration.server.support.custom.CustomLoginAuthenticationProvider;
-import com.wemirr.framework.security.configuration.server.store.RedisTokenStore;
-import com.wemirr.framework.security.configuration.server.store.RedisSecurityContextRepository;
 import com.wemirr.framework.security.constant.SecurityConstants;
 import com.wemirr.framework.security.service.IntegrationUserDetailsServiceImpl;
 import com.wemirr.framework.security.utils.SecurityUtils;
@@ -94,7 +94,7 @@ public class AuthorizationServerConfiguration {
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(AbstractHttpConfigurer::disable);
         // 当未登录时访问认证端点时重定向至login页面
-        http.exceptionHandling((exceptions) -> exceptions.defaultAuthenticationEntryPointFor(new LoginTargetAuthenticationEntryPoint(properties.getLoginFormUrl()), new MediaTypeRequestMatcher(MediaType.TEXT_HTML)))
+        http.exceptionHandling((exceptions) -> exceptions.defaultAuthenticationEntryPointFor(new LoginTargetAuthenticationEntryPoint(properties), new MediaTypeRequestMatcher(MediaType.TEXT_HTML)))
                 .oauth2ResourceServer((resourceServer) -> resourceServer.jwt(Customizer.withDefaults()));
         final SecurityExtProperties.Server server = properties.getServer();
         if (server.getType() == SecurityExtProperties.LoadType.redis) {
@@ -153,7 +153,7 @@ public class AuthorizationServerConfiguration {
         }
         http.oauth2ResourceServer((resourceServer) -> resourceServer.accessDeniedHandler(SecurityUtils::exceptionHandler).authenticationEntryPoint(SecurityUtils::exceptionHandler));
         // 当未登录时访问认证端点时重定向至login页面 [兼容前后端分离与不分离配置]
-        http.exceptionHandling((exceptions) -> exceptions.defaultAuthenticationEntryPointFor(new LoginTargetAuthenticationEntryPoint(properties.getLoginFormUrl()), new MediaTypeRequestMatcher(MediaType.APPLICATION_JSON)));
+        http.exceptionHandling((exceptions) -> exceptions.defaultAuthenticationEntryPointFor(new LoginTargetAuthenticationEntryPoint(properties), new MediaTypeRequestMatcher(MediaType.APPLICATION_JSON)));
         return http.build();
     }
 

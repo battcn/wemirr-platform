@@ -1,12 +1,12 @@
 package com.wemirr.framework.security.configuration.server.handler;
 
+import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.constant.SecurityConstants;
 import com.wemirr.framework.security.utils.SecurityUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -29,39 +29,36 @@ public class LoginTargetAuthenticationEntryPoint extends LoginUrlAuthenticationE
 
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-    /**
-     * @param loginFormUrl URL where the login page can be found. Should either be
-     *                     relative to the web-app context path (include a leading {@code /}) or an absolute
-     *                     URL.
-     */
-    public LoginTargetAuthenticationEntryPoint(String loginFormUrl) {
-        super(loginFormUrl);
+    private final SecurityExtProperties properties;
+
+    public LoginTargetAuthenticationEntryPoint(SecurityExtProperties properties) {
+        super(properties.getServer().getLoginFormUrl());
+        this.properties = properties;
     }
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        final String redirect = request.getParameter("redirect");
-        final String deviceVerificationUri = "/oauth2/device_verification";
-        if (StringUtils.isBlank(redirect)) {
-            SecurityUtils.exceptionHandler(request, response, authException);
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+        final SecurityExtProperties.Server server = properties.getServer();
+        if (server.isCustom()) {
+            log.debug("自定义模式异常 - {}", exception.getLocalizedMessage());
+            SecurityUtils.exceptionHandler(request, response, exception);
             return;
         }
         // 兼容设备码前后端分离
-        if (request.getRequestURI().equals(deviceVerificationUri)
+        if (request.getRequestURI().equals(server.getDeviceVerificationUri())
                 && request.getMethod().equals(HttpMethod.POST.name())
                 && UrlUtils.isAbsoluteUrl(SecurityConstants.DEVICE_ACTIVATE_URI)) {
-            SecurityUtils.exceptionHandler(request, response, authException);
+            log.debug("兼容前后端分离设备码异常 - {}", exception.getLocalizedMessage());
+            SecurityUtils.exceptionHandler(request, response, exception);
             return;
         }
-
         // 获取登录表单的地址
-        String loginForm = determineUrlToUseForThisRequest(request, response, authException);
+        String loginForm = determineUrlToUseForThisRequest(request, response, exception);
         if (!UrlUtils.isAbsoluteUrl(loginForm)) {
-            // 不是绝对路径调用父类方法处理
-            super.commence(request, response, authException);
+            log.debug("非绝对路径调用,父类方法处理 - {}", exception.getLocalizedMessage());
+            super.commence(request, response, exception);
             return;
         }
-
         StringBuffer requestUrl = request.getRequestURL();
         if (!ObjectUtils.isEmpty(request.getQueryString())) {
             requestUrl.append("?").append(request.getQueryString());

@@ -42,8 +42,15 @@ public class SecurityExtProperties {
 
         private boolean custom = true;
         private LoadType type = LoadType.redis;
+        /**
+         * 大概率用不上
+         */
         private boolean device = false;
+        /**
+         * 大概率用不上
+         */
         private boolean odic = false;
+
         /**
          * token 类型 (支持自定义TOKEN和默认的JWT)
          */
@@ -61,6 +68,16 @@ public class SecurityExtProperties {
          * 忽略资源
          */
         private Ignore ignore = new Ignore();
+
+
+        /**
+         * 登录地址，前后端分离就填写完整的url路径，不分离填写相对路径
+         */
+        private String loginFormUrl = "/login";
+        /**
+         * 设备验证地址
+         */
+        private String deviceVerificationUri = "/oauth2/device_verification";
     }
 
 
@@ -128,11 +145,6 @@ public class SecurityExtProperties {
          */
         redis, rest
     }
-
-    /**
-     * 登录地址，前后端分离就填写完整的url路径，不分离填写相对路径
-     */
-    private String loginFormUrl = "/login";
 
 
     private InnerService innerService = new InnerService();
