@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
-import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +42,7 @@ public class TokenEndpoint {
     }
 
     @GetMapping("/oauth2/userinfo")
-    public Object userinfo(Principal principal) {
+    public Object userinfo(Principal principal, OAuth2Authorization authorization) {
         // 账号密码模式登陆
         if (principal instanceof UsernamePasswordAuthenticationToken token) {
             if (token.getPrincipal() instanceof UserInfoDetails user) {
@@ -64,7 +63,6 @@ public class TokenEndpoint {
         return principal;
     }
 
-    @ResponseBody
     @PutMapping("/change_password")
     @Operation(summary = "修改密码")
     public void changePassword(@Validated @RequestBody ChangePasswordDTO dto) {
@@ -73,6 +71,15 @@ public class TokenEndpoint {
         }
         final Long userId = tenantEnvironment.userId();
         this.userService.changePassword(userId, dto.getOriginalPassword(), dto.getPassword());
+    }
+
+    @DeleteMapping("/oauth2/logout")
+    @Operation(summary = "退出登录")
+    public void logout(Principal principal) {
+        if (principal instanceof JwtAuthenticationToken token) {
+            final String tokenValue = token.getToken().getTokenValue();
+            oAuth2AuthorizationService.remove(oAuth2AuthorizationService.findByToken(tokenValue, OAuth2TokenType.ACCESS_TOKEN));
+        }
     }
 
 

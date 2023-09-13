@@ -26,7 +26,7 @@ public class RestOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.set("rewrite", "0");
-        final CustomSecurityProperties.OpaqueToken opaqueToken = properties.getOpaqueToken();
+        final CustomSecurityProperties.OpaqueToken opaqueToken = properties.getClient().getOpaqueToken();
         HttpEntity<String> httpEntity = new HttpEntity<>(headers);
         try {
             final ResponseEntity<UserInfoDetails> response = restTemplate.exchange(opaqueToken.getUserinfo(), HttpMethod.GET, httpEntity, UserInfoDetails.class);

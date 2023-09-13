@@ -96,24 +96,24 @@ public class AuthorizationServerConfiguration {
         // 当未登录时访问认证端点时重定向至login页面
         http.exceptionHandling((exceptions) -> exceptions.defaultAuthenticationEntryPointFor(new LoginTargetAuthenticationEntryPoint(properties.getLoginFormUrl()), new MediaTypeRequestMatcher(MediaType.TEXT_HTML)))
                 .oauth2ResourceServer((resourceServer) -> resourceServer.jwt(Customizer.withDefaults()));
-        if (properties.getType() == CustomSecurityProperties.LoadType.redis) {
+        final CustomSecurityProperties.Server server = properties.getServer();
+        if (server.getType() == CustomSecurityProperties.LoadType.redis) {
             final RedisSecurityContextRepository securityContextRepository = SpringUtil.getBean(RedisSecurityContextRepository.class);
             // 使用redis存储、读取登录的认证信息
             http.securityContext(context -> context.securityContextRepository(securityContextRepository));
         }
-        if (properties.isDevice()) {
+        if (server.isDevice()) {
             SecurityApply.applyDeviceSecurity(http);
         }
-
         // 自定义登录策略
-        if (properties.isCustom()) {
+        if (server.isCustom()) {
             return SecurityApply.applyCustomSecurity(http, integrationAuthenticators);
         }
         return http.build();
     }
 
     @Bean
-    @ConditionalOnExpression("'${extend.oauth2.authorization.token-type}'.equalsIgnoreCase('custom')")
+    @ConditionalOnExpression("'${extend.oauth2.authorization.server.token-type}'.equalsIgnoreCase('custom')")
     private OpaqueTokenIntrospector opaqueTokenIntrospector() {
         return new RedisOpaqueTokenIntrospector();
     }
@@ -130,20 +130,21 @@ public class AuthorizationServerConfiguration {
         // 禁用 csrf 与 cors
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(AbstractHttpConfigurer::disable);
+        final CustomSecurityProperties.Server server = properties.getServer();
         List<String> urls = Lists.newArrayList();
-        urls.addAll(properties.getServerIgnore().getResourceUrls());
+        urls.addAll(server.getIgnore().getResourceUrls());
         urls.addAll(properties.getDefaultIgnoreUrls());
         AntPathRequestMatcher[] requestMatchers = urls.stream().map(AntPathRequestMatcher::new).toList().toArray(new AntPathRequestMatcher[]{});
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers(requestMatchers).permitAll().anyRequest().authenticated());
 
-        if (properties.getType() == CustomSecurityProperties.LoadType.redis) {
+        if (server.getType() == CustomSecurityProperties.LoadType.redis) {
             final RedisSecurityContextRepository securityContextRepository = SpringUtil.getBean(RedisSecurityContextRepository.class);
             // 使用redis存储、读取登录的认证信息
             http.securityContext(context -> context.securityContextRepository(securityContextRepository));
         }
         // form 登录策略
         SecurityApply.applyFormLoginSecurity(http, properties);
-        if (properties.getTokenType() == CustomSecurityProperties.TokenType.jwt) {
+        if (server.getTokenType() == CustomSecurityProperties.TokenType.jwt) {
             // JWT TOKEN = TOKEN 长
             http.oauth2ResourceServer((resourceServer) -> resourceServer.jwt(Customizer.withDefaults()));
         } else {
@@ -184,7 +185,7 @@ public class AuthorizationServerConfiguration {
      * @return OAuth2TokenCustomizer的实例
      */
     @Bean
-    @ConditionalOnExpression("'${extend.oauth2.authorization.token-type}'.equalsIgnoreCase('jwt')")
+    @ConditionalOnExpression("'${extend.oauth2.authorization.server.token-type}'.equalsIgnoreCase('jwt')")
     public OAuth2TokenCustomizer<JwtEncodingContext> oAuth2TokenCustomizer() {
         return new FederatedIdentityIdTokenCustomizer();
     }
@@ -196,7 +197,7 @@ public class AuthorizationServerConfiguration {
      */
     @Bean
     @SneakyThrows
-    @ConditionalOnExpression("'${extend.oauth2.authorization.token-type}'.equalsIgnoreCase('jwt')")
+    @ConditionalOnExpression("'${extend.oauth2.authorization.server.token-type}'.equalsIgnoreCase('jwt')")
     public JWKSource<SecurityContext> jwkSource() {
         // 先从redis获取
         String jwkSetCache = redisTokenStore.get(SecurityConstants.RedisConstants.AUTHORIZATION_JWS_PREFIX_KEY);
@@ -241,7 +242,7 @@ public class AuthorizationServerConfiguration {
      * @return jwt解析器 JwtAuthenticationConverter
      */
     @Bean
-    @ConditionalOnExpression("'${extend.oauth2.authorization.token-type}'.equalsIgnoreCase('jwt')")
+    @ConditionalOnExpression("'${extend.oauth2.authorization.server.token-type}'.equalsIgnoreCase('jwt')")
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         // 设置解析权限信息的前缀，设置为空是去掉前缀
@@ -261,14 +262,14 @@ public class AuthorizationServerConfiguration {
      * @return JwtDecoder
      */
     @Bean
-    @ConditionalOnExpression("'${extend.oauth2.authorization.token-type}'.equalsIgnoreCase('jwt')")
+    @ConditionalOnExpression("'${extend.oauth2.authorization.server.token-type}'.equalsIgnoreCase('jwt')")
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
 
 
     @Bean
-    @ConditionalOnExpression("'${extend.oauth2.authorization.token-type}'.equalsIgnoreCase('custom')")
+    @ConditionalOnExpression("'${extend.oauth2.authorization.server.token-type}'.equalsIgnoreCase('custom')")
     public OAuth2TokenGenerator<OAuth2Token> oAuth2TokenGenerator() {
         CustomOAuth2AccessTokenGenerator accessTokenGenerator = new CustomOAuth2AccessTokenGenerator();
         return new DelegatingOAuth2TokenGenerator(accessTokenGenerator, new OAuth2RefreshTokenGenerator());

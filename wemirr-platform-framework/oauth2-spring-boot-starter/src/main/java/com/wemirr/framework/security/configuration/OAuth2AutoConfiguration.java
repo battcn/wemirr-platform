@@ -20,7 +20,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 public class OAuth2AutoConfiguration {
 
     @Bean
-    @ConditionalOnExpression("'${extend.oauth2.authorization.registered-client}'.equalsIgnoreCase('jdbc')")
+    @ConditionalOnExpression("'${extend.oauth2.authorization.server.registered-client}'.equalsIgnoreCase('jdbc')")
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
         return new JdbcRegisteredClientRepository(jdbcTemplate);
     }
@@ -34,7 +34,7 @@ public class OAuth2AutoConfiguration {
      * @return JdbcOAuth2AuthorizationConsentService
      */
     @Bean
-    @ConditionalOnExpression("'${extend.oauth2.authorization.consent}'.equalsIgnoreCase('jdbc')")
+    @ConditionalOnExpression("'${extend.oauth2.authorization.server.consent}'.equalsIgnoreCase('jdbc')")
     public OAuth2AuthorizationConsentService authorizationConsentService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
         // 基于db的授权确认管理服务
         // 基于本地内存的服务实现 InMemoryOAuth2AuthorizationConsentService
@@ -50,7 +50,7 @@ public class OAuth2AutoConfiguration {
      * @return JdbcOAuth2AuthorizationService
      */
     @Bean
-    @ConditionalOnExpression("'${extend.oauth2.authorization}'.equalsIgnoreCase('jdbc')")
+    @ConditionalOnExpression("'${extend.oauth2.authorization.server.type}'.equalsIgnoreCase('jdbc')")
     public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
         return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
     }
@@ -62,7 +62,7 @@ public class OAuth2AutoConfiguration {
      * @return JdbcOAuth2AuthorizationService
      */
     @Bean
-    @ConditionalOnExpression("'${extend.oauth2.authorization.type}'.equalsIgnoreCase('redis')")
+    @ConditionalOnExpression("'${extend.oauth2.authorization.server.type}'.equalsIgnoreCase('redis')")
     public OAuth2AuthorizationService oAuth2AuthorizationService(RedisTemplate<String, Object> redisTemplate) {
         return new RedisOAuth2AuthorizationServiceImpl(redisTemplate);
     }

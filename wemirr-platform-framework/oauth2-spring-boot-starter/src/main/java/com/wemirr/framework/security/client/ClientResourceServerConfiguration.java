@@ -1,5 +1,6 @@
 package com.wemirr.framework.security.client;
 
+import com.google.common.collect.Lists;
 import com.wemirr.framework.security.properties.CustomSecurityProperties;
 import com.wemirr.framework.security.server.store.RedisTokenStore;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 /**
  * @author Levin
  */
@@ -30,7 +33,7 @@ public class ClientResourceServerConfiguration {
 
     @Bean
     private OpaqueTokenIntrospector opaqueTokenIntrospector() {
-        final CustomSecurityProperties.OpaqueToken opaqueToken = properties.getOpaqueToken();
+        final CustomSecurityProperties.OpaqueToken opaqueToken = properties.getClient().getOpaqueToken();
         if (opaqueToken.getType() == CustomSecurityProperties.OpaqueTokenType.redis) {
             return new RedisOpaqueTokenIntrospector();
         }
@@ -43,7 +46,10 @@ public class ClientResourceServerConfiguration {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        AntPathRequestMatcher[] requestMatchers = properties.getClientIgnore().getResourceUrls().stream()
+        List<String> urls = Lists.newArrayList();
+        urls.addAll(properties.getClient().getIgnore().getResourceUrls());
+        urls.addAll(properties.getDefaultIgnoreUrls());
+        AntPathRequestMatcher[] requestMatchers = urls.stream()
                 .map(AntPathRequestMatcher::new)
                 .toList()
                 .toArray(new AntPathRequestMatcher[]{});

@@ -1,10 +1,10 @@
 package com.wemirr.framework.boot;
 
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.lionsoul.ip2region.DataBlock;
 import org.lionsoul.ip2region.DbConfig;
 import org.lionsoul.ip2region.DbSearcher;
@@ -39,7 +39,7 @@ public class RegionUtils {
                 String classPath = "classpath:ip2region/ip2region.db";
                 InputStream resourceAsStream = ResourceUtil.getStreamSafe(classPath);
                 if (resourceAsStream != null) {
-                    FileUtils.copyInputStreamToFile(resourceAsStream, file);
+                    FileUtil.writeFromStream(resourceAsStream, file);
                 }
             }
             DbConfig config = new DbConfig();

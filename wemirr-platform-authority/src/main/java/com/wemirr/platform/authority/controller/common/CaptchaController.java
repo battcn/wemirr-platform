@@ -8,10 +8,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,10 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author Levin
  */
-@Slf4j
-@Validated
 @RestController
-@RequestMapping("/captcha")
+@RequestMapping
 @Tag(name = "验证码", description = "验证码")
 @RequiredArgsConstructor
 public class CaptchaController {
@@ -32,7 +28,7 @@ public class CaptchaController {
 
     @SneakyThrows
     @IgnoreAuthorize
-    @GetMapping(produces = "image/png")
+    @GetMapping(value = "/captcha", produces = "image/png")
     @Operation(summary = "验证码 - [DONE] - [Levin]", description = "验证码 - [DONE] - [Levin]")
     public void create(@RequestParam(value = "key") String key,
                        @RequestParam(defaultValue = "200", required = false) Integer width,

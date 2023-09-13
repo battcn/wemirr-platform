@@ -13,7 +13,7 @@ import static com.wemirr.framework.security.properties.CustomSecurityProperties.
  * 资源服务器对外直接暴露URL
  *
  * @author Levin
- * @since 2019-04-04
+ * @since 2023-09-13
  */
 @Data
 @RefreshScope
@@ -21,35 +21,67 @@ import static com.wemirr.framework.security.properties.CustomSecurityProperties.
 public class CustomSecurityProperties {
 
     public static final String PLUGIN_PREFIX = "extend.oauth2.authorization";
-    
-    private TokenType tokenType = TokenType.custom;
-    private LoadType registeredClient = LoadType.jdbc;
-    private LoadType type = LoadType.redis;
-    /**
-     * OAuth2AuthorizationConsentService 加载的类型
-     */
-    private LoadType consent = LoadType.jdbc;
-    private Ignore serverIgnore = new Ignore();
-    private Ignore clientIgnore = new Ignore();
-    /**
-     * 客户端 token 信息获取的策略
-     */
-    private OpaqueToken opaqueToken;
+
     /**
      * 默认的过滤地址
      */
-    private List<String> defaultIgnoreUrls = List.of("/favicon.ico", "/swagger-ui.html", "/doc.html", "/v3/api-docs/**", "/assets/**", "/css/**", "/captcha", "/sms_captcha", "/webjars/**", "/login", "/error", "/oauth2/**");
+    private List<String> defaultIgnoreUrls = List.of("/captcha", "/sms_captcha", "/message/**", "/favicon.ico", "/swagger-ui.html", "/doc.html", "/v3/api-docs/**", "/assets/**", "/css/**", "/webjars/**", "/login", "/error", "/oauth2/**");
+
+    /**
+     * 服务端配置
+     */
+    private Server server;
+
+    /**
+     * 客户端配置
+     */
+    private Client client;
 
     @Data
-    public static class Ignore {
-        private List<String> webUrls = new ArrayList<>();
-        private List<String> resourceUrls = new ArrayList<>();
+    public static class Server {
+
+        private boolean custom = true;
+        private LoadType type = LoadType.redis;
+        private boolean device = false;
+        private boolean odic = false;
+        /**
+         * token 类型 (支持自定义TOKEN和默认的JWT)
+         */
+        private TokenType tokenType = TokenType.custom;
+
+        /**
+         * 客户端注册类型（推荐JDBC/ REDIS 我没实现）
+         */
+        private LoadType registeredClient = LoadType.jdbc;
+        /**
+         * OAuth2AuthorizationConsentService 加载的类型
+         */
+        private LoadType consent = LoadType.jdbc;
+        /**
+         * 忽略资源
+         */
+        private Ignore ignore = new Ignore();
     }
 
 
-    private boolean device = true;
-    private boolean odic;
-    private boolean custom = true;
+    @Data
+    public static class Client {
+        /**
+         * 忽略资源
+         */
+        private Ignore ignore = new Ignore();
+
+        /**
+         * 客户端 token 信息获取的策略
+         */
+        private OpaqueToken opaqueToken;
+    }
+
+
+    @Data
+    public static class Ignore {
+        private List<String> resourceUrls = new ArrayList<>();
+    }
 
     /**
      * 加载类型
@@ -101,5 +133,4 @@ public class CustomSecurityProperties {
      * 登录地址，前后端分离就填写完整的url路径，不分离填写相对路径
      */
     private String loginFormUrl = "/login";
-    ;
 }
