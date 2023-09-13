@@ -4,12 +4,12 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.platform.authority.domain.dto.RoleResSaveDTO;
-import com.wemirr.platform.authority.domain.dto.UserRoleSaveDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
 import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;
-import com.wemirr.platform.authority.domain.vo.RoleResMenuMapperResp;
-import com.wemirr.platform.authority.domain.vo.RoleResVO;
+import com.wemirr.platform.authority.domain.req.RoleResSaveReq;
+import com.wemirr.platform.authority.domain.req.UserRoleSaveReq;
+import com.wemirr.platform.authority.domain.resp.RoleResMenuMapperResp;
+import com.wemirr.platform.authority.domain.resp.RoleResResp;
 import com.wemirr.platform.authority.repository.RoleResMapper;
 import com.wemirr.platform.authority.service.RoleResService;
 import com.wemirr.platform.authority.service.UserRoleService;
@@ -41,13 +41,13 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
     private final UserRoleService userRoleService;
 
     @Override
-    public RoleResVO findAuthorityIdByRoleId(Long roleId) {
+    public RoleResResp findAuthorityIdByRoleId(Long roleId) {
         final List<RoleResMenuMapperResp> list = this.baseMapper.selectRoleResByRoleId(roleId);
         List<Long> menuIdList = list.stream().filter(xx -> xx.getType() == 1 || xx.getType() == 5)
                 .mapToLong(RoleResMenuMapperResp::getId).boxed().distinct().collect(Collectors.toList());
         List<Long> resourceIdList = list.stream().filter(xx -> xx.getType() == 2)
                 .mapToLong(RoleResMenuMapperResp::getId).boxed().distinct().collect(Collectors.toList());
-        return RoleResVO.builder()
+        return RoleResResp.builder()
                 .menuIdList(menuIdList)
                 .resourceIdList(resourceIdList)
                 .build();
@@ -55,7 +55,7 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
 
 
     @Override
-    public boolean saveUserRole(UserRoleSaveDTO userRole) {
+    public boolean saveUserRole(UserRoleSaveReq userRole) {
         userRoleService.remove(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, userRole.getRoleId()));
         List<UserRole> list = userRole.getUserIdList()
                 .stream()
@@ -70,13 +70,13 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
 
     @Override
     @DSTransactional
-    public void saveRoleAuthority(RoleResSaveDTO dto) {
+    public void saveRoleAuthority(RoleResSaveReq dto) {
         //删除角色和资源的关联
         super.remove(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, dto.getRoleId()));
         resHandler(dto, dto.getRoleId());
     }
 
-    private void resHandler(RoleResSaveDTO data, Long roleId) {
+    private void resHandler(RoleResSaveReq data, Long roleId) {
         final Set<Long> set = data.getResIds();
         if (CollectionUtil.isEmpty(set)) {
             return;

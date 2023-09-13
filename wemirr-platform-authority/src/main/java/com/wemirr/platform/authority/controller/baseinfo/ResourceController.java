@@ -13,11 +13,11 @@ import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
-import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;
-import com.wemirr.platform.authority.domain.dto.ResourceSaveDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
 import com.wemirr.platform.authority.domain.enums.ResourceType;
-import com.wemirr.platform.authority.domain.vo.VueRouter;
+import com.wemirr.platform.authority.domain.req.ResourceQueryReq;
+import com.wemirr.platform.authority.domain.req.ResourceSaveReq;
+import com.wemirr.platform.authority.domain.resp.VueRouter;
 import com.wemirr.platform.authority.service.ResourceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -54,7 +54,7 @@ public class ResourceController {
     @GetMapping("/router")
     @Operation(summary = "菜单路由", description = "只能看到自身权限")
     public Result<List<Tree<Long>>> router(@RequestParam(required = false, defaultValue = "false") Boolean all) {
-        List<VueRouter> routers = resourceService.findVisibleResource(ResourceQueryDTO.builder().userId(tenantEnvironment.userId()).build());
+        List<VueRouter> routers = resourceService.findVisibleResource(ResourceQueryReq.builder().userId(tenantEnvironment.userId()).build());
         List<TreeNode<Long>> list = routers.stream()
                 .filter(router -> all || (router.getType() != null && router.getType() == 1 || router.getType() == 5))
                 .map(VUE_ROUTER_2_TREE_NODE_CONVERTS::convert).collect(toList());
@@ -64,7 +64,7 @@ public class ResourceController {
     @GetMapping("/permissions")
     @Operation(summary = "资源码", description = "只能看到自身资源码")
     public Result<List<String>> permissions() {
-        List<VueRouter> routers = Optional.ofNullable(resourceService.findVisibleResource(ResourceQueryDTO.builder()
+        List<VueRouter> routers = Optional.ofNullable(resourceService.findVisibleResource(ResourceQueryReq.builder()
                 .userId(tenantEnvironment.userId()).build())).orElseGet(Lists::newArrayList);
         return Result.success(routers.stream().map(VueRouter::getPermission).collect(toList()));
     }
@@ -86,7 +86,7 @@ public class ResourceController {
     @PostMapping
     @SysLog(value = "添加资源")
     @Operation(summary = "添加资源")
-    public void save(@Validated @RequestBody ResourceSaveDTO data) {
+    public void save(@Validated @RequestBody ResourceSaveReq data) {
         Resource resource = BeanUtil.toBean(data, Resource.class);
         resourceService.addResource(resource);
     }
@@ -102,7 +102,7 @@ public class ResourceController {
     @PutMapping("/{id}")
     @SysLog(value = "修改资源")
     @Operation(summary = "修改资源")
-    public void edit(@PathVariable Long id, @Validated @RequestBody ResourceSaveDTO data) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody ResourceSaveReq data) {
         resourceService.editResourceById(BeanUtilPlus.toBean(id, data, Resource.class));
     }
 

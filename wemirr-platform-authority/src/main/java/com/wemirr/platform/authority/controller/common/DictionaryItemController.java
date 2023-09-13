@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
-import com.wemirr.platform.authority.domain.dto.DictionaryItemDTO;
 import com.wemirr.platform.authority.domain.entity.common.DictionaryItem;
+import com.wemirr.platform.authority.domain.req.DictionaryItemReq;
 import com.wemirr.platform.authority.service.DictionaryItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -51,7 +51,7 @@ public class DictionaryItemController {
     @PostMapping
     @Operation(summary = "添加字典子项", description = "添加字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dictionary_id", description = "字典ID", in = ParameterIn.PATH)
-    public void save(@PathVariable("dictionary_id") Long dictionaryId, @Validated @RequestBody DictionaryItemDTO dto) {
+    public void save(@PathVariable("dictionary_id") Long dictionaryId, @Validated @RequestBody DictionaryItemReq dto) {
         this.dictionaryItemService.addDictionaryItem(dictionaryId, DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS.convert(dto));
         
     }
@@ -59,7 +59,7 @@ public class DictionaryItemController {
     @PutMapping("/{id}")
     @Operation(summary = "编辑字典子项 - [DONE] - [Levin]", description = "编辑字典子项 - [DONE] - [Levin]")
     @Parameter(name = "id", description = "子项ID", in = ParameterIn.PATH)
-    public void edit(@PathVariable("dictionary_id") Long dictionaryId, @PathVariable Long id, @Validated @RequestBody DictionaryItemDTO dto) {
+    public void edit(@PathVariable("dictionary_id") Long dictionaryId, @PathVariable Long id, @Validated @RequestBody DictionaryItemReq dto) {
         final DictionaryItem dictionaryItem = DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS.convert(dto);
         dictionaryItem.setId(id);
         this.dictionaryItemService.editDictionaryItem(dictionaryId, dictionaryItem);

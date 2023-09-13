@@ -11,7 +11,6 @@ import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.google.common.collect.Maps;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import com.wemirr.framework.db.mybatis.SuperMapper;
 import com.wemirr.framework.db.mybatis.SuperService;
@@ -24,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;

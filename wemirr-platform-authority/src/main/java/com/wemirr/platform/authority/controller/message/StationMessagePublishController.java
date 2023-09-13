@@ -2,21 +2,21 @@ package com.wemirr.platform.authority.controller.message;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.configuration.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
-import com.wemirr.platform.authority.domain.dto.StationMessagePublishReq;
 import com.wemirr.platform.authority.domain.entity.message.StationMessagePublish;
 import com.wemirr.platform.authority.domain.enums.ReceiverType;
-import com.wemirr.platform.authority.domain.vo.CommonDataResp;
-import com.wemirr.platform.authority.domain.vo.StationMessagePublishResp;
+import com.wemirr.platform.authority.domain.req.StationMessagePublishReq;
+import com.wemirr.platform.authority.domain.resp.CommonDataResp;
+import com.wemirr.platform.authority.domain.resp.StationMessagePublishResp;
 import com.wemirr.platform.authority.service.StationMessagePublishService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

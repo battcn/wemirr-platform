@@ -1,6 +1,6 @@
 package com.wemirr.platform;
 
-import com.wemirr.framework.commons.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

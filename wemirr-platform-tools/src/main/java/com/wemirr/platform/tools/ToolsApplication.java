@@ -2,7 +2,6 @@ package com.wemirr.platform.tools;
 
 import cn.hutool.core.lang.generator.Generator;
 import cn.hutool.core.lang.generator.SnowflakeGenerator;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.security.client.annotation.EnableOAuth2Client;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +42,7 @@ public class ToolsApplication {
         Environment env = applicationContext.getEnvironment();
         final String appName = env.getProperty("spring.application.name");
         String host = InetAddress.getLocalHost().getHostAddress();
-        String port = StringUtils.defaultString(env.getProperty("server.port"), "8080");
+        String port = env.getProperty("server.port");
         log.info("""
 
                         ----------------------------------------------------------

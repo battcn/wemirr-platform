@@ -1,10 +1,10 @@
 package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.mybatis.SuperService;
-import com.wemirr.platform.authority.domain.dto.RoleResSaveDTO;
-import com.wemirr.platform.authority.domain.dto.UserRoleSaveDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
-import com.wemirr.platform.authority.domain.vo.RoleResVO;
+import com.wemirr.platform.authority.domain.req.RoleResSaveReq;
+import com.wemirr.platform.authority.domain.req.UserRoleSaveReq;
+import com.wemirr.platform.authority.domain.resp.RoleResResp;
 
 /**
  * <p>
@@ -23,15 +23,15 @@ public interface RoleResService extends SuperService<RoleRes> {
      * @param userRole userRole
      * @return 保存结果
      */
-    boolean saveUserRole(UserRoleSaveDTO userRole);
+    boolean saveUserRole(UserRoleSaveReq userRole);
 
     /**
      * 给角色重新分配 权限（资源/菜单）
      *
-     * @param roleResSaveDTO
+     * @param roleResSaveReq
      * @return
      */
-    void saveRoleAuthority(RoleResSaveDTO roleResSaveDTO);
+    void saveRoleAuthority(RoleResSaveReq roleResSaveReq);
 
     /**
      * 根据角色id查询资源
@@ -39,5 +39,5 @@ public interface RoleResService extends SuperService<RoleRes> {
      * @param id id
      * @return 查询结果
      */
-    RoleResVO findAuthorityIdByRoleId(Long id);
+    RoleResResp findAuthorityIdByRoleId(Long id);
 }

@@ -1,6 +1,5 @@
 package com.wemirr.platform.tools.service.impl;
 
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDrag;
@@ -8,6 +7,7 @@ import com.wemirr.platform.tools.domain.req.DynamicReleaseDragReq;
 import com.wemirr.platform.tools.mapper.DynamicReleaseDragMapper;
 import com.wemirr.platform.tools.service.DynamicReleaseDragService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 /**

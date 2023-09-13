@@ -1,8 +1,8 @@
 package com.wemirr.framework.commons.validation.name;
 
-import com.wemirr.framework.commons.StringUtils;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Pattern;
 

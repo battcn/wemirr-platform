@@ -1,9 +1,9 @@
 package com.wemirr.platform.authority.domain.converts;
 
 import com.wemirr.framework.commons.entity.BaseConverts;
-import com.wemirr.platform.authority.domain.dto.AreaEntityDTO;
 import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
-import com.wemirr.platform.authority.domain.vo.AreaNodeResp;
+import com.wemirr.platform.authority.domain.req.AreaReq;
+import com.wemirr.platform.authority.domain.resp.AreaNodeResp;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -15,9 +15,9 @@ public class AreaConverts {
     public static final AreaConverts.AreaEntity2NodeRespConverts AREA_ENTITY_2_NODE_RESP_CONVERTS = new AreaConverts.AreaEntity2NodeRespConverts();
 
 
-    public static class AreaDto2PoConverts implements BaseConverts<AreaEntityDTO, AreaEntity> {
+    public static class AreaDto2PoConverts implements BaseConverts<AreaReq, AreaEntity> {
         @Override
-        public AreaEntity convert(AreaEntityDTO source) {
+        public AreaEntity convert(AreaReq source) {
             if (source == null) {
                 return null;
             }

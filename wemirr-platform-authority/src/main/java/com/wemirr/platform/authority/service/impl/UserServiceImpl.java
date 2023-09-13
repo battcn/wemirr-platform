@@ -9,10 +9,10 @@ import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.framework.db.mybatis.auth.DataScope;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
-import com.wemirr.platform.authority.domain.dto.UserSaveDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;
-import com.wemirr.platform.authority.domain.vo.UserResp;
+import com.wemirr.platform.authority.domain.req.UserSaveReq;
+import com.wemirr.platform.authority.domain.resp.UserResp;
 import com.wemirr.platform.authority.repository.UserMapper;
 import com.wemirr.platform.authority.repository.UserRoleMapper;
 import com.wemirr.platform.authority.service.UserService;
@@ -40,7 +40,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
 
     @Override
-    public void addUser(UserSaveDTO dto) {
+    public void addUser(UserSaveReq dto) {
         final long count = super.count(Wraps.<User>lbQ().eq(User::getUsername, dto.getUsername()));
         if (count > 0) {
             throw CheckedException.badRequest("账号已存在");

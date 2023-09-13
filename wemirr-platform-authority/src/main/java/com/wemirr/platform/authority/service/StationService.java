@@ -3,8 +3,8 @@ package com.wemirr.platform.authority.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatis.SuperService;
 import com.wemirr.framework.db.page.PageRequest;
-import com.wemirr.platform.authority.domain.dto.StationPageDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
+import com.wemirr.platform.authority.domain.req.StationPageReq;
 
 /**
  * <p>
@@ -23,5 +23,5 @@ public interface StationService extends SuperService<Station> {
      * @param data data
      * @return Station
      */
-    IPage<Station> findStationPage(PageRequest params, StationPageDTO data);
+    IPage<Station> findStationPage(PageRequest params, StationPageReq data);
 }

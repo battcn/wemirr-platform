@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
-        <version>0.17.4-SNAPSHOT</version>
+        <version>1.17.4-SNAPSHOT</version>
     </parent>
     <groupId>com.wemirr.framework</groupId>
     <artifactId>wemirr-platform-framework</artifactId>
-    <version>0.17.4-SNAPSHOT</version>
+    <version>1.17.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>

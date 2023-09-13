@@ -9,16 +9,16 @@ import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatis.auth.DataScopeType;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.platform.authority.domain.dto.RoleDTO;
-import com.wemirr.platform.authority.domain.dto.RoleResSaveDTO;
-import com.wemirr.platform.authority.domain.dto.RoleUserDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleOrg;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
-import com.wemirr.platform.authority.domain.vo.RoleDetailVO;
-import com.wemirr.platform.authority.domain.vo.RolePermissionResp;
-import com.wemirr.platform.authority.domain.vo.RoleResVO;
-import com.wemirr.platform.authority.domain.vo.UserRoleResp;
+import com.wemirr.platform.authority.domain.req.RoleReq;
+import com.wemirr.platform.authority.domain.req.RoleResSaveReq;
+import com.wemirr.platform.authority.domain.req.RoleUserReq;
+import com.wemirr.platform.authority.domain.resp.RoleDetailResp;
+import com.wemirr.platform.authority.domain.resp.RolePermissionResp;
+import com.wemirr.platform.authority.domain.resp.RoleResResp;
+import com.wemirr.platform.authority.domain.resp.UserRoleResp;
 import com.wemirr.platform.authority.service.RoleOrgService;
 import com.wemirr.platform.authority.service.RoleResService;
 import com.wemirr.platform.authority.service.RoleService;
@@ -76,10 +76,10 @@ public class RoleController {
 
     @GetMapping("/{id}/detail")
     @Operation(summary = "角色详情")
-    public RoleDetailVO details(@PathVariable Long id) {
+    public RoleDetailResp details(@PathVariable Long id) {
         Role role = roleService.getById(id);
-        RoleDetailVO detail = BeanUtilPlus.toBean(role, RoleDetailVO.class);
-        final RoleResVO authority = this.roleResService.findAuthorityIdByRoleId(id);
+        RoleDetailResp detail = BeanUtilPlus.toBean(role, RoleDetailResp.class);
+        final RoleResResp authority = this.roleResService.findAuthorityIdByRoleId(id);
         detail.setAuthority(authority);
         return detail;
     }
@@ -87,14 +87,14 @@ public class RoleController {
     @PostMapping
     @SysLog(value = "添加角色")
     @Operation(summary = "添加角色")
-    public void add(@Validated @RequestBody RoleDTO data) {
+    public void add(@Validated @RequestBody RoleReq data) {
         roleService.saveRole(tenantEnvironment.userId(), data);
     }
 
     @PutMapping("/{id}")
     @SysLog(value = "编辑角色")
     @Operation(summary = "编辑角色")
-    public void edit(@PathVariable Long id, @Validated @RequestBody RoleDTO data) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody RoleReq data) {
         roleService.updateRole(id, tenantEnvironment.userId(), data);
     }
 
@@ -135,14 +135,14 @@ public class RoleController {
 
     @Operation(summary = "角色分配操作资源")
     @PostMapping("/{roleId}/authority")
-    public void distributionAuthority(@PathVariable Long roleId, @RequestBody RoleResSaveDTO dto) {
+    public void distributionAuthority(@PathVariable Long roleId, @RequestBody RoleResSaveReq dto) {
         this.roleResService.saveRoleAuthority(dto);
 
     }
 
     @Operation(summary = "角色分配用户")
     @PostMapping("/{roleId}/users")
-    public void distributionUser(@PathVariable Long roleId, @RequestBody RoleUserDTO dto) {
+    public void distributionUser(@PathVariable Long roleId, @RequestBody RoleUserReq dto) {
         this.roleService.saveUserRole(roleId, dto.getUserIdList());
     }
 

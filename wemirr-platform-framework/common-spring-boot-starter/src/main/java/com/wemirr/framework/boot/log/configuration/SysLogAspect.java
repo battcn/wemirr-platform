@@ -5,6 +5,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
@@ -12,7 +13,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.wemirr.framework.boot.log.LogUtil;
 import com.wemirr.framework.boot.log.OptLogDTO;
 import com.wemirr.framework.boot.log.event.SysLogEvent;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
@@ -21,6 +21,7 @@ import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -237,7 +238,7 @@ public class SysLogAspect {
                     sysLog.setDsKey(multiTenant.getDsPrefix() + tenantCode);
                 }
             }
-//            sysLog.setIp(ServletUtil.getClientIP(request));
+            sysLog.setIp(JakartaServletUtil.getClientIP(request));
             sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
             sysLog.setHttpMethod(request.getMethod());
             final UserAgent userAgent = UserAgentUtil.parse(request.getHeader("user-agent"));

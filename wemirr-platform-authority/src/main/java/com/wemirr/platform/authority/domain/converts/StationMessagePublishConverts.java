@@ -1,9 +1,9 @@
 package com.wemirr.platform.authority.domain.converts;
 
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.db.page.BasePageConverts;
 import com.wemirr.platform.authority.domain.entity.message.StationMessagePublish;
-import com.wemirr.platform.authority.domain.vo.StationMessagePublishResp;
+import com.wemirr.platform.authority.domain.resp.StationMessagePublishResp;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Arrays;

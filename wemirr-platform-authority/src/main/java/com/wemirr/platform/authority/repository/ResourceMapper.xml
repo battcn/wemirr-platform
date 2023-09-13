@@ -8,7 +8,7 @@
         code, name, menu_id, describe_
     </sql>
 
-    <select id="findVisibleResource" resultType="com.wemirr.platform.authority.domain.vo.VueRouter">
+    <select id="findVisibleResource" resultType="com.wemirr.platform.authority.domain.resp.VueRouter">
         SELECT
         t1.*
         FROM

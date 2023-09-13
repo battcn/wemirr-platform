@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatis.SuperService;
 import com.wemirr.framework.db.mybatis.auth.DataScope;
 import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
-import com.wemirr.platform.authority.domain.dto.UserSaveDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
-import com.wemirr.platform.authority.domain.vo.UserResp;
+import com.wemirr.platform.authority.domain.req.UserSaveReq;
+import com.wemirr.platform.authority.domain.resp.UserResp;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public interface UserService extends SuperService<User> {
      *
      * @param dto 用户信息
      */
-    void addUser(UserSaveDTO dto);
+    void addUser(UserSaveReq dto);
 
     /**
      * 根据条件查询

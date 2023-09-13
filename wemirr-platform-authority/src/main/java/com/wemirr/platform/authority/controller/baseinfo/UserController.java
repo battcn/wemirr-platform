@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.platform.authority.domain.dto.UserSaveDTO;
-import com.wemirr.platform.authority.domain.dto.UserUpdateDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.enums.Sex;
+import com.wemirr.platform.authority.domain.req.UserSaveReq;
+import com.wemirr.platform.authority.domain.req.UserUpdateReq;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -59,7 +59,7 @@ public class UserController {
     @PostMapping
     @SysLog(value = "添加用户")
     @Operation(summary = "添加用户")
-    public void save(@Validated @RequestBody UserSaveDTO dto) {
+    public void save(@Validated @RequestBody UserSaveReq dto) {
         this.userService.addUser(dto);
     }
 
@@ -67,7 +67,7 @@ public class UserController {
     @PutMapping("{id}")
     @SysLog(value = "编辑用户")
     @Operation(summary = "编辑用户")
-    public void edit(@PathVariable Long id, @Validated @RequestBody UserUpdateDTO dto) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody UserUpdateReq dto) {
         this.userService.updateById(USER_DTO_2_PO_CONVERTS.convert(dto, id));
     }
 

@@ -1,13 +1,13 @@
 package com.wemirr.framework.security.configuration;
 
 import cn.hutool.core.collection.CollUtil;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.security.properties.InnerServiceProperties;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;

@@ -7,9 +7,9 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.platform.authority.domain.dto.AreaEntityDTO;
 import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
-import com.wemirr.platform.authority.domain.vo.AreaNodeResp;
+import com.wemirr.platform.authority.domain.req.AreaReq;
+import com.wemirr.platform.authority.domain.resp.AreaNodeResp;
 import com.wemirr.platform.authority.service.AreaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -75,7 +75,7 @@ public class AreaController {
     @PostMapping
     @Parameter(name = "id", description = "国标码", in = ParameterIn.PATH)
     @Operation(summary = "保存地址 - [DONE] - [Levin]", description = "保存地址 - [DONE] - [Levin]")
-    public void save(@Validated @RequestBody AreaEntityDTO dto) {
+    public void save(@Validated @RequestBody AreaReq dto) {
         this.areaService.saveOrUpdateArea(AREA_DTO_2_PO_CONVERTS.convert(dto));
         
     }

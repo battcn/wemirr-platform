@@ -3,7 +3,7 @@
 <mapper namespace="com.wemirr.platform.authority.repository.TenantConfigMapper">
 
 
-    <select id="selectTenantDynamicDatasource" resultType="com.wemirr.platform.authority.domain.vo.TenantDynamicDatasourceVO">
+    <select id="selectTenantDynamicDatasource" resultType="com.wemirr.platform.authority.domain.resp.TenantDynamicDatasourceResp">
         SELECT t2.tenant_id,t1.`code`,t1.`name`,t3.pool_name,t3.username,t3.`password`,t3.db_type,t3.driver_class_name,t3.`database`,t3.connection_type,t3.`host`,t3.`port` FROM t_tenant t1
         JOIN t_tenant_config t2 ON t1.id = t2.tenant_id
         JOIN t_dynamic_datasource t3 ON t2.dynamic_datasource_id = t3.id
@@ -14,7 +14,7 @@
     </select>
 
     <select id="getTenantDynamicDatasourceByTenantId"
-            resultType="com.wemirr.platform.authority.domain.vo.TenantDynamicDatasourceVO">
+            resultType="com.wemirr.platform.authority.domain.resp.TenantDynamicDatasourceResp">
         SELECT t2.tenant_id,t1.`code`,t1.`name`,t3.pool_name,t3.username,t3.`password`,t3.db_type,t3.driver_class_name,t3.`database`,t3.connection_type,t3.`host`,t3.`port` FROM t_tenant t1
         JOIN t_tenant_config t2 ON t1.id = t2.tenant_id AND t2.deleted = 0
         JOIN t_dynamic_datasource t3 ON t2.dynamic_datasource_id = t3.id

@@ -4,9 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.SysLog;
-import com.wemirr.platform.authority.domain.dto.StationPageDTO;
-import com.wemirr.platform.authority.domain.dto.StationSaveDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
+import com.wemirr.platform.authority.domain.req.StationPageReq;
+import com.wemirr.platform.authority.domain.req.StationSaveReq;
 import com.wemirr.platform.authority.service.StationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,21 +31,21 @@ public class StationController {
 
     @GetMapping
     @Operation(summary = "岗位列表 - [Levin] - [DONE]")
-    public IPage<Station> query(StationPageDTO params) {
+    public IPage<Station> query(StationPageReq params) {
         return stationService.findStationPage(params, params);
     }
 
     @PostMapping
     @SysLog(value = "添加岗位")
     @Operation(summary = "添加岗位")
-    public void add(@Validated @RequestBody StationSaveDTO dto) {
+    public void add(@Validated @RequestBody StationSaveReq dto) {
         stationService.save(BeanUtil.toBean(dto, Station.class));
     }
 
     @PutMapping("/{id}")
     @SysLog(value = "编辑岗位")
     @Operation(summary = "编辑岗位")
-    public void edit(@PathVariable Long id, @Validated @RequestBody StationSaveDTO dto) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody StationSaveReq dto) {
         stationService.updateById(BeanUtilPlus.toBean(id, dto, Station.class));
     }
 

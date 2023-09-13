@@ -3,7 +3,7 @@ package com.wemirr.platform.authority.service;
 import com.wemirr.framework.db.mybatis.SuperService;
 import com.wemirr.platform.authority.domain.entity.message.StationMessagePublish;
 import com.wemirr.platform.authority.domain.enums.ReceiverType;
-import com.wemirr.platform.authority.domain.vo.CommonDataResp;
+import com.wemirr.platform.authority.domain.resp.CommonDataResp;
 
 import java.util.List;
 

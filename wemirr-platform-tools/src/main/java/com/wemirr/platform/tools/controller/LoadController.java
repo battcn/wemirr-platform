@@ -1,6 +1,5 @@
 package com.wemirr.platform.tools.controller;
 
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

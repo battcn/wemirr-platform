@@ -2,9 +2,9 @@ package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.mybatis.SuperService;
 import com.wemirr.framework.db.mybatis.auth.DataScope;
-import com.wemirr.platform.authority.domain.dto.RoleDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
-import com.wemirr.platform.authority.domain.vo.RolePermissionResp;
+import com.wemirr.platform.authority.domain.req.RoleReq;
+import com.wemirr.platform.authority.domain.resp.RolePermissionResp;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public interface RoleService extends SuperService<Role> {
      * @param data   data
      * @param userId 用户id
      */
-    void saveRole(Long userId, RoleDTO data);
+    void saveRole(Long userId, RoleReq data);
 
     /**
      * 修改角色
@@ -52,7 +52,7 @@ public interface RoleService extends SuperService<Role> {
      * @param userId userId
      * @param roleId 角色ID
      */
-    void updateRole(Long roleId, Long userId, RoleDTO role);
+    void updateRole(Long roleId, Long userId, RoleReq role);
 
 
     /**

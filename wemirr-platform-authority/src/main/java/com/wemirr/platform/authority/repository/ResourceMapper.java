@@ -3,9 +3,9 @@ package com.wemirr.platform.authority.repository;
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.wemirr.framework.db.configuration.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatis.SuperMapper;
-import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
-import com.wemirr.platform.authority.domain.vo.VueRouter;
+import com.wemirr.platform.authority.domain.req.ResourceQueryReq;
+import com.wemirr.platform.authority.domain.resp.VueRouter;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -29,7 +29,7 @@ public interface ResourceMapper extends SuperMapper<Resource> {
      * @param resource 资源对象
      * @return 查询结果
      */
-    List<VueRouter> findVisibleResource(@Param("resource") ResourceQueryDTO resource);
+    List<VueRouter> findVisibleResource(@Param("resource") ResourceQueryReq resource);
 
     /**
      * 查询指定用户资源权限

@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.repository;
 
 import com.wemirr.framework.db.mybatis.SuperMapper;
 import com.wemirr.platform.authority.domain.entity.tenant.TenantConfig;
-import com.wemirr.platform.authority.domain.vo.TenantDynamicDatasourceVO;
+import com.wemirr.platform.authority.domain.resp.TenantDynamicDatasourceResp;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +20,7 @@ public interface TenantConfigMapper extends SuperMapper<TenantConfig> {
      * @param datasourceId datasourceId
      * @return 查询结果
      */
-    List<TenantDynamicDatasourceVO> selectTenantDynamicDatasource(@Param("datasourceId") Long datasourceId);
+    List<TenantDynamicDatasourceResp> selectTenantDynamicDatasource(@Param("datasourceId") Long datasourceId);
 
     /**
      * 获取租户动态数据源
@@ -28,6 +28,6 @@ public interface TenantConfigMapper extends SuperMapper<TenantConfig> {
      * @param tenantId tenantId
      * @return 查询结果
      */
-    TenantDynamicDatasourceVO getTenantDynamicDatasourceByTenantId(Long tenantId);
+    TenantDynamicDatasourceResp getTenantDynamicDatasourceByTenantId(Long tenantId);
 
 }

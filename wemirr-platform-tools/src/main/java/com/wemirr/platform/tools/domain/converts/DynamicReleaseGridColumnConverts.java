@@ -2,11 +2,11 @@ package com.wemirr.platform.tools.domain.converts;
 
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.entity.BaseConverts;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseColumn;
 import com.wemirr.platform.tools.domain.req.DynamicReleaseGridColumnReq;
 import com.wemirr.platform.tools.domain.resp.DynamicReleaseGridColumnResp;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Levin

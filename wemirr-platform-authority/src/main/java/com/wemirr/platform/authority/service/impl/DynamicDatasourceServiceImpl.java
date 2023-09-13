@@ -11,7 +11,7 @@ import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.entity.tenant.DynamicDatasource;
-import com.wemirr.platform.authority.domain.vo.TenantDynamicDatasourceVO;
+import com.wemirr.platform.authority.domain.resp.TenantDynamicDatasourceResp;
 import com.wemirr.platform.authority.repository.DynamicDatasourceMapper;
 import com.wemirr.platform.authority.repository.TenantConfigMapper;
 import com.wemirr.platform.authority.service.DynamicDatasourceService;
@@ -42,7 +42,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
     private final ApplicationContext applicationContext;
 
     @Override
-    public List<TenantDynamicDatasourceVO> selectTenantDynamicDatasource() {
+    public List<TenantDynamicDatasourceResp> selectTenantDynamicDatasource() {
         return this.tenantConfigMapper.selectTenantDynamicDatasource(null);
     }
 
@@ -53,12 +53,12 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
 
     @PostConstruct
     public void init() {
-        final List<TenantDynamicDatasourceVO> dataSourceList = this.tenantConfigMapper.selectTenantDynamicDatasource(null);
+        final List<TenantDynamicDatasourceResp> dataSourceList = this.tenantConfigMapper.selectTenantDynamicDatasource(null);
         if (CollectionUtil.isEmpty(dataSourceList)) {
             log.warn("未找到符合条件的数据源...");
             return;
         }
-        for (TenantDynamicDatasourceVO dynamicDatasource : dataSourceList) {
+        for (TenantDynamicDatasourceResp dynamicDatasource : dataSourceList) {
             publishEvent(EventAction.ADD, dynamicDatasource);
         }
     }
@@ -82,19 +82,19 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
     public void removeDatabaseById(Long id) {
         Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("数据连接信息不存在"));
         this.baseMapper.deleteById(id);
-        final List<TenantDynamicDatasourceVO> dataSourceList = this.tenantConfigMapper.selectTenantDynamicDatasource(id);
-        for (TenantDynamicDatasourceVO tenantDynamicDatasource : dataSourceList) {
+        final List<TenantDynamicDatasourceResp> dataSourceList = this.tenantConfigMapper.selectTenantDynamicDatasource(id);
+        for (TenantDynamicDatasourceResp tenantDynamicDatasource : dataSourceList) {
             publishEvent(EventAction.DEL, tenantDynamicDatasource);
         }
     }
 
     @Override
     public void publishEvent(EventAction action, Long tenantId) {
-        final TenantDynamicDatasourceVO dynamicDatasource = this.tenantConfigMapper.getTenantDynamicDatasourceByTenantId(tenantId);
+        final TenantDynamicDatasourceResp dynamicDatasource = this.tenantConfigMapper.getTenantDynamicDatasourceByTenantId(tenantId);
         publishEvent(action, dynamicDatasource);
     }
 
-    private void publishEvent(EventAction action, TenantDynamicDatasourceVO dynamicDatasource) {
+    private void publishEvent(EventAction action, TenantDynamicDatasourceResp dynamicDatasource) {
         if (Objects.isNull(dynamicDatasource)) {
             throw CheckedException.notFound("租户未关联数据源信息");
         }

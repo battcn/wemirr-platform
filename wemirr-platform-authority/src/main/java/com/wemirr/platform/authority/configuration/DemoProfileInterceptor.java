@@ -1,12 +1,12 @@
 package com.wemirr.platform.authority.configuration;
 
 import com.google.common.collect.Lists;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 

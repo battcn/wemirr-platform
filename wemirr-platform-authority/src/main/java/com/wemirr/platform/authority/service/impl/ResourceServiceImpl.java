@@ -4,23 +4,23 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.google.common.collect.Lists;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
 import com.wemirr.platform.authority.domain.enums.ResourceType;
-import com.wemirr.platform.authority.domain.vo.VueRouter;
+import com.wemirr.platform.authority.domain.req.ResourceQueryReq;
+import com.wemirr.platform.authority.domain.resp.VueRouter;
 import com.wemirr.platform.authority.repository.ResourceMapper;
 import com.wemirr.platform.authority.repository.RoleMapper;
 import com.wemirr.platform.authority.repository.RoleResMapper;
 import com.wemirr.platform.authority.service.ResourceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
     private final TenantEnvironment tenantEnvironment;
 
     @Override
-    public List<VueRouter> findVisibleResource(ResourceQueryDTO resource) {
+    public List<VueRouter> findVisibleResource(ResourceQueryReq resource) {
         return baseMapper.findVisibleResource(resource);
     }
 

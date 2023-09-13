@@ -3,7 +3,7 @@ package com.wemirr.platform.authority.repository;
 import com.wemirr.framework.db.configuration.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatis.SuperMapper;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
-import com.wemirr.platform.authority.domain.vo.RoleResMenuMapperResp;
+import com.wemirr.platform.authority.domain.resp.RoleResMenuMapperResp;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

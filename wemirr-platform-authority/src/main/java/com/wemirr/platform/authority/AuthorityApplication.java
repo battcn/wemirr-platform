@@ -1,7 +1,6 @@
 package com.wemirr.platform.authority;
 
 import com.wemirr.framework.boot.log.event.SysLogListener;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.security.server.annotation.EnableOAuth2Server;
 import com.wemirr.framework.websocket.redis.EnableRedisWebSocket;
 import com.wemirr.platform.authority.service.OptLogService;
@@ -44,7 +43,7 @@ public class AuthorityApplication {
         Environment env = applicationContext.getEnvironment();
         final String appName = env.getProperty("spring.application.name");
         String host = InetAddress.getLocalHost().getHostAddress();
-        String port = StringUtils.defaultString(env.getProperty("server.port"), "8080");
+        String port = env.getProperty("server.port");
         log.info("""
 
                         ----------------------------------------------------------

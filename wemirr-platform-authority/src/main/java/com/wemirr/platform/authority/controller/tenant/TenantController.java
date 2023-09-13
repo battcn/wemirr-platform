@@ -7,12 +7,12 @@ import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.redis.plus.anontation.RedisLock;
 import com.wemirr.framework.redis.plus.anontation.RedisParam;
-import com.wemirr.platform.authority.domain.dto.TenantConfigDTO;
-import com.wemirr.platform.authority.domain.dto.TenantPageDTO;
-import com.wemirr.platform.authority.domain.dto.TenantSaveDTO;
 import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
 import com.wemirr.platform.authority.domain.entity.tenant.TenantConfig;
-import com.wemirr.platform.authority.domain.vo.TenantDynamicDatasourceVO;
+import com.wemirr.platform.authority.domain.req.TenantConfigReq;
+import com.wemirr.platform.authority.domain.req.TenantPageReq;
+import com.wemirr.platform.authority.domain.req.TenantSaveReq;
+import com.wemirr.platform.authority.domain.resp.TenantDynamicDatasourceResp;
 import com.wemirr.platform.authority.service.DynamicDatasourceService;
 import com.wemirr.platform.authority.service.TenantService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,7 +41,7 @@ public class TenantController {
 
     @GetMapping
     @Operation(summary = "租户列表 - [Levin] - [DONE]")
-    public IPage<Tenant> query(TenantPageDTO params) {
+    public IPage<Tenant> query(TenantPageReq params) {
         return tenantService.page(params.buildPage(), Wraps.<Tenant>lbQ()
                 .like(Tenant::getName, params.getName()).eq(Tenant::getCode, params.getCode())
                 .eq(Tenant::getProvinceId, params.getProvinceId())
@@ -53,7 +53,7 @@ public class TenantController {
 
     @Operation(summary = "查询可用", description = "查询可用数据源")
     @GetMapping("/databases/active")
-    public List<TenantDynamicDatasourceVO> queryActive() {
+    public List<TenantDynamicDatasourceResp> queryActive() {
         return this.dynamicDatasourceService.selectTenantDynamicDatasource();
     }
 
@@ -61,21 +61,21 @@ public class TenantController {
     @PostMapping
     @SysLog(value = "添加租户")
     @Operation(summary = "添加租户")
-    public void add(@Validated @RequestBody TenantSaveDTO dto) {
+    public void add(@Validated @RequestBody TenantSaveReq dto) {
         tenantService.saveOrUpdateTenant(BeanUtil.toBean(dto, Tenant.class));
     }
 
     @PutMapping("/{id}")
     @SysLog(value = "编辑租户")
     @Operation(summary = "编辑租户")
-    public void edit(@PathVariable Long id, @Validated @RequestBody TenantSaveDTO dto) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody TenantSaveReq dto) {
         tenantService.saveOrUpdateTenant(BeanUtilPlus.toBean(id, dto, Tenant.class));
     }
 
     @PutMapping("/{id}/config")
     @SysLog(value = "配置租户")
     @Operation(summary = "配置租户")
-    public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigDTO dto) {
+    public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq dto) {
         tenantService.tenantConfig(TenantConfig.builder().tenantId(id).dynamicDatasourceId(dto.getDynamicDatasourceId()).build());
     }
 

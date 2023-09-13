@@ -6,13 +6,13 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.platform.gateway.rest.domain.RouteRule;
 import com.wemirr.platform.gateway.route.RedisRouteDynamicGatewayService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
@@ -149,7 +149,7 @@ public class RouteRuleHelper {
                     }
                     return rule;
                 }).collect(toList());
-        final List<String> idList = routeRules.stream().map(RouteRule::getId).collect(toList());
+        final List<String> idList = routeRules.stream().map(RouteRule::getId).toList();
         for (RouteDefinition routeDefinition : routeDefinitions) {
             if (idList.contains(routeDefinition.getId()) || StringUtils.contains(routeDefinition.getId(), "CompositeDiscoveryClient_")) {
                 continue;

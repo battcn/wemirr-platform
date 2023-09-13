@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.mybatis.SuperService;
 import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;
-import com.wemirr.platform.authority.domain.vo.UserRoleResp;
+import com.wemirr.platform.authority.domain.resp.UserRoleResp;
 
 /**
  * <p>

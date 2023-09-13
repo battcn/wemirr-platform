@@ -9,14 +9,14 @@ import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.framework.db.mybatis.auth.DataScope;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;
-import com.wemirr.platform.authority.domain.dto.RoleDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleOrg;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
 import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;
-import com.wemirr.platform.authority.domain.vo.RolePermissionResp;
-import com.wemirr.platform.authority.domain.vo.VueRouter;
+import com.wemirr.platform.authority.domain.req.ResourceQueryReq;
+import com.wemirr.platform.authority.domain.req.RoleReq;
+import com.wemirr.platform.authority.domain.resp.RolePermissionResp;
+import com.wemirr.platform.authority.domain.resp.VueRouter;
 import com.wemirr.platform.authority.repository.*;
 import com.wemirr.platform.authority.service.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -73,7 +73,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
 
 
     @Override
-    public void saveRole(Long userId, RoleDTO data) {
+    public void saveRole(Long userId, RoleReq data) {
         Role role = BeanUtil.toBean(data, Role.class);
         role.setReadonly(false);
         super.save(role);
@@ -81,7 +81,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     }
 
     @Override
-    public void updateRole(Long roleId, Long userId, RoleDTO data) {
+    public void updateRole(Long roleId, Long userId, RoleReq data) {
         Role role = BeanUtil.toBean(data, Role.class);
         if (role.getReadonly() != null && role.getReadonly()) {
             throw CheckedException.badRequest("内置角色无法编辑");
@@ -121,7 +121,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
 
     @Override
     public RolePermissionResp findRolePermissionById(Long roleId) {
-        final List<VueRouter> buttons = resourceMapper.findVisibleResource(ResourceQueryDTO.builder()
+        final List<VueRouter> buttons = resourceMapper.findVisibleResource(ResourceQueryReq.builder()
                 .userId(tenantEnvironment.userId()).build());
         final List<Long> roleRes = Optional.of(this.roleResMapper.selectList(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, roleId)))
                 .orElse(Lists.newArrayList()).stream().map(RoleRes::getResId).collect(toList());

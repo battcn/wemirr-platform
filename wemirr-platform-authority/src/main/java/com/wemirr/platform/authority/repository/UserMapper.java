@@ -7,7 +7,7 @@ import com.wemirr.framework.db.mybatis.SuperMapper;
 import com.wemirr.framework.db.mybatis.auth.DataScope;
 import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
-import com.wemirr.platform.authority.domain.vo.UserResp;
+import com.wemirr.platform.authority.domain.resp.UserResp;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

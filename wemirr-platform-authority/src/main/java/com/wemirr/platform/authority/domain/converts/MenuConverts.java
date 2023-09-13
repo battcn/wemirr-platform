@@ -3,9 +3,9 @@ package com.wemirr.platform.authority.domain.converts;
 
 import cn.hutool.core.lang.tree.TreeNode;
 import com.google.common.collect.Maps;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.entity.BaseConverts;
-import com.wemirr.platform.authority.domain.vo.VueRouter;
+import com.wemirr.platform.authority.domain.resp.VueRouter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 

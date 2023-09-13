@@ -5,7 +5,7 @@ import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;
-import com.wemirr.platform.authority.domain.vo.UserRoleResp;
+import com.wemirr.platform.authority.domain.resp.UserRoleResp;
 import com.wemirr.platform.authority.repository.UserMapper;
 import com.wemirr.platform.authority.repository.UserRoleMapper;
 import com.wemirr.platform.authority.service.UserRoleService;

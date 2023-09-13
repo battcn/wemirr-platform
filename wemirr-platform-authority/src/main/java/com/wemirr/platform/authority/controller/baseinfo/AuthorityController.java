@@ -8,7 +8,7 @@ import com.wemirr.framework.db.mybatis.auth.DataScopeService;
 import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
-import com.wemirr.platform.authority.domain.vo.DictResp;
+import com.wemirr.platform.authority.domain.resp.DictResp;
 import com.wemirr.platform.authority.service.RoleService;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;

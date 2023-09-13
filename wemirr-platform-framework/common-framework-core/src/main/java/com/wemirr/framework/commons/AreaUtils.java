@@ -5,6 +5,7 @@ import com.wemirr.framework.commons.entity.Area;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;

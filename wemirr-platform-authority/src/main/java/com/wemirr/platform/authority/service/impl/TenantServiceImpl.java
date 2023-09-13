@@ -3,7 +3,6 @@ package com.wemirr.platform.authority.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.configuration.dynamic.TenantDynamicDataSourceProcess;
 import com.wemirr.framework.db.configuration.dynamic.event.body.EventAction;
@@ -23,6 +22,7 @@ import com.wemirr.platform.authority.service.DynamicDatasourceService;
 import com.wemirr.platform.authority.service.TenantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

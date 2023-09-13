@@ -8,7 +8,6 @@ import com.baomidou.dynamic.datasource.creator.HikariDataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.dynamic.datasource.support.ScriptRunner;
 import com.google.common.collect.Lists;
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.configuration.dynamic.event.body.EventAction;
 import com.wemirr.framework.db.configuration.dynamic.event.body.TenantDynamicDatasource;
@@ -16,6 +15,7 @@ import com.wemirr.framework.db.properties.DatabaseProperties;
 import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.sql.DataSource;
 import java.io.File;

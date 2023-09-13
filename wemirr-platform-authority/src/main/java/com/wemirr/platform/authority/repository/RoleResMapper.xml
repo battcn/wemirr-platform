@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wemirr.platform.authority.repository.RoleResMapper">
 
-    <select id="selectRoleResByRoleId" resultType="com.wemirr.platform.authority.domain.vo.RoleResMenuMapperResp">
+    <select id="selectRoleResByRoleId" resultType="com.wemirr.platform.authority.domain.resp.RoleResMenuMapperResp">
         SELECT t1.id,t2.role_id,t1.type
         FROM
             sys_resource t1

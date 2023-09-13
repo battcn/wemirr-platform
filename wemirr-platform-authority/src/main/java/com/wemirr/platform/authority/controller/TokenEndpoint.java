@@ -1,14 +1,14 @@
 package com.wemirr.platform.authority.controller;
 
-import com.wemirr.framework.commons.StringUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.security.entity.UserInfoDetails;
-import com.wemirr.platform.authority.domain.dto.ChangePasswordDTO;
+import com.wemirr.platform.authority.domain.req.ChangePasswordReq;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -65,7 +65,7 @@ public class TokenEndpoint {
 
     @PutMapping("/change_password")
     @Operation(summary = "修改密码")
-    public void changePassword(@Validated @RequestBody ChangePasswordDTO dto) {
+    public void changePassword(@Validated @RequestBody ChangePasswordReq dto) {
         if (!StringUtils.equals(dto.getPassword(), dto.getConfirmPassword())) {
             throw CheckedException.badRequest("新密码与确认密码不一致");
         }

@@ -8,8 +8,8 @@ import com.wemirr.framework.db.mybatis.auth.DataScopeType;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.framework.db.page.PageRequest;
-import com.wemirr.platform.authority.domain.dto.StationPageDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
+import com.wemirr.platform.authority.domain.req.StationPageReq;
 import com.wemirr.platform.authority.repository.StationMapper;
 import com.wemirr.platform.authority.service.StationService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class StationServiceImpl extends SuperServiceImpl<StationMapper, Station>
 
 
     @Override
-    public IPage<Station> findStationPage(PageRequest params, StationPageDTO data) {
+    public IPage<Station> findStationPage(PageRequest params, StationPageReq data) {
         Station station = BeanUtil.toBean(data, Station.class);
         final LbqWrapper<Station> wrapper = Wraps.<Station>lbQ().like(Station::getName, station.getName())
                 .like(Station::getDescription, station.getDescription()).eq(Station::getType,data.getType())

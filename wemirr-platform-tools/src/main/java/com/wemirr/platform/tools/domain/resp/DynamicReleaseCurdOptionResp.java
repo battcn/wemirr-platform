@@ -1,11 +1,11 @@
 package com.wemirr.platform.tools.domain.resp;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.wemirr.framework.commons.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 

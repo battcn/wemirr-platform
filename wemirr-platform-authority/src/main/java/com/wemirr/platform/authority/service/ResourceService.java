@@ -1,9 +1,9 @@
 package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.mybatis.SuperService;
-import com.wemirr.platform.authority.domain.dto.ResourceQueryDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
-import com.wemirr.platform.authority.domain.vo.VueRouter;
+import com.wemirr.platform.authority.domain.req.ResourceQueryReq;
+import com.wemirr.platform.authority.domain.resp.VueRouter;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public interface ResourceService extends SuperService<Resource> {
      * @param resource resource
      * @return 查询结果
      */
-    List<VueRouter> findVisibleResource(ResourceQueryDTO resource);
+    List<VueRouter> findVisibleResource(ResourceQueryReq resource);
 
 
 

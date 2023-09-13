@@ -9,8 +9,8 @@ import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.platform.authority.domain.dto.OrgSaveDTO;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Org;
+import com.wemirr.platform.authority.domain.req.OrgSaveReq;
 import com.wemirr.platform.authority.service.OrgService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -63,14 +63,14 @@ public class OrgController {
     @PostMapping
     @SysLog(value = "保存组织架构")
     @Operation(summary = "保存编辑组织架构")
-    public void save(@Validated @RequestBody OrgSaveDTO dto) {
+    public void save(@Validated @RequestBody OrgSaveReq dto) {
         orgService.addOrg(BeanUtil.toBean(dto, Org.class));
     }
 
     @PutMapping("/{id}")
     @SysLog(value = "编辑组织架构")
     @Operation(summary = "编辑编辑组织架构")
-    public void edit(@PathVariable Long id, @Validated @RequestBody OrgSaveDTO dto) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody OrgSaveReq dto) {
         orgService.updateById(BeanUtilPlus.toBean(id, dto, Org.class));
     }
 
