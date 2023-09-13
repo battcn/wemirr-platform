@@ -144,9 +144,10 @@ public class AuthorizationServerConfiguration {
         // form 登录策略
         SecurityApply.applyFormLoginSecurity(http, properties);
         if (properties.getTokenType() == CustomSecurityProperties.TokenType.jwt) {
-            // 添加BearerTokenAuthenticationFilter，将认证服务当做一个资源服务，解析请求头中的token
+            // JWT TOKEN = TOKEN 长
             http.oauth2ResourceServer((resourceServer) -> resourceServer.jwt(Customizer.withDefaults()));
         } else {
+            // 自省 TOKEN = 可以 TOKEN 自定义
             http.oauth2ResourceServer((resourceServer) -> resourceServer.opaqueToken(opaqueTokenConfigurer -> opaqueTokenConfigurer.introspector(opaqueTokenIntrospector())));
         }
         http.oauth2ResourceServer((resourceServer) -> resourceServer.accessDeniedHandler(SecurityUtils::exceptionHandler).authenticationEntryPoint(SecurityUtils::exceptionHandler));
