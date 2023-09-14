@@ -2,6 +2,8 @@
 
 本系统基于 `Spring官方`提供的最新SDK `spring-security-oauth2-authorization-server:1.1.2` 集成封装,简化开发者使用，提供的扩展配置请开发者自行看注释 
 
+**即便不用全部的架构体系，只用`oauth2-spring-boot-starter` 也可以轻松自定义 自己内部的oauth2 系统架构**
+
 ``` xml
 <dependency>
     <groupId>com.wemirr.framework</groupId>
