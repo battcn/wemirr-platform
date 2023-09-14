@@ -25,7 +25,7 @@ public class SecurityExtProperties {
     /**
      * 默认的过滤地址
      */
-    private List<String> defaultIgnoreUrls = List.of("/captcha", "/sms_captcha", "/message/**", "/favicon.ico", "/swagger-ui.html", "/doc.html", "/v3/api-docs/**", "/assets/**", "/css/**", "/webjars/**", "/login", "/error", "/oauth2/**");
+    private List<String> defaultIgnoreUrls = List.of("/getCaptcha", "/captcha", "/sms_captcha", "/message/**", "/favicon.ico", "/swagger-ui.html", "/doc.html", "/v3/api-docs/**", "/assets/**", "/css/**", "/webjars/**", "/login", "/error", "/oauth2/**");
 
     /**
      * 服务端配置

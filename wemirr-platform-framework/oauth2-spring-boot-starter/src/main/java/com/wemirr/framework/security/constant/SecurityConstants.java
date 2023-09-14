@@ -66,6 +66,9 @@ public class SecurityConstants {
     public static final String GRANT_TYPE_CUSTOM = "urn:ietf:params:oauth:grant-type:custom";
 
 
+
+
+
     public static class RedisConstants {
 
         /**

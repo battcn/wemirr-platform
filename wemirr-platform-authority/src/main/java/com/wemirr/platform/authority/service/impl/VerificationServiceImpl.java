@@ -33,7 +33,7 @@ public class VerificationServiceImpl implements VerificationService {
         if (StrUtil.isBlank(key)) {
             throw CheckedException.badRequest("验证码key不能为空");
         }
-        final CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(width, height, 5, 4);
+        final CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(width, height, 4, 4);
         captcha.setTextAlpha(0.6F);
         stringRedisTemplate.opsForValue().set(geyKey(key), captcha.getCode(), 3, TimeUnit.MINUTES);
         log.debug("验证码结果 - {}", captcha.getCode());

@@ -1,7 +1,8 @@
 package com.wemirr.platform.authority.controller.common;
 
 import cn.hutool.captcha.CircleCaptcha;
-import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
+import cn.hutool.core.util.IdUtil;
+import com.wemirr.platform.authority.domain.resp.CaptchaResp;
 import com.wemirr.platform.authority.service.VerificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,8 +28,7 @@ public class CaptchaController {
     private final VerificationService verificationService;
 
     @SneakyThrows
-    @IgnoreAuthorize
-    @GetMapping(value = "/captcha", produces = "image/png")
+    @GetMapping(value = "/captcha2", produces = "image/png")
     @Operation(summary = "验证码 - [DONE] - [Levin]", description = "验证码 - [DONE] - [Levin]")
     public void create(@RequestParam(value = "key") String key,
                        @RequestParam(defaultValue = "200", required = false) Integer width,
@@ -40,6 +40,18 @@ public class CaptchaController {
         response.setDateHeader(HttpHeaders.EXPIRES, 0L);
         final CircleCaptcha captcha = verificationService.create(key, width, height);
         response.getOutputStream().write(captcha.getImageBytes());
+    }
+
+    @GetMapping("/captcha")
+    @Operation(summary = "验证码 - [DONE] - [Levin]", description = "验证码 - [DONE] - [Levin]")
+    public CaptchaResp getCaptcha(@RequestParam(value = "key", required = false) String key,
+                                  @RequestParam(defaultValue = "130", required = false) Integer width,
+                                  @RequestParam(defaultValue = "34", required = false) Integer height) {
+        if (key == null) {
+            key = IdUtil.fastSimpleUUID();
+        }
+        final CircleCaptcha captcha = verificationService.create(key, width, height);
+        return CaptchaResp.builder().captchaId(key).code(captcha.getCode()).imageData(captcha.getImageBase64Data()).build();
     }
 
 

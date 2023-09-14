@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -63,12 +62,6 @@ public class TokenEndpoint {
             return usernamePasswordAuthenticationToken.getPrincipal();
         }
         return principal;
-    }
-
-    @PreAuthorize("hasAuthority('dict:management:add')")
-    @GetMapping("/test")
-    public void test(){
-        System.out.println("test");
     }
 
     @PutMapping("/change_password")

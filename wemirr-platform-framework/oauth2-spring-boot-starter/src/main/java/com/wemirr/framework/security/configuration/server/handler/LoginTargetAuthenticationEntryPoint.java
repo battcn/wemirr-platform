@@ -52,7 +52,7 @@ public class LoginTargetAuthenticationEntryPoint extends LoginUrlAuthenticationE
             SecurityUtils.exceptionHandler(request, response, exception);
             return;
         }
-        // 获取登录表单的地址
+//        // 获取登录表单的地址
         String loginForm = determineUrlToUseForThisRequest(request, response, exception);
         if (!UrlUtils.isAbsoluteUrl(loginForm)) {
             log.debug("非绝对路径调用,父类方法处理 - {}", exception.getLocalizedMessage());

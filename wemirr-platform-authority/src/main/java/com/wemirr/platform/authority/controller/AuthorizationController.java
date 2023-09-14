@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
@@ -55,9 +56,23 @@ public class AuthorizationController {
         return "device-activated";
     }
 
-    @GetMapping(value = "/", params = "success")
+    @GetMapping(value = "/")
     public String success() {
         return "device-activated";
+    }
+
+    @GetMapping(value = "/oauth2/consent")
+    public String consent(Principal principal, Model model,
+                          @RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
+                          @RequestParam(OAuth2ParameterNames.SCOPE) String scope,
+                          @RequestParam(OAuth2ParameterNames.STATE) String state,
+                          @RequestParam(name = OAuth2ParameterNames.USER_CODE, required = false) String userCode) {
+
+        // 获取consent页面所需的参数
+        Map<String, Object> consentParameters = getConsentParameters(scope, state, clientId, userCode, principal);
+        // 转至model中，让框架渲染页面
+        consentParameters.forEach(model::addAttribute);
+        return "consent";
     }
 
     @GetMapping("/login")
