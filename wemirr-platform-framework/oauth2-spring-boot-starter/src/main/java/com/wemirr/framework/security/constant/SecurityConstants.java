@@ -7,20 +7,6 @@ package com.wemirr.framework.security.constant;
  */
 public class SecurityConstants {
 
-    /**
-     * 授权确认页面地址
-     */
-    public static final String DEVICE_ACTIVATED_URI = "http://127.0.0.1:5001/activated";
-
-    /**
-     * 授权确认页面地址
-     */
-    public static final String DEVICE_ACTIVATE_URI = "http://127.0.0.1:5001/activate";
-
-    /**
-     * 授权确认页面地址
-     */
-    public static final String CONSENT_PAGE_URI = "http://127.0.0.1:5001/consent";
 
     /**
      * 微信登录相关参数——openid：用户唯一id
@@ -31,6 +17,10 @@ public class SecurityConstants {
      * 微信登录相关参数——forcePopup：强制此次授权需要用户弹窗确认
      */
     public static final String WECHAT_PARAMETER_FORCE_POPUP = "forcePopup";
+    /**
+     * 三方登录类型——微信
+     */
+    public static final String THIRD_LOGIN_WECHAT = "wechat";
 
     /**
      * 微信登录相关参数——secret：微信的应用秘钥
@@ -42,10 +32,6 @@ public class SecurityConstants {
      */
     public static final String WECHAT_PARAMETER_APPID = "appid";
 
-    /**
-     * 三方登录类型——微信
-     */
-    public static final String THIRD_LOGIN_WECHAT = "wechat";
 
     /**
      * 三方登录类型——Gitee
@@ -70,7 +56,9 @@ public class SecurityConstants {
     /**
      * 权限在token中的key
      */
-    public static final String AUTHORITIES_KEY = "authorities";
+    public static final String CLAIM_AUTHORITIES = "authorities";
+
+    public static final String CLAIM_USERINFO = "userinfo";
 
     /**
      * 自定义 grant type —— 短信验证码
@@ -89,17 +77,6 @@ public class SecurityConstants {
          * 认证信息存储前缀
          */
         public static final String SECURITY_CONTEXT_PREFIX_KEY = "security_context:";
-
-        /**
-         * 短信验证码前缀
-         */
-        public static final String SMS_CAPTCHA_PREFIX_KEY = "mobile_phone:";
-
-        /**
-         * 图形验证码前缀
-         */
-        public static final String IMAGE_CAPTCHA_PREFIX_KEY = "image_captcha:";
-
         /**
          * 默认过期时间，默认30分钟
          */

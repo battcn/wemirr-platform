@@ -1,6 +1,10 @@
 package com.wemirr.framework.security.configuration.server.support;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.constant.SecurityConstants;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,21 +26,15 @@ import java.util.stream.Collectors;
  *
  * @author Levin
  */
-public final class CustomIdTokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext> {
+@Slf4j
+@RequiredArgsConstructor
+public final class CustomTokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext> {
 
-    private static final Set<String> ID_TOKEN_CLAIMS = Set.of(
-            IdTokenClaimNames.ISS,
-            IdTokenClaimNames.SUB,
-            IdTokenClaimNames.AUD,
-            IdTokenClaimNames.EXP,
-            IdTokenClaimNames.IAT,
-            IdTokenClaimNames.AUTH_TIME,
-            IdTokenClaimNames.NONCE,
-            IdTokenClaimNames.ACR,
-            IdTokenClaimNames.AMR,
-            IdTokenClaimNames.AZP,
-            IdTokenClaimNames.AT_HASH,
-            IdTokenClaimNames.C_HASH
+
+    private final SecurityExtProperties properties;
+    private static final Set<String> ID_TOKEN_CLAIMS = Set.of(IdTokenClaimNames.ISS, IdTokenClaimNames.SUB, IdTokenClaimNames.AUD, IdTokenClaimNames.EXP,
+            IdTokenClaimNames.IAT, IdTokenClaimNames.AUTH_TIME,
+            IdTokenClaimNames.NONCE, IdTokenClaimNames.ACR, IdTokenClaimNames.AMR, IdTokenClaimNames.AZP, IdTokenClaimNames.AT_HASH, IdTokenClaimNames.C_HASH
     );
 
     @Override
@@ -44,20 +42,14 @@ public final class CustomIdTokenCustomizer implements OAuth2TokenCustomizer<JwtE
         if (OidcParameterNames.ID_TOKEN.equals(context.getTokenType().getValue())) {
             Map<String, Object> thirdPartyClaims = extractClaims(context.getPrincipal());
             context.getClaims().claims(existingClaims -> {
-                // Remove conflicting claims set by this authorization server
                 existingClaims.keySet().forEach(thirdPartyClaims::remove);
-
-                // Remove standard id_token claims that could cause problems with clients
                 ID_TOKEN_CLAIMS.forEach(thirdPartyClaims::remove);
-
-                // Add all other claims directly to id_token
                 existingClaims.putAll(thirdPartyClaims);
             });
         }
-
+        final JwtClaimsSet.Builder claims = context.getClaims();
         // 检查登录用户信息是不是OAuth2User，在token中添加loginType属性
         if (context.getPrincipal().getPrincipal() instanceof OAuth2User user) {
-            JwtClaimsSet.Builder claims = context.getClaims();
             Object loginType = user.getAttribute("loginType");
             if (loginType instanceof String) {
                 // 同时检验是否为String和是否不为空
@@ -86,15 +78,11 @@ public final class CustomIdTokenCustomizer implements OAuth2TokenCustomizer<JwtE
                     .map(GrantedAuthority::getAuthority)
                     // 去重
                     .collect(Collectors.toSet());
-
             // 合并scope与用户信息
             authoritySet.addAll(scopes);
-
-            JwtClaimsSet.Builder claims = context.getClaims();
             // 将权限信息放入jwt的claims中（也可以生成一个以指定字符分割的字符串放入）
-            claims.claim(SecurityConstants.AUTHORITIES_KEY, authoritySet);
-            // 放入其它自定内容
-            // 角色、头像...
+            claims.claim(SecurityConstants.CLAIM_AUTHORITIES, authoritySet);
+            claims.claim(SecurityConstants.CLAIM_USERINFO, BeanUtil.beanToMap(user, properties.getServer().getJwtClaims()));
         }
     }
 

@@ -1,5 +1,6 @@
 package com.wemirr.framework.security.utils;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -21,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
@@ -154,11 +156,16 @@ public final class SecurityUtils {
             return (UserInfoDetails) authentication.getPrincipal();
         }
         if (authentication instanceof JwtAuthenticationToken token) {
-            final String tokenValue = token.getToken().getTokenValue();
-            final OAuth2AuthorizationService oAuth2AuthorizationService = SpringUtil.getBean(OAuth2AuthorizationService.class);
-            final OAuth2Authorization oAuth2Authorization = oAuth2AuthorizationService.findByToken(tokenValue, OAuth2TokenType.ACCESS_TOKEN);
-            final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) Objects.requireNonNull(oAuth2Authorization).getAttributes().get(Principal.class.getName());
-            return (UserInfoDetails) usernamePasswordAuthenticationToken.getPrincipal();
+            if (token.getPrincipal() instanceof Jwt jwt) {
+                final Object userinfo = jwt.getClaim("userinfo");
+                return BeanUtil.toBean(userinfo, UserInfoDetails.class);
+            } else {
+                final String tokenValue = token.getToken().getTokenValue();
+                final OAuth2AuthorizationService oAuth2AuthorizationService = SpringUtil.getBean(OAuth2AuthorizationService.class);
+                final OAuth2Authorization oAuth2Authorization = oAuth2AuthorizationService.findByToken(tokenValue, OAuth2TokenType.ACCESS_TOKEN);
+                final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) Objects.requireNonNull(oAuth2Authorization).getAttributes().get(Principal.class.getName());
+                return (UserInfoDetails) usernamePasswordAuthenticationToken.getPrincipal();
+            }
         }
         String detailsText = JSON.toJSONString(authentication.getDetails());
         final JSONObject detailJson = JSON.parseObject(detailsText);

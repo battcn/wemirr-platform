@@ -71,7 +71,6 @@ public class ${table.controllerName} {
      * @return Result
      */
     @PostMapping
-    <#-- @PreAuthorize("@pms.hasPermission('${package.moduleName}:${table.entityPath}:add')")-->
     public Result<?> save(@RequestBody ${entity} ${table.entityPath}) {
         ${table.entityPath}Service.save(${table.entityPath});
 
@@ -84,7 +83,6 @@ public class ${table.controllerName} {
      * @return Ret
      */
     @PutMapping("/{id}")
-    <#-- @PreAuthorize("@pms.hasPermission('${package.ModuleName}:${table.entityPath}:edit')")-->
     public Result<?> updateById(@PathVariable("id") Long id ,@RequestBody ${entity} ${table.entityPath}) {
         return Result.success(${table.entityPath}Service.updateById(${table.entityPath}));
     }
@@ -96,7 +94,6 @@ public class ${table.controllerName} {
      * @return Result
      */
     @DeleteMapping("{id}")
-    <#-- @PreAuthorize("@pms.hasPermission('${package.ModuleName}:${table.entityPath}:del')")-->
     public Result<?> removeById(@PathVariable Long id) {
         ${table.entityPath}Service.removeById(id);
 

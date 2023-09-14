@@ -69,7 +69,6 @@ public class SecurityExtProperties {
          */
         private Ignore ignore = new Ignore();
 
-
         /**
          * 登录地址，前后端分离就填写完整的url路径，不分离填写相对路径
          */
@@ -78,6 +77,28 @@ public class SecurityExtProperties {
          * 设备验证地址
          */
         private String deviceVerificationUri = "/oauth2/device_verification";
+
+        /**
+         * 需要暴露在 JWT token 中的信息（便于从Token 提取数据建晒对 DB/REDIS 的检索）
+         * 注意： 尽可能不要暴露敏感数据,同时暴露的内容别太多,越多KEY越长
+         */
+        private String[] jwtClaims = new String[]{"userId", "tenantId", "tenantId", "tenantName", "realName"};
+
+
+        /**
+         * 授权确认页面地址
+         */
+        private String deviceActivatedUri = "http://127.0.0.1:5001/activated";
+
+        /**
+         * 授权确认页面地址
+         */
+        private String deviceActivateUri = "http://127.0.0.1:5001/activate";
+
+        /**
+         * 授权确认页面地址
+         */
+        private String consentPageUri = "http://127.0.0.1:5001/consent";
     }
 
 

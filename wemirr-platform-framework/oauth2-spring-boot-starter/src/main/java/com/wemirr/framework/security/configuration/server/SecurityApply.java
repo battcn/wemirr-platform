@@ -3,11 +3,11 @@ package com.wemirr.framework.security.configuration.server;
 import cn.hutool.extra.spring.SpringUtil;
 import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.configuration.server.handler.*;
-import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthenticator;
 import com.wemirr.framework.security.configuration.server.support.CustomGrantAuthenticationConverter;
 import com.wemirr.framework.security.configuration.server.support.CustomGrantAuthenticationProvider;
 import com.wemirr.framework.security.configuration.server.support.device.DeviceClientAuthenticationConverter;
 import com.wemirr.framework.security.configuration.server.support.device.DeviceClientAuthenticationProvider;
+import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthenticator;
 import com.wemirr.framework.security.constant.SecurityConstants;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
@@ -43,12 +43,13 @@ public class SecurityApply {
         });
     }
 
-    public static DefaultSecurityFilterChain applyCustomSecurity(HttpSecurity http, Collection<IntegrationAuthenticator> integrationAuthenticators) throws Exception {
+    public static DefaultSecurityFilterChain applyCustomSecurity(HttpSecurity http, Collection<IntegrationAuthenticator> integrationAuthenticators, SecurityExtProperties properties) throws Exception {
+        final SecurityExtProperties.Server server = properties.getServer();
         CustomGrantAuthenticationProvider provider = new CustomGrantAuthenticationProvider();
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .authorizationEndpoint(authorizationEndpoint -> {
-                    authorizationEndpoint.errorResponseHandler(new ConsentAuthenticationFailureHandler());
-                    authorizationEndpoint.authorizationResponseHandler(new ConsentAuthorizationResponseHandler());
+                    authorizationEndpoint.errorResponseHandler(new ConsentAuthenticationFailureHandler(server));
+                    authorizationEndpoint.authorizationResponseHandler(new ConsentAuthorizationResponseHandler(server));
                 })
                 // 让认证服务器元数据中有自定义的认证方式
                 .authorizationServerMetadataEndpoint(metadata -> metadata.authorizationServerMetadataCustomizer(customizer -> customizer.grantType(SecurityConstants.GRANT_TYPE_CUSTOM)))
@@ -73,7 +74,8 @@ public class SecurityApply {
     }
 
 
-    public static void applyDeviceSecurity(HttpSecurity http) {
+    public static void applyDeviceSecurity(HttpSecurity http, SecurityExtProperties properties) {
+        final SecurityExtProperties.Server server = properties.getServer();
         // 新建设备码converter和provider
         final RegisteredClientRepository registeredClientRepository = SpringUtil.getBean(RegisteredClientRepository.class);
         final AuthorizationServerSettings authorizationServerSettings = SpringUtil.getBean(AuthorizationServerSettings.class);
@@ -85,31 +87,31 @@ public class SecurityApply {
                 // 设置自定义用户确认授权页
                 .authorizationEndpoint(authorizationEndpoint -> {
                     // 校验授权确认页面是否为完整路径；是否是前后端分离的页面
-                    boolean absoluteUrl = UrlUtils.isAbsoluteUrl(SecurityConstants.CONSENT_PAGE_URI);
+                    boolean absoluteUrl = UrlUtils.isAbsoluteUrl(server.getConsentPageUri());
                     // 如果是分离页面则重定向，否则转发请求
-                    authorizationEndpoint.consentPage(absoluteUrl ? CUSTOM_CONSENT_REDIRECT_URI : SecurityConstants.CONSENT_PAGE_URI);
+                    authorizationEndpoint.consentPage(absoluteUrl ? CUSTOM_CONSENT_REDIRECT_URI : server.getConsentPageUri());
                     if (absoluteUrl) {
                         // 适配前后端分离的授权确认页面，成功/失败响应json
-                        authorizationEndpoint.errorResponseHandler(new ConsentAuthenticationFailureHandler());
-                        authorizationEndpoint.authorizationResponseHandler(new ConsentAuthorizationResponseHandler());
+                        authorizationEndpoint.errorResponseHandler(new ConsentAuthenticationFailureHandler(server));
+                        authorizationEndpoint.authorizationResponseHandler(new ConsentAuthorizationResponseHandler(server));
                     }
                 })
                 // 设置设备码用户验证url(自定义用户验证页)
-                .deviceAuthorizationEndpoint(deviceAuthorizationEndpoint -> deviceAuthorizationEndpoint.verificationUri(UrlUtils.isAbsoluteUrl(SecurityConstants.DEVICE_ACTIVATE_URI) ? CUSTOM_DEVICE_REDIRECT_URI : SecurityConstants.DEVICE_ACTIVATE_URI))
+                .deviceAuthorizationEndpoint(deviceAuthorizationEndpoint -> deviceAuthorizationEndpoint.verificationUri(UrlUtils.isAbsoluteUrl(server.getDeviceActivatedUri()) ? CUSTOM_DEVICE_REDIRECT_URI : server.getDeviceActivatedUri()))
                 // 设置验证设备码用户确认页面
                 .deviceVerificationEndpoint(deviceVerificationEndpoint -> {
                     // 校验授权确认页面是否为完整路径；是否是前后端分离的页面
-                    boolean absoluteUrl = UrlUtils.isAbsoluteUrl(SecurityConstants.CONSENT_PAGE_URI);
+                    boolean absoluteUrl = UrlUtils.isAbsoluteUrl(server.getConsentPageUri());
                     // 如果是分离页面则重定向，否则转发请求
-                    deviceVerificationEndpoint.consentPage(absoluteUrl ? CUSTOM_CONSENT_REDIRECT_URI : SecurityConstants.CONSENT_PAGE_URI);
+                    deviceVerificationEndpoint.consentPage(absoluteUrl ? CUSTOM_CONSENT_REDIRECT_URI : server.getConsentPageUri());
                     if (absoluteUrl) {
                         // 适配前后端分离的授权确认页面，失败响应json
-                        deviceVerificationEndpoint.errorResponseHandler(new ConsentAuthenticationFailureHandler());
+                        deviceVerificationEndpoint.errorResponseHandler(new ConsentAuthenticationFailureHandler(server));
                     }
                     // 如果授权码验证页面或者授权确认页面是前后端分离的
-                    if (UrlUtils.isAbsoluteUrl(SecurityConstants.DEVICE_ACTIVATE_URI) || absoluteUrl) {
+                    if (UrlUtils.isAbsoluteUrl(server.getDeviceActivatedUri()) || absoluteUrl) {
                         // 添加响应json处理
-                        deviceVerificationEndpoint.deviceVerificationResponseHandler(new DeviceAuthorizationResponseHandler());
+                        deviceVerificationEndpoint.deviceVerificationResponseHandler(new DeviceAuthorizationResponseHandler(server));
                     }
                 })
                 // 客户端认证添加设备码的converter和provider

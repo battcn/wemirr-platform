@@ -12,6 +12,8 @@ import org.springframework.util.MultiValueMap;
  */
 public class WechatCodeGrantRequestEntityConverter extends OAuth2AuthorizationCodeGrantRequestEntityConverter {
 
+
+
     @Override
     protected MultiValueMap<String, String> createParameters(OAuth2AuthorizationCodeGrantRequest authorizationCodeGrantRequest) {
         // 如果是微信登录，获取token时携带appid参数与secret参数

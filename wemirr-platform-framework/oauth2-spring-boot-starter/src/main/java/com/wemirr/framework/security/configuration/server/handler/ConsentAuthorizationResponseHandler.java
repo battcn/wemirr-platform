@@ -1,10 +1,10 @@
 package com.wemirr.framework.security.configuration.server.handler;
 
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.security.constant.SecurityConstants;
-import jakarta.servlet.ServletException;
+import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -31,15 +31,17 @@ import static org.springframework.security.oauth2.core.OAuth2ErrorCodes.INVALID_
  *
  * @author Levin
  */
+@RequiredArgsConstructor
 public class ConsentAuthorizationResponseHandler implements AuthenticationSuccessHandler {
 
+    private final SecurityExtProperties.Server server;
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         // 获取将要重定向的回调地址
         String redirectUri = this.getAuthorizationResponseUri(authentication);
-        if (request.getMethod().equals(HttpMethod.POST.name()) && UrlUtils.isAbsoluteUrl(SecurityConstants.CONSENT_PAGE_URI)) {
+        if (request.getMethod().equals(HttpMethod.POST.name()) && UrlUtils.isAbsoluteUrl(server.getConsentPageUri())) {
             // 如果是post请求并且CONSENT_PAGE_URI是完整的地址，则响应json
             Result<String> success = Result.success(redirectUri);
             response.setCharacterEncoding(StandardCharsets.UTF_8.name());

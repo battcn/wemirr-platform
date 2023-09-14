@@ -47,7 +47,7 @@ public class LoginTargetAuthenticationEntryPoint extends LoginUrlAuthenticationE
         // 兼容设备码前后端分离
         if (request.getRequestURI().equals(server.getDeviceVerificationUri())
                 && request.getMethod().equals(HttpMethod.POST.name())
-                && UrlUtils.isAbsoluteUrl(SecurityConstants.DEVICE_ACTIVATE_URI)) {
+                && UrlUtils.isAbsoluteUrl(server.getDeviceActivatedUri())) {
             log.debug("兼容前后端分离设备码异常 - {}", exception.getLocalizedMessage());
             SecurityUtils.exceptionHandler(request, response, exception);
             return;

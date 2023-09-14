@@ -1,5 +1,6 @@
 package com.wemirr.framework.security.configuration.server.support.wechat;
 
+import jakarta.annotation.Nonnull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
@@ -20,7 +21,7 @@ public class WechatMapAccessTokenResponseConverter implements Converter<Map<Stri
                     OAuth2ParameterNames.REFRESH_TOKEN, OAuth2ParameterNames.SCOPE, OAuth2ParameterNames.TOKEN_TYPE));
 
     @Override
-    public OAuth2AccessTokenResponse convert(Map<String, Object> source) {
+    public OAuth2AccessTokenResponse convert(@Nonnull Map<String, Object> source) {
         String accessToken = getParameterValue(source, OAuth2ParameterNames.ACCESS_TOKEN);
         OAuth2AccessToken.TokenType accessTokenType = getAccessTokenType(source);
         long expiresIn = getExpiresIn(source);
@@ -76,16 +77,13 @@ public class WechatMapAccessTokenResponseConverter implements Converter<Map<Stri
             // Final classes Long and Integer do not need to be coerced
             if (obj.getClass() == Long.class) {
                 parameterValue = (Long) obj;
-            }
-            else if (obj.getClass() == Integer.class) {
+            } else if (obj.getClass() == Integer.class) {
                 parameterValue = (Integer) obj;
-            }
-            else {
+            } else {
                 // Attempt to coerce to a long (typically from a String)
                 try {
                     parameterValue = Long.parseLong(obj.toString());
-                }
-                catch (NumberFormatException ignored) {
+                } catch (NumberFormatException ignored) {
                 }
             }
         }

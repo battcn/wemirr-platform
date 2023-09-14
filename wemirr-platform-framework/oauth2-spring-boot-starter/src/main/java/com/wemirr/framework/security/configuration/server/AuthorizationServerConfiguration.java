@@ -12,10 +12,10 @@ import com.wemirr.framework.security.configuration.client.RedisOpaqueTokenIntros
 import com.wemirr.framework.security.configuration.server.handler.LoginTargetAuthenticationEntryPoint;
 import com.wemirr.framework.security.configuration.server.store.RedisSecurityContextRepository;
 import com.wemirr.framework.security.configuration.server.store.RedisTokenStore;
-import com.wemirr.framework.security.configuration.server.support.CustomIdTokenCustomizer;
-import com.wemirr.framework.security.configuration.server.support.CustomOAuth2AccessTokenGenerator;
-import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthenticator;
 import com.wemirr.framework.security.configuration.server.support.CustomLoginAuthenticationProvider;
+import com.wemirr.framework.security.configuration.server.support.CustomOAuth2AccessTokenGenerator;
+import com.wemirr.framework.security.configuration.server.support.CustomTokenCustomizer;
+import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthenticator;
 import com.wemirr.framework.security.constant.SecurityConstants;
 import com.wemirr.framework.security.service.IntegrationUserDetailsServiceImpl;
 import com.wemirr.framework.security.utils.SecurityUtils;
@@ -103,11 +103,11 @@ public class AuthorizationServerConfiguration {
             http.securityContext(context -> context.securityContextRepository(securityContextRepository));
         }
         if (server.isDevice()) {
-            SecurityApply.applyDeviceSecurity(http);
+            SecurityApply.applyDeviceSecurity(http, properties);
         }
         // 自定义登录策略
         if (server.isCustom()) {
-            return SecurityApply.applyCustomSecurity(http, integrationAuthenticators);
+            return SecurityApply.applyCustomSecurity(http, integrationAuthenticators, properties);
         }
         return http.build();
     }
@@ -187,7 +187,7 @@ public class AuthorizationServerConfiguration {
     @Bean
     @ConditionalOnExpression("'${extend.oauth2.server.token-type}'.equalsIgnoreCase('jwt')")
     public OAuth2TokenCustomizer<JwtEncodingContext> oAuth2TokenCustomizer() {
-        return new CustomIdTokenCustomizer();
+        return new CustomTokenCustomizer(properties);
     }
 
     /**
@@ -248,7 +248,7 @@ public class AuthorizationServerConfiguration {
         // 设置解析权限信息的前缀，设置为空是去掉前缀
         grantedAuthoritiesConverter.setAuthorityPrefix("");
         // 设置权限信息在jwt claims中的key
-        grantedAuthoritiesConverter.setAuthoritiesClaimName(SecurityConstants.AUTHORITIES_KEY);
+        grantedAuthoritiesConverter.setAuthoritiesClaimName(SecurityConstants.CLAIM_AUTHORITIES);
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
         return jwtAuthenticationConverter;
@@ -272,6 +272,7 @@ public class AuthorizationServerConfiguration {
     @ConditionalOnExpression("'${extend.oauth2.server.token-type}'.equalsIgnoreCase('custom')")
     public OAuth2TokenGenerator<OAuth2Token> oAuth2TokenGenerator() {
         CustomOAuth2AccessTokenGenerator accessTokenGenerator = new CustomOAuth2AccessTokenGenerator();
+//        accessTokenGenerator.setAccessTokenCustomizer(new CustomTokenCustomizer());
         return new DelegatingOAuth2TokenGenerator(accessTokenGenerator, new OAuth2RefreshTokenGenerator());
     }
 

@@ -1,10 +1,11 @@
 package com.wemirr.framework.security.configuration.server.handler;
 
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.security.constant.SecurityConstants;
-import jakarta.servlet.ServletException;
+import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,10 +25,15 @@ import java.nio.charset.StandardCharsets;
  *
  * @author Levin
  */
+@Slf4j
+@RequiredArgsConstructor
 public class ConsentAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
+    private final SecurityExtProperties.Server server;
+
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
+        log.error("确认授权失败 - {}", exception.getLocalizedMessage());
         // 获取当前认证信息
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // 获取具体的异常
@@ -41,9 +47,8 @@ public class ConsentAuthenticationFailureHandler implements AuthenticationFailur
             // 第二次点击“拒绝”会因为之前取消时删除授权申请记录而找不到对应的数据，导致抛出 [invalid_request] OAuth 2.0 Parameter: state
             message = error.toString();
         }
-
         // 授权确认页面提交的请求
-        if (request.getMethod().equals(HttpMethod.POST.name()) && UrlUtils.isAbsoluteUrl(SecurityConstants.CONSENT_PAGE_URI)) {
+        if (request.getMethod().equals(HttpMethod.POST.name()) && UrlUtils.isAbsoluteUrl(server.getConsentPageUri())) {
             // 写回json异常
             Result<Object> result = Result.fail(HttpStatus.BAD_REQUEST.value(), message);
             response.setCharacterEncoding(StandardCharsets.UTF_8.name());
