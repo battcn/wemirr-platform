@@ -80,7 +80,7 @@ public final class SecurityUtils {
      * @return 异常信息map
      */
     private static Map<String, String> getErrorParameter(HttpServletRequest request, HttpServletResponse response, Throwable e) {
-        e.printStackTrace();
+        log.error("security error - {}", e.getLocalizedMessage());
         Map<String, String> parameters = new LinkedHashMap<>();
         if (e instanceof OAuth2InvalidException exception) {
             // 权限不足
@@ -106,6 +106,7 @@ public final class SecurityUtils {
             parameters.put("error", error.getErrorCode());
             parameters.put("error_uri", error.getUri());
             parameters.put("error_description", error.getDescription());
+            parameters.put("message", "Token 已失效");
             if (error instanceof BearerTokenError bearerTokenError) {
                 parameters.put("scope", bearerTokenError.getScope());
                 response.setStatus(bearerTokenError.getHttpStatus().value());
