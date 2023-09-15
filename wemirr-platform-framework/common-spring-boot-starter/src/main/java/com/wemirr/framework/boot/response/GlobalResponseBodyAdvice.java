@@ -2,8 +2,10 @@ package com.wemirr.framework.boot.response;
 
 
 import com.google.common.collect.Lists;
+import com.wemirr.framework.commons.annotation.IgnoreGlobalResponse;
 import com.wemirr.framework.commons.entity.Result;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
@@ -22,20 +24,26 @@ import java.util.List;
 /**
  * @author Levin
  **/
+@Slf4j
 @Configuration
 @RestControllerAdvice(annotations = {RestController.class})
 public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
 
     private final static String REWRITE = "1";
-    private final static String RESPONSE_DATA_REWRITE = "rewrite";
-    private final static List<String> IGNORE_URLS = Lists.newArrayList("/v3/api-docs","/v3/api-docs/swagger-config");
+    public final static String RESPONSE_DATA_REWRITE = "rewrite";
+    private final static List<String> IGNORE_URLS = Lists.newArrayList("/v3/api-docs", "/v3/api-docs/swagger-config");
 
     @SneakyThrows
     @Override
     public Object beforeBodyWrite(Object body, @NonNull MethodParameter methodParameter, @NonNull MediaType mediaType,
                                   @NonNull Class<? extends HttpMessageConverter<?>> aClass,
                                   @NonNull ServerHttpRequest serverHttpRequest, @NonNull ServerHttpResponse serverHttpResponse) {
+        final IgnoreGlobalResponse methodAnnotation = methodParameter.getMethodAnnotation(IgnoreGlobalResponse.class);
+        if (methodAnnotation != null) {
+            log.info("忽略全局包装Result 对象,原因是 -{}", methodAnnotation.description());
+            return body;
+        }
         final HttpHeaders requestHeaders = serverHttpRequest.getHeaders();
         String path = serverHttpRequest.getURI().getPath();
         //判单当前请求是否需要经过Response统一结果封装

@@ -1,6 +1,7 @@
 package com.wemirr.platform.authority.domain.resp;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class CaptchaResp {
     /**
      * 验证码的值
      */
+    @JsonIgnore
     private String code;
 
     /**

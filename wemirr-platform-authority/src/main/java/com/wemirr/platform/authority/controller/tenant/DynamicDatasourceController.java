@@ -3,7 +3,6 @@ package com.wemirr.platform.authority.controller.tenant;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.BeanUtilPlus;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.entity.tenant.DynamicDatasource;
@@ -33,43 +32,44 @@ public class DynamicDatasourceController {
 
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping
-    public Result<Page<DynamicDatasource>> page(PageRequest pageRequest, String database) {
-        final Page<DynamicDatasource> page = dynamicDatasourceService.page(pageRequest.buildPage(),
-                Wraps.<DynamicDatasource>lbQ().eq(DynamicDatasource::getDatabase, database));
-        return Result.success(page);
+    public Page<DynamicDatasource> page(PageRequest pageRequest, String database, String dbType, Boolean locked) {
+        return dynamicDatasourceService.page(pageRequest.buildPage(),
+                Wraps.<DynamicDatasource>lbQ().eq(DynamicDatasource::getDatabase, database)
+                        .eq(DynamicDatasource::getDbType, dbType)
+                        .eq(DynamicDatasource::getLocked, locked));
     }
 
     @Operation(summary = "查询可用", description = "查询可用数据源")
     @GetMapping("/active")
-    public Result<List<DynamicDatasource>> queryActive() {
-        return Result.success(this.dynamicDatasourceService.list(Wraps.<DynamicDatasource>lbQ().eq(DynamicDatasource::getLocked, false)));
+    public List<DynamicDatasource> queryActive() {
+        return this.dynamicDatasourceService.list(Wraps.<DynamicDatasource>lbQ().eq(DynamicDatasource::getLocked, false));
     }
 
     @Operation(summary = "Ping数据库")
     @GetMapping("/{id}/ping")
     public void ping(@PathVariable Long id) {
         this.dynamicDatasourceService.ping(id);
-        
+
     }
 
     @Operation(summary = "添加数据源")
     @PostMapping
     public void add(@Validated @RequestBody DynamicDatasourceReq req) {
         dynamicDatasourceService.saveOrUpdateDatabase(BeanUtil.toBean(req, DynamicDatasource.class));
-        
+
     }
 
     @Operation(summary = "编辑数据源")
     @PutMapping("/{id}")
     public void edit(@PathVariable Long id, @Validated @RequestBody DynamicDatasourceReq req) {
         dynamicDatasourceService.saveOrUpdateDatabase(BeanUtilPlus.toBean(id, req, DynamicDatasource.class));
-        
+
     }
 
     @Operation(summary = "删除数据源")
     @DeleteMapping("/{id}")
     public void remove(@PathVariable Long id) {
         dynamicDatasourceService.removeDatabaseById(id);
-        
+
     }
 }
