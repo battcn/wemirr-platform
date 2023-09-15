@@ -45,6 +45,9 @@ public interface GatewayRule<T> {
             return null;
         }
         final String path = request.getURI().getPath();
+        if (StringUtils.isBlank(path)) {
+            return null;
+        }
         final HttpMethod httpMethod = request.getMethod();
         final List<Object> objects = stringRedisTemplate.opsForHash().multiGet(gatewayRule.hashKey, keys);
         if (CollectionUtil.isEmpty(objects)) {
@@ -52,7 +55,7 @@ public interface GatewayRule<T> {
         }
         for (Object object : objects) {
             CommonRule rule = JSON.parseObject(object.toString(), CommonRule.class);
-            if (!rule.getStatus()) {
+            if (!rule.getStatus() || StringUtils.isBlank(rule.getPath())) {
                 continue;
             }
             if (ObjectUtils.allNotNull(rule.getStartTime(), rule.getEndTime())) {

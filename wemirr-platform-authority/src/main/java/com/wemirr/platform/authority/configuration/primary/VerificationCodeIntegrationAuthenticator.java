@@ -5,6 +5,7 @@ import com.wemirr.framework.security.configuration.server.support.integration.In
 import com.wemirr.framework.security.exception.OAuth2InvalidException;
 import com.wemirr.platform.authority.service.VerificationService;
 import jakarta.annotation.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,7 +28,7 @@ public class VerificationCodeIntegrationAuthenticator extends UsernamePasswordAu
         //验证验证码
         final Result<Boolean> result = verificationService.valid(vcToken, vcCode);
         if (!result.isSuccessful()) {
-            throw new OAuth2InvalidException(result.getMessage());
+            throw new OAuth2InvalidException(HttpStatus.BAD_REQUEST, result.getMessage());
         }
         super.prepare(integrationAuthentication);
     }

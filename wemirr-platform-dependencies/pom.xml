@@ -160,27 +160,6 @@
             </dependency>
             <!-- 如果安装的nacos 版本高于2.x 请放开 8848  9848 9849 10848 10849  -->
             <dependency>
-                <groupId>com.nepxion</groupId>
-                <artifactId>discovery-plugin-register-center-starter-nacos</artifactId>
-                <version>${nepxion-discovery.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.nepxion</groupId>
-                <artifactId>discovery-plugin-config-center-starter-nacos</artifactId>
-                <version>${nepxion-discovery.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.nepxion</groupId>
-                <artifactId>discovery-plugin-strategy-starter-gateway</artifactId>
-                <version>${nepxion-discovery.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.nepxion</groupId>
-                <artifactId>discovery-plugin-strategy-starter-service</artifactId>
-                <version>${nepxion-discovery.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>cn.afterturn</groupId>
                 <artifactId>easypoi-spring-boot-starter</artifactId>
                 <version>4.2.0</version>
