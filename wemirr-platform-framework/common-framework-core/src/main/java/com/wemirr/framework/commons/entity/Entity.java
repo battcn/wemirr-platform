@@ -1,10 +1,7 @@
 package com.wemirr.framework.commons.entity;
 
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
@@ -41,6 +38,7 @@ public class Entity<T> implements Serializable {
 
     @Schema(description = "ID")
     @TableId(value = FIELD_ID, type = IdType.AUTO)
+    @OrderBy
     @NotNull(message = "id不能为空", groups = Update.class)
     protected T id;
 
