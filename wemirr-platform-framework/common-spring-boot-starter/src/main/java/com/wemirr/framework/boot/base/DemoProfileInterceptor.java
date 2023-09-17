@@ -20,7 +20,7 @@ import java.util.List;
 @Slf4j
 public class DemoProfileInterceptor implements HandlerInterceptor {
 
-    private static final int MAX_ID = 10;
+    private static final long MAX_ID = 10000000;
     private static final List<String> REJECT_POST = Lists.newArrayList("resources", "dictionaries");
     private static final List<String> REJECT_OPTION = Lists.newArrayList("users", "roles", "stations", "tenants", "databases", "applications", "change_password", "resources", "dictionaries");
 

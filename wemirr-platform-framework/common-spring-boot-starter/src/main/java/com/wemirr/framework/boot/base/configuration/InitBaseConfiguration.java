@@ -1,6 +1,7 @@
 package com.wemirr.framework.boot.base.configuration;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -13,12 +14,14 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.wemirr.framework.boot.base.DemoProfileInterceptor;
 import com.wemirr.framework.boot.base.converter.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -37,8 +40,13 @@ import java.util.TimeZone;
  *
  * @author Levin
  */
+@Slf4j
 @Configuration
 public class InitBaseConfiguration implements WebMvcConfigurer {
+
+    @Value("${spring.profile.active:local}")
+    private String profile;
+    private static final String PROFILE_DEMO = "demo";
 
     /**
      * 枚举类的转换器工厂 addConverterFactory
@@ -50,8 +58,11 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
     }
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new DemoProfileInterceptor());
+    public void addInterceptors(@NonNull InterceptorRegistry registry) {
+        if (StrUtil.equals(PROFILE_DEMO, profile)) {
+            log.debug("demo 环境,开启专属拦截器");
+            registry.addInterceptor(new DemoProfileInterceptor());
+        }
     }
 
     @Value("${spring.jackson.date-format:yyyy-MM-dd HH:mm:ss}")
