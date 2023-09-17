@@ -32,7 +32,7 @@ public class StationController {
 
     @GetMapping
     @Operation(summary = "岗位列表 - [Levin] - [DONE]")
-    @PreAuthorize("hasAuthority('stations:page')")
+    @PreAuthorize("hasAuthority('sys:stations:page')")
     public IPage<Station> query(StationPageReq params) {
         return stationService.findStationPage(params, params);
     }
@@ -40,7 +40,7 @@ public class StationController {
     @PostMapping
     @SysLog(value = "添加岗位")
     @Operation(summary = "添加岗位")
-    @PreAuthorize("hasAuthority('stations:add')")
+    @PreAuthorize("hasAuthority('sys:stations:add')")
     public void add(@Validated @RequestBody StationSaveReq dto) {
         stationService.save(BeanUtil.toBean(dto, Station.class));
     }
@@ -48,7 +48,7 @@ public class StationController {
     @PutMapping("/{id}")
     @SysLog(value = "编辑岗位")
     @Operation(summary = "编辑岗位")
-    @PreAuthorize("hasAuthority('stations:edit')")
+    @PreAuthorize("hasAuthority('sys:stations:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody StationSaveReq dto) {
         stationService.updateById(BeanUtilPlus.toBean(id, dto, Station.class));
     }
@@ -56,7 +56,7 @@ public class StationController {
     @DeleteMapping("/{id}")
     @SysLog(value = "删除岗位")
     @Operation(summary = "删除岗位")
-    @PreAuthorize("hasAuthority('stations:remove')")
+    @PreAuthorize("hasAuthority('sys:stations:remove')")
     public void del(@PathVariable Long id) {
         stationService.removeById(id);
     }

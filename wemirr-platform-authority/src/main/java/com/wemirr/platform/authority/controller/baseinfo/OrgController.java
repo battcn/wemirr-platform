@@ -63,7 +63,7 @@ public class OrgController {
     @PostMapping
     @SysLog(value = "保存组织架构")
     @Operation(summary = "保存编辑组织架构")
-    @PreAuthorize("hasAuthority('org:add')")
+    @PreAuthorize("hasAuthority('sys:org:add')")
     public void save(@Validated @RequestBody OrgSaveReq dto) {
         orgService.addOrg(BeanUtil.toBean(dto, Org.class));
     }
@@ -71,7 +71,7 @@ public class OrgController {
     @PutMapping("/{id}")
     @SysLog(value = "编辑组织架构")
     @Operation(summary = "编辑编辑组织架构")
-    @PreAuthorize("hasAuthority('org:edit')")
+    @PreAuthorize("hasAuthority('sys:org:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody OrgSaveReq dto) {
         orgService.updateById(BeanUtilPlus.toBean(id, dto, Org.class));
     }
@@ -79,7 +79,7 @@ public class OrgController {
     @DeleteMapping("/{id}")
     @SysLog(value = "删除组织架构")
     @Operation(summary = "删除组织架构")
-    @PreAuthorize("hasAuthority('org:remove')")
+    @PreAuthorize("hasAuthority('sys:org:remove')")
     public void del(@PathVariable Long id) {
         orgService.remove(id);
     }
