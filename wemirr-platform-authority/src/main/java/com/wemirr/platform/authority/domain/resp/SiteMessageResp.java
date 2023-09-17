@@ -10,7 +10,7 @@ import java.util.List;
  * @author Levin
  */
 @Data
-public class StationMessagePublishResp {
+public class SiteMessageResp {
 
     private Long id;
     private String title;

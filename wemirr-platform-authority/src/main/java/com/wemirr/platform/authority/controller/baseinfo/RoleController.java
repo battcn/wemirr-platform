@@ -30,6 +30,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +58,7 @@ public class RoleController {
 
     @GetMapping("/query_all")
     @Operation(summary = "角色列表 - [Levin] - [DONE]")
+    @PreAuthorize("hasAuthority('roles:page')")
     public Result<List<Role>> query() {
         final List<Role> page = this.roleService.list();
         return Result.success(page);
@@ -67,6 +69,7 @@ public class RoleController {
             @Parameter(description = "名称", name = "name", in = ParameterIn.QUERY),
     })
     @Operation(summary = "角色列表 - [Levin] - [DONE]")
+    @PreAuthorize("hasAuthority('roles:page')")
     public IPage<Role> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
                              @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
                              String name, Boolean locked, DataScopeType scopeType) {
@@ -87,6 +90,7 @@ public class RoleController {
     @PostMapping
     @SysLog(value = "添加角色")
     @Operation(summary = "添加角色")
+    @PreAuthorize("hasAuthority('roles:add')")
     public void add(@Validated @RequestBody RoleReq data) {
         roleService.saveRole(tenantEnvironment.userId(), data);
     }
@@ -94,6 +98,7 @@ public class RoleController {
     @PutMapping("/{id}")
     @SysLog(value = "编辑角色")
     @Operation(summary = "编辑角色")
+    @PreAuthorize("hasAuthority('roles:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody RoleReq data) {
         roleService.updateRole(id, tenantEnvironment.userId(), data);
     }
@@ -101,6 +106,7 @@ public class RoleController {
     @DeleteMapping("/{id}")
     @SysLog(value = "删除角色")
     @Operation(summary = "删除角色")
+    @PreAuthorize("hasAuthority('roles:remove')")
     public void del(@PathVariable Long id) {
         this.roleService.removeByRoleId(id);
     }
@@ -135,6 +141,7 @@ public class RoleController {
 
     @Operation(summary = "角色分配操作资源")
     @PostMapping("/{roleId}/authority")
+    @PreAuthorize("hasAuthority('roles:distribution:res')")
     public void distributionAuthority(@PathVariable Long roleId, @RequestBody RoleResSaveReq dto) {
         this.roleResService.saveRoleAuthority(dto);
 
@@ -142,6 +149,7 @@ public class RoleController {
 
     @Operation(summary = "角色分配用户")
     @PostMapping("/{roleId}/users")
+    @PreAuthorize("hasAuthority('roles:distribution:user')")
     public void distributionUser(@PathVariable Long roleId, @RequestBody RoleUserReq dto) {
         this.roleService.saveUserRole(roleId, dto.getUserIdList());
     }

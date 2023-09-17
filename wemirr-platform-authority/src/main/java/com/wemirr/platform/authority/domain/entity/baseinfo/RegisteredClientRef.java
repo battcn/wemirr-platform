@@ -2,7 +2,11 @@ package com.wemirr.platform.authority.domain.entity.baseinfo;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
 
@@ -13,7 +17,7 @@ import java.time.Instant;
  * @see org.springframework.security.oauth2.server.authorization.client.RegisteredClient
  */
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)

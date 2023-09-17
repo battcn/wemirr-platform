@@ -10,12 +10,12 @@ import com.wemirr.framework.websocket.WebSocketManager;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;
-import com.wemirr.platform.authority.domain.entity.message.StationMessage;
-import com.wemirr.platform.authority.domain.entity.message.StationMessagePublish;
+import com.wemirr.platform.authority.domain.entity.message.SiteMessage;
+import com.wemirr.platform.authority.domain.entity.message.SiteNotify;
 import com.wemirr.platform.authority.domain.enums.ReceiverType;
 import com.wemirr.platform.authority.domain.resp.CommonDataResp;
 import com.wemirr.platform.authority.repository.*;
-import com.wemirr.platform.authority.service.StationMessagePublishService;
+import com.wemirr.platform.authority.service.SiteNotifyService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ import static java.util.stream.Collectors.toList;
  */
 @Service
 @RequiredArgsConstructor
-public class StationMessagePublishServiceImpl extends SuperServiceImpl<StationMessagePublishMapper, StationMessagePublish> implements StationMessagePublishService {
+public class SiteNotifyServiceImpl extends SuperServiceImpl<StationMessagePublishMapper, SiteNotify> implements SiteNotifyService {
 
     private final UserMapper userMapper;
     private final RoleMapper roleMapper;
@@ -67,10 +67,10 @@ public class StationMessagePublishServiceImpl extends SuperServiceImpl<StationMe
     @Override
     @DSTransactional
     public void publish(Long id) {
-        final StationMessagePublish messagePublish = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("需要发布的消息不存在"));
+        final SiteNotify messagePublish = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("需要发布的消息不存在"));
         final List<Long> receiver = Optional.of(Arrays.stream(messagePublish.getReceiver().split(",")).mapToLong(Long::parseLong).boxed().collect(toList()))
                 .orElseThrow(() -> CheckedException.badRequest("接受者不能为空"));
-        StationMessagePublish record = new StationMessagePublish();
+        SiteNotify record = new SiteNotify();
         record.setId(id);
         record.setStatus(true);
         this.baseMapper.updateById(record);
@@ -86,9 +86,9 @@ public class StationMessagePublishServiceImpl extends SuperServiceImpl<StationMe
         }
     }
 
-    void publish(StationMessagePublish messagePublish, List<Long> userIdList) {
+    void publish(SiteNotify messagePublish, List<Long> userIdList) {
         for (Long userId : userIdList) {
-            StationMessage message = new StationMessage();
+            SiteMessage message = new SiteMessage();
             message.setTitle(messagePublish.getTitle());
             message.setMark(false);
             message.setContent(messagePublish.getContent());

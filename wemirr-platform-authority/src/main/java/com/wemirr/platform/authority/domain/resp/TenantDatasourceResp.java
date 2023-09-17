@@ -6,7 +6,7 @@ import lombok.Data;
  * @author levin
  */
 @Data
-public class TenantDynamicDatasourceResp {
+public class TenantDatasourceResp {
 
     private Long tenantId;
     private String code;

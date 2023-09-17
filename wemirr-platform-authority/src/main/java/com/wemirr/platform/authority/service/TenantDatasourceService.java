@@ -3,21 +3,21 @@ package com.wemirr.platform.authority.service;
 import com.wemirr.framework.db.configuration.dynamic.event.body.EventAction;
 import com.wemirr.framework.db.mybatis.SuperService;
 import com.wemirr.platform.authority.domain.entity.tenant.DynamicDatasource;
-import com.wemirr.platform.authority.domain.resp.TenantDynamicDatasourceResp;
+import com.wemirr.platform.authority.domain.resp.TenantDatasourceResp;
 
 import java.util.List;
 
 /**
  * @author Levvin
  */
-public interface DynamicDatasourceService extends SuperService<DynamicDatasource> {
+public interface TenantDatasourceService extends SuperService<DynamicDatasource> {
 
     /**
      * 查询所有可用的动态数据源
      *
      * @return 查询结果
      */
-    List<TenantDynamicDatasourceResp> selectTenantDynamicDatasource();
+    List<TenantDatasourceResp> selectTenantDynamicDatasource();
 
     /**
      * ping 数据源

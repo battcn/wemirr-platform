@@ -3,8 +3,11 @@ package com.wemirr.platform.authority.domain.entity.tenant;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
  * <p>
@@ -14,12 +17,10 @@ import lombok.experimental.Accessors;
  * @author Levin
  */
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 @TableName("t_tenant_config")
 public class TenantConfig extends SuperEntity<Long> {
 

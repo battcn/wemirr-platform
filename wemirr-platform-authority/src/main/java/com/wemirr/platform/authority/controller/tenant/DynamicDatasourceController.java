@@ -7,7 +7,7 @@ import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.entity.tenant.DynamicDatasource;
 import com.wemirr.platform.authority.domain.req.DynamicDatasourceReq;
-import com.wemirr.platform.authority.service.DynamicDatasourceService;
+import com.wemirr.platform.authority.service.TenantDatasourceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import java.util.List;
 @Validated
 public class DynamicDatasourceController {
 
-    private final DynamicDatasourceService dynamicDatasourceService;
+    private final TenantDatasourceService dynamicDatasourceService;
 
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping

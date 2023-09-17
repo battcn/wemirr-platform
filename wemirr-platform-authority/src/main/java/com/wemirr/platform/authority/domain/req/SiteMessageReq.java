@@ -12,7 +12,7 @@ import java.util.List;
  * @author Levin
  */
 @Data
-public class StationMessagePublishReq {
+public class SiteMessageReq {
 
 
     @NotBlank(message = "标题不能为空")

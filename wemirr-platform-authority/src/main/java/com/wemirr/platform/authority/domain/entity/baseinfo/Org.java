@@ -1,11 +1,16 @@
 package com.wemirr.platform.authority.domain.entity.baseinfo;
 
+import com.baomidou.mybatisplus.annotation.SqlCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.wemirr.framework.commons.entity.TreeEntity;
+import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.Accessors;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
@@ -22,16 +27,41 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 @TableName("sys_org")
 @Schema(description = "组织")
-public class Org extends TreeEntity<Org, Long> {
+@SuperBuilder
+public class Org extends SuperEntity<Long> {
 
-    
 
+
+    /**
+     * 名称
+     */
+    @Schema(description = "名称")
+    @NotEmpty(message = "名称不能为空")
+    @Length(max = 255, message = "名称长度不能超过255")
+    @TableField(value = "label", condition = SqlCondition.LIKE)
     protected String label;
+
+    /**
+     * 父ID
+     */
+    @Schema(description = "父ID")
+    @TableField(value = "parent_id")
+    protected Long parentId;
+
+
+    /**
+     * 排序
+     */
+    @Schema(description = "排序号")
+    @TableField(value = "`sequence`")
+    protected Integer sequence;
+
+
+    private String tel;
+
 
     private Long tenantId;
 

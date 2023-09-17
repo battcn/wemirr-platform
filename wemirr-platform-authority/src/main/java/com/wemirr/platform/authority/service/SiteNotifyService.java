@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.mybatis.SuperService;
-import com.wemirr.platform.authority.domain.entity.message.StationMessagePublish;
+import com.wemirr.platform.authority.domain.entity.message.SiteNotify;
 import com.wemirr.platform.authority.domain.enums.ReceiverType;
 import com.wemirr.platform.authority.domain.resp.CommonDataResp;
 
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author levin
  */
-public interface StationMessagePublishService extends SuperService<StationMessagePublish> {
+public interface SiteNotifyService extends SuperService<SiteNotify> {
 
     /**
      * 根据类型和条件查询

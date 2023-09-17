@@ -18,7 +18,7 @@ import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
 import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
 import com.wemirr.platform.authority.domain.entity.tenant.TenantConfig;
 import com.wemirr.platform.authority.repository.*;
-import com.wemirr.platform.authority.service.DynamicDatasourceService;
+import com.wemirr.platform.authority.service.TenantDatasourceService;
 import com.wemirr.platform.authority.service.TenantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +43,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     private final RoleMapper roleMapper;
     private final UserRoleMapper userRoleMapper;
     private final TenantConfigMapper tenantConfigMapper;
-    private final DynamicDatasourceService dynamicDatasourceService;
+    private final TenantDatasourceService dynamicDatasourceService;
     private final DatabaseProperties properties;
     private final UserMapper userMapper;
     private final OrgMapper orgMapper;

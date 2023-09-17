@@ -12,8 +12,8 @@ import com.wemirr.platform.authority.domain.entity.tenant.TenantConfig;
 import com.wemirr.platform.authority.domain.req.TenantConfigReq;
 import com.wemirr.platform.authority.domain.req.TenantPageReq;
 import com.wemirr.platform.authority.domain.req.TenantSaveReq;
-import com.wemirr.platform.authority.domain.resp.TenantDynamicDatasourceResp;
-import com.wemirr.platform.authority.service.DynamicDatasourceService;
+import com.wemirr.platform.authority.domain.resp.TenantDatasourceResp;
+import com.wemirr.platform.authority.service.TenantDatasourceService;
 import com.wemirr.platform.authority.service.TenantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,7 +37,7 @@ import java.util.List;
 public class TenantController {
 
     private final TenantService tenantService;
-    private final DynamicDatasourceService dynamicDatasourceService;
+    private final TenantDatasourceService dynamicDatasourceService;
 
     @GetMapping
     @Operation(summary = "租户列表 - [Levin] - [DONE]")
@@ -53,7 +53,7 @@ public class TenantController {
 
     @Operation(summary = "查询可用", description = "查询可用数据源")
     @GetMapping("/databases/active")
-    public List<TenantDynamicDatasourceResp> queryActive() {
+    public List<TenantDatasourceResp> queryActive() {
         return this.dynamicDatasourceService.selectTenantDynamicDatasource();
     }
 

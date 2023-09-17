@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -18,11 +20,9 @@ import java.time.LocalDateTime;
  *
  * @author Levin
  */
-@Getter
-@Setter
-@Accessors(chain = true)
+@Data
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 public class Entity<T> implements Serializable {
 

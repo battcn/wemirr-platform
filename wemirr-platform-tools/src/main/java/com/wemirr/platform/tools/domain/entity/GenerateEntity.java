@@ -6,7 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.generator.IFill;
 import com.baomidou.mybatisplus.generator.fill.Column;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +21,7 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("common_generate")

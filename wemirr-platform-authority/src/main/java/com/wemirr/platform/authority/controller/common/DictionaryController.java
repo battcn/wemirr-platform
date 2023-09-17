@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +45,7 @@ public class DictionaryController {
     @SysLog(value = "字典查询")
     @Operation(summary = "查询字典 - [DONE] - [Levin]", description = "查询字典 - [DONE] - [Levin]")
     @Parameter(name = "name", description = "名称", in = ParameterIn.QUERY)
+    @PreAuthorize("hasAuthority('dictionaries:page')")
     public IPage<Dictionary> query(PageRequest pageRequest, String name, String code, Boolean status) {
         return this.dictionaryService.page(pageRequest.buildPage(),
                 Wraps.<Dictionary>lbQ().eq(Dictionary::getStatus, status)
@@ -53,6 +55,7 @@ public class DictionaryController {
     @PostMapping
     @SysLog(value = "字典新增")
     @Operation(summary = "新增字典 - [DONE] - [Levin]", description = "新增字典 - [DONE] - [Levin]")
+    @PreAuthorize("hasAuthority('dictionaries:add')")
     public void save(@Validated @RequestBody DictionaryReq dto) {
         this.dictionaryService.addDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(dto));
     }
@@ -60,6 +63,7 @@ public class DictionaryController {
     @PutMapping("/{id}")
     @SysLog(value = "字典编辑")
     @Operation(summary = "编辑字典 - [DONE] - [Levin]", description = "编辑字典 - [DONE] - [Levin]")
+    @PreAuthorize("hasAuthority('dictionaries:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody DictionaryReq dto) {
         this.dictionaryService.editDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(dto, id));
     }
@@ -67,6 +71,7 @@ public class DictionaryController {
     @DeleteMapping("/{id}")
     @SysLog(value = "删除指定字典项", request = true)
     @Operation(summary = "删除字典 - [DONE] - [Levin]", description = "删除字典 - [DONE] - [Levin]")
+    @PreAuthorize("hasAuthority('dictionaries:remove')")
     public void del(@PathVariable Long id) {
         this.dictionaryService.deleteById(id);
     }

@@ -53,7 +53,7 @@ public class DictionaryItemController {
     @Parameter(name = "dictionary_id", description = "字典ID", in = ParameterIn.PATH)
     public void save(@PathVariable("dictionary_id") Long dictionaryId, @Validated @RequestBody DictionaryItemReq dto) {
         this.dictionaryItemService.addDictionaryItem(dictionaryId, DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS.convert(dto));
-        
+
     }
 
     @PutMapping("/{id}")
@@ -63,15 +63,15 @@ public class DictionaryItemController {
         final DictionaryItem dictionaryItem = DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS.convert(dto);
         dictionaryItem.setId(id);
         this.dictionaryItemService.editDictionaryItem(dictionaryId, dictionaryItem);
-        
+
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "删除字典子项 - [DONE] - [Levin]", description = "删除字典子项 - [DONE] - [Levin]")
     @Parameter(name = "id", description = "子项ID", in = ParameterIn.PATH)
-    public void del(@PathVariable Long id) {
+    public void del(@PathVariable Long id, @PathVariable("dictionary_id") String dictionaryId) {
         this.dictionaryItemService.removeById(id);
-        
+
     }
 
 }

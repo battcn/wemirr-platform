@@ -4,8 +4,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
@@ -20,12 +23,10 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * @since 2020-01-03
  */
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 @TableName("common_dictionary_item")
 @Schema(name = "DictionaryItem", description = "字典项")
 public class DictionaryItem extends SuperEntity<Long> {

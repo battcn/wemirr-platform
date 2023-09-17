@@ -10,10 +10,10 @@ import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.framework.websocket.BaseWebSocketEndpoint;
 import com.wemirr.framework.websocket.utils.SpringContextHolder;
-import com.wemirr.platform.authority.domain.entity.message.StationMessage;
+import com.wemirr.platform.authority.domain.entity.message.SiteMessage;
 import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
 import com.wemirr.platform.authority.repository.TenantMapper;
-import com.wemirr.platform.authority.service.StationMessageService;
+import com.wemirr.platform.authority.service.SiteMessageService;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
@@ -33,14 +33,14 @@ import java.util.List;
 @Slf4j
 @Component
 @ServerEndpoint(value = "/message/{tenantCode}/{identifier}")
-public class StationMessageEndpoint extends BaseWebSocketEndpoint {
+public class SiteMessageEndpoint extends BaseWebSocketEndpoint {
 
     @OnOpen
     public void openSession(@PathParam("tenantCode") String tenantCode, @PathParam(IDENTIFIER) String userId, Session session) {
         connect(userId, session);
-        List<StationMessage> messages = null;
+        List<SiteMessage> messages = null;
         final DatabaseProperties properties = SpringContextHolder.getBean(DatabaseProperties.class);
-        final StationMessageService stationMessageService = SpringContextHolder.getBean(StationMessageService.class);
+        final SiteMessageService service = SpringContextHolder.getBean(SiteMessageService.class);
         if (properties.getMultiTenant().getType() == MultiTenantType.DATASOURCE) {
             log.info("WebSocket 租户编码 - {}", tenantCode);
             final DataSource dataSource = SpringContextHolder.getBean(DataSource.class);
@@ -54,14 +54,14 @@ public class StationMessageEndpoint extends BaseWebSocketEndpoint {
                 final String dsKey = dataSourceProcess.buildDb(tenantCode);
                 log.debug("设置当前线程数据源 - {}", dsKey);
                 DynamicDataSourceContextHolder.push(dsKey);
-                messages = stationMessageService.list(Wraps.<StationMessage>lbQ().eq(StationMessage::getMark, false)
-                        .eq(StationMessage::getReceiveId, userId).orderByAsc(StationMessage::getId));
+                messages = service.list(Wraps.<SiteMessage>lbQ().eq(SiteMessage::getMark, false)
+                        .eq(SiteMessage::getReceiveId, userId).orderByAsc(SiteMessage::getId));
                 DynamicDataSourceContextHolder.poll();
                 log.debug("清空当前线程数据源...");
             }
         } else {
-            messages = stationMessageService.list(Wraps.<StationMessage>lbQ().eq(StationMessage::getMark, false)
-                    .eq(StationMessage::getReceiveId, userId).orderByAsc(StationMessage::getId));
+            messages = service.list(Wraps.<SiteMessage>lbQ().eq(SiteMessage::getMark, false)
+                    .eq(SiteMessage::getReceiveId, userId).orderByAsc(SiteMessage::getId));
         }
         if (CollectionUtil.isEmpty(messages)) {
             return;
