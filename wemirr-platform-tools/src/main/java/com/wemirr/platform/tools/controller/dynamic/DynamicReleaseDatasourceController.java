@@ -2,7 +2,6 @@ package com.wemirr.platform.tools.controller.dynamic;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDatasource;
@@ -32,10 +31,10 @@ public class DynamicReleaseDatasourceController {
 
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping
-    public Result<Page<DynamicReleaseDatasource>> page(PageRequest pageRequest, String database) {
+    public Page<DynamicReleaseDatasource> page(PageRequest pageRequest, String database) {
         final Page<DynamicReleaseDatasource> page = dynamicReleaseDatasourceService.page(pageRequest.buildPage(),
                 Wraps.<DynamicReleaseDatasource>lbQ().eq(DynamicReleaseDatasource::getDatabase, database));
-        return Result.success(page);
+        return page;
     }
 
     @Operation(summary = "Ping数据库")

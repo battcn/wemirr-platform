@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.SysLog;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatis.auth.DataScopeType;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
@@ -58,10 +57,8 @@ public class RoleController {
 
     @GetMapping("/query_all")
     @Operation(summary = "角色列表 - [Levin] - [DONE]")
-    @PreAuthorize("hasAuthority('roles:page')")
-    public Result<List<Role>> query() {
-        final List<Role> page = this.roleService.list();
-        return Result.success(page);
+    public List<Role> query() {
+        return this.roleService.list();
     }
 
     @GetMapping
@@ -113,15 +110,15 @@ public class RoleController {
 
     @Operation(summary = "角色关联的用户")
     @GetMapping("/{roleId}/users")
-    public Result<UserRoleResp> userByRoleId(@PathVariable Long roleId) {
-        return Result.success(userRoleService.findUserByRoleId(roleId));
+    public UserRoleResp userByRoleId(@PathVariable Long roleId) {
+        return userRoleService.findUserByRoleId(roleId);
     }
 
 
     @GetMapping("/{role_id}/resources/permissions")
     @Operation(summary = "资源权限", description = "只能看到自身权限")
-    public Result<RolePermissionResp> permission(@PathVariable("role_id") Long roleId) {
-        return Result.success(this.roleService.findRolePermissionById(roleId));
+    public RolePermissionResp permission(@PathVariable("role_id") Long roleId) {
+        return this.roleService.findRolePermissionById(roleId);
     }
 
 

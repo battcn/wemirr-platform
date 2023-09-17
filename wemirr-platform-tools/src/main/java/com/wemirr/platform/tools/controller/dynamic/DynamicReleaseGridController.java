@@ -2,7 +2,6 @@ package com.wemirr.platform.tools.controller.dynamic;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseGrid;
@@ -30,12 +29,12 @@ public class DynamicReleaseGridController {
 
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping
-    public Result<Page<DynamicReleaseGrid>> page(PageRequest pageRequest, String model, String tableName) {
+    public Page<DynamicReleaseGrid> page(PageRequest pageRequest, String model, String tableName) {
         final Page<DynamicReleaseGrid> page = dynamicReleaseGridService.page(pageRequest.buildPage(),
                 Wraps.<DynamicReleaseGrid>lbQ()
                         .like(DynamicReleaseGrid::getTableName, tableName)
                         .like(DynamicReleaseGrid::getModel, model));
-        return Result.success(page);
+        return page;
     }
 
     @Operation(summary = "添加数据源")

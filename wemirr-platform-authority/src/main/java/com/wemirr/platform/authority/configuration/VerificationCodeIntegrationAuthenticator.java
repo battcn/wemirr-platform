@@ -1,4 +1,4 @@
-package com.wemirr.platform.authority.configuration.primary;
+package com.wemirr.platform.authority.configuration;
 
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthentication;

@@ -4,14 +4,20 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import com.wemirr.platform.authority.domain.enums.ReceiverType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
  * @author Levin
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @TableName(value = "sys_site_notify")
 public class SiteNotify extends SuperEntity<Long> {
 

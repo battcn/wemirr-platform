@@ -7,7 +7,6 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.SysLog;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Org;
 import com.wemirr.platform.authority.domain.req.OrgSaveReq;
@@ -16,6 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +43,7 @@ public class OrgController {
      */
     @GetMapping("/trees")
     @Operation(summary = "查询系统所有的组织树", description = "查询系统所有的组织树")
-    public Result<List<Tree<Long>>> tree(String name, Boolean status) {
+    public List<Tree<Long>> tree(String name, Boolean status) {
         List<Org> list = this.orgService.list(Wraps.<Org>lbQ().like(Org::getLabel, name).eq(Org::getStatus, status).orderByAsc(Org::getSequence));
         final List<TreeNode<Long>> nodes = list.stream().map(org -> {
             TreeNode<Long> treeNode = new TreeNode<>(org.getId(), org.getParentId(), org.getLabel(), org.getSequence());
@@ -57,12 +57,13 @@ public class OrgController {
             treeNode.setExtra(extra);
             return treeNode;
         }).collect(Collectors.toList());
-        return Result.success(TreeUtil.build(nodes, 0L));
+        return TreeUtil.build(nodes, 0L);
     }
 
     @PostMapping
     @SysLog(value = "保存组织架构")
     @Operation(summary = "保存编辑组织架构")
+    @PreAuthorize("hasAuthority('org:add')")
     public void save(@Validated @RequestBody OrgSaveReq dto) {
         orgService.addOrg(BeanUtil.toBean(dto, Org.class));
     }
@@ -70,6 +71,7 @@ public class OrgController {
     @PutMapping("/{id}")
     @SysLog(value = "编辑组织架构")
     @Operation(summary = "编辑编辑组织架构")
+    @PreAuthorize("hasAuthority('org:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody OrgSaveReq dto) {
         orgService.updateById(BeanUtilPlus.toBean(id, dto, Org.class));
     }
@@ -77,6 +79,7 @@ public class OrgController {
     @DeleteMapping("/{id}")
     @SysLog(value = "删除组织架构")
     @Operation(summary = "删除组织架构")
+    @PreAuthorize("hasAuthority('org:remove')")
     public void del(@PathVariable Long id) {
         orgService.remove(id);
     }

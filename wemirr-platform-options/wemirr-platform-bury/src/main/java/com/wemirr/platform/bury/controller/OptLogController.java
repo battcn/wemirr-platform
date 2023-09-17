@@ -39,12 +39,12 @@ public class OptLogController {
             @Parameter(name = "location", description = "地区", in = ParameterIn.QUERY),
             @Parameter(name = "description", description = "描述信息", in = ParameterIn.QUERY)
     })
-    public Result<Page<OptLog>> query(PageRequest request, String location, String description) {
+    public Page<OptLog> query(PageRequest request, String location, String description) {
         final Page<OptLog> page = this.optLogService.page(request.buildPage(), Wraps.<OptLog>lbQ()
                 .like(OptLog::getLocation, location)
                 .like(OptLog::getDescription, description)
                 .orderByDesc(OptLog::getStartTime));
-        return Result.success(page);
+        return page;
     }
 
     @PostMapping

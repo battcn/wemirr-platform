@@ -47,7 +47,7 @@ public class UserController {
             @Parameter(description = "组织", name = "orgId", in = ParameterIn.QUERY)
     })
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
-    @PreAuthorize("hasAuthority('users:page')")
+    @PreAuthorize("hasAuthority('sys:users:page')")
     public IPage<User> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
                                      @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
                                      String username, String nickName, Integer sex, String email, Long orgId, String mobile) {
@@ -61,7 +61,7 @@ public class UserController {
     @PostMapping
     @SysLog(value = "添加用户")
     @Operation(summary = "添加用户")
-    @PreAuthorize("hasAuthority('users:add')")
+    @PreAuthorize("hasAuthority('sys:users:add')")
     public void save(@Validated @RequestBody UserSaveReq dto) {
         this.userService.addUser(dto);
     }
@@ -70,7 +70,7 @@ public class UserController {
     @PutMapping("{id}")
     @SysLog(value = "编辑用户")
     @Operation(summary = "编辑用户")
-    @PreAuthorize("hasAuthority('users:edit')")
+    @PreAuthorize("hasAuthority('sys:users:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody UserUpdateReq dto) {
         this.userService.updateById(USER_DTO_2_PO_CONVERTS.convert(dto, id));
     }
@@ -79,7 +79,7 @@ public class UserController {
     @DeleteMapping("{id}")
     @SysLog(value = "删除用户")
     @Operation(summary = "删除用户")
-    @PreAuthorize("hasAuthority('users:remove')")
+    @PreAuthorize("hasAuthority('sys:users:remove')")
     public void del(@PathVariable Long id) {
         this.userService.deleteById(id);
     }

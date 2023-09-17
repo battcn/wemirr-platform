@@ -1,4 +1,4 @@
-package com.wemirr.platform.authority.configuration;
+package com.wemirr.framework.boot.base;
 
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.exception.CheckedException;

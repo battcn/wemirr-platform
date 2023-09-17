@@ -6,7 +6,7 @@ import com.wemirr.framework.commons.entity.SuperEntity;
 import com.wemirr.platform.authority.domain.enums.ResourceType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -22,9 +22,9 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 @TableName("sys_resource")
 @Schema(name = "Resource", description = "资源")
 public class Resource extends SuperEntity<Long> {

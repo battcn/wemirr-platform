@@ -2,7 +2,6 @@ package com.wemirr.platform.authority.controller.baseinfo;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.google.common.collect.Lists;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatis.auth.DataScope;
 import com.wemirr.framework.db.mybatis.auth.DataScopeService;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
@@ -41,7 +40,7 @@ public class AuthorityController {
 
 
     @GetMapping("/list/{receiver_type}/users_or_roles")
-    public Result<List<DictResp>> list(@PathVariable("receiver_type") Integer receiverType) {
+    public List<DictResp> list(@PathVariable("receiver_type") Integer receiverType) {
         List<DictResp> result = Lists.newArrayList();
         // 查询角色
         if (receiverType == RECEIVER_TYPE_1) {
@@ -57,15 +56,15 @@ public class AuthorityController {
                         .label(role.getName()).value(role.getId()).build()).collect(toList());
             }
         }
-        return Result.success(result);
+        return result;
     }
 
     private final DataScopeService dataScopeService;
 
     @IgnoreAuthorize
     @GetMapping("/list")
-    public Result<DataScope> list() {
-        return Result.success(dataScopeService.getDataScopeById(7L));
+    public DataScope list() {
+        return dataScopeService.getDataScopeById(7L);
     }
 
 

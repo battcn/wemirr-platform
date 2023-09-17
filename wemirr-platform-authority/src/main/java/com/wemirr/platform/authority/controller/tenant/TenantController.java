@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,7 @@ public class TenantController {
 
     @GetMapping
     @Operation(summary = "租户列表 - [Levin] - [DONE]")
+    @PreAuthorize("hasAuthority('tenant:page')")
     public IPage<Tenant> query(TenantPageReq params) {
         return tenantService.page(params.buildPage(), Wraps.<Tenant>lbQ()
                 .like(Tenant::getName, params.getName()).eq(Tenant::getCode, params.getCode())
@@ -61,6 +63,7 @@ public class TenantController {
     @PostMapping
     @SysLog(value = "添加租户")
     @Operation(summary = "添加租户")
+    @PreAuthorize("hasAuthority('tenant:add')")
     public void add(@Validated @RequestBody TenantSaveReq dto) {
         tenantService.saveOrUpdateTenant(BeanUtil.toBean(dto, Tenant.class));
     }
@@ -68,6 +71,7 @@ public class TenantController {
     @PutMapping("/{id}")
     @SysLog(value = "编辑租户")
     @Operation(summary = "编辑租户")
+    @PreAuthorize("hasAuthority('tenant:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody TenantSaveReq dto) {
         tenantService.saveOrUpdateTenant(BeanUtilPlus.toBean(id, dto, Tenant.class));
     }
@@ -75,6 +79,7 @@ public class TenantController {
     @PutMapping("/{id}/config")
     @SysLog(value = "配置租户")
     @Operation(summary = "配置租户")
+    @PreAuthorize("hasAuthority('tenant:config')")
     public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq dto) {
         tenantService.tenantConfig(TenantConfig.builder().tenantId(id).dynamicDatasourceId(dto.getDynamicDatasourceId()).build());
     }
@@ -90,6 +95,7 @@ public class TenantController {
     @DeleteMapping("/{id}")
     @SysLog(value = "删除租户")
     @Operation(summary = "删除租户")
+    @PreAuthorize("hasAuthority('tenant:remove')")
     public void del(@PathVariable Long id) {
         tenantService.removeById(id);
     }

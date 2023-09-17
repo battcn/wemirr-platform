@@ -11,6 +11,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import com.wemirr.framework.boot.base.DemoProfileInterceptor;
 import com.wemirr.framework.boot.base.converter.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.time.LocalDate;
@@ -47,6 +49,10 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
         registry.addConverterFactory(new StringCodeToEnumConverterFactory());
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new DemoProfileInterceptor());
+    }
 
     @Value("${spring.jackson.date-format:yyyy-MM-dd HH:mm:ss}")
     private String pattern;

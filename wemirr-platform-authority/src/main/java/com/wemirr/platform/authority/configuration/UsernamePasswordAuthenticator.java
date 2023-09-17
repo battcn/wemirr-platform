@@ -1,4 +1,4 @@
-package com.wemirr.platform.authority.configuration.primary;
+package com.wemirr.platform.authority.configuration;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;

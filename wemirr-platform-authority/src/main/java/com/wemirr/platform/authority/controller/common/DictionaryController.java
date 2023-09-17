@@ -45,7 +45,7 @@ public class DictionaryController {
     @SysLog(value = "字典查询")
     @Operation(summary = "查询字典 - [DONE] - [Levin]", description = "查询字典 - [DONE] - [Levin]")
     @Parameter(name = "name", description = "名称", in = ParameterIn.QUERY)
-    @PreAuthorize("hasAuthority('dictionaries:page')")
+    @PreAuthorize("hasAuthority('sys:dict:page')")
     public IPage<Dictionary> query(PageRequest pageRequest, String name, String code, Boolean status) {
         return this.dictionaryService.page(pageRequest.buildPage(),
                 Wraps.<Dictionary>lbQ().eq(Dictionary::getStatus, status)
@@ -55,7 +55,7 @@ public class DictionaryController {
     @PostMapping
     @SysLog(value = "字典新增")
     @Operation(summary = "新增字典 - [DONE] - [Levin]", description = "新增字典 - [DONE] - [Levin]")
-    @PreAuthorize("hasAuthority('dictionaries:add')")
+    @PreAuthorize("hasAuthority('sys:dict:add')")
     public void save(@Validated @RequestBody DictionaryReq dto) {
         this.dictionaryService.addDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(dto));
     }
@@ -63,25 +63,25 @@ public class DictionaryController {
     @PutMapping("/{id}")
     @SysLog(value = "字典编辑")
     @Operation(summary = "编辑字典 - [DONE] - [Levin]", description = "编辑字典 - [DONE] - [Levin]")
-    @PreAuthorize("hasAuthority('dictionaries:edit')")
+    @PreAuthorize("hasAuthority('sys:dict:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody DictionaryReq dto) {
         this.dictionaryService.editDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(dto, id));
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(value = "删除指定字典项", request = true)
+    @SysLog(value = "删除指定字典项")
     @Operation(summary = "删除字典 - [DONE] - [Levin]", description = "删除字典 - [DONE] - [Levin]")
-    @PreAuthorize("hasAuthority('dictionaries:remove')")
+    @PreAuthorize("hasAuthority('sys:dict:remove')")
     public void del(@PathVariable Long id) {
         this.dictionaryService.deleteById(id);
     }
 
 
-    @GetMapping("/{dictionary_code}/list")
+    @GetMapping("/{code}/list")
     @Operation(summary = "查询字典子项 - [DONE] - [Levin]", description = "查询字典子项 - [DONE] - [Levin]")
-    @Parameter(name = "dictionary_code", description = "编码", in = ParameterIn.PATH)
-    public List<DictionaryItem> list(@PathVariable("dictionary_code") String dictionaryCode) {
+    @Parameter(name = "code", description = "编码", in = ParameterIn.PATH)
+    public List<DictionaryItem> list(@PathVariable("code") String code) {
         return this.dictionaryItemService.list(Wraps.<DictionaryItem>lbQ()
-                .eq(DictionaryItem::getStatus, true).eq(DictionaryItem::getDictionaryCode, dictionaryCode));
+                .eq(DictionaryItem::getStatus, true).eq(DictionaryItem::getDictionaryCode, code));
     }
 }

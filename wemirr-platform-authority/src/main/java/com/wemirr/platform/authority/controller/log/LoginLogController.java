@@ -1,7 +1,6 @@
 package com.wemirr.platform.authority.controller.log;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.entity.log.LoginLog;
@@ -13,6 +12,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,11 +39,11 @@ public class LoginLogController {
             @Parameter(name = "principal", description = "账号", in = ParameterIn.QUERY)
     })
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
-    public Result<Page<LoginLog>> query(PageRequest request, String name, String principal) {
-        final Page<LoginLog> page = this.loginLogService.page(request.buildPage(), Wraps.<LoginLog>lbQ()
+    @PreAuthorize("hasAuthority('log:login:page')")
+    public Page<LoginLog> query(PageRequest request, String name, String principal) {
+        return this.loginLogService.page(request.buildPage(), Wraps.<LoginLog>lbQ()
                 .like(LoginLog::getName, name)
                 .like(LoginLog::getPrincipal, principal).orderByDesc(LoginLog::getCreatedTime));
-        return Result.success(page);
     }
 
 

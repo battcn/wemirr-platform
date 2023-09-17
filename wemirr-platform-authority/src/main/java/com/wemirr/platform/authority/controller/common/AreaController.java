@@ -5,7 +5,6 @@ import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
 import com.google.common.collect.Maps;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
 import com.wemirr.platform.authority.domain.req.AreaReq;
@@ -49,7 +48,7 @@ public class AreaController {
      */
     @GetMapping("/trees")
     @Operation(summary = "查询地址树", description = "查询地址树")
-    public Result<List<Tree<Long>>> tree() {
+    public List<Tree<Long>> tree() {
         List<AreaEntity> list = this.areaService.list(Wraps.<AreaEntity>lbQ().orderByAsc(AreaEntity::getSequence));
         final List<TreeNode<Long>> nodes = list.stream().map(area -> {
             TreeNode<Long> treeNode = new TreeNode<>(area.getId(), area.getParentId(), area.getName(), area.getSequence());
@@ -62,14 +61,14 @@ public class AreaController {
             treeNode.setExtra(extra);
             return treeNode;
         }).collect(Collectors.toList());
-        return Result.success(TreeUtil.build(nodes, 0L));
+        return TreeUtil.build(nodes, 0L);
     }
 
     @GetMapping("/{parent_id}/children")
     @Operation(summary = "查询子节点 - [DONE] - [Levin]", description = "查询子节点 - [DONE] - [Levin]")
-    public Result<List<AreaNodeResp>> list(@PathVariable(name = "parent_id") Integer parentId) {
+    public List<AreaNodeResp> list(@PathVariable(name = "parent_id") Integer parentId) {
         final List<AreaEntity> list = this.areaService.listArea(parentId);
-        return Result.success(AREA_ENTITY_2_NODE_RESP_CONVERTS.converts(list));
+        return AREA_ENTITY_2_NODE_RESP_CONVERTS.converts(list);
     }
 
     @PostMapping

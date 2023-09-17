@@ -2,7 +2,6 @@ package com.wemirr.platform.tools.controller.dynamic;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDragPushServer;
 import com.wemirr.platform.tools.domain.req.BatchKey;
@@ -62,8 +61,8 @@ public class DynamicReleaseDragPushServerController {
 
     @Operation(summary = "分配模板")
     @GetMapping("/{id}/drag_models_and_check_ids")
-    public Result<DynamicReleaseDragPushServerModelResp> modelRespResult(@PathVariable Long id) {
-        return Result.success(this.dynamicReleaseDragPushServerService.queryModelByPushId(id));
+    public DynamicReleaseDragPushServerModelResp modelRespResult(@PathVariable Long id) {
+        return this.dynamicReleaseDragPushServerService.queryModelByPushId(id);
     }
 
     @Operation(summary = "绑定模板")

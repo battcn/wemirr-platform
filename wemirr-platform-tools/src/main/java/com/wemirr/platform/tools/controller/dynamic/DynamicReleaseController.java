@@ -2,7 +2,6 @@ package com.wemirr.platform.tools.controller.dynamic;
 
 import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.tools.domain.resp.DynamicReleaseCurdOptionResp;
 import com.wemirr.platform.tools.service.DynamicReleaseService;
@@ -36,9 +35,9 @@ public class DynamicReleaseController {
 
 
     @GetMapping("/curd_options")
-    public Result<DynamicReleaseCurdOptionResp> curdOptions(@PathVariable String model) {
+    public DynamicReleaseCurdOptionResp curdOptions(@PathVariable String model) {
         final DynamicReleaseCurdOptionResp curdOptions = dynamicReleaseService.curdOptions(model);
-        return Result.success(curdOptions);
+        return curdOptions;
     }
 
     @PostMapping

@@ -1,6 +1,5 @@
 package com.wemirr.platform.tools.controller;
 
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,11 +36,11 @@ public class LoadController {
     @IgnoreAuthorize
     @GetMapping("/{mode}")
     @Operation(summary = "查询")
-    public Result<Mode> find(@PathVariable String mode) {
+    public Mode find(@PathVariable String mode) {
         Mode standard = new Mode("{\"columns\":[{\"title\":\"id\",\"key\":\"id\",\"form\":{\"disabled\":true},\"disabled\":true},{\"title\":\"登录账号\",\"key\":\"principal\",\"search\":{\"disabled\":false}},{\"title\":\"名称\",\"key\":\"name\",\"search\":{\"disabled\":false}},{\"title\":\"ip\",\"width\":120,\"key\":\"ip\"},{\"title\":\"登录地点\",\"width\":150,\"key\":\"location\"}]}");
         Mode test = new Mode("{\"columns\":[{\"title\":\"id\",\"key\":\"id\",\"form\":{\"disabled\":true},\"disabled\":true},{\"title\":\"登录账号\",\"key\":\"principal\",\"search\":{\"disabled\":false}},{\"title\":\"名称\",\"key\":\"name\",\"search\":{\"disabled\":false}},{\"title\":\"ip\",\"width\":120,\"key\":\"ip\"}]}");
         Mode result = StringUtils.equals(mode, "standard") ? standard : test;
-        return Result.success(result);
+        return result;
     }
 
 

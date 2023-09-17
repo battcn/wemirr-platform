@@ -9,14 +9,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.SysLog;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
-import com.wemirr.platform.authority.domain.enums.ResourceType;
 import com.wemirr.platform.authority.domain.req.ResourceQueryReq;
 import com.wemirr.platform.authority.domain.req.ResourceSaveReq;
+import com.wemirr.platform.authority.domain.resp.ResourcePageResp;
 import com.wemirr.platform.authority.domain.resp.VueRouter;
 import com.wemirr.platform.authority.service.ResourceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,6 +24,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,20 +52,12 @@ public class ResourceController {
 
     @GetMapping("/router")
     @Operation(summary = "菜单路由", description = "只能看到自身权限")
-    public Result<List<Tree<Long>>> router(@RequestParam(required = false, defaultValue = "false") Boolean all) {
+    public List<Tree<Long>> router(@RequestParam(required = false, defaultValue = "false") Boolean all) {
         List<VueRouter> routers = resourceService.findVisibleResource(ResourceQueryReq.builder().userId(tenantEnvironment.userId()).build());
         List<TreeNode<Long>> list = routers.stream()
-                .filter(router -> all || (router.getType() != null && router.getType() == 1 || router.getType() == 5))
+                .filter(router -> all || (router.getType() != null && (router.getType() == 1 || router.getType() == 5)))
                 .map(VUE_ROUTER_2_TREE_NODE_CONVERTS::convert).collect(toList());
-        return Result.success(TreeUtil.build(list, 0L));
-    }
-
-    @GetMapping("/permissions")
-    @Operation(summary = "资源码", description = "只能看到自身资源码")
-    public Result<List<String>> permissions() {
-        List<VueRouter> routers = Optional.ofNullable(resourceService.findVisibleResource(ResourceQueryReq.builder()
-                .userId(tenantEnvironment.userId()).build())).orElseGet(Lists::newArrayList);
-        return Result.success(routers.stream().map(VueRouter::getPermission).collect(toList()));
+        return TreeUtil.build(list, 0L);
     }
 
     @GetMapping
@@ -74,18 +65,28 @@ public class ResourceController {
             @Parameter(description = "父ID", name = "parentId", in = ParameterIn.QUERY),
             @Parameter(description = "资源类型", name = "type", in = ParameterIn.QUERY),
             @Parameter(description = "名称", name = "name", in = ParameterIn.QUERY),
+            @Parameter(description = "类型", name = "type", in = ParameterIn.QUERY),
     })
     @Operation(summary = "资源列表 - [Levin] - [DONE]")
-    public IPage<Resource> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
-                                         @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
-                                         Long parentId, Integer type) {
-        final LbqWrapper<Resource> wrapper = Wraps.<Resource>lbQ().eq(Resource::getParentId, parentId).eq(Resource::getType, ResourceType.BUTTON);
-        return resourceService.page(new Page<>(current, size), wrapper);
+    public IPage<ResourcePageResp> pageList(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
+                                            @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
+                                            Long parentId, Integer type) {
+        return resourceService.page(new Page<>(current, size), Wraps.<Resource>lbQ().eq(Resource::getParentId, parentId)
+                .eq(Resource::getType, type)).convert(x -> BeanUtil.toBean(x, ResourcePageResp.class));
+    }
+
+    @GetMapping("/permissions")
+    @Operation(summary = "资源码", description = "只能看到自身资源码")
+    public List<String> permissions() {
+        List<VueRouter> routers = Optional.ofNullable(resourceService.findVisibleResource(ResourceQueryReq.builder()
+                .userId(tenantEnvironment.userId()).build())).orElseGet(Lists::newArrayList);
+        return routers.stream().map(VueRouter::getPermission).collect(toList());
     }
 
     @PostMapping
     @SysLog(value = "添加资源")
     @Operation(summary = "添加资源")
+    @PreAuthorize("hasAuthority('sys:resources:add')")
     public void save(@Validated @RequestBody ResourceSaveReq data) {
         Resource resource = BeanUtil.toBean(data, Resource.class);
         resourceService.addResource(resource);
@@ -95,6 +96,7 @@ public class ResourceController {
     @DeleteMapping("/{id}")
     @SysLog(value = "删除资源")
     @Operation(summary = "删除资源")
+    @PreAuthorize("hasAuthority('sys:resources:remove')")
     public void del(@PathVariable Long id) {
         this.resourceService.delResource(id);
     }
@@ -102,6 +104,7 @@ public class ResourceController {
     @PutMapping("/{id}")
     @SysLog(value = "修改资源")
     @Operation(summary = "修改资源")
+    @PreAuthorize("hasAuthority('sys:resources:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody ResourceSaveReq data) {
         resourceService.editResourceById(BeanUtilPlus.toBean(id, data, Resource.class));
     }

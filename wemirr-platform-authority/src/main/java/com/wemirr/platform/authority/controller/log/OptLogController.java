@@ -1,7 +1,6 @@
 package com.wemirr.platform.authority.controller.log;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.configuration.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
@@ -14,6 +13,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,11 +42,11 @@ public class OptLogController {
             @Parameter(name = "description", description = "描述信息", in = ParameterIn.QUERY)
     })
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
-    public Result<Page<OptLog>> query(PageRequest request, String location, String description) {
-        final Page<OptLog> page = this.optLogService.page(request.buildPage(), Wraps.<OptLog>lbQ()
+    @PreAuthorize("hasAuthority('log:opt:page')")
+    public Page<OptLog> query(PageRequest request, String location, String description) {
+        return this.optLogService.page(request.buildPage(), Wraps.<OptLog>lbQ()
                 .like(OptLog::getLocation, location)
                 .like(OptLog::getDescription, description).orderByDesc(OptLog::getStartTime));
-        return Result.success(page);
     }
 
     @DeleteMapping("/{day}")
