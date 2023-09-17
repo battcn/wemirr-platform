@@ -60,7 +60,7 @@ public class RegisteredClientRefController {
     @SysLog(value = "删除应用")
     @Operation(summary = "删除应用")
     public void del(@PathVariable String id) {
-        this.registeredClientRefService.removeById(id);
+        this.registeredClientRefService.deleteById(id);
     }
 
 

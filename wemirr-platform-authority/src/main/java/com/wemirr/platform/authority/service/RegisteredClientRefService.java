@@ -9,6 +9,17 @@ import com.wemirr.platform.authority.domain.req.RegisteredClientRefReq;
  */
 public interface RegisteredClientRefService extends SuperService<RegisteredClientRef> {
 
+    /**
+     * 注册安全终端
+     *
+     * @param req req
+     */
     void registeredClient(RegisteredClientRefReq req);
 
+    /**
+     * 根据ID删除
+     *
+     * @param id id
+     */
+    void deleteById(String id);
 }

@@ -50,5 +50,11 @@ public class RegisteredClientRefServiceImpl extends SuperServiceImpl<RegisteredC
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                 .build();
         registeredClientRepository.save(registeredClient);
+
+    }
+
+    @Override
+    public void deleteById(String id) {
+        this.baseMapper.removeById(id);
     }
 }
