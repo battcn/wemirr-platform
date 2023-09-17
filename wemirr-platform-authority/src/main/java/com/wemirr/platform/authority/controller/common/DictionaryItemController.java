@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.entity.common.DictionaryItem;
+import com.wemirr.platform.authority.domain.req.DictionaryItemPageReq;
 import com.wemirr.platform.authority.domain.req.DictionaryItemReq;
 import com.wemirr.platform.authority.service.DictionaryItemService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,11 +41,11 @@ public class DictionaryItemController {
             @Parameter(name = "dictionary_id", description = "字典ID", in = ParameterIn.PATH),
             @Parameter(name = "label", description = "名称", in = ParameterIn.QUERY)
     })
-    public Page<DictionaryItem> query(@PathVariable("dictionary_id") Long dictionaryId, String label, Boolean status, PageRequest params) {
-        final Page<DictionaryItem> itemPage = this.dictionaryItemService.page(params.buildPage(), Wraps.<DictionaryItem>lbQ()
-                .like(DictionaryItem::getLabel, label).eq(DictionaryItem::getStatus, status)
-                .eq(DictionaryItem::getDictionaryId, dictionaryId));
-        return itemPage;
+    public Page<DictionaryItem> query(@PathVariable("dictionary_id") Long dictionaryId,
+                                      DictionaryItemPageReq req) {
+        return this.dictionaryItemService.page(req.buildPage(), Wraps.<DictionaryItem>lbQ()
+                .eq(DictionaryItem::getDictionaryId, dictionaryId)
+                .like(DictionaryItem::getLabel, req.getLabel()).eq(DictionaryItem::getStatus, req.getStatus()));
     }
 
     @PostMapping

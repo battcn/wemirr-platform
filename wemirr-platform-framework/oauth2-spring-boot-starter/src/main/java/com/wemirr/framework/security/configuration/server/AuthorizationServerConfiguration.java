@@ -272,7 +272,6 @@ public class AuthorizationServerConfiguration {
     @ConditionalOnExpression("'${extend.oauth2.server.token-type}'.equalsIgnoreCase('custom')")
     public OAuth2TokenGenerator<OAuth2Token> oAuth2TokenGenerator() {
         CustomOAuth2AccessTokenGenerator accessTokenGenerator = new CustomOAuth2AccessTokenGenerator();
-//        accessTokenGenerator.setAccessTokenCustomizer(new CustomTokenCustomizer());
         return new DelegatingOAuth2TokenGenerator(accessTokenGenerator, new OAuth2RefreshTokenGenerator());
     }
 

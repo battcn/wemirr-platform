@@ -6,6 +6,7 @@ import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -21,10 +22,9 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 @TableName("common_dictionary")
+@SuperBuilder
 @Schema(name= "Dictionary", description = "字典类型")
 public class Dictionary extends SuperEntity<Long> {
 

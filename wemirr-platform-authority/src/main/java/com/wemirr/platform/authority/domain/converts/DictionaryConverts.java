@@ -4,7 +4,7 @@ import com.wemirr.framework.db.page.BasePageConverts;
 import com.wemirr.platform.authority.domain.entity.common.Dictionary;
 import com.wemirr.platform.authority.domain.entity.common.DictionaryItem;
 import com.wemirr.platform.authority.domain.req.DictionaryItemReq;
-import com.wemirr.platform.authority.domain.req.DictionaryReq;
+import com.wemirr.platform.authority.domain.req.DictionarySaveReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
@@ -16,9 +16,9 @@ public class DictionaryConverts {
 
     public static final DictionaryConverts.DictionaryDto2PoConverts DICTIONARY_DTO_2_PO_CONVERTS = new DictionaryConverts.DictionaryDto2PoConverts();
 
-    public static class DictionaryDto2PoConverts implements BasePageConverts<DictionaryReq, Dictionary> {
+    public static class DictionaryDto2PoConverts implements BasePageConverts<DictionarySaveReq, Dictionary> {
         @Override
-        public Dictionary convert(DictionaryReq source) {
+        public Dictionary convert(DictionarySaveReq source) {
 
             if (source == null) {
                 return null;
@@ -29,7 +29,7 @@ public class DictionaryConverts {
         }
 
         @Override
-        public Dictionary convert(DictionaryReq source, Long id) {
+        public Dictionary convert(DictionarySaveReq source, Long id) {
             if (source == null) {
                 return null;
             }

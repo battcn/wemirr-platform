@@ -4,10 +4,10 @@ package com.wemirr.platform.authority.controller.common;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.entity.common.Dictionary;
 import com.wemirr.platform.authority.domain.entity.common.DictionaryItem;
-import com.wemirr.platform.authority.domain.req.DictionaryReq;
+import com.wemirr.platform.authority.domain.req.DictionaryPageReq;
+import com.wemirr.platform.authority.domain.req.DictionarySaveReq;
 import com.wemirr.platform.authority.service.DictionaryItemService;
 import com.wemirr.platform.authority.service.DictionaryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,17 +46,17 @@ public class DictionaryController {
     @Operation(summary = "查询字典 - [DONE] - [Levin]", description = "查询字典 - [DONE] - [Levin]")
     @Parameter(name = "name", description = "名称", in = ParameterIn.QUERY)
     @PreAuthorize("hasAuthority('sys:dict:page')")
-    public IPage<Dictionary> query(PageRequest pageRequest, String name, String code, Boolean status) {
-        return this.dictionaryService.page(pageRequest.buildPage(),
-                Wraps.<Dictionary>lbQ().eq(Dictionary::getStatus, status)
-                        .like(Dictionary::getCode, code).like(Dictionary::getName, name));
+    public IPage<Dictionary> query(DictionaryPageReq req) {
+        return this.dictionaryService.page(req.buildPage(),
+                Wraps.<Dictionary>lbQ().eq(Dictionary::getStatus, req.getStatus()).like(Dictionary::getCode, req.getCode())
+                        .like(Dictionary::getName, req.getName()));
     }
 
     @PostMapping
     @SysLog(value = "字典新增")
     @Operation(summary = "新增字典 - [DONE] - [Levin]", description = "新增字典 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('sys:dict:add')")
-    public void save(@Validated @RequestBody DictionaryReq dto) {
+    public void save(@Validated @RequestBody DictionarySaveReq dto) {
         this.dictionaryService.addDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(dto));
     }
 
@@ -64,7 +64,7 @@ public class DictionaryController {
     @SysLog(value = "字典编辑")
     @Operation(summary = "编辑字典 - [DONE] - [Levin]", description = "编辑字典 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('sys:dict:edit')")
-    public void edit(@PathVariable Long id, @Validated @RequestBody DictionaryReq dto) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody DictionarySaveReq dto) {
         this.dictionaryService.editDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(dto, id));
     }
 

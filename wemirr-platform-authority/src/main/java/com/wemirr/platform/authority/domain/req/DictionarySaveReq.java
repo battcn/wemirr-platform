@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.Length;
  * @author Levin
  */
 @Data
-public class DictionaryReq {
+public class DictionarySaveReq {
 
     /**
      * 编码
