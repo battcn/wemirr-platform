@@ -38,7 +38,7 @@ public class SiteNotifyController {
 
     @GetMapping("/page")
     @Operation(summary = "站内通知列表")
-    @PreAuthorize("hasAuthority('site_notifies:page')")
+    @PreAuthorize("hasAuthority('sys:site_notifies:page')")
     public IPage<SiteMessageResp> publishList(SiteMessagePageReq req) {
         return siteNotifyService.page(req.buildPage(), Wraps.<SiteNotify>lbQ()
                         .eq(SiteNotify::getTitle, req.getTitle()).eq(SiteNotify::getLevel, req.getLevel())
@@ -54,7 +54,7 @@ public class SiteNotifyController {
     @PostMapping
     @SysLog(value = "添加站内通知")
     @Operation(summary = "添加站内通知")
-    @PreAuthorize("hasAuthority('site_notifies:add')")
+    @PreAuthorize("hasAuthority('sys:site_notifies:add')")
     public void add(@Validated @RequestBody SiteMessageReq req) {
         final SiteNotify bean = BeanUtil.toBean(req, SiteNotify.class);
         bean.setReceiver(StringUtils.join(req.getReceiver(), ","));
@@ -64,7 +64,7 @@ public class SiteNotifyController {
     @PutMapping("/{id}")
     @SysLog(value = "编辑站内通知")
     @Operation(summary = "编辑站内通知")
-    @PreAuthorize("hasAuthority('site_notifies:edit')")
+    @PreAuthorize("hasAuthority('sys:site_notifies:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody SiteMessageReq req) {
         final SiteNotify bean = BeanUtil.toBean(req, SiteNotify.class);
         bean.setReceiver(StringUtils.join(req.getReceiver(), ","));
@@ -75,7 +75,7 @@ public class SiteNotifyController {
     @DeleteMapping("/{id}")
     @SysLog(value = "删除站内通知")
     @Operation(summary = "删除站内通知")
-    @PreAuthorize("hasAuthority('site_notifies:remove')")
+    @PreAuthorize("hasAuthority('sys:site_notifies:remove')")
     public void del(@PathVariable Long id) {
         siteNotifyService.removeById(id);
     }
@@ -83,7 +83,7 @@ public class SiteNotifyController {
     @PatchMapping("/{id}/publish")
     @SysLog(value = "发布通知")
     @Operation(summary = "发布通知")
-    @PreAuthorize("hasAuthority('site_notifies:publish')")
+    @PreAuthorize("hasAuthority('sys:site_notifies:publish')")
     public void publish(@PathVariable Long id) {
         siteNotifyService.publish(id);
     }

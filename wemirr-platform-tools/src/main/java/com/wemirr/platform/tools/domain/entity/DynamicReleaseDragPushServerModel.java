@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * @author Levin
@@ -32,6 +32,6 @@ public class DynamicReleaseDragPushServerModel {
      */
     @TableField(value = "created_time")
     @Parameter(description = "创建时间")
-    protected LocalDateTime createdTime;
+    protected Instant createdTime;
 
 }

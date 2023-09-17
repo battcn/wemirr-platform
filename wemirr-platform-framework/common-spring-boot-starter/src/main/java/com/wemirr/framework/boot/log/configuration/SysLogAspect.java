@@ -36,7 +36,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Objects;
@@ -122,7 +122,7 @@ public class SysLogAspect {
                 return;
             }
             OptLogDTO sysLog = get();
-            sysLog.setStartTime(LocalDateTime.now());
+            sysLog.setStartTime(Instant.now());
             if (ret instanceof Result) {
                 Result<?> result = Convert.convert(Result.class, ret);
                 if (result == null) {
@@ -153,7 +153,7 @@ public class SysLogAspect {
     }
 
     private void publishEvent(OptLogDTO sysLog) {
-        sysLog.setFinishTime(LocalDateTime.now());
+        sysLog.setFinishTime(Instant.now());
         sysLog.setConsumingTime(sysLog.getStartTime().until(sysLog.getFinishTime(), ChronoUnit.MILLIS));
         applicationContext.publishEvent(new SysLogEvent(sysLog));
         THREAD_LOCAL.remove();
@@ -251,7 +251,7 @@ public class SysLogAspect {
             sysLog.setBrowser(browser.getName());
             String ua = request.getHeader(USER_AGENT);
             sysLog.setBrowserVersion(browser.getVersion(ua));
-            sysLog.setStartTime(LocalDateTime.now());
+            sysLog.setStartTime(Instant.now());
 
             THREAD_LOCAL.set(sysLog);
         });

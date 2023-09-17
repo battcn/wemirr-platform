@@ -4,7 +4,7 @@ package com.wemirr.framework.boot.log;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * <p>
@@ -90,12 +90,12 @@ public class OptLogDTO {
     /**
      * 开始时间
      */
-    private LocalDateTime startTime;
+    private Instant startTime;
 
     /**
      * 完成时间
      */
-    private LocalDateTime finishTime;
+    private Instant finishTime;
 
     /**
      * 消耗时间

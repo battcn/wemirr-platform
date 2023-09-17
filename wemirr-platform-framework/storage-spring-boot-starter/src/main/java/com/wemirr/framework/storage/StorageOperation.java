@@ -206,17 +206,12 @@ public interface StorageOperation {
         }
         String prefix;
         switch (rule) {
-            case now_date_mouth:
-                prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
-                break;
-            case now_date_mouth_day:
-                prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-                break;
-            case none:
-                prefix = request.getPrefix();
-                break;
-            default:
+            case now_date_mouth -> prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
+            case now_date_mouth_day -> prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            case none -> prefix = request.getPrefix();
+            default -> {
                 return request.getPrefix();
+            }
         }
         return FileUtils.targetName(request.isRandomName(), prefix, request.getOriginName());
     }

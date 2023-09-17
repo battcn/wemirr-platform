@@ -1,23 +1,20 @@
 package com.wemirr.platform.authority.controller.baseinfo;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.db.TenantEnvironment;
-import com.wemirr.framework.db.mybatis.auth.DataScopeType;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleOrg;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
+import com.wemirr.platform.authority.domain.req.RolePageReq;
 import com.wemirr.platform.authority.domain.req.RoleReq;
 import com.wemirr.platform.authority.domain.req.RoleResSaveReq;
 import com.wemirr.platform.authority.domain.req.RoleUserReq;
-import com.wemirr.platform.authority.domain.resp.RoleDetailResp;
-import com.wemirr.platform.authority.domain.resp.RolePermissionResp;
-import com.wemirr.platform.authority.domain.resp.RoleResResp;
-import com.wemirr.platform.authority.domain.resp.UserRoleResp;
+import com.wemirr.platform.authority.domain.resp.*;
 import com.wemirr.platform.authority.service.RoleOrgService;
 import com.wemirr.platform.authority.service.RoleResService;
 import com.wemirr.platform.authority.service.RoleService;
@@ -67,11 +64,10 @@ public class RoleController {
     })
     @Operation(summary = "角色列表 - [Levin] - [DONE]")
     @PreAuthorize("hasAuthority('sys:roles:page')")
-    public IPage<Role> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
-                             @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
-                             String name, Boolean locked, DataScopeType scopeType) {
-        return this.roleService.page(new Page<>(current, size), Wraps.<Role>lbQ()
-                .eq(Role::getLocked, locked).like(Role::getName, name).eq(Role::getScopeType, scopeType));
+    public IPage<RolePageResp> pageList(RolePageReq req) {
+        return this.roleService.page(req.buildPage(), Wraps.<Role>lbQ().like(Role::getName, req.getName())
+                        .eq(Role::getLocked, req.getLocked()).eq(Role::getScopeType, req.getScopeType()))
+                .convert(x -> BeanUtil.toBean(x, RolePageResp.class));
     }
 
     @GetMapping("/{id}/detail")

@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -118,6 +118,6 @@ public class LoginLog {
      */
     @TableField(value = "created_time")
     @Parameter(description = "创建时间")
-    protected LocalDateTime createdTime;
+    protected Instant createdTime;
 
 }

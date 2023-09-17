@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -23,7 +23,7 @@ public class DynamicReleaseDragPushServerResp {
     private String secret;
     private List<String> opt;
     private Boolean locked;
-    private LocalDateTime createdTime;
+    private Instant createdTime;
 
 
 }

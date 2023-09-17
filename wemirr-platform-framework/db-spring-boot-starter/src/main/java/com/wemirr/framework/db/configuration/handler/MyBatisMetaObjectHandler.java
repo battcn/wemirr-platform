@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.wrapper.ObjectWrapper;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * MyBatis Plus 元数据处理类
@@ -96,7 +96,7 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
                 this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, realName, metaObject);
             }
             if (wrapper.hasGetter(SuperEntity.UPDATE_TIME)) {
-                this.setFieldValByName(SuperEntity.UPDATE_TIME, LocalDateTime.now(), metaObject);
+                this.setFieldValByName(SuperEntity.UPDATE_TIME, Instant.now(), metaObject);
                 this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, realName, metaObject);
             }
         }

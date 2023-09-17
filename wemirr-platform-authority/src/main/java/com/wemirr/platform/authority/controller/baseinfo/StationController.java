@@ -32,9 +32,8 @@ public class StationController {
 
     @GetMapping
     @Operation(summary = "岗位列表 - [Levin] - [DONE]")
-    @PreAuthorize("hasAuthority('sys:stations:page')")
-    public IPage<Station> query(StationPageReq params) {
-        return stationService.findStationPage(params, params);
+    public IPage<Station> query(StationPageReq req) {
+        return stationService.pageList(req);
     }
 
     @PostMapping

@@ -3,8 +3,8 @@ package com.wemirr.platform.authority.domain.resp;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * @author Levin
@@ -66,7 +66,7 @@ public class UserResp {
      * 创建时间（依托数据库功能）
      */
     @Schema(description="创建时间")
-    protected LocalDateTime createdTime;
+    protected Instant createdTime;
 
 
 }

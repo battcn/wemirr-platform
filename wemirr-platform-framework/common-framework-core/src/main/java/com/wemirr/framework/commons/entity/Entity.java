@@ -11,7 +11,7 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 
 /**
@@ -61,7 +61,7 @@ public class Entity<T> implements Serializable {
      */
     @TableField(value = CREATE_TIME_COLUMN)
     @Schema(description = "创建时间")
-    protected LocalDateTime createdTime;
+    protected Instant createdTime;
 
 
 

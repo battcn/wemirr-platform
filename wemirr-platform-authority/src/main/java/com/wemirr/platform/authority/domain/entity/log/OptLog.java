@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * @author Levin
@@ -91,12 +91,12 @@ public class OptLog {
     /**
      * 开始时间
      */
-    private LocalDateTime startTime;
+    private Instant startTime;
 
     /**
      * 完成时间
      */
-    private LocalDateTime finishTime;
+    private Instant finishTime;
 
     /**
      * 消耗时间

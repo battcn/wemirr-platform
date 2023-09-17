@@ -1,13 +1,11 @@
 package com.wemirr.platform.authority.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatis.SuperServiceImpl;
 import com.wemirr.framework.db.mybatis.auth.DataScope;
 import com.wemirr.framework.db.mybatis.auth.DataScopeType;
 import com.wemirr.framework.db.mybatis.conditions.Wraps;
 import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
-import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
 import com.wemirr.platform.authority.domain.req.StationPageReq;
 import com.wemirr.platform.authority.repository.StationMapper;
@@ -31,12 +29,12 @@ public class StationServiceImpl extends SuperServiceImpl<StationMapper, Station>
 
 
     @Override
-    public IPage<Station> findStationPage(PageRequest params, StationPageReq data) {
-        Station station = BeanUtil.toBean(data, Station.class);
-        final LbqWrapper<Station> wrapper = Wraps.<Station>lbQ().like(Station::getName, station.getName())
-                .like(Station::getDescription, station.getDescription()).eq(Station::getType,data.getType())
-                .eq(Station::getStatus,data.getStatus()).eq(Station::getOrgId, station.getOrgId())
-                .eq(Station::getStatus, station.getStatus()).orderByAsc(Station::getSequence);
-        return baseMapper.findStationPage(params.buildPage(), wrapper, DataScope.builder().scopeType(DataScopeType.ALL).build());
+    public IPage<Station> pageList(StationPageReq req) {
+        final LbqWrapper<Station> wrapper = Wraps.<Station>lbQ().like(Station::getName, req.getName())
+                .eq(Station::getType, req.getType())
+                .eq(Station::getOrgId, req.getOrgId())
+                .eq(Station::getStatus, req.getStatus())
+                .orderByAsc(Station::getSequence);
+        return baseMapper.findStationPage(req.buildPage(), wrapper, DataScope.builder().scopeType(DataScopeType.ALL).build());
     }
 }

@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -81,6 +80,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     }
 
     @Override
+    @DSTransactional
     public void updateRole(Long roleId, Long userId, RoleReq data) {
         Role role = BeanUtil.toBean(data, Role.class);
         if (role.getReadonly() != null && role.getReadonly()) {
@@ -91,7 +91,6 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         }
         role.setId(roleId);
         baseMapper.updateById(role);
-
         roleOrgMapper.delete(Wraps.<RoleOrg>lbQ().eq(RoleOrg::getRoleId, roleId));
         saveRoleOrg(role, data.getOrgList());
     }
@@ -101,21 +100,20 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     public void saveUserRole(Long roleId, List<Long> userIdList) {
         this.userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId));
         final List<UserRole> userRoles = userIdList.stream().map(userId -> UserRole.builder()
-                .roleId(roleId).userId(userId).build())
-                .collect(Collectors.toList());
-        for (UserRole role : userRoles) {
-            this.userRoleMapper.insert(role);
-        }
+                        .roleId(roleId).userId(userId).build())
+                .toList();
+        this.userRoleMapper.insertBatchSomeColumn(userRoles);
     }
 
     private void saveRoleOrg(Role role, List<Long> orgList) {
+        if (CollectionUtil.isEmpty(orgList)) {
+            return;
+        }
         // 根据 数据范围类型 和 勾选的组织ID， 重新计算全量的组织ID
-        if (CollectionUtil.isNotEmpty(orgList)) {
-            List<RoleOrg> list = orgList.stream().map((orgId) -> RoleOrg.builder().orgId(orgId)
-                    .roleId(role.getId()).build()).collect(Collectors.toList());
-            for (RoleOrg roleOrg : list) {
-                roleOrgMapper.insert(roleOrg);
-            }
+        List<RoleOrg> list = orgList.stream().map((orgId) -> RoleOrg.builder().orgId(orgId)
+                .roleId(role.getId()).build()).toList();
+        for (RoleOrg roleOrg : list) {
+            roleOrgMapper.insert(roleOrg);
         }
     }
 

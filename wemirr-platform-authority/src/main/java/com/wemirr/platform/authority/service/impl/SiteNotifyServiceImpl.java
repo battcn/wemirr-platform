@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -95,7 +95,7 @@ public class SiteNotifyServiceImpl extends SuperServiceImpl<StationMessagePublis
             message.setDescription(messagePublish.getDescription());
             message.setLevel(messagePublish.getLevel());
             message.setReceiveId(userId);
-            message.setCreatedTime(LocalDateTime.now());
+            message.setCreatedTime(Instant.now());
             this.stationMessageMapper.insert(message);
             this.webSocketManager.sendMessage(String.valueOf(userId), JSON.toJSONString(message));
         }

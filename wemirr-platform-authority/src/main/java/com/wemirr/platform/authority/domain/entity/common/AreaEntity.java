@@ -8,7 +8,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * <p>
@@ -78,12 +78,12 @@ public class AreaEntity {
      */
     @TableField(value = "created_time")
     @Parameter(description = "创建时间")
-    protected LocalDateTime createdTime;
+    protected Instant createdTime;
 
 
     @Parameter(description = "最后修改时间")
     @TableField(value = "last_modified_time")
-    protected LocalDateTime lastModifiedTime;
+    protected Instant lastModifiedTime;
 
     @Parameter(description = "最后修改人ID")
     @TableField(value = "last_modified_by", fill = FieldFill.INSERT_UPDATE)

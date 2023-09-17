@@ -3,7 +3,7 @@ package com.wemirr.platform.authority.domain.resp;
 import com.wemirr.platform.authority.domain.enums.ReceiverType;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -20,6 +20,6 @@ public class SiteMessageResp {
     private String description;
     private String content;
     private String createdName;
-    private LocalDateTime createdTime;
+    private Instant createdTime;
 
 }

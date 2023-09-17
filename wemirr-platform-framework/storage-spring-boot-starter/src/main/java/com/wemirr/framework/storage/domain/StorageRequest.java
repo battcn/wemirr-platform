@@ -96,23 +96,18 @@ public class StorageRequest implements java.io.Serializable {
         }
         String prefix;
         switch (rule) {
-            case now_date_mouth:
-                prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
-                break;
-            case now_date_mouth_day:
-                prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-                break;
-            case tenant_now_date_mouth_day:
+            case now_date_mouth -> prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMM"));
+            case now_date_mouth_day -> prefix = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            case tenant_now_date_mouth_day -> {
                 if (tenantId == null || userId == null) {
                     throw new RuntimeException("tenantId or userId not null");
                 }
                 prefix = tenantId + "/" + userId + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-                break;
-            case none:
-                prefix = this.getPrefix();
-                break;
-            default:
+            }
+            case none -> prefix = this.getPrefix();
+            default -> {
                 return this.getPrefix();
+            }
         }
         return FileUtils.targetName(this.isRandomName(), prefix, this.getOriginName());
     }

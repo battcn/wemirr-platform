@@ -11,7 +11,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * 增强实体类
@@ -37,7 +37,7 @@ public class SuperEntity<T> extends Entity<T> {
 
     @Schema(description = "最后修改时间")
     @TableField(value = UPDATE_TIME_COLUMN)
-    protected LocalDateTime lastModifiedTime;
+    protected Instant lastModifiedTime;
 
     @Schema(description = "最后修改人ID")
     @TableField(value = UPDATE_USER_COLUMN, fill = FieldFill.INSERT_UPDATE)
