@@ -81,7 +81,6 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
             builder.serializerByType(Long.class, ToStringSerializer.instance);
             builder.serializerByType(Long.TYPE, ToStringSerializer.instance);
             builder.modules(new LocalJavaTimeModule(), new JavaTimeModule());
-
         };
     }
 
