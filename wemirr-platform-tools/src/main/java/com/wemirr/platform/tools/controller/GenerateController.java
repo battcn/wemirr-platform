@@ -1,6 +1,7 @@
 package com.wemirr.platform.tools.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ZipUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.exception.CheckedException;
@@ -16,7 +17,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,7 +66,7 @@ public class GenerateController {
             response.setCharacterEncoding("utf-8");
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
-            IOUtils.copy(fis, response.getOutputStream());
+            IoUtil.copy(fis, response.getOutputStream());
             response.flushBuffer();
         } catch (IOException e) {
             log.error("[文件下载失败]", e);
