@@ -106,6 +106,13 @@ spring:
           filters:
             - StripPrefix=1
             - PreserveHostHeader
+        - id: wemirr-platform-bpm
+          uri: lb://wemirr-platform-bpm
+          predicates:
+            - Path=/bpm/**
+          filters:
+            - StripPrefix=1
+            - PreserveHostHeader
       loadbalancer:
         use404: true
       httpclient:

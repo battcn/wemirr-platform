@@ -4,11 +4,13 @@ package com.wemirr.framework.boot.base;
 import com.baomidou.dynamic.datasource.exception.CannotFindDataSourceException;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.wemirr.framework.boot.base.i18n.I18nMessageResource;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.entity.enums.CommonError;
 import com.wemirr.framework.commons.exception.CheckedException;
 import feign.RetryableException;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.UnexpectedTypeException;
 import jakarta.validation.ValidationException;
@@ -53,22 +55,23 @@ import java.sql.SQLSyntaxErrorException;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+
+    @Resource
+    private I18nMessageResource i18nMessageResource;
+
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public ResponseEntity<Result<ResponseEntity<Void>>> jsonErrorHandler(HttpServletRequest request, Exception e) {
         HttpStatus defaultErrorResult = HttpStatus.OK;
         log.error("错误日志 - {} - {}", request.getRequestURI(), e.getLocalizedMessage());
-        if (e instanceof CheckedException) {
-            CheckedException exception = (CheckedException) e;
-            return new ResponseEntity<>(Result.fail(exception.getCode(), exception.getMessage()), defaultErrorResult);
-        } else if (e instanceof IllegalArgumentException) {
-            IllegalArgumentException exception = (IllegalArgumentException) e;
+        if (e instanceof CheckedException exception) {
+            return new ResponseEntity<>(Result.fail(exception.getCode(), i18nMessageResource.getMessage(exception.getMessage())), defaultErrorResult);
+        } else if (e instanceof IllegalArgumentException exception) {
             return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
         } else if (e instanceof MultipartException) {
-            return new ResponseEntity<>(Result.fail("文件过大,请控制文件大小"), defaultErrorResult);
-        } else if (e instanceof InternalAuthenticationServiceException) {
-            log.error("InternalAuthenticationServiceException", e);
-            InternalAuthenticationServiceException exception = (InternalAuthenticationServiceException) e;
+            return new ResponseEntity<>(Result.fail(i18nMessageResource.getMessage("global.exception.file-too-large")), defaultErrorResult);
+        } else if (e instanceof InternalAuthenticationServiceException exception) {
+            log.error("InternalAuthenticationServiceException", exception);
             if (exception.getCause() instanceof SQLSyntaxErrorException) {
                 return new ResponseEntity<>(Result.fail(exception.getCause().getMessage()), defaultErrorResult);
             }
@@ -84,9 +87,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 return new ResponseEntity<>(Result.fail("SQL 异常,错误信息为 " + e.getCause().getMessage()), defaultErrorResult);
             }
             return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
-        } else if (e instanceof RuntimeException) {
-            log.error("异常信息", e);
-            RuntimeException exception = (RuntimeException) e;
+        } else if (e instanceof RuntimeException exception) {
+            log.error("异常信息", exception);
             return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
         }
         return new ResponseEntity<>(Result.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()), defaultErrorResult);
@@ -124,8 +126,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 [================================================================]
                 [异常信息] - [{}]
                 [================================================================]""", e.getLocalizedMessage());
-        if (e.getCause() instanceof SQLException) {
-            return Result.fail(e.getCause().getMessage());
+        if (e.getCause() instanceof SQLException exception) {
+            return Result.fail(exception.getMessage());
         }
         return Result.fail(e.getMessage());
     }
@@ -140,7 +142,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     public final Result<ResponseEntity<Void>> duplicateKeyException(DuplicateKeyException e) {
         log.error("[主键冲突]", e);
-        return Result.fail("数据主键冲突");
+        return Result.fail(i18nMessageResource.getMessage("global.exception.duplicate-key"));
     }
 
 
@@ -190,7 +192,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public final Result<ResponseEntity<Void>> handlerValidationException(final Exception e) {
         ValidationException exception = (ValidationException) e;
         if (exception.getCause() instanceof CheckedException) {
-            return Result.fail(CommonError.REQUEST_PARAM_ERROR.type(), exception.getCause().getMessage());
+            return Result.fail(CommonError.REQUEST_PARAM_ERROR.type(), i18nMessageResource.getMessage(exception.getCause().getMessage()));
         }
         return Result.fail(CommonError.REQUEST_PARAM_ERROR.type(), exception.getMessage());
     }
@@ -201,13 +203,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     protected ResponseEntity<Object> handleExceptionInternal(@Nonnull Exception ex, Object body, @Nonnull HttpHeaders headers, @Nonnull HttpStatusCode statusCode, @Nonnull WebRequest request) {
         String uri = ((ServletWebRequest) request).getRequest().getRequestURI();
-        if (ex instanceof MethodArgumentNotValidException) {
-            MethodArgumentNotValidException exception = (MethodArgumentNotValidException) ex;
-            String message = exception.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        if (ex instanceof MethodArgumentNotValidException e) {
+            String message = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
             log.warn("[参数验证错误] - [{}] - [{}]", uri, message);
             return new ResponseEntity<>(Result.fail(CommonError.REQUEST_PARAM_ERROR.type(), message), HttpStatus.OK);
-        } else if (ex instanceof HttpRequestMethodNotSupportedException) {
-            HttpRequestMethodNotSupportedException e = (HttpRequestMethodNotSupportedException) ex;
+        } else if (ex instanceof HttpRequestMethodNotSupportedException e) {
             final String method = e.getMethod();
             return new ResponseEntity<>(Result.fail("%s 请求方式 %s 不存在", uri, method), HttpStatus.OK);
         } else if (ex instanceof MethodArgumentTypeMismatchException exception) {
@@ -218,14 +218,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 return new ResponseEntity<>(Result.fail(ex.getCause().getCause().getLocalizedMessage()), HttpStatus.OK);
             }
             return new ResponseEntity<>(Result.fail("表单填写错误"), HttpStatus.OK);
-        } else if (ex instanceof HttpMessageNotReadableException) {
-            HttpMessageNotReadableException e = (HttpMessageNotReadableException) ex;
+        } else if (ex instanceof HttpMessageNotReadableException e) {
             logger.error("参数转换失败" + ex.getLocalizedMessage());
             if (e.getCause() instanceof InvalidFormatException invalid) {
                 return new ResponseEntity<>(Result.fail("字段类型映射错误 " + invalid.getMessage()), HttpStatus.OK);
             }
-        } else if (ex instanceof NoHandlerFoundException) {
-            NoHandlerFoundException e = (NoHandlerFoundException) ex;
+        } else if (ex instanceof NoHandlerFoundException e) {
             logger.error("地址错误" + e.getLocalizedMessage());
             return new ResponseEntity<>(Result.fail("地址错误 " + e.getMessage()), HttpStatus.OK);
         }

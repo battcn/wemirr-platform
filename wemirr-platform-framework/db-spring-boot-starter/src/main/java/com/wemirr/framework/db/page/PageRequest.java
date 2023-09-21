@@ -19,8 +19,8 @@ import java.util.List;
  * @author Levin
  * @since 2020-07-08
  */
-@Slf4j
 @Data
+@Slf4j
 public class PageRequest {
 
     @Parameter(description = "当前页码", example = "1")

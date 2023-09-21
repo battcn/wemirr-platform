@@ -11,7 +11,7 @@ import com.wemirr.platform.authority.domain.entity.common.Dictionary;
  * </p>
  *
  * @author Levin
- * @date 2019-07-02
+ * @since 2019-07-02
  */
 public interface DictionaryService extends SuperService<Dictionary> {
 

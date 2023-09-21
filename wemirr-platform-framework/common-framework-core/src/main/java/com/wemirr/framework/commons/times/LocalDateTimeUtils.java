@@ -4,8 +4,12 @@ package com.wemirr.framework.commons.times;
 import com.wemirr.framework.commons.exception.CheckedException;
 import org.apache.commons.lang3.StringUtils;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Optional;
 
 /**
  * JDK1.8 日期转换工具类
@@ -83,6 +87,26 @@ public class LocalDateTimeUtils {
         } else {
             return localDateTime.format(DateTimeFormatter.ofPattern(format));
         }
+    }
+
+    /**
+     * 根据两个时间段，计算出耗时
+     *
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return xx天xx小时xx分xx秒
+     */
+    public static String getDuration(Instant endTime, Instant startTime) {
+        startTime = Optional.ofNullable(startTime).orElse(new Date().toInstant());
+        endTime = Optional.ofNullable(endTime).orElse(new Date().toInstant());
+        Duration duration = Duration.between(startTime, endTime);
+
+        long days = duration.toDays();
+        long hours = duration.toHoursPart();
+        long minutes = duration.toMinutesPart();
+        long seconds = duration.toSecondsPart();
+
+        return String.format("%d天%d小时%d分%d秒", days, hours, minutes, seconds);
     }
 
 

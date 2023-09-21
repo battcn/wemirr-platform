@@ -49,8 +49,8 @@ public class UserController {
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
     @PreAuthorize("hasAuthority('sys:users:page')")
     public IPage<User> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
-                                     @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
-                                     String username, String nickName, Integer sex, String email, Long orgId, String mobile) {
+                             @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
+                             String username, String nickName, Integer sex, String email, Long orgId, String mobile) {
         return this.userService.page(new Page<>(current, size),
                 Wraps.<User>lbQ().eq(User::getSex, Sex.of(sex)).eq(User::getOrgId, orgId)
                         .like(User::getNickName, nickName).like(User::getMobile, mobile)
@@ -83,4 +83,5 @@ public class UserController {
     public void del(@PathVariable Long id) {
         this.userService.deleteById(id);
     }
+
 }

@@ -27,6 +27,7 @@ public class SecurityExtProperties {
      */
     private List<String> defaultIgnoreUrls = List.of("/getCaptcha", "/captcha", "/sms_captcha", "/message/**", "/favicon.ico", "/swagger-ui.html", "/doc.html", "/v3/api-docs/**", "/assets/**", "/css/**", "/webjars/**", "/login", "/error", "/oauth2/**");
 
+    private LoadType authorizationType = LoadType.redis;
     /**
      * 服务端配置
      */
@@ -41,7 +42,7 @@ public class SecurityExtProperties {
     public static class Server {
 
         private boolean custom = true;
-        private LoadType type = LoadType.redis;
+//        private LoadType type = LoadType.redis;
         /**
          * 大概率用不上
          */

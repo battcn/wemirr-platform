@@ -37,7 +37,7 @@ public class Entity<T> implements Serializable {
 
 
     @Schema(description = "ID")
-    @TableId(value = FIELD_ID, type = IdType.AUTO)
+    @TableId(value = FIELD_ID, type = IdType.ASSIGN_ID)
     @OrderBy
     @NotNull(message = "id不能为空", groups = Update.class)
     protected T id;

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * </p>
  *
  * @author Levin
- * @date 2019-07-02
+ * @since 2019-07-02
  */
 @Repository
 public interface DictionaryItemMapper extends SuperMapper<DictionaryItem> {

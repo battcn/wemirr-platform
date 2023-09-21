@@ -28,7 +28,6 @@ extend:
     enabled: true
   oauth2:
     server:
-      type: redis
       registered-client: jdbc
       consent: jdbc
       token-type: jwt
@@ -37,3 +36,4 @@ extend:
         resource-urls:
           - /captcha
           - /instances/**
+    authorization-type: redis

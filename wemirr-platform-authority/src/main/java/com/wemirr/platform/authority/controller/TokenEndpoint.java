@@ -42,7 +42,7 @@ public class TokenEndpoint {
     }
 
     @GetMapping("/oauth2/userinfo")
-    public Object userinfo(Principal principal, OAuth2Authorization authorization) {
+    public Object userinfo(Principal principal) {
         // 账号密码模式登陆
         if (principal instanceof UsernamePasswordAuthenticationToken token) {
             if (token.getPrincipal() instanceof UserInfoDetails user) {

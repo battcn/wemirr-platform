@@ -87,7 +87,7 @@ public class OAuth2AutoConfiguration {
      * @return JdbcOAuth2AuthorizationService
      */
     @Bean
-    @ConditionalOnExpression("'${extend.oauth2.server.type}'.equalsIgnoreCase('jdbc')")
+    @ConditionalOnExpression("'${extend.oauth2.authorization-type}'.equalsIgnoreCase('jdbc')")
     public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
         return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
     }
@@ -99,7 +99,7 @@ public class OAuth2AutoConfiguration {
      * @return JdbcOAuth2AuthorizationService
      */
     @Bean
-    @ConditionalOnExpression("'${extend.oauth2.server.type}'.equalsIgnoreCase('redis')")
+    @ConditionalOnExpression("'${extend.oauth2.authorization-type}'.equalsIgnoreCase('redis')")
     public OAuth2AuthorizationService oAuth2AuthorizationService(RedisTemplate<String, Object> redisTemplate) {
         return new RedisOAuth2AuthorizationServiceImpl(redisTemplate);
     }

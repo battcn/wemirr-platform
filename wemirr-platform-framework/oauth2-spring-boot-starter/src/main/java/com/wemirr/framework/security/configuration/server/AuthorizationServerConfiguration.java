@@ -97,11 +97,9 @@ public class AuthorizationServerConfiguration {
         http.exceptionHandling((exceptions) -> exceptions.defaultAuthenticationEntryPointFor(new LoginTargetAuthenticationEntryPoint(properties), new MediaTypeRequestMatcher(MediaType.TEXT_HTML)))
                 .oauth2ResourceServer((resourceServer) -> resourceServer.jwt(Customizer.withDefaults()));
         final SecurityExtProperties.Server server = properties.getServer();
-        if (server.getType() == SecurityExtProperties.LoadType.redis) {
-            final RedisSecurityContextRepository securityContextRepository = SpringUtil.getBean(RedisSecurityContextRepository.class);
-            // 使用redis存储、读取登录的认证信息
-            http.securityContext(context -> context.securityContextRepository(securityContextRepository));
-        }
+        final RedisSecurityContextRepository securityContextRepository = SpringUtil.getBean(RedisSecurityContextRepository.class);
+        // 使用redis存储、读取登录的认证信息
+        http.securityContext(context -> context.securityContextRepository(securityContextRepository));
         if (server.isDevice()) {
             SecurityApply.applyDeviceSecurity(http, properties);
         }
@@ -137,11 +135,9 @@ public class AuthorizationServerConfiguration {
         AntPathRequestMatcher[] requestMatchers = urls.stream().map(AntPathRequestMatcher::new).toList().toArray(new AntPathRequestMatcher[]{});
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers(requestMatchers).permitAll().anyRequest().authenticated());
 
-        if (server.getType() == SecurityExtProperties.LoadType.redis) {
-            final RedisSecurityContextRepository securityContextRepository = SpringUtil.getBean(RedisSecurityContextRepository.class);
-            // 使用redis存储、读取登录的认证信息
-            http.securityContext(context -> context.securityContextRepository(securityContextRepository));
-        }
+        final RedisSecurityContextRepository securityContextRepository = SpringUtil.getBean(RedisSecurityContextRepository.class);
+        // 使用redis存储、读取登录的认证信息
+        http.securityContext(context -> context.securityContextRepository(securityContextRepository));
         // form 登录策略
         SecurityApply.applyFormLoginSecurity(http, properties);
         if (server.getTokenType() == SecurityExtProperties.TokenType.jwt) {
