@@ -31,9 +31,8 @@
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-        <fastjson.version>2.0.29</fastjson.version>
+        <fastjson2.version>2.0.40</fastjson2.version>
         <opentracing.spring.cloud.version>0.5.9</opentracing.spring.cloud.version>
-
         <minio.version>8.4.6</minio.version>
         <aliyun-sdk-oss.version>3.16.1</aliyun-sdk-oss.version>
         <qiniu-java-sdk.version>[7.7.0, 7.7.99]</qiniu-java-sdk.version>
@@ -52,6 +51,12 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>8.0.30</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
@@ -187,9 +192,9 @@
             </dependency>
             <!-- Nacos -->
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson2.version}</version>
             </dependency>
 
             <!-- 自定义SDK -->

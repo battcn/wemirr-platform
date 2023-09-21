@@ -1,7 +1,7 @@
 package com.wemirr.framework.storage;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -21,7 +21,7 @@ public class FileUtils {
         if (StringUtils.isBlank(originName)) {
             return uuid;
         }
-        final String extension = FilenameUtils.getExtension(originName);
+        final String extension = FileUtil.extName(originName);
         return uuid + "." + extension;
     }
 

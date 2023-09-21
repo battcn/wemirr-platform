@@ -1,5 +1,6 @@
 package com.wemirr.framework.storage;
 
+import cn.hutool.core.io.IoUtil;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.storage.domain.DownloadResponse;
 import com.wemirr.framework.storage.domain.StorageItem;
@@ -12,7 +13,6 @@ import io.minio.*;
 import io.minio.messages.Item;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 
@@ -57,7 +57,7 @@ public class MinioStorageOperation implements StorageOperation {
         try {
             InputStream inputStream = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(fileName).build());
             OutputStream outputStream = new FileOutputStream(file);
-            IOUtils.copy(inputStream, outputStream);
+            IoUtil.copy(inputStream, outputStream);
         } catch (Exception e) {
             log.error("[文件下载异常]", e);
         }

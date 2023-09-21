@@ -1,7 +1,7 @@
 package com.wemirr.framework.security.configuration.client;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

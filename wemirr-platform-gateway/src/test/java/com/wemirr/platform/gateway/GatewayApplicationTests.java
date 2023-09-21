@@ -1,6 +1,6 @@
 package com.wemirr.platform.gateway;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.wemirr.platform.gateway.rest.domain.LimitRule;
 import org.junit.jupiter.api.Test;
 

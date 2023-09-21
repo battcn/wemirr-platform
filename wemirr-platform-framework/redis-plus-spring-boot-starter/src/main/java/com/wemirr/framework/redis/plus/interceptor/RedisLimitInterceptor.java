@@ -1,7 +1,7 @@
 package com.wemirr.framework.redis.plus.interceptor;
 
 import cn.hutool.crypto.digest.MD5;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.redis.plus.RedisLimitHelper;
 import com.wemirr.framework.redis.plus.anontation.RedisLimit;
 import lombok.RequiredArgsConstructor;
@@ -129,7 +129,7 @@ public class RedisLimitInterceptor {
         //key表达式
         key = StringUtils.isEmpty(key) ? "" : "_" + key;
         //使用MD5生成位移key
-        return MD5.create().digestHex(JSONObject.toJSON(keyMap).toString() + key).toUpperCase();
+        return MD5.create().digestHex(JSONObject.toJSONString(keyMap) + key).toUpperCase();
     }
 
 

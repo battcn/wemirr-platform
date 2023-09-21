@@ -1,6 +1,6 @@
 package com.wemirr.framework.websocket.redis.action;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.websocket.WebSocketManager;
 import com.wemirr.framework.websocket.utils.WebSocketUtil;
 

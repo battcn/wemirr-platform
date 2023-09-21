@@ -1,7 +1,7 @@
 package com.wemirr.platform.gateway.route;
 
 import com.alibaba.cloud.nacos.NacosConfigManager;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.google.common.collect.Lists;
@@ -84,7 +84,7 @@ public class NacosRouteDefinitionRepository implements RouteDefinitionRepository
 
     private List<RouteDefinition> getListByStr(String content) {
         if (StringUtils.isNotBlank(content)) {
-            return JSONObject.parseArray(content, RouteDefinition.class);
+            return JSONArray.parseArray(content, RouteDefinition.class);
         }
         return new ArrayList<>(0);
     }

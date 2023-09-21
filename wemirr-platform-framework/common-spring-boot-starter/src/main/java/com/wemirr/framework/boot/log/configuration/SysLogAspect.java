@@ -9,7 +9,7 @@ import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.boot.log.LogUtil;
 import com.wemirr.framework.boot.log.OptLogDTO;
 import com.wemirr.framework.boot.log.event.SysLogEvent;

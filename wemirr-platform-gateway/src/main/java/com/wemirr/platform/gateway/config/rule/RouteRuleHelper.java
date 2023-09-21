@@ -3,7 +3,7 @@ package com.wemirr.platform.gateway.config.rule;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.exception.CheckedException;

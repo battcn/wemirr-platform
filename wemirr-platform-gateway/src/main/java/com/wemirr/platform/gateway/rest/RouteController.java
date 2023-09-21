@@ -1,7 +1,7 @@
 package com.wemirr.platform.gateway.rest;
 
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.gateway.config.rule.RouteRuleHelper;
 import com.wemirr.platform.gateway.rest.domain.RouteRule;
