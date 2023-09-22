@@ -1,6 +1,6 @@
 package com.wemirr.framework.boot.async;
 
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskDecorator;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
@@ -35,9 +35,8 @@ public class AsyncConfiguration implements AsyncConfigurer {
 
     private static class RequestAttributesTaskDecorator implements TaskDecorator {
 
-        @NotNull
         @Override
-        public Runnable decorate(@NotNull Runnable runnable) {
+        public Runnable decorate(Runnable runnable) {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             return () -> {
                 try {
