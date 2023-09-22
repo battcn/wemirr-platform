@@ -19,9 +19,15 @@
         <java.version>17</java.version>
         <maven.build.timestamp.format>yyyy-MM-dd HH</maven.build.timestamp.format>
         <redisson.version>3.17.7</redisson.version>
+        <jetcache.latest.version>2.7.4</jetcache.latest.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.alicp.jetcache</groupId>
+            <artifactId>jetcache-starter-redis</artifactId>
+            <version>${jetcache.latest.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>common-framework-core</artifactId>

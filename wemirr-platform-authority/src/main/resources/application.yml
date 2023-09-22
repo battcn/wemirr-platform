@@ -37,3 +37,13 @@ extend:
           - /captcha
           - /instances/**
     authorization-type: redis
+
+# 官方没提供 starter 蛋疼,要不要孵化到项目很纠结
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  local:
+    default:
+      type: caffeine
+      keyConvertor: fastjson2
+      limit: 100

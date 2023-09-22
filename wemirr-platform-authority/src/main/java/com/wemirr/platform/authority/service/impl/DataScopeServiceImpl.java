@@ -2,6 +2,8 @@ package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
+import com.alicp.jetcache.anno.CacheType;
+import com.alicp.jetcache.anno.Cached;
 import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeService;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeType.*;
 
@@ -39,6 +42,7 @@ public class DataScopeServiceImpl implements DataScopeService {
     private final OrgMapper orgMapper;
 
     @Override
+    @Cached(expire = 30, timeUnit = TimeUnit.MINUTES, cacheType = CacheType.LOCAL)
     public DataPermission getDataScopeById(Long userId) {
         // 考虑添加缓存实现,减少DB IO访问次数
         DataPermission scope = DataPermission.builder().userId(userId).build();
