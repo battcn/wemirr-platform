@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.wemirr.framework.db.mybatis.SuperServiceImpl;
+import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RegisteredClientRef;
 import com.wemirr.platform.authority.domain.req.RegisteredClientRefReq;
 import com.wemirr.platform.authority.repository.RegisteredClientRefMapper;

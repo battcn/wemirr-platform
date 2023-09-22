@@ -2,7 +2,7 @@ package com.wemirr.framework.boot.base.converter;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.google.common.collect.Maps;
-import com.wemirr.framework.db.mybatis.DictionaryEnum;
+import com.wemirr.framework.db.mybatisplus.core.DictionaryEnum;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 

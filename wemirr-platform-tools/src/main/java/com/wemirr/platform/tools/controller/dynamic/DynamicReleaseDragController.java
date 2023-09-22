@@ -3,7 +3,7 @@ package com.wemirr.platform.tools.controller.dynamic;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.db.page.PageRequest;
+import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDrag;
 import com.wemirr.platform.tools.domain.entity.ExportExcelReq;
 import com.wemirr.platform.tools.domain.req.BatchKey;

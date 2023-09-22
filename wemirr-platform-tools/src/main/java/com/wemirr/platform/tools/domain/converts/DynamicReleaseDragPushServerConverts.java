@@ -1,6 +1,6 @@
 package com.wemirr.platform.tools.domain.converts;
 
-import com.wemirr.framework.db.page.BasePageConverts;
+import com.wemirr.framework.db.mybatisplus.page.BasePageConverts;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDragPushServer;
 import com.wemirr.platform.tools.domain.resp.DynamicReleaseDragPushServerResp;
 import org.apache.commons.lang3.StringUtils;

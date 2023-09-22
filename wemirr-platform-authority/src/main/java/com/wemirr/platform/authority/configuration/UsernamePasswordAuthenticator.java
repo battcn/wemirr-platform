@@ -3,7 +3,7 @@ package com.wemirr.platform.authority.configuration;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthentication;
 import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthenticator;
 import com.wemirr.framework.security.domain.UserInfoDetails;

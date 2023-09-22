@@ -38,6 +38,7 @@ public class UserInfoDetails implements UserDetails, OAuth2AuthenticatedPrincipa
     private String avatar;
     private Boolean enabled;
     private String description;
+    private Long orgId;
     private Collection<String> permissions = new ArrayList<>();
     private Collection<String> roles = new ArrayList<>();
     private Collection<GrantedAuthority> authorities;

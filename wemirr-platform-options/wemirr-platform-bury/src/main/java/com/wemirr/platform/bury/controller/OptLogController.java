@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.boot.RegionUtils;
 import com.wemirr.framework.boot.log.OptLogDTO;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.bury.domain.entity.OptLog;

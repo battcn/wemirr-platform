@@ -1,10 +1,13 @@
 package com.wemirr.platform.authority.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
-import com.wemirr.framework.db.mybatis.auth.DataScope;
-import com.wemirr.framework.db.mybatis.auth.DataScopeService;
-import com.wemirr.framework.db.mybatis.auth.DataScopeType;
-import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjUtil;
+import com.wemirr.framework.commons.entity.Entity;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeService;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.framework.security.domain.UserInfoDetails;
+import com.wemirr.framework.security.utils.SecurityUtils;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Org;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleOrg;
@@ -13,78 +16,82 @@ import com.wemirr.platform.authority.repository.OrgMapper;
 import com.wemirr.platform.authority.repository.RoleMapper;
 import com.wemirr.platform.authority.repository.RoleOrgMapper;
 import com.wemirr.platform.authority.repository.UserMapper;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeType.*;
 
 /**
  * @author levin
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class DataScopeServiceImpl implements DataScopeService {
 
-    @Resource
-    private RoleMapper roleMapper;
-    @Resource
-    private RoleOrgMapper roleOrgMapper;
-    @Resource
-    private UserMapper userMapper;
-    @Resource
-    private OrgMapper orgMapper;
+    private final RoleMapper roleMapper;
+    private final RoleOrgMapper roleOrgMapper;
+    private final UserMapper userMapper;
+    private final OrgMapper orgMapper;
 
     @Override
-    public DataScope getDataScopeById(Long userId) {
-        DataScope scope = new DataScope();
+    public DataPermission getDataScopeById(Long userId) {
+        // 考虑添加缓存实现,减少DB IO访问次数
+        DataPermission scope = DataPermission.builder().userId(userId).build();
         List<Long> orgIds = new ArrayList<>();
+        // 计划后续在登录的时候从上下文提取这样性能更高
         List<Role> list = roleMapper.findRoleByUserId(userId);
         if (CollectionUtils.isEmpty(list)) {
             return scope;
         }
         // 找到 dsType 最大的角色， dsType越大，角色拥有的权限最大
-        Optional<Role> max = list.stream().max(Comparator.comparingInt((item) -> item.getScopeType().getVal()));
-        if (!max.isPresent()) {
-            return scope;
-        }
-        Role role = max.get();
-        DataScopeType scopeType = role.getScopeType();
+        Role role = list.stream().max(Comparator.comparingInt((item) -> item.getScopeType().getType())).get();
         scope.setScopeType(role.getScopeType());
-        if (DataScopeType.CUSTOMIZE.eq(scopeType)) {
-            List<RoleOrg> roleOrgList = roleOrgMapper.selectList(Wraps.<RoleOrg>lbQ()
-                    .select(RoleOrg::getOrgId)
-                    .eq(RoleOrg::getRoleId, role.getId()));
-            orgIds = roleOrgList.stream().mapToLong(RoleOrg::getOrgId).boxed().collect(Collectors.toList());
-        } else if (DataScopeType.THIS_LEVEL.eq(scopeType)) {
-            User user = userMapper.selectById(userId);
-            if (user != null && user.getOrgId() != null) {
-                orgIds.add(user.getOrgId());
-            }
-        } else if (DataScopeType.THIS_LEVEL_CHILDREN.eq(scopeType)) {
-            User user = userMapper.selectById(userId);
-            if (user != null && user.getOrgId() != null) {
-                List<Org> orgList = findChildren(Collections.singletonList(user.getOrgId()));
-                if (CollectionUtil.isNotEmpty(orgList)) {
-                    orgIds.addAll(orgList.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList()));
-                }
-            }
+        if (role.getScopeType() == CUSTOMIZE) {
+            List<Long> roleOrgIds = roleOrgMapper.selectList(Wraps.<RoleOrg>lbQ().select(RoleOrg::getOrgId)
+                    .eq(RoleOrg::getRoleId, role.getId())).stream().map(RoleOrg::getOrgId).distinct().toList();
+            orgIds.addAll(roleOrgIds);
+        } else if (role.getScopeType() == THIS_LEVEL) {
+            orgIds.add(getUserOrgId(userId));
+        } else if (role.getScopeType() == THIS_LEVEL_CHILDREN) {
+            orgIds.addAll(findChildren(getUserOrgId(userId)));
         }
         scope.setOrgIds(orgIds);
         return scope;
     }
 
-    public List<Org> findChildren(List<Long> ids) {
-        if (CollectionUtil.isEmpty(ids)) {
-            return Collections.emptyList();
+    private Long getUserOrgId(Long userId) {
+        final UserInfoDetails details = SecurityUtils.getAuthInfo();
+        if (ObjUtil.equal(userId, details.getUserId())) {
+            //说明是当前登录人,就不查询数据库了,直接用token 里面自带的
+            return details.getOrgId();
         }
-        // MySQL 全文索引
-        String applySql = String.format(" MATCH(tree_path) AGAINST('%s' IN BOOLEAN MODE) ", StringUtils.join(ids, " "));
+        final User user = this.userMapper.selectById(userId);
+        if (user == null) {
+            return null;
+        }
+        return user.getOrgId();
+    }
 
-        return orgMapper.selectList(Wraps.<Org>lbQ().in(Org::getId, ids).or(query -> query.apply(applySql)));
+    public List<Long> findChildren(Long id) {
+        List<Long> children = new LinkedList<>();
+        // 遍历每一层
+        Collection<Long> parentIds = Collections.singleton(id);
+        for (int i = 0; i < Short.MAX_VALUE; i++) { // 避免 bug 场景下，存在死循环
+            // 查询当前层，所有的子集
+            List<Org> orgList = orgMapper.selectList(Wraps.<Org>lbQ().eq(Org::getParentId, parentIds));
+            // 没有子集,结束遍历
+            if (CollUtil.isEmpty(orgList)) {
+                break;
+            }
+            parentIds = orgList.stream().map(Entity::getId).toList();
+        }
+        children.add(id);
+        return children.stream().distinct().toList();
     }
 
 

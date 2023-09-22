@@ -22,10 +22,12 @@ public class DatabaseProperties {
 
     public static final String PREFIX = "extend.mybatis-plus";
 
+    public static final String ENCRYPTOR_PROPERTY_NAME = PREFIX + ".encryptor.password";
+
     /**
      * 攻击 SQL 阻断解析器
      */
-    private boolean blockAttack = false;
+    private boolean blockAttack = true;
     /**
      * 是否启用数据权限
      */
@@ -33,6 +35,11 @@ public class DatabaseProperties {
 
 
     private boolean illegalSql = false;
+
+    /**
+     * 加密
+     */
+    private Encryptor encryptor;
 
 
     /**
@@ -46,6 +53,11 @@ public class DatabaseProperties {
      * Id 生成策略
      */
     private Id id = new Id();
+
+    @Data
+    public static class Encryptor {
+        private String password;
+    }
 
 
     @Data

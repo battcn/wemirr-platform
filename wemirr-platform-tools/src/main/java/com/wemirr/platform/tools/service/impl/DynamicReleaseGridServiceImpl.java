@@ -1,6 +1,6 @@
 package com.wemirr.platform.tools.service.impl;
 
-import com.wemirr.framework.db.mybatis.SuperServiceImpl;
+import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseGrid;
 import com.wemirr.platform.tools.mapper.DynamicReleaseGridMapper;
 import com.wemirr.platform.tools.service.DynamicReleaseGridService;

@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.service;
 
-import com.wemirr.framework.db.mybatis.SuperService;
+import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.authority.domain.entity.message.SiteNotify;
 import com.wemirr.platform.authority.domain.enums.ReceiverType;
 import com.wemirr.platform.authority.domain.resp.CommonDataResp;

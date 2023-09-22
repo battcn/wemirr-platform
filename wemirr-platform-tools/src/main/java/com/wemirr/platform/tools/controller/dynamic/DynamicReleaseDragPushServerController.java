@@ -2,7 +2,7 @@ package com.wemirr.platform.tools.controller.dynamic;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.db.page.PageRequest;
+import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDragPushServer;
 import com.wemirr.platform.tools.domain.req.BatchKey;
 import com.wemirr.platform.tools.domain.req.DynamicReleaseDragExtendReq;

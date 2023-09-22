@@ -1,6 +1,9 @@
 package com.wemirr.platform.authority.repository;
 
-import com.wemirr.framework.db.mybatis.SuperMapper;
+import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataColumn;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataScope;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeType;
 import com.wemirr.platform.authority.domain.entity.tenant.TenantConfig;
 import com.wemirr.platform.authority.domain.resp.TenantDatasourceResp;
 import org.apache.ibatis.annotations.Param;
@@ -20,6 +23,10 @@ public interface TenantConfigMapper extends SuperMapper<TenantConfig> {
      * @param datasourceId datasourceId
      * @return 查询结果
      */
+    @DataScope(type = DataScopeType.SELF,
+            columns = {
+                    @DataColumn(alias = "t1", name = "created_by")
+            })
     List<TenantDatasourceResp> selectTenantDynamicDatasource(@Param("datasourceId") Long datasourceId);
 
     /**

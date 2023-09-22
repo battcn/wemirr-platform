@@ -1,5 +1,6 @@
 package com.wemirr.framework.db.properties;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Getter;
  * @since 2019/11/20
  */
 @Getter
+@AllArgsConstructor
 public enum MultiTenantStrategy {
     /**
      * 本地服务
@@ -19,21 +21,8 @@ public enum MultiTenantStrategy {
      */
     FEIGN("Feign远程调用"),
     ;
-    String description;
-
-
-    MultiTenantStrategy(String description) {
-        this.description = description;
-    }
-
-    public boolean eq(String val) {
-        return this.name().equalsIgnoreCase(val);
-    }
-
-    public boolean eq(MultiTenantStrategy val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
-    }
+    /**
+     * 描述信息
+     */
+    private final String description;
 }

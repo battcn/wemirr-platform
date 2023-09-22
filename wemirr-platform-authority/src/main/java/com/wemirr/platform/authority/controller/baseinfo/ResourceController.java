@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.db.TenantEnvironment;
-import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
 import com.wemirr.platform.authority.domain.req.ResourceQueryReq;
 import com.wemirr.platform.authority.domain.req.ResourceSaveReq;

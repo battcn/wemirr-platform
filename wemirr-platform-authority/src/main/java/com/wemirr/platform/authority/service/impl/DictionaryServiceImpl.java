@@ -3,8 +3,8 @@ package com.wemirr.platform.authority.service.impl;
 
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.mybatis.SuperServiceImpl;
-import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.entity.common.Dictionary;
 import com.wemirr.platform.authority.domain.entity.common.DictionaryItem;
 import com.wemirr.platform.authority.repository.DictionaryItemMapper;

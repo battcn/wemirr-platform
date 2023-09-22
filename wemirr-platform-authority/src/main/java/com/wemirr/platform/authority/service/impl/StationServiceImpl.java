@@ -1,11 +1,11 @@
 package com.wemirr.platform.authority.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.db.mybatis.SuperServiceImpl;
-import com.wemirr.framework.db.mybatis.auth.DataScope;
-import com.wemirr.framework.db.mybatis.auth.DataScopeType;
-import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
+import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeType;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
 import com.wemirr.platform.authority.domain.req.StationPageReq;
 import com.wemirr.platform.authority.repository.StationMapper;
@@ -35,6 +35,6 @@ public class StationServiceImpl extends SuperServiceImpl<StationMapper, Station>
                 .eq(Station::getOrgId, req.getOrgId())
                 .eq(Station::getStatus, req.getStatus())
                 .orderByAsc(Station::getSequence);
-        return baseMapper.findStationPage(req.buildPage(), wrapper, DataScope.builder().scopeType(DataScopeType.ALL).build());
+        return baseMapper.findStationPage(req.buildPage(), wrapper, DataPermission.builder().scopeType(DataScopeType.ALL).build());
     }
 }

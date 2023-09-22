@@ -1,6 +1,6 @@
 package com.wemirr.platform.bury.service.impl;
 
-import com.wemirr.framework.db.mybatis.SuperServiceImpl;
+import com.wemirr.framework.db.mybatisplus.SuperServiceImpl;
 import com.wemirr.platform.bury.domain.entity.OptLog;
 import com.wemirr.platform.bury.mapper.OptLogMapper;
 import com.wemirr.platform.bury.service.OptLogService;

@@ -183,7 +183,7 @@ public final class SecurityUtils {
      */
     public static boolean anonymous() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken || authentication instanceof OAuth2ClientAuthenticationToken) {
             return true;
         }
         if (authentication.getPrincipal() == null || authentication instanceof UsernamePasswordAuthenticationToken) {

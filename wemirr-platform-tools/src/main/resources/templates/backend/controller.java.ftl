@@ -3,7 +3,7 @@ package ${package.Controller};
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
 import ${package.Entity}.${entity};
 import ${package.Service}.${table.serviceName};

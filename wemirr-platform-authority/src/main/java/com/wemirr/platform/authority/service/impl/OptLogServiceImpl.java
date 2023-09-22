@@ -5,7 +5,7 @@ import com.alibaba.fastjson2.JSON;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.wemirr.framework.boot.RegionUtils;
 import com.wemirr.framework.boot.log.OptLogDTO;
-import com.wemirr.framework.db.mybatis.SuperServiceImpl;
+import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.platform.authority.domain.entity.log.OptLog;
 import com.wemirr.platform.authority.repository.OptLogMapper;
 import com.wemirr.platform.authority.service.OptLogService;

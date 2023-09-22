@@ -1,9 +1,9 @@
 package com.wemirr.platform.authority.repository;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import com.wemirr.framework.db.configuration.dynamic.annotation.TenantDS;
-import com.wemirr.framework.db.mybatis.SuperMapper;
-import com.wemirr.framework.db.mybatis.auth.DataScope;
+import com.wemirr.framework.db.dynamic.annotation.TenantDS;
+import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
@@ -34,7 +34,7 @@ public interface RoleMapper extends SuperMapper<Role> {
      * @param scope scope
      * @return 查询结果
      */
-    List<Role> list(DataScope scope);
+    List<Role> list(DataPermission scope);
 
     /**
      * 根据租户ID删除

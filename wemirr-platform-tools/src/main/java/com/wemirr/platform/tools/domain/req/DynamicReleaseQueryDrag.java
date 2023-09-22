@@ -1,6 +1,6 @@
 package com.wemirr.platform.tools.domain.req;
 
-import com.wemirr.framework.db.page.PageRequest;
+import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import lombok.*;
 
 import java.util.List;

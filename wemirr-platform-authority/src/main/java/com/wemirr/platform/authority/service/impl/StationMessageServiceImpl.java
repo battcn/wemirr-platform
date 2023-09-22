@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.service.impl;
 
-import com.wemirr.framework.db.mybatis.SuperServiceImpl;
+import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.platform.authority.domain.entity.message.SiteMessage;
 import com.wemirr.platform.authority.repository.StationMessageMapper;
 import com.wemirr.platform.authority.service.SiteMessageService;

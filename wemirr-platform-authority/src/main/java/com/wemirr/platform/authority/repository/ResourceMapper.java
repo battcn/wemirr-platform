@@ -1,8 +1,8 @@
 package com.wemirr.platform.authority.repository;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import com.wemirr.framework.db.configuration.dynamic.annotation.TenantDS;
-import com.wemirr.framework.db.mybatis.SuperMapper;
+import com.wemirr.framework.db.dynamic.annotation.TenantDS;
+import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
 import com.wemirr.platform.authority.domain.req.ResourceQueryReq;
 import com.wemirr.platform.authority.domain.resp.VueRouter;
@@ -37,7 +37,7 @@ public interface ResourceMapper extends SuperMapper<Resource> {
      * @param userId 用户ID
      * @return 查询结果
      */
-    @InterceptorIgnore(tenantLine = "true")
+    @InterceptorIgnore(tenantLine = "true", dataPermission = "false")
     List<String> queryPermissionByUserId(Long userId);
 
     /**

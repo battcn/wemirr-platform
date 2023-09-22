@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.service;
 
-import com.wemirr.framework.db.mybatis.SuperService;
-import com.wemirr.framework.db.mybatis.auth.DataScope;
+import com.wemirr.framework.db.mybatisplus.ext.SuperService;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.req.RoleReq;
 import com.wemirr.platform.authority.domain.resp.RolePermissionResp;
@@ -26,7 +26,7 @@ public interface RoleService extends SuperService<Role> {
      * @param scope scope
      * @return 查询结果
      */
-    List<Role> list(DataScope scope);
+    List<Role> list(DataPermission scope);
 
     /**
      * 根据角色ID移除

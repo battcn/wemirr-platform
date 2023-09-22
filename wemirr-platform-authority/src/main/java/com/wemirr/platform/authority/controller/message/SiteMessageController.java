@@ -3,9 +3,9 @@ package com.wemirr.platform.authority.controller.message;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.db.TenantEnvironment;
-import com.wemirr.framework.db.configuration.dynamic.annotation.TenantDS;
-import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.framework.db.page.PageRequest;
+import com.wemirr.framework.db.dynamic.annotation.TenantDS;
+import com.wemirr.framework.db.mybatisplus.page.PageRequest;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.entity.message.SiteMessage;
 import com.wemirr.platform.authority.service.SiteMessageService;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,5 +1,6 @@
 package com.wemirr.framework.db.properties;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Getter;
  * @since 2018/11/20
  */
 @Getter
+@AllArgsConstructor
 public enum MultiTenantType {
     /**
      * 非租户模式
@@ -35,21 +37,6 @@ public enum MultiTenantType {
      */
     DATASOURCE("独立数据源模式"),
     ;
-    String description;
+    private final String description;
 
-
-    MultiTenantType(String description) {
-        this.description = description;
-    }
-
-    public boolean eq(String val) {
-        return this.name().equalsIgnoreCase(val);
-    }
-
-    public boolean eq(MultiTenantType val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
-    }
 }

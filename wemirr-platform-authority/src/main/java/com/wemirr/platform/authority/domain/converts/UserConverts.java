@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.domain.converts;
 
-import com.wemirr.framework.db.page.BasePageConverts;
+import com.wemirr.framework.db.mybatisplus.page.BasePageConverts;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.req.UserUpdateReq;
 import com.wemirr.platform.authority.domain.resp.UserResp;

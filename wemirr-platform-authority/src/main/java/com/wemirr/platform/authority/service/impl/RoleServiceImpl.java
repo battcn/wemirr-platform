@@ -6,9 +6,9 @@ import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.TenantEnvironment;
-import com.wemirr.framework.db.mybatis.SuperServiceImpl;
-import com.wemirr.framework.db.mybatis.auth.DataScope;
-import com.wemirr.framework.db.mybatis.conditions.Wraps;
+import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleOrg;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
@@ -50,7 +50,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     private final TenantEnvironment tenantEnvironment;
 
     @Override
-    public List<Role> list(DataScope scope) {
+    public List<Role> list(DataPermission scope) {
         return baseMapper.list(scope);
     }
 

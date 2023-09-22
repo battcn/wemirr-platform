@@ -2,10 +2,10 @@ package com.wemirr.platform.authority.repository;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.db.configuration.dynamic.annotation.TenantDS;
-import com.wemirr.framework.db.mybatis.SuperMapper;
-import com.wemirr.framework.db.mybatis.auth.DataScope;
-import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
+import com.wemirr.framework.db.dynamic.annotation.TenantDS;
+import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
+import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.resp.UserResp;
 import org.apache.ibatis.annotations.Delete;
@@ -46,10 +46,10 @@ public interface UserMapper extends SuperMapper<User> {
     /**
      * 带数据权限用户列表
      *
-     * @param dataScope dataScopeAspectJExpressionPointcut
+     * @param dataPermission dataScopeAspectJExpressionPointcut
      * @return 用户
      */
-    List<User> list(DataScope dataScope);
+    List<User> list(DataPermission dataPermission);
 
     /**
      * 删除指定租户用户数据

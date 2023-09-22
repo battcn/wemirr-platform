@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.domain.resp;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.wemirr.framework.db.mybatis.auth.DataScopeType;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeType;
 import lombok.Data;
 
 import java.time.Instant;

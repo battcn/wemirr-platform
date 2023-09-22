@@ -2,25 +2,22 @@ package com.wemirr.framework.db.configuration;
 
 
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.*;
 import com.wemirr.framework.db.TenantEnvironment;
-import com.wemirr.framework.db.configuration.handler.MyBatisMetaObjectHandler;
-import com.wemirr.framework.db.injector.MySqlInjector;
-import com.wemirr.framework.db.mybatis.auth.DataScopeAspect;
-import com.wemirr.framework.db.mybatis.auth.DataScopeInnerInterceptor;
+import com.wemirr.framework.db.mybatisplus.injector.MySqlInjector;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeAnnotationAspect;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopePermissionHandler;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeService;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -44,12 +41,8 @@ import java.util.List;
 @EnableConfigurationProperties(DatabaseProperties.class)
 public abstract class BaseMybatisConfiguration {
 
-    @Resource
-    protected DatabaseProperties properties;
-    @Resource
-    private TenantEnvironment tenantEnvironment;
-    @Resource
-    private ApplicationContext applicationContext;
+    private final DatabaseProperties properties;
+    private final TenantEnvironment environment;
 
 
     /**
@@ -68,15 +61,15 @@ public abstract class BaseMybatisConfiguration {
                 @Override
                 public Expression getTenantId() {
                     // 租户ID
-                    log.debug("当前租户ID - {}", tenantEnvironment.tenantId());
-                    return tenantEnvironment.tenantId() == null ? null : new LongValue(tenantEnvironment.tenantId());
+                    log.debug("当前租户ID - {}", environment.tenantId());
+                    return environment.tenantId() == null ? null : new LongValue(environment.tenantId());
                 }
 
                 @Override
                 public boolean ignoreTable(String tableName) {
                     final List<String> tables = properties.getMultiTenant().getIncludeTables();
                     //  判断哪些表不需要尽心多租户判断,返回false表示都需要进行多租户判断
-                    return tenantEnvironment.anonymous() || !tables.contains(tableName);
+                    return environment.anonymous() || !tables.contains(tableName);
                 }
 
                 @Override
@@ -133,33 +126,21 @@ public abstract class BaseMybatisConfiguration {
         List<InnerInterceptor> list = new ArrayList<>();
         boolean isDataScope = properties.isDataScope();
         if (isDataScope) {
-            list.add(new DataScopeInnerInterceptor(applicationContext, tenantEnvironment));
+//            list.add(new DataScopeInnerInterceptor(applicationContext, tenantEnvironment));
+            list.add(new DataPermissionInterceptor(new DataScopePermissionHandler(environment)));
         }
         return list;
     }
 
-    /**
-     * Mybatis Plus 注入器
-     *
-     * @return DatabaseProperties
-     */
-    @Bean("myBatisMetaObjectHandler")
-    @ConditionalOnMissingBean
-    public MetaObjectHandler myBatisMetaObjectHandler() {
-        DatabaseProperties.Id id = properties.getId();
-        return new MyBatisMetaObjectHandler(id.getWorkerId(), id.getDataCenterId(), tenantEnvironment);
-    }
 
+    @Bean
+    public DataScopeAnnotationAspect dataScopeAnnotationAspect(DataScopeService service) {
+        return new DataScopeAnnotationAspect(service, environment);
+    }
 
     @Bean
     @ConditionalOnMissingBean
     public MySqlInjector getMySqlInjector() {
         return new MySqlInjector();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public DataScopeAspect dataScopeAspect() {
-        return new DataScopeAspect();
     }
 }

@@ -5,10 +5,10 @@ import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.TenantEnvironment;
-import com.wemirr.framework.db.mybatis.SuperServiceImpl;
-import com.wemirr.framework.db.mybatis.auth.DataScope;
-import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.framework.db.mybatis.conditions.query.LbqWrapper;
+import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
 import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;
 import com.wemirr.platform.authority.domain.req.UserSaveReq;
@@ -52,7 +52,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     }
 
     @Override
-    public List<User> list(DataScope scope) {
+    public List<User> list(DataPermission scope) {
         return baseMapper.list(scope);
     }
 

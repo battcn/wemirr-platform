@@ -2,8 +2,8 @@ package com.wemirr.platform.tools.controller.dynamic;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.db.mybatis.conditions.Wraps;
-import com.wemirr.framework.db.page.PageRequest;
+import com.wemirr.framework.db.mybatisplus.page.PageRequest;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseGrid;
 import com.wemirr.platform.tools.domain.req.DynamicReleaseGridReq;
 import com.wemirr.platform.tools.service.DynamicReleaseGridService;

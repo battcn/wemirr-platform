@@ -34,8 +34,7 @@
 
 
     <select id="queryPermissionByUserId" resultType="java.lang.String">
-        SELECT DISTINCT
-         DISTINCT	( t2.`permission` )
+        SELECT DISTINCT	( t2.`permission` )
         FROM
             sys_role_res t1
             JOIN sys_resource t2 ON t1.res_id = t2.id

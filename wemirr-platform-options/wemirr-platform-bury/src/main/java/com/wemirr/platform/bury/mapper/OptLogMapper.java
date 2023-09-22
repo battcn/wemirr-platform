@@ -1,6 +1,6 @@
 package com.wemirr.platform.bury.mapper;
 
-import com.wemirr.framework.db.mybatis.SuperMapper;
+import com.wemirr.framework.db.mybatisplus.SuperMapper;
 import com.wemirr.platform.bury.domain.entity.OptLog;
 import org.springframework.stereotype.Repository;
 

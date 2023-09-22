@@ -6,7 +6,7 @@ import cn.hutool.http.useragent.OS;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.wemirr.framework.boot.RegionUtils;
-import com.wemirr.framework.db.mybatis.SuperServiceImpl;
+import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.platform.authority.domain.entity.log.LoginLog;
 import com.wemirr.platform.authority.repository.LoginLogMapper;
 import com.wemirr.platform.authority.service.LoginLogService;

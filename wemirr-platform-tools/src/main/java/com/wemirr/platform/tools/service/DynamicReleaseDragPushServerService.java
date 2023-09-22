@@ -1,6 +1,6 @@
 package com.wemirr.platform.tools.service;
 
-import com.wemirr.framework.db.mybatis.SuperService;
+import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDragPushServer;
 import com.wemirr.platform.tools.domain.req.BatchKey;
 import com.wemirr.platform.tools.domain.resp.DynamicReleaseDragPushServerModelResp;

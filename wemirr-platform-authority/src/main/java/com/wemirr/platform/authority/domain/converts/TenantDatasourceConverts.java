@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.domain.converts;
 
 import com.wemirr.framework.commons.entity.BaseConverts;
-import com.wemirr.framework.db.configuration.dynamic.event.body.TenantDynamicDatasource;
+import com.wemirr.framework.db.dynamic.event.body.TenantDynamicDatasource;
 import com.wemirr.platform.authority.domain.resp.TenantDatasourceResp;
 import org.springframework.beans.BeanUtils;
 

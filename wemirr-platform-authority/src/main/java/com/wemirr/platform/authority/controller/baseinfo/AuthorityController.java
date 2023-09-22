@@ -2,8 +2,8 @@ package com.wemirr.platform.authority.controller.baseinfo;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.google.common.collect.Lists;
-import com.wemirr.framework.db.mybatis.auth.DataScope;
-import com.wemirr.framework.db.mybatis.auth.DataScopeService;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeService;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
 import com.wemirr.platform.authority.domain.entity.baseinfo.User;
@@ -44,13 +44,13 @@ public class AuthorityController {
         List<DictResp> result = Lists.newArrayList();
         // 查询角色
         if (receiverType == RECEIVER_TYPE_1) {
-            final List<User> users = this.userService.list(new DataScope());
+            final List<User> users = this.userService.list(new DataPermission());
             if (CollectionUtil.isNotEmpty(users)) {
                 result = users.stream().map(user -> DictResp.builder()
                         .label(user.getNickName()).value(user.getId()).build()).collect(toList());
             }
         } else if (receiverType == RECEIVER_TYPE_2) {
-            final List<Role> roles = this.roleService.list(new DataScope());
+            final List<Role> roles = this.roleService.list(new DataPermission());
             if (CollectionUtil.isNotEmpty(roles)) {
                 result = roles.stream().map(role -> DictResp.builder()
                         .label(role.getName()).value(role.getId()).build()).collect(toList());
@@ -63,7 +63,7 @@ public class AuthorityController {
 
     @IgnoreAuthorize
     @GetMapping("/list")
-    public DataScope list() {
+    public DataPermission list() {
         return dataScopeService.getDataScopeById(7L);
     }
 

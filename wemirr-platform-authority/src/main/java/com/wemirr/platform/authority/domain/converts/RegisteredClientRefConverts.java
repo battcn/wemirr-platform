@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wemirr.framework.db.page.BasePageConverts;
+import com.wemirr.framework.db.mybatisplus.page.BasePageConverts;
 import com.wemirr.platform.authority.domain.entity.baseinfo.RegisteredClientRef;
 import com.wemirr.platform.authority.domain.resp.RegisteredClientRefResp;
 import lombok.SneakyThrows;

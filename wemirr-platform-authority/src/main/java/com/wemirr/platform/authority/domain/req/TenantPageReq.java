@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.domain.req;
 
-import com.wemirr.framework.db.page.PageRequest;
+import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
