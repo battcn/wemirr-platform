@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.domain.baseinfo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,19 +24,13 @@ import lombok.NoArgsConstructor;
 @TableName("sys_role_org")
 public class RoleOrg {
 
-    
 
-    /**
-     * 角色ID
-     * #c_auth_role
-     */
+    @Schema(description = "角色ID")
     @TableField("role_id")
     private Long roleId;
 
-    /**
-     * 部门ID
-     * #c_core_org
-     */
+
+    @Schema(description = "部门ID")
     @TableField("org_id")
     private Long orgId;
 

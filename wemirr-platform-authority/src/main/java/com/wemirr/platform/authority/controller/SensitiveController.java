@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.controller;
 
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
-import com.wemirr.platform.authority.domain.common.entity.SensitiveTestEntity;
+import com.wemirr.platform.authority.domain.common.entity.SensitiveTest;
 import com.wemirr.platform.authority.repository.baseinfo.ResourceMapper;
 import com.wemirr.platform.authority.repository.tenant.TenantConfigMapper;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +28,10 @@ public class SensitiveController {
 
     @GetMapping("/list")
     @IgnoreAuthorize
-    public List<SensitiveTestEntity> list() {
-        final SensitiveTestEntity s1 = SensitiveTestEntity.builder().mobile("13000001111")
+    public List<SensitiveTest> list() {
+        final SensitiveTest s1 = SensitiveTest.builder().mobile("13000001111")
                 .desc("随机打码").none("不打码").username("1837307555@qq.com").build();
-        final SensitiveTestEntity s2 = SensitiveTestEntity.builder().mobile("13000002222")
+        final SensitiveTest s2 = SensitiveTest.builder().mobile("13000002222")
                 .desc("随机打码").none("不打码").username("1837307555@qq.com").build();
 //        this.resourceMapper.queryPermissionByUserId(1L);
         this.tenantConfigMapper.selectTenantDynamicDatasource(10086L);

@@ -4,11 +4,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.validator.constraints.Length;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -29,17 +27,14 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("sys_station")
-@Schema(name= "Station", description = "岗位")
+@Schema(name = "Station", description = "岗位")
 public class Station extends SuperEntity<Long> {
 
-    
 
     /**
      * 名称
      */
     @Schema(description = "名称")
-    @NotEmpty(message = "名称不能为空")
-    @Length(max = 255, message = "名称长度不能超过255")
     @TableField(value = "`name`", condition = LIKE)
     private String name;
 
@@ -52,10 +47,8 @@ public class Station extends SuperEntity<Long> {
     @Schema(description = "排序")
     @TableField(value = "`sequence`")
     private Integer sequence;
-    /**
-     * 组织ID
-     * #c_core_org
-     */
+
+
     @Schema(description = "组织ID")
     @TableField("org_id")
     private Long orgId;
@@ -72,7 +65,6 @@ public class Station extends SuperEntity<Long> {
      * 描述
      */
     @Schema(description = "描述")
-    @Length(max = 255, message = "描述长度不能超过255")
     private String description;
 
 

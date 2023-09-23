@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SensitiveTestEntity {
+public class SensitiveTest {
 
     @Sensitive(type = Sensitive.Type.EMAIL)
     private String username;

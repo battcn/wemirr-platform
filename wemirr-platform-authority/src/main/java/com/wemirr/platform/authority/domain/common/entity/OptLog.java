@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.domain.common.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.Instant;
@@ -16,50 +17,29 @@ public class OptLog {
 
     @TableId
     private Long id;
-    /**
-     * 操作IP
-     */
+
+    @Schema(description = "IP")
     private String ip;
-    /**
-     * 地区信息
-     */
+
+    @Schema(description = "地区信息")
     private String location;
 
-    /**
-     * 日志链路追踪id日志标志
-     */
+    @Schema(description = "日志链路追踪id日志标志")
     private String trace;
 
-    /**
-     * 日志类型
-     * #LogType{OPT:操作类型;EX:异常类型}
-     */
+    @Schema(description = "日志类型#LogType{OPT:操作类型;EX:异常类型}")
     private String type;
 
-    private Long createdBy;
-    /**
-     * 操作人
-     */
-    private String createdName;
-
-    /**
-     * 操作描述
-     */
+    @Schema(description = "操作描述")
     private String description;
 
-    /**
-     * 类路径
-     */
+    @Schema(description = "类路径")
     private String classPath;
 
-    /**
-     * 请求类型
-     */
+    @Schema(description = "请求类型")
     private String actionMethod;
 
-    /**
-     * 请求地址
-     */
+    @Schema(description = "请求地址")
     private String requestUri;
 
     /**
@@ -68,48 +48,52 @@ public class OptLog {
      */
     private String httpMethod;
 
-    /**
-     * 请求参数
-     */
+    @Schema(description = "请求参数")
     private String params;
 
-    /**
-     * 返回值
-     */
+    @Schema(description = "返回值")
     private String result;
 
-    /**
-     * 异常详情信息
-     */
+    @Schema(description = "异常详情信息")
     private String exDesc;
 
-    /**
-     * 异常描述
-     */
+    @Schema(description = "异常描述")
     private String exDetail;
 
-    /**
-     * 开始时间
-     */
+    @Schema(description = "开始时间")
     private Instant startTime;
 
-    /**
-     * 完成时间
-     */
+    @Schema(description = "完成时间")
     private Instant finishTime;
 
-    /**
-     * 消耗时间
-     */
+    @Schema(description = "消耗时间")
     private Long consumingTime;
 
-
+    @Schema(description = "浏览器")
     private String browser;
+
+    @Schema(description = "引擎")
     private String engine;
+
+    @Schema(description = "系统")
     private String os;
+
+    @Schema(description = "平台")
     private String platform;
+
+    @Schema(description = "浏览器版本")
     private String browserVersion;
+
+    @Schema(description = "引擎版本")
     private String engineVersion;
+
+    @Schema(description = "创建人")
+    private Long createdBy;
+    /**
+     * 操作人
+     */
+    @Schema(description = "创建人名称")
+    private String createdName;
 
 
 }

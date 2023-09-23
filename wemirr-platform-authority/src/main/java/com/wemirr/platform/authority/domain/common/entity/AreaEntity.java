@@ -1,14 +1,17 @@
 package com.wemirr.platform.authority.domain.common.entity;
 
 
-import com.baomidou.mybatisplus.annotation.*;
-import io.swagger.v3.oas.annotations.Parameter;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
-import lombok.experimental.Accessors;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.wemirr.framework.commons.entity.SuperEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 
 /**
  * <p>
@@ -19,17 +22,13 @@ import java.time.Instant;
  * @author Levin
  */
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
-@Accessors(chain = true)
+@EqualsAndHashCode(callSuper = true)
 @TableName("common_area")
-public class AreaEntity {
+public class AreaEntity extends SuperEntity<Long> {
 
-    @TableId(value = "id", type = IdType.INPUT)
-    @NotNull(message = "id不能为空")
-    protected Long id;
     /**
      * 名称
      */
@@ -38,60 +37,22 @@ public class AreaEntity {
     @TableField("`level`")
     private Integer level;
 
-    /**
-     * 父ID
-     */
+    @Schema(description = "父ID")
     protected Long parentId;
 
-    /**
-     * 经度
-     */
+    @Schema(description = "经度")
     private BigDecimal longitude;
 
-    @TableField("`sequence`")
-    private Integer sequence;
-
-    @TableField("`source`")
-    private String source;
-    /**
-     * 纬度
-     */
+    @Schema(description = "纬度")
     private BigDecimal latitude;
 
+    @TableField("`sequence`")
+    @Schema(description = "排序")
+    private Integer sequence;
 
-    /**
-     * 创建人ID
-     */
-    @TableField(value = "created_by", fill = FieldFill.INSERT)
-    @Parameter(description = "创建人ID")
-    protected Long createdBy;
+    @Schema(description = "来源")
+    @TableField("`source`")
+    private String source;
 
-    /**
-     * 创建人名称
-     */
-    @TableField(value = "created_name", fill = FieldFill.INSERT)
-    @Parameter(description = "创建人名称")
-    protected String createdName;
-
-    /**
-     * 创建时间（依托数据库功能）
-     */
-    @TableField(value = "created_time")
-    @Parameter(description = "创建时间")
-    protected Instant createdTime;
-
-
-    @Parameter(description = "最后修改时间")
-    @TableField(value = "last_modified_time")
-    protected Instant lastModifiedTime;
-
-    @Parameter(description = "最后修改人ID")
-    @TableField(value = "last_modified_by", fill = FieldFill.INSERT_UPDATE)
-    protected Long lastModifiedBy;
-
-
-    @Parameter(description = "最后修改人名称")
-    @TableField(value = "last_modified_name", fill = FieldFill.INSERT_UPDATE)
-    protected String lastModifiedName;
 
 }
