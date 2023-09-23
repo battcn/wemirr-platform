@@ -38,18 +38,18 @@ public class TenantDynamicDataSourceEventBusAutoConfiguration {
 
 
     @Bean
-    public TenantDynamicDataSourceProcess tenantDynamicDataSourceProcess() {
-        return new TenantDynamicDataSourceProcess();
+    public TenantDynamicDataSourceHandler tenantDynamicDataSourceProcess() {
+        return new TenantDynamicDataSourceHandler();
     }
 
     @Bean
-    public ApplicationListener<DynamicDatasourceEvent> dynamicDatasourceEventListener(TenantDynamicDataSourceProcess process) {
+    public ApplicationListener<DynamicDatasourceEvent> dynamicDatasourceEventListener(TenantDynamicDataSourceHandler process) {
         return new DynamicDatasourceEventListener(process);
     }
 
     @Bean(initMethod = "init")
     @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "strategy", havingValue = "feign")
-    public TenantDynamicDataSourceLoad tenantDynamicDataSourceLoad(TenantDynamicDataSourceProcess process, TenantFeignClient tenantFeignClient) {
+    public TenantDynamicDataSourceLoad tenantDynamicDataSourceLoad(TenantDynamicDataSourceHandler process, TenantFeignClient tenantFeignClient) {
         return new TenantDynamicDataSourceLoad(process, tenantFeignClient);
     }
 

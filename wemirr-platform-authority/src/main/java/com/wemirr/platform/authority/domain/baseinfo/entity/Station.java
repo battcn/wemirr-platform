@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
@@ -21,6 +22,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * @since 2019-10-20
  */
 @Data
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)

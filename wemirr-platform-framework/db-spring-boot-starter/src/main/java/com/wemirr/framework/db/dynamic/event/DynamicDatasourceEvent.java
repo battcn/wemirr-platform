@@ -2,6 +2,7 @@ package com.wemirr.framework.db.dynamic.event;
 
 import com.wemirr.framework.db.dynamic.event.body.TenantDynamicDatasource;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.cloud.bus.event.Destination;
 import org.springframework.cloud.bus.event.RemoteApplicationEvent;
@@ -10,18 +11,14 @@ import org.springframework.cloud.bus.event.RemoteApplicationEvent;
 /**
  * @author Levin
  */
+@Getter
+@Setter
+@NoArgsConstructor
 public class DynamicDatasourceEvent extends RemoteApplicationEvent {
 
-    @Getter
-    @Setter
     private TenantDynamicDatasource dynamicDatasource;
-
-    @Getter
-    @Setter
     private Integer action;
 
-    public DynamicDatasourceEvent() {
-    }
 
     public DynamicDatasourceEvent(Object body, String originService, Destination destinationService, TenantDynamicDatasource dynamicDatasource) {
         super(body, originService, destinationService);

@@ -29,7 +29,7 @@ import java.util.Set;
  * @author Levin
  */
 @Slf4j
-public class TenantDynamicDataSourceProcess {
+public class TenantDynamicDataSourceHandler {
 
     private static final String CREATE_DATABASE_SCRIPT = "CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
 

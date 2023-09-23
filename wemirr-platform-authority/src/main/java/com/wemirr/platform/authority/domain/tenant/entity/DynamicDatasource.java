@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
 /**
  * @author Levin
  */
 @Data
+@SuperBuilder
 @TableName("t_dynamic_datasource")
 @EqualsAndHashCode(callSuper = true)
 public class DynamicDatasource extends SuperEntity<Long> {

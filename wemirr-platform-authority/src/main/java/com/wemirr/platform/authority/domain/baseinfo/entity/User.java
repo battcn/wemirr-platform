@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
@@ -26,6 +27,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
  * @since 2020-02-14
  */
 @Data
+@SuperBuilder
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)

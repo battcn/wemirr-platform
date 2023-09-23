@@ -1,6 +1,6 @@
 package com.wemirr.framework.db.dynamic.event;
 
-import com.wemirr.framework.db.dynamic.TenantDynamicDataSourceProcess;
+import com.wemirr.framework.db.dynamic.TenantDynamicDataSourceHandler;
 import com.wemirr.framework.db.dynamic.event.body.EventAction;
 import com.wemirr.framework.db.dynamic.event.body.TenantDynamicDatasource;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class DynamicDatasourceEventListener implements ApplicationListener<DynamicDatasourceEvent> {
 
-    private final TenantDynamicDataSourceProcess tenantDynamicDataSourceProcess;
+    private final TenantDynamicDataSourceHandler tenantDynamicDataSourceHandler;
 
     @Override
     public void onApplicationEvent(DynamicDatasourceEvent event) {
@@ -26,6 +26,6 @@ public class DynamicDatasourceEventListener implements ApplicationListener<Dynam
             return;
         }
         log.info("接收租户事件消息: - {} - {}", event.getAction(), dynamicDatasource);
-        tenantDynamicDataSourceProcess.handler(EventAction.of(event.getAction()), dynamicDatasource);
+        tenantDynamicDataSourceHandler.handler(EventAction.of(event.getAction()), dynamicDatasource);
     }
 }

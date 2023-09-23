@@ -49,11 +49,6 @@ public class DatabaseProperties {
 
     private MultiTenant multiTenant = new MultiTenant();
 
-    /**
-     * Id 生成策略
-     */
-    private Id id = new Id();
-
     @Data
     public static class Encryptor {
         private String password;
@@ -117,18 +112,6 @@ public class DatabaseProperties {
         public boolean isSuperTenant(String tenantCode) {
             return StringUtils.isNotBlank(tenantCode) && StringUtils.equals(tenantCode, superTenantCode);
         }
-    }
-
-    @Data
-    public static class Id {
-        /**
-         * 终端ID (0-31)      单机配置0 即可。 集群部署，根据情况每个实例自增即可。
-         */
-        private Long workerId = 0L;
-        /**
-         * 数据中心ID (0-31)   单机配置0 即可。 集群部署，根据情况每个实例自增即可。
-         */
-        private Long dataCenterId = 0L;
     }
 
 }

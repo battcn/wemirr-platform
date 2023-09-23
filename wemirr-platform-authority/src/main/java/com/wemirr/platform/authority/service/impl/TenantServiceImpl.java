@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.dynamic.TenantDynamicDataSourceProcess;
+import com.wemirr.framework.db.dynamic.TenantDynamicDataSourceHandler;
 import com.wemirr.framework.db.dynamic.event.body.EventAction;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -146,8 +146,8 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             this.userRoleMapper.insert(UserRole.builder().userId(record.getId()).roleId(role.getId()).build());
 
         } else if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
-            TenantDynamicDataSourceProcess tenantDynamicDataSourceProcess = SpringUtil.getBean(TenantDynamicDataSourceProcess.class);
-            tenantDynamicDataSourceProcess.initSqlScript(tenant.getId(), tenant.getCode());
+            TenantDynamicDataSourceHandler tenantDynamicDataSourceHandler = SpringUtil.getBean(TenantDynamicDataSourceHandler.class);
+            tenantDynamicDataSourceHandler.initSqlScript(tenant.getId(), tenant.getCode());
         }
     }
 }

@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import static com.baomidou.mybatisplus.annotation.FieldStrategy.NEVER;
 
@@ -19,6 +20,7 @@ import static com.baomidou.mybatisplus.annotation.FieldStrategy.NEVER;
  * @author Levin
  */
 @Data
+@SuperBuilder
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)

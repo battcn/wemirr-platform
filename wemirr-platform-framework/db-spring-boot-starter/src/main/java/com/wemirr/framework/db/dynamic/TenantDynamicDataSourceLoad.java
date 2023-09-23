@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TenantDynamicDataSourceLoad {
 
-    private final TenantDynamicDataSourceProcess tenantDynamicDataSourceProcess;
+    private final TenantDynamicDataSourceHandler tenantDynamicDataSourceHandler;
     private final TenantFeignClient tenantFeignClient;
 
     public void init() {
@@ -27,7 +27,7 @@ public class TenantDynamicDataSourceLoad {
             log.warn("feign pull tenantDynamicDataSources is null......");
             return;
         }
-        result.getData().forEach(tenantDynamicDataSource -> tenantDynamicDataSourceProcess.handler(EventAction.ADD, tenantDynamicDataSource));
+        result.getData().forEach(tenantDynamicDataSource -> tenantDynamicDataSourceHandler.handler(EventAction.ADD, tenantDynamicDataSource));
         log.debug("extend.mybatis-plus.multi-tenant.strategy eq feign , pull dynamic end...");
     }
 

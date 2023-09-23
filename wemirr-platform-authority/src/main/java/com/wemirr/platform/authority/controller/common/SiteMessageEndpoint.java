@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
-import com.wemirr.framework.db.dynamic.TenantDynamicDataSourceProcess;
+import com.wemirr.framework.db.dynamic.TenantDynamicDataSourceHandler;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
@@ -50,7 +50,7 @@ public class SiteMessageEndpoint extends BaseWebSocketEndpoint {
             final TenantMapper tenantMapper = SpringContextHolder.getBean(TenantMapper.class);
             final Long count = tenantMapper.selectCount(Wraps.<Tenant>lbQ().eq(Tenant::getCode, tenantCode));
             if (count != null && count != 0) {
-                final TenantDynamicDataSourceProcess dataSourceProcess = SpringContextHolder.getBean(TenantDynamicDataSourceProcess.class);
+                final TenantDynamicDataSourceHandler dataSourceProcess = SpringContextHolder.getBean(TenantDynamicDataSourceHandler.class);
                 final String dsKey = dataSourceProcess.buildDb(tenantCode);
                 log.debug("设置当前线程数据源 - {}", dsKey);
                 DynamicDataSourceContextHolder.push(dsKey);
