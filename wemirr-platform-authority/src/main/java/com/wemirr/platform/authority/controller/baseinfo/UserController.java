@@ -3,6 +3,7 @@ package com.wemirr.platform.authority.controller.baseinfo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.annotation.log.SysLog;
+import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeService;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
 import com.wemirr.platform.authority.domain.baseinfo.enums.Sex;
@@ -36,6 +37,7 @@ import static com.wemirr.platform.authority.domain.baseinfo.converts.UserConvert
 public class UserController {
 
     private final UserService userService;
+    private final DataScopeService dataScopeService;
 
     @GetMapping
     @Parameters({
@@ -83,5 +85,13 @@ public class UserController {
     public void del(@PathVariable Long id) {
         this.userService.deleteById(id);
     }
+
+
+    @GetMapping("/{id}/data_permission")
+    @Operation(summary = "获取数据权限")
+    public void dataPermission(@PathVariable Long id) {
+        this.dataScopeService.getDataScopeById(id);
+    }
+
 
 }

@@ -1,5 +1,7 @@
 package com.wemirr.framework.db.properties;
 
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.IDialect;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,20 +23,13 @@ import java.util.List;
 public class DatabaseProperties {
 
     public static final String PREFIX = "extend.mybatis-plus";
-
     public static final String ENCRYPTOR_PROPERTY_NAME = PREFIX + ".encryptor.password";
 
-    /**
-     * 攻击 SQL 阻断解析器
-     */
-    private boolean blockAttack = true;
-    /**
-     * 是否启用数据权限
-     */
-    private boolean dataScope = true;
 
-
-    private boolean illegalSql = false;
+    /**
+     * 多租户配置
+     */
+    private MultiTenant multiTenant = new MultiTenant();
 
     /**
      * 加密
@@ -43,15 +38,81 @@ public class DatabaseProperties {
 
 
     /**
-     * 单页分页条数限制(默认无限制,参见 插件#handlerLimit 方法)
+     * 拦截器
      */
-    private long maxLimit = 1000L;
+    private Intercept intercept = new Intercept();
 
-    private MultiTenant multiTenant = new MultiTenant();
 
     @Data
     public static class Encryptor {
+
         private String password;
+
+    }
+
+    @Data
+    public static class Intercept {
+
+        private PaginationInterceptProperties pagination = new PaginationInterceptProperties();
+
+        /**
+         * 攻击 SQL 阻断解析器
+         */
+        private boolean blockAttack = true;
+        /**
+         * 是否启用数据权限
+         */
+        private DataPermissionInterceptProperties dataPermission = new DataPermissionInterceptProperties();
+
+        /**
+         * SQL性能规范插件，限制比较多，慎用哦
+         */
+        private boolean illegalSql = false;
+
+
+    }
+
+    @Data
+    public static class PaginationInterceptProperties {
+        /**
+         * 单页分页条数限制(默认无限制,参见 插件#handlerLimit 方法)
+         */
+        private long maxLimit = 1000L;
+        /**
+         * 溢出总页数后是否进行处理
+         */
+        private boolean overflow;
+
+        /**
+         * 数据库类型
+         */
+        private DbType dbType;
+
+        /**
+         * 方言
+         */
+        private IDialect dialect;
+
+        /**
+         * 生成 countSql 优化掉 join
+         * 现在只支持 left join
+         *
+         * @since 3.4.2
+         */
+        protected boolean optimizeJoin = true;
+    }
+
+    @Data
+    public static class DataPermissionInterceptProperties {
+
+        /**
+         * 是否启用
+         */
+        private boolean enabled;
+        /**
+         * 是否远程获取数据权限
+         */
+        private boolean remote;
     }
 
 

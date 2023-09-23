@@ -1,11 +1,12 @@
 package com.wemirr.framework.db.configuration;
 
 
-import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.*;
 import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.db.mybatisplus.handler.MyBatisMetaObjectHandler;
 import com.wemirr.framework.db.mybatisplus.injector.MySqlInjector;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeAnnotationAspect;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopePermissionHandler;
@@ -22,8 +23,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -55,7 +54,8 @@ public abstract class BaseMybatisConfiguration {
     @ConditionalOnMissingBean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        if (MultiTenantType.NONE != properties.getMultiTenant().getType()) {
+        final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+        if (MultiTenantType.NONE != multiTenant.getType()) {
             // 新增多租户拦截器
             interceptor.addInnerInterceptor(new TenantLineInnerInterceptor(new TenantLineHandler() {
                 @Override
@@ -67,80 +67,72 @@ public abstract class BaseMybatisConfiguration {
 
                 @Override
                 public boolean ignoreTable(String tableName) {
-                    final List<String> tables = properties.getMultiTenant().getIncludeTables();
+                    final List<String> tables = multiTenant.getIncludeTables();
                     //  判断哪些表不需要尽心多租户判断,返回false表示都需要进行多租户判断
                     return environment.anonymous() || !tables.contains(tableName);
                 }
 
                 @Override
                 public String getTenantIdColumn() {
-                    return properties.getMultiTenant().getTenantIdColumn();
+                    return multiTenant.getTenantIdColumn();
                 }
 
             }));
         }
-        List<InnerInterceptor> beforeInnerInterceptor = getPaginationBeforeInnerInterceptor();
-        if (!beforeInnerInterceptor.isEmpty()) {
-            beforeInnerInterceptor.forEach(interceptor::addInnerInterceptor);
-        }
-        // 新增MYSQL分页拦截器,一定要先设置租户判断后才进行分页拦截设置
-        // 分页插件: PaginationInnerInterceptor
-        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(DbType.MYSQL);
-        paginationInnerInterceptor.setMaxLimit(properties.getMaxLimit());
-        //防止全表更新与删除插件: BlockAttackInnerInterceptor
-        interceptor.addInnerInterceptor(paginationInnerInterceptor);
-
-        List<InnerInterceptor> afterInnerInterceptor = getPaginationAfterInnerInterceptor();
-        if (!afterInnerInterceptor.isEmpty()) {
-            afterInnerInterceptor.forEach(interceptor::addInnerInterceptor);
-        }
-
-        if (properties.isBlockAttack()) {
-            BlockAttackInnerInterceptor blockAttackInnerInterceptor = new BlockAttackInnerInterceptor();
-            interceptor.addInnerInterceptor(blockAttackInnerInterceptor);
-        }
-        // sql性能规范插件，限制比较多，慎用哦
-        if (properties.isIllegalSql()) {
-            IllegalSQLInnerInterceptor isi = new IllegalSQLInnerInterceptor();
-            interceptor.addInnerInterceptor(isi);
-        }
+        // 加载其它插件
+        loadInnerInterceptor(interceptor);
         return interceptor;
     }
 
-
     /**
-     * 分页拦截器之前的插件
+     * mybatis-plus 分页插件
      *
-     * @return List<InnerInterceptor>
+     * @param pagination 参数配置
+     * @return 插件
      */
-    protected List<InnerInterceptor> getPaginationAfterInnerInterceptor() {
-        return Collections.emptyList();
+    public PaginationInnerInterceptor paginationInnerInterceptor(final DatabaseProperties.PaginationInterceptProperties pagination) {
+        // 新增MYSQL分页拦截器,一定要先设置租户判断后才进行分页拦截设置
+        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(pagination.getDbType());
+        paginationInnerInterceptor.setMaxLimit(pagination.getMaxLimit());
+        paginationInnerInterceptor.setOverflow(pagination.isOverflow());
+        paginationInnerInterceptor.setDialect(pagination.getDialect());
+        return paginationInnerInterceptor;
     }
 
-    /**
-     * 分页拦截器之后的插件
-     *
-     * @return List<InnerInterceptor>
-     */
-    protected List<InnerInterceptor> getPaginationBeforeInnerInterceptor() {
-        List<InnerInterceptor> list = new ArrayList<>();
-        boolean isDataScope = properties.isDataScope();
-        if (isDataScope) {
-//            list.add(new DataScopeInnerInterceptor(applicationContext, tenantEnvironment));
-            list.add(new DataPermissionInterceptor(new DataScopePermissionHandler(environment)));
+
+    protected void loadInnerInterceptor(MybatisPlusInterceptor interceptor) {
+        final DatabaseProperties.Intercept intercept = properties.getIntercept();
+        if (intercept.getDataPermission().isEnabled()) {
+            //分页拦截器之前的插件 => 数据权限插件
+            interceptor.addInnerInterceptor(new DataPermissionInterceptor(new DataScopePermissionHandler(environment)));
         }
-        return list;
+        // 分页插件
+        interceptor.addInnerInterceptor(paginationInnerInterceptor(intercept.getPagination()));
+        if (intercept.isBlockAttack()) {
+            //防止全表更新与删除插件: BlockAttackInnerInterceptor
+            interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
+        }
+        if (intercept.isIllegalSql()) {
+            // SQL性能规范插件，限制比较多，慎用哦
+            interceptor.addInnerInterceptor(new IllegalSQLInnerInterceptor());
+        }
     }
 
 
     @Bean
-    public DataScopeAnnotationAspect dataScopeAnnotationAspect(DataScopeService service) {
-        return new DataScopeAnnotationAspect(service, environment);
+    public DataScopeAnnotationAspect dataScopeAnnotationAspect(DataScopeService dataScopeService) {
+        return new DataScopeAnnotationAspect(dataScopeService, environment);
     }
 
     @Bean
     @ConditionalOnMissingBean
     public MySqlInjector getMySqlInjector() {
         return new MySqlInjector();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MetaObjectHandler metaObjectHandler() {
+        return new MyBatisMetaObjectHandler(environment);
     }
 }
