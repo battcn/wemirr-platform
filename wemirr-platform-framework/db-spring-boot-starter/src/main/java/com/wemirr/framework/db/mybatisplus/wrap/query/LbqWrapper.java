@@ -292,7 +292,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         if (val instanceof Collection<?> v) {
             return CollectionUtils.isNotEmpty(v);
         }
-        return false;
+        return Objects.nonNull(val);
     }
 
     /**

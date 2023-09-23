@@ -277,7 +277,7 @@ public class QueryWrap<T> extends AbstractWrapper<T, String, QueryWrap<T>>
         if (val instanceof Collection<?> v) {
             return CollectionUtils.isNotEmpty(v);
         }
-        return false;
+        return Objects.nonNull(val);
     }
 
     /**
