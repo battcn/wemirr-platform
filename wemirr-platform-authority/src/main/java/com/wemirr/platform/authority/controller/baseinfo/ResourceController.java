@@ -11,11 +11,11 @@ import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
-import com.wemirr.platform.authority.domain.req.ResourceQueryReq;
-import com.wemirr.platform.authority.domain.req.ResourceSaveReq;
-import com.wemirr.platform.authority.domain.resp.ResourcePageResp;
-import com.wemirr.platform.authority.domain.resp.VueRouter;
+import com.wemirr.platform.authority.domain.baseinfo.entity.Resource;
+import com.wemirr.platform.authority.domain.baseinfo.req.ResourceQueryReq;
+import com.wemirr.platform.authority.domain.baseinfo.req.ResourceSaveReq;
+import com.wemirr.platform.authority.domain.baseinfo.resp.ResourcePageResp;
+import com.wemirr.platform.authority.domain.baseinfo.resp.VueRouter;
 import com.wemirr.platform.authority.service.ResourceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static com.wemirr.platform.authority.domain.converts.MenuConverts.VUE_ROUTER_2_TREE_NODE_CONVERTS;
+import static com.wemirr.platform.authority.domain.baseinfo.converts.MenuConverts.VUE_ROUTER_2_TREE_NODE_CONVERTS;
 import static java.util.stream.Collectors.toList;
 
 /**

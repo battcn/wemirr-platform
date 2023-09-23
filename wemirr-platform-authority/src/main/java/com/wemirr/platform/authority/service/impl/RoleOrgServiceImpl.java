@@ -2,8 +2,8 @@ package com.wemirr.platform.authority.service.impl;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.authority.domain.entity.baseinfo.RoleOrg;
-import com.wemirr.platform.authority.repository.RoleOrgMapper;
+import com.wemirr.platform.authority.domain.baseinfo.entity.RoleOrg;
+import com.wemirr.platform.authority.repository.baseinfo.RoleOrgMapper;
 import com.wemirr.platform.authority.service.RoleOrgService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -2,8 +2,8 @@ package com.wemirr.platform.authority.service.impl;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
-import com.wemirr.platform.authority.repository.AreaMapper;
+import com.wemirr.platform.authority.domain.common.entity.AreaEntity;
+import com.wemirr.platform.authority.repository.common.AreaMapper;
 import com.wemirr.platform.authority.service.AreaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

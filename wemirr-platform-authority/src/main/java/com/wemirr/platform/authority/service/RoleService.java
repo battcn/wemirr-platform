@@ -2,9 +2,9 @@ package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
-import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
-import com.wemirr.platform.authority.domain.req.RoleReq;
-import com.wemirr.platform.authority.domain.resp.RolePermissionResp;
+import com.wemirr.platform.authority.domain.baseinfo.entity.Role;
+import com.wemirr.platform.authority.domain.baseinfo.req.RoleReq;
+import com.wemirr.platform.authority.domain.baseinfo.resp.RolePermissionResp;
 
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package com.wemirr.framework.boot.async;
 
-import jakarta.validation.constraints.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskDecorator;
 import org.springframework.scheduling.annotation.AsyncConfigurer;

@@ -10,10 +10,10 @@ import com.wemirr.framework.db.dynamic.event.body.TenantDynamicDatasource;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
-import com.wemirr.platform.authority.domain.entity.tenant.DynamicDatasource;
-import com.wemirr.platform.authority.domain.resp.TenantDatasourceResp;
-import com.wemirr.platform.authority.repository.DynamicDatasourceMapper;
-import com.wemirr.platform.authority.repository.TenantConfigMapper;
+import com.wemirr.platform.authority.domain.tenant.entity.DynamicDatasource;
+import com.wemirr.platform.authority.domain.tenant.resp.TenantDatasourceResp;
+import com.wemirr.platform.authority.repository.common.DynamicDatasourceMapper;
+import com.wemirr.platform.authority.repository.tenant.TenantConfigMapper;
 import com.wemirr.platform.authority.service.TenantDatasourceService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.wemirr.platform.authority.domain.converts.TenantDatasourceConverts.TENANT_DYNAMIC_DATASOURCE_VO_2_TENANT_DYNAMIC_DATASOURCE_CONVERTS;
+import static com.wemirr.platform.authority.domain.tenant.converts.TenantDatasourceConverts.TENANT_DYNAMIC_DATASOURCE_VO_2_TENANT_DYNAMIC_DATASOURCE_CONVERTS;
 
 
 /**

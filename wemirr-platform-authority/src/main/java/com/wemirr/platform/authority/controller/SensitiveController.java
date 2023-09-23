@@ -1,9 +1,9 @@
 package com.wemirr.platform.authority.controller;
 
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
-import com.wemirr.platform.authority.domain.entity.common.SensitiveTestEntity;
-import com.wemirr.platform.authority.repository.ResourceMapper;
-import com.wemirr.platform.authority.repository.TenantConfigMapper;
+import com.wemirr.platform.authority.domain.common.entity.SensitiveTestEntity;
+import com.wemirr.platform.authority.repository.baseinfo.ResourceMapper;
+import com.wemirr.platform.authority.repository.tenant.TenantConfigMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

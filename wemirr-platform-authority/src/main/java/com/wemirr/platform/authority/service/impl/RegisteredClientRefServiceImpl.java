@@ -2,9 +2,9 @@ package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
-import com.wemirr.platform.authority.domain.entity.baseinfo.RegisteredClientRef;
-import com.wemirr.platform.authority.domain.req.RegisteredClientRefReq;
-import com.wemirr.platform.authority.repository.RegisteredClientRefMapper;
+import com.wemirr.platform.authority.domain.baseinfo.entity.RegisteredClientRef;
+import com.wemirr.platform.authority.domain.baseinfo.req.RegisteredClientRefReq;
+import com.wemirr.platform.authority.repository.baseinfo.RegisteredClientRefMapper;
 import com.wemirr.platform.authority.service.RegisteredClientRefService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;

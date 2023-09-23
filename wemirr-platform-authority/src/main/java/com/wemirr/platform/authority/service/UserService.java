@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
 import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
-import com.wemirr.platform.authority.domain.entity.baseinfo.User;
-import com.wemirr.platform.authority.domain.req.UserSaveReq;
-import com.wemirr.platform.authority.domain.resp.UserResp;
+import com.wemirr.platform.authority.domain.baseinfo.entity.User;
+import com.wemirr.platform.authority.domain.baseinfo.req.UserSaveReq;
+import com.wemirr.platform.authority.domain.baseinfo.resp.UserResp;
 
 import java.util.List;
 

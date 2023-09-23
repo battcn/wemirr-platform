@@ -7,14 +7,18 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.websocket.WebSocketManager;
-import com.wemirr.platform.authority.domain.entity.baseinfo.Role;
-import com.wemirr.platform.authority.domain.entity.baseinfo.User;
-import com.wemirr.platform.authority.domain.entity.baseinfo.UserRole;
-import com.wemirr.platform.authority.domain.entity.message.SiteMessage;
-import com.wemirr.platform.authority.domain.entity.message.SiteNotify;
-import com.wemirr.platform.authority.domain.enums.ReceiverType;
-import com.wemirr.platform.authority.domain.resp.CommonDataResp;
-import com.wemirr.platform.authority.repository.*;
+import com.wemirr.platform.authority.domain.baseinfo.entity.Role;
+import com.wemirr.platform.authority.domain.baseinfo.entity.User;
+import com.wemirr.platform.authority.domain.baseinfo.entity.UserRole;
+import com.wemirr.platform.authority.domain.baseinfo.enums.ReceiverType;
+import com.wemirr.platform.authority.domain.common.entity.SiteMessage;
+import com.wemirr.platform.authority.domain.common.entity.SiteNotify;
+import com.wemirr.platform.authority.domain.common.resp.CommonDataResp;
+import com.wemirr.platform.authority.repository.baseinfo.RoleMapper;
+import com.wemirr.platform.authority.repository.baseinfo.UserMapper;
+import com.wemirr.platform.authority.repository.baseinfo.UserRoleMapper;
+import com.wemirr.platform.authority.repository.common.SiteMessageMapper;
+import com.wemirr.platform.authority.repository.common.SiteMessagePublishMapper;
 import com.wemirr.platform.authority.service.SiteNotifyService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -33,11 +37,11 @@ import static java.util.stream.Collectors.toList;
  */
 @Service
 @RequiredArgsConstructor
-public class SiteNotifyServiceImpl extends SuperServiceImpl<StationMessagePublishMapper, SiteNotify> implements SiteNotifyService {
+public class SiteNotifyServiceImpl extends SuperServiceImpl<SiteMessagePublishMapper, SiteNotify> implements SiteNotifyService {
 
     private final UserMapper userMapper;
     private final RoleMapper roleMapper;
-    private final StationMessageMapper stationMessageMapper;
+    private final SiteMessageMapper siteMessageMapper;
     private final UserRoleMapper userRoleMapper;
     private final WebSocketManager webSocketManager;
 
@@ -96,7 +100,7 @@ public class SiteNotifyServiceImpl extends SuperServiceImpl<StationMessagePublis
             message.setLevel(messagePublish.getLevel());
             message.setReceiveId(userId);
             message.setCreatedTime(Instant.now());
-            this.stationMessageMapper.insert(message);
+            this.siteMessageMapper.insert(message);
             this.webSocketManager.sendMessage(String.valueOf(userId), JSON.toJSONString(message));
         }
     }

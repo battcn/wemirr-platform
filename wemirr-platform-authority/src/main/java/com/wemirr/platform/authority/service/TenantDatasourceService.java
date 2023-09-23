@@ -2,8 +2,8 @@ package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.dynamic.event.body.EventAction;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.authority.domain.entity.tenant.DynamicDatasource;
-import com.wemirr.platform.authority.domain.resp.TenantDatasourceResp;
+import com.wemirr.platform.authority.domain.tenant.entity.DynamicDatasource;
+import com.wemirr.platform.authority.domain.tenant.resp.TenantDatasourceResp;
 
 import java.util.List;
 

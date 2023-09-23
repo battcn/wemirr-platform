@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.controller.common;
 
 import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.core.util.IdUtil;
-import com.wemirr.platform.authority.domain.resp.CaptchaResp;
+import com.wemirr.platform.authority.domain.common.resp.CaptchaResp;
 import com.wemirr.platform.authority.service.VerificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

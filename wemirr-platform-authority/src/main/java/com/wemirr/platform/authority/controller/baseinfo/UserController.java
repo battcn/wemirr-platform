@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.authority.domain.entity.baseinfo.User;
-import com.wemirr.platform.authority.domain.enums.Sex;
-import com.wemirr.platform.authority.domain.req.UserSaveReq;
-import com.wemirr.platform.authority.domain.req.UserUpdateReq;
+import com.wemirr.platform.authority.domain.baseinfo.entity.User;
+import com.wemirr.platform.authority.domain.baseinfo.enums.Sex;
+import com.wemirr.platform.authority.domain.baseinfo.req.UserSaveReq;
+import com.wemirr.platform.authority.domain.baseinfo.req.UserUpdateReq;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,7 +20,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static com.wemirr.platform.authority.domain.converts.UserConverts.USER_DTO_2_PO_CONVERTS;
+import static com.wemirr.platform.authority.domain.baseinfo.converts.UserConverts.USER_DTO_2_PO_CONVERTS;
 
 
 /**

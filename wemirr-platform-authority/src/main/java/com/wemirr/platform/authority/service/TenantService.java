@@ -1,8 +1,8 @@
 package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.authority.domain.entity.tenant.Tenant;
-import com.wemirr.platform.authority.domain.entity.tenant.TenantConfig;
+import com.wemirr.platform.authority.domain.tenant.entity.Tenant;
+import com.wemirr.platform.authority.domain.tenant.entity.TenantConfig;
 
 /**
  * @author Levin

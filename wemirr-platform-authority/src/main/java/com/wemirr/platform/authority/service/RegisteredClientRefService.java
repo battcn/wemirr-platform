@@ -1,8 +1,8 @@
 package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.authority.domain.entity.baseinfo.RegisteredClientRef;
-import com.wemirr.platform.authority.domain.req.RegisteredClientRefReq;
+import com.wemirr.platform.authority.domain.baseinfo.entity.RegisteredClientRef;
+import com.wemirr.platform.authority.domain.baseinfo.req.RegisteredClientRefReq;
 
 /**
  * @author levin

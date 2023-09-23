@@ -1,10 +1,10 @@
 package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.authority.domain.entity.baseinfo.RoleRes;
-import com.wemirr.platform.authority.domain.req.RoleResSaveReq;
-import com.wemirr.platform.authority.domain.req.UserRoleSaveReq;
-import com.wemirr.platform.authority.domain.resp.RoleResResp;
+import com.wemirr.platform.authority.domain.baseinfo.entity.RoleRes;
+import com.wemirr.platform.authority.domain.baseinfo.req.RoleResSaveReq;
+import com.wemirr.platform.authority.domain.baseinfo.req.UserRoleSaveReq;
+import com.wemirr.platform.authority.domain.baseinfo.resp.RoleResResp;
 
 /**
  * <p>

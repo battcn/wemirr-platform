@@ -6,9 +6,9 @@ import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.authority.domain.entity.common.AreaEntity;
-import com.wemirr.platform.authority.domain.req.AreaReq;
-import com.wemirr.platform.authority.domain.resp.AreaNodeResp;
+import com.wemirr.platform.authority.domain.common.entity.AreaEntity;
+import com.wemirr.platform.authority.domain.common.req.AreaReq;
+import com.wemirr.platform.authority.domain.common.resp.AreaNodeResp;
 import com.wemirr.platform.authority.service.AreaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.wemirr.platform.authority.domain.converts.AreaConverts.AREA_DTO_2_PO_CONVERTS;
-import static com.wemirr.platform.authority.domain.converts.AreaConverts.AREA_ENTITY_2_NODE_RESP_CONVERTS;
+import static com.wemirr.platform.authority.domain.common.converts.AreaConverts.AREA_DTO_2_PO_CONVERTS;
+import static com.wemirr.platform.authority.domain.common.converts.AreaConverts.AREA_ENTITY_2_NODE_RESP_CONVERTS;
 
 /**
  * <p>

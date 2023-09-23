@@ -1,9 +1,9 @@
 package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.authority.domain.entity.baseinfo.Resource;
-import com.wemirr.platform.authority.domain.req.ResourceQueryReq;
-import com.wemirr.platform.authority.domain.resp.VueRouter;
+import com.wemirr.platform.authority.domain.baseinfo.entity.Resource;
+import com.wemirr.platform.authority.domain.baseinfo.req.ResourceQueryReq;
+import com.wemirr.platform.authority.domain.baseinfo.resp.VueRouter;
 
 import java.util.List;
 

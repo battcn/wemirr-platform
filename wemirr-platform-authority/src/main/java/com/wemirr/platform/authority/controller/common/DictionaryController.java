@@ -4,10 +4,10 @@ package com.wemirr.platform.authority.controller.common;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.SysLog;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.authority.domain.entity.common.Dictionary;
-import com.wemirr.platform.authority.domain.entity.common.DictionaryItem;
-import com.wemirr.platform.authority.domain.req.DictionaryPageReq;
-import com.wemirr.platform.authority.domain.req.DictionarySaveReq;
+import com.wemirr.platform.authority.domain.common.entity.Dictionary;
+import com.wemirr.platform.authority.domain.common.entity.DictionaryItem;
+import com.wemirr.platform.authority.domain.common.req.DictionaryPageReq;
+import com.wemirr.platform.authority.domain.common.req.DictionarySaveReq;
 import com.wemirr.platform.authority.service.DictionaryItemService;
 import com.wemirr.platform.authority.service.DictionaryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.wemirr.platform.authority.domain.converts.DictionaryConverts.DICTIONARY_DTO_2_PO_CONVERTS;
+import static com.wemirr.platform.authority.domain.common.converts.DictionaryConverts.DICTIONARY_DTO_2_PO_CONVERTS;
 
 /**
  * 字典类型

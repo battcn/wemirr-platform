@@ -2,8 +2,8 @@ package com.wemirr.platform.authority.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.authority.domain.entity.baseinfo.Station;
-import com.wemirr.platform.authority.domain.req.StationPageReq;
+import com.wemirr.platform.authority.domain.baseinfo.entity.Station;
+import com.wemirr.platform.authority.domain.baseinfo.req.StationPageReq;
 
 /**
  * <p>

@@ -3,9 +3,9 @@ package com.wemirr.platform.authority.controller.common;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.authority.domain.entity.common.DictionaryItem;
-import com.wemirr.platform.authority.domain.req.DictionaryItemPageReq;
-import com.wemirr.platform.authority.domain.req.DictionaryItemReq;
+import com.wemirr.platform.authority.domain.common.entity.DictionaryItem;
+import com.wemirr.platform.authority.domain.common.req.DictionaryItemPageReq;
+import com.wemirr.platform.authority.domain.common.req.DictionaryItemReq;
 import com.wemirr.platform.authority.service.DictionaryItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static com.wemirr.platform.authority.domain.converts.DictionaryConverts.DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS;
+import static com.wemirr.platform.authority.domain.common.converts.DictionaryConverts.DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS;
 
 /**
  * 字典项

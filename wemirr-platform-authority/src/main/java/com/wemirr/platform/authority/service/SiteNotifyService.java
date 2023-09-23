@@ -1,9 +1,9 @@
 package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.authority.domain.entity.message.SiteNotify;
-import com.wemirr.platform.authority.domain.enums.ReceiverType;
-import com.wemirr.platform.authority.domain.resp.CommonDataResp;
+import com.wemirr.platform.authority.domain.baseinfo.enums.ReceiverType;
+import com.wemirr.platform.authority.domain.common.entity.SiteNotify;
+import com.wemirr.platform.authority.domain.common.resp.CommonDataResp;
 
 import java.util.List;
 
