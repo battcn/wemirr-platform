@@ -8,7 +8,13 @@
 
 [![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-dependencies.svg?label=Spring%20Boot&logo=Spring)](https://search.maven.org/artifact/org.springframework.boot/spring-boot-dependencies)  [![Spring Cloud](https://img.shields.io/maven-central/v/org.springframework.cloud/spring-cloud-dependencies.svg?label=Spring%20Cloud&logo=Spring)](https://search.maven.org/artifact/org.springframework.cloud/spring-cloud-dependencies)  [![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.alibaba.cloud/spring-cloud-alibaba-dependencies.svg?label=Spring%20Cloud%20Alibaba&logo=Spring)](https://search.maven.org/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies) 
 
-> 项目代码全部开源,非阉割版,有`Spring Cloud` 工作经验的 **基本** 无需购买付费文档一样可以玩转项目
+**WP的使命：打破假开源，做全网最优秀、最简单、最漂亮的开源SAAS、多租户云平台架构。从开源中来,到开源中去,让大家有更多时间`摸鱼`、`学习`、`陪伴家人`、`锻炼身体`、`找对象`**
+
+**项目代码全部开源,非阉割版,有`Spring Cloud` 工作经验的 **基本** 无需购买付费文档一样可以玩转项目**
+
+> JDK8 - JDK11 的请使用 vben 分支（后续只提供BUG修复）
+
+> JDK17+SCA2022+SC2023 请使用 vben_jdk17 分支（强烈推荐使用这个版本,因为作者后期重心在它，同时新功能特性也会基于该版本进行开发发布）
 
 > 开发文档
 
@@ -16,15 +22,26 @@
 
 **本项目反馈BUG和运行报错提供无偿技术支持（包括远程协助排查问题）**
 
+
 > 付费功能
 
+**对于 `wemirr-platform` 开源永远是第一位，业务模块企业想偷懒可以考虑付费购买降低企业成本**
+
 **可以进微信群交流和提需求（提了不一定做,请理性付费，合理的需求提交ISSUE或者添加作者微信沟通也一样）**
+
 **模块定制化开发、远程支持、协助私有化部署**
+
 **图文或者远程处理技术难题 188 一次，解决后收费**
+
+**购买 BPM、TMS、WMS商用的业务模块**
+
+
+
 
 > 赞赏
 
 - 敬请期待（**微信： battcn2022**）
+
 
 ## 演示地址
 
