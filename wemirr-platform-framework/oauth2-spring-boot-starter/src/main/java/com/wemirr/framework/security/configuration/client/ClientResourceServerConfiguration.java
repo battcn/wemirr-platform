@@ -3,7 +3,9 @@ package com.wemirr.framework.security.configuration.client;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.configuration.server.store.RedisTokenStore;
+import com.wemirr.framework.security.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -16,12 +18,14 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.util.List;
 
 /**
  * @author Levin
  */
+@Slf4j
 @RequiredArgsConstructor
 @Import({RedisTokenStore.class, ResourceAuthExceptionEntryPoint.class})
 @EnableConfigurationProperties(SecurityExtProperties.class)
@@ -30,6 +34,8 @@ public class ClientResourceServerConfiguration {
     private final SecurityExtProperties properties;
     private final RestTemplate restTemplate;
     private final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
+    private final RequestMappingHandlerMapping requestMappingHandlerMapping;
+
 
     @Bean
     private OpaqueTokenIntrospector opaqueTokenIntrospector() {
@@ -46,9 +52,11 @@ public class ClientResourceServerConfiguration {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        List<String> urls = Lists.newArrayList();
+        final List<String> urls = Lists.newArrayList();
         urls.addAll(properties.getClient().getIgnore().getResourceUrls());
         urls.addAll(properties.getDefaultIgnoreUrls());
+        urls.addAll(SecurityUtils.loadIgnoreAuthorizeUrl(requestMappingHandlerMapping));
+
         AntPathRequestMatcher[] requestMatchers = urls.stream()
                 .map(AntPathRequestMatcher::new)
                 .toList()

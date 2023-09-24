@@ -17,11 +17,4 @@ import java.lang.annotation.*;
 public @interface IgnoreAuthorize {
 
 
-    /**
-     * 是否加载到web ignore 中
-     *
-     * @return false, true
-     */
-    boolean web() default false;
-
 }

@@ -33,8 +33,6 @@ public class SensitiveController {
                 .desc("随机打码").none("不打码").username("1837307555@qq.com").build();
         final SensitiveTest s2 = SensitiveTest.builder().mobile("13000002222")
                 .desc("随机打码").none("不打码").username("1837307555@qq.com").build();
-//        this.resourceMapper.queryPermissionByUserId(1L);
-        this.tenantConfigMapper.selectTenantDynamicDatasource(10086L);
         return List.of(s1, s2);
     }
 

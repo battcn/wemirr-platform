@@ -1,6 +1,5 @@
 package com.wemirr.platform.authority.domain.common.entity;
 
-import com.wemirr.framework.boot.sensitive.DefaulSensitiveStrategy;
 import com.wemirr.framework.boot.sensitive.Sensitive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,8 +20,12 @@ public class SensitiveTest {
     @Sensitive(type = Sensitive.Type.MOBILE_PHONE)
     private String mobile;
 
-    @Sensitive(type = Sensitive.Type.STRATEGY,strategy = DefaulSensitiveStrategy.class)
+    /**
+     * 不指定的话则默认策略 随机打码
+     */
+    @Sensitive(type = Sensitive.Type.STRATEGY)
     private String desc;
 
     private String none;
+
 }

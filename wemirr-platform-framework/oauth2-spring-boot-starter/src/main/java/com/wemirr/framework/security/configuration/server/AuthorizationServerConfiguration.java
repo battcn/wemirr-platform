@@ -49,6 +49,7 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -79,6 +80,7 @@ public class AuthorizationServerConfiguration {
     private final RedisTokenStore<String> redisTokenStore;
     private final SecurityExtProperties properties;
     private final Collection<IntegrationAuthenticator> integrationAuthenticators;
+    private final RequestMappingHandlerMapping requestMappingHandlerMapping;
 
     /**
      * 配置端点的过滤器链
@@ -132,6 +134,9 @@ public class AuthorizationServerConfiguration {
         List<String> urls = Lists.newArrayList();
         urls.addAll(server.getIgnore().getResourceUrls());
         urls.addAll(properties.getDefaultIgnoreUrls());
+        urls.addAll(SecurityUtils.loadIgnoreAuthorizeUrl(requestMappingHandlerMapping));
+
+
         AntPathRequestMatcher[] requestMatchers = urls.stream().map(AntPathRequestMatcher::new).toList().toArray(new AntPathRequestMatcher[]{});
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers(requestMatchers).permitAll().anyRequest().authenticated());
 

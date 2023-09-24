@@ -4,8 +4,10 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.framework.security.exception.OAuth2InvalidException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,11 +33,18 @@ import org.springframework.security.oauth2.server.resource.BearerTokenError;
 import org.springframework.security.oauth2.server.resource.BearerTokenErrorCodes;
 import org.springframework.security.oauth2.server.resource.authentication.AbstractOAuth2TokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.util.pattern.PathPattern;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -205,5 +214,31 @@ public final class SecurityUtils {
         return request.getParameterMap().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,
                 entry -> entry.getValue().length > 1 ? entry.getValue() : entry.getValue()[0]
         ));
+    }
+
+    public static List<String> loadIgnoreAuthorizeUrl(RequestMappingHandlerMapping requestMappingHandlerMapping) {
+        final List<String> urls = Lists.newArrayList();
+        Map<RequestMappingInfo, HandlerMethod> handlerMethods = requestMappingHandlerMapping.getHandlerMethods();
+        for (Map.Entry<RequestMappingInfo, HandlerMethod> handlerMethodEntry : handlerMethods.entrySet()) {
+            HandlerMethod value = handlerMethodEntry.getValue();
+            RequestMappingInfo key = handlerMethodEntry.getKey();
+            IgnoreAuthorize annotation = value.getMethodAnnotation(IgnoreAuthorize.class);
+            if (log.isDebugEnabled()) {
+                log.debug("[key] - [{}] - [value] - [{}]", key, value);
+            }
+            if (annotation == null) {
+                continue;
+            }
+            final PatternsRequestCondition patternsCondition = key.getPatternsCondition();
+            if (Objects.nonNull(patternsCondition)) {
+                urls.addAll(patternsCondition.getPatterns());
+            }
+            final PathPatternsRequestCondition pathPatternsCondition = key.getPathPatternsCondition();
+            if (Objects.nonNull(pathPatternsCondition)) {
+                final List<String> list = pathPatternsCondition.getPatterns().stream().map(PathPattern::getPatternString).toList();
+                urls.addAll(list);
+            }
+        }
+        return urls;
     }
 }
