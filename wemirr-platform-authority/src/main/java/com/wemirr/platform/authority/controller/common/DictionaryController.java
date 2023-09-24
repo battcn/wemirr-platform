@@ -77,11 +77,19 @@ public class DictionaryController {
     }
 
 
+    @GetMapping("/{code}/refresh")
+    @SysLog(value = "刷新字典")
+    @Operation(summary = "刷新字典 - [DONE] - [Levin]", description = "刷新字典 - [DONE] - [Levin]")
+//    @PreAuthorize("hasAuthority('sys:dict:refresh')")
+    public void refresh(@PathVariable("code") String code) {
+        this.dictionaryService.refresh(code);
+    }
+
+
     @GetMapping("/{code}/list")
-    @Operation(summary = "查询字典子项 - [DONE] - [Levin]", description = "查询字典子项 - [DONE] - [Levin]")
+    @Operation(summary = "查询字典子项 - [DONE] - [Levin]", description = "查询字典子项,缓存10分钟,每隔 5 分钟刷新一次,为了性能利用本地JVM缓存,字典过大可以采用远程缓存")
     @Parameter(name = "code", description = "编码", in = ParameterIn.PATH)
     public List<DictionaryItem> list(@PathVariable("code") String code) {
-        return this.dictionaryItemService.list(Wraps.<DictionaryItem>lbQ()
-                .eq(DictionaryItem::getStatus, true).eq(DictionaryItem::getDictionaryCode, code));
+        return dictionaryService.findItemByCode(code);
     }
 }

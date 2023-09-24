@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -75,6 +76,17 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
                 .dictionaryCode(dictionary.getCode())
                 .build(), Wraps.<DictionaryItem>lbQ()
                 .eq(DictionaryItem::getDictionaryId, dictionary.getId()));
+    }
+
+    @Override
+    public void refresh(String code) {
+        log.info("刷新缓存的最好办法就是删除缓存,等接口重新请求,避免造成频繁误触刷新按钮 - 本次刷新的字典是 - {}", code);
+    }
+
+    @Override
+    public List<DictionaryItem> findItemByCode(String code) {
+        return this.dictionaryItemMapper.selectList(Wraps.<DictionaryItem>lbQ().eq(DictionaryItem::getStatus, true)
+                .eq(DictionaryItem::getDictionaryCode, code));
     }
 
 

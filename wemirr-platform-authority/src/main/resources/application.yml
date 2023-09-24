@@ -46,4 +46,4 @@ jetcache:
     default:
       type: caffeine
       keyConvertor: fastjson2
-      limit: 100
+      limit: 1000
