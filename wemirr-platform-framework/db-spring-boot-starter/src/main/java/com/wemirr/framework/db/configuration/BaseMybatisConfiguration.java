@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +43,7 @@ public abstract class BaseMybatisConfiguration {
 
     private final DatabaseProperties properties;
     private final TenantEnvironment environment;
-    private final DataScopeService dataScopeService;
+
 
 
     /**
@@ -121,7 +122,8 @@ public abstract class BaseMybatisConfiguration {
 
 
     @Bean
-    public DataScopeAnnotationAspect dataScopeAnnotationAspect() {
+    @ConditionalOnBean(DataScopeService.class)
+    public DataScopeAnnotationAspect dataScopeAnnotationAspect(DataScopeService dataScopeService) {
         return new DataScopeAnnotationAspect(dataScopeService, environment);
     }
 
