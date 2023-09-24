@@ -42,6 +42,7 @@ public abstract class BaseMybatisConfiguration {
 
     private final DatabaseProperties properties;
     private final TenantEnvironment environment;
+    private final DataScopeService dataScopeService;
 
 
     /**
@@ -120,7 +121,7 @@ public abstract class BaseMybatisConfiguration {
 
 
     @Bean
-    public DataScopeAnnotationAspect dataScopeAnnotationAspect(DataScopeService dataScopeService) {
+    public DataScopeAnnotationAspect dataScopeAnnotationAspect() {
         return new DataScopeAnnotationAspect(dataScopeService, environment);
     }
 

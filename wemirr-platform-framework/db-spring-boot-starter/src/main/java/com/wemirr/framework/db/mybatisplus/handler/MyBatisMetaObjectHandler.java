@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 
-import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -52,6 +51,7 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
         if (Objects.nonNull(realName)) {
             this.setFieldValByName(Entity.CREATE_USER_NAME, realName, metaObject);
         }
+        // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT CURRENT_TIMESTAMP
         final Object createTime = metaObject.getValue(Entity.CREATE_TIME);
         if (Objects.nonNull(createTime)) {
             this.setFieldValByName(Entity.CREATE_TIME, createTime, metaObject);
@@ -79,6 +79,10 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
         if (Objects.nonNull(realName)) {
             this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, realName, metaObject);
         }
-        this.setFieldValByName(SuperEntity.UPDATE_TIME, Instant.now(), metaObject);
+        // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+        final Object updateTime = metaObject.getValue(SuperEntity.UPDATE_TIME);
+        if (Objects.nonNull(updateTime)) {
+            this.setFieldValByName(SuperEntity.UPDATE_TIME, updateTime, metaObject);
+        }
     }
 }

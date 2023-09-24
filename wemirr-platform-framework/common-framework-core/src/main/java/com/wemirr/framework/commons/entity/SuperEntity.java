@@ -36,16 +36,16 @@ public class SuperEntity<T> extends Entity<T> {
 
 
     @Schema(description = "最后修改时间")
-    @TableField(value = UPDATE_TIME_COLUMN)
+    @TableField(value = UPDATE_TIME_COLUMN, fill = FieldFill.UPDATE)
     protected Instant lastModifiedTime;
 
     @Schema(description = "最后修改人ID")
-    @TableField(value = UPDATE_USER_COLUMN, fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = UPDATE_USER_COLUMN, fill = FieldFill.UPDATE)
     protected T lastModifiedBy;
 
 
     @Schema(description = "最后修改人名称")
-    @TableField(value = UPDATE_USER_NAME_COLUMN, fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = UPDATE_USER_NAME_COLUMN, fill = FieldFill.UPDATE)
     protected String lastModifiedName;
 
     @TableLogic

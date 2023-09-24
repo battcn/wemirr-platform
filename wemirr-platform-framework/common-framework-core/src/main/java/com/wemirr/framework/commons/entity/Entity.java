@@ -59,7 +59,7 @@ public class Entity<T> implements Serializable {
     /**
      * 创建时间（依托数据库功能）
      */
-    @TableField(value = CREATE_TIME_COLUMN)
+    @TableField(value = CREATE_TIME_COLUMN, fill = FieldFill.INSERT)
     @Schema(description = "创建时间")
     protected Instant createdTime;
 
