@@ -33,6 +33,7 @@ extend:
     client:
       opaque-token:
         type: redis
+    authorization-type: redis
   mybatis-plus:
     intercept:
       data-permission:
