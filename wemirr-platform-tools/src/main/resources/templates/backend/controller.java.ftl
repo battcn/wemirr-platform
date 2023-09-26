@@ -2,7 +2,6 @@ package ${package.Controller};
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
 import ${package.Entity}.${entity};
@@ -49,8 +48,8 @@ public class ${table.controllerName} {
      * 分页查询
      */
     @GetMapping
-    public Result<Page<${entity}>> get${entity}Page(PageRequest pageRequest) {
-        return Result.success(${table.entityPath}Service.page(pageRequest.buildPage()));
+    public Page<${entity}> get${entity}Page(PageRequest pageRequest) {
+        return ${table.entityPath}Service.page(pageRequest.buildPage());
     }
 
     /**
@@ -59,31 +58,28 @@ public class ${table.controllerName} {
      * @param id id
      * @return Ret
      */
-    @GetMapping("{id}")
-    public Result<${entity}> getById(@PathVariable("id") Long id) {
-        return Result.success(${table.entityPath}Service.getById(id));
+    @GetMapping("/{id}")
+    public ${entity} getById(@PathVariable("id") Long id) {
+        return ${table.entityPath}Service.getById(id);
     }
 
     /**
      * 新增${table.comment!}
      *
      * @param ${table.entityPath} ${table.comment!}
-     * @return Result
      */
     @PostMapping
-    public Result<?> save(@RequestBody ${entity} ${table.entityPath}) {
+    public void save(@RequestBody ${entity} ${table.entityPath}) {
         ${table.entityPath}Service.save(${table.entityPath});
-
     }
 
     /**
      * 修改${table.comment!}
      *
      * @param ${table.entityPath} ${table.comment!}
-     * @return Ret
      */
     @PutMapping("/{id}")
-    public Result<?> updateById(@PathVariable("id") Long id ,@RequestBody ${entity} ${table.entityPath}) {
+    public void updateById(@PathVariable("id") Long id ,@RequestBody ${entity} ${table.entityPath}) {
         return Result.success(${table.entityPath}Service.updateById(${table.entityPath}));
     }
 
@@ -91,10 +87,9 @@ public class ${table.controllerName} {
      * 通过id删除${table.comment!}
      *
      * @param id id
-     * @return Result
      */
-    @DeleteMapping("{id}")
-    public Result<?> removeById(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public void removeById(@PathVariable Long id) {
         ${table.entityPath}Service.removeById(id);
 
     }

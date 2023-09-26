@@ -48,7 +48,7 @@ class CodeGeneratorTests {
                         .entity("domain").mapper("mapper").xml("mapper.xml")
                         .service("service").serviceImpl("service.impl").controller("controller")
                         // 设置mapperXml生成路径
-                        .pathInfo(Collections.singletonMap(OutputFile.mapperXml, rootDir)))
+                        .pathInfo(Collections.singletonMap(OutputFile.xml, rootDir)))
                 .strategyConfig((builder) -> builder.enableCapitalMode()
                         .enableSkipView().disableSqlFilter()
                         .addInclude(request.getTableName())
@@ -67,7 +67,7 @@ class CodeGeneratorTests {
                         .service("/templates/backend/service.java")
                         .serviceImpl("/templates/backend/serviceImpl.java")
                         .mapper("/templates/backend/mapper.java")
-                        .mapperXml("/templates/backend/mapper.xml")
+                        .xml("/templates/backend/mapper.xml")
                         .controller("/templates/backend/controller.java")
                         .build())
                 .injectionConfig((builder) -> builder.beforeOutputFile((tableInfo, objectMap) ->

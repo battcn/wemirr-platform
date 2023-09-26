@@ -27,11 +27,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.baomidou.mybatisplus.generator.config.rules.DateType.TIME_PACK;
 
 /**
  * @author Levin
@@ -53,17 +52,25 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
         customMap.put("now", DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 
         Map<String, String> customFiles = Maps.newHashMap();
-        // todo 还得重新写支持 vue 3.0 的
+        customFiles.put("/crud.ts", "/templates/front/crud.ts.ftl");
+        customFiles.put("/index.vue", "/templates/front/index.vue.ftl");
+        customFiles.put("/api.ts", "/templates/front/api.ts.ftl");
+        customFiles.put("_menu.sql", "/templates/sql/resource.sql.ftl");
         final String peek = DynamicDataSourceContextHolder.peek();
         final DataSource ds = ((DynamicRoutingDataSource) dataSource).getDataSource(peek);
         final String rootDir = StringUtils.defaultString(request.getRootDir(), System.getProperty("user.dir") + "/.generated/");
         FastAutoGenerator.create(new DataSourceConfig.Builder(ds))
-                .globalConfig(builder -> builder.author(request.getAuthor()).fileOverride().outputDir(rootDir))
+                .globalConfig(builder -> {
+                    builder.author(request.getAuthor()).outputDir(rootDir).dateType(TIME_PACK);
+                    if (request.isSpringdoc()) {
+                        builder.enableSpringdoc();
+                    }
+                })
                 .packageConfig(builder -> builder.parent(request.getParentPackage()).moduleName(request.getModuleName())
                         .entity("domain").mapper("mapper").xml("mapper.xml")
                         .service("service").serviceImpl("service.impl").controller("controller")
                         // 设置mapperXml生成路径
-                        .pathInfo(Collections.singletonMap(OutputFile.mapperXml, rootDir)))
+                        .pathInfo(Collections.singletonMap(OutputFile.xml, rootDir)))
                 .strategyConfig((builder) -> builder.enableCapitalMode()
                         .enableSkipView().disableSqlFilter()
                         .addInclude(request.getTableName())
@@ -71,6 +78,7 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
                         .entityBuilder()
                         .naming(NamingStrategy.underline_to_camel).columnNaming(NamingStrategy.underline_to_camel)
                         .logicDeleteColumnName(request.getLogicDeleteField())
+                        .enableFileOverride()
                         .enableLombok().superClass(SuperEntity.class)
                         .mapperBuilder().superClass(SuperMapper.class)
                         .serviceBuilder().superServiceClass(SuperService.class)
@@ -81,7 +89,7 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
                         .service("/templates/backend/service.java")
                         .serviceImpl("/templates/backend/serviceImpl.java")
                         .mapper("/templates/backend/mapper.java")
-                        .mapperXml("/templates/backend/mapper.xml")
+                        .xml("/templates/backend/mapper.xml")
                         .controller("/templates/backend/controller.java")
                         .build())
                 .injectionConfig((builder) -> builder.beforeOutputFile((tableInfo, objectMap) ->

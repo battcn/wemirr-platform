@@ -34,7 +34,7 @@ public class GenerateEntity extends SuperEntity<Long> {
     /**
      * 开启 swagger2 模式
      */
-    private boolean swagger2 = false;
+    private boolean springdoc = false;
     private String rootDir;
     private String tableName;
     private String parentPackage;
