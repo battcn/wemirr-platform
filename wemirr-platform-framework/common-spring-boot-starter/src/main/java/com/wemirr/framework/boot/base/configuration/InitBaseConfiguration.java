@@ -44,7 +44,7 @@ import java.util.TimeZone;
 @Configuration
 public class InitBaseConfiguration implements WebMvcConfigurer {
 
-    @Value("${spring.profile.active:local}")
+    @Value("${spring.profiles.active:local}")
     private String profile;
     private static final String PROFILE_DEMO = "demo";
 

@@ -64,7 +64,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Result<ResponseEntity<Void>>> jsonErrorHandler(HttpServletRequest request, Exception e) {
         HttpStatus defaultErrorResult = HttpStatus.OK;
         log.error("错误日志 - {} - {}", request.getRequestURI(), e.getLocalizedMessage());
-        e.printStackTrace();
         if (e instanceof CheckedException exception) {
             return new ResponseEntity<>(Result.fail(exception.getCode(), i18nMessageResource.getMessage(exception.getMessage())), defaultErrorResult);
         } else if (e instanceof IllegalArgumentException exception) {

@@ -111,7 +111,7 @@ public class RoleController {
     }
 
 
-    @GetMapping("/{role_id}/resources/permissions")
+    @GetMapping("/{role_id}/permissions")
     @Operation(summary = "资源权限", description = "只能看到自身权限")
     public RolePermissionResp permission(@PathVariable("role_id") Long roleId) {
         return this.roleService.findRolePermissionById(roleId);
