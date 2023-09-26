@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.service;
 
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
+import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.platform.authority.domain.common.entity.LoginLog;
 
 /**
@@ -19,11 +20,9 @@ public interface LoginLogService extends SuperService<LoginLog> {
     /**
      * 记录登录日志
      *
-     * @param userId    用户ID
-     * @param principal 账号
-     * @param realName  名字
+     * @param details details
      * @return LoginLog
      */
-    LoginLog saveLoginLog(Long userId, String principal, String realName);
+    LoginLog addLog(UserInfoDetails details);
 
 }

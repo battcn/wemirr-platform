@@ -24,14 +24,14 @@ public class LogUtil {
         if (annotation == null) {
             return "";
         }
-        return annotation.value();
+        return annotation.description();
     }
 
     public static String getDescription(SysLog annotation) {
         if (annotation == null) {
             return "";
         }
-        return annotation.value();
+        return annotation.description();
     }
 
     /**

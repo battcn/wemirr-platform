@@ -15,6 +15,7 @@ import com.wemirr.platform.authority.repository.baseinfo.ResourceMapper;
 import com.wemirr.platform.authority.repository.baseinfo.RoleMapper;
 import com.wemirr.platform.authority.repository.baseinfo.UserMapper;
 import com.wemirr.platform.authority.repository.tenant.TenantMapper;
+import com.wemirr.platform.authority.service.LoginLogService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -44,6 +45,9 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
     private RoleMapper roleMapper;
     @Resource
     private ResourceMapper resourceMapper;
+
+    @Resource
+    private LoginLogService loginLogService;
 
 
     @Override
@@ -94,6 +98,7 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
         info.setRoles(roles.stream().map(Role::getCode).toList());
         final List<String> permissions = this.resourceMapper.queryPermissionByUserId(user.getId());
         info.setPermissions(permissions);
+        this.loginLogService.addLog(info);
         return info;
     }
 

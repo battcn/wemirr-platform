@@ -1,8 +1,7 @@
 package com.wemirr.framework.boot.log;
 
 
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.Data;
 
 import java.time.Instant;
 
@@ -16,14 +15,8 @@ import java.time.Instant;
  * @since 2019-07-02
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode
-@Accessors(chain = true)
 public class OptLogDTO {
 
-    
 
     /**
      * 操作IP
@@ -52,7 +45,7 @@ public class OptLogDTO {
     private String classPath;
 
     /**
-     * 请求类型
+     * 请求方法
      */
     private String actionMethod;
 
@@ -104,6 +97,7 @@ public class OptLogDTO {
 
 
     private Long createdBy;
+
     private String createdName;
 
     private String browser;

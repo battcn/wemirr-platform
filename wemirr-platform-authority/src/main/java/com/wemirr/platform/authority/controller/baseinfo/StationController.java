@@ -37,7 +37,7 @@ public class StationController {
     }
 
     @PostMapping
-    @SysLog(value = "添加岗位")
+    @SysLog(description = "添加岗位")
     @Operation(summary = "添加岗位")
     @PreAuthorize("hasAuthority('sys:stations:add')")
     public void add(@Validated @RequestBody StationSaveReq dto) {
@@ -45,7 +45,7 @@ public class StationController {
     }
 
     @PutMapping("/{id}")
-    @SysLog(value = "编辑岗位")
+    @SysLog(description = "编辑岗位")
     @Operation(summary = "编辑岗位")
     @PreAuthorize("hasAuthority('sys:stations:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody StationSaveReq dto) {
@@ -53,7 +53,7 @@ public class StationController {
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(value = "删除岗位")
+    @SysLog(description = "删除岗位")
     @Operation(summary = "删除岗位")
     @PreAuthorize("hasAuthority('sys:stations:remove')")
     public void del(@PathVariable Long id) {

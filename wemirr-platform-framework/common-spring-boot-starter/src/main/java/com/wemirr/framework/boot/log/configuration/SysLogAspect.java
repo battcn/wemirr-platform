@@ -9,6 +9,7 @@ import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.boot.log.LogUtil;
 import com.wemirr.framework.boot.log.OptLogDTO;
@@ -78,12 +79,10 @@ public class SysLogAspect {
 
     /***
      * 定义controller切入点拦截规则：拦截标记SysLog注解和指定包下的方法
-     *
      * execution(public * com.wemirr.base.controller.*.*(..)) 解释：
      * 第一个* 任意返回类型
      * 第三个* 类下的所有方法
      * ()中间的.. 任意参数
-     *
      * annotation(com.wemirr.framework.commons.annotation.log.SysLog) 解释：
      * 标记了@SysLog 注解的方法
      */
@@ -128,7 +127,7 @@ public class SysLogAspect {
                 if (result == null) {
                     sysLog.setType("OPT");
                     if (sysLogAnnotation.response()) {
-                        sysLog.setResult(getText(String.valueOf(ret)));
+                        sysLog.setResult(getText(JSON.toJSONString(ret)));
                     }
                 } else {
                     if (result.isSuccessful()) {
@@ -144,7 +143,7 @@ public class SysLogAspect {
             } else {
                 sysLog.setType("OPT");
                 if (sysLogAnnotation.response()) {
-                    sysLog.setResult(getText(String.valueOf(ret == null ? "" : ret)));
+                    sysLog.setResult(getText(ret == null ? "" : JSON.toJSONString(ret)));
                 }
             }
             publishEvent(sysLog);
@@ -171,14 +170,11 @@ public class SysLogAspect {
             }
             OptLogDTO sysLog = get();
             sysLog.setType("EX");
-
             // 遇到错误时，请求参数若为空，则记录
-            if (!sysLogAnnotation.request() && sysLogAnnotation.requestByError() && StrUtil.isEmpty(sysLog.getParams())) {
-                Object[] args = joinPoint.getArgs();
-                HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-                String strArgs = getArgs(sysLogAnnotation, args, request);
-                sysLog.setParams(getText(strArgs));
-            }
+            Object[] args = joinPoint.getArgs();
+            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+            String strArgs = getArgs(sysLogAnnotation, args, request);
+            sysLog.setParams(getText(strArgs));
             if (e.getCause() instanceof CheckedException) {
                 sysLog.setExDetail(e.getLocalizedMessage());
             } else {
@@ -196,7 +192,10 @@ public class SysLogAspect {
      * @return String
      */
     private String getText(String val) {
-        return StrUtil.sub(val, 0, 65535);
+        if (val != null && val.length() > 65535) {
+            log.warn("val length > 65535,响应内容过长请避免日志存储到数据库中,本次长度 - {}", val.length());
+        }
+        return val;
     }
 
     @Before(value = "sysLogAspect()")
@@ -259,17 +258,18 @@ public class SysLogAspect {
 
     private String getArgs(SysLog sysLogAnnotation, Object[] args, HttpServletRequest request) {
         String strArgs = "";
-        if (sysLogAnnotation.request()) {
+        if (!sysLogAnnotation.request()) {
+            return strArgs;
+        }
+        try {
+            if (!request.getContentType().contains(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+                strArgs = JSONObject.toJSONString(args);
+            }
+        } catch (Exception e) {
             try {
-                if (!request.getContentType().contains(MediaType.MULTIPART_FORM_DATA_VALUE)) {
-                    strArgs = JSONObject.toJSONString(args);
-                }
-            } catch (Exception e) {
-                try {
-                    strArgs = Arrays.toString(args);
-                } catch (Exception ex) {
-                    log.warn("解析参数异常", ex);
-                }
+                strArgs = Arrays.toString(args);
+            } catch (Exception ex) {
+                log.warn("解析参数异常", ex);
             }
         }
         return strArgs;

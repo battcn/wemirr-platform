@@ -65,7 +65,7 @@ public class RegionUtils {
             return result;
 
         } catch (Exception e) {
-            log.error("error:", e);
+            log.error("error - {}", e.getLocalizedMessage());
         }
         return StrUtil.EMPTY;
     }

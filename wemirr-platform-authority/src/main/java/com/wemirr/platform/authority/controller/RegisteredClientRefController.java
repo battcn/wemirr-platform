@@ -50,14 +50,14 @@ public class RegisteredClientRefController {
     }
 
     @PostMapping
-    @SysLog(value = "保存应用")
+    @SysLog(description = "保存应用")
     @Operation(summary = "保存应用")
     public void save(@Validated @RequestBody RegisteredClientRefReq dto) {
         this.registeredClientRefService.registeredClient(dto);
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(value = "删除应用")
+    @SysLog(description = "删除应用")
     @Operation(summary = "删除应用")
     public void del(@PathVariable String id) {
         this.registeredClientRefService.deleteById(id);

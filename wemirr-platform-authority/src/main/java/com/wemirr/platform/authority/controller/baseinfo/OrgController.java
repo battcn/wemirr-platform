@@ -61,7 +61,7 @@ public class OrgController {
     }
 
     @PostMapping
-    @SysLog(value = "保存组织架构")
+    @SysLog(description = "保存组织架构")
     @Operation(summary = "保存编辑组织架构")
     @PreAuthorize("hasAuthority('sys:org:add')")
     public void save(@Validated @RequestBody OrgSaveReq dto) {
@@ -69,7 +69,7 @@ public class OrgController {
     }
 
     @PutMapping("/{id}")
-    @SysLog(value = "编辑组织架构")
+    @SysLog(description = "编辑组织架构")
     @Operation(summary = "编辑编辑组织架构")
     @PreAuthorize("hasAuthority('sys:org:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody OrgSaveReq dto) {
@@ -77,7 +77,7 @@ public class OrgController {
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(value = "删除组织架构")
+    @SysLog(description = "删除组织架构")
     @Operation(summary = "删除组织架构")
     @PreAuthorize("hasAuthority('sys:org:remove')")
     public void del(@PathVariable Long id) {

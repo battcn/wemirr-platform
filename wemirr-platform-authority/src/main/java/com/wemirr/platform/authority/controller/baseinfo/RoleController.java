@@ -81,7 +81,7 @@ public class RoleController {
     }
 
     @PostMapping
-    @SysLog(value = "添加角色")
+    @SysLog(description = "添加角色")
     @Operation(summary = "添加角色")
     @PreAuthorize("hasAuthority('sys:roles:add')")
     public void add(@Validated @RequestBody RoleReq data) {
@@ -89,7 +89,7 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    @SysLog(value = "编辑角色")
+    @SysLog(description = "编辑角色")
     @Operation(summary = "编辑角色")
     @PreAuthorize("hasAuthority('sys:roles:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody RoleReq data) {
@@ -97,7 +97,7 @@ public class RoleController {
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(value = "删除角色")
+    @SysLog(description = "删除角色")
     @Operation(summary = "删除角色")
     @PreAuthorize("hasAuthority('sys:roles:remove')")
     public void del(@PathVariable Long id) {

@@ -84,7 +84,7 @@ public class ResourceController {
     }
 
     @PostMapping
-    @SysLog(value = "添加资源")
+    @SysLog(description = "添加资源")
     @Operation(summary = "添加资源")
     @PreAuthorize("hasAuthority('sys:resources:add')")
     public void save(@Validated @RequestBody ResourceSaveReq data) {
@@ -94,7 +94,7 @@ public class ResourceController {
 
 
     @DeleteMapping("/{id}")
-    @SysLog(value = "删除资源")
+    @SysLog(description = "删除资源")
     @Operation(summary = "删除资源")
     @PreAuthorize("hasAuthority('sys:resources:remove')")
     public void del(@PathVariable Long id) {
@@ -102,7 +102,7 @@ public class ResourceController {
     }
 
     @PutMapping("/{id}")
-    @SysLog(value = "修改资源")
+    @SysLog(description = "修改资源")
     @Operation(summary = "修改资源")
     @PreAuthorize("hasAuthority('sys:resources:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody ResourceSaveReq data) {

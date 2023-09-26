@@ -18,7 +18,7 @@ public @interface SysLog {
      *
      * @return {String}
      */
-    String value();
+    String description();
 
     /**
      * 记录执行参数
@@ -28,16 +28,9 @@ public @interface SysLog {
     boolean request() default true;
 
     /**
-     * 当 request = false时， 需要方法报错是否记录请求参数
-     *
-     * @return true | false
-     */
-    boolean requestByError() default true;
-
-    /**
      * 记录返回参数
      *
      * @return true | false
      */
-    boolean response() default false;
+    boolean response() default true;
 }

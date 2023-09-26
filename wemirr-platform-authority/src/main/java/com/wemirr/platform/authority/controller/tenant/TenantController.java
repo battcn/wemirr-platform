@@ -61,7 +61,7 @@ public class TenantController {
 
 
     @PostMapping
-    @SysLog(value = "添加租户")
+    @SysLog(description = "添加租户")
     @Operation(summary = "添加租户")
     @PreAuthorize("hasAuthority('tenant:add')")
     public void add(@Validated @RequestBody TenantSaveReq dto) {
@@ -69,7 +69,7 @@ public class TenantController {
     }
 
     @PutMapping("/{id}")
-    @SysLog(value = "编辑租户")
+    @SysLog(description = "编辑租户")
     @Operation(summary = "编辑租户")
     @PreAuthorize("hasAuthority('tenant:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody TenantSaveReq dto) {
@@ -77,7 +77,7 @@ public class TenantController {
     }
 
     @PutMapping("/{id}/config")
-    @SysLog(value = "配置租户")
+    @SysLog(description = "配置租户")
     @Operation(summary = "配置租户")
     @PreAuthorize("hasAuthority('tenant:config')")
     public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq dto) {
@@ -85,7 +85,7 @@ public class TenantController {
     }
 
     @PutMapping("/{id}/init_sql_script")
-    @SysLog(value = "加载初始数据")
+    @SysLog(description = "加载初始数据")
     @Operation(summary = "加载初始数据")
     @RedisLock(prefix = "tenants:init_sql_script")
     public void initSqlScript(@RedisParam(name = "id") @PathVariable Long id) {
@@ -93,7 +93,7 @@ public class TenantController {
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(value = "删除租户")
+    @SysLog(description = "删除租户")
     @Operation(summary = "删除租户")
     @PreAuthorize("hasAuthority('tenant:remove')")
     public void del(@PathVariable Long id) {

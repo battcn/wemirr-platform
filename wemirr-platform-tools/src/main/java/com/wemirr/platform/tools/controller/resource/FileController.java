@@ -135,7 +135,7 @@ public class FileController {
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(value = "删除文件")
+    @SysLog(description = "删除文件")
     @Operation(summary = "删除文件")
     public void del(@PathVariable Long id) {
         final FileEntity file = Optional.ofNullable(this.fileService.getById(id)).orElseThrow(() -> CheckedException.notFound("文件不存在"));

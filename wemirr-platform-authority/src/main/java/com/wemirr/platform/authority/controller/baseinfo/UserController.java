@@ -61,7 +61,7 @@ public class UserController {
 
 
     @PostMapping
-    @SysLog(value = "添加用户")
+    @SysLog(description = "添加用户")
     @Operation(summary = "添加用户")
     @PreAuthorize("hasAuthority('sys:users:add')")
     public void save(@Validated @RequestBody UserSaveReq dto) {
@@ -70,7 +70,7 @@ public class UserController {
 
 
     @PutMapping("{id}")
-    @SysLog(value = "编辑用户")
+    @SysLog(description = "编辑用户")
     @Operation(summary = "编辑用户")
     @PreAuthorize("hasAuthority('sys:users:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody UserUpdateReq dto) {
@@ -79,7 +79,7 @@ public class UserController {
 
 
     @DeleteMapping("{id}")
-    @SysLog(value = "删除用户")
+    @SysLog(description = "删除用户")
     @Operation(summary = "删除用户")
     @PreAuthorize("hasAuthority('sys:users:remove')")
     public void del(@PathVariable Long id) {

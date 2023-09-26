@@ -52,7 +52,7 @@ public class SiteNotifyController {
     }
 
     @PostMapping
-    @SysLog(value = "添加站内通知")
+    @SysLog(description = "添加站内通知")
     @Operation(summary = "添加站内通知")
     @PreAuthorize("hasAuthority('sys:site_notifies:add')")
     public void add(@Validated @RequestBody SiteMessageSaveReq req) {
@@ -62,7 +62,7 @@ public class SiteNotifyController {
     }
 
     @PutMapping("/{id}")
-    @SysLog(value = "编辑站内通知")
+    @SysLog(description = "编辑站内通知")
     @Operation(summary = "编辑站内通知")
     @PreAuthorize("hasAuthority('sys:site_notifies:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody SiteMessageSaveReq req) {
@@ -73,7 +73,7 @@ public class SiteNotifyController {
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(value = "删除站内通知")
+    @SysLog(description = "删除站内通知")
     @Operation(summary = "删除站内通知")
     @PreAuthorize("hasAuthority('sys:site_notifies:remove')")
     public void del(@PathVariable Long id) {
@@ -81,7 +81,7 @@ public class SiteNotifyController {
     }
 
     @PatchMapping("/{id}/publish")
-    @SysLog(value = "发布通知")
+    @SysLog(description = "发布通知")
     @Operation(summary = "发布通知")
     @PreAuthorize("hasAuthority('sys:site_notifies:publish')")
     public void publish(@PathVariable Long id) {

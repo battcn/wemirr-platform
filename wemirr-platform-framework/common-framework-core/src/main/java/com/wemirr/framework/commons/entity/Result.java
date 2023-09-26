@@ -207,7 +207,7 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> fail(String message) {
-        return fail(message, null);
+        return new Result<>(OPERATION_EX_CODE, null, message);
     }
 
     public static <T> Result<T> fail(IntEnum intEnum) {
@@ -283,9 +283,5 @@ public class Result<T> implements Serializable {
     @Override
     public String toString() {
         return JSON.toJSONString(this);
-    }
-
-    public byte[] toByte() {
-        return JSON.toJSONBytes(this);
     }
 }
