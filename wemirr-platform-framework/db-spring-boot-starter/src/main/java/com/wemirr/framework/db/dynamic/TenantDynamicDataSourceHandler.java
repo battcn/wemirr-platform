@@ -129,9 +129,10 @@ public class TenantDynamicDataSourceHandler {
             return;
         }
         for (String scriptPath : tenantSqlScripts) {
-            log.debug("path - {}", scriptPath);
+            log.info("path - {}", scriptPath);
             final InputStream stream = new ClassPathResource(scriptPath).getInputStream();
             List<String> scriptContent = IoUtil.readUtf8Lines(stream, Lists.newArrayList());
+            log.info("content - {}", scriptContent);
             final File tmpFile = FileUtil.createTempFile(new File(Objects.requireNonNull(this.getClass().getResource("/")).getPath()));
             List<String> newSqlScript = Lists.newArrayList();
             for (String text : scriptContent) {
