@@ -1,5 +1,6 @@
 package com.wemirr.platform.tools.domain.resp;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class DynamicReleaseDragPushServerResp {
     private String secret;
     private List<String> opt;
     private Boolean locked;
+    @Schema(description = "创建时间")
     private Instant createdTime;
 
 

@@ -13,8 +13,11 @@ import lombok.EqualsAndHashCode;
 @Schema(name = "SiteMessagePageReq")
 public class SiteMessagePageReq extends PageRequest {
 
+    @Schema(description = "标题")
     private String title;
+    @Schema(description = "级别")
     private Integer level;
+    @Schema(description = "类型")
     private Integer type;
 
 

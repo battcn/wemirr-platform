@@ -49,6 +49,7 @@ public class Resource extends SuperEntity<Long> {
     @TableField(value = "`label`", condition = LIKE)
     private String label;
 
+    @Schema(description = "是否只读")
     private Boolean readonly;
 
     /**
@@ -62,35 +63,44 @@ public class Resource extends SuperEntity<Long> {
      * '资源类型（1=按钮，0=菜单）'
      */
     @TableField("`type`")
+    @Schema(description = "资源类型")
     private ResourceType type;
 
     @TableField("`sequence`")
+    @Schema(description = "排序")
     private Integer sequence;
 
     @TableField("`style`")
+    @Schema(description = "样式")
     private String style;
 
     @TableField("`icon`")
+    @Schema(description = "图标")
     private String icon;
 
     @TableField("`path`")
+    @Schema(description = "路径")
     private String path;
 
     @TableField("`component`")
+    @Schema(description = "组件")
     private String component;
 
     @TableField(value = "`model`", exist = false)
     private String model;
 
     @TableField("`tree_path`")
+    @Schema(description = "路径树")
     private String treePath;
     /**
      * 是否公开菜单
      * 就是无需分配就可以访问的。所有人可见
      */
     @TableField("`global`")
+    @Schema(description = "是否公开")
     private Boolean global;
     @TableField("`status`")
+    @Schema(description = "状态")
     private Boolean status;
 
 }

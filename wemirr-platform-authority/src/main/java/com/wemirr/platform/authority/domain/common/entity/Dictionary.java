@@ -60,9 +60,11 @@ public class Dictionary extends SuperEntity<Long> {
     private Boolean status;
 
     @TableField(value = "`readonly`")
+    @Schema(description = "只读")
     private Boolean readonly;
 
     @TableField(value = "`sequence`")
+    @Schema(description = "排序")
     private Integer sequence;
 
 }

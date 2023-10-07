@@ -2,11 +2,8 @@ package com.wemirr.platform.authority.domain.common.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-
-import java.io.Serializable;
 
 /**
  * <p>
@@ -18,14 +15,8 @@ import java.io.Serializable;
  * @since 2019-11-04
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
 @Schema(name = "ChangePasswordReq", description = "用户")
-public class ChangePasswordReq implements Serializable {
+public class ChangePasswordReq {
     /**
      * 密码
      */

@@ -32,9 +32,11 @@ public class AreaEntity extends SuperEntity<Long> {
     /**
      * 名称
      */
-    protected String name;
+    @Schema(description = "名称")
+    private String name;
 
     @TableField("`level`")
+    @Schema(description = "层级")
     private Integer level;
 
     @Schema(description = "父ID")

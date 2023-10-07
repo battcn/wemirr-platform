@@ -13,8 +13,11 @@ import lombok.EqualsAndHashCode;
 @Schema(name = "DictionaryPageReq")
 public class DictionaryPageReq extends PageRequest {
 
+    @Schema(description = "名称")
     private String name;
+    @Schema(description = "编码")
     private String code;
+    @Schema(description = "状态")
     private Boolean status;
 
 

@@ -40,6 +40,7 @@ public class OptLog {
     /**
      * 操作人
      */
+    @Schema(description = "操作人")
     private String createdName;
 
     /**

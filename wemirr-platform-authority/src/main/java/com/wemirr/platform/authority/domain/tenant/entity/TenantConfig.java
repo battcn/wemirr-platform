@@ -3,6 +3,7 @@ package com.wemirr.platform.authority.domain.tenant.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,7 +25,9 @@ import lombok.experimental.SuperBuilder;
 @TableName("t_tenant_config")
 public class TenantConfig extends SuperEntity<Long> {
 
+    @Schema(description = "租户ID")
     private Long tenantId;
+    @Schema(description = "数据源ID")
     private Long dynamicDatasourceId;
 
 }

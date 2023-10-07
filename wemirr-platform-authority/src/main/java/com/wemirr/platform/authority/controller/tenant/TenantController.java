@@ -13,6 +13,7 @@ import com.wemirr.platform.authority.domain.tenant.req.TenantConfigReq;
 import com.wemirr.platform.authority.domain.tenant.req.TenantPageReq;
 import com.wemirr.platform.authority.domain.tenant.req.TenantSaveReq;
 import com.wemirr.platform.authority.domain.tenant.resp.TenantDatasourceResp;
+import com.wemirr.platform.authority.domain.tenant.resp.TenantPageResp;
 import com.wemirr.platform.authority.service.TenantDatasourceService;
 import com.wemirr.platform.authority.service.TenantService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,17 +41,17 @@ public class TenantController {
     private final TenantService tenantService;
     private final TenantDatasourceService dynamicDatasourceService;
 
-    @GetMapping
+    @PostMapping("/page")
     @Operation(summary = "租户列表 - [Levin] - [DONE]")
     @PreAuthorize("hasAuthority('tenant:page')")
-    public IPage<Tenant> query(TenantPageReq params) {
-        return tenantService.page(params.buildPage(), Wraps.<Tenant>lbQ()
-                .like(Tenant::getName, params.getName()).eq(Tenant::getCode, params.getCode())
-                .eq(Tenant::getProvinceId, params.getProvinceId())
-                .eq(Tenant::getCityId, params.getCityId())
-                .eq(Tenant::getDistrictId, params.getDistrictId())
-                .eq(Tenant::getIndustry, params.getIndustry()).eq(Tenant::getStatus, params.getStatus())
-                .eq(Tenant::getType, params.getType()));
+    public IPage<TenantPageResp> query(TenantPageReq req) {
+        return tenantService.page(req.buildPage(), Wraps.<Tenant>lbQ()
+                .like(Tenant::getName, req.getName()).eq(Tenant::getCode, req.getCode())
+                .eq(Tenant::getProvinceId, req.getProvinceId())
+                .eq(Tenant::getCityId, req.getCityId())
+                .eq(Tenant::getDistrictId, req.getDistrictId())
+                .eq(Tenant::getIndustry, req.getIndustry()).eq(Tenant::getStatus, req.getStatus())
+                .eq(Tenant::getType, req.getType())).convert(x -> BeanUtil.toBean(x, TenantPageResp.class));
     }
 
     @Operation(summary = "查询可用", description = "查询可用数据源")

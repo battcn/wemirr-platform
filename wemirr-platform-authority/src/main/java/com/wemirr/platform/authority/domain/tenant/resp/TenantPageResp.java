@@ -1,34 +1,17 @@
-package com.wemirr.platform.authority.domain.tenant.entity;
+package com.wemirr.platform.authority.domain.tenant.resp;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
-import lombok.experimental.SuperBuilder;
 
-import static com.baomidou.mybatisplus.annotation.FieldStrategy.NEVER;
+import java.time.Instant;
 
 /**
- * <p>
- * 租户信息
- * </p>
- *
  * @author Levin
  */
 @Data
-@SuperBuilder
-@NoArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
-@TableName("t_tenant")
-public class Tenant extends SuperEntity<Long> {
+public class TenantPageResp {
 
+    private Long id;
     @Schema(description = "编码")
     private String code;
     @Schema(description = "名称")
@@ -54,22 +37,16 @@ public class Tenant extends SuperEntity<Long> {
     private String industry;
 
     @Schema(description = "省")
-    @TableField(updateStrategy = NEVER)
     private Long provinceId;
     @Schema(description = "省")
-    @TableField(updateStrategy = NEVER)
     private String provinceName;
     @Schema(description = "市")
-    @TableField(updateStrategy = NEVER)
     private Long cityId;
     @Schema(description = "市")
-    @TableField(updateStrategy = NEVER)
     private String cityName;
     @Schema(description = "区")
-    @TableField(updateStrategy = NEVER)
     private Long districtId;
     @Schema(description = "区")
-    @TableField(updateStrategy = NEVER)
     private String districtName;
 
     private String address;
@@ -81,5 +58,10 @@ public class Tenant extends SuperEntity<Long> {
     private String webSite;
     @Schema(description = "描述")
     private String description;
+
+    @Schema(description = "创建人")
+    private String createdName;
+    @Schema(description = "创建时间")
+    private Instant createdTime;
 
 }

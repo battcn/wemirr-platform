@@ -55,9 +55,10 @@ public class Org extends SuperEntity<Long> {
     protected Integer sequence;
 
 
+    @Schema(description = "电话")
     private String tel;
 
-
+    @Schema(description = "租户ID")
     private Long tenantId;
 
     /**

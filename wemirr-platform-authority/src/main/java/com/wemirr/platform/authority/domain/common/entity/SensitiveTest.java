@@ -17,6 +17,7 @@ public class SensitiveTest {
 
     @Sensitive(type = Sensitive.Type.EMAIL)
     private String username;
+
     @Sensitive(type = Sensitive.Type.MOBILE_PHONE)
     private String mobile;
 
