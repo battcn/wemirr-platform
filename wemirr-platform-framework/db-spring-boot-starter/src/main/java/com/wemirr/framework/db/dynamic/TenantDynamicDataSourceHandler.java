@@ -16,6 +16,7 @@ import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -126,7 +127,8 @@ public class TenantDynamicDataSourceHandler {
             return;
         }
         for (String scriptPath : tenantSqlScripts) {
-            final List<String> scriptContent = FileUtil.readUtf8Lines(scriptPath);
+            final File file = new ClassPathResource(scriptPath).getFile();
+            final List<String> scriptContent = FileUtil.readUtf8Lines(file);
             final File tmpFile = FileUtil.createTempFile(new File(Objects.requireNonNull(this.getClass().getResource("/")).getPath()));
             List<String> newSqlScript = Lists.newArrayList();
             for (String text : scriptContent) {
