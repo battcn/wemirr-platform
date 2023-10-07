@@ -2,6 +2,7 @@ package com.wemirr.framework.db.dynamic;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.HikariDataSourceCreator;
@@ -20,6 +21,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import javax.sql.DataSource;
 import java.io.File;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.List;
@@ -127,8 +129,9 @@ public class TenantDynamicDataSourceHandler {
             return;
         }
         for (String scriptPath : tenantSqlScripts) {
-            final File file = new ClassPathResource(scriptPath).getFile();
-            final List<String> scriptContent = FileUtil.readUtf8Lines(file);
+            log.debug("path - {}", scriptPath);
+            final InputStream stream = new ClassPathResource(scriptPath).getInputStream();
+            List<String> scriptContent = IoUtil.readUtf8Lines(stream, Lists.newArrayList());
             final File tmpFile = FileUtil.createTempFile(new File(Objects.requireNonNull(this.getClass().getResource("/")).getPath()));
             List<String> newSqlScript = Lists.newArrayList();
             for (String text : scriptContent) {
