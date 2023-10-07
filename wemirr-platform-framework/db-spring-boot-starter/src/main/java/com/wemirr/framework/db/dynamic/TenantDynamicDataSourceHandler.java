@@ -17,7 +17,7 @@ import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.ResourceLoader;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -43,6 +43,8 @@ public class TenantDynamicDataSourceHandler {
     private HikariDataSourceCreator hikariDataSourceCreator;
     @Resource
     private DatabaseProperties properties;
+    @Resource
+    private ResourceLoader resourceLoader;
 
     public void handler(EventAction action, TenantDynamicDatasource dynamicDatasource) {
         if (Objects.isNull(dynamicDatasource)) {
@@ -114,6 +116,7 @@ public class TenantDynamicDataSourceHandler {
 
     @SneakyThrows
     private void runScript(Long tenantId, String tenantCode) {
+        log.info("tenantId - {},tenantCode - {}", tenantId, tenantCode);
         if (tenantId == null) {
             throw CheckedException.badRequest("租户ID不能为空");
         }
@@ -124,13 +127,13 @@ public class TenantDynamicDataSourceHandler {
         ScriptRunner scriptRunner = new ScriptRunner(false, ";");
         final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
         final List<String> tenantSqlScripts = multiTenant.getTenantSqlScripts();
-
+        log.info("tenantSqlScripts - {}", tenantSqlScripts);
         if (CollectionUtil.isEmpty(tenantSqlScripts)) {
             return;
         }
         for (String scriptPath : tenantSqlScripts) {
             log.info("path - {}", scriptPath);
-            final InputStream stream = new ClassPathResource(scriptPath).getInputStream();
+            final InputStream stream = resourceLoader.getResource(scriptPath).getInputStream();
             List<String> scriptContent = IoUtil.readUtf8Lines(stream, Lists.newArrayList());
             log.info("content - {}", scriptContent);
             final File tmpFile = FileUtil.createTempFile(new File(Objects.requireNonNull(this.getClass().getResource("/")).getPath()));

@@ -159,7 +159,7 @@ public class DatabaseProperties {
          * 租户SQL脚本
          * 请放在 项目 resource/db 目录下
          */
-        private List<String> tenantSqlScripts = Lists.newArrayList("db/tenant_schema.sql", "db/tenant_common_area.sql");
+        private List<String> tenantSqlScripts = Lists.newArrayList("classpath:db/tenant_schema.sql", "classpath:db/tenant_common_area.sql");
 
         /**
          * 是否从登陆上下文获取数据库信息
