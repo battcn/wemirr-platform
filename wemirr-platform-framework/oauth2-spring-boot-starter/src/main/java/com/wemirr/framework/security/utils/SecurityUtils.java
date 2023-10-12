@@ -96,10 +96,10 @@ public final class SecurityUtils {
             parameters.put("error", e.getMessage());
             parameters.put("error_description", exception.getLocalizedMessage());
             parameters.put("message", exception.getLocalizedMessage());
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        } else if (e instanceof BadCredentialsException) {
+            response.setStatus(exception.getStatus().value());
+        } else if (e instanceof BadCredentialsException exception) {
             // 权限不足
-            parameters.put("error", e.getMessage());
+            parameters.put("error", exception.getMessage());
             parameters.put("error_description", "Failed to authenticate since password does not match stored value");
             parameters.put("message", "用户名或密码错误");
             response.setStatus(HttpStatus.UNAUTHORIZED.value());

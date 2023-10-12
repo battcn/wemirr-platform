@@ -34,7 +34,7 @@ public class VerificationCodeIntegrationAuthenticator extends UsernamePasswordAu
     }
 
     @Override
-    public boolean support(IntegrationAuthentication integrationAuthentication) {
-        return VERIFICATION_CODE_AUTH_TYPE.equals(integrationAuthentication.getLoginType());
+    public String loginType() {
+        return VERIFICATION_CODE_AUTH_TYPE;
     }
 }
