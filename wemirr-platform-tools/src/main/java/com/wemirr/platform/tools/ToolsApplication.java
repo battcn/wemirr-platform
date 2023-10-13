@@ -23,7 +23,7 @@ import java.net.InetAddress;
 @EnableDiscoveryClient
 @SpringBootApplication(exclude = MongoAutoConfiguration.class)
 @EnableFeignClients("com.wemirr")
-@MapperScan(value = "com.wemirr.**.mapper", annotationClass = Repository.class)
+@MapperScan(value = "com.wemirr.**.repository", annotationClass = Repository.class)
 public class ToolsApplication {
 
 
