@@ -1,8 +1,8 @@
 package com.wemirr.platform.tools.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.lang.generator.Generator;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.Method;
 import com.alibaba.excel.EasyExcel;
@@ -67,7 +67,6 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<String> {
 
-    private final Generator<Long> generator;
     private final DynamicReleaseDragMapper dynamicReleaseDragMapper;
     private final TenantEnvironment tenantEnvironment;
 
@@ -189,7 +188,7 @@ public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<Str
 
     @Override
     public void save(String model, Map<String, Object> body) {
-        body.put("_id", generator.next().toString());
+        body.put("_id", IdUtil.getSnowflake().nextId());
         body.put(Entity.CREATE_USER, tenantEnvironment.userId());
         body.put(Entity.CREATE_USER_NAME, tenantEnvironment.realName());
         body.put(Entity.CREATE_TIME, LocalDateTimeUtils.now());
@@ -236,7 +235,7 @@ public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<Str
             }
             final String logTableName = logTableName(model);
             Map<String, Object> map = Maps.newHashMap();
-            map.put("_id", generator.next().toString());
+            map.put("_id", IdUtil.getSnowflake().nextId());
             map.put(Entity.CREATE_USER, tenantEnvironment.userId());
             map.put(Entity.CREATE_USER_NAME, tenantEnvironment.realName());
             map.put(Entity.CREATE_TIME, LocalDateTimeUtils.now());

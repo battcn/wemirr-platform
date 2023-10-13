@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @EnableOauth2ClientResourceServer
 @EnableDiscoveryClient
 @SpringBootApplication
-@MapperScan(value = "com.wemirr.**.mapper", annotationClass = Repository.class)
+@MapperScan(value = "com.wemirr.**.repository", annotationClass = Repository.class)
 public class BuryApplication {
 
     public static void main(String[] args) {
