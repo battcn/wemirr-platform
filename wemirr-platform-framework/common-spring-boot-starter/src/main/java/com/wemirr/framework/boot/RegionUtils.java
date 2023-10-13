@@ -28,7 +28,7 @@ public class RegionUtils {
     static {
         try {
             // 因为jar无法读取文件,复制创建临时文件
-            String dbPath = Objects.requireNonNull(RegionUtils.class.getResource("/ip2region/ip2region.db")).getPath();
+            String dbPath = Objects.requireNonNull(RegionUtils.class.getResource("/ip2region/ip2region.xdb")).getPath();
             File file = new File(dbPath);
             if (!file.exists()) {
                 String tmpDir = System.getProperties().getProperty(JAVA_TEMP_DIR);
