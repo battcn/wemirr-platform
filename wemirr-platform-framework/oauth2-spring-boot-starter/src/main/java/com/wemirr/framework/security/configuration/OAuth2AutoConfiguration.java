@@ -2,16 +2,9 @@ package com.wemirr.framework.security.configuration;
 
 import com.wemirr.framework.security.configuration.client.ResourceAuthExceptionEntryPoint;
 import com.wemirr.framework.security.service.RedisOAuth2AuthorizationServiceImpl;
-import feign.Feign;
-import feign.Logger;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
@@ -20,41 +13,11 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.web.client.DefaultResponseErrorHandler;
-import org.springframework.web.client.RestTemplate;
-
-import javax.annotation.Nullable;
-import java.io.IOException;
 
 /**
  * @author Levin
  */
 public class OAuth2AutoConfiguration {
-
-    @Bean
-    @Primary
-    @LoadBalanced
-    @ConditionalOnClass(Feign.class)
-    public RestTemplate lbRestTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
-            @Override
-            public void handleError(@Nullable ClientHttpResponse response) throws IOException {
-                if (response != null && response.getStatusCode() != HttpStatus.BAD_REQUEST) {
-                    super.handleError(response);
-                }
-            }
-        });
-        return restTemplate;
-    }
-
-
-    @Bean
-    @Primary
-    @ConditionalOnClass(Feign.class)
-    public Logger.Level level() {
-        return Logger.Level.FULL;
-    }
 
     @Bean
     @ConditionalOnExpression("'${extend.oauth2.server.registered-client}'.equalsIgnoreCase('jdbc')")

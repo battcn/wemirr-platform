@@ -3,12 +3,9 @@ package com.wemirr.framework.boot.log.configuration;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import cn.hutool.http.useragent.Browser;
-import cn.hutool.http.useragent.Engine;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.alibaba.fastjson2.JSON;

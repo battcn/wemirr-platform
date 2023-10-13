@@ -3,9 +3,9 @@ package com.wemirr.framework.feign.plugin.token;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.HttpUtil;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONPath;
 import com.google.common.cache.Cache;
+import com.wemirr.framework.commons.exception.CheckedException;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.RequiredArgsConstructor;
@@ -13,15 +13,12 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Levin
@@ -51,7 +48,6 @@ public class AutoRefreshTokenInterceptor implements RequestInterceptor {
 
     @SneakyThrows
     private String loadCache() {
-        final HttpMethod method = Optional.of(HttpMethod.valueOf(properties.getMethod())).orElse(HttpMethod.GET);
         final AutoRefreshTokenProperties.OAuth auth = properties.getOAuth();
         //设置访问参数
         Map<String, Object> params = new LinkedHashMap<>();
@@ -62,8 +58,7 @@ public class AutoRefreshTokenInterceptor implements RequestInterceptor {
         params.put("tenant_code", auth.getTenantCode());
         params.put("grant_type", auth.getGrantType());
         params.put("scope", auth.getScope());
-        RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<?> entity = new HttpEntity<>(params, new LinkedMultiValueMap<>());
+        params.put("login_type", auth.getLoginType());
         String url = properties.getUri();
         if (properties.isLoadBalance()) {
             // 没找到好方案,只能用这种笨办法了
@@ -75,15 +70,11 @@ public class AutoRefreshTokenInterceptor implements RequestInterceptor {
             url = StrUtil.replace(url, serviceId, hostAndPort);
         }
         final String exchangeUrl = HttpUtil.urlWithForm(url, params, Charset.defaultCharset(), true);
-        final ResponseEntity<String> exchange = restTemplate.exchange(exchangeUrl, method, entity, String.class);
-        final JSONObject object = JSON.parseObject(exchange.getBody());
-        if (Objects.isNull(object)) {
-            return null;
-        }
-        log.info("自动获取Token响应结果 - {}", object.toJSONString());
-        final String accessToken = object.getString("access_token");
+        final String response = HttpUtil.createPost(exchangeUrl).basicAuth(auth.getClientId(), auth.getClientSecret()).execute().body();
+        log.info("自动获取Token响应结果 - {}", response);
+        final String accessToken = (String) JSONPath.eval(response, "data.access_token");
         if (StrUtil.isBlank(accessToken)) {
-            return null;
+            throw CheckedException.badRequest("未获取到有效的 Token 数据");
         }
         return "bearer " + accessToken;
     }

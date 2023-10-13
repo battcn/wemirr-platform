@@ -2,7 +2,6 @@ package com.wemirr.framework.feign.plugin.token;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.http.HttpMethod;
 
 /**
  * 自动生成 token 请求内部服务(对动态数据源支持不一定好)
@@ -22,7 +21,6 @@ public class AutoRefreshTokenProperties {
     private String includeTokenHeader = X_AUTO_TOKEN_KEYWORD;
     private String serverTokenHeader = AUTHORIZATION;
     private OAuth oAuth;
-    private String method = HttpMethod.POST.name();
     private String uri;
 
     /**
@@ -39,6 +37,7 @@ public class AutoRefreshTokenProperties {
         private String password;
         private String tenantCode;
         private String grantType = "password";
+        private String loginType = "password";
         private String scope = "server";
     }
 

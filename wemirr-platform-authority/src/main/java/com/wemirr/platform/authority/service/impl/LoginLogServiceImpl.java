@@ -1,8 +1,9 @@
 package com.wemirr.platform.authority.service.impl;
 
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.http.useragent.*;
+import cn.hutool.http.useragent.Browser;
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
 import com.wemirr.framework.boot.RegionUtils;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.security.domain.UserInfoDetails;

@@ -1,9 +1,10 @@
 package com.wemirr.platform.demo.service.client;
 
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.feign.plugin.token.AutoRefreshTokenProperties;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 /**
  * @author Levin
@@ -16,7 +17,7 @@ public interface DemoTestFeignClient {
      *
      * @return 响应内容
      */
-    @GetMapping(value = "/opt_logs", headers = {AutoRefreshTokenProperties.X_AUTO_TOKEN})
-    Result<?> query();
+    @GetMapping(value = "/sensitives/list", headers = {AutoRefreshTokenProperties.X_AUTO_TOKEN})
+    List<Object> query();
 
 }
