@@ -69,20 +69,12 @@ public class LoginLog {
     @Schema(description = "引擎类型")
     private String engine;
 
-
     /**
      * 浏览器名称
      */
     @Schema(description = "浏览器名称")
     @TableField(value = "browser")
     private String browser;
-
-    /**
-     * 浏览器版本
-     */
-    @Schema(description = "浏览器版本")
-    @TableField(value = "browser_version")
-    private String browserVersion;
 
     /**
      * 操作系统

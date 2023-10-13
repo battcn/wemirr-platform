@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -39,6 +40,7 @@ public class LoginTargetAuthenticationEntryPoint extends LoginUrlAuthenticationE
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         final SecurityExtProperties.Server server = properties.getServer();
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
         if (server.isCustom()) {
             log.debug("自定义模式异常 - {}", exception.getLocalizedMessage());
             SecurityUtils.exceptionHandler(request, response, exception);

@@ -1,6 +1,7 @@
 package com.wemirr.framework.boot.log;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -78,6 +79,7 @@ public class AccessLogInfo {
     @Schema(description = "创建者名字")
     protected String createdName;
 
+    @TableField(exist = false)
     @Schema(description = "数据源键值")
     private String dsKey;
 
