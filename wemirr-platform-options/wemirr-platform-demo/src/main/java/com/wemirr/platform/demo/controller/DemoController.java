@@ -1,7 +1,6 @@
 package com.wemirr.platform.demo.controller;
 
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.db.dynamic.event.body.TenantDynamicDatasource;
 import com.wemirr.framework.db.dynamic.feign.TenantFeignClient;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.demo.service.DemoService;
@@ -50,8 +49,6 @@ public class DemoController {
     @GetMapping("/feign")
     @Operation(summary = "自动生成Token查询", description = "需要配置登录信息才可以")
     public List<?> feign() {
-        final Result<List<TenantDynamicDatasource>> result = tenantFeignClient.selectAll();
-        log.info("输出内容 - {}", result);
         return demoTestFeignClient.query();
     }
 }
