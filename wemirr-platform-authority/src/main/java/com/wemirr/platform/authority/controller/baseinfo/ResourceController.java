@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.BeanUtilPlus;
-import com.wemirr.framework.commons.annotation.log.SysLog;
+import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Resource;
@@ -84,7 +84,7 @@ public class ResourceController {
     }
 
     @PostMapping
-    @SysLog(description = "添加资源")
+    @AccessLog(description = "添加资源")
     @Operation(summary = "添加资源")
     @PreAuthorize("hasAuthority('sys:resources:add')")
     public void save(@Validated @RequestBody ResourceSaveReq data) {
@@ -94,7 +94,7 @@ public class ResourceController {
 
 
     @DeleteMapping("/{id}")
-    @SysLog(description = "删除资源")
+    @AccessLog(description = "删除资源")
     @Operation(summary = "删除资源")
     @PreAuthorize("hasAuthority('sys:resources:remove')")
     public void del(@PathVariable Long id) {
@@ -102,7 +102,7 @@ public class ResourceController {
     }
 
     @PutMapping("/{id}")
-    @SysLog(description = "修改资源")
+    @AccessLog(description = "修改资源")
     @Operation(summary = "修改资源")
     @PreAuthorize("hasAuthority('sys:resources:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody ResourceSaveReq data) {

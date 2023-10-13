@@ -1,6 +1,6 @@
 package com.wemirr.framework.boot.log;
 
-import com.wemirr.framework.commons.annotation.log.SysLog;
+import com.wemirr.framework.commons.annotation.log.AccessLog;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -14,20 +14,20 @@ import java.lang.reflect.Method;
  * @since 2019-04-28 11:30
  */
 @Slf4j
-public class LogUtil {
+public class AccessLogUtil {
 
     /***
      * 获取操作信息
      */
     public static String getDescription(JoinPoint point) {
-        SysLog annotation = getTargetAnnotation(point);
+        AccessLog annotation = getTargetAnnotation(point);
         if (annotation == null) {
             return "";
         }
         return annotation.description();
     }
 
-    public static String getDescription(SysLog annotation) {
+    public static String getDescription(AccessLog annotation) {
         if (annotation == null) {
             return "";
         }
@@ -39,13 +39,13 @@ public class LogUtil {
      * 1，若子类重写了该方法，有标记就记录日志，没标记就忽略日志
      * 2，若子类没有重写该方法，就从父类获取，父类有标记就记录日志，没标记就忽略日志
      */
-    public static SysLog getTargetAnnotation(JoinPoint point) {
+    public static AccessLog getTargetAnnotation(JoinPoint point) {
         try {
-            SysLog annotation = null;
+            AccessLog annotation = null;
             if (point.getSignature() instanceof MethodSignature) {
                 Method method = ((MethodSignature) point.getSignature()).getMethod();
                 if (method != null) {
-                    annotation = method.getAnnotation(SysLog.class);
+                    annotation = method.getAnnotation(AccessLog.class);
                 }
             }
             return annotation;

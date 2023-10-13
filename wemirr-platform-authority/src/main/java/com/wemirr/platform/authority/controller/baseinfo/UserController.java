@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.controller.baseinfo;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.commons.annotation.log.SysLog;
+import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeService;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
@@ -61,7 +61,7 @@ public class UserController {
 
 
     @PostMapping
-    @SysLog(description = "添加用户")
+    @AccessLog(description = "添加用户")
     @Operation(summary = "添加用户")
     @PreAuthorize("hasAuthority('sys:users:add')")
     public void save(@Validated @RequestBody UserSaveReq dto) {
@@ -70,7 +70,7 @@ public class UserController {
 
 
     @PutMapping("{id}")
-    @SysLog(description = "编辑用户")
+    @AccessLog(description = "编辑用户")
     @Operation(summary = "编辑用户")
     @PreAuthorize("hasAuthority('sys:users:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody UserUpdateReq dto) {
@@ -79,7 +79,7 @@ public class UserController {
 
 
     @DeleteMapping("{id}")
-    @SysLog(description = "删除用户")
+    @AccessLog(description = "删除用户")
     @Operation(summary = "删除用户")
     @PreAuthorize("hasAuthority('sys:users:remove')")
     public void del(@PathVariable Long id) {

@@ -1,7 +1,7 @@
 com.wemirr.framework.boot.base.GlobalExceptionHandler
 com.wemirr.framework.boot.base.configuration.InitBaseConfiguration
 com.wemirr.framework.boot.base.i18n.MessageSourceConfiguration
-com.wemirr.framework.boot.log.configuration.LogAutoConfiguration
+com.wemirr.framework.boot.log.configuration.AccessLogAutoConfiguration
 com.wemirr.framework.boot.remote.configuration.RemoteAutoConfiguration
 com.wemirr.framework.boot.undertow.UndertowPoolCustomizer
 com.wemirr.framework.boot.response.GlobalResponseBodyAdvice

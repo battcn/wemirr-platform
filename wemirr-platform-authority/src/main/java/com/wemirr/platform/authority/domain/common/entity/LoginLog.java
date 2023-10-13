@@ -13,8 +13,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
-import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-
 /**
  * <p>
  * 实体类
@@ -48,6 +46,9 @@ public class LoginLog {
     @TableField("user_id")
     private Long userId;
 
+    @Schema(description = "租户ID")
+    private Long tenantId;
+
     /**
      * 登录人姓名
      */
@@ -60,6 +61,7 @@ public class LoginLog {
     @Schema(description = "登录人账号")
     private String principal;
 
+
     @Schema(description = "平台类型")
     private String platform;
 
@@ -68,37 +70,37 @@ public class LoginLog {
     private String engine;
 
 
-    @Schema(description = "引擎版本")
-    private String engineVersion;
     /**
      * 浏览器名称
      */
     @Schema(description = "浏览器名称")
-    @TableField(value = "browser", condition = LIKE)
+    @TableField(value = "browser")
     private String browser;
 
     /**
      * 浏览器版本
      */
     @Schema(description = "浏览器版本")
-    @TableField(value = "browser_version", condition = LIKE)
+    @TableField(value = "browser_version")
     private String browserVersion;
 
     /**
      * 操作系统
      */
     @Schema(description = "操作系统")
-    @TableField(value = "os", condition = LIKE)
+    @TableField(value = "os")
     private String os;
 
     /**
      * 登录地点
      */
     @Schema(description = "登录地点")
-    @TableField(value = "location", condition = LIKE)
+    @TableField(value = "location")
     private String location;
 
+
     private String clientId;
+
     /**
      * 创建时间（依托数据库功能）
      */

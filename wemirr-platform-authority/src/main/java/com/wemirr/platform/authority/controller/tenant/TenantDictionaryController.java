@@ -3,7 +3,7 @@ package com.wemirr.platform.authority.controller.tenant;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.commons.annotation.log.SysLog;
+import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.security.domain.UserInfoDetails;
@@ -42,7 +42,7 @@ public class TenantDictionaryController {
     private final TenantDictionaryItemService tenantDictionaryItemService;
 
     @GetMapping
-    @SysLog(description = "字典查询")
+    @AccessLog(description = "字典查询")
     @Operation(description = "查询字典 - [DONE] - [Levin]")
     @Parameter(name = "name", description = "名称", in = ParameterIn.QUERY)
     public IPage<TenantDictionary> query(PageRequest pageRequest, String name, String code, Boolean status) {
@@ -55,14 +55,14 @@ public class TenantDictionaryController {
     }
 
     @PostMapping
-    @SysLog(description = "字典新增")
+    @AccessLog(description = "字典新增")
     @Operation(description = "新增字典 - [DONE] - [Levin]")
     public void save(@Validated @RequestBody TenantDictionaryReq dto) {
         this.tenantDictionaryService.addDictionary(BeanUtil.toBean(dto, TenantDictionary.class));
     }
 
     @PutMapping("/{id}")
-    @SysLog(description = "字典编辑")
+    @AccessLog(description = "字典编辑")
     @Operation(description = "编辑字典 - [DONE] - [Levin]")
     public void edit(@PathVariable String id, @Validated @RequestBody TenantDictionaryReq dto) {
         final TenantDictionary bean = BeanUtil.toBean(dto, TenantDictionary.class);
@@ -71,7 +71,7 @@ public class TenantDictionaryController {
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(description = "删除指定字典项")
+    @AccessLog(description = "删除指定字典项")
     @Operation(description = "删除字典 - [DONE] - [Levin]")
     public void del(@PathVariable Long id) {
         this.tenantDictionaryService.deleteById(id);

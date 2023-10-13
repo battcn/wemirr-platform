@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.commons.annotation.log.SysLog;
+import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -135,7 +135,7 @@ public class FileController {
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(description = "删除文件")
+    @AccessLog(description = "删除文件")
     @Operation(summary = "删除文件")
     public void del(@PathVariable Long id) {
         final FileEntity file = Optional.ofNullable(this.fileService.getById(id)).orElseThrow(() -> CheckedException.notFound("文件不存在"));

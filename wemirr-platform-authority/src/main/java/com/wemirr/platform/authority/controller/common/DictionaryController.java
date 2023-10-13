@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.controller.common;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.commons.annotation.log.SysLog;
+import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.common.entity.Dictionary;
 import com.wemirr.platform.authority.domain.common.entity.DictionaryItem;
@@ -42,7 +42,7 @@ public class DictionaryController {
     private final DictionaryItemService dictionaryItemService;
 
     @GetMapping
-    @SysLog(description = "字典查询")
+    @AccessLog(description = "字典查询")
     @Operation(summary = "查询字典 - [DONE] - [Levin]", description = "查询字典 - [DONE] - [Levin]")
     @Parameter(name = "name", description = "名称", in = ParameterIn.QUERY)
     @PreAuthorize("hasAuthority('sys:dict:page')")
@@ -53,7 +53,7 @@ public class DictionaryController {
     }
 
     @PostMapping
-    @SysLog(description = "字典新增")
+    @AccessLog(description = "字典新增")
     @Operation(summary = "新增字典 - [DONE] - [Levin]", description = "新增字典 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('sys:dict:add')")
     public void save(@Validated @RequestBody DictionarySaveReq dto) {
@@ -61,7 +61,7 @@ public class DictionaryController {
     }
 
     @PutMapping("/{id}")
-    @SysLog(description = "字典编辑")
+    @AccessLog(description = "字典编辑")
     @Operation(summary = "编辑字典 - [DONE] - [Levin]", description = "编辑字典 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('sys:dict:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody DictionarySaveReq dto) {
@@ -69,7 +69,7 @@ public class DictionaryController {
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(description = "删除指定字典项")
+    @AccessLog(description = "删除指定字典项")
     @Operation(summary = "删除字典 - [DONE] - [Levin]", description = "删除字典 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('sys:dict:remove')")
     public void del(@PathVariable Long id) {
@@ -78,7 +78,7 @@ public class DictionaryController {
 
 
     @GetMapping("/{code}/refresh")
-    @SysLog(description = "刷新字典")
+    @AccessLog(description = "刷新字典")
     @Operation(summary = "刷新字典 - [DONE] - [Levin]", description = "刷新字典 - [DONE] - [Levin]")
 //    @PreAuthorize("hasAuthority('sys:dict:refresh')")
     public void refresh(@PathVariable("code") String code) {

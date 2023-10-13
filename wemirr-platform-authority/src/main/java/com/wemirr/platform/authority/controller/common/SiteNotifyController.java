@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.controller.common;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.commons.annotation.log.SysLog;
+import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.enums.ReceiverType;
@@ -52,7 +52,7 @@ public class SiteNotifyController {
     }
 
     @PostMapping
-    @SysLog(description = "添加站内通知")
+    @AccessLog(description = "添加站内通知")
     @Operation(summary = "添加站内通知")
     @PreAuthorize("hasAuthority('sys:site_notifies:add')")
     public void add(@Validated @RequestBody SiteMessageSaveReq req) {
@@ -62,7 +62,7 @@ public class SiteNotifyController {
     }
 
     @PutMapping("/{id}")
-    @SysLog(description = "编辑站内通知")
+    @AccessLog(description = "编辑站内通知")
     @Operation(summary = "编辑站内通知")
     @PreAuthorize("hasAuthority('sys:site_notifies:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody SiteMessageSaveReq req) {
@@ -73,7 +73,7 @@ public class SiteNotifyController {
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(description = "删除站内通知")
+    @AccessLog(description = "删除站内通知")
     @Operation(summary = "删除站内通知")
     @PreAuthorize("hasAuthority('sys:site_notifies:remove')")
     public void del(@PathVariable Long id) {
@@ -81,7 +81,7 @@ public class SiteNotifyController {
     }
 
     @PatchMapping("/{id}/publish")
-    @SysLog(description = "发布通知")
+    @AccessLog(description = "发布通知")
     @Operation(summary = "发布通知")
     @PreAuthorize("hasAuthority('sys:site_notifies:publish')")
     public void publish(@PathVariable Long id) {

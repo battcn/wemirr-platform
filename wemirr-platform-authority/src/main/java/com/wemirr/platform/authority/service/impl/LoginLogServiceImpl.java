@@ -1,10 +1,8 @@
 package com.wemirr.platform.authority.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.http.useragent.Browser;
-import cn.hutool.http.useragent.OS;
-import cn.hutool.http.useragent.UserAgent;
-import cn.hutool.http.useragent.UserAgentUtil;
+import cn.hutool.http.useragent.*;
 import com.wemirr.framework.boot.RegionUtils;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.security.domain.UserInfoDetails;
@@ -37,22 +35,20 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
 
     @Override
     public LoginLog addLog(UserInfoDetails details) {
-        String ip = JakartaServletUtil.getClientIP(request);
         final String clientId = request.getParameter("client_id");
         final String username = request.getParameter("username");
+        String ip = JakartaServletUtil.getClientIP(request);
         String region = RegionUtils.getRegion(ip);
         String ua = request.getHeader(USER_AGENT);
         final UserAgent userAgent = UserAgentUtil.parse(ua);
         final Browser browser = userAgent.getBrowser();
-        final OS os = userAgent.getOs();
         LoginLog loginLog = LoginLog.builder().userId(details.getUserId())
+                .tenantId(details.getTenantId())
                 .principal(username).location(region).ip(ip)
                 .platform(userAgent.getPlatform().getName())
                 .engine(userAgent.getEngine().getName())
-                .engineVersion(userAgent.getEngineVersion())
                 .browser(browser.getName())
-                .browserVersion(browser.getVersion(ua))
-                .os(os.getName())
+                .os(userAgent.getOs().getName())
                 .clientId(clientId).name(details.getNickName())
                 .build();
         super.save(loginLog);

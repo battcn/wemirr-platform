@@ -6,7 +6,7 @@ import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.BeanUtilPlus;
-import com.wemirr.framework.commons.annotation.log.SysLog;
+import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Org;
 import com.wemirr.platform.authority.domain.baseinfo.req.OrgSaveReq;
@@ -61,7 +61,7 @@ public class OrgController {
     }
 
     @PostMapping
-    @SysLog(description = "保存组织架构")
+    @AccessLog(description = "保存组织架构")
     @Operation(summary = "保存编辑组织架构")
     @PreAuthorize("hasAuthority('sys:org:add')")
     public void save(@Validated @RequestBody OrgSaveReq dto) {
@@ -69,7 +69,7 @@ public class OrgController {
     }
 
     @PutMapping("/{id}")
-    @SysLog(description = "编辑组织架构")
+    @AccessLog(description = "编辑组织架构")
     @Operation(summary = "编辑编辑组织架构")
     @PreAuthorize("hasAuthority('sys:org:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody OrgSaveReq dto) {
@@ -77,7 +77,7 @@ public class OrgController {
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(description = "删除组织架构")
+    @AccessLog(description = "删除组织架构")
     @Operation(summary = "删除组织架构")
     @PreAuthorize("hasAuthority('sys:org:remove')")
     public void del(@PathVariable Long id) {

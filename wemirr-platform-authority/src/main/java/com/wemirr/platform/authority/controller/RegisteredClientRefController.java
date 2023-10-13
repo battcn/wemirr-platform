@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.commons.annotation.log.SysLog;
+import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.RegisteredClientRef;
 import com.wemirr.platform.authority.domain.baseinfo.req.RegisteredClientRefReq;
@@ -50,14 +50,14 @@ public class RegisteredClientRefController {
     }
 
     @PostMapping
-    @SysLog(description = "保存应用")
+    @AccessLog(description = "保存应用")
     @Operation(summary = "保存应用")
     public void save(@Validated @RequestBody RegisteredClientRefReq dto) {
         this.registeredClientRefService.registeredClient(dto);
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(description = "删除应用")
+    @AccessLog(description = "删除应用")
     @Operation(summary = "删除应用")
     public void del(@PathVariable String id) {
         this.registeredClientRefService.deleteById(id);

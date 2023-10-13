@@ -3,7 +3,7 @@ package com.wemirr.platform.authority.controller.tenant;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
-import com.wemirr.framework.commons.annotation.log.SysLog;
+import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.redis.plus.anontation.RedisLock;
 import com.wemirr.framework.redis.plus.anontation.RedisParam;
@@ -62,7 +62,7 @@ public class TenantController {
 
 
     @PostMapping
-    @SysLog(description = "添加租户")
+    @AccessLog(description = "添加租户")
     @Operation(summary = "添加租户")
     @PreAuthorize("hasAuthority('tenant:add')")
     public void add(@Validated @RequestBody TenantSaveReq dto) {
@@ -70,7 +70,7 @@ public class TenantController {
     }
 
     @PutMapping("/{id}")
-    @SysLog(description = "编辑租户")
+    @AccessLog(description = "编辑租户")
     @Operation(summary = "编辑租户")
     @PreAuthorize("hasAuthority('tenant:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody TenantSaveReq dto) {
@@ -78,7 +78,7 @@ public class TenantController {
     }
 
     @PutMapping("/{id}/config")
-    @SysLog(description = "配置租户")
+    @AccessLog(description = "配置租户")
     @Operation(summary = "配置租户")
     @PreAuthorize("hasAuthority('tenant:config')")
     public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq dto) {
@@ -86,7 +86,7 @@ public class TenantController {
     }
 
     @PutMapping("/{id}/init_sql_script")
-    @SysLog(description = "加载初始数据")
+    @AccessLog(description = "加载初始数据")
     @Operation(summary = "加载初始数据")
     @RedisLock(prefix = "tenants:init_sql_script")
     public void initSqlScript(@RedisParam(name = "id") @PathVariable Long id) {
@@ -94,7 +94,7 @@ public class TenantController {
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(description = "删除租户")
+    @AccessLog(description = "删除租户")
     @Operation(summary = "删除租户")
     @PreAuthorize("hasAuthority('tenant:remove')")
     public void del(@PathVariable Long id) {

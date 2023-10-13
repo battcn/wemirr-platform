@@ -4,7 +4,7 @@ package com.wemirr.platform.authority.controller.baseinfo;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
-import com.wemirr.framework.commons.annotation.log.SysLog;
+import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Role;
@@ -81,7 +81,7 @@ public class RoleController {
     }
 
     @PostMapping
-    @SysLog(description = "添加角色")
+    @AccessLog(description = "添加角色")
     @Operation(summary = "添加角色")
     @PreAuthorize("hasAuthority('sys:roles:add')")
     public void add(@Validated @RequestBody RoleReq data) {
@@ -89,7 +89,7 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    @SysLog(description = "编辑角色")
+    @AccessLog(description = "编辑角色")
     @Operation(summary = "编辑角色")
     @PreAuthorize("hasAuthority('sys:roles:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody RoleReq data) {
@@ -97,7 +97,7 @@ public class RoleController {
     }
 
     @DeleteMapping("/{id}")
-    @SysLog(description = "删除角色")
+    @AccessLog(description = "删除角色")
     @Operation(summary = "删除角色")
     @PreAuthorize("hasAuthority('sys:roles:remove')")
     public void del(@PathVariable Long id) {

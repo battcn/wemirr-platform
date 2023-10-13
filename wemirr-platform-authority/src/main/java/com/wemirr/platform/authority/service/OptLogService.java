@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.service;
 
-import com.wemirr.framework.boot.log.OptLogDTO;
+import com.wemirr.framework.boot.log.AccessLogInfo;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.authority.domain.common.entity.OptLog;
 
@@ -14,5 +14,5 @@ public interface OptLogService extends SuperService<OptLog> {
      *
      * @param dto dto
      */
-    void save(OptLogDTO dto);
+    void save(AccessLogInfo dto);
 }

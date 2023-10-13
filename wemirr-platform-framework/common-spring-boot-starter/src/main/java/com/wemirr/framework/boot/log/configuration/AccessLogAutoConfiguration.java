@@ -21,11 +21,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @AllArgsConstructor
 @ConditionalOnWebApplication
 @ConditionalOnProperty(name = "extend.log.enabled", havingValue = "true", matchIfMissing = true)
-public class LogAutoConfiguration {
+public class AccessLogAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SysLogAspect sysLogAspect() {
-        return new SysLogAspect();
+    public AccessLogAspect accessLogAspect() {
+        return new AccessLogAspect();
     }
 }

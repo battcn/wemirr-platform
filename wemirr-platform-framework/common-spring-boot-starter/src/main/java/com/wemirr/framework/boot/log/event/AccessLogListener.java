@@ -1,6 +1,6 @@
 package com.wemirr.framework.boot.log.event;
 
-import com.wemirr.framework.boot.log.OptLogDTO;
+import com.wemirr.framework.boot.log.AccessLogInfo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -17,15 +17,15 @@ import java.util.function.Consumer;
  */
 @Slf4j
 @AllArgsConstructor
-public class SysLogListener {
+public class AccessLogListener {
 
-    private final Consumer<OptLogDTO> consumer;
+    private final Consumer<AccessLogInfo> consumer;
 
     @Async
     @Order
-    @EventListener(SysLogEvent.class)
-    public void saveSysLog(SysLogEvent event) {
-        OptLogDTO sysLog = (OptLogDTO) event.getSource();
+    @EventListener(AccessLogEvent.class)
+    public void saveSysLog(AccessLogEvent event) {
+        AccessLogInfo sysLog = (AccessLogInfo) event.getSource();
         if (sysLog == null) {
             log.warn("日志为空，忽略操作日志...");
             return;

@@ -1,6 +1,6 @@
 package com.wemirr.framework.boot.log.event;
 
-import com.wemirr.framework.boot.log.OptLogDTO;
+import com.wemirr.framework.boot.log.AccessLogInfo;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -9,9 +9,9 @@ import org.springframework.context.ApplicationEvent;
  * @author Levin
  * @since 2019-07-01 15:13
  */
-public class SysLogEvent extends ApplicationEvent {
+public class AccessLogEvent extends ApplicationEvent {
 
-    public SysLogEvent(OptLogDTO source) {
+    public AccessLogEvent(AccessLogInfo source) {
         super(source);
     }
 }
