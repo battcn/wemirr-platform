@@ -17,7 +17,7 @@ import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.platform.tools.domain.entity.GenerateEntity;
 import com.wemirr.platform.tools.domain.resp.GenerateTableResp;
-import com.wemirr.platform.tools.mapper.GenerateMapper;
+import com.wemirr.platform.tools.repository.GenerateMapper;
 import com.wemirr.platform.tools.service.GenerateService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

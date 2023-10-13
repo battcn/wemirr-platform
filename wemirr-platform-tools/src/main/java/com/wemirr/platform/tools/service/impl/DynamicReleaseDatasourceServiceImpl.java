@@ -3,7 +3,7 @@ package com.wemirr.platform.tools.service.impl;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDatasource;
-import com.wemirr.platform.tools.mapper.DynamicReleaseDatasourceMapper;
+import com.wemirr.platform.tools.repository.DynamicReleaseDatasourceMapper;
 import com.wemirr.platform.tools.service.DynamicReleaseDatasourceService;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

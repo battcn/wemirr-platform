@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.platform.tools.domain.DynamicReleaseDragSetting;
 import com.wemirr.platform.tools.domain.entity.DynamicReleaseDrag;
-import com.wemirr.platform.tools.mapper.DynamicReleaseDragMapper;
+import com.wemirr.platform.tools.repository.DynamicReleaseDragMapper;
 import com.wemirr.platform.tools.service.DynamicReleaseGenerateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

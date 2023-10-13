@@ -1,4 +1,4 @@
-package com.wemirr.platform.tools.mapper;
+package com.wemirr.platform.tools.repository;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.ibatis.annotations.Delete;

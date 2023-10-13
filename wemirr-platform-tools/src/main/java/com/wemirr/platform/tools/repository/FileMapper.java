@@ -1,4 +1,4 @@
-package com.wemirr.platform.tools.mapper;
+package com.wemirr.platform.tools.repository;
 
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;

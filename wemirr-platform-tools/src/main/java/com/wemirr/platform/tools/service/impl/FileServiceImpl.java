@@ -10,7 +10,7 @@ import com.wemirr.framework.storage.StorageOperation;
 import com.wemirr.framework.storage.domain.StorageRequest;
 import com.wemirr.framework.storage.domain.StorageResponse;
 import com.wemirr.platform.tools.domain.entity.FileEntity;
-import com.wemirr.platform.tools.mapper.FileMapper;
+import com.wemirr.platform.tools.repository.FileMapper;
 import com.wemirr.platform.tools.service.FileService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
