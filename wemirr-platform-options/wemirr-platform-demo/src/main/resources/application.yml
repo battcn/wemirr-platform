@@ -27,14 +27,15 @@ extend:
       enabled: true
       token:
         enabled: true
-        uri: http://wemirr-platform-authority/oauth/token
+        uri: http://wemirr-platform-authority/oauth2/token
         method: get
         load-balance: true
         o-auth:
-          client-id: client
-          client-secret: client
+          client-id: messaging-client
+          client-secret: 123456
           username: admin
           password: 123456
           tenant-code: "0000"
+          scope: platform
 
 
