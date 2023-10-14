@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -38,6 +39,7 @@ public class UserInfoDetails implements UserDetails, OAuth2AuthenticatedPrincipa
     private String avatar;
     private Boolean enabled;
     private String description;
+    private LocalDate birthday;
     private Long orgId;
     private Collection<String> permissions = new ArrayList<>();
     private Collection<String> roles = new ArrayList<>();

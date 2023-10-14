@@ -13,6 +13,7 @@ import com.wemirr.platform.authority.domain.baseinfo.entity.User;
 import com.wemirr.platform.authority.domain.baseinfo.entity.UserRole;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserSaveReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.UserResp;
+import com.wemirr.platform.authority.domain.common.req.ChangeUserInfoReq;
 import com.wemirr.platform.authority.repository.baseinfo.UserMapper;
 import com.wemirr.platform.authority.repository.baseinfo.UserRoleMapper;
 import com.wemirr.platform.authority.service.UserService;
@@ -32,7 +33,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implements UserService {
 
-    private static final String PHONE_REGEX = "^[1][0-9]{10}$";
     private final UserMapper userMapper;
     private final UserRoleMapper userRoleMapper;
     private final PasswordEncoder passwordEncoder;
@@ -63,8 +63,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
     @Override
     public void changePassword(Long userId, String orgPassword, String newPassword) {
-        final User user = Optional.ofNullable(this.baseMapper.selectById(userId))
-                .orElseThrow(() -> CheckedException.notFound("用户不存在"));
+        final User user = Optional.ofNullable(this.baseMapper.selectById(userId)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
         if (!passwordEncoder.matches(orgPassword, user.getPassword())) {
             throw CheckedException.badRequest("原始密码错误");
         }
@@ -83,5 +82,13 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         }
         baseMapper.deleteById(id);
         userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getUserId, id));
+    }
+
+    @Override
+    public void changeInfo(ChangeUserInfoReq req) {
+        final Long userId = tenantEnvironment.userId();
+        User record = User.builder().id(userId).email(req.getEmail()).mobile(req.getMobile())
+                .nickName(req.getNickName()).birthday(req.getBirthday()).description(req.getDescription()).build();
+        this.userMapper.updateById(record);
     }
 }

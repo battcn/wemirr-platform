@@ -7,6 +7,7 @@ import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserSaveReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.UserResp;
+import com.wemirr.platform.authority.domain.common.req.ChangeUserInfoReq;
 
 import java.util.List;
 
@@ -61,4 +62,12 @@ public interface UserService extends SuperService<User> {
      * @param id id
      */
     void deleteById(Long id);
+
+    /**
+     * 修改用户信息
+     *
+     * @param req req
+     */
+    void changeInfo(ChangeUserInfoReq req);
+
 }

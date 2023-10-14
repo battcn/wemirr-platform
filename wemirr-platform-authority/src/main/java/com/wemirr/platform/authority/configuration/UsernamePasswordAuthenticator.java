@@ -90,6 +90,7 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
         info.setMobile(user.getMobile());
         info.setEmail(user.getEmail());
         info.setDescription(user.getDescription());
+        info.setBirthday(user.getBirthday());
         info.setSex(Objects.isNull(user.getSex()) ? null : user.getSex().getValue());
         info.setEnabled(user.getStatus());
         info.setAvatar(user.getAvatar());

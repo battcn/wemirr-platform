@@ -4,8 +4,10 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.platform.authority.domain.common.req.ChangePasswordReq;
+import com.wemirr.platform.authority.domain.common.req.ChangeUserInfoReq;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +32,7 @@ import java.util.Objects;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping
+@Tag(name = "Token管理", description = "Token管理")
 public class TokenEndpoint {
 
     private final TenantEnvironment tenantEnvironment;
@@ -64,7 +67,7 @@ public class TokenEndpoint {
         return principal;
     }
 
-    @PutMapping("/change_password")
+    @PutMapping("/oauth2/change_password")
     @Operation(summary = "修改密码")
     public void changePassword(@Validated @RequestBody ChangePasswordReq dto) {
         if (!StringUtils.equals(dto.getPassword(), dto.getConfirmPassword())) {
@@ -72,6 +75,12 @@ public class TokenEndpoint {
         }
         final Long userId = tenantEnvironment.userId();
         this.userService.changePassword(userId, dto.getOriginalPassword(), dto.getPassword());
+    }
+
+    @PutMapping("/oauth2/change_info")
+    @Operation(summary = "修改密码")
+    public void changeInfo(@Validated @RequestBody ChangeUserInfoReq req) {
+        this.userService.changeInfo(req);
     }
 
     @DeleteMapping("/oauth2/logout")

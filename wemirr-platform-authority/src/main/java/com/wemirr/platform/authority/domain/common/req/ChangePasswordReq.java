@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.domain.common.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -21,14 +21,14 @@ public class ChangePasswordReq {
      * 密码
      */
     @Schema(description = "旧密码")
-    @NotEmpty(message = "旧密码不能为空")
+    @NotBlank(message = "旧密码不能为空")
     @Length(max = 64, message = "旧密码长度不能超过64")
     private String originalPassword;
     /**
      * 密码
      */
     @Schema(description = "密码")
-    @NotEmpty(message = "密码不能为空")
+    @NotBlank(message = "密码不能为空")
     @Length(max = 64, message = "密码长度不能超过64")
     private String password;
 
@@ -36,7 +36,7 @@ public class ChangePasswordReq {
      * 密码
      */
     @Schema(description = "确认密码")
-    @NotEmpty(message = "确认密码不能为空")
+    @NotBlank(message = "确认密码不能为空")
     @Length(max = 64, message = "确认密码长度不能超过64")
     private String confirmPassword;
 }
