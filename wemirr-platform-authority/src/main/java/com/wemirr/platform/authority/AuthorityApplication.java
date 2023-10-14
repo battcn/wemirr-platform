@@ -33,8 +33,8 @@ import java.net.InetAddress;
 public class AuthorityApplication {
 
     @Bean
-    public AccessLogListener sysLogListener(OptLogService optLogService) {
-        return new AccessLogListener(optLogService::save);
+    public AccessLogListener accessLogListener(OptLogService optLogService) {
+        return new AccessLogListener(optLogService::listener);
     }
 
     @SneakyThrows

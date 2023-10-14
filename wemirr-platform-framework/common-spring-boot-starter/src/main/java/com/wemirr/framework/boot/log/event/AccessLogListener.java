@@ -24,13 +24,13 @@ public class AccessLogListener {
     @Async
     @Order
     @EventListener(AccessLogEvent.class)
-    public void saveSysLog(AccessLogEvent event) {
-        AccessLogInfo sysLog = (AccessLogInfo) event.getSource();
-        if (sysLog == null) {
+    public void accessLogListener(AccessLogEvent event) {
+        AccessLogInfo info = (AccessLogInfo) event.getSource();
+        if (info == null) {
             log.warn("日志为空，忽略操作日志...");
             return;
         }
-        consumer.accept(sysLog);
+        consumer.accept(info);
     }
 
 }

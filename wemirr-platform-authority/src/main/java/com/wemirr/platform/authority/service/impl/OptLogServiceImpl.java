@@ -23,7 +23,7 @@ public class OptLogServiceImpl extends SuperServiceImpl<OptLogMapper, OptLog> im
     private final OptLogMapper optLogMapper;
 
     @Override
-    public void save(AccessLogInfo info) {
+    public void listener(AccessLogInfo info) {
         DynamicDataSourceContextHolder.push(info.getDsKey());
         log.debug("[日志信息] - {}", JSON.toJSONString(info));
         this.optLogMapper.insert(BeanUtil.toBean(info, OptLog.class));

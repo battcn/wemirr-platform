@@ -87,7 +87,7 @@ public class FeignPluginConfiguration {
     @Bean
     @Order(-999999)
     @ConditionalOnProperty(prefix = FeignPluginProperties.PLUGIN_PREFIX, name = "enabled", havingValue = "true")
-    public FeignPluginInterceptor mockFeignInterceptor(FeignPluginProperties properties) {
+    public FeignPluginInterceptor feignPluginInterceptor(FeignPluginProperties properties) {
         return new FeignPluginInterceptor(properties);
     }
 

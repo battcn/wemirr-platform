@@ -14,5 +14,5 @@ public interface OptLogService extends SuperService<OptLog> {
      *
      * @param dto dto
      */
-    void save(AccessLogInfo dto);
+    void listener(AccessLogInfo dto);
 }

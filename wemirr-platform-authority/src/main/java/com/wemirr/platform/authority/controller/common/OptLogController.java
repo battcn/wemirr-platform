@@ -1,6 +1,7 @@
 package com.wemirr.platform.authority.controller.common;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wemirr.framework.boot.log.AccessLogInfo;
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -57,6 +58,13 @@ public class OptLogController {
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
     public void batchDelete(@PathVariable Integer day) {
         this.optLogService.remove(Wraps.<OptLog>lbQ().le(OptLog::getStartTime, Instant.now().plus(-day, ChronoUnit.DAYS)));
+    }
+
+
+    @PostMapping("/listener")
+    @Operation(summary = "监听日志 - [DONE] - [Levin]", description = "监听日志 - [DONE] - [Levin]")
+    public void listener(@RequestBody AccessLogInfo info) {
+        this.optLogService.listener(info);
     }
 
 
