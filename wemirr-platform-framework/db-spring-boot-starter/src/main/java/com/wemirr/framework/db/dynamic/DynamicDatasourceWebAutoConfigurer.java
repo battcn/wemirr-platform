@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Slf4j
 @Configuration
-@ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "ds-interceptor", havingValue = "true")
+@ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "ds-interceptor", havingValue = "false")
 public class DynamicDatasourceWebAutoConfigurer implements WebMvcConfigurer {
 
     @Resource
