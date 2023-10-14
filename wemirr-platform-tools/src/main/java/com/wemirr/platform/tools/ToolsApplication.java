@@ -1,5 +1,7 @@
 package com.wemirr.platform.tools;
 
+import com.wemirr.framework.boot.log.event.AccessLogListener;
+import com.wemirr.framework.boot.log.feign.AccessLogFeign;
 import com.wemirr.framework.security.configuration.client.annotation.EnableOAuth2Client;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +12,7 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +29,10 @@ import java.net.InetAddress;
 @MapperScan(value = "com.wemirr.**.repository", annotationClass = Repository.class)
 public class ToolsApplication {
 
+    @Bean
+    public AccessLogListener accessLogListener(AccessLogFeign feign) {
+        return new AccessLogListener(feign::listener);
+    }
 
     @SneakyThrows
     public static void main(String[] args) {
