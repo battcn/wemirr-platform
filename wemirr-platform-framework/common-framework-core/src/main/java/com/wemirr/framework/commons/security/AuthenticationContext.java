@@ -1,12 +1,12 @@
-package com.wemirr.framework.db;
+package com.wemirr.framework.commons.security;
 
 
 /**
- * 多租户上下文
+ * 认证上下文接口
  *
  * @author Levin
  */
-public interface TenantEnvironment {
+public interface AuthenticationContext {
 
     /**
      * 租户编码

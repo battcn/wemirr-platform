@@ -5,7 +5,7 @@ import com.baomidou.dynamic.datasource.processor.DsHeaderProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.dynamic.event.DynamicDatasourceEvent;
 import com.wemirr.framework.db.dynamic.event.DynamicDatasourceEventListener;
 import com.wemirr.framework.db.dynamic.feign.TenantFeignClient;
@@ -75,12 +75,12 @@ public class TenantDynamicDataSourceEventBusAutoConfiguration {
                 }
                 HttpServletRequest request = attributes.getRequest();
                 if (multiTenant.isUseTenantContent()) {
-                    TenantEnvironment tenantEnvironment = SpringUtil.getBean(TenantEnvironment.class);
-                    if (tenantEnvironment.anonymous()) {
+                    AuthenticationContext authenticationContext = SpringUtil.getBean(AuthenticationContext.class);
+                    if (authenticationContext.anonymous()) {
                         log.debug("匿名用户,切换默认数据源 - {}", multiTenant.getDefaultDsName());
                         return multiTenant.getDefaultDsName();
                     }
-                    String tenantCode = tenantEnvironment.tenantCode();
+                    String tenantCode = authenticationContext.tenantCode();
                     return getTenantDb(request, multiTenant, tenantCode);
                 }
                 String name = key.substring(8);

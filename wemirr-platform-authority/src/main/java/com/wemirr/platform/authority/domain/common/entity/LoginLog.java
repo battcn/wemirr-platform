@@ -1,10 +1,7 @@
 package com.wemirr.platform.authority.domain.common.entity;
 
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+
+import static com.wemirr.framework.commons.entity.Entity.CREATE_TIME_COLUMN;
 
 /**
  * <p>
@@ -93,10 +92,7 @@ public class LoginLog {
 
     private String clientId;
 
-    /**
-     * 创建时间（依托数据库功能）
-     */
-    @TableField(value = "created_time")
+    @TableField(value = CREATE_TIME_COLUMN, fill = FieldFill.INSERT)
     @Schema(description = "创建时间")
     protected Instant createdTime;
 

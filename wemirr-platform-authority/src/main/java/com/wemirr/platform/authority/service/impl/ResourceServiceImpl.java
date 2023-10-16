@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.entity.Entity;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Resource;
@@ -44,7 +44,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
 
     private final RoleMapper roleMapper;
     private final RoleResMapper roleResMapper;
-    private final TenantEnvironment tenantEnvironment;
+    private final AuthenticationContext authenticationContext;
 
     @Override
     public List<VueRouter> findVisibleResource(ResourceQueryReq resource) {
@@ -60,7 +60,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
     @DSTransactional
     public void addResource(Resource resource) {
         if (ResourceType.BUILD_PUBLISH.eq(resource.getType())) {
-            resource.setPath(String.format(DEFAULT_PATH, tenantEnvironment.tenantId()) + SPEL + resource.getModel());
+            resource.setPath(String.format(DEFAULT_PATH, authenticationContext.tenantId()) + SPEL + resource.getModel());
             resource.setComponent(DEFAULT_COMPONENT);
         }
         if (ResourceType.MENU == resource.getType()) {
@@ -90,7 +90,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
     @Override
     public void editResourceById(Resource resource) {
         if (ResourceType.BUILD_PUBLISH.eq(resource.getType())) {
-            resource.setPath(String.format(DEFAULT_PATH, tenantEnvironment.tenantId()) + "/" + resource.getModel());
+            resource.setPath(String.format(DEFAULT_PATH, authenticationContext.tenantId()) + "/" + resource.getModel());
             resource.setComponent(DEFAULT_COMPONENT);
         }
         this.baseMapper.updateById(resource);

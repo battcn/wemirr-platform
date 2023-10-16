@@ -20,8 +20,8 @@ import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.commons.times.LocalDateTimeUtils;
-import com.wemirr.framework.db.TenantEnvironment;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.tools.domain.DynamicReleaseDragSetting;
@@ -68,7 +68,7 @@ import static java.util.stream.Collectors.toList;
 public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<String> {
 
     private final DynamicReleaseDragMapper dynamicReleaseDragMapper;
-    private final TenantEnvironment tenantEnvironment;
+    private final AuthenticationContext authenticationContext;
 
     /**
      * fix: mongoTemplate  暂时无效
@@ -79,7 +79,7 @@ public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<Str
     public DynamicReleaseCurdOptionResp curdOptions(String model) {
         log.debug("[表名] - {}", tableName(model));
         final DynamicReleaseDrag drag = this.dynamicReleaseDragMapper.selectOne(Wraps.<DynamicReleaseDrag>lbQ().eq(DynamicReleaseDrag::getModel, model)
-                .eq(DynamicReleaseDrag::getTenantId, tenantEnvironment.tenantId()));
+                .eq(DynamicReleaseDrag::getTenantId, authenticationContext.tenantId()));
         if (drag == null || StringUtils.isBlank(drag.getSetting())) {
             throw CheckedException.notFound("记录不存在或者缺乏表单配置");
         }
@@ -189,8 +189,8 @@ public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<Str
     @Override
     public void save(String model, Map<String, Object> body) {
         body.put("_id", IdUtil.getSnowflake().nextId());
-        body.put(Entity.CREATE_USER, tenantEnvironment.userId());
-        body.put(Entity.CREATE_USER_NAME, tenantEnvironment.realName());
+        body.put(Entity.CREATE_USER, authenticationContext.userId());
+        body.put(Entity.CREATE_USER_NAME, authenticationContext.realName());
         body.put(Entity.CREATE_TIME, LocalDateTimeUtils.now());
         this.mongoTemplate.insert(body, tableName(model));
         bodyCallback(model, body);
@@ -236,8 +236,8 @@ public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<Str
             final String logTableName = logTableName(model);
             Map<String, Object> map = Maps.newHashMap();
             map.put("_id", IdUtil.getSnowflake().nextId());
-            map.put(Entity.CREATE_USER, tenantEnvironment.userId());
-            map.put(Entity.CREATE_USER_NAME, tenantEnvironment.realName());
+            map.put(Entity.CREATE_USER, authenticationContext.userId());
+            map.put(Entity.CREATE_USER_NAME, authenticationContext.realName());
             map.put(Entity.CREATE_TIME, LocalDateTimeUtils.now());
             map.put("status", 200);
             map.put("resultType", parseResult(result));
@@ -279,8 +279,8 @@ public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<Str
         if (MapUtil.isEmpty(body)) {
             return;
         }
-        body.put(SuperEntity.UPDATE_USER, tenantEnvironment.userId());
-        body.put(SuperEntity.UPDATE_USER_NAME, tenantEnvironment.realName());
+        body.put(SuperEntity.UPDATE_USER, authenticationContext.userId());
+        body.put(SuperEntity.UPDATE_USER_NAME, authenticationContext.realName());
         body.put(SuperEntity.UPDATE_TIME, LocalDateTimeUtils.now());
         Query query = new Query(Criteria.where("_id").is(id));
         Update update = new Update();
@@ -352,12 +352,12 @@ public class MongoDynamicReleaseServiceImpl implements DynamicReleaseService<Str
 
     @Override
     public String tableName(String model) {
-        final Long tenantId = tenantEnvironment.tenantId();
+        final Long tenantId = authenticationContext.tenantId();
         return "tenant_" + tenantId + "_" + model;
     }
 
     private String logTableName(String model) {
-        final Long tenantId = tenantEnvironment.tenantId();
+        final Long tenantId = authenticationContext.tenantId();
         return "tenant_" + tenantId + "_" + model + "_log";
     }
 

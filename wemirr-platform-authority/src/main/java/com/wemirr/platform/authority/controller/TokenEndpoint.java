@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.controller;
 
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.platform.authority.domain.common.req.ChangePasswordReq;
 import com.wemirr.platform.authority.domain.common.req.ChangeUserInfoReq;
@@ -35,7 +35,7 @@ import java.util.Objects;
 @Tag(name = "Token管理", description = "Token管理")
 public class TokenEndpoint {
 
-    private final TenantEnvironment tenantEnvironment;
+    private final AuthenticationContext authenticationContext;
     private final UserService userService;
     private final OAuth2AuthorizationService oAuth2AuthorizationService;
 
@@ -52,7 +52,7 @@ public class TokenEndpoint {
                 return user;
             }
         }
-        tenantEnvironment.tenantId();
+        authenticationContext.tenantId();
         if (principal instanceof BearerTokenAuthentication token) {
             if (token.getPrincipal() instanceof UserInfoDetails user) {
                 return user;
@@ -73,7 +73,7 @@ public class TokenEndpoint {
         if (!StringUtils.equals(dto.getPassword(), dto.getConfirmPassword())) {
             throw CheckedException.badRequest("新密码与确认密码不一致");
         }
-        final Long userId = tenantEnvironment.userId();
+        final Long userId = authenticationContext.userId();
         this.userService.changePassword(userId, dto.getOriginalPassword(), dto.getPassword());
     }
 

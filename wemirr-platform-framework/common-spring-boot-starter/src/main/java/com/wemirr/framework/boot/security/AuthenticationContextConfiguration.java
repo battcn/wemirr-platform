@@ -1,6 +1,6 @@
-package com.wemirr.framework.boot.db;
+package com.wemirr.framework.boot.security;
 
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.security.utils.SecurityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Configuration;
  * @author Levin
  */
 @Configuration
-public class TenantEnvironmentConfiguration {
+public class AuthenticationContextConfiguration {
 
     @Bean
-    public TenantEnvironment tenantEnvironment() {
-        return new TenantEnvironment() {
+    public AuthenticationContext authenticationContext() {
+        return new AuthenticationContext() {
             @Override
             public Long tenantId() {
                 if (SecurityUtils.anonymous() || SecurityUtils.getAuthInfo() == null) {

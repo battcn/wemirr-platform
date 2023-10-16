@@ -3,12 +3,14 @@ package com.wemirr.framework.db.mybatisplus.handler;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 
+import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * MyBatis Plus 元数据处理类
@@ -21,7 +23,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class MyBatisMetaObjectHandler implements MetaObjectHandler {
 
-    private final TenantEnvironment tenantEnvironment;
+    private final AuthenticationContext authenticationContext;
 
 
     /**
@@ -39,22 +41,20 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        if (tenantEnvironment.anonymous()) {
+        // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT CURRENT_TIMESTAMP
+        final Object createTime = Optional.ofNullable(metaObject.getValue(Entity.CREATE_TIME)).orElseGet(Instant::now);
+        this.setFieldValByName(Entity.CREATE_TIME, createTime, metaObject);
+        if (authenticationContext.anonymous()) {
             log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
             return;
         }
-        final Long userId = tenantEnvironment.userId();
+        final Long userId = authenticationContext.userId();
         if (Objects.nonNull(userId)) {
             this.setFieldValByName(Entity.CREATE_USER, userId, metaObject);
         }
-        final String realName = tenantEnvironment.realName();
+        final String realName = authenticationContext.realName();
         if (Objects.nonNull(realName)) {
             this.setFieldValByName(Entity.CREATE_USER_NAME, realName, metaObject);
-        }
-        // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT CURRENT_TIMESTAMP
-        final Object createTime = metaObject.getValue(Entity.CREATE_TIME);
-        if (Objects.nonNull(createTime)) {
-            this.setFieldValByName(Entity.CREATE_TIME, createTime, metaObject);
         }
     }
 
@@ -67,22 +67,20 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-        if (tenantEnvironment.anonymous()) {
+        // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+        final Object updateTime = Optional.ofNullable(metaObject.getValue(SuperEntity.UPDATE_TIME)).orElseGet(Instant::now);
+        this.setFieldValByName(SuperEntity.UPDATE_TIME, updateTime, metaObject);
+        if (authenticationContext.anonymous()) {
             log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
             return;
         }
-        final Long userId = tenantEnvironment.userId();
+        final Long userId = authenticationContext.userId();
         if (Objects.nonNull(userId)) {
             this.setFieldValByName(SuperEntity.UPDATE_USER, userId, metaObject);
         }
-        final String realName = tenantEnvironment.realName();
+        final String realName = authenticationContext.realName();
         if (Objects.nonNull(realName)) {
             this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, realName, metaObject);
-        }
-        // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-        final Object updateTime = metaObject.getValue(SuperEntity.UPDATE_TIME);
-        if (Objects.nonNull(updateTime)) {
-            this.setFieldValByName(SuperEntity.UPDATE_TIME, updateTime, metaObject);
         }
     }
 }

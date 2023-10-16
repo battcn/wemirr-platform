@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Resource;
 import com.wemirr.platform.authority.domain.baseinfo.req.ResourceQueryReq;
@@ -48,12 +48,12 @@ import static java.util.stream.Collectors.toList;
 public class ResourceController {
 
     private final ResourceService resourceService;
-    private final TenantEnvironment tenantEnvironment;
+    private final AuthenticationContext authenticationContext;
 
     @GetMapping("/router")
     @Operation(summary = "菜单路由", description = "只能看到自身权限")
     public List<Tree<Long>> router(@RequestParam(required = false, defaultValue = "false") Boolean all) {
-        List<VueRouter> routers = resourceService.findVisibleResource(ResourceQueryReq.builder().userId(tenantEnvironment.userId()).build());
+        List<VueRouter> routers = resourceService.findVisibleResource(ResourceQueryReq.builder().userId(authenticationContext.userId()).build());
         List<TreeNode<Long>> list = routers.stream()
                 .filter(router -> all || (router.getType() != null && (router.getType() == 1 || router.getType() == 5)))
                 .map(VUE_ROUTER_2_TREE_NODE_CONVERTS::convert).collect(toList());
@@ -79,7 +79,7 @@ public class ResourceController {
     @Operation(summary = "资源码", description = "只能看到自身资源码")
     public List<String> permissions() {
         List<VueRouter> routers = Optional.ofNullable(resourceService.findVisibleResource(ResourceQueryReq.builder()
-                .userId(tenantEnvironment.userId()).build())).orElseGet(Lists::newArrayList);
+                .userId(authenticationContext.userId()).build())).orElseGet(Lists::newArrayList);
         return routers.stream().map(VueRouter::getPermission).collect(toList());
     }
 

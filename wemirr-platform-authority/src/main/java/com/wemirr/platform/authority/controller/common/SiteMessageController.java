@@ -2,7 +2,7 @@ package com.wemirr.platform.authority.controller.common;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -28,14 +28,14 @@ import java.util.List;
 @RequestMapping("/site_messages")
 public class SiteMessageController {
 
-    private final TenantEnvironment tenantEnvironment;
+    private final AuthenticationContext authenticationContext;
     private final SiteMessageService siteMessageService;
 
     @GetMapping("/page")
     public Page<SiteMessage> pageList(String title, String level, Boolean mark, PageRequest request) {
         return siteMessageService.page(request.buildPage(), Wraps.<SiteMessage>lbQ()
                 .like(SiteMessage::getTitle, title).eq(SiteMessage::getLevel, level)
-                .eq(SiteMessage::getMark, mark).eq(SiteMessage::getReceiveId, tenantEnvironment.userId()));
+                .eq(SiteMessage::getMark, mark).eq(SiteMessage::getReceiveId, authenticationContext.userId()));
     }
 
     @PatchMapping("/{id}/mark")

@@ -1,6 +1,6 @@
 package com.wemirr.framework.db.mybatisplus.intercept.data;
 
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -15,7 +15,7 @@ import org.aspectj.lang.annotation.*;
 public class DataScopeAnnotationAspect {
 
     private final DataScopeService dataScopeService;
-    private final TenantEnvironment environment;
+    private final AuthenticationContext context;
 
     @Pointcut("execution(public * com.wemirr..*.*(..)) && @annotation(com.wemirr.framework.db.mybatisplus.intercept.data.DataScope)")
     public void dataScopePointcut() {
@@ -43,7 +43,7 @@ public class DataScopeAnnotationAspect {
     public void recordLog(JoinPoint joinPoint) {
         final DataPermission permission = DataPermissionContextHolder.get();
         if (permission == null || permission.getUserId() == null) {
-            final DataPermission remotePermission = dataScopeService.getDataScopeById(environment.tenantId());
+            final DataPermission remotePermission = dataScopeService.getDataScopeById(context.tenantId());
             log.debug("远程获取 data permission - {}", remotePermission);
             DataPermissionContextHolder.set(remotePermission);
         }

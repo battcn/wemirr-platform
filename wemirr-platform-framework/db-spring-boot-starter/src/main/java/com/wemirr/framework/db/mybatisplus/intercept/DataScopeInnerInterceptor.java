@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeService;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeType;
@@ -41,7 +41,7 @@ import java.util.Map;
 public class DataScopeInnerInterceptor implements InnerInterceptor {
 
     private final ApplicationContext applicationContext;
-    private final TenantEnvironment tenantEnvironment;
+    private final AuthenticationContext authenticationContext;
 
 
     /**
@@ -77,7 +77,7 @@ public class DataScopeInnerInterceptor implements InnerInterceptor {
         String originalSql = boundSql.getSql();
         String scopeName = dataPermission.getScopeName();
         String selfScopeName = dataPermission.getSelfScopeName();
-        Long userId = dataPermission.getUserId() == null ? tenantEnvironment.userId() : dataPermission.getUserId();
+        Long userId = dataPermission.getUserId() == null ? authenticationContext.userId() : dataPermission.getUserId();
         List<Long> orgIds = dataPermission.getOrgIds();
         DataScopeType dsType = dataPermission.getScopeType();
         if (!DataScopeType.ALL.eq(dsType) && CollectionUtil.isEmpty(orgIds)) {

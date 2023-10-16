@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -47,7 +47,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     private final RoleOrgMapper roleOrgMapper;
     private final UserRoleMapper userRoleMapper;
     private final ResourceMapper resourceMapper;
-    private final TenantEnvironment tenantEnvironment;
+    private final AuthenticationContext authenticationContext;
 
     @Override
     public List<Role> list(DataPermission scope) {
@@ -120,7 +120,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     @Override
     public RolePermissionResp findRolePermissionById(Long roleId) {
         final List<VueRouter> buttons = resourceMapper.findVisibleResource(ResourceQueryReq.builder()
-                .userId(tenantEnvironment.userId()).build());
+                .userId(authenticationContext.userId()).build());
         final List<Long> roleRes = Optional.of(this.roleResMapper.selectList(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, roleId)))
                 .orElse(Lists.newArrayList()).stream().map(RoleRes::getResId).collect(toList());
         return RolePermissionResp.builder().resIdList(roleRes).buttons(buttons).build();

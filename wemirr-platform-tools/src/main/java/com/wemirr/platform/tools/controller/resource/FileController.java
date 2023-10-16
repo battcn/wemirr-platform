@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import com.wemirr.framework.storage.StorageOperation;
@@ -53,7 +53,7 @@ import java.util.Optional;
 public class FileController {
 
     private final FileService fileService;
-    private final TenantEnvironment tenantEnvironment;
+    private final AuthenticationContext authenticationContext;
     private final StorageOperation storageOperation;
 
 
@@ -92,7 +92,7 @@ public class FileController {
         final StorageRequest storage = StorageRequest.builder().bucket(bucket).inputStream(file.getInputStream())
                 .contentType(file.getContentType()).randomName(random)
                 .originName(file.getOriginalFilename())
-                .tenantId(tenantEnvironment.tenantId()).userId(tenantEnvironment.userId())
+                .tenantId(authenticationContext.tenantId()).userId(authenticationContext.userId())
                 .rule(StorageRequest.PrefixRule.tenant_now_date_mouth_day).build();
         return fileService.upload(storage, request);
     }

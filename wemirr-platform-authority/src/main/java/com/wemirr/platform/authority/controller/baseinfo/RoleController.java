@@ -5,7 +5,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Role;
 import com.wemirr.platform.authority.domain.baseinfo.entity.RoleOrg;
@@ -45,7 +45,7 @@ import java.util.List;
 @Tag(name = "角色管理", description = "角色管理")
 public class RoleController {
 
-    private final TenantEnvironment tenantEnvironment;
+    private final AuthenticationContext authenticationContext;
     private final RoleService roleService;
     private final RoleResService roleResService;
     private final RoleOrgService roleOrgService;
@@ -85,7 +85,7 @@ public class RoleController {
     @Operation(summary = "添加角色")
     @PreAuthorize("hasAuthority('sys:roles:add')")
     public void add(@Validated @RequestBody RoleReq data) {
-        roleService.saveRole(tenantEnvironment.userId(), data);
+        roleService.saveRole(authenticationContext.userId(), data);
     }
 
     @PutMapping("/{id}")
@@ -93,7 +93,7 @@ public class RoleController {
     @Operation(summary = "编辑角色")
     @PreAuthorize("hasAuthority('sys:roles:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody RoleReq data) {
-        roleService.updateRole(id, tenantEnvironment.userId(), data);
+        roleService.updateRole(id, authenticationContext.userId(), data);
     }
 
     @DeleteMapping("/{id}")

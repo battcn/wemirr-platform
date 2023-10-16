@@ -5,7 +5,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.extension.plugins.handler.MultiDataPermissionHandler;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.utils.MyBatisUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -34,14 +34,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DataScopePermissionHandler implements MultiDataPermissionHandler {
 
-    private final TenantEnvironment tenantEnvironment;
+    private final AuthenticationContext authenticationContext;
 
 
     @SneakyThrows
     @Override
     public Expression getSqlSegment(final Table table, Expression where, String mappedStatementId) {
         // 匿名用户不进入数据权限插件
-        if (tenantEnvironment.anonymous()) {
+        if (authenticationContext.anonymous()) {
             return null;
         }
         if (log.isDebugEnabled()) {
@@ -66,7 +66,7 @@ public class DataScopePermissionHandler implements MultiDataPermissionHandler {
         if (service == null) {
             throw CheckedException.notFound("data scope service bean not found");
         }
-        final DataPermission permission = service.getDataScopeById(tenantEnvironment.userId());
+        final DataPermission permission = service.getDataScopeById(authenticationContext.userId());
         if (permission == null || permission.getScopeType() == DataScopeType.ALL) {
             return null;
         }

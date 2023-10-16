@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.MapHelper;
 import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Org;
@@ -38,7 +38,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements OrgService {
 
-    private final TenantEnvironment tenantEnvironment;
+    private final AuthenticationContext authenticationContext;
 
     @Override
     public List<Org> findChildren(List<Long> ids) {
@@ -67,7 +67,7 @@ public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements 
         }
         final String treePath = this.baseMapper.getTreePathByParentId(org.getParentId());
         org.setTreePath(treePath);
-        org.setTenantId(tenantEnvironment.tenantId());
+        org.setTenantId(authenticationContext.tenantId());
         this.baseMapper.insert(org);
     }
 

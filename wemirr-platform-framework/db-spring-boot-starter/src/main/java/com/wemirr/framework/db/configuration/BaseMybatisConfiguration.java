@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.*;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.handler.MyBatisMetaObjectHandler;
 import com.wemirr.framework.db.mybatisplus.injector.MySqlInjector;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeAnnotationAspect;
@@ -42,8 +42,7 @@ import java.util.List;
 public abstract class BaseMybatisConfiguration {
 
     private final DatabaseProperties properties;
-    private final TenantEnvironment environment;
-
+    private final AuthenticationContext context;
 
 
     /**
@@ -63,15 +62,15 @@ public abstract class BaseMybatisConfiguration {
                 @Override
                 public Expression getTenantId() {
                     // 租户ID
-                    log.debug("当前租户ID - {}", environment.tenantId());
-                    return environment.tenantId() == null ? null : new LongValue(environment.tenantId());
+                    log.debug("当前租户ID - {}", context.tenantId());
+                    return context.tenantId() == null ? null : new LongValue(context.tenantId());
                 }
 
                 @Override
                 public boolean ignoreTable(String tableName) {
                     final List<String> tables = multiTenant.getIncludeTables();
                     //  判断哪些表不需要尽心多租户判断,返回false表示都需要进行多租户判断
-                    return environment.anonymous() || !tables.contains(tableName);
+                    return context.anonymous() || !tables.contains(tableName);
                 }
 
                 @Override
@@ -106,7 +105,7 @@ public abstract class BaseMybatisConfiguration {
         final DatabaseProperties.Intercept intercept = properties.getIntercept();
         if (intercept.getDataPermission().isEnabled()) {
             //分页拦截器之前的插件 => 数据权限插件
-            interceptor.addInnerInterceptor(new DataPermissionInterceptor(new DataScopePermissionHandler(environment)));
+            interceptor.addInnerInterceptor(new DataPermissionInterceptor(new DataScopePermissionHandler(context)));
         }
         // 分页插件
         interceptor.addInnerInterceptor(paginationInnerInterceptor(intercept.getPagination()));
@@ -124,7 +123,7 @@ public abstract class BaseMybatisConfiguration {
     @Bean
     @ConditionalOnBean(DataScopeService.class)
     public DataScopeAnnotationAspect dataScopeAnnotationAspect(DataScopeService dataScopeService) {
-        return new DataScopeAnnotationAspect(dataScopeService, environment);
+        return new DataScopeAnnotationAspect(dataScopeService, context);
     }
 
     @Bean
@@ -136,6 +135,6 @@ public abstract class BaseMybatisConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public MetaObjectHandler metaObjectHandler() {
-        return new MyBatisMetaObjectHandler(environment);
+        return new MyBatisMetaObjectHandler(context);
     }
 }

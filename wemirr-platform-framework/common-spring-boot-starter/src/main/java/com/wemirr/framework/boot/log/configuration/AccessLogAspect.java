@@ -18,7 +18,7 @@ import com.wemirr.framework.boot.log.event.AccessLogEvent;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import jakarta.servlet.http.HttpServletRequest;
@@ -180,11 +180,11 @@ public class AccessLogAspect {
                 return;
             }
             AccessLogInfo log = get();
-            final TenantEnvironment environment = SpringUtil.getBean(TenantEnvironment.class);
-            if (environment != null) {
-                log.setTenantId(environment.tenantId());
-                log.setCreatedBy(environment.userId());
-                log.setCreatedName(environment.realName());
+            final AuthenticationContext context = SpringUtil.getBean(AuthenticationContext.class);
+            if (context != null) {
+                log.setTenantId(context.tenantId());
+                log.setCreatedBy(context.userId());
+                log.setCreatedName(context.realName());
             }
             log.setDescription(annotation.description());
             String action = joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName();

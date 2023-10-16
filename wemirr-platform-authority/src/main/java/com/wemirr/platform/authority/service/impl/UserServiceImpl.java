@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.TenantEnvironment;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -36,7 +36,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     private final UserMapper userMapper;
     private final UserRoleMapper userRoleMapper;
     private final PasswordEncoder passwordEncoder;
-    private final TenantEnvironment tenantEnvironment;
+    private final AuthenticationContext authenticationContext;
 
 
     @Override
@@ -47,7 +47,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         }
         final User user = BeanUtil.toBean(dto, User.class);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setTenantId(tenantEnvironment.tenantId());
+        user.setTenantId(authenticationContext.tenantId());
         super.save(user);
     }
 
@@ -86,7 +86,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
     @Override
     public void changeInfo(ChangeUserInfoReq req) {
-        final Long userId = tenantEnvironment.userId();
+        final Long userId = authenticationContext.userId();
         User record = User.builder().id(userId).email(req.getEmail()).mobile(req.getMobile())
                 .nickName(req.getNickName()).birthday(req.getBirthday()).description(req.getDescription()).build();
         this.userMapper.updateById(record);

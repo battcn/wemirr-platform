@@ -1,5 +1,8 @@
 package com.wemirr.framework.boot.async;
 
+import jakarta.annotation.Nonnull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskDecorator;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
@@ -17,25 +20,34 @@ import java.util.concurrent.Executor;
  */
 @Configuration
 @EnableAsync
+@EnableConfigurationProperties(AsyncProperties.class)
+@RequiredArgsConstructor
 public class AsyncConfiguration implements AsyncConfigurer {
+
+    private final AsyncProperties properties;
 
     @Override
     public Executor getAsyncExecutor() {
         // 具体可以自己写成 properties 的方式
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(10);
-        executor.setMaxPoolSize(20);
-        executor.setQueueCapacity(100);
-        executor.setThreadNamePrefix("wemirr-async-thread-");
+        executor.setCorePoolSize(properties.getCorePoolSize());
+        executor.setMaxPoolSize(properties.getMaxPoolSize());
+        executor.setKeepAliveSeconds(properties.getKeepAliveSeconds());
+        executor.setQueueCapacity(properties.getQueueCapacity());
+        executor.setThreadNamePrefix(properties.getThreadNamePrefix());
         executor.setTaskDecorator(new RequestAttributesTaskDecorator());
         executor.initialize();
         return executor;
     }
 
+    /**
+     * 异步线程池的时候 request 上下文复制
+     */
     private static class RequestAttributesTaskDecorator implements TaskDecorator {
 
         @Override
-        public Runnable decorate(Runnable runnable) {
+        @Nonnull
+        public Runnable decorate(@Nonnull Runnable runnable) {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             return () -> {
                 try {

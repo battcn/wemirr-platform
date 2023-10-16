@@ -27,8 +27,6 @@ public class VueRouter {
     private String component;
     @Schema(description = "重定向")
     private String redirect;
-    @Schema(description = "元数据")
-    private RouterMeta meta;
 
     private String model;
 

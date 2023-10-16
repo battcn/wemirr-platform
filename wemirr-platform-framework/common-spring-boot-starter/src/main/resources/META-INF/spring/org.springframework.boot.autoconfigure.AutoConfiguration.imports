@@ -5,5 +5,5 @@ com.wemirr.framework.boot.log.configuration.AccessLogAutoConfiguration
 com.wemirr.framework.boot.remote.configuration.RemoteAutoConfiguration
 com.wemirr.framework.boot.undertow.UndertowPoolCustomizer
 com.wemirr.framework.boot.response.GlobalResponseBodyAdvice
-com.wemirr.framework.boot.db.TenantEnvironmentConfiguration
+com.wemirr.framework.boot.security.AuthenticationContextConfiguration
 com.wemirr.framework.boot.async.AsyncConfiguration
