@@ -39,3 +39,6 @@ extend:
       data-permission:
         # 说明是子服务,不直接连接数据库通过 feign 查询的
         remote: true
+  boot:
+    log:
+      strategy: feign
