@@ -2,7 +2,6 @@ package com.wemirr.framework.boot.remote;
 
 
 import cn.hutool.core.util.ReflectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.commons.annotation.remote.Remote;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,7 +21,6 @@ import java.util.Map;
 @Slf4j
 public class ClassManager implements Serializable {
 
-    
 
     private static final Map<String, List<Field>> CACHE = new HashMap<>();
 
@@ -42,10 +40,6 @@ public class ClassManager implements Serializable {
             }
             Remote remote = field.getDeclaredAnnotation(Remote.class);
             if (remote == null) {
-                continue;
-            }
-            if (StrUtil.hasEmpty(remote.bean())) {
-                log.warn("类 {} 属性 [{}] api 为空。", clazz.getName(), field.getName());
                 continue;
             }
             fieldList.add(field);

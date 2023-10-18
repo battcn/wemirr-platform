@@ -31,12 +31,12 @@ public @interface Remote {
      *
      * @return 查询类的Spring Name
      */
-    String bean() default EMPTY;
+    String beanName() default EMPTY;
 
     /**
-     * 执行查询任务的类
+     * @return 查询类的Spring Bean Class
      */
-    Class<?> beanClass() default Object.class;
+    Class<?> beanClass();
 
 
     /**

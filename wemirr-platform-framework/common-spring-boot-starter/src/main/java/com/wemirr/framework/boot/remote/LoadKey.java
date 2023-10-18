@@ -21,14 +21,14 @@ public class LoadKey {
     /**
      * 执行查询任务的类
      */
-    private final String bean;
+    private final String beanName;
     /**
      * bean 类型
      */
     private final Class<?> beanClass;
 
     public LoadKey(Remote rf) {
-        this.bean = rf.bean();
+        this.beanName = rf.beanName();
         this.beanClass = rf.beanClass();
     }
 }
