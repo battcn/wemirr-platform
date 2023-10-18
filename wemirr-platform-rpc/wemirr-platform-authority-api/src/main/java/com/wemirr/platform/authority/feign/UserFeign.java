@@ -15,6 +15,12 @@ import java.util.Set;
 @FeignClient(name = FeignConstants.FEIGN_NAME, dismiss404 = true)
 public interface UserFeign extends LoadService<Long, UserInfoResp> {
 
+    /**
+     * 根据 ID 批量查询
+     *
+     * @param ids 唯一键（可能不是主键ID)
+     * @return 查询结果
+     */
     @Override
     @PostMapping("/users/batch_ids")
     Map<Long, UserInfoResp> findByIds(@RequestBody Set<Long> ids);

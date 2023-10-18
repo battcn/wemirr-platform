@@ -17,6 +17,11 @@ public interface AccessLogFeign {
 
     String FEIGN_CLIENT_NAME = "wemirr-platform-authority";
 
+    /**
+     * 日志监听
+     *
+     * @param info 日志信息
+     */
     @PostMapping("/opt_logs/listener")
     void listener(@RequestBody AccessLogInfo info);
 

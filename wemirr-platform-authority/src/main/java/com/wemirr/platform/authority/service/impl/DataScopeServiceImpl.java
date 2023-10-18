@@ -85,7 +85,8 @@ public class DataScopeServiceImpl implements DataScopeService {
         List<Long> children = new LinkedList<>();
         // 遍历每一层
         Collection<Long> parentIds = Collections.singleton(id);
-        for (int i = 0; i < Short.MAX_VALUE; i++) { // 避免 bug 场景下，存在死循环
+        // 避免 bug 场景下，存在死循环
+        for (int i = 0; i < Short.MAX_VALUE; i++) {
             // 查询当前层，所有的子集
             List<Org> orgList = orgMapper.selectList(Wraps.<Org>lbQ().eq(Org::getParentId, parentIds));
             // 没有子集,结束遍历
