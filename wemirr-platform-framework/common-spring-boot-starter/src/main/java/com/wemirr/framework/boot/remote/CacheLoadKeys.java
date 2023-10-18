@@ -36,13 +36,13 @@ public class CacheLoadKeys {
      * 动态查询值
      */
     private Set<Serializable> keys = new HashSet<>();
-    private LoadService<Serializable> loadService;
+    private LoadService<Serializable, Object> loadService;
 
     public CacheLoadKeys(Remote rf) {
         this.bean = rf.bean();
     }
 
-    public CacheLoadKeys(LoadKey lk, LoadService<Serializable> loadService, Set<Serializable> keys) {
+    public CacheLoadKeys(LoadKey lk, LoadService<Serializable, Object> loadService, Set<Serializable> keys) {
         this.bean = lk.getBean();
         this.loadService = loadService;
         this.keys = keys;

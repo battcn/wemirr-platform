@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @author Levin
  */
-public interface LoadService<KEY extends Serializable> {
+public interface LoadService<KEY extends Serializable, VALUE> {
 
     /**
      * 根据id查询待回显参数
@@ -20,6 +20,6 @@ public interface LoadService<KEY extends Serializable> {
      * @param ids 唯一键（可能不是主键ID)
      * @return Map<Serializable, Object>
      */
-    Map<KEY, Object> findByIds(Set<KEY> ids);
+    Map<KEY, VALUE> findByIds(Set<KEY> ids);
 
 }

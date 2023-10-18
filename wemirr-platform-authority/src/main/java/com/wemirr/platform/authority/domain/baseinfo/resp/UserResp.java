@@ -12,60 +12,62 @@ import java.time.LocalDate;
 @Data
 public class UserResp {
 
+    @Schema(description = "ID")
     private Long id;
 
     /**
      * 姓名
      */
-    @Schema(description="昵称")
+    @Schema(description = "昵称")
     private String nickName;
 
     /**
      * 姓名
      */
-    @Schema(description="真实名称")
+    @Schema(description = "真实名称")
     private String realName;
 
-
+    @Schema(description = "头像")
+    private String avatar;
     /**
      * 邮箱
      */
-    @Schema(description="邮箱")
+    @Schema(description = "邮箱")
     private String email;
 
     /**
      * 手机
      */
-    @Schema(description="手机号")
+    @Schema(description = "手机号")
     private String mobile;
 
 
-    @Schema(description="用户名")
+    @Schema(description = "用户名")
     private String username;
 
     /**
      * 生日
      */
-    @Schema(description="生日")
+    @Schema(description = "生日")
     private LocalDate birthday;
 
 
     /**
      * 擅长
      */
-    @Schema(description="擅长")
+    @Schema(description = "擅长")
     private String goodAt;
     /**
      * 职业
      */
-    @Schema(description="职业")
+    @Schema(description = "职业")
     private String occupation;
 
 
     /**
      * 创建时间（依托数据库功能）
      */
-    @Schema(description="创建时间")
+    @Schema(description = "创建时间")
     protected Instant createdTime;
 
 

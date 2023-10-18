@@ -190,17 +190,16 @@ public class RemoteService {
             LoadKey type = entries.getKey();
             Map<Serializable, Object> valueMap = entries.getValue();
             Set<Serializable> keys = valueMap.keySet();
-            LoadService<Serializable> loadService = strategyMap.get(type.getBean());
+            LoadService<Serializable, Object> loadService = Optional.ofNullable(strategyMap.get(type.getBean()))
+                    .orElse(strategyMap.get(type.getBeanClass().getName()));
             if (loadService == null) {
                 log.warn("处理字段的回显数据时，没有找到 @Remote 中的api：[{}]实例。" +
                         "请确保你自定义的接口实现了 LoadService 中的 findByIds 方法。" +
                         "若api指定的是ServiceImpl，请确保在同一个服务内。", type.getBean());
                 continue;
             }
-
             CacheLoadKeys lk = new CacheLoadKeys(type, loadService, keys);
             Map<Serializable, Object> value = ips.getGuavaCache().getEnabled() && isUseCache ? caches.get(lk) : lk.loadMap();
-
             typeMap.put(type, value);
         }
     }

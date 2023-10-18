@@ -1,14 +1,18 @@
 package com.wemirr.platform.authority.controller.baseinfo;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wemirr.framework.commons.MapHelper;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
+import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeService;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
 import com.wemirr.platform.authority.domain.baseinfo.enums.Sex;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserSaveReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserUpdateReq;
+import com.wemirr.platform.authority.domain.baseinfo.resp.UserResp;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,6 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.wemirr.platform.authority.domain.baseinfo.converts.UserConverts.USER_DTO_2_PO_CONVERTS;
 
@@ -93,5 +101,11 @@ public class UserController {
         this.dataScopeService.getDataScopeById(id);
     }
 
+    @PostMapping("/batch_ids")
+    @Operation(summary = "ID批量查询")
+    public Map<Long, UserResp> batchIds(@RequestBody Set<Long> ids) {
+        final List<User> users = this.userService.listByIds(ids);
+        return MapHelper.toHashMap(users, Entity::getId, x -> BeanUtil.toBean(x, UserResp.class));
+    }
 
 }

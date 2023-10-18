@@ -1,10 +1,9 @@
 package com.wemirr.framework.boot.remote;
 
 
-import com.google.common.base.Objects;
 import com.wemirr.framework.commons.annotation.remote.Remote;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 /**
@@ -14,34 +13,22 @@ import lombok.ToString;
  *
  * @author Levin
  */
-@Data
-@NoArgsConstructor
+@Getter
 @ToString
+@EqualsAndHashCode
 public class LoadKey {
 
     /**
      * 执行查询任务的类
      */
-    private String bean;
+    private final String bean;
+    /**
+     * bean 类型
+     */
+    private final Class<?> beanClass;
 
     public LoadKey(Remote rf) {
         this.bean = rf.bean();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        LoadKey that = (LoadKey) o;
-        return Objects.equal(bean, that.bean);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(bean);
+        this.beanClass = rf.beanClass();
     }
 }
