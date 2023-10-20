@@ -132,7 +132,7 @@ public class AuthorizationServerConfiguration {
         http.cors(AbstractHttpConfigurer::disable);
         final SecurityExtProperties.Server server = properties.getServer();
         List<String> urls = Lists.newArrayList();
-        urls.addAll(server.getIgnore().getResourceUrls());
+        urls.addAll(properties.getIgnore().getResourceUrls());
         urls.addAll(properties.getDefaultIgnoreUrls());
         urls.addAll(SecurityUtils.loadIgnoreAuthorizeUrl(requestMappingHandlerMapping));
 

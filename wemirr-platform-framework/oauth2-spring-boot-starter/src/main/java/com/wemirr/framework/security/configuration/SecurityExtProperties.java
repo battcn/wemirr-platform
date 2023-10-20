@@ -27,6 +27,12 @@ public class SecurityExtProperties {
      */
     private List<String> defaultIgnoreUrls = List.of("/getCaptcha", "/captcha", "/sms_captcha", "/message/**", "/favicon.ico", "/swagger-ui.html", "/doc.html", "/v3/api-docs/**", "/assets/**", "/css/**", "/webjars/**", "/login", "/error", "/oauth2/**");
 
+    /**
+     * 忽略资源
+     */
+    private Ignore ignore = new Ignore();
+
+
     private LoadType authorizationType = LoadType.redis;
     /**
      * 服务端配置
@@ -66,11 +72,6 @@ public class SecurityExtProperties {
          */
         private LoadType consent = LoadType.jdbc;
         /**
-         * 忽略资源
-         */
-        private Ignore ignore = new Ignore();
-
-        /**
          * 登录地址，前后端分离就填写完整的url路径，不分离填写相对路径
          */
         private String loginFormUrl = "/login";
@@ -105,10 +106,6 @@ public class SecurityExtProperties {
 
     @Data
     public static class Client {
-        /**
-         * 忽略资源
-         */
-        private Ignore ignore = new Ignore();
 
         /**
          * 客户端 token 信息获取的策略

@@ -23,11 +23,11 @@ extend:
       registered-client: jdbc
       consent: jdbc
       token-type: jwt
-      ignore:
-        # 配置权限过滤的地址
-        resource-urls:
-          - /captcha
-          - /instances/**
+  ignore:
+    # 配置权限过滤的地址
+    resource-urls:
+      - /captcha
+      - /instances/**
 
 ```
 

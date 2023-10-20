@@ -53,7 +53,7 @@ public class ClientResourceServerConfiguration {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         final List<String> urls = Lists.newArrayList();
-        urls.addAll(properties.getClient().getIgnore().getResourceUrls());
+        urls.addAll(properties.getIgnore().getResourceUrls());
         urls.addAll(properties.getDefaultIgnoreUrls());
         urls.addAll(SecurityUtils.loadIgnoreAuthorizeUrl(requestMappingHandlerMapping));
 

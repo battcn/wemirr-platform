@@ -22,22 +22,30 @@ spring:
         server-addr: 127.0.0.1:8848
         refresh-enabled: true
 
+feign:
+  httpclient:
+    enabled: true # HttpClient的开关
+    connection-timeout: 3000       # 连接超时（毫秒）
+    time-to-live: 3                # 连接存活时长
+    time-to-live-unit: minutes     # 连接存活时长单位
+    max-connections: 200  # 最大连接数
+    max-connections-per-route: 50   # 单个请求路径的最大连接数
+
 
 extend:
   redis:
     enabled: true
   oauth2:
+    ignore:
+      # 配置权限过滤的地址
+      resource-urls:
+        - /captcha
+        - /instances/**
     server:
       registered-client: jdbc
       consent: jdbc
       token-type: jwt
-      ignore:
-        # 配置权限过滤的地址
-        resource-urls:
-          - /captcha
-          - /instances/**
     authorization-type: redis
-
 # 官方没提供 starter 蛋疼,要不要孵化到项目很纠结
 jetcache:
   statIntervalMinutes: 15

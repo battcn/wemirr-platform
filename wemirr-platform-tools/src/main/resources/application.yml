@@ -19,6 +19,13 @@ spring:
       config:
         server-addr: 127.0.0.1:8848
         refresh-enabled: true
+
+feign:
+  httpclient:
+    enabled: true # HttpClient的开关
+    max-connections: 200  # 最大连接数
+    max-connections-per-route: 50   # 单个请求路径的最大连接数
+
 extend:
   oss:
     cloud:

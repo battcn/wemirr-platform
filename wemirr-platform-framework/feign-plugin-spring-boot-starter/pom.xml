@@ -39,6 +39,11 @@
             <groupId>com.wemirr.framework</groupId>
             <artifactId>common-framework-core</artifactId>
         </dependency>
+        <!-- HttpClent替换Feign底层客户端实现 -->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+        </dependency>
     </dependencies>
 
     <properties>
