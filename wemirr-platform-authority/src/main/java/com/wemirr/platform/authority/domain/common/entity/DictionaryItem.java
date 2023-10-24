@@ -75,7 +75,7 @@ public class DictionaryItem extends SuperEntity<Long> {
      * 描述
      */
     @Schema(description = "描述")
-    @Length(max = 255, message = "描述长度不能超过255")
+    @Length(max = 255, message = "描述长度不能超过 {max}")
     @TableField(value = "description", condition = LIKE)
     private String description;
 

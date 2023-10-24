@@ -8,8 +8,8 @@ import lombok.EqualsAndHashCode;
 /**
  * @author Levin
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Schema(name = "DictionaryPageReq")
 public class DictionaryPageReq extends PageRequest {
 

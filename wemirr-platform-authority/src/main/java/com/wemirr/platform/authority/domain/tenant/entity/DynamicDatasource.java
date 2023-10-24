@@ -23,23 +23,16 @@ import lombok.experimental.SuperBuilder;
 public class DynamicDatasource extends SuperEntity<Long> {
 
 
-    /**
-     * 连接池名称
-     */
     @Schema(description = "连接池名称")
     private String poolName;
-    /**
-     * 数据库类型(只支持Mysql)
-     */
+
     @Schema(description = "数据库类型(只支持Mysql)")
     private String dbType;
 
     @Schema(description = "驱动类名")
     private String driverClassName;
 
-    /**
-     * 单库单 schema 需要配置 database
-     */
+
     @TableField(value = "`database`", updateStrategy = FieldStrategy.NEVER)
     private String database;
 
@@ -56,16 +49,12 @@ public class DynamicDatasource extends SuperEntity<Long> {
     @Schema(description = "host")
     private String host;
 
-    /**
-     * 是否禁用
-     */
+
     @TableField("`locked`")
     @Schema(description = "是否禁用")
     private Boolean locked;
 
-    /**
-     * 描述
-     */
+
     @Schema(description = "描述")
     private String description;
 

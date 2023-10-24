@@ -1,10 +1,11 @@
 package com.wemirr.platform.authority.domain.baseinfo.req;
 
+import cn.hutool.core.lang.RegexPool;
 import com.wemirr.platform.authority.domain.baseinfo.enums.Sex;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
-import lombok.experimental.Accessors;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
@@ -19,52 +20,37 @@ import java.io.Serializable;
  * @since 2020-02-14
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
-@Schema(name= "UserUpdateDTO", description = "用户")
+@Schema(name = "UserUpdateReq", description = "用户")
 public class UserUpdateReq implements Serializable {
 
-    
 
     /**
      * 姓名
      */
     @Schema(description = "姓名")
     @NotBlank(message = "姓名不能为空")
-    @Length(max = 50, message = "姓名长度不能超过50")
+    @Length(max = 50, message = "姓名长度不能超过 {max}")
     private String nickName;
-    /**
-     * 组织ID
-     * #c_core_org
-     */
+
     @Schema(description = "组织ID")
     private Long orgId;
-    /**
-     * 岗位ID
-     * #c_core_station
-     */
+
     @Schema(description = "岗位ID")
     private Long stationId;
-    /**
-     * 邮箱
-     */
+
     @Schema(description = "邮箱")
-    @Length(max = 255, message = "邮箱长度不能超过255")
+    @Length(max = 100, message = "邮箱长度不能超过 {max}")
+    @Pattern(regexp = RegexPool.EMAIL, message = "邮箱格式错误")
     private String email;
     /**
      * 手机
      */
     @Schema(description = "手机")
-    @Length(max = 20, message = "手机长度不能超过20")
+    @NotBlank(message = "手机号不能为空")
+    @Length(max = 11, message = "手机长度不能超过20")
+    @Pattern(regexp = RegexPool.MOBILE, message = "手机号格式错误")
     private String mobile;
-    /**
-     * 性别
-     * #Sex{W:女;M:男;N:未知}
-     */
+
     @Schema(description = "性别")
     private Sex sex;
     /**
@@ -77,7 +63,7 @@ public class UserUpdateReq implements Serializable {
      * 头像
      */
     @Schema(description = "头像")
-    @Length(max = 255, message = "头像长度不能超过255")
+    @Length(max = 255, message = "头像长度不能超过 {max}")
     private String avatar;
     /**
      * 民族

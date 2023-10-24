@@ -2,11 +2,8 @@ package com.wemirr.platform.authority.domain.baseinfo.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-
-import java.io.Serializable;
 
 /**
  * <p>
@@ -18,29 +15,22 @@ import java.io.Serializable;
  * @since 2019-07-28
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
-@Schema(name = "OrgSaveDTO", description = "组织")
-public class OrgSaveReq implements Serializable {
+@Schema(name = "OrgSaveReq", description = "组织")
+public class OrgSaveReq {
 
-    
 
     /**
      * 名称
      */
     @Schema(description = "名称")
     @NotBlank(message = "名称不能为空")
-    @Length(max = 255, message = "名称长度不能超过255")
+    @Length(max = 255, message = "名称长度不能超过 {max}")
     private String label;
     /**
      * 简称
      */
     @Schema(description = "简称")
-    @Length(max = 255, message = "简称长度不能超过255")
+    @Length(max = 255, message = "简称长度不能超过 {max}")
     private String abbreviation;
 
     @Schema(description = "部门电话")
@@ -65,7 +55,7 @@ public class OrgSaveReq implements Serializable {
      * 描述
      */
     @Schema(description = "描述")
-    @Length(max = 255, message = "描述长度不能超过255")
+    @Length(max = 255, message = "描述长度不能超过 {max}")
     private String description;
 
 }

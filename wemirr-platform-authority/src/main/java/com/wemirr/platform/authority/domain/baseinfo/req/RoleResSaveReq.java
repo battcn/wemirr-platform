@@ -1,9 +1,10 @@
 package com.wemirr.platform.authority.domain.baseinfo.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-import lombok.experimental.Accessors;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -18,21 +19,11 @@ import java.util.Set;
  * @since 2019-07-27
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
-@Schema(name = "RoleResSaveDTO", description = "角色的资源")
+@Schema(name = "RoleResSaveReq", description = "角色的资源")
 public class RoleResSaveReq implements Serializable {
 
-    
-
-
-    /**
-     * 资源ID
-     */
+    @NotEmpty(message = "资源不能为空")
+    @Size(min = 1, message = "至少勾选 {min} 条数据")
     private Set<Long> resIds;
 
     /**
@@ -40,7 +31,7 @@ public class RoleResSaveReq implements Serializable {
      * #c_auth_role
      */
     @Schema(description = "角色id")
-    @NotNull(message = "角色id不能为空")
+    @NotNull(message = "角色不能为空")
     private Long roleId;
 
 }

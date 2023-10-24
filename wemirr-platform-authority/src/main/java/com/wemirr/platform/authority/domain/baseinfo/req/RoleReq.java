@@ -21,16 +21,9 @@ import java.util.List;
  * @since 2019-11-11
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
-@Schema(name= "RoleDTO", description = "角色")
-public class RoleReq implements Serializable {
+@Schema(name = "RoleReq", description = "角色")
+public class RoleReq {
 
-    
 
     /**
      * 角色名称

@@ -2,11 +2,8 @@ package com.wemirr.platform.authority.domain.baseinfo.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-
-import java.io.Serializable;
 
 /**
  * <p>
@@ -18,16 +15,9 @@ import java.io.Serializable;
  * @since 2019-11-09
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
-@Schema(name= "MenuSaveDTO", description = "菜单")
-public class MenuSaveReq implements Serializable {
+@Schema(name = "MenuSaveReq", description = "菜单")
+public class MenuSaveReq {
 
-    
 
     /**
      * 菜单名称
@@ -52,13 +42,13 @@ public class MenuSaveReq implements Serializable {
      * 路径
      */
     @Schema(description = "路径")
-    @Length(max = 255, message = "路径长度不能超过255")
+    @Length(max = 255, message = "路径长度不能超过 {max}")
     private String path;
     /**
      * 组件
      */
     @Schema(description = "组件")
-    @Length(max = 255, message = "组件长度不能超过255")
+    @Length(max = 255, message = "组件长度不能超过 {max}")
     private String component;
     /**
      * 状态
@@ -74,7 +64,7 @@ public class MenuSaveReq implements Serializable {
      * 菜单图标
      */
     @Schema(description = "菜单图标")
-    @Length(max = 255, message = "菜单图标长度不能超过255")
+    @Length(max = 255, message = "菜单图标长度不能超过 {max}")
     private String icon;
     /**
      * 父级菜单id

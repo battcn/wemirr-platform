@@ -20,13 +20,7 @@ import java.io.Serializable;
  * @since 2019-11-09
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
-@Schema(name = "ResourceSaveDTO", description = "资源")
+@Schema(name = "ResourceSaveReq", description = "资源")
 public class ResourceSaveReq implements Serializable {
 
     /**
@@ -48,19 +42,20 @@ public class ResourceSaveReq implements Serializable {
      */
     @Schema(description = "公共菜单")
     private Boolean global;
+
     @Schema(description = "公共菜单")
     private Boolean locked;
     /**
      * 路径
      */
     @Schema(description = "路径")
-    @Length(max = 255, message = "路径长度不能超过255")
+    @Length(max = 255, message = "路径长度不能超过 {max}")
     private String path;
     /**
      * 组件
      */
     @Schema(description = "组件")
-    @Length(max = 255, message = "组件长度不能超过255")
+    @Length(max = 255, message = "组件长度不能超过 {max}")
     private String component;
     /**
      * 状态
@@ -76,12 +71,12 @@ public class ResourceSaveReq implements Serializable {
      * 菜单图标
      */
     @Schema(description = "菜单图标")
-    @Length(max = 255, message = "菜单图标长度不能超过255")
+    @Length(max = 255, message = "菜单图标长度不能超过 {max}")
     private String icon;
     /**
      * 父级菜单id
      */
-    @Schema(description = "父级菜单id")
+    @Schema(description = "父级菜单ID")
     @NotNull(message = "父节点不能为空")
     private Long parentId;
     /**

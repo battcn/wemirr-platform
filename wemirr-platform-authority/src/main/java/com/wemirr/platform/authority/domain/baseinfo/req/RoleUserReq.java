@@ -1,7 +1,9 @@
 package com.wemirr.platform.authority.domain.baseinfo.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -18,21 +20,16 @@ import java.util.List;
  * @since 2019-07-27
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
-@Schema(name= "RoleUserDTO", description = "角色的资源")
-public class RoleUserReq implements Serializable {
+@Schema(name = "RoleUserReq", description = "角色的资源")
+public class RoleUserReq {
 
-    
 
     /**
      * 用户ID
      */
     @Schema(description = "用户ID")
+    @NotEmpty(message = "分配用户不能为空")
+    @Size(min = 1, message = "至少勾选 {min} 条数据")
     private List<Long> userIdList;
     /**
      * 角色id

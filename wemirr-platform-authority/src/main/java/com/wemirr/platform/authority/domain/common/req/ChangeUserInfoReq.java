@@ -1,8 +1,10 @@
 package com.wemirr.platform.authority.domain.common.req;
 
+import cn.hutool.core.lang.RegexPool;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -28,9 +30,10 @@ public class ChangeUserInfoReq {
     private String nickName;
 
 
-    @Schema(description = "联系电话")
-    @NotEmpty(message = "联系电话不能为空")
-    @Length(max = 20, message = "联系电话长度不能超过{max}")
+    @Schema(description = "手机号")
+    @NotBlank(message = "手机号不能为空")
+    @Length(max = 11, message = "手机号长度不能超过{max}")
+    @Pattern(regexp = RegexPool.MOBILE, message = "手机号格式错误")
     private String mobile;
 
     @Schema(description = "生日")

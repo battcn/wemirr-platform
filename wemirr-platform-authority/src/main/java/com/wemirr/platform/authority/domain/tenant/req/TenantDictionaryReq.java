@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.Length;
  * @author Levin
  */
 @Data
+@Schema(name = "TenantDictionaryReq")
 public class TenantDictionaryReq {
 
     /**
@@ -20,7 +21,7 @@ public class TenantDictionaryReq {
      */
     @Schema(description = "编码类型(一颗树仅仅有一个统一的编码)")
     @NotBlank(message = "编码不能为空")
-    @Length(max = 64, message = "类型长度不能超过64")
+    @Length(max = 64, message = "类型长度不能超过 {max}")
     private String code;
 
     /**
@@ -28,14 +29,14 @@ public class TenantDictionaryReq {
      */
     @Schema(description = "名称")
     @NotBlank(message = "名称不能为空")
-    @Length(max = 64, message = "名称长度不能超过64")
+    @Length(max = 64, message = "名称长度不能超过 {max}")
     private String name;
 
     /**
      * 描述
      */
     @Schema(description = "描述")
-    @Length(max = 200, message = "描述长度不能超过200")
+    @Length(max = 200, message = "描述长度不能超过 {max}")
     private String description;
 
     /**

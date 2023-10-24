@@ -22,14 +22,14 @@ public class ChangePasswordReq {
      */
     @Schema(description = "旧密码")
     @NotBlank(message = "旧密码不能为空")
-    @Length(max = 64, message = "旧密码长度不能超过64")
+    @Length(max = 64, message = "旧密码长度不能超过 {max}")
     private String originalPassword;
     /**
      * 密码
      */
     @Schema(description = "密码")
     @NotBlank(message = "密码不能为空")
-    @Length(max = 64, message = "密码长度不能超过64")
+    @Length(max = 64, message = "密码长度不能超过 {max}")
     private String password;
 
     /**
@@ -37,6 +37,6 @@ public class ChangePasswordReq {
      */
     @Schema(description = "确认密码")
     @NotBlank(message = "确认密码不能为空")
-    @Length(max = 64, message = "确认密码长度不能超过64")
+    @Length(max = 64, message = "确认密码长度不能超过 {max}")
     private String confirmPassword;
 }

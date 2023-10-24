@@ -27,6 +27,7 @@ public class TenantConfig extends SuperEntity<Long> {
 
     @Schema(description = "租户ID")
     private Long tenantId;
+
     @Schema(description = "数据源ID")
     private Long dynamicDatasourceId;
 

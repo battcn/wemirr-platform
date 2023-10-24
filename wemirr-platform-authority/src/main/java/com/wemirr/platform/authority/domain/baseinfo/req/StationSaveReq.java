@@ -3,8 +3,7 @@ package com.wemirr.platform.authority.domain.baseinfo.req;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
@@ -19,16 +18,8 @@ import java.io.Serializable;
  * @since 2019-07-28
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
-@Schema(name= "StationSaveDTO", description = "岗位")
-public class StationSaveReq implements Serializable {
-
-    
+@Schema(name = "StationSaveReq", description = "岗位")
+public class StationSaveReq {
 
     /**
      * 名称
@@ -65,7 +56,7 @@ public class StationSaveReq implements Serializable {
      * 描述
      */
     @Schema(description = "描述")
-    @Length(max = 255, message = "描述长度不能超过255")
+    @Length(max = 255, message = "描述长度不能超过 {max}")
     private String description;
 
 }

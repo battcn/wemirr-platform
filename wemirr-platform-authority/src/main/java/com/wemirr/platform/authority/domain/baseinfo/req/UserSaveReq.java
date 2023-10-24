@@ -1,13 +1,13 @@
 package com.wemirr.platform.authority.domain.baseinfo.req;
 
+import cn.hutool.core.lang.RegexPool;
 import com.wemirr.platform.authority.domain.baseinfo.enums.Sex;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
-import lombok.experimental.Accessors;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-
-import java.io.Serializable;
 
 /**
  * 实体类
@@ -17,16 +17,9 @@ import java.io.Serializable;
  * @since 2020-02-14
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
-@Schema(name= "UserSaveDTO", description = "用户")
-public class UserSaveReq implements Serializable {
+@Schema(name = "UserSaveReq", description = "用户")
+public class UserSaveReq {
 
-    
 
     /**
      * 账号
@@ -66,18 +59,21 @@ public class UserSaveReq implements Serializable {
      * 邮箱
      */
     @Schema(description = "邮箱")
-    @Length(max = 255, message = "邮箱长度不能超过255")
+    @Length(max = 255, message = "邮箱长度不能超过 {max}")
     private String email;
     /**
      * 手机
      */
     @Schema(description = "手机")
-    @Length(max = 20, message = "手机长度不能超过20")
+    @NotBlank(message = "手机号不能为空")
+    @Length(max = 11, message = "手机长度不能超过20")
+    @Pattern(regexp = RegexPool.MOBILE, message = "手机号格式错误")
     private String mobile;
     /**
      * 性别
      * #Sex{W:女;M:男;N:未知}
      */
+    @NotNull(message = "性别不能为空")
     @Schema(description = "性别")
     private Sex sex;
     /**
@@ -90,7 +86,7 @@ public class UserSaveReq implements Serializable {
      * 头像
      */
     @Schema(description = "头像")
-    @Length(max = 255, message = "头像长度不能超过255")
+    @Length(max = 255, message = "头像长度不能超过 {max}")
     private String avatar;
     /**
      * 民族

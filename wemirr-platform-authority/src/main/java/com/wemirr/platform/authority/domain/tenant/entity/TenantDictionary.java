@@ -28,7 +28,6 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Schema(name = "TenantDictionary", description = "字典类型")
 public class TenantDictionary extends SuperEntity<String> {
 
-    private static final long serialVersionUID = 1L;
 
     /**
      * 编码

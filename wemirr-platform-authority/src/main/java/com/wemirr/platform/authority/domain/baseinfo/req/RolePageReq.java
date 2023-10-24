@@ -15,8 +15,12 @@ import lombok.EqualsAndHashCode;
 public class RolePageReq extends PageRequest {
 
 
+    @Schema(description = "名称")
     private String name;
+    @Schema(description = "是否禁用")
     private Boolean locked;
+
+    @Schema(description = "数据类型范围")
     private DataScopeType scopeType;
 
 }

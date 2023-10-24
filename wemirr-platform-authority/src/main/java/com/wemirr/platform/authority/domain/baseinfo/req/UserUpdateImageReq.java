@@ -3,8 +3,7 @@ package com.wemirr.platform.authority.domain.baseinfo.req;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
@@ -19,16 +18,9 @@ import java.io.Serializable;
  * @since 2019-11-04
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
-@Schema(name= "UserUpdateAvatarDTO", description = "用户")
-public class UserUpdateImageReq implements Serializable {
+@Schema(name = "UserUpdateImageReq", description = "用户")
+public class UserUpdateImageReq {
 
-    
 
     @Schema(description = "主键")
     @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
@@ -38,7 +30,7 @@ public class UserUpdateImageReq implements Serializable {
      * 头像
      */
     @Schema(description = "头像")
-    @Length(max = 255, message = "头像长度不能超过255")
+    @Length(max = 255, message = "头像长度不能超过 {max}")
     private String image;
 
 }
