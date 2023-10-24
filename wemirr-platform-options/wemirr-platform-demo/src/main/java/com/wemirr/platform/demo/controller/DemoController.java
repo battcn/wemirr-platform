@@ -53,4 +53,13 @@ public class DemoController {
         final Result<List<TenantDynamicDatasource>> result = tenantFeignClient.selectAll();
         return demoTestFeignClient.query();
     }
+
+
+    @GetMapping("/feign_language")
+    @IgnoreAuthorize
+    public void language() {
+        demoTestFeignClient.feignLanguage();
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.wemirr.platform.authority.controller;
 
+import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.authority.domain.common.entity.SensitiveTest;
 import com.wemirr.platform.authority.repository.baseinfo.ResourceMapper;
@@ -34,6 +35,13 @@ public class SensitiveController {
         final SensitiveTest s2 = SensitiveTest.builder().mobile("13000002222")
                 .desc("随机打码").none("不打码").username("1837307555@qq.com").build();
         return List.of(s1, s2);
+    }
+
+
+    @GetMapping("/feign_language")
+    @IgnoreAuthorize
+    public SensitiveTest language() {
+        throw CheckedException.badRequest("feign.text");
     }
 
 

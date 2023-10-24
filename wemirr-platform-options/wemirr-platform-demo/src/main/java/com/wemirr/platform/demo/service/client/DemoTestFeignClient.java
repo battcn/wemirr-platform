@@ -20,4 +20,9 @@ public interface DemoTestFeignClient {
     @GetMapping(value = "/sensitives/list", headers = {AutoRefreshTokenProperties.X_AUTO_TOKEN})
     List<Object> query();
 
+    /**
+     * 测试 feign 国际化问题
+     */
+    @GetMapping(value = "/sensitives/feign_language")
+    void feignLanguage();
 }
