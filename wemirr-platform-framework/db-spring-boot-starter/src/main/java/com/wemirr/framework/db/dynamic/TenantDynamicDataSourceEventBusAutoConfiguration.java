@@ -1,9 +1,9 @@
 package com.wemirr.framework.db.dynamic;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.baomidou.dynamic.datasource.processor.DsHeaderProcessor;
+import com.baomidou.dynamic.datasource.processor.DsJakartaHeaderProcessor;
+import com.baomidou.dynamic.datasource.processor.DsJakartaSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
-import com.baomidou.dynamic.datasource.processor.DsSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.dynamic.event.DynamicDatasourceEvent;
@@ -89,8 +89,8 @@ public class TenantDynamicDataSourceEventBusAutoConfiguration {
                 return getTenantDb(request, multiTenant, tenantCode);
             }
         };
-        DsHeaderProcessor headerProcessor = new DsHeaderProcessor();
-        DsSessionProcessor sessionProcessor = new DsSessionProcessor();
+        DsJakartaHeaderProcessor headerProcessor = new DsJakartaHeaderProcessor();
+        DsJakartaSessionProcessor sessionProcessor = new DsJakartaSessionProcessor();
         DsSpelExpressionProcessor expressionProcessor = new DsSpelExpressionProcessor();
         contentProcessor.setNextProcessor(headerProcessor);
         headerProcessor.setNextProcessor(sessionProcessor);
