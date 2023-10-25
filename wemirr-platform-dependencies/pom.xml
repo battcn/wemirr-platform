@@ -12,40 +12,44 @@
 
 
     <properties>
+        <!-- 打包跳过单元测试 -->
+        <skipTests>true</skipTests>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <jdk.version>17</jdk.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-boot-admin.version>2.7.8</spring-boot-admin.version>
-        <spring-boot-admin-client.version>2.7.8</spring-boot-admin-client.version>
-        <spring-boot.version>3.1.2</spring-boot.version>
-        <spring-cloud.version>2022.0.3</spring-cloud.version>
-        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
-        <nepxion-discovery.version>6.21.0</nepxion-discovery.version>
-        <hutool.version>5.8.18</hutool.version>
-        <!-- 别升级： 后面的版本有小BUG   稳定版本是 3.5.2-->
-        <mybatis-plus.version>3.5.4</mybatis-plus.version>
-        <!-- 打包跳过单元测试 -->
-        <skipTests>true</skipTests>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-        <fastjson2.version>2.0.40</fastjson2.version>
-        <opentracing.spring.cloud.version>0.5.9</opentracing.spring.cloud.version>
+
+        <!-- Spring Boot 相关 版本-->
+        <spring-boot-admin.version>3.1.6</spring-boot-admin.version>
+        <spring-boot.version>3.1.4</spring-boot.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
+        <spring-authorization-server.version>1.1.3</spring-authorization-server.version>
+        <!-- DB 相关 -->
+        <mybatis-plus.version>3.5.4</mybatis-plus.version>
+        <dynamic-datasource.version>4.2.0</dynamic-datasource.version>
+        <mysql.version>8.0.30</mysql.version>
+        <!-- 文件存储 -->
         <minio.version>8.4.6</minio.version>
         <aliyun-sdk-oss.version>3.16.1</aliyun-sdk-oss.version>
         <qiniu-java-sdk.version>[7.7.0, 7.7.99]</qiniu-java-sdk.version>
         <cos_api.version>5.5.9</cos_api.version>
-        <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
-        <xxl-job.version>2.3.0</xxl-job.version>
-        <easyexcel.version>3.2.1</easyexcel.version>
-        <wemirr-framework.version>1.17.4-SNAPSHOT</wemirr-framework.version>
-        <guava.version>31.1-jre</guava.version>
+        <!-- 工具包 -->
+        <xxl-job.version>2.4.0</xxl-job.version>
+        <easyexcel.version>3.3.2</easyexcel.version>
+        <guava.version>32.1.3-jre</guava.version>
+        <hutool.version>5.8.22</hutool.version>
+        <fastjson2.version>2.0.41</fastjson2.version>
         <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
-        <spring-authorization-server.version>1.1.2</spring-authorization-server.version>
         <knife4j.version>4.3.0</knife4j.version>
         <knife4j-springdoc-ui.version>3.0.3</knife4j-springdoc-ui.version>
+        <!-- 自定义SDK版本 -->
+        <wemirr-framework.version>1.17.4-SNAPSHOT</wemirr-framework.version>
     </properties>
 
 
@@ -54,7 +58,7 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.30</version>
+                <version>${mysql.version}</version>
             </dependency>
 
             <dependency>
@@ -132,7 +136,7 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-annotation</artifactId>
-                <version>3.5.3.2</version>
+                <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -148,26 +152,6 @@
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-oauth2-authorization-server</artifactId>
                 <version>${spring-authorization-server.version}</version>
-            </dependency>
-
-
-
-            <!-- sql分析器 -->
-            <dependency>
-                <groupId>p6spy</groupId>
-                <artifactId>p6spy</artifactId>
-                <version>3.8.6</version>
-            </dependency>
-            <dependency>
-                <groupId>io.opentracing.contrib</groupId>
-                <artifactId>opentracing-spring-cloud-starter</artifactId>
-                <version>${opentracing.spring.cloud.version}</version>
-            </dependency>
-            <!-- 如果安装的nacos 版本高于2.x 请放开 8848  9848 9849 10848 10849  -->
-            <dependency>
-                <groupId>cn.afterturn</groupId>
-                <artifactId>easypoi-spring-boot-starter</artifactId>
-                <version>4.2.0</version>
             </dependency>
 
             <dependency>
@@ -354,7 +338,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>

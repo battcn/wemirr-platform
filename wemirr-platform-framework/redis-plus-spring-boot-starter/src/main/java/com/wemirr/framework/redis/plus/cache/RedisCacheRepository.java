@@ -35,6 +35,7 @@ public class RedisCacheRepository implements Cache {
     /**
      * 某项缓存是否开启,默认开启
      */
+    @Builder.Default
     private boolean enabled = true;
     /**
      * 缓存固定名称
@@ -44,6 +45,7 @@ public class RedisCacheRepository implements Cache {
     /**
      * 缓存存活时间,默认24小时
      */
+    @Builder.Default
     private long timeout = 60 * 60 * 24;
 
     /**

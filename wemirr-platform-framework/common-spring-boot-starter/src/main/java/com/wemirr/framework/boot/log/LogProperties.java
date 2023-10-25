@@ -20,8 +20,15 @@ public class LogProperties {
      */
     private StoreStrategy strategy = StoreStrategy.local;
 
+    /**
+     * 存储策略
+     */
     public enum StoreStrategy {
 
+        /**
+         * feign = feign 请求
+         * local = 本地
+         */
         feign, local
 
     }

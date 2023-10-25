@@ -1,4 +1,4 @@
-package com.wemirr.platform;
+package com.wemirr.platform.tools;
 
 
 import cn.hutool.core.date.DateUtil;

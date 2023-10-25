@@ -7,3 +7,4 @@ com.wemirr.framework.boot.undertow.UndertowPoolCustomizer
 com.wemirr.framework.boot.response.GlobalResponseBodyAdvice
 com.wemirr.framework.boot.security.AuthenticationContextConfiguration
 com.wemirr.framework.boot.async.AsyncConfiguration
+com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration

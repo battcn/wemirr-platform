@@ -6,10 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.generator.IFill;
 import com.baomidou.mybatisplus.generator.fill.Column;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
@@ -34,6 +31,7 @@ public class GenerateEntity extends SuperEntity<Long> {
     /**
      * 开启 swagger2 模式
      */
+    @Builder.Default
     private boolean springdoc = false;
     private String rootDir;
     private String tableName;
