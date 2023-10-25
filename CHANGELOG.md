@@ -1,3 +1,9 @@
+# 2.0.2-release
+
+- 升级 pom.xml 版本依赖
+
+
+
 # 2.0.1-release
 
 - 升级JDK17

@@ -29,10 +29,10 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
 
     private final BlacklistHelper blacklistHelper;
 
-    JsonExceptionHandler(ErrorAttributes errorAttributes, BlacklistHelper blacklistHelper,
-                         WebProperties webProperties,
-                         ErrorProperties errorProperties,
-                         ApplicationContext applicationContext) {
+    public JsonExceptionHandler(ErrorAttributes errorAttributes, BlacklistHelper blacklistHelper,
+                                WebProperties webProperties,
+                                ErrorProperties errorProperties,
+                                ApplicationContext applicationContext) {
         super(errorAttributes, webProperties.getResources(), errorProperties, applicationContext);
         this.blacklistHelper = blacklistHelper;
     }
@@ -119,7 +119,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         map.put("timestamp", System.currentTimeMillis());
         map.put("message", errorMessage);
         map.put("successful", false);
-        log.warn("[响应结果] - [{}]", map.toString());
+        log.warn("[响应结果] - [{}]", map);
         return map;
     }
 
