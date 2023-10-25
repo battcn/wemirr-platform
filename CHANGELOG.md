@@ -1,3 +1,16 @@
+# 2.0.1-release
+
+- 升级JDK17
+- 升级 Spring Cloud 2023
+- 升级 Spring Cloud Alibaba 2022
+- 升级 Mybatis-Plus 3.5.4
+- 升级 OAuth2.1 重构 `oauth2-spring-boot-starter`
+- 重构 framework 依赖关系,让模块之间更加的解耦
+- `feign-plugin-spring-boot-starter`  与 `common-spring-boot-starter` 的增强实
+- 升级 `ip2region` 提高效率和准确率
+- 扩展代码生成器,适配 vue3
+- 删除没必要的依赖代码
+
 # v_saas_1.1 (2021-11-27)
 
 ### ✨ Features
