@@ -22,6 +22,7 @@ import java.util.UUID;
 /**
  * @author Levin
  */
+@SuppressWarnings("ALL")
 public class CustomOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OAuth2AccessToken> {
 
     private OAuth2TokenCustomizer<OAuth2TokenClaimsContext> accessTokenCustomizer;

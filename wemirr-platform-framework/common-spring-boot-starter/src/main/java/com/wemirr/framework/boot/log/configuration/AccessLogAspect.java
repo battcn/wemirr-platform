@@ -166,11 +166,13 @@ public class AccessLogAspect {
      * @return String
      */
     private String getText(String val) {
-        if (val != null && val.length() > 65535) {
+        if (val != null && val.length() > WARNING_LENGTH) {
             logger.warn("val length > 65535,响应内容过长请避免日志存储到数据库中,本次长度 - {}", val.length());
         }
         return val;
     }
+
+    private static final int WARNING_LENGTH = 65535;
 
     @Before(value = "accessLogAspect()")
     public void recordLog(JoinPoint joinPoint) {

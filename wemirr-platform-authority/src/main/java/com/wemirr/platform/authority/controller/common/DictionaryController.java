@@ -80,7 +80,6 @@ public class DictionaryController {
     @GetMapping("/{code}/refresh")
     @AccessLog(description = "刷新字典")
     @Operation(summary = "刷新字典 - [DONE] - [Levin]", description = "刷新字典 - [DONE] - [Levin]")
-//    @PreAuthorize("hasAuthority('sys:dict:refresh')")
     public void refresh(@PathVariable("code") String code) {
         this.dictionaryService.refresh(code);
     }

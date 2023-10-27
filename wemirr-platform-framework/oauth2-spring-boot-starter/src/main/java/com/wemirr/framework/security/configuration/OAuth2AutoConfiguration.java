@@ -17,6 +17,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 /**
  * @author Levin
  */
+@SuppressWarnings("ALL")
 public class OAuth2AutoConfiguration {
 
     @Bean

@@ -10,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
  *
  * @author Levin
  */
+@SuppressWarnings("ALL")
 @Getter
 public class OAuth2InvalidException extends AuthenticationException {
 

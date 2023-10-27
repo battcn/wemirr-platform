@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 
 import java.time.Instant;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -23,7 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MyBatisMetaObjectHandler implements MetaObjectHandler {
 
-    private final AuthenticationContext authenticationContext;
+    private final AuthenticationContext context;
 
 
     /**
@@ -44,18 +43,12 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
         // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT CURRENT_TIMESTAMP
         final Object createTime = Optional.ofNullable(metaObject.getValue(Entity.CREATE_TIME)).orElseGet(Instant::now);
         this.setFieldValByName(Entity.CREATE_TIME, createTime, metaObject);
-        if (authenticationContext.anonymous()) {
+        if (context.anonymous()) {
             log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
             return;
         }
-        final Long userId = authenticationContext.userId();
-        if (Objects.nonNull(userId)) {
-            this.setFieldValByName(Entity.CREATE_USER, userId, metaObject);
-        }
-        final String realName = authenticationContext.realName();
-        if (Objects.nonNull(realName)) {
-            this.setFieldValByName(Entity.CREATE_USER_NAME, realName, metaObject);
-        }
+        this.setFieldValByName(Entity.CREATE_USER, context.userId(), metaObject);
+        this.setFieldValByName(Entity.CREATE_USER_NAME, context.realName(), metaObject);
     }
 
     /**
@@ -70,17 +63,11 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
         // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
         final Object updateTime = Optional.ofNullable(metaObject.getValue(SuperEntity.UPDATE_TIME)).orElseGet(Instant::now);
         this.setFieldValByName(SuperEntity.UPDATE_TIME, updateTime, metaObject);
-        if (authenticationContext.anonymous()) {
+        if (context.anonymous()) {
             log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
             return;
         }
-        final Long userId = authenticationContext.userId();
-        if (Objects.nonNull(userId)) {
-            this.setFieldValByName(SuperEntity.UPDATE_USER, userId, metaObject);
-        }
-        final String realName = authenticationContext.realName();
-        if (Objects.nonNull(realName)) {
-            this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, realName, metaObject);
-        }
+        this.setFieldValByName(SuperEntity.UPDATE_USER, context.userId(), metaObject);
+        this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, context.realName(), metaObject);
     }
 }

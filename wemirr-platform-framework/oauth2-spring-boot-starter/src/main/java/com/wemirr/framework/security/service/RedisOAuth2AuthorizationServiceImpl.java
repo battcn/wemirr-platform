@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Levin
  */
+@SuppressWarnings("ALL")
 @RequiredArgsConstructor
 public class RedisOAuth2AuthorizationServiceImpl implements OAuth2AuthorizationService {
 

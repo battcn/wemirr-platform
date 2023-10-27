@@ -12,6 +12,7 @@ import java.time.Instant;
  * @author Levin
  * @since 2023-07-04
  */
+@SuppressWarnings("ALL")
 @Data
 public class OAuth2ThirdAccount {
 

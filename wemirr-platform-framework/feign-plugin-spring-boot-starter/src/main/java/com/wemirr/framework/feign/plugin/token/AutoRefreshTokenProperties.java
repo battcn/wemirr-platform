@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *
  * @author Levin
  */
+@SuppressWarnings("ALL")
 @Data
 @ConfigurationProperties(prefix = AutoRefreshTokenProperties.TOKEN_PREFIX)
 public class AutoRefreshTokenProperties {
