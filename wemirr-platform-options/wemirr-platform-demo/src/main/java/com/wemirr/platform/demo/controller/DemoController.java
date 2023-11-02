@@ -5,6 +5,7 @@ import com.wemirr.framework.db.dynamic.event.body.TenantDynamicDatasource;
 import com.wemirr.framework.db.dynamic.feign.TenantFeignClient;
 import com.wemirr.framework.i18n.annotation.I18nMethod;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
+import com.wemirr.platform.demo.domain.enums.I18nEnum;
 import com.wemirr.platform.demo.domain.resp.I18nDemoResp;
 import com.wemirr.platform.demo.service.DemoService;
 import com.wemirr.platform.demo.service.client.DemoTestFeignClient;
@@ -75,7 +76,11 @@ public class DemoController {
     @IgnoreAuthorize
     @I18nMethod
     public List<I18nDemoResp> i18nList() {
-        return List.of(I18nDemoResp.builder().type("type").build());
+        return List.of(
+                I18nDemoResp.builder().type("i18n.demo.type").name("i18n.test").build(),
+                I18nDemoResp.builder().type("type").i18nEnum(I18nEnum.MI).build(),
+                I18nDemoResp.builder().type("type").i18nEnum(I18nEnum.APPLE).build()
+        );
     }
 
 

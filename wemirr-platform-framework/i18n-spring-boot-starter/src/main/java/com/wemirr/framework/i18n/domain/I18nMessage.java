@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class I18nMessage {
 
     @Schema(title = "国际化标识")
-    private String keyword;
+    private String code;
 
     @Schema(title = "文本值，可以使用 { } 加角标，作为占位符")
     private String message;

@@ -27,6 +27,9 @@ public interface DictionaryEnum<T extends Serializable> extends IEnum<T> {
      */
     String getDesc();
 
+    default String getLanguage() {
+        return null;
+    }
 
     /**
      * 获取枚举编码
