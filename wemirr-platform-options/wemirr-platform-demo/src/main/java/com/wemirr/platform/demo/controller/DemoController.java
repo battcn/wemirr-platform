@@ -3,7 +3,9 @@ package com.wemirr.platform.demo.controller;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.dynamic.event.body.TenantDynamicDatasource;
 import com.wemirr.framework.db.dynamic.feign.TenantFeignClient;
+import com.wemirr.framework.i18n.annotation.I18nMethod;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
+import com.wemirr.platform.demo.domain.resp.I18nDemoResp;
 import com.wemirr.platform.demo.service.DemoService;
 import com.wemirr.platform.demo.service.client.DemoTestFeignClient;
 import io.swagger.v3.oas.annotations.Operation;
@@ -59,6 +61,21 @@ public class DemoController {
     @IgnoreAuthorize
     public void language() {
         demoTestFeignClient.feignLanguage();
+    }
+
+
+    @GetMapping("/i18n")
+    @IgnoreAuthorize
+    @I18nMethod
+    public I18nDemoResp i18n() {
+        return I18nDemoResp.builder().type("type").build();
+    }
+
+    @GetMapping("/i18n_list")
+    @IgnoreAuthorize
+    @I18nMethod
+    public List<I18nDemoResp> i18nList() {
+        return List.of(I18nDemoResp.builder().type("type").build());
     }
 
 
