@@ -79,6 +79,7 @@ public class DemoController {
         return List.of(
                 I18nDemoResp.builder().type("i18n.demo.type").name("i18n.test").build(),
                 I18nDemoResp.builder().type("type").i18nEnum(I18nEnum.MI).build(),
+                I18nDemoResp.builder().dbCode("i18n.demo").i18nEnum(I18nEnum.MI).build(),
                 I18nDemoResp.builder().type("type").i18nEnum(I18nEnum.APPLE).build()
         );
     }

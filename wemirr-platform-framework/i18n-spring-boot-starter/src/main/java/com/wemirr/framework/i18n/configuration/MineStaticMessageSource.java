@@ -1,5 +1,6 @@
 package com.wemirr.framework.i18n.configuration;
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.TypeUtil;
 import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.i18n.domain.I18nMessage;
@@ -9,12 +10,13 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.LocaleUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.support.StaticMessageSource;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.Topic;
 
 import java.lang.reflect.Type;
-import java.util.List;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * @author Levin
@@ -22,16 +24,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MineStaticMessageSource extends StaticMessageSource implements InitializingBean, AbstractMessageEventListener<I18nMessage> {
 
-    private final StringRedisTemplate redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public void afterPropertiesSet() {
-        final String i18nData = redisTemplate.opsForValue().get(I18nRedisKeyConstants.I18N_DATA_PREFIX);
-        final List<I18nMessage> messages = JSON.parseArray(i18nData, I18nMessage.class);
-        if (messages == null) {
+        final Map<Object, Object> entries = redisTemplate.opsForHash().entries(I18nRedisKeyConstants.I18N_DATA_PREFIX);
+        if (MapUtil.isEmpty(entries)) {
             return;
         }
-        for (I18nMessage message : messages) {
+        final Collection<Object> values = entries.values();
+        for (Object value : values) {
+            I18nMessage message = JSON.parseObject(JSON.toJSONString(value), I18nMessage.class);
             addMessage(message.getCode(), LocaleUtils.toLocale(message.getLanguage()), message.getMessage());
         }
     }

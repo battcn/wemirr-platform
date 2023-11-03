@@ -33,6 +33,7 @@
         <module>xxl-job-spring-boot-starter</module>
         <module>feign-plugin-spring-boot-starter</module>
         <module>redis-plus-spring-boot-starter</module>
+        <module>i18n-spring-boot-starter</module>
     </modules>
 
     <dependencies>

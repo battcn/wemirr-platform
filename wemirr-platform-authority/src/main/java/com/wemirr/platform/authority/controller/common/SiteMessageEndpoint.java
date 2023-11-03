@@ -1,6 +1,7 @@
 package com.wemirr.platform.authority.controller.common;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
@@ -9,7 +10,6 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.framework.websocket.BaseWebSocketEndpoint;
-import com.wemirr.framework.websocket.utils.SpringContextHolder;
 import com.wemirr.platform.authority.domain.common.entity.SiteMessage;
 import com.wemirr.platform.authority.domain.tenant.entity.Tenant;
 import com.wemirr.platform.authority.repository.tenant.TenantMapper;
@@ -39,18 +39,18 @@ public class SiteMessageEndpoint extends BaseWebSocketEndpoint {
     public void openSession(@PathParam("tenantCode") String tenantCode, @PathParam(IDENTIFIER) String userId, Session session) {
         connect(userId, session);
         List<SiteMessage> messages = null;
-        final DatabaseProperties properties = SpringContextHolder.getBean(DatabaseProperties.class);
-        final SiteMessageService service = SpringContextHolder.getBean(SiteMessageService.class);
+        final DatabaseProperties properties = SpringUtil.getBean(DatabaseProperties.class);
+        final SiteMessageService service = SpringUtil.getBean(SiteMessageService.class);
         if (properties.getMultiTenant().getType() == MultiTenantType.DATASOURCE) {
             log.info("WebSocket 租户编码 - {}", tenantCode);
-            final DataSource dataSource = SpringContextHolder.getBean(DataSource.class);
+            final DataSource dataSource = SpringUtil.getBean(DataSource.class);
             DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
             log.info("所有的数据源信息 - {}", ds.getDataSources());
             DynamicDataSourceContextHolder.poll();
-            final TenantMapper tenantMapper = SpringContextHolder.getBean(TenantMapper.class);
+            final TenantMapper tenantMapper = SpringUtil.getBean(TenantMapper.class);
             final Long count = tenantMapper.selectCount(Wraps.<Tenant>lbQ().eq(Tenant::getCode, tenantCode));
             if (count != null && count != 0) {
-                final TenantDynamicDataSourceHandler dataSourceProcess = SpringContextHolder.getBean(TenantDynamicDataSourceHandler.class);
+                final TenantDynamicDataSourceHandler dataSourceProcess = SpringUtil.getBean(TenantDynamicDataSourceHandler.class);
                 final String dsKey = dataSourceProcess.buildDb(tenantCode);
                 log.debug("设置当前线程数据源 - {}", dsKey);
                 DynamicDataSourceContextHolder.push(dsKey);

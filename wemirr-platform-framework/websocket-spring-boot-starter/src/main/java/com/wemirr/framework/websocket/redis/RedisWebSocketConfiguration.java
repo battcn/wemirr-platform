@@ -4,8 +4,6 @@ import com.wemirr.framework.websocket.WebSocketManager;
 import com.wemirr.framework.websocket.configuration.WebSocketHeartBeatChecker;
 import com.wemirr.framework.websocket.configuration.WebSocketProperties;
 import com.wemirr.framework.websocket.redis.action.ActionConfig;
-import com.wemirr.framework.websocket.utils.SpringContextHolder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -13,10 +11,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.listener.PatternTopic;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
@@ -36,16 +30,10 @@ public class RedisWebSocketConfiguration {
         return new ServerEndpointExporter();
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        return new StringRedisTemplate(redisConnectionFactory);
-    }
-
     @Bean(WebSocketManager.WEBSOCKET_MANAGER_NAME)
     @ConditionalOnMissingBean(name = WebSocketManager.WEBSOCKET_MANAGER_NAME)
-    public WebSocketManager webSocketManager(@Autowired StringRedisTemplate stringRedisTemplate) {
-        return new RedisWebSocketManager(stringRedisTemplate);
+    public WebSocketManager webSocketManager() {
+        return new RedisWebSocketManager();
     }
 
     @Bean(RedisReceiver.REDIS_RECEIVER_NAME)
@@ -59,22 +47,15 @@ public class RedisWebSocketConfiguration {
     }
 
 
-    @Bean("redisMessageListenerContainer")
-    public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory,
-                                                                       MessageListenerAdapter listenerAdapter) {
-
-        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
-        container.addMessageListener(listenerAdapter, new PatternTopic(RedisWebSocketManager.CHANNEL));
-        return container;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public SpringContextHolder springContextHolder() {
-        return new SpringContextHolder();
-    }
-
+//    @Bean("redisMessageListenerContainer")
+//    public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory,
+//                                                                       MessageListenerAdapter listenerAdapter) {
+//
+//        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+//        container.setConnectionFactory(connectionFactory);
+//        container.addMessageListener(listenerAdapter, new PatternTopic(RedisWebSocketManager.CHANNEL));
+//        return container;
+//    }
 
     @Bean
     @ConditionalOnMissingBean

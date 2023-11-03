@@ -2,6 +2,7 @@ package com.wemirr.framework.i18n.configuration;
 
 
 import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.commons.i18n.Language;
 import com.wemirr.framework.i18n.annotation.I18nField;
 import lombok.RequiredArgsConstructor;
@@ -83,7 +84,11 @@ public class I18nAspect {
             if (fieldValue instanceof Language item) {
                 ReflectUtil.setFieldValue(obj, annotation.target(), getMessage(item.getLanguage(), fieldValue));
             } else {
-                ReflectUtil.setFieldValue(obj, annotation.target(), getMessage(annotation.code(), fieldValue));
+                if (StrUtil.isNotBlank(annotation.target())) {
+                    ReflectUtil.setFieldValue(obj, annotation.target(), getMessage(annotation.code(), fieldValue));
+                } else {
+                    ReflectUtil.setFieldValue(obj, field, getMessage(fieldValue.toString()));
+                }
             }
         }
     }

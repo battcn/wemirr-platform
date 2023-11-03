@@ -32,4 +32,7 @@ public class I18nDemoResp {
 
     private String i18nEnumLabel;
 
+    @I18nField
+    private String dbCode;
+
 }

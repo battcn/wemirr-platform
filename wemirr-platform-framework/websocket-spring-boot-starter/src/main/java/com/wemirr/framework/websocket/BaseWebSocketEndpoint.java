@@ -1,6 +1,6 @@
 package com.wemirr.framework.websocket;
 
-import com.wemirr.framework.websocket.utils.SpringContextHolder;
+import cn.hutool.extra.spring.SpringUtil;
 import com.wemirr.framework.websocket.utils.WebSocketUtil;
 import jakarta.websocket.Session;
 import lombok.extern.slf4j.Slf4j;
@@ -72,6 +72,6 @@ public abstract class BaseWebSocketEndpoint {
     }
 
     protected WebSocketManager getWebSocketManager() {
-        return SpringContextHolder.getBean(WebSocketManager.WEBSOCKET_MANAGER_NAME, WebSocketManager.class);
+        return SpringUtil.getBean(WebSocketManager.WEBSOCKET_MANAGER_NAME, WebSocketManager.class);
     }
 }

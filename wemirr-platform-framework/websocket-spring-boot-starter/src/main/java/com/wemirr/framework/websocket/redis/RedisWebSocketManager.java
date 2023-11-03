@@ -1,5 +1,6 @@
 package com.wemirr.framework.websocket.redis;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.websocket.WebSocket;
 import com.wemirr.framework.websocket.memory.MemWebSocketManager;
@@ -25,11 +26,6 @@ public class RedisWebSocketManager extends MemWebSocketManager {
 
     public static final String CHANNEL = "websocket";
     private static final String COUNT_KEY = "RedisWebSocketManagerCountKey";
-    protected StringRedisTemplate stringRedisTemplate;
-
-    public RedisWebSocketManager(StringRedisTemplate stringRedisTemplate) {
-        this.stringRedisTemplate = stringRedisTemplate;
-    }
 
 
     @Override
@@ -41,6 +37,7 @@ public class RedisWebSocketManager extends MemWebSocketManager {
 
     @Override
     public void remove(String identifier) {
+        final StringRedisTemplate redisTemplate = SpringUtil.getBean(StringRedisTemplate.class);
         boolean containsKey = localWebSocketMap().containsKey(identifier);
         if (containsKey) {
             super.remove(identifier);
@@ -49,7 +46,7 @@ public class RedisWebSocketManager extends MemWebSocketManager {
             map.put(Action.ACTION, RemoveAction.class.getName());
             map.put(Action.IDENTIFIER, identifier);
             //在websocket频道上发布发送消息的消息
-            stringRedisTemplate.convertAndSend(getChannel(), map.toJSONString());
+            redisTemplate.convertAndSend(getChannel(), map.toJSONString());
         }
         //在线数量减1
         countChange(-1);
@@ -68,14 +65,13 @@ public class RedisWebSocketManager extends MemWebSocketManager {
             WebSocketUtil.sendMessage(webSocket.getSession(), message);
             return;
         }
-
-
+        final StringRedisTemplate redisTemplate = SpringUtil.getBean(StringRedisTemplate.class);
         JSONObject map = new JSONObject();
         map.put(Action.ACTION, SendMessageAction.class.getName());
         map.put(Action.IDENTIFIER, identifier);
         map.put(Action.MESSAGE, message);
         //在websocket频道上发布发送消息的消息
-        stringRedisTemplate.convertAndSend(getChannel(), map.toJSONString());
+        redisTemplate.convertAndSend(getChannel(), map.toJSONString());
     }
 
     @Override
@@ -83,8 +79,9 @@ public class RedisWebSocketManager extends MemWebSocketManager {
         JSONObject map = new JSONObject();
         map.put(Action.ACTION, BroadCastAction.class.getName());
         map.put(Action.MESSAGE, message);
+        final StringRedisTemplate redisTemplate = SpringUtil.getBean(StringRedisTemplate.class);
         //在websocket频道上发布广播的消息
-        stringRedisTemplate.convertAndSend(getChannel(), map.toJSONString());
+        redisTemplate.convertAndSend(getChannel(), map.toJSONString());
     }
 
     protected String getChannel() {
@@ -95,8 +92,8 @@ public class RedisWebSocketManager extends MemWebSocketManager {
      * 增减在线数量
      */
     private void countChange(int delta) {
-
-        ValueOperations<String, String> value = stringRedisTemplate.opsForValue();
+        final StringRedisTemplate redisTemplate = SpringUtil.getBean(StringRedisTemplate.class);
+        ValueOperations<String, String> value = redisTemplate.opsForValue();
 
         //获取在线当前数量
         int count = getCount(value);
@@ -112,7 +109,8 @@ public class RedisWebSocketManager extends MemWebSocketManager {
      * 获取当前在线数量
      */
     private int getCount() {
-        ValueOperations<String, String> value = stringRedisTemplate.opsForValue();
+        final StringRedisTemplate redisTemplate = SpringUtil.getBean(StringRedisTemplate.class);
+        ValueOperations<String, String> value = redisTemplate.opsForValue();
         return getCount(value);
     }
 

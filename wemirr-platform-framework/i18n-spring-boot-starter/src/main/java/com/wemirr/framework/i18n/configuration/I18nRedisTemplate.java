@@ -3,7 +3,7 @@ package com.wemirr.framework.i18n.configuration;
 import com.wemirr.framework.i18n.domain.I18nMessage;
 import com.wemirr.framework.i18n.domain.I18nRedisKeyConstants;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class I18nRedisTemplate {
 
-    private final StringRedisTemplate redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     public void loadI18nMessage(List<I18nMessage> messages) {
         if (messages == null) {
@@ -26,7 +26,16 @@ public class I18nRedisTemplate {
         redisTemplate.opsForHash().putAll(I18nRedisKeyConstants.I18N_DATA_PREFIX, map);
     }
 
-    public void publish(String message) {
+    public void publish(List<I18nMessage> list) {
+        if (list == null) {
+            return;
+        }
+        for (I18nMessage message : list) {
+            publish(message);
+        }
+    }
+
+    public void publish(I18nMessage message) {
         redisTemplate.convertAndSend(I18nRedisKeyConstants.CHANNEL_I18N_DATA_UPDATED, message);
     }
 
