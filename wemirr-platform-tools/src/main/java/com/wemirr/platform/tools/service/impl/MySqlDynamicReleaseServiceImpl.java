@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
  * @author Levin
  */
 @Slf4j
-@Service("mySqlDynamicReleaseServiceImpl")
+@Service
 @RequiredArgsConstructor
 public class MySqlDynamicReleaseServiceImpl implements DynamicReleaseService<Long> {
 

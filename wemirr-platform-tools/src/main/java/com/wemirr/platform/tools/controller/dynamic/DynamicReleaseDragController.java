@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,8 +37,7 @@ import java.util.Map;
 @Validated
 public class DynamicReleaseDragController {
 
-    @Qualifier("mongoDynamicReleaseServiceImpl")
-    private final DynamicReleaseService<String> dynamicReleaseService;
+    private final DynamicReleaseService<Long> dynamicReleaseService;
 
     @PostMapping("/{model}/pages")
     public IPage<?> pages(@PathVariable String model, @RequestBody DynamicReleaseQueryDrag params) {
@@ -54,7 +52,7 @@ public class DynamicReleaseDragController {
 
     @Operation(summary = "修改数据记录")
     @PutMapping("/{model}/{id}")
-    public void edit(@PathVariable String model, @PathVariable String id, @RequestBody Map<String, Object> body) {
+    public void edit(@PathVariable String model, @PathVariable Long id, @RequestBody Map<String, Object> body) {
         this.dynamicReleaseService.updateById(model, id, body);
     }
 
@@ -66,23 +64,23 @@ public class DynamicReleaseDragController {
 
     @Operation(summary = "获取推送日志")
     @GetMapping("/{model}/{id}/log_tracks")
-    public List<DynamicReleaseLogTrackResp<String>> logTrack(@PathVariable String model, @PathVariable String id) {
+    public List<DynamicReleaseLogTrackResp<Long>> logTrack(@PathVariable String model, @PathVariable Long id) {
         return this.dynamicReleaseService.logTrack(model, id);
     }
 
     @Operation(summary = "推送数据")
     @PatchMapping("/{model}/{id}/push_tracks")
-    public void pushLogTrack(@PathVariable String model, @PathVariable String id) {
+    public void pushLogTrack(@PathVariable String model, @PathVariable Long id) {
         this.dynamicReleaseService.pushTrack(model, id);
     }
 
     @DeleteMapping("/{model}/{id}")
-    public void del(@PathVariable String model, @PathVariable String id) {
+    public void del(@PathVariable String model, @PathVariable Long id) {
         this.dynamicReleaseService.deleteById(model, id);
     }
 
     @DeleteMapping("/{model}/batch_delete")
-    public void batchDel(@PathVariable String model, @RequestBody BatchKey<String> batchKey) {
+    public void batchDel(@PathVariable String model, @RequestBody BatchKey<Long> batchKey) {
         this.dynamicReleaseService.batchDeleteByKeys(model, batchKey.getIds());
     }
 
