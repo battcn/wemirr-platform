@@ -28,4 +28,8 @@ public class I18nMessage {
     @Schema(title = "语言")
     private String language;
 
+    public String buildKey() {
+        return language + ":" + code;
+    }
+
 }

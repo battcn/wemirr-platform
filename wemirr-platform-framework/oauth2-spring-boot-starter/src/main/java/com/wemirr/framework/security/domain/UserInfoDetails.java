@@ -23,7 +23,7 @@ import java.util.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfoDetails implements UserDetails, OAuth2AuthenticatedPrincipal, CredentialsContainer, java.io.Serializable {
+public class UserInfoDetails implements UserDetails, OAuth2AuthenticatedPrincipal, CredentialsContainer {
 
     private Long userId;
     private String email;
@@ -41,9 +41,12 @@ public class UserInfoDetails implements UserDetails, OAuth2AuthenticatedPrincipa
     private String description;
     private LocalDate birthday;
     private Long orgId;
+    @Builder.Default
     private Collection<String> permissions = new ArrayList<>();
+    @Builder.Default
     private Collection<String> roles = new ArrayList<>();
     private Collection<GrantedAuthority> authorities;
+    @Builder.Default
     private Map<String, Object> attributes = new HashMap<>();
 
 
