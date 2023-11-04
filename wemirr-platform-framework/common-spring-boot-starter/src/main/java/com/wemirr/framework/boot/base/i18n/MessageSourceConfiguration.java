@@ -3,6 +3,7 @@ package com.wemirr.framework.boot.base.i18n;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import com.wemirr.framework.i18n.configuration.MineStaticMessageSource;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,8 @@ public class MessageSourceConfiguration {
 
 
     @Bean
-    public I18nMessageResource i18nMessageResource(MessageSource messageSource) {
+    @Primary
+    public I18nMessageResource i18nMessageResource(MineStaticMessageSource messageSource) {
         return new I18nMessageResource(messageSource);
     }
 
