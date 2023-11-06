@@ -47,21 +47,6 @@
         </dependency>
     </dependencies>
 
-    <distributionManagement>
-        <repository>
-            <id>nexus-releases</id>
-            <name>Internal Releases</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <name>Internal Snapshots</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-
-
     <build>
         <resources>
             <resource>

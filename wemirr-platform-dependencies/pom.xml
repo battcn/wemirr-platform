@@ -262,43 +262,6 @@
         </dependencies>
     </dependencyManagement>
 
-
-    <!-- 远程nexus仓库 -->
-    <repositories>
-        <repository>
-            <id>nexus-snapshots</id>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </repository>
-        <repository>
-            <id>nexus-releases</id>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>nexus-snapshots</id>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>nexus-releases</id>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </pluginRepository>
-    </pluginRepositories>
-
-    <distributionManagement>
-        <repository>
-            <id>nexus-releases</id>
-            <name>Internal Releases</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <name>Internal Snapshots</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-
     <!-- 资源文件拷贝插件 -->
     <build>
         <resources>
