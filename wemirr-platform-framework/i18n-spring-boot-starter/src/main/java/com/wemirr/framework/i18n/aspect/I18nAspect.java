@@ -1,4 +1,4 @@
-package com.wemirr.framework.i18n.configuration;
+package com.wemirr.framework.i18n.aspect;
 
 
 import cn.hutool.core.util.ReflectUtil;
@@ -46,7 +46,8 @@ public class I18nAspect {
     /**
      * 返回通知
      *
-     * @param ret ret
+     * @param obj       obj
+     * @param joinPoint joinPoint
      */
     @AfterReturning(returning = "obj", pointcut = "i18nAspect()")
     public void doAfterReturning(JoinPoint joinPoint, Object obj) {

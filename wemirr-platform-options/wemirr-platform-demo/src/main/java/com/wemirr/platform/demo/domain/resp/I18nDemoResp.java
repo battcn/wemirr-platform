@@ -1,5 +1,6 @@
 package com.wemirr.platform.demo.domain.resp;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.wemirr.framework.i18n.annotation.I18nField;
 import com.wemirr.platform.demo.domain.enums.I18nEnum;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class I18nDemoResp {
 
     @I18nField(code = "i18n.test", target = "staticName")

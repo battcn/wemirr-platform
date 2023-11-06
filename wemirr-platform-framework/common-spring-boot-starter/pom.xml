@@ -70,6 +70,10 @@
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>
+            <artifactId>common-framework-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
             <artifactId>i18n-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
@@ -78,15 +82,15 @@
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>
-            <artifactId>common-framework-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.wemirr.framework</groupId>
             <artifactId>feign-plugin-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>db-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>oauth2-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -112,10 +116,6 @@
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>oauth2-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,4 +1,4 @@
-package com.wemirr.framework.i18n.configuration;
+package com.wemirr.framework.i18n.core;
 
 import com.wemirr.framework.i18n.domain.I18nMessage;
 import com.wemirr.framework.i18n.domain.I18nRedisKeyConstants;

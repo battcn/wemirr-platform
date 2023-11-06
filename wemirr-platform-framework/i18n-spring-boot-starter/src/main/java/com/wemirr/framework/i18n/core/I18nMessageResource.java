@@ -1,4 +1,4 @@
-package com.wemirr.framework.boot.base.i18n;
+package com.wemirr.framework.i18n.core;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -15,7 +15,5 @@ public class I18nMessageResource {
     public String getMessage(String code) {
         return messageSource.getMessage(code, null, code, LocaleContextHolder.getLocale());
     }
-
-
 
 }

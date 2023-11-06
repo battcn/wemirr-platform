@@ -1,4 +1,4 @@
-package com.wemirr.framework.i18n.configuration;
+package com.wemirr.framework.i18n.core;
 
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.TypeUtil;
@@ -22,7 +22,7 @@ import java.util.Map;
  * @author Levin
  */
 @RequiredArgsConstructor
-public class MineStaticMessageSource extends StaticMessageSource implements InitializingBean, AbstractMessageEventListener<I18nMessage> {
+public class DynamicMessageSource extends StaticMessageSource implements InitializingBean, AbstractMessageEventListener<I18nMessage> {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
