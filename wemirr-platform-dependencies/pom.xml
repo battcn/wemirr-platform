@@ -37,7 +37,7 @@
         <!-- 文件存储 -->
         <minio.version>8.4.6</minio.version>
         <aliyun-sdk-oss.version>3.16.1</aliyun-sdk-oss.version>
-        <qiniu-java-sdk.version>[7.7.0, 7.7.99]</qiniu-java-sdk.version>
+        <qiniu-java-sdk.version>7.14.0</qiniu-java-sdk.version>
         <cos_api.version>5.5.9</cos_api.version>
         <!-- 工具包 -->
         <xxl-job.version>2.4.0</xxl-job.version>
