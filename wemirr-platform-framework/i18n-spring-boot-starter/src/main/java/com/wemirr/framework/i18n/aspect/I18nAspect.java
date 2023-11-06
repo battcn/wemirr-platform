@@ -5,13 +5,12 @@ import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.commons.i18n.Language;
 import com.wemirr.framework.i18n.annotation.I18nField;
+import com.wemirr.framework.i18n.core.I18nMessageResource;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -26,7 +25,7 @@ import java.util.Collection;
 public class I18nAspect {
 
 
-    private final MessageSource messageSource;
+    private final I18nMessageResource messageSource;
 
     /***
      * 定义controller切入点拦截规则：拦截标记SysLog注解和指定包下的方法
@@ -83,20 +82,15 @@ public class I18nAspect {
                 continue;
             }
             if (fieldValue instanceof Language item) {
-                ReflectUtil.setFieldValue(obj, annotation.target(), getMessage(item.getLanguage(), fieldValue));
+                ReflectUtil.setFieldValue(obj, annotation.target(), messageSource.getMessage(item.getLanguage(), fieldValue));
             } else {
                 if (StrUtil.isNotBlank(annotation.target())) {
-                    ReflectUtil.setFieldValue(obj, annotation.target(), getMessage(annotation.code(), fieldValue));
+                    ReflectUtil.setFieldValue(obj, annotation.target(), messageSource.getMessage(annotation.code(), fieldValue));
                 } else {
-                    ReflectUtil.setFieldValue(obj, field, getMessage(fieldValue.toString()));
+                    ReflectUtil.setFieldValue(obj, field, messageSource.getMessage(fieldValue.toString()));
                 }
             }
         }
     }
-
-    public String getMessage(String code, Object... value) {
-        return messageSource.getMessage(code, value, code, LocaleContextHolder.getLocale());
-    }
-
 }
 

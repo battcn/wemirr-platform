@@ -7,6 +7,7 @@ import com.wemirr.framework.i18n.aspect.I18nAspect;
 import com.wemirr.framework.i18n.core.DynamicMessageSource;
 import com.wemirr.framework.i18n.core.I18nMessageResource;
 import com.wemirr.framework.i18n.core.I18nRedisTemplate;
+import com.wemirr.framework.i18n.core.MessageSourceHierarchicalChanger;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -64,18 +65,25 @@ public class I18nConfiguration {
     }
 
     @Bean
-    public I18nRedisTemplate i18nPublishTemplate(RedisTemplate<String, Object> redisTemplate) {
-        return new I18nRedisTemplate(redisTemplate);
+    public MessageSourceHierarchicalChanger messageSourceHierarchicalChanger(){
+        return new MessageSourceHierarchicalChanger();
     }
 
     @Bean
-    public I18nAspect i18nAspect(MessageSource messageSource) {
-        return new I18nAspect(messageSource);
+    public I18nRedisTemplate i18nPublishTemplate(RedisTemplate<String, Object> redisTemplate) {
+        return new I18nRedisTemplate(redisTemplate);
     }
 
     @Bean
     public I18nMessageResource i18nMessageResource(MessageSource messageSource) {
         return new I18nMessageResource(messageSource);
     }
+
+    @Bean
+    public I18nAspect i18nAspect(I18nMessageResource messageSource) {
+        return new I18nAspect(messageSource);
+    }
+
+
 
 }

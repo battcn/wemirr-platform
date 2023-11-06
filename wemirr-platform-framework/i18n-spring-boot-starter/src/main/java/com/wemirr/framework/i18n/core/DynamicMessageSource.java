@@ -24,6 +24,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DynamicMessageSource extends StaticMessageSource implements InitializingBean, AbstractMessageEventListener<I18nMessage> {
 
+
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Override

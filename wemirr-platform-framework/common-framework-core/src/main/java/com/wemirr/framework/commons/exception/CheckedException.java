@@ -22,26 +22,12 @@ public class CheckedException extends RuntimeException {
     private static final int FORBIDDEN = 403;
     private static final int NOT_FOUND = 404;
 
-    private static final int USER_NOT_FOUND = 428;
-
-    /**
-     * 待审核
-     */
-    private static final int WAIT_CHECK = 429;
-    /**
-     * 审核拒绝
-     */
-    private static final int REJECT_CHECK = 430;
-
-    /**
-     * 通过code获取微信openid异常
-     */
-    private static final int GET_OPENID_BY_CODE_ERROR = 436;
 
     /**
      * 规范的HTTP状态响应码,如400/403/503等
      */
     private transient int code;
+    private transient Object[] args;
 
 
     /**
@@ -61,7 +47,7 @@ public class CheckedException extends RuntimeException {
      * @return 异常
      */
     public static CheckedException badRequest(String message, Object... arguments) {
-        return new CheckedException(BAD_REQUEST, MessageFormat.format(message, arguments));
+        return new CheckedException(BAD_REQUEST, MessageFormat.format(message, arguments), arguments);
     }
 
     /**
@@ -79,7 +65,7 @@ public class CheckedException extends RuntimeException {
     }
 
     public static CheckedException notFound(String message, Object... arguments) {
-        return new CheckedException(NOT_FOUND, MessageFormat.format(message, arguments));
+        return new CheckedException(NOT_FOUND, MessageFormat.format(message, arguments), arguments);
     }
 
     public static CheckedException notFound(IntEnum intEnum, String arg) {
@@ -92,22 +78,6 @@ public class CheckedException extends RuntimeException {
 
     public static CheckedException notFound(IntEnum intEnum) {
         return new CheckedException(intEnum.type(), intEnum.desc());
-    }
-
-    public static CheckedException waitCheck(String message) {
-        return new CheckedException(WAIT_CHECK, message);
-    }
-
-    public static CheckedException rejectCheck(String message) {
-        return new CheckedException(REJECT_CHECK, message);
-    }
-
-    public static CheckedException getOpenidByCodeError(String message) {
-        return new CheckedException(GET_OPENID_BY_CODE_ERROR, message);
-    }
-
-    public static CheckedException userNotFound(String message) {
-        return new CheckedException(USER_NOT_FOUND, message);
     }
 
     public static CheckedException forbidden() {
@@ -128,13 +98,15 @@ public class CheckedException extends RuntimeException {
         this.setCode(BAD_REQUEST);
     }
 
-    public CheckedException(int code, String message) {
+    public CheckedException(int code, String message, Object... arguments) {
         super(message);
         this.setCode(code);
+        this.setArgs(arguments);
     }
 
-    public CheckedException(int code, String message, Throwable t) {
+    public CheckedException(int code, String message, Object[] arguments, Throwable t) {
         super(message, t);
         this.code = code;
+        this.args = arguments;
     }
 }

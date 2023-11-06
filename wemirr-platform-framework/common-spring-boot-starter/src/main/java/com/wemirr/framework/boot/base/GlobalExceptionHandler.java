@@ -44,6 +44,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
+import java.util.Objects;
 
 
 /**
@@ -65,7 +66,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus defaultErrorResult = HttpStatus.OK;
         log.error("错误日志 - {} - {}", request.getRequestURI(), e.getLocalizedMessage());
         if (e instanceof CheckedException exception) {
-            return new ResponseEntity<>(Result.fail(exception.getCode(), i18nMessageResource.getMessage(exception.getMessage())), defaultErrorResult);
+            return new ResponseEntity<>(Result.fail(exception.getCode(), i18nMessageResource.getMessage(exception.getMessage(), exception.getArgs())), defaultErrorResult);
         } else if (e instanceof IllegalArgumentException exception) {
             return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
         } else if (e instanceof MultipartException) {
@@ -100,8 +101,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return Result.fail(e.getMessage());
     }
 
-    private static final String DISABLED_TEXT = "User is disabled";
-
 
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseBody
@@ -120,7 +119,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseBody
-    public final Result<ResponseEntity<Void>> dataIntegrityViolationException(DataIntegrityViolationException e, HttpServletRequest request) {
+    public final Result<ResponseEntity<Void>> dataIntegrityViolationException(DataIntegrityViolationException e) {
         log.warn("""
 
                 [================================================================]
@@ -191,8 +190,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     public final Result<ResponseEntity<Void>> handlerValidationException(final Exception e) {
         ValidationException exception = (ValidationException) e;
-        if (exception.getCause() instanceof CheckedException) {
-            return Result.fail(CommonError.REQUEST_PARAM_ERROR.type(), i18nMessageResource.getMessage(exception.getCause().getMessage()));
+        if (exception.getCause() instanceof CheckedException ex1) {
+            return Result.fail(CommonError.REQUEST_PARAM_ERROR.type(), i18nMessageResource.getMessage(ex1.getMessage(), ex1.getArgs()));
         }
         return Result.fail(CommonError.REQUEST_PARAM_ERROR.type(), exception.getMessage());
     }
@@ -211,7 +210,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             final String method = e.getMethod();
             return new ResponseEntity<>(Result.fail("%s 请求方式 %s 不存在", uri, method), HttpStatus.OK);
         } else if (ex instanceof MethodArgumentTypeMismatchException exception) {
-            logger.error("参数转换失败，方法：" + exception.getParameter().getMethod().getName() + "，参数：" + exception.getName()
+            logger.error("参数转换失败，方法：" + Objects.requireNonNull(exception.getParameter().getMethod()).getName() + "，参数：" + exception.getName()
                     + ",信息：" + exception.getLocalizedMessage());
             if (ex.getCause() instanceof ConversionFailedException &&
                     ex.getCause().getCause() instanceof IllegalArgumentException) {
