@@ -2,7 +2,7 @@ package com.wemirr.platform.demo.test;
 
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
-import org.assertj.core.util.Lists;
+import com.google.common.collect.Lists;
 
 import java.util.List;
 

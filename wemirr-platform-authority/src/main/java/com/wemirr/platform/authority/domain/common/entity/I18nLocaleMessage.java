@@ -1,7 +1,7 @@
 package com.wemirr.platform.authority.domain.common.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.wemirr.framework.commons.entity.SuperEntity;
+import com.wemirr.framework.commons.entity.Entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,18 +17,17 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName("common_i18n_data")
-@Schema(name = "I18nData", description = "I18N数据")
-public class I18nData extends SuperEntity<Long> {
+@TableName("common_i18n_locale_message")
+@Schema(name = "I18nLocaleMessage", description = "I18N语言数据")
+public class I18nLocaleMessage extends Entity<Long> {
 
-    @Schema(description = "编码")
-    private String code;
+    @Schema(description = "i18n_data.id")
+    private Long parentId;
 
-    @Schema(description = "备注")
-    private String remark;
+    @Schema(description = "语言环境")
+    private String locale;
 
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
+    @Schema(description = "消息内容")
+    private String message;
 
 }

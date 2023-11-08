@@ -26,11 +26,14 @@ public class I18nMessage {
     private String message;
 
     @Schema(title = "语言")
-    private String language;
+    private String locale;
+
+    @Schema(title = "租户ID")
+    private Long tenantId;
 
     public String buildKey() {
-        return language + ":" + code;
+        return tenantId + ":" + locale + ":" + code;
     }
 
-    
+
 }

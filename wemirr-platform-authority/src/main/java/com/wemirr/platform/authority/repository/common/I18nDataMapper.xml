@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.authority.repository.common.I18nDataMapper">
+
+    <resultMap id="i18nResultMap" type="com.wemirr.platform.authority.domain.common.resp.I18nDataPageResp">
+        <id property="code" column="code"/>
+        <result property="remark" column="remark"/>
+        <result property="createdName" column="created_name"/>
+        <result property="createdTime" column="created_time"/>
+        <collection property="languages" ofType="com.wemirr.platform.authority.domain.common.entity.I18nLocaleMessage">
+            <result property="locale" column="locale"/>
+            <result property="message" column="message"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="pageList" resultMap="i18nResultMap">
+    SELECT code,
+           remark,created_name,created_time,
+           locale,message
+    FROM common_i18n_data
+    </select>
+
+    <select id="loadI18nMessage" resultType="com.wemirr.framework.i18n.domain.I18nMessage">
+        SELECT t1.code,t1.tenant_id,
+               t2.message,t2.locale
+        FROM common_i18n_data t1 join common_i18n_locale_message t2 on t1.id = t2.parent_id
+    </select>
+
+
+</mapper>

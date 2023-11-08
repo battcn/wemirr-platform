@@ -4651,4 +4651,33 @@ INSERT INTO `t_user` VALUES (23, 1, '1234', '{bcrypt}$2a$10$j1U0rIRl8ODzc2j5rkLx
 INSERT INTO `t_user` VALUES (24, 1, 'admin2', '{bcrypt}$2a$10$ieDPTa5Awa8Kq48BzRuBuurU8.4AvUYUOX1RmRxxbccf56vUX/wbC', '1300217195', 100, 100, b'0', 'em@163.com', '13002171921', NULL, 1, b'1', '', NULL, 'mz_daiz', 'XIAOXUE', 'QUIT', NULL, b'0', 1, '长风一梦8888', '2023-02-21 01:17:43', NULL, NULL, '2023-02-21 01:20:11');
 COMMIT;
 
+
+
+CREATE TABLE `common_i18n_data` (
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `code` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '唯一标识 = 业务:关键词',
+    `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+    `tenant_id` bigint DEFAULT NULL,
+    `deleted` bit(1) DEFAULT b'0' COMMENT '删除状态0：未删除，1：已删除',
+    `created_by` bigint DEFAULT '0' COMMENT '创建人id',
+    `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+    `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+    `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1721821542981042179 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='国际化信息';
+
+
+CREATE TABLE `common_i18n_locale_message` (
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `parent_id` bigint DEFAULT NULL COMMENT 'i18n_data.id',
+    `locale` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '语言',
+    `message` varchar(255) DEFAULT NULL COMMENT '文本值，可以使用 {} 加角标，作为占位符',
+    `created_by` bigint DEFAULT '0' COMMENT '创建人id',
+    `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1721821543060733955 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='国际化信息';
+
 SET FOREIGN_KEY_CHECKS = 1;

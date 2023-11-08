@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import java.io.Serializable;
-
 /**
  * <p>
  * 实体类

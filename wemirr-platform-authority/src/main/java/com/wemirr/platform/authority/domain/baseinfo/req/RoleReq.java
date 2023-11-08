@@ -4,11 +4,9 @@ import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**

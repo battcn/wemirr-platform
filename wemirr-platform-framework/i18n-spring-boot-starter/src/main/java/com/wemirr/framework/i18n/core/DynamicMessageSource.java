@@ -36,7 +36,7 @@ public class DynamicMessageSource extends StaticMessageSource implements Initial
         final Collection<Object> values = entries.values();
         for (Object value : values) {
             I18nMessage message = JSON.parseObject(JSON.toJSONString(value), I18nMessage.class);
-            addMessage(message.getCode(), LocaleUtils.toLocale(message.getLanguage()), message.getMessage());
+            addMessage(message.getCode(), LocaleUtils.toLocale(message.getLocale()), message.getMessage());
         }
     }
 
@@ -45,7 +45,7 @@ public class DynamicMessageSource extends StaticMessageSource implements Initial
         if (message == null) {
             return;
         }
-        addMessage(message.getCode(), LocaleUtils.toLocale(message.getLanguage()), message.getMessage());
+        addMessage(message.getCode(), LocaleUtils.toLocale(message.getLocale()), message.getMessage());
     }
 
 

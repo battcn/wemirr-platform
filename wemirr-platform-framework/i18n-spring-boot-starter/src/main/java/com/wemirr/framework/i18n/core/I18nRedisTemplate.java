@@ -22,6 +22,7 @@ public class I18nRedisTemplate {
         if (messages == null) {
             return;
         }
+        redisTemplate.delete(I18nRedisKeyConstants.I18N_DATA_PREFIX);
         final Map<String, I18nMessage> map = messages.stream().collect(Collectors.toMap(I18nMessage::buildKey, Function.identity()));
         redisTemplate.opsForHash().putAll(I18nRedisKeyConstants.I18N_DATA_PREFIX, map);
     }
