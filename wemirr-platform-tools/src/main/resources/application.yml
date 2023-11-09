@@ -49,3 +49,17 @@ extend:
   boot:
     log:
       strategy: feign
+  feign:
+    plugin:
+      enabled: true
+      token:
+        enabled: true
+        uri: http://wemirr-platform-authority/oauth2/token
+        load-balance: true
+        o-auth:
+          client-id: messaging-client
+          client-secret: 123456
+          username: admin
+          password: 123456
+          tenant-code: "0000"
+          scope: platform
