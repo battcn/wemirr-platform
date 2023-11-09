@@ -14,7 +14,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.time.Duration;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.List;
 /**
  * @author Levin
  **/
+@Order
 @Configuration
 public class I18nConfiguration {
 
@@ -70,7 +73,8 @@ public class I18nConfiguration {
     }
 
     @Bean
-    public I18nRedisTemplate i18nPublishTemplate(RedisTemplate<String, Object> redisTemplate) {
+    @Order
+    public I18nRedisTemplate i18nPublishTemplate(StringRedisTemplate redisTemplate) {
         return new I18nRedisTemplate(redisTemplate);
     }
 
