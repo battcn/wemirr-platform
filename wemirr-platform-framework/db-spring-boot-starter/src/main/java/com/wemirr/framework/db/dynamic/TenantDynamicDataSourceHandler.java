@@ -10,8 +10,8 @@ import com.baomidou.dynamic.datasource.creator.hikaricp.HikariDataSourceCreator;
 import com.baomidou.dynamic.datasource.support.ScriptRunner;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.dynamic.event.body.EventAction;
-import com.wemirr.framework.db.dynamic.event.body.TenantDynamicDatasource;
+import com.wemirr.framework.db.dynamic.core.EventAction;
+import com.wemirr.framework.db.dynamic.core.TenantDynamicDatasource;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
@@ -42,7 +42,7 @@ public class TenantDynamicDataSourceHandler {
     @Resource
     private HikariDataSourceCreator hikariDataSourceCreator;
     @Resource
-    private DatabaseProperties properties;
+    private DatabaseProperties databaseProperties;
     @Resource
     private ResourceLoader resourceLoader;
 
@@ -57,7 +57,7 @@ public class TenantDynamicDataSourceHandler {
         }
         log.info("接收租户事件消息: - {} - {}", action, dynamicDatasource);
         DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
-        final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+        final DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
         String database = multiTenant.getDsPrefix() + dynamicDatasource.getCode();
         if (action == EventAction.DEL) {
             ds.removeDataSource(database);
@@ -103,7 +103,7 @@ public class TenantDynamicDataSourceHandler {
     }
 
     public String buildDb(String tenantCode) {
-        final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+        final DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
         if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
             return multiTenant.getDefaultDsName();
         }
@@ -125,7 +125,7 @@ public class TenantDynamicDataSourceHandler {
         // 从ThreadLocal中获取当前数据源
         final DataSource dataSource = ds.getDataSource(dsKey);
         ScriptRunner scriptRunner = new ScriptRunner(false, ";");
-        final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+        final DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
         final List<String> tenantSqlScripts = multiTenant.getTenantSqlScripts();
         log.info("tenantSqlScripts - {}", tenantSqlScripts);
         if (CollectionUtil.isEmpty(tenantSqlScripts)) {

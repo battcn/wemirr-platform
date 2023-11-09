@@ -1,4 +1,4 @@
-package com.wemirr.framework.db.dynamic.event.body;
+package com.wemirr.framework.db.dynamic.core;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;

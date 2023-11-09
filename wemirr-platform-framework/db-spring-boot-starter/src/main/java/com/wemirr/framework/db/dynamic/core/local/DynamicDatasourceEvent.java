@@ -1,6 +1,6 @@
-package com.wemirr.framework.db.dynamic.event;
+package com.wemirr.framework.db.dynamic.core.local;
 
-import com.wemirr.framework.db.dynamic.event.body.TenantDynamicDatasource;
+import com.wemirr.framework.db.dynamic.core.TenantDynamicDatasource;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,7 +27,7 @@ public class DynamicDatasourceEvent extends RemoteApplicationEvent {
     }
 
     public DynamicDatasourceEvent(Object body, String originService, TenantDynamicDatasource dynamicDatasource, Integer action) {
-        super(body, originService, () -> originService);
+        super(body, originService, () -> "wemirr-platform-tools");
         this.dynamicDatasource = dynamicDatasource;
         this.action = action;
     }

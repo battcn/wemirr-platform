@@ -1,9 +1,8 @@
 package com.wemirr.framework.db.dynamic;
 
-import cn.hutool.core.collection.CollectionUtil;
-import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.db.dynamic.event.body.EventAction;
-import com.wemirr.framework.db.dynamic.event.body.TenantDynamicDatasource;
+import cn.hutool.core.collection.CollUtil;
+import com.wemirr.framework.db.dynamic.core.EventAction;
+import com.wemirr.framework.db.dynamic.core.TenantDynamicDatasource;
 import com.wemirr.framework.db.dynamic.feign.TenantFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +21,12 @@ public class TenantDynamicDataSourceLoad {
 
     public void init() {
         log.debug("extend.mybatis-plus.multi-tenant.strategy eq feign , pull dynamic begin...");
-        final Result<List<TenantDynamicDatasource>> result = tenantFeignClient.selectAll();
-        if (!result.isSuccessful() || CollectionUtil.isEmpty(result.getData())) {
+        final List<TenantDynamicDatasource> result = tenantFeignClient.selectAll();
+        if (CollUtil.isEmpty(result)) {
             log.warn("feign pull tenantDynamicDataSources is null......");
             return;
         }
-        result.getData().forEach(tenantDynamicDataSource -> tenantDynamicDataSourceHandler.handler(EventAction.ADD, tenantDynamicDataSource));
+        result.forEach(tenantDynamicDataSource -> tenantDynamicDataSourceHandler.handler(EventAction.ADD, tenantDynamicDataSource));
         log.debug("extend.mybatis-plus.multi-tenant.strategy eq feign , pull dynamic end...");
     }
 
