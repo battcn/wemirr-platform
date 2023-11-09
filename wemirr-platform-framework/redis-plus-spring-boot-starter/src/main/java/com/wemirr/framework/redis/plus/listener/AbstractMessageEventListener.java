@@ -14,6 +14,12 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  */
 public interface AbstractMessageEventListener<T> extends MessageEventListener {
 
+    /**
+     * 公共消息处理
+     *
+     * @param message message must not be {@literal null}.
+     * @param pattern pattern matching the channel (if specified) - can be {@literal null}.
+     */
     @Override
     default void onMessage(Message message, byte[] pattern) {
         byte[] channelBytes = message.getChannel();

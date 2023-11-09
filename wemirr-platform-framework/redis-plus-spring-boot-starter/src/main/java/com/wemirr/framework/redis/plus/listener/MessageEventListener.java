@@ -17,5 +17,10 @@ public interface MessageEventListener extends MessageListener {
      */
     Topic topic();
 
+    /**
+     * 序列化类型
+     *
+     * @return 类型
+     */
     Type type();
 }
