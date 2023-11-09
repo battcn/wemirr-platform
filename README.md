@@ -56,9 +56,9 @@
 
 > 技术交流Q群： 789517089
 
-Vue、Spring Cloud Alibaba 2021.0.4.0、Spring Cloud 2021.0.4、Nacos、Sentinel、
-Nepxion、Mybatis-Plus、多租户、灰度、Oauth2.0、Spring Security、Redis、Mysql、
-ShardingJdbc、ShardingSphere
+Vue、Spring Cloud Alibaba 2022、Spring Cloud 2022、Nacos、Sentinel、
+Nepxion、Mybatis-Plus、多租户、灰度、Oauth2.1、Spring Security、Redis、Mysql、
+
 
 ### 特点
 
