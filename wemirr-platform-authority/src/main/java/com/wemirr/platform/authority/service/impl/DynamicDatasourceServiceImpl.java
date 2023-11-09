@@ -1,6 +1,7 @@
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.exception.CheckedException;
@@ -37,7 +38,6 @@ import static com.wemirr.platform.authority.domain.tenant.converts.TenantDatasou
 public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDatasourceMapper, DynamicDatasource> implements TenantDatasourceService {
 
     private final TenantConfigMapper tenantConfigMapper;
-    private final DynamicDatasourceEventPublish eventPublisher;
     private final ApplicationContext applicationContext;
 
     @Override
@@ -97,6 +97,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
         if (Objects.isNull(dynamicDatasource)) {
             throw CheckedException.notFound("租户未关联数据源信息");
         }
+        final DynamicDatasourceEventPublish eventPublisher = SpringUtil.getBean(DynamicDatasourceEventPublish.class);
         final TenantDynamicDatasource datasource = TENANT_DYNAMIC_DATASOURCE_VO_2_TENANT_DYNAMIC_DATASOURCE_CONVERTS.convert(dynamicDatasource);
         datasource.setAction(action.getType());
         eventPublisher.publish(datasource);

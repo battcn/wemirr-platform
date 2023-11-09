@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.i18n.domain.I18nMessage;
 import com.wemirr.framework.i18n.domain.I18nRedisKeyConstants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class I18nRedisTemplate {
 
-    private final StringRedisTemplate redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     public void loadI18nMessage(List<I18nMessage> messages) {
         if (messages == null) {

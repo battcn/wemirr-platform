@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.time.Duration;
 import java.util.List;
@@ -68,13 +67,13 @@ public class I18nConfiguration {
     }
 
     @Bean
-    public MessageSourceHierarchicalChanger messageSourceHierarchicalChanger(){
+    public MessageSourceHierarchicalChanger messageSourceHierarchicalChanger() {
         return new MessageSourceHierarchicalChanger();
     }
 
     @Bean
     @Order
-    public I18nRedisTemplate i18nPublishTemplate(StringRedisTemplate redisTemplate) {
+    public I18nRedisTemplate i18nPublishTemplate(RedisTemplate<String, Object> redisTemplate) {
         return new I18nRedisTemplate(redisTemplate);
     }
 
@@ -87,7 +86,6 @@ public class I18nConfiguration {
     public I18nAspect i18nAspect(I18nMessageResource messageSource) {
         return new I18nAspect(messageSource);
     }
-
 
 
 }
