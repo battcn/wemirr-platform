@@ -11,6 +11,8 @@ import com.wemirr.framework.db.dynamic.core.TenantDynamicDatasource;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
+import com.wemirr.framework.db.properties.DatabaseProperties;
+import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.platform.authority.domain.tenant.entity.DynamicDatasource;
 import com.wemirr.platform.authority.domain.tenant.resp.TenantDatasourceResp;
 import com.wemirr.platform.authority.repository.common.DynamicDatasourceMapper;
@@ -19,7 +21,6 @@ import com.wemirr.platform.authority.service.TenantDatasourceService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,7 +39,7 @@ import static com.wemirr.platform.authority.domain.tenant.converts.TenantDatasou
 public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDatasourceMapper, DynamicDatasource> implements TenantDatasourceService {
 
     private final TenantConfigMapper tenantConfigMapper;
-    private final ApplicationContext applicationContext;
+    private final DatabaseProperties databaseProperties;
 
     @Override
     public List<TenantDatasourceResp> selectTenantDynamicDatasource() {
@@ -55,6 +56,9 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
         final List<TenantDatasourceResp> dataSourceList = this.tenantConfigMapper.selectTenantDynamicDatasource(null);
         if (CollectionUtil.isEmpty(dataSourceList)) {
             log.warn("未找到符合条件的数据源...");
+            return;
+        }
+        if (databaseProperties.getMultiTenant().getType() != MultiTenantType.DATASOURCE) {
             return;
         }
         for (TenantDatasourceResp dynamicDatasource : dataSourceList) {
