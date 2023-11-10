@@ -36,17 +36,16 @@ public class DataScopeAnnotationAspect {
 
     /**
      * AOP 前置增强
-     *
-     * @param joinPoint joinPoint
      */
     @Before(value = "dataScopePointcut()")
-    public void recordLog(JoinPoint joinPoint) {
+    public void before() {
         final DataPermission permission = DataPermissionContextHolder.get();
-        if (permission == null || permission.getUserId() == null) {
-            final DataPermission remotePermission = dataScopeService.getDataScopeById(context.tenantId());
-            log.debug("远程获取 data permission - {}", remotePermission);
-            DataPermissionContextHolder.set(remotePermission);
+        if (permission != null) {
+            return;
         }
+        final DataPermission remotePermission = dataScopeService.getDataScopeById(context.userId());
+        log.debug("远程获取 data permission - {}", remotePermission);
+        DataPermissionContextHolder.set(remotePermission);
     }
 
     /**
