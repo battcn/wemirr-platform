@@ -55,7 +55,7 @@ public interface GatewayRule<T> {
         }
         for (Object object : objects) {
             CommonRule rule = JSON.parseObject(object.toString(), CommonRule.class);
-            if (!rule.getStatus() || StringUtils.isBlank(rule.getPath())) {
+            if (rule.getStatus() == null || !rule.getStatus() || StringUtils.isBlank(rule.getPath())) {
                 continue;
             }
             if (ObjectUtils.allNotNull(rule.getStartTime(), rule.getEndTime())) {
