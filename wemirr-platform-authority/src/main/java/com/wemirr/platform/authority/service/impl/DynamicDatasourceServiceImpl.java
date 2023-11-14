@@ -101,6 +101,9 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
         if (Objects.isNull(dynamicDatasource)) {
             throw CheckedException.notFound("租户未关联数据源信息");
         }
+        if (databaseProperties.getMultiTenant().getType() != MultiTenantType.DATASOURCE) {
+            throw CheckedException.notFound("未满足数据源隔离策略");
+        }
         final DynamicDatasourceEventPublish eventPublisher = SpringUtil.getBean(DynamicDatasourceEventPublish.class);
         final TenantDynamicDatasource datasource = TENANT_DYNAMIC_DATASOURCE_VO_2_TENANT_DYNAMIC_DATASOURCE_CONVERTS.convert(dynamicDatasource);
         datasource.setAction(action.getType());
