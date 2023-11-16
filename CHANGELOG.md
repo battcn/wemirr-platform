@@ -1,8 +1,22 @@
 # 2.0.2-release
 
+### 🎫 Chores
+
 - 升级 pom.xml 版本依赖
 - 响应结果进行 XSS 攻击防御
+- 新增 `i18n-spring-boot-starter` 扩展包
+- 扩展数据权限插件（支持任意维度，动态控制）
 
+### 🔧 Continuous Integration
+
+- https://docs.battcn.com 文档更新
+
+### 🐛 Bug Fixes
+
+- 修复数据权限错误赋值
+- 修复 UI 新增资源吗异常
+- 修复异常提示
+- 修复启动异常情况
 
 
 # 2.0.1-release
