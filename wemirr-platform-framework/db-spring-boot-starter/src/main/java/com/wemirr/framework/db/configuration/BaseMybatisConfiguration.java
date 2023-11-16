@@ -6,18 +6,15 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.*;
 import com.wemirr.framework.commons.security.AuthenticationContext;
+import com.wemirr.framework.db.mybatisplus.datascope.handler.DataScopePermissionHandler;
 import com.wemirr.framework.db.mybatisplus.handler.MyBatisMetaObjectHandler;
 import com.wemirr.framework.db.mybatisplus.injector.MySqlInjector;
-import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeAnnotationAspect;
-import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopePermissionHandler;
-import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeService;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -117,13 +114,6 @@ public abstract class BaseMybatisConfiguration {
             // SQL性能规范插件，限制比较多，慎用哦
             interceptor.addInnerInterceptor(new IllegalSQLInnerInterceptor());
         }
-    }
-
-
-    @Bean
-    @ConditionalOnBean(DataScopeService.class)
-    public DataScopeAnnotationAspect dataScopeAnnotationAspect(DataScopeService dataScopeService) {
-        return new DataScopeAnnotationAspect(dataScopeService, context);
     }
 
     @Bean
