@@ -7,6 +7,7 @@
         select * from sys_role t1 INNER JOIN sys_user_role t2 on t1.id = t2.role_id
         where t1.locked = false and t2.user_id = #{userId, jdbcType=BIGINT}
     </select>
+
     <select id="list" resultType="com.wemirr.platform.authority.domain.baseinfo.entity.Role">
         select * from sys_role
     </select>

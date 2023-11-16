@@ -16,6 +16,7 @@ import com.wemirr.platform.authority.repository.baseinfo.RoleMapper;
 import com.wemirr.platform.authority.repository.baseinfo.UserMapper;
 import com.wemirr.platform.authority.repository.tenant.TenantMapper;
 import com.wemirr.platform.authority.service.LoginLogService;
+import com.wemirr.platform.authority.service.impl.DataScopeService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +31,6 @@ import java.util.Optional;
  * 默认登录处理
  *
  * @author Levin
- * @since 2019-04-03
  **/
 @Slf4j
 @Primary
@@ -45,9 +45,10 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
     private RoleMapper roleMapper;
     @Resource
     private ResourceMapper resourceMapper;
-
     @Resource
     private LoginLogService loginLogService;
+    @Resource
+    private DataScopeService dataScopeService;
 
 
     @Override
@@ -98,7 +99,8 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
         final List<Role> roles = this.roleMapper.findRoleByUserId(user.getId());
         info.setRoles(roles.stream().map(Role::getCode).toList());
         final List<String> permissions = this.resourceMapper.queryPermissionByUserId(user.getId());
-        info.setPermissions(permissions);
+        info.setFuncPermissions(permissions);
+        info.setDataPermission(dataScopeService.getDataPermissionById(user.getId(), user.getOrgId()));
         this.loginLogService.addLog(info);
         return info;
     }

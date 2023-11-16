@@ -2,14 +2,11 @@ package com.wemirr.platform.authority.controller.baseinfo;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.MapHelper;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.entity.Entity;
-import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeService;
-import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
-import com.wemirr.platform.authority.domain.baseinfo.enums.Sex;
+import com.wemirr.platform.authority.domain.baseinfo.req.UserPageReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserSaveReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserUpdateReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.UserResp;
@@ -45,7 +42,6 @@ import static com.wemirr.platform.authority.domain.baseinfo.converts.UserConvert
 public class UserController {
 
     private final UserService userService;
-    private final DataScopeService dataScopeService;
 
     @GetMapping
     @Parameters({
@@ -58,13 +54,8 @@ public class UserController {
     })
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
     @PreAuthorize("hasAuthority('sys:users:page')")
-    public IPage<User> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
-                             @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
-                             String username, String nickName, Integer sex, String email, Long orgId, String mobile) {
-        return this.userService.page(new Page<>(current, size),
-                Wraps.<User>lbQ().eq(User::getSex, Sex.of(sex)).eq(User::getOrgId, orgId)
-                        .like(User::getNickName, nickName).like(User::getMobile, mobile)
-                        .like(User::getUsername, username).like(User::getEmail, email));
+    public IPage<UserResp> page(UserPageReq req) {
+        return this.userService.pageList(req);
     }
 
 
@@ -92,13 +83,6 @@ public class UserController {
     @PreAuthorize("hasAuthority('sys:users:remove')")
     public void del(@PathVariable Long id) {
         this.userService.deleteById(id);
-    }
-
-
-    @GetMapping("/{id}/data_permission")
-    @Operation(summary = "获取数据权限")
-    public void dataPermission(@PathVariable Long id) {
-        this.dataScopeService.getDataScopeById(id);
     }
 
     @PostMapping("/batch_ids")

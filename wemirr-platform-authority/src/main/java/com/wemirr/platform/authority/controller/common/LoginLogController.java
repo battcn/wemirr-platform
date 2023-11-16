@@ -1,6 +1,7 @@
 package com.wemirr.platform.authority.controller.common;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wemirr.framework.db.mybatisplus.datascope.util.DataPermissionUtils;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.common.entity.LoginLog;
@@ -41,9 +42,9 @@ public class LoginLogController {
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('log:login:page')")
     public Page<LoginLog> query(PageRequest request, String name, String principal) {
-        return this.loginLogService.page(request.buildPage(), Wraps.<LoginLog>lbQ()
-                .like(LoginLog::getName, name)
-                .like(LoginLog::getPrincipal, principal).orderByDesc(LoginLog::getCreatedTime));
+        return DataPermissionUtils.executeDefaultDataPermissionRule(() ->
+                loginLogService.page(request.buildPage(), Wraps.<LoginLog>lbQ().like(LoginLog::getName, name)
+                        .like(LoginLog::getPrincipal, principal).orderByDesc(LoginLog::getCreatedTime)));
     }
 
 

@@ -33,9 +33,8 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
 
     private static final String USER_AGENT = "User-Agent";
 
-
     @Override
-    public LoginLog addLog(UserInfoDetails details) {
+    public void addLog(UserInfoDetails details) {
         final String clientId = request.getParameter("client_id");
         final String username = request.getParameter("username");
         String ip = JakartaServletUtil.getClientIP(request);
@@ -43,16 +42,17 @@ public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginL
         String ua = request.getHeader(USER_AGENT);
         final UserAgent userAgent = UserAgentUtil.parse(ua);
         final Browser browser = userAgent.getBrowser();
-        LoginLog loginLog = LoginLog.builder().userId(details.getUserId())
+        LoginLog loginLog = LoginLog.builder()
                 .tenantId(details.getTenantId())
-                .principal(username).location(region).ip(ip)
+                .userId(details.getUserId()).principal(username).name(details.getNickName())
+                .location(region).ip(ip)
                 .platform(userAgent.getPlatform().getName())
                 .engine(userAgent.getEngine().getName())
                 .browser(browser.getName())
                 .os(userAgent.getOs().getName())
-                .clientId(clientId).name(details.getNickName())
+                .clientId(clientId)
+                .createdBy(details.getUserId()).createdName(details.getNickName())
                 .build();
         super.save(loginLog);
-        return loginLog;
     }
 }

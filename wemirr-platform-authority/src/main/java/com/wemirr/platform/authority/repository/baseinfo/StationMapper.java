@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Station;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -30,5 +29,5 @@ public interface StationMapper extends SuperMapper<Station> {
      * @param dataPermission
      * @return
      */
-    IPage<Station> findStationPage(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<Station> queryWrapper, DataPermission dataPermission);
+    IPage<Station> findStationPage(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<Station> queryWrapper);
 }

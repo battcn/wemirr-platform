@@ -6,11 +6,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
-import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
 import com.wemirr.platform.authority.domain.baseinfo.entity.UserRole;
+import com.wemirr.platform.authority.domain.baseinfo.req.UserPageReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserSaveReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.UserResp;
 import com.wemirr.platform.authority.domain.common.req.ChangeUserInfoReq;
@@ -52,13 +51,13 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     }
 
     @Override
-    public List<User> list(DataPermission scope) {
-        return baseMapper.list(scope);
+    public List<User> list() {
+        return baseMapper.list();
     }
 
     @Override
-    public IPage<UserResp> findPage(IPage<User> page, LbqWrapper<User> wrapper) {
-        return baseMapper.findPage(page, wrapper);
+    public IPage<UserResp> pageList(UserPageReq req) {
+        return baseMapper.findPage(req.buildPage(), req);
     }
 
     @Override

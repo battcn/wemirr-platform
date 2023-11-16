@@ -89,6 +89,7 @@ public final class SecurityUtils {
      * @return 异常信息map
      */
     private static Map<String, String> getErrorParameter(HttpServletRequest request, HttpServletResponse response, Throwable e) {
+        e.printStackTrace();
         log.error("security error - {}", e.getLocalizedMessage());
         Map<String, String> parameters = new LinkedHashMap<>();
         if (e instanceof OAuth2InvalidException exception) {

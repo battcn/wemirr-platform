@@ -2,14 +2,11 @@ package com.wemirr.platform.authority.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
-import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
+import com.wemirr.platform.authority.domain.baseinfo.req.UserPageReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserSaveReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.UserResp;
 import com.wemirr.platform.authority.domain.common.req.ChangeUserInfoReq;
-
-import java.util.List;
 
 /**
  * <p>
@@ -30,22 +27,14 @@ public interface UserService extends SuperService<User> {
      */
     void addUser(UserSaveReq dto);
 
-    /**
-     * 根据条件查询
-     *
-     * @param scope scope
-     * @return 查询结果
-     */
-    List<User> list(DataPermission scope);
 
     /**
      * 数据权限 分页
      *
-     * @param page    page
-     * @param wrapper wrapper
+     * @param req req
      * @return 查询结果
      */
-    IPage<UserResp> findPage(IPage<User> page, LbqWrapper<User> wrapper);
+    IPage<UserResp> pageList(UserPageReq req);
 
     /**
      * 修改密码
@@ -69,5 +58,4 @@ public interface UserService extends SuperService<User> {
      * @param req req
      */
     void changeInfo(ChangeUserInfoReq req);
-
 }

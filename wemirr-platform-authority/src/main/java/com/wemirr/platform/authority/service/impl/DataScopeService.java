@@ -1,15 +1,10 @@
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ObjUtil;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.Cached;
 import com.wemirr.framework.commons.entity.Entity;
-import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
-import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeService;
+import com.wemirr.framework.commons.security.DataPermission;
+import com.wemirr.framework.commons.security.DataResourceType;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.framework.security.domain.UserInfoDetails;
-import com.wemirr.framework.security.utils.SecurityUtils;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Org;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Role;
 import com.wemirr.platform.authority.domain.baseinfo.entity.RoleOrg;
@@ -24,9 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
-import static com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeType.*;
+import static com.wemirr.framework.commons.security.DataScopeType.*;
 
 /**
  * @author levin
@@ -34,51 +28,48 @@ import static com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeType.*
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DataScopeServiceImpl implements DataScopeService {
+public class DataScopeService {
 
     private final RoleMapper roleMapper;
     private final RoleOrgMapper roleOrgMapper;
     private final UserMapper userMapper;
     private final OrgMapper orgMapper;
 
-    @Override
-    @Cached(expire = 30, timeUnit = TimeUnit.MINUTES, cacheType = CacheType.LOCAL)
-    public DataPermission getDataScopeById(Long userId) {
-        // 考虑添加缓存实现,减少DB IO访问次数
-        DataPermission scope = DataPermission.builder().userId(userId).build();
-        List<Long> orgIds = new ArrayList<>();
+    /**
+     * 开发者可以根据自己企业需求动态扩展数据权限（默认就支撑多维度数据权限，此处以用户维护演示）
+     *
+     * @param userId 用户ID
+     * @param orgId  用户当前机构
+     * @return 数据权限
+     */
+    public DataPermission getDataPermissionById(Long userId, Long orgId) {
         // 计划后续在登录的时候从上下文提取这样性能更高
         List<Role> list = roleMapper.findRoleByUserId(userId);
         if (CollectionUtils.isEmpty(list)) {
-            return scope;
+            return DataPermission.builder().build();
         }
         // 找到 dsType 最大的角色， dsType越大，角色拥有的权限最大
         Role role = list.stream().max(Comparator.comparingInt((item) -> item.getScopeType().getType())).get();
-        scope.setScopeType(role.getScopeType());
+        DataPermission permission = DataPermission.builder().scopeType(role.getScopeType()).build();
+        List<Long> userIdList = null;
         if (role.getScopeType() == CUSTOMIZE) {
-            List<Long> roleOrgIds = roleOrgMapper.selectList(Wraps.<RoleOrg>lbQ().select(RoleOrg::getOrgId)
+            List<Long> orgIdList = roleOrgMapper.selectList(Wraps.<RoleOrg>lbQ().select(RoleOrg::getOrgId)
                     .eq(RoleOrg::getRoleId, role.getId())).stream().map(RoleOrg::getOrgId).distinct().toList();
-            orgIds.addAll(roleOrgIds);
+            userIdList = this.userMapper.selectList(Wraps.<User>lbQ().select(User::getId).in(User::getOrgId, orgIdList))
+                    .stream().map(Entity::getId).toList();
         } else if (role.getScopeType() == THIS_LEVEL) {
-            orgIds.add(getUserOrgId(userId));
+            userIdList = this.userMapper.selectList(Wraps.<User>lbQ().select(User::getId).eq(User::getOrgId, orgId))
+                    .stream().map(Entity::getId).toList();
         } else if (role.getScopeType() == THIS_LEVEL_CHILDREN) {
-            orgIds.addAll(findChildren(getUserOrgId(userId)));
+            final List<Long> orgIdList = findChildren(orgId);
+            userIdList = this.userMapper.selectList(Wraps.<User>lbQ().select(User::getId).in(User::getOrgId, orgIdList))
+                    .stream().map(Entity::getId).toList();
         }
-        scope.setOrgIds(orgIds);
-        return scope;
-    }
-
-    private Long getUserOrgId(Long userId) {
-        final UserInfoDetails details = SecurityUtils.getAuthInfo();
-        if (ObjUtil.equal(userId, details.getUserId())) {
-            //说明是当前登录人,就不查询数据库了,直接用token 里面自带的
-            return details.getOrgId();
+        if (userIdList != null) {
+            permission.getDataPermissionMap().put(DataResourceType.USER, Collections.singletonList(userIdList));
         }
-        final User user = this.userMapper.selectById(userId);
-        if (user == null) {
-            return null;
-        }
-        return user.getOrgId();
+        // 如果你还有其他维度可以自行扩展
+        return permission;
     }
 
     public List<Long> findChildren(Long id) {
@@ -88,7 +79,7 @@ public class DataScopeServiceImpl implements DataScopeService {
         // 避免 bug 场景下，存在死循环
         for (int i = 0; i < Short.MAX_VALUE; i++) {
             // 查询当前层，所有的子集
-            List<Org> orgList = orgMapper.selectList(Wraps.<Org>lbQ().eq(Org::getParentId, parentIds));
+            List<Org> orgList = orgMapper.selectList(Wraps.<Org>lbQ().select(Org::getId).eq(Org::getParentId, parentIds));
             // 没有子集,结束遍历
             if (CollUtil.isEmpty(orgList)) {
                 break;

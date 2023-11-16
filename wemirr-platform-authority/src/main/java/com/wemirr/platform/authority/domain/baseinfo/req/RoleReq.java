@@ -1,6 +1,6 @@
 package com.wemirr.platform.authority.domain.baseinfo.req;
 
-import com.wemirr.framework.db.mybatisplus.intercept.data.DataScopeType;
+import com.wemirr.framework.commons.security.DataScopeType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

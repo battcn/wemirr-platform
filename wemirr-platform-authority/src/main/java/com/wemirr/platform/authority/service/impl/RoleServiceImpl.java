@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
-import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Role;
 import com.wemirr.platform.authority.domain.baseinfo.entity.RoleOrg;
@@ -50,8 +49,8 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     private final AuthenticationContext authenticationContext;
 
     @Override
-    public List<Role> list(DataPermission scope) {
-        return baseMapper.list(scope);
+    public List<Role> list() {
+        return baseMapper.list();
     }
 
     @Override

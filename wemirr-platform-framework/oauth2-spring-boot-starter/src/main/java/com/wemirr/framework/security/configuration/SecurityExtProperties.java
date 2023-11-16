@@ -84,7 +84,7 @@ public class SecurityExtProperties {
          * 需要暴露在 JWT token 中的信息（便于从Token 提取数据建晒对 DB/REDIS 的检索）
          * 注意： 尽可能不要暴露敏感数据,同时暴露的内容别太多,越多KEY越长
          */
-        private String[] jwtClaims = new String[]{"userId", "tenantId", "tenantId", "tenantName", "realName"};
+        private String[] jwtClaims = new String[]{"userId", "tenantId", "tenantId", "tenantName", "realName", "dataPermission"};
 
 
         /**

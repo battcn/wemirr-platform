@@ -3,6 +3,7 @@ package com.wemirr.framework.security.domain;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.google.common.collect.Lists;
+import com.wemirr.framework.commons.security.DataPermission;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,13 +42,22 @@ public class UserInfoDetails implements UserDetails, OAuth2AuthenticatedPrincipa
     private String description;
     private LocalDate birthday;
     private Long orgId;
+    /**
+     * 功能权限（资源码）
+     */
     @Builder.Default
-    private Collection<String> permissions = new ArrayList<>();
+    private Collection<String> funcPermissions = new ArrayList<>();
     @Builder.Default
     private Collection<String> roles = new ArrayList<>();
+
     private Collection<GrantedAuthority> authorities;
     @Builder.Default
     private Map<String, Object> attributes = new HashMap<>();
+
+    /**
+     * 数据权限(可视范围)
+     */
+    private DataPermission dataPermission;
 
 
     @Override
@@ -69,8 +79,8 @@ public class UserInfoDetails implements UserDetails, OAuth2AuthenticatedPrincipa
         if (CollUtil.isNotEmpty(roles)) {
             authorities.addAll(roles.stream().map(x -> new CustomGrantedAuthority(x, true)).toList());
         }
-        if (CollUtil.isNotEmpty(permissions)) {
-            authorities.addAll(permissions.stream().map(CustomGrantedAuthority::new).toList());
+        if (CollUtil.isNotEmpty(funcPermissions)) {
+            authorities.addAll(funcPermissions.stream().map(CustomGrantedAuthority::new).toList());
         }
         return authorities;
     }

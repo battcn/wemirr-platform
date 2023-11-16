@@ -1,16 +1,15 @@
 package com.wemirr.platform.authority.domain.common.entity;
 
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.wemirr.framework.commons.entity.Entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
-
-import static com.wemirr.framework.commons.entity.Entity.CREATE_TIME_COLUMN;
+import lombok.experimental.SuperBuilder;
 
 /**
  * <p>
@@ -22,16 +21,14 @@ import static com.wemirr.framework.commons.entity.Entity.CREATE_TIME_COLUMN;
  * @since 2019-11-01
  */
 @Data
-@Builder
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("common_login_log")
-public class LoginLog {
+public class LoginLog extends Entity<Long> {
 
 
-    @TableId(value = "id", type = IdType.AUTO)
-    @Schema(description = "主键")
-    private Long id;
     /**
      * 登录IP
      */
@@ -91,9 +88,5 @@ public class LoginLog {
 
 
     private String clientId;
-
-    @TableField(value = CREATE_TIME_COLUMN, fill = FieldFill.INSERT)
-    @Schema(description = "创建时间")
-    protected Instant createdTime;
 
 }

@@ -2,11 +2,13 @@ package com.wemirr.platform.authority.repository.baseinfo;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
+import com.wemirr.framework.db.mybatisplus.datascope.annotation.DataColumn;
+import com.wemirr.framework.db.mybatisplus.datascope.annotation.DataScope;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.framework.db.mybatisplus.intercept.data.DataPermission;
-import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
+import com.wemirr.platform.authority.domain.baseinfo.req.UserPageReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.UserResp;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
@@ -26,11 +28,12 @@ public interface UserMapper extends SuperMapper<User> {
     /**
      * 分页查询用户
      *
-     * @param page    page
-     * @param wrapper wrapper
+     * @param page page
+     * @param req  req
      * @return 查询结果
      */
-    IPage<UserResp> findPage(IPage<User> page, LbqWrapper<User> wrapper);
+    @DataScope(columns = @DataColumn(name = Entity.CREATE_USER_COLUMN))
+    IPage<UserResp> findPage(@Param("page") IPage<User> page, @Param("req") UserPageReq req);
 
     /**
      * 查询用户
@@ -46,10 +49,10 @@ public interface UserMapper extends SuperMapper<User> {
     /**
      * 带数据权限用户列表
      *
-     * @param dataPermission dataScopeAspectJExpressionPointcut
      * @return 用户
      */
-    List<User> list(DataPermission dataPermission);
+    @DataScope(columns = @DataColumn(name = Entity.CREATE_USER_COLUMN))
+    List<User> list();
 
     /**
      * 删除指定租户用户数据

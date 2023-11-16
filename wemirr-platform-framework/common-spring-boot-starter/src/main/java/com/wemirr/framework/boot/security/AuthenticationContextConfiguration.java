@@ -1,6 +1,7 @@
 package com.wemirr.framework.boot.security;
 
 import com.wemirr.framework.commons.security.AuthenticationContext;
+import com.wemirr.framework.commons.security.DataPermission;
 import com.wemirr.framework.security.utils.SecurityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,6 +51,11 @@ public class AuthenticationContextConfiguration {
             @Override
             public boolean anonymous() {
                 return SecurityUtils.anonymous();
+            }
+
+            @Override
+            public DataPermission dataPermission() {
+                return SecurityUtils.getAuthInfo().getDataPermission();
             }
         };
     }

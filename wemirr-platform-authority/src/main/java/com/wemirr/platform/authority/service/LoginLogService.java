@@ -21,8 +21,7 @@ public interface LoginLogService extends SuperService<LoginLog> {
      * 记录登录日志
      *
      * @param details details
-     * @return LoginLog
      */
-    LoginLog addLog(UserInfoDetails details);
+    void addLog(UserInfoDetails details);
 
 }
