@@ -5,13 +5,13 @@ import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.security.DataPermission;
 import com.wemirr.framework.commons.security.DataResourceType;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.platform.authority.domain.baseinfo.entity.DataPermissionResource;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Org;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Role;
-import com.wemirr.platform.authority.domain.baseinfo.entity.RoleOrg;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
+import com.wemirr.platform.authority.repository.baseinfo.DataPermissionResourceMapper;
 import com.wemirr.platform.authority.repository.baseinfo.OrgMapper;
 import com.wemirr.platform.authority.repository.baseinfo.RoleMapper;
-import com.wemirr.platform.authority.repository.baseinfo.RoleOrgMapper;
 import com.wemirr.platform.authority.repository.baseinfo.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ import static com.wemirr.framework.commons.security.DataScopeType.*;
 public class DataScopeService {
 
     private final RoleMapper roleMapper;
-    private final RoleOrgMapper roleOrgMapper;
+    private final DataPermissionResourceMapper dataPermissionResourceMapper;
     private final UserMapper userMapper;
     private final OrgMapper orgMapper;
 
@@ -43,7 +43,6 @@ public class DataScopeService {
      * @return 数据权限
      */
     public DataPermission getDataPermissionById(Long userId, Long orgId) {
-        // 计划后续在登录的时候从上下文提取这样性能更高
         List<Role> list = roleMapper.findRoleByUserId(userId);
         if (CollectionUtils.isEmpty(list)) {
             return DataPermission.builder().build();
@@ -53,8 +52,11 @@ public class DataScopeService {
         DataPermission permission = DataPermission.builder().scopeType(role.getScopeType()).build();
         List<Long> userIdList = null;
         if (role.getScopeType() == CUSTOMIZE) {
-            List<Long> orgIdList = roleOrgMapper.selectList(Wraps.<RoleOrg>lbQ().select(RoleOrg::getOrgId)
-                    .eq(RoleOrg::getRoleId, role.getId())).stream().map(RoleOrg::getOrgId).distinct().toList();
+            List<Long> orgIdList = dataPermissionResourceMapper.selectList(Wraps.<DataPermissionResource>lbQ().select(DataPermissionResource::getDataId)
+                            .eq(DataPermissionResource::getOwnerId, role.getId())
+                            .eq(DataPermissionResource::getOwnerType, DataResourceType.ROLE)
+                            .eq(DataPermissionResource::getDataType, DataResourceType.ORG))
+                    .stream().map(DataPermissionResource::getDataId).distinct().toList();
             userIdList = this.userMapper.selectList(Wraps.<User>lbQ().select(User::getId).in(User::getOrgId, orgIdList))
                     .stream().map(Entity::getId).toList();
         } else if (role.getScopeType() == THIS_LEVEL) {

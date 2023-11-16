@@ -6,10 +6,11 @@ import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
+import com.wemirr.framework.commons.security.DataResourceType;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.platform.authority.domain.baseinfo.entity.DataPermissionResource;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Role;
-import com.wemirr.platform.authority.domain.baseinfo.entity.RoleOrg;
 import com.wemirr.platform.authority.domain.baseinfo.entity.RoleRes;
 import com.wemirr.platform.authority.domain.baseinfo.entity.UserRole;
 import com.wemirr.platform.authority.domain.baseinfo.req.ResourceQueryReq;
@@ -43,7 +44,7 @@ import static java.util.stream.Collectors.toList;
 public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implements RoleService {
 
     private final RoleResMapper roleResMapper;
-    private final RoleOrgMapper roleOrgMapper;
+    private final DataPermissionResourceMapper dataPermissionResourceMapper;
     private final UserRoleMapper userRoleMapper;
     private final ResourceMapper resourceMapper;
     private final AuthenticationContext authenticationContext;
@@ -64,7 +65,9 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
             throw CheckedException.badRequest("超级角色无法删除");
         }
         baseMapper.deleteById(roleId);
-        roleOrgMapper.delete(Wraps.<RoleOrg>lbQ().eq(RoleOrg::getRoleId, roleId));
+        dataPermissionResourceMapper.delete(Wraps.<DataPermissionResource>lbQ()
+                .eq(DataPermissionResource::getOwnerId, roleId)
+                .eq(DataPermissionResource::getOwnerType, DataResourceType.ROLE));
         roleResMapper.delete(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, roleId));
         userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId));
     }
@@ -75,11 +78,11 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         Role role = BeanUtil.toBean(data, Role.class);
         role.setReadonly(false);
         super.save(role);
-        saveRoleOrg(role, data.getOrgList());
+        saveRoleOrgDataPermission(role.getId(), data.getOrgList());
     }
 
     @Override
-    @DSTransactional
+    @DSTransactional(rollbackFor = Exception.class)
     public void updateRole(Long roleId, Long userId, RoleReq data) {
         Role role = BeanUtil.toBean(data, Role.class);
         if (role.getReadonly() != null && role.getReadonly()) {
@@ -89,9 +92,8 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
             throw CheckedException.badRequest("超级角色无法编辑");
         }
         role.setId(roleId);
-        baseMapper.updateById(role);
-        roleOrgMapper.delete(Wraps.<RoleOrg>lbQ().eq(RoleOrg::getRoleId, roleId));
-        saveRoleOrg(role, data.getOrgList());
+        this.baseMapper.updateById(role);
+        saveRoleOrgDataPermission(role.getId(), data.getOrgList());
     }
 
     @Override
@@ -104,16 +106,19 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         this.userRoleMapper.insertBatchSomeColumn(userRoles);
     }
 
-    private void saveRoleOrg(Role role, List<Long> orgList) {
+    private void saveRoleOrgDataPermission(Long roleId, List<Long> orgList) {
+        dataPermissionResourceMapper.delete(Wraps.<DataPermissionResource>lbQ()
+                .eq(DataPermissionResource::getOwnerId, roleId)
+                .eq(DataPermissionResource::getOwnerType, DataResourceType.ROLE)
+                .eq(DataPermissionResource::getDataType, DataResourceType.ORG));
         if (CollectionUtil.isEmpty(orgList)) {
             return;
         }
         // 根据 数据范围类型 和 勾选的组织ID， 重新计算全量的组织ID
-        List<RoleOrg> list = orgList.stream().map((orgId) -> RoleOrg.builder().orgId(orgId)
-                .roleId(role.getId()).build()).toList();
-        for (RoleOrg roleOrg : list) {
-            roleOrgMapper.insert(roleOrg);
-        }
+        List<DataPermissionResource> list = orgList.stream()
+                .map((orgId) -> DataPermissionResource.builder().dataId(orgId)
+                        .ownerId(roleId).build()).collect(toList());
+        dataPermissionResourceMapper.insertBatchSomeColumn(list);
     }
 
     @Override

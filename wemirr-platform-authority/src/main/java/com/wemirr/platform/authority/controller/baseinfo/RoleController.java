@@ -8,14 +8,12 @@ import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Role;
-import com.wemirr.platform.authority.domain.baseinfo.entity.RoleOrg;
 import com.wemirr.platform.authority.domain.baseinfo.entity.RoleRes;
 import com.wemirr.platform.authority.domain.baseinfo.req.RolePageReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.RoleReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.RoleResSaveReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.RoleUserReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.*;
-import com.wemirr.platform.authority.service.RoleOrgService;
 import com.wemirr.platform.authority.service.RoleResService;
 import com.wemirr.platform.authority.service.RoleService;
 import com.wemirr.platform.authority.service.UserRoleService;
@@ -48,7 +46,6 @@ public class RoleController {
     private final AuthenticationContext authenticationContext;
     private final RoleService roleService;
     private final RoleResService roleResService;
-    private final RoleOrgService roleOrgService;
     private final UserRoleService userRoleService;
 
 
@@ -123,14 +120,6 @@ public class RoleController {
     public List<RoleRes> resByRoleId(@PathVariable Long roleId) {
         return roleResService.list(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, roleId));
     }
-
-
-    @Operation(summary = "角色关联的组织")
-    @GetMapping("/{roleId}/role_rog")
-    public List<RoleOrg> orgByRoleId(@PathVariable Long roleId) {
-        return roleOrgService.list(Wraps.<RoleOrg>lbQ().eq(RoleOrg::getRoleId, roleId));
-    }
-
 
     @Operation(summary = "角色分配操作资源")
     @PostMapping("/{roleId}/authority")

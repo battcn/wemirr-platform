@@ -24,6 +24,8 @@ public enum DataResourceType {
      * 用户（比如你可以根据 地区、机构、公司、网点等维度控制权限，只需要指定数据资源类型即可）
      */
     USER("user", "用户维度"),
+    ROLE("role", "角色维度"),
+    ORG("org", "机构维度"),
     TENANT("tenant", "租户维度"),
     COMPANY("company", "公司维护"),
     AREA("area", "地区维度"),
