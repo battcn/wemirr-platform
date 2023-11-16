@@ -1,10 +1,10 @@
-package com.wemirr.framework.db.mybatisplus.intercept.data;
+package com.wemirr.framework.commons.security;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.wemirr.framework.db.mybatisplus.core.DictionaryEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,12 +14,11 @@ import lombok.Getter;
  * </p>
  *
  * @author Levin
- * @since 2020-10-01
  */
 @Getter
-@AllArgsConstructor
 @JsonFormat
-public enum DataScopeType implements DictionaryEnum<Integer> {
+@AllArgsConstructor
+public enum DataScopeType implements IEnum<Integer> {
 
 
     /**
@@ -44,6 +43,8 @@ public enum DataScopeType implements DictionaryEnum<Integer> {
      * SELF=1个人
      */
     SELF(10, "个人"),
+
+    IGNORE(0, "跟随系统上下文"),
     ;
 
     @EnumValue
@@ -64,41 +65,8 @@ public enum DataScopeType implements DictionaryEnum<Integer> {
         return null;
     }
 
-    public static DataScopeType match(String val, DataScopeType def) {
-        for (DataScopeType enm : DataScopeType.values()) {
-            if (enm.name().equalsIgnoreCase(val)) {
-                return enm;
-            }
-        }
-        return def;
-    }
-
-    public static DataScopeType match(Integer val, DataScopeType def) {
-        if (val == null) {
-            return def;
-        }
-        for (DataScopeType enm : DataScopeType.values()) {
-            if (val.equals(enm.getType())) {
-                return enm;
-            }
-        }
-        return def;
-    }
-
-    public static DataScopeType get(String val) {
-        return match(val, null);
-    }
-
-    public static DataScopeType get(Integer val) {
-        return match(val, null);
-    }
-
     @Override
     public Integer getValue() {
-        return this.type;
-    }
-
-    public boolean eq(DataScopeType type) {
-        return type == this;
+        return type;
     }
 }

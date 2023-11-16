@@ -45,5 +45,10 @@ public interface AuthenticationContext {
      */
     boolean anonymous();
 
-
+    /**
+     * 数据权限
+     *
+     * @return 数据权限范围
+     */
+    DataPermission dataPermission();
 }
