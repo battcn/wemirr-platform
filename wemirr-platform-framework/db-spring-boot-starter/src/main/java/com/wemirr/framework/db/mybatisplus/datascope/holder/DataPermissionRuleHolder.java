@@ -1,6 +1,7 @@
 package com.wemirr.framework.db.mybatisplus.datascope.holder;
 
 
+import com.alibaba.ttl.TransmittableThreadLocal;
 import com.wemirr.framework.db.mybatisplus.datascope.annotation.DataScope;
 import com.wemirr.framework.db.mybatisplus.datascope.handler.DataPermissionRule;
 
@@ -23,7 +24,7 @@ public final class DataPermissionRuleHolder {
     /**
      * 使用栈存储 DataPermissionRule，便于在方法嵌套调用时使用不同的数据权限控制。
      */
-    private static final ThreadLocal<Deque<DataPermissionRule>> DATA_PERMISSION_RULES = ThreadLocal
+    private static final TransmittableThreadLocal<Deque<DataPermissionRule>> DATA_PERMISSION_RULES = TransmittableThreadLocal
             .withInitial(ArrayDeque::new);
 
     /**
