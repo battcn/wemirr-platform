@@ -109,10 +109,6 @@ public class DatabaseProperties {
          * 是否启用
          */
         private boolean enabled = true;
-        /**
-         * 是否远程获取数据权限
-         */
-        private boolean remote;
     }
 
 
