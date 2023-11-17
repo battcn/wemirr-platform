@@ -1,9 +1,11 @@
 package com.wemirr.framework.boot.response;
 
 import cn.hutool.http.HtmlUtil;
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.wemirr.framework.commons.exception.CheckedException;
 import org.springframework.boot.jackson.JsonComponent;
 
 import java.io.IOException;
@@ -23,8 +25,12 @@ public class GlobalJsonDeserializer {
     public static class StringDeserializer extends JsonDeserializer<String> {
         @Override
         public String deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+            final String value = jsonParser.getValueAsString();
+            if (SqlInjectionUtils.check(value)) {
+                throw CheckedException.badRequest("存在SQL注入风险,已拦截");
+            }
             // 替换 HTML 标签
-            return HtmlUtil.escape(jsonParser.getValueAsString());
+            return HtmlUtil.escape(value);
         }
     }
 }
