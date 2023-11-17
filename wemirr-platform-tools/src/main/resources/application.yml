@@ -1,65 +1,16 @@
 server:
   port: 5001
 spring:
-  main:
-    allow-bean-definition-overriding: true
   application:
     name: wemirr-platform-tools
   config:
     import:
+      - optional:nacos:cloud-default.yaml
       - optional:nacos:${spring.application.name}.properties
       - optional:nacos:mybatis-plus-default.yaml?group=DEFAULT_GROUP&refreshEnabled=true #这是完写法
   cloud:
     nacos:
-      server-addr: 127.0.0.1:8848
       discovery:
-        metadata:
-          group: ${spring.application.name}
-          version: 1.0
+        server-addr: 127.0.0.1:8848
       config:
         server-addr: 127.0.0.1:8848
-        refresh-enabled: true
-
-feign:
-  httpclient:
-    enabled: true # HttpClient的开关
-    max-connections: 200  # 最大连接数
-    max-connections-per-route: 50   # 单个请求路径的最大连接数
-
-extend:
-  oss:
-    cloud:
-      qiniu:
-        enabled: true
-        #access-key: 写自己的
-        #secret-key: 写自己的
-        region: region0
-        bucket: battcn
-        mapping-path: http://qiniu.battcn.com
-  oauth2:
-    client:
-      opaque-token:
-        type: redis
-    authorization-type: redis
-  mybatis-plus:
-    intercept:
-      data-permission:
-        # 说明是子服务,不直接连接数据库通过 feign 查询的
-        remote: true
-  boot:
-    log:
-      strategy: feign
-  feign:
-    plugin:
-      enabled: true
-      token:
-        enabled: true
-        uri: http://wemirr-platform-authority/oauth2/token
-        load-balance: true
-        o-auth:
-          client-id: messaging-client
-          client-secret: 123456
-          username: admin
-          password: 123456
-          tenant-code: "0000"
-          scope: platform
