@@ -44,7 +44,4 @@
             AND t3.user_id = #{userId}
     </select>
 
-    <select id="findChildrenById" resultType="com.wemirr.platform.authority.domain.baseinfo.entity.Resource">
-        SELECT * FROM sys_resource WHERE FIND_IN_SET(#{id},tree_path)
-    </select>
 </mapper>

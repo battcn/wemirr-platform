@@ -2,26 +2,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wemirr.platform.authority.repository.baseinfo.OrgMapper">
 
-
-    <select id="getTreePathByParentId" resultType="java.lang.String">
-        SELECT
-        CONCAT(',',GROUP_CONCAT(T2.id)) tree_path
-        FROM
-        (
-        SELECT
-        @r AS r_id,
-        ( SELECT @r := parent_id FROM sys_org WHERE id = r_id ) AS parent_id,
-        @l := @l + 1 AS lvl
-        FROM
-        ( SELECT @r := #{parentId}, @l := 0 ) vars,
-        sys_org h
-        WHERE
-        @r != 0
-        ) T1
-        JOIN sys_org T2 ON T1.r_id = T2.id
-    </select>
-
-    <select id="findChildrenById" resultType="com.wemirr.platform.authority.domain.baseinfo.entity.Org">
-        SELECT * FROM sys_org WHERE FIND_IN_SET(#{id},tree_path)
-    </select>
 </mapper>

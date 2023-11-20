@@ -128,8 +128,6 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             Org org = new Org();
             org.setLabel(tenant.getName());
             org.setTenantId(tenant.getId());
-            String treePath = orgMapper.getTreePathByParentId(org.getParentId());
-            org.setTreePath(treePath);
             org.setStatus(true);
             org.setDescription("不可删除不可修改");
             org.setParentId(0L);

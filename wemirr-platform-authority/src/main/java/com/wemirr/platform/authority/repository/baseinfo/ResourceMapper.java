@@ -39,12 +39,4 @@ public interface ResourceMapper extends SuperMapper<Resource> {
      */
     @InterceptorIgnore(tenantLine = "true", dataPermission = "false")
     List<String> selectPermissionByUserId(Long userId);
-
-    /**
-     * 根据ID的获取子集
-     *
-     * @param id id
-     * @return 查询结果
-     */
-    List<Resource> findChildrenById(Long id);
 }

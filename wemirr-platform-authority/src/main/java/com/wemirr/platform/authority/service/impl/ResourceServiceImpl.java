@@ -1,10 +1,9 @@
 package com.wemirr.platform.authority.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
-import com.google.common.collect.Lists;
-import com.wemirr.framework.commons.entity.Entity;
+import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -13,6 +12,7 @@ import com.wemirr.platform.authority.domain.baseinfo.entity.Role;
 import com.wemirr.platform.authority.domain.baseinfo.entity.RoleRes;
 import com.wemirr.platform.authority.domain.baseinfo.enums.ResourceType;
 import com.wemirr.platform.authority.domain.baseinfo.req.ResourceQueryReq;
+import com.wemirr.platform.authority.domain.baseinfo.req.ResourceSaveReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.VueRouter;
 import com.wemirr.platform.authority.repository.baseinfo.ResourceMapper;
 import com.wemirr.platform.authority.repository.baseinfo.RoleMapper;
@@ -56,7 +56,8 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
 
     @Override
     @DSTransactional
-    public void addResource(Resource resource) {
+    public void add(ResourceSaveReq req) {
+        final Resource resource = BeanUtil.toBean(req, Resource.class);
         if (ResourceType.BUILD_PUBLISH.eq(resource.getType())) {
             resource.setPath(String.format(DEFAULT_PATH, authenticationContext.tenantId()) + SPEL + resource.getModel());
             resource.setComponent(DEFAULT_COMPONENT);
@@ -73,17 +74,17 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
             return;
         }
         // 给管理员角色挂载权限
-        for (Role role : roles) {
-            RoleRes bean = new RoleRes();
-            bean.setResId(resource.getId());
-            bean.setRoleId(role.getId());
-            roleResMapper.insert(bean);
-        }
+        final List<RoleRes> roleResList = roles.stream()
+                .map(role -> RoleRes.builder().roleId(role.getId()).resId(resource.getId()).build())
+                .toList();
+        roleResMapper.insertBatchSomeColumn(roleResList);
     }
 
     @Override
-    public void editResourceById(Resource resource) {
-        if (ResourceType.BUILD_PUBLISH.eq(resource.getType())) {
+    public void edit(Long id, ResourceSaveReq req) {
+        final Resource resource = BeanUtil.toBean(req, Resource.class);
+        resource.setId(id);
+        if (ResourceType.BUILD_PUBLISH.eq(req.getType())) {
             resource.setPath(String.format(DEFAULT_PATH, authenticationContext.tenantId()) + "/" + resource.getModel());
             resource.setComponent(DEFAULT_COMPONENT);
         }
@@ -92,15 +93,14 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
 
     @Override
     @DSTransactional
-    public void delResource(Long resourceId) {
-        List<Long> resourceIds = Lists.newArrayList(resourceId);
-        final List<Resource> children = this.baseMapper.findChildrenById(resourceId);
-        if (CollectionUtil.isNotEmpty(children)) {
-            resourceIds.addAll(children.stream().map(Entity::getId).toList());
+    public void delete(Long id) {
+        final Long count = this.baseMapper.selectCount(Resource::getParentId, id);
+        if (count != null && count > 0) {
+            throw CheckedException.badRequest("当前节点存在子节点,请先移除子节点");
         }
         // 删除菜单和按钮
-        this.baseMapper.deleteBatchIds(resourceIds);
+        this.baseMapper.deleteById(id);
         // 删除对应的资源权限
-        this.roleResMapper.delete(Wraps.<RoleRes>lbQ().in(RoleRes::getResId, resourceIds));
+        this.roleResMapper.delete(Wraps.<RoleRes>lbQ().eq(RoleRes::getResId, id));
     }
 }

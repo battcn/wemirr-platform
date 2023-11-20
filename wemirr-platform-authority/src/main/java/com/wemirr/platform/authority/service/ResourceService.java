@@ -3,6 +3,7 @@ package com.wemirr.platform.authority.service;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Resource;
 import com.wemirr.platform.authority.domain.baseinfo.req.ResourceQueryReq;
+import com.wemirr.platform.authority.domain.baseinfo.req.ResourceSaveReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.VueRouter;
 
 import java.util.List;
@@ -27,28 +28,27 @@ public interface ResourceService extends SuperService<Resource> {
     List<VueRouter> findVisibleResource(ResourceQueryReq resource);
 
 
-
-
     /**
      * 添加资源
      *
-     * @param resource 资源
+     * @param req 资源
      */
-    void addResource(Resource resource);
+    void add(ResourceSaveReq req);
 
     /**
      * 修改资源
      *
-     * @param resource 资源
+     * @param id  id
+     * @param req 资源
      */
-    void editResourceById(Resource resource);
+    void edit(Long id, ResourceSaveReq req);
 
     /**
      * 删除资源
      *
      * @param resourceId resourceId
      */
-    void delResource(Long resourceId);
+    void delete(Long resourceId);
 
 
 }

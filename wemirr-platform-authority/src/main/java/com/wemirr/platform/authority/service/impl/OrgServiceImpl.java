@@ -1,27 +1,15 @@
 package com.wemirr.platform.authority.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.convert.Convert;
-import com.google.common.collect.Lists;
-import com.wemirr.framework.commons.MapHelper;
-import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
-import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Org;
 import com.wemirr.platform.authority.repository.baseinfo.OrgMapper;
 import com.wemirr.platform.authority.service.OrgService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
-import java.util.*;
-
-import static java.util.stream.Collectors.toList;
 
 
 /**
@@ -41,23 +29,12 @@ public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements 
     private final AuthenticationContext authenticationContext;
 
     @Override
-    public List<Org> findChildren(List<Long> ids) {
-        if (CollectionUtil.isEmpty(ids)) {
-            return Collections.emptyList();
-        }
-        // MySQL 全文索引
-        String applySql = String.format(" MATCH(tree_path) AGAINST('%s' IN BOOLEAN MODE) ", StringUtils.join(ids, " "));
-        return super.list(Wraps.<Org>lbQ().in(Org::getId, ids).or(query -> query.apply(applySql)));
-    }
-
-    @Override
     public void remove(Long id) {
-        List<Long> ids = Lists.newArrayList(id);
-        final List<Org> children = this.baseMapper.findChildrenById(id);
-        if (CollectionUtil.isNotEmpty(children)) {
-            ids.addAll(children.stream().map(Entity::getId).collect(toList()));
+        final Long count = this.baseMapper.selectCount(Org::getParentId, id);
+        if (count != null && count > 0) {
+            throw CheckedException.badRequest("当前组织下还存在子节点,请先移除子节点");
         }
-        this.baseMapper.deleteBatchIds(ids);
+        this.baseMapper.deleteById(id);
     }
 
     @Override
@@ -65,34 +42,7 @@ public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements 
         if (org == null) {
             throw CheckedException.notFound("信息不能为空");
         }
-        final String treePath = this.baseMapper.getTreePathByParentId(org.getParentId());
-        org.setTreePath(treePath);
         org.setTenantId(authenticationContext.tenantId());
         this.baseMapper.insert(org);
     }
-
-
-    @Override
-    public Map<Serializable, Object> findOrgByIds(Set<Serializable> ids) {
-        List<Org> list = getOrgList(ids);
-        //key 是 组织id， value 是org 对象
-        return MapHelper.uniqueIndex(list, Org::getId, (org) -> org);
-    }
-
-    private static final int INT_1000 = 1000;
-
-    private List<Org> getOrgList(Set<Serializable> ids) {
-        if (ids.isEmpty()) {
-            return Collections.emptyList();
-        }
-        List<Long> idList = ids.stream().mapToLong(Convert::toLong).boxed().collect(toList());
-        List<Org> list;
-        if (idList.size() <= INT_1000) {
-            list = idList.stream().map(id -> this.baseMapper.selectById(id)).filter(Objects::nonNull).collect(toList());
-        } else {
-            list = super.list(Wraps.<Org>lbQ().in(Org::getId, idList));
-        }
-        return list;
-    }
-
 }

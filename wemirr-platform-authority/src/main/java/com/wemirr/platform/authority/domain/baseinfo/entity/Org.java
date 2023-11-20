@@ -68,9 +68,6 @@ public class Org extends SuperEntity<Long> {
     @TableField(value = "alias", condition = LIKE)
     private String alias;
 
-    @TableField("`tree_path`")
-    private String treePath;
-
     /**
      * 状态
      */

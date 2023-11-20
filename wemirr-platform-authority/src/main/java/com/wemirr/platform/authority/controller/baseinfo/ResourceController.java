@@ -7,7 +7,6 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
-import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -87,9 +86,8 @@ public class ResourceController {
     @AccessLog(description = "添加资源")
     @Operation(summary = "添加资源")
     @PreAuthorize("hasAuthority('sys:resources:add')")
-    public void save(@Validated @RequestBody ResourceSaveReq data) {
-        Resource resource = BeanUtil.toBean(data, Resource.class);
-        resourceService.addResource(resource);
+    public void save(@Validated @RequestBody ResourceSaveReq req) {
+        resourceService.add(req);
     }
 
 
@@ -98,15 +96,15 @@ public class ResourceController {
     @Operation(summary = "删除资源")
     @PreAuthorize("hasAuthority('sys:resources:remove')")
     public void del(@PathVariable Long id) {
-        this.resourceService.delResource(id);
+        this.resourceService.delete(id);
     }
 
     @PutMapping("/{id}")
     @AccessLog(description = "修改资源")
     @Operation(summary = "修改资源")
     @PreAuthorize("hasAuthority('sys:resources:edit')")
-    public void edit(@PathVariable Long id, @Validated @RequestBody ResourceSaveReq data) {
-        resourceService.editResourceById(BeanUtilPlus.toBean(id, data, Resource.class));
+    public void edit(@PathVariable Long id, @Validated @RequestBody ResourceSaveReq req) {
+        resourceService.edit(id, req);
     }
 
 
