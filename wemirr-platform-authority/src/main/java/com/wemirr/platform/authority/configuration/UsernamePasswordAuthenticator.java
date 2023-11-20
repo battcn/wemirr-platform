@@ -98,7 +98,7 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
         info.setPassword(user.getPassword());
         final List<Role> roles = this.roleMapper.findRoleByUserId(user.getId());
         info.setRoles(roles.stream().map(Role::getCode).toList());
-        final List<String> permissions = this.resourceMapper.queryPermissionByUserId(user.getId());
+        final List<String> permissions = this.resourceMapper.selectPermissionByUserId(user.getId());
         info.setFuncPermissions(permissions);
         info.setDataPermission(dataScopeService.getDataPermissionById(user.getId(), user.getOrgId()));
         this.loginLogService.addLog(info);

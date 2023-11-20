@@ -33,7 +33,7 @@
     </select>
 
 
-    <select id="queryPermissionByUserId" resultType="java.lang.String">
+    <select id="selectPermissionByUserId" resultType="java.lang.String">
         SELECT DISTINCT	( t2.`permission` )
         FROM
             sys_role_res t1
@@ -47,23 +47,4 @@
     <select id="findChildrenById" resultType="com.wemirr.platform.authority.domain.baseinfo.entity.Resource">
         SELECT * FROM sys_resource WHERE FIND_IN_SET(#{id},tree_path)
     </select>
-
-    <select id="getTreePathByParentId" resultType="java.lang.String">
-        SELECT
-        CONCAT(',',GROUP_CONCAT(T2.id)) tree_path
-        FROM
-        (
-        SELECT
-        @r AS r_id,
-        ( SELECT @r := parent_id FROM sys_resource WHERE id = r_id ) AS parent_id,
-        @l := @l + 1 AS lvl
-        FROM
-        ( SELECT @r := #{parentId}, @l := 0 ) vars,
-        sys_resource h
-        WHERE
-        @r != 0
-        ) T1
-        JOIN sys_resource T2 ON T1.r_id = T2.id
-    </select>
-
 </mapper>

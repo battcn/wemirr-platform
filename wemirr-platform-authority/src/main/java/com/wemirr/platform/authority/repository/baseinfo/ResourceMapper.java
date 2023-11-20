@@ -38,7 +38,7 @@ public interface ResourceMapper extends SuperMapper<Resource> {
      * @return 查询结果
      */
     @InterceptorIgnore(tenantLine = "true", dataPermission = "false")
-    List<String> queryPermissionByUserId(Long userId);
+    List<String> selectPermissionByUserId(Long userId);
 
     /**
      * 根据ID的获取子集
@@ -47,13 +47,4 @@ public interface ResourceMapper extends SuperMapper<Resource> {
      * @return 查询结果
      */
     List<Resource> findChildrenById(Long id);
-
-    /**
-     * 根据父级ID的获取全部父级
-     *
-     * @param parentId parentId
-     * @return 查询结果
-     */
-    @InterceptorIgnore(tenantLine = "true")
-    String getTreePathByParentId(Long parentId);
 }

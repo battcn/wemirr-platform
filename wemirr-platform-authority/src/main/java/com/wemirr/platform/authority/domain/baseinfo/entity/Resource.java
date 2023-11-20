@@ -88,10 +88,6 @@ public class Resource extends SuperEntity<Long> {
 
     @TableField(value = "`model`", exist = false)
     private String model;
-
-    @TableField("`tree_path`")
-    @Schema(description = "路径树")
-    private String treePath;
     /**
      * 是否公开菜单
      * 就是无需分配就可以访问的。所有人可见

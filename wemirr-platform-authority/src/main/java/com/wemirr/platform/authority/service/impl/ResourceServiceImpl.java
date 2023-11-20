@@ -25,8 +25,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 
 /**
  * <p>
@@ -68,10 +66,6 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
                 resource.setPath(SPEL + resource.getPath());
             }
         }
-        final String treePath = this.baseMapper.getTreePathByParentId(resource.getParentId());
-        if (StringUtils.isNotBlank(treePath)) {
-            resource.setTreePath(treePath);
-        }
         this.baseMapper.insert(resource);
         final List<Role> roles = this.roleMapper.selectList(Wraps.<Role>lbQ().eq(Role::getSuperRole, true)
                 .eq(Role::getLocked, false));
@@ -102,7 +96,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
         List<Long> resourceIds = Lists.newArrayList(resourceId);
         final List<Resource> children = this.baseMapper.findChildrenById(resourceId);
         if (CollectionUtil.isNotEmpty(children)) {
-            resourceIds.addAll(children.stream().map(Entity::getId).collect(toList()));
+            resourceIds.addAll(children.stream().map(Entity::getId).toList());
         }
         // 删除菜单和按钮
         this.baseMapper.deleteBatchIds(resourceIds);
