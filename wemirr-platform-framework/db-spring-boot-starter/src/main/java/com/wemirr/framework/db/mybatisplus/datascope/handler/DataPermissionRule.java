@@ -59,6 +59,7 @@ public class DataPermissionRule {
         /**
          * 权限范围（默认跟随系统，如果指定了就跟着指定走）
          */
+        @Builder.Default
         private DataScopeType scopeType = DataScopeType.IGNORE;
 
     }
