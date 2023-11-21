@@ -1,0 +1,42 @@
+server:
+  port: 5005
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: wemirr-platform-flex
+  config:
+    import:
+      - optional:nacos:${spring.application.name}.properties
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        refresh-enabled: true
+# DataSource Config
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/flex
+    username: root
+    password: 123456
+
+
+mybatis-flex:
+  mapper-locations:
+    - classpath:com/wemirr/**/repository/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.wemirr.**.entity;com.wemirr.**.mybatis.typehandler
+  global-config:
+    tenant-column: tenant_id
+  #    deleted-value-of-logic-delete:
+  #  global-config:
+#    db-config:
+#      id-type: auto
+#      insert-strategy: NOT_NULL
+#      update-strategy: NOT_NULL
+#      where-strategy: not_empty
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
