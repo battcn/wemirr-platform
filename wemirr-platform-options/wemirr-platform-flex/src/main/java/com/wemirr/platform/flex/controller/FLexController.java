@@ -31,8 +31,10 @@ public class FLexController {
     public List<Account> list() {
         final QueryWrapper wrapper1 = QueryWrapper.create().where(ACCOUNT.ID.ge(10));
         accountMapper.selectListByQuery(wrapper1);
-        final QueryWrapper wrapper2 = QueryWrapper.create(Account.class).gt(Account::getAge, 10);
+        final QueryWrapper wrapper2 = QueryWrapper.create(new Account()).gt(Account::getAge, 10);
         accountMapper.selectListByQuery(wrapper2);
+        save();
+        edit();
         return accountMapper.selectAll();
     }
 
@@ -45,6 +47,15 @@ public class FLexController {
         account2.setAge(1);
         account2.setBirthday(Instant.now());
         accountMapper.insert(account2);
+    }
+
+    public void edit() {
+        Account account2 = new Account();
+        account2.setId(4L);
+        account2.setUserName("用户4");
+        account2.setAge(1);
+        account2.setBirthday(Instant.now());
+        accountMapper.update(account2);
     }
 
 
