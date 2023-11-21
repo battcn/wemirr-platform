@@ -6,6 +6,8 @@ import com.wemirr.platform.authority.domain.common.entity.SensitiveTest;
 import com.wemirr.platform.authority.repository.baseinfo.ResourceMapper;
 import com.wemirr.platform.authority.repository.tenant.TenantConfigMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,13 +21,15 @@ import java.util.List;
  *
  * @author Levin
  */
-@RequiredArgsConstructor
+@Slf4j
 @RestController
 @RequestMapping("/sensitives")
+@RequiredArgsConstructor
 public class SensitiveController {
 
     private final ResourceMapper resourceMapper;
     private final TenantConfigMapper tenantConfigMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/list")
     @IgnoreAuthorize
@@ -41,6 +45,7 @@ public class SensitiveController {
     @GetMapping("/feign_language")
     @IgnoreAuthorize
     public SensitiveTest language() {
+        log.info("info - {}",passwordEncoder.encode("uuid"));
         throw CheckedException.badRequest("feign.text");
     }
 

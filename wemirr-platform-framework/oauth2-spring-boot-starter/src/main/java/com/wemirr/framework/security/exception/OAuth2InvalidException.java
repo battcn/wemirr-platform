@@ -18,6 +18,7 @@ public class OAuth2InvalidException extends AuthenticationException {
 
     public OAuth2InvalidException(String msg) {
         super(msg);
+        this.status = HttpStatus.BAD_REQUEST;
     }
 
     public OAuth2InvalidException(HttpStatus status, String msg) {

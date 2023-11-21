@@ -17,7 +17,6 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * @author Levin
@@ -54,7 +53,7 @@ public class CustomOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OA
                 .issuedAt(issuedAt)
                 .expiresAt(expiresAt)
                 .notBefore(issuedAt)
-                .id(UUID.randomUUID().toString());
+                .id(IdUtil.fastSimpleUUID());
         if (!CollectionUtils.isEmpty(context.getAuthorizedScopes())) {
             claimsBuilder.claim(OAuth2ParameterNames.SCOPE, context.getAuthorizedScopes());
         }

@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.io.PrintWriter;
@@ -29,7 +30,10 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         PrintWriter printWriter = response.getWriter();
-        printWriter.append(Result.fail(HttpStatus.UNAUTHORIZED.value(), exception.getMessage()).toString());
+        if (exception instanceof InvalidBearerTokenException e) {
+            printWriter.append(Result.fail(HttpStatus.UNAUTHORIZED.value(), "访问受限,无效TOKEN").toString());
+        } else {
+            printWriter.append(Result.fail(HttpStatus.UNAUTHORIZED.value(), exception.getMessage()).toString());
+        }
     }
-
 }

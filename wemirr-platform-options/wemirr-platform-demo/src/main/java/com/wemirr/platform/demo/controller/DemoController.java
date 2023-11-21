@@ -4,6 +4,7 @@ import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.dynamic.feign.TenantFeignClient;
 import com.wemirr.framework.i18n.annotation.I18nMethod;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
+import com.wemirr.framework.security.utils.SecurityUtils;
 import com.wemirr.platform.demo.domain.enums.I18nEnum;
 import com.wemirr.platform.demo.domain.resp.I18nDemoResp;
 import com.wemirr.platform.demo.service.DemoService;
@@ -42,9 +43,10 @@ public class DemoController {
 
     @GetMapping("/say")
     @Operation(summary = "带权限查询")
-    public String say() {
+    public Result<?> say() {
+
         log.info("输出内容 - {}", demoService.sayHello());
-        return "say...";
+        return Result.success(SecurityUtils.getAuthInfo());
     }
 
 
