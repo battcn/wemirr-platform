@@ -39,7 +39,7 @@ public class StationController {
     @PostMapping
     @AccessLog(description = "添加岗位")
     @Operation(summary = "添加岗位")
-    @PreAuthorize("hasAuthority('sys:stations:add')")
+    @PreAuthorize("hasAuthority('sys:station:add')")
     public void add(@Validated @RequestBody StationSaveReq dto) {
         stationService.save(BeanUtil.toBean(dto, Station.class));
     }
@@ -47,7 +47,7 @@ public class StationController {
     @PutMapping("/{id}")
     @AccessLog(description = "编辑岗位")
     @Operation(summary = "编辑岗位")
-    @PreAuthorize("hasAuthority('sys:stations:edit')")
+    @PreAuthorize("hasAuthority('sys:station:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody StationSaveReq dto) {
         stationService.updateById(BeanUtilPlus.toBean(id, dto, Station.class));
     }
@@ -55,7 +55,7 @@ public class StationController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除岗位")
     @Operation(summary = "删除岗位")
-    @PreAuthorize("hasAuthority('sys:stations:remove')")
+    @PreAuthorize("hasAuthority('sys:station:remove')")
     public void del(@PathVariable Long id) {
         stationService.removeById(id);
     }

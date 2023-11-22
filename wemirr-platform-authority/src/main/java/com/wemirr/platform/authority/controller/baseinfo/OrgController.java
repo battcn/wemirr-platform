@@ -1,6 +1,5 @@
 package com.wemirr.platform.authority.controller.baseinfo;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
@@ -64,16 +63,16 @@ public class OrgController {
     @AccessLog(description = "保存组织架构")
     @Operation(summary = "保存编辑组织架构")
     @PreAuthorize("hasAuthority('sys:org:add')")
-    public void save(@Validated @RequestBody OrgSaveReq dto) {
-        orgService.addOrg(BeanUtil.toBean(dto, Org.class));
+    public void save(@Validated @RequestBody OrgSaveReq req) {
+        orgService.addOrg(req);
     }
 
     @PutMapping("/{id}")
     @AccessLog(description = "编辑组织架构")
     @Operation(summary = "编辑编辑组织架构")
     @PreAuthorize("hasAuthority('sys:org:edit')")
-    public void edit(@PathVariable Long id, @Validated @RequestBody OrgSaveReq dto) {
-        orgService.updateById(BeanUtilPlus.toBean(id, dto, Org.class));
+    public void edit(@PathVariable Long id, @Validated @RequestBody OrgSaveReq req) {
+        orgService.updateById(BeanUtilPlus.toBean(id, req, Org.class));
     }
 
     @DeleteMapping("/{id}")

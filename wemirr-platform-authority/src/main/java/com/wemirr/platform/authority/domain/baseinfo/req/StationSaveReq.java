@@ -31,10 +31,6 @@ public class StationSaveReq {
     private String code;
 
 
-    @Schema(description = "岗位类型")
-    @NotNull(message = "岗位类型不能为空")
-    private Integer type;
-
     @Schema(description = "排序")
     private Integer sequence;
 

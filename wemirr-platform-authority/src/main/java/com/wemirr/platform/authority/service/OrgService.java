@@ -3,6 +3,9 @@ package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Org;
+import com.wemirr.platform.authority.domain.baseinfo.req.OrgSaveReq;
+
+import java.util.List;
 
 /**
  * <p>
@@ -26,8 +29,15 @@ public interface OrgService extends SuperService<Org> {
     /**
      * 添加组织
      *
-     * @param org org
+     * @param req req
      */
-    void addOrg(Org org);
+    void addOrg(OrgSaveReq req);
 
+    /**
+     * 获取当前机构本级及子级的ID
+     *
+     * @param id id
+     * @return 本级及子级ID
+     */
+    List<Long> getFullTreeIdPath(Long id);
 }

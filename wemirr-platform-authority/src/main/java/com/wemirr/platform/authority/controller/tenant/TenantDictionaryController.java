@@ -64,7 +64,7 @@ public class TenantDictionaryController {
     @PutMapping("/{id}")
     @AccessLog(description = "字典编辑")
     @Operation(description = "编辑字典 - [DONE] - [Levin]")
-    public void edit(@PathVariable String id, @Validated @RequestBody TenantDictionaryReq dto) {
+    public void edit(@PathVariable Long id, @Validated @RequestBody TenantDictionaryReq dto) {
         final TenantDictionary bean = BeanUtil.toBean(dto, TenantDictionary.class);
         bean.setId(id);
         this.tenantDictionaryService.editDictionary(bean);

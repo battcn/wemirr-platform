@@ -1,15 +1,23 @@
 package com.wemirr.platform.authority.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Org;
+import com.wemirr.platform.authority.domain.baseinfo.req.OrgSaveReq;
 import com.wemirr.platform.authority.repository.baseinfo.OrgMapper;
 import com.wemirr.platform.authority.service.OrgService;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+import static java.util.stream.Collectors.toList;
 
 
 /**
@@ -26,7 +34,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements OrgService {
 
-    private final AuthenticationContext authenticationContext;
 
     @Override
     public void remove(Long id) {
@@ -38,11 +45,37 @@ public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements 
     }
 
     @Override
-    public void addOrg(@NotNull Org org) {
-        if (org == null) {
-            throw CheckedException.notFound("信息不能为空");
-        }
-        org.setTenantId(authenticationContext.tenantId());
-        this.baseMapper.insert(org);
+    public void addOrg(OrgSaveReq req) {
+        final Org bean = BeanUtil.toBean(req, Org.class);
+        bean.setTreePath(buildNewTreePath(req.getParentId()));
+        this.baseMapper.insert(bean);
     }
+
+    @Override
+    public List<Long> getFullTreeIdPath(Long id) {
+        if (id == null) {
+            return null;
+        }
+        final Org org = this.baseMapper.selectById(id);
+        List<Long> treePath = org.getTreePath();
+        treePath.add(org.getId());
+        final List<Long> list = this.baseMapper.selectList(Wraps.<Org>lbQ()
+                        .likeRight(Org::getTreePath, StrUtil.join(StrUtil.COMMA, treePath)))
+                .stream()
+                .map(Entity::getId)
+                .distinct()
+                .collect(toList());
+        list.add(org.getId());
+        return list;
+    }
+
+
+    private List<Long> buildNewTreePath(Long id) {
+        final Org org = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("父节点不存在"));
+        final List<Long> treePath = org.getTreePath();
+        treePath.add(org.getId());
+        return treePath;
+    }
+
+
 }

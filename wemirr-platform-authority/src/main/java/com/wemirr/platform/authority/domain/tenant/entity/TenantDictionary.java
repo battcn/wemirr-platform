@@ -9,8 +9,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-
 /**
  * <p>
  * 实体类
@@ -26,21 +24,20 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @SuperBuilder(toBuilder = true)
 @TableName("t_tenant_dictionary")
 @Schema(name = "TenantDictionary", description = "字典类型")
-public class TenantDictionary extends SuperEntity<String> {
-
+public class TenantDictionary extends SuperEntity<Long> {
 
     /**
      * 编码
      */
     @Schema(description = "编码")
-    @TableField(value = "`code`", condition = LIKE)
+    @TableField(value = "`code`")
     private String code;
 
     /**
      * 名称
      */
     @Schema(description = "名称")
-    @TableField(value = "name", condition = LIKE)
+    @TableField(value = "name")
     private String name;
 
     /**
@@ -54,7 +51,7 @@ public class TenantDictionary extends SuperEntity<String> {
      * 描述
      */
     @Schema(description = "描述")
-    @TableField(value = "description", condition = LIKE)
+    @TableField(value = "description")
     private String description;
 
     /**

@@ -1,6 +1,5 @@
 package com.wemirr.platform.authority.domain.baseinfo.entity;
 
-import com.baomidou.mybatisplus.annotation.SqlCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
@@ -11,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+import java.util.List;
 
 /**
  * <p>
@@ -31,28 +30,23 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @SuperBuilder
 public class Org extends SuperEntity<Long> {
 
-
-    /**
-     * 名称
-     */
     @Schema(description = "名称")
-    @TableField(value = "label", condition = SqlCondition.LIKE)
-    protected String label;
+    @TableField(value = "label")
+    private String label;
 
-    /**
-     * 父ID
-     */
+
+    @Schema(description = "树形结构路径")
+    @TableField(value = "tree_path")
+    private List<Long> treePath;
+
     @Schema(description = "父ID")
     @TableField(value = "parent_id")
-    protected Long parentId;
+    private Long parentId;
 
 
-    /**
-     * 排序
-     */
     @Schema(description = "排序号")
     @TableField(value = "`sequence`")
-    protected Integer sequence;
+    private Integer sequence;
 
 
     @Schema(description = "电话")
@@ -61,25 +55,18 @@ public class Org extends SuperEntity<Long> {
     @Schema(description = "租户ID")
     private Long tenantId;
 
-    /**
-     * 简称
-     */
     @Schema(description = "简称")
-    @TableField(value = "alias", condition = LIKE)
+    @TableField(value = "alias")
     private String alias;
 
-    /**
-     * 状态
-     */
+
     @Schema(description = "状态")
     @TableField("status")
     private Boolean status;
 
-    /**
-     * 描述
-     */
+
     @Schema(description = "描述")
-    @TableField(value = "description", condition = LIKE)
+    @TableField(value = "description")
     private String description;
 
 }

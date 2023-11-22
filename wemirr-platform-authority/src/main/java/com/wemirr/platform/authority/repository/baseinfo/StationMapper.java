@@ -21,13 +21,14 @@ import org.springframework.stereotype.Repository;
 @TenantDS
 @Repository
 public interface StationMapper extends SuperMapper<Station> {
+
     /**
      * 分页查询岗位信息（含角色）
      *
-     * @param page
-     * @param queryWrapper
-     * @param dataPermission
-     * @return
+     * @param page    page
+     * @param wrapper wrapper
+     * @return 查询结果
      */
-    IPage<Station> findStationPage(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<Station> queryWrapper);
+    IPage<Station> findStationPage(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<Station> wrapper);
+
 }

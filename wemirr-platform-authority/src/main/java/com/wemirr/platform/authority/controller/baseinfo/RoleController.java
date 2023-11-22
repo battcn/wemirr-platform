@@ -60,7 +60,7 @@ public class RoleController {
             @Parameter(description = "名称", name = "name", in = ParameterIn.QUERY),
     })
     @Operation(summary = "角色列表 - [Levin] - [DONE]")
-    @PreAuthorize("hasAuthority('sys:roles:page')")
+    @PreAuthorize("hasAuthority('sys:role:page')")
     public IPage<RolePageResp> pageList(RolePageReq req) {
         return this.roleService.page(req.buildPage(), Wraps.<Role>lbQ().like(Role::getName, req.getName())
                         .eq(Role::getLocked, req.getLocked()).eq(Role::getScopeType, req.getScopeType()))
@@ -80,7 +80,7 @@ public class RoleController {
     @PostMapping
     @AccessLog(description = "添加角色")
     @Operation(summary = "添加角色")
-    @PreAuthorize("hasAuthority('sys:roles:add')")
+    @PreAuthorize("hasAuthority('sys:role:add')")
     public void add(@Validated @RequestBody RoleReq data) {
         roleService.saveRole(authenticationContext.userId(), data);
     }
@@ -88,7 +88,7 @@ public class RoleController {
     @PutMapping("/{id}")
     @AccessLog(description = "编辑角色")
     @Operation(summary = "编辑角色")
-    @PreAuthorize("hasAuthority('sys:roles:edit')")
+    @PreAuthorize("hasAuthority('sys:role:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody RoleReq data) {
         roleService.updateRole(id, authenticationContext.userId(), data);
     }
@@ -96,7 +96,7 @@ public class RoleController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除角色")
     @Operation(summary = "删除角色")
-    @PreAuthorize("hasAuthority('sys:roles:remove')")
+    @PreAuthorize("hasAuthority('sys:role:remove')")
     public void del(@PathVariable Long id) {
         this.roleService.removeByRoleId(id);
     }
@@ -123,7 +123,7 @@ public class RoleController {
 
     @Operation(summary = "角色分配操作资源")
     @PostMapping("/{roleId}/authority")
-    @PreAuthorize("hasAuthority('sys:roles:distribution:res')")
+    @PreAuthorize("hasAuthority('sys:role:distribution:res')")
     public void distributionAuthority(@PathVariable Long roleId, @RequestBody RoleResSaveReq dto) {
         this.roleResService.saveRoleAuthority(dto);
 
@@ -131,7 +131,7 @@ public class RoleController {
 
     @Operation(summary = "角色分配用户")
     @PostMapping("/{roleId}/users")
-    @PreAuthorize("hasAuthority('sys:roles:distribution:user')")
+    @PreAuthorize("hasAuthority('sys:role:distribution:user')")
     public void distributionUser(@PathVariable Long roleId, @RequestBody RoleUserReq dto) {
         this.roleService.saveUserRole(roleId, dto.getUserIdList());
     }

@@ -7,7 +7,9 @@ import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Station;
 import com.wemirr.platform.authority.domain.baseinfo.req.StationPageReq;
 import com.wemirr.platform.authority.repository.baseinfo.StationMapper;
+import com.wemirr.platform.authority.service.OrgService;
 import com.wemirr.platform.authority.service.StationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -23,16 +25,19 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class StationServiceImpl extends SuperServiceImpl<StationMapper, Station> implements StationService {
 
+    private final OrgService orgService;
 
     @Override
     public IPage<Station> pageList(StationPageReq req) {
         final LbqWrapper<Station> wrapper = Wraps.<Station>lbQ().like(Station::getName, req.getName())
-                .eq(Station::getType, req.getType())
-                .eq(Station::getOrgId, req.getOrgId())
                 .eq(Station::getStatus, req.getStatus())
+                .in(Station::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
                 .orderByAsc(Station::getSequence);
         return baseMapper.findStationPage(req.buildPage(), wrapper);
     }
+
+
 }

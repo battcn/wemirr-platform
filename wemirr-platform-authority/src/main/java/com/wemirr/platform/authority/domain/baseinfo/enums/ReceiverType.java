@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.wemirr.framework.db.mybatisplus.core.DictionaryEnum;
+import com.wemirr.framework.db.mybatisplus.core.DictEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Schema(description = "枚举")
 @JsonFormat
-public enum ReceiverType implements DictionaryEnum<Integer> {
+public enum ReceiverType implements DictEnum<Integer> {
 
     /**
      * 1

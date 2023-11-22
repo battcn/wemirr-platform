@@ -41,9 +41,6 @@ public class Station extends SuperEntity<Long> {
     @Schema(description = "岗位编码")
     private String code;
 
-    @Schema(description = "岗位类型")
-    private Integer type;
-
     @Schema(description = "排序")
     @TableField(value = "`sequence`")
     private Integer sequence;

@@ -53,7 +53,7 @@ public class UserController {
             @Parameter(description = "组织", name = "orgId", in = ParameterIn.QUERY)
     })
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
-    @PreAuthorize("hasAuthority('sys:users:page')")
+    @PreAuthorize("hasAuthority('sys:user:page')")
     public IPage<UserResp> page(UserPageReq req) {
         return this.userService.pageList(req);
     }
@@ -62,7 +62,7 @@ public class UserController {
     @PostMapping
     @AccessLog(description = "添加用户")
     @Operation(summary = "添加用户")
-    @PreAuthorize("hasAuthority('sys:users:add')")
+    @PreAuthorize("hasAuthority('sys:user:add')")
     public void save(@Validated @RequestBody UserSaveReq dto) {
         this.userService.addUser(dto);
     }
@@ -71,7 +71,7 @@ public class UserController {
     @PutMapping("{id}")
     @AccessLog(description = "编辑用户")
     @Operation(summary = "编辑用户")
-    @PreAuthorize("hasAuthority('sys:users:edit')")
+    @PreAuthorize("hasAuthority('sys:user:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody UserUpdateReq dto) {
         this.userService.updateById(USER_DTO_2_PO_CONVERTS.convert(dto, id));
     }
@@ -80,7 +80,7 @@ public class UserController {
     @DeleteMapping("{id}")
     @AccessLog(description = "删除用户")
     @Operation(summary = "删除用户")
-    @PreAuthorize("hasAuthority('sys:users:remove')")
+    @PreAuthorize("hasAuthority('sys:user:remove')")
     public void del(@PathVariable Long id) {
         this.userService.deleteById(id);
     }
