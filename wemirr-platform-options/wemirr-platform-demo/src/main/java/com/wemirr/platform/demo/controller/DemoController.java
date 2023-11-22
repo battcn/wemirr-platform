@@ -3,6 +3,7 @@ package com.wemirr.platform.demo.controller;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.dynamic.feign.TenantFeignClient;
 import com.wemirr.framework.i18n.annotation.I18nMethod;
+import com.wemirr.framework.redis.plus.anontation.RedisLock;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import com.wemirr.framework.security.utils.SecurityUtils;
 import com.wemirr.platform.demo.domain.enums.I18nEnum;
@@ -12,12 +13,14 @@ import com.wemirr.platform.demo.service.client.DemoTestFeignClient;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Levin
@@ -82,6 +85,28 @@ public class DemoController {
                 I18nDemoResp.builder().dbCode("i18n.demo").i18nEnum(I18nEnum.MI).build(),
                 I18nDemoResp.builder().type("type").i18nEnum(I18nEnum.APPLE).build()
         );
+    }
+
+    @SneakyThrows
+    @GetMapping("/lock")
+    @IgnoreAuthorize
+    @RedisLock(prefix = "lock", waitTime = 2)
+    public void lock() {
+        for (int i = 0; i < 90; i++) {
+            TimeUnit.SECONDS.sleep(1);
+            log.info("lock sleep {}", i);
+        }
+    }
+
+    @SneakyThrows
+    @GetMapping("/lock2")
+    @IgnoreAuthorize
+    @RedisLock(prefix = "lock", waitTime = 2)
+    public void lock2() {
+        for (int i = 0; i < 80; i++) {
+            TimeUnit.SECONDS.sleep(1);
+            log.info("lock2 sleep {}", i);
+        }
     }
 
 

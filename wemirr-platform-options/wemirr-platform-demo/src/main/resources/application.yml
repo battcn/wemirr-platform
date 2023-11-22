@@ -41,5 +41,10 @@ extend:
           password: 123456
           tenant-code: "0000"
           scope: platform
+  redis:
+    lock:
+      enabled: true
+      interceptor: true
+    enabled: true
 
 
