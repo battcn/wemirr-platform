@@ -24,18 +24,18 @@ public @interface RedisLock {
     String prefix() default "";
 
     /**
-     * 过期秒数,默认为5秒
+     * 过期秒数,默认为 0 则会自动开启看门狗时间续约
      *
      * @return 轮询锁的时间
      */
-    int expire() default 30;
+    int expire() default 0;
 
     /**
      * 等待时间
      *
      * @return long
      */
-    long waitTime() default 0L;
+    long waitTime() default 3L;
 
     /**
      * 超时时间单位

@@ -15,7 +15,7 @@ import java.util.List;
 @ConfigurationProperties(prefix = "extend.redis")
 public class RedisPlusProperties {
 
-    private boolean enabled;
+    private boolean enabled = true;
     private RedisSwitch lock;
     private RedisSwitch limit;
     private RedisCacheSwitch cache;
