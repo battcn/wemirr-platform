@@ -15,6 +15,7 @@ import com.wemirr.platform.authority.domain.baseinfo.resp.UserResp;
 import com.wemirr.platform.authority.domain.common.req.ChangeUserInfoReq;
 import com.wemirr.platform.authority.repository.baseinfo.UserMapper;
 import com.wemirr.platform.authority.repository.baseinfo.UserRoleMapper;
+import com.wemirr.platform.authority.service.OrgService;
 import com.wemirr.platform.authority.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     private final UserRoleMapper userRoleMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationContext authenticationContext;
+    private final OrgService orgService;
 
 
     @Override
@@ -57,7 +59,14 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
     @Override
     public IPage<UserResp> pageList(UserPageReq req) {
-        return baseMapper.findPage(req.buildPage(), req);
+        return baseMapper.findPage(req.buildPage(), Wraps.<User>lbQ()
+                .like(User::getUsername, req.getUsername())
+                .like(User::getNickName, req.getNickName())
+                .like(User::getEmail, req.getEmail())
+                .eq(User::getDeleted, false)
+                .eq(User::getSex, req.getSex())
+                .in(User::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
+                .eq(User::getMobile, req.getMobile()));
     }
 
     @Override

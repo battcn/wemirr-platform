@@ -12,9 +12,6 @@ import com.wemirr.platform.authority.domain.baseinfo.req.UserUpdateReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.UserResp;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,14 +41,6 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    @Parameters({
-            @Parameter(description = "账号", name = "username", in = ParameterIn.QUERY),
-            @Parameter(description = "名称", name = "nickName", in = ParameterIn.QUERY),
-            @Parameter(description = "邮箱", name = "email", in = ParameterIn.QUERY),
-            @Parameter(description = "性别", name = "sex", in = ParameterIn.QUERY),
-            @Parameter(description = "手机号", name = "mobile", in = ParameterIn.QUERY),
-            @Parameter(description = "组织", name = "orgId", in = ParameterIn.QUERY)
-    })
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
     @PreAuthorize("hasAuthority('sys:user:page')")
     public IPage<UserResp> page(UserPageReq req) {

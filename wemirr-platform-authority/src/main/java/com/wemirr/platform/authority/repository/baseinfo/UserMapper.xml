@@ -5,10 +5,7 @@
     <select id="findPage" resultType="com.wemirr.platform.authority.domain.baseinfo.resp.UserResp">
         SELECT
         *
-        FROM t_user where deleted = 0
-        <if test="req.username != null and req.username != ''">
-            and username = #{req.username}
-        </if>
+        FROM t_user  ${ew.customSqlSegment}
     </select>
 
     <select id="list" resultType="com.wemirr.platform.authority.domain.baseinfo.entity.User">
