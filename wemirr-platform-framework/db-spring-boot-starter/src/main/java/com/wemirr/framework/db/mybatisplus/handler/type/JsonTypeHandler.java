@@ -1,12 +1,11 @@
 package com.wemirr.framework.db.mybatisplus.handler.type;
 
-/**
- * @author Levin
- */
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.extension.handlers.AbstractJsonTypeHandler;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.ibatis.type.MappedTypes;
 
 import java.lang.reflect.Type;
 import java.util.Set;
@@ -17,19 +16,21 @@ import java.util.Set;
  *
  * @author Levin
  */
-public class JsonLongSetTypeHandler extends AbstractJsonTypeHandler<Object> {
+@MappedTypes(value = {JSONObject.class})
+public class JsonTypeHandler extends AbstractJsonTypeHandler<JSONObject> {
 
     private static final TypeReference<Set<Long>> TYPE_REFERENCE = new TypeReference<>() {
     };
 
     @Override
-    protected Object parse(String json) {
+    protected JSONObject parse(String json) {
         return JSON.parseObject(json, (Type) TYPE_REFERENCE);
     }
 
     @Override
-    protected String toJson(Object obj) {
-        return JSON.toJSONString(obj);
+    protected String toJson(JSONObject obj) {
+        return obj.toJSONString();
     }
+
 
 }

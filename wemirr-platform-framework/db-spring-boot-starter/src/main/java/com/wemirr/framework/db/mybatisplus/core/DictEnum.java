@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
  * @author Levin
  * @since 2019/07/26
  */
-public interface DictionaryEnum<T extends Serializable> extends IEnum<T> {
+public interface DictEnum<T extends Serializable> extends IEnum<T> {
 
     /**
      * 描述信息
@@ -52,11 +52,11 @@ public interface DictionaryEnum<T extends Serializable> extends IEnum<T> {
      * @param dictionaries 枚举
      * @return 集合
      */
-    static List<BaseDictionary> getList(DictionaryEnum<?>[] dictionaries) {
+    static List<BaseDict> getList(DictEnum<?>[] dictionaries) {
         if (dictionaries == null) {
             return null;
         }
-        return Arrays.stream(dictionaries).map(dictionary -> BaseDictionary.builder()
+        return Arrays.stream(dictionaries).map(dictionary -> BaseDict.builder()
                 .code(dictionary.getCode()).desc(dictionary.getDesc())
                 .build()).collect(Collectors.toList());
     }
@@ -69,7 +69,7 @@ public interface DictionaryEnum<T extends Serializable> extends IEnum<T> {
      * @param <E>       包装类
      * @return 枚举值
      */
-    static <E extends DictionaryEnum<?>> E of(Class<E> enumClass, Serializable type) {
+    static <E extends DictEnum<?>> E of(Class<E> enumClass, Serializable type) {
         E[] enumConstants = enumClass.getEnumConstants();
         for (E e : enumConstants) {
             final Serializable value = e.getValue();
@@ -89,13 +89,13 @@ public interface DictionaryEnum<T extends Serializable> extends IEnum<T> {
      * @param dictionaries 枚举
      * @return 转换结果
      */
-    static <E extends DictionaryEnum<?>> String of(List<E> dictionaries) {
+    static <E extends DictEnum<?>> String of(List<E> dictionaries) {
         if (CollectionUtil.isEmpty(dictionaries)) {
             return null;
         }
         return dictionaries.stream()
                 .filter(Objects::nonNull)
-                .map(DictionaryEnum::getCode).collect(Collectors.joining(","));
+                .map(DictEnum::getCode).collect(Collectors.joining(","));
     }
 
     /**
@@ -105,7 +105,7 @@ public interface DictionaryEnum<T extends Serializable> extends IEnum<T> {
      * @param dictionaries 枚举
      * @return 转换结果
      */
-    static <E extends DictionaryEnum<?>> List<E> of(Class<E> enumClass, String dictionaries) {
+    static <E extends DictEnum<?>> List<E> of(Class<E> enumClass, String dictionaries) {
         if (StrUtil.isBlank(dictionaries)) {
             return null;
         }

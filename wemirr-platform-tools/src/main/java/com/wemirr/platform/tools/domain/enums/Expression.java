@@ -3,7 +3,7 @@ package com.wemirr.platform.tools.domain.enums;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wemirr.framework.db.mybatisplus.core.DictionaryEnum;
+import com.wemirr.framework.db.mybatisplus.core.DictEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-public enum Expression implements DictionaryEnum<String> {
+public enum Expression implements DictEnum<String> {
 
     /**
      * eq

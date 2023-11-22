@@ -2,7 +2,7 @@ package com.wemirr.platform.tools.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wemirr.framework.db.mybatisplus.core.DictionaryEnum;
+import com.wemirr.framework.db.mybatisplus.core.DictEnum;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-public enum DictFiledType implements DictionaryEnum<String> {
+public enum DictFiledType implements DictEnum<String> {
     /**
      * radio
      */

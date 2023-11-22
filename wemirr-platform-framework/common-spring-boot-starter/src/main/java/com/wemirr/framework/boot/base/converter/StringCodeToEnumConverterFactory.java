@@ -2,7 +2,7 @@ package com.wemirr.framework.boot.base.converter;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.google.common.collect.Maps;
-import com.wemirr.framework.db.mybatisplus.core.DictionaryEnum;
+import com.wemirr.framework.db.mybatisplus.core.DictEnum;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 import org.springframework.lang.Nullable;
@@ -13,7 +13,7 @@ import java.util.Map;
  * @author Levin
  */
 @SuppressWarnings("all")
-public class StringCodeToEnumConverterFactory implements ConverterFactory<String, DictionaryEnum<?>> {
+public class StringCodeToEnumConverterFactory implements ConverterFactory<String, DictEnum<?>> {
 
     private static final Map<Class, Converter> CONVERTERS = Maps.newHashMap();
 
@@ -24,7 +24,7 @@ public class StringCodeToEnumConverterFactory implements ConverterFactory<String
      * @return 返回一个转化器
      */
     @Override
-    public <T extends DictionaryEnum<?>> Converter<String, T> getConverter(Class<T> targetType) {
+    public <T extends DictEnum<?>> Converter<String, T> getConverter(Class<T> targetType) {
 
         Converter<String, T> converter = CONVERTERS.get(targetType);
         if (converter == null) {
@@ -34,7 +34,7 @@ public class StringCodeToEnumConverterFactory implements ConverterFactory<String
         return converter;
     }
 
-    public static class StringToEnumConverter<T extends DictionaryEnum<?>> implements Converter<String, T> {
+    public static class StringToEnumConverter<T extends DictEnum<?>> implements Converter<String, T> {
         private final Map<String, T> enumMap = Maps.newHashMap();
 
         public StringToEnumConverter(Class<T> enumType) {
