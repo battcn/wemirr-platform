@@ -88,7 +88,7 @@ public class LimitHelper implements GatewayRule<LimitRule> {
         } else {
             increment = stringRedisTemplate.opsForHash().increment(DEFAULT_RULE_LIMIT_TOTAL, hostName, 1);
         }
-        stringRedisTemplate.opsForHash().put(RULE_LIMIT.visitsKey(), limitRule.getId(), increment + "");
+        stringRedisTemplate.opsForHash().put(RULE_LIMIT.visitsKey(), limitRule.getId(), String.valueOf(increment));
         boolean overflow = increment > limitRule.getTotal();
         if (overflow && limitRule.getBlacklist()) {
             final BlacklistRule blacklistRule = blacklistHelper.getById(limitRule.getId());

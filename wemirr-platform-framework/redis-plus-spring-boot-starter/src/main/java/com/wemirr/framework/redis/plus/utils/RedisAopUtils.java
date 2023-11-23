@@ -20,7 +20,14 @@ import java.util.Objects;
  */
 public class RedisAopUtils {
 
+    /**
+     * parser 解析器
+     */
     private static final ExpressionParser parser = new SpelExpressionParser();
+    /**
+     * 它使用JDK 8的反射功能
+     * 用于内省参数名称（基于 -parameters 编译器标志）
+     */
     private static final StandardReflectionParameterNameDiscoverer discoverer = new StandardReflectionParameterNameDiscoverer();
 
     /**

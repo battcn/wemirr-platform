@@ -22,7 +22,7 @@ import static com.wemirr.platform.flex.domain.entity.table.AccountTableDef.ACCOU
 @RestController
 @RequestMapping("/flex")
 @RequiredArgsConstructor
-public class FLexController {
+public class FlexController {
 
 
     private final AccountMapper accountMapper;
