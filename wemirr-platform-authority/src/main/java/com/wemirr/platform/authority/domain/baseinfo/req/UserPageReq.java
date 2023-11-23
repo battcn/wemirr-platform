@@ -32,5 +32,10 @@ public class UserPageReq extends PageRequest {
     @Schema(description = "手机号")
     private String mobile;
 
+    @Schema(description = "状态")
+    private Boolean status;
+
+    @Schema(description = "状态")
+    private String education;
 
 }

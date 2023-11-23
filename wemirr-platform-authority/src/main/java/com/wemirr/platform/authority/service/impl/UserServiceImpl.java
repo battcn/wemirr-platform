@@ -63,6 +63,8 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
                 .like(User::getUsername, req.getUsername())
                 .like(User::getNickName, req.getNickName())
                 .like(User::getEmail, req.getEmail())
+                .eq(User::getStatus, req.getStatus())
+                .eq(User::getEducation, req.getEducation())
                 .eq(User::getDeleted, false)
                 .eq(User::getSex, req.getSex())
                 .in(User::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
