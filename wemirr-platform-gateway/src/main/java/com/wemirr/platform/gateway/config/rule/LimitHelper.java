@@ -77,7 +77,7 @@ public class LimitHelper implements GatewayRule<LimitRule> {
         if (remoteAddress == null) {
             return false;
         }
-        final String hostName = remoteAddress.getHostName();
+        final String hostName = remoteAddress.getAddress().getHostName();
         final LimitRule limitRule = getByPath(stringRedisTemplate, exchange.getRequest(), RULE_LIMIT);
         if (limitRule == null) {
             return false;

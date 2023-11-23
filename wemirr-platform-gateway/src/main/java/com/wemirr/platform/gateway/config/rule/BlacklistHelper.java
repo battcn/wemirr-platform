@@ -39,7 +39,7 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
             log.warn("无效的远程地址");
             return;
         }
-        final String hostName = remoteAddress.getHostName();
+        final String hostName = remoteAddress.getAddress().getHostName();
         // 默认黑名单待 1 小时
         log.info("新进黑名单 - {}", hostName);
         final String path = exchange.getRequest().getURI().getPath();
