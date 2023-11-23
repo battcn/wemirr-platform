@@ -14,11 +14,11 @@
         FROM
         sys_resource t1
         WHERE t1.deleted = 0
-        <if test="resource.type != null">
-            and t1.type = #{resource.type}
+        <if test="req.type != null">
+            and t1.type = #{req.type}
         </if>
-        <if test="resource.parentId != null">
-            and t1.parent_id = #{resource.parentId}
+        <if test="req.parentId != null">
+            and t1.parent_id = #{req.parentId}
         </if>
         and t1.id IN (
         SELECT
@@ -26,7 +26,7 @@
         FROM
         sys_role_res
         WHERE
-        role_id IN ( SELECT role_id FROM sys_user_role WHERE `user_id` = #{resource.userId} ))
+        role_id IN ( SELECT role_id FROM sys_user_role WHERE `user_id` = #{req.userId} ))
         OR t1.`global`
         ORDER BY
         t1.`sequence`

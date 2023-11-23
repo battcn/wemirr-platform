@@ -45,8 +45,8 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
     private final AuthenticationContext authenticationContext;
 
     @Override
-    public List<VueRouter> findVisibleResource(ResourceQueryReq resource) {
-        return baseMapper.findVisibleResource(resource);
+    public List<VueRouter> findVisibleResource(ResourceQueryReq req) {
+        return baseMapper.findVisibleResource(req);
     }
 
     public static final String DEFAULT_PATH = "/system/development/release/tenant_%s";

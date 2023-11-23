@@ -26,10 +26,10 @@ public interface ResourceMapper extends SuperMapper<Resource> {
     /**
      * 查询 拥有的资源
      *
-     * @param resource 资源对象
+     * @param req 资源对象
      * @return 查询结果
      */
-    List<VueRouter> findVisibleResource(@Param("resource") ResourceQueryReq resource);
+    List<VueRouter> findVisibleResource(@Param("req") ResourceQueryReq req);
 
     /**
      * 查询指定用户资源权限

@@ -22,10 +22,10 @@ public interface ResourceService extends SuperService<Resource> {
     /**
      * 查询 拥有的资源
      *
-     * @param resource resource
+     * @param req req
      * @return 查询结果
      */
-    List<VueRouter> findVisibleResource(ResourceQueryReq resource);
+    List<VueRouter> findVisibleResource(ResourceQueryReq req);
 
 
     /**
