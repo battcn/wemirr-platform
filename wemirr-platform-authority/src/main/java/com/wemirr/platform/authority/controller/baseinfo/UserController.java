@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.MapHelper;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.entity.Entity;
+import com.wemirr.framework.db.mybatisplus.datascope.service.DataScopeService;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserPageReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserSaveReq;
@@ -39,6 +40,7 @@ import static com.wemirr.platform.authority.domain.baseinfo.converts.UserConvert
 public class UserController {
 
     private final UserService userService;
+    private final DataScopeService dataScopeService;
 
     @GetMapping
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
@@ -79,6 +81,13 @@ public class UserController {
     public Map<Long, UserResp> batchIds(@RequestBody Set<Long> ids) {
         final List<User> users = this.userService.listByIds(ids);
         return MapHelper.toHashMap(users, Entity::getId, x -> BeanUtil.toBean(x, UserResp.class));
+    }
+
+
+    @GetMapping("/{id}/data_permission")
+    @Operation(summary = "获取数据权限")
+    public void dataPermission(@PathVariable Long id) {
+        this.dataScopeService.getDataScopeById(id);
     }
 
 }

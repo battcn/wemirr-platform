@@ -9,6 +9,8 @@
 ### 🔧 Continuous Integration
 
 - https://docs.battcn.com 文档更新
+- `mybatis-plus` 版本升级 3.5.4.1
+- `spring-authorization-server` 版本升级 1.2.0
 
 ### 🐛 Bug Fixes
 

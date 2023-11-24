@@ -24,6 +24,7 @@ public class DatabaseProperties {
 
     public static final String PREFIX = "extend.mybatis-plus";
     public static final String ENCRYPTOR_PROPERTY_NAME = PREFIX + ".encryptor.password";
+    public static final String INTERCEPT_DATA_PERMISSION_PREFIX = PREFIX + ".intercept.data-permission";
 
 
     /**
@@ -68,6 +69,11 @@ public class DatabaseProperties {
          * SQL性能规范插件，限制比较多，慎用哦
          */
         private boolean illegalSql = false;
+
+        /**
+         * 对时效性要求高就需要改成 true 了,但是这样性能不好
+         */
+        private boolean remote = true;
 
 
     }

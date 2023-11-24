@@ -5,7 +5,6 @@ import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Station;
-import com.wemirr.platform.authority.domain.baseinfo.entity.User;
 import com.wemirr.platform.authority.domain.baseinfo.req.StationPageReq;
 import com.wemirr.platform.authority.repository.baseinfo.StationMapper;
 import com.wemirr.platform.authority.service.OrgService;

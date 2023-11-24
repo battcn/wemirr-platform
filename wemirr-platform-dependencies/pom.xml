@@ -29,9 +29,9 @@
         <spring-boot.version>3.1.4</spring-boot.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
         <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
-        <spring-authorization-server.version>1.1.3</spring-authorization-server.version>
+        <spring-authorization-server.version>1.2.0</spring-authorization-server.version>
         <!-- DB 相关 -->
-        <mybatis-plus.version>3.5.4</mybatis-plus.version>
+        <mybatis-plus.version>3.5.4.1</mybatis-plus.version>
         <dynamic-datasource.version>4.2.0</dynamic-datasource.version>
         <mysql.version>8.0.30</mysql.version>
         <!-- 文件存储 -->

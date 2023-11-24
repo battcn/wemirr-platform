@@ -16,7 +16,7 @@ import com.wemirr.platform.authority.repository.baseinfo.RoleMapper;
 import com.wemirr.platform.authority.repository.baseinfo.UserMapper;
 import com.wemirr.platform.authority.repository.tenant.TenantMapper;
 import com.wemirr.platform.authority.service.LoginLogService;
-import com.wemirr.platform.authority.service.impl.DataScopeService;
+import com.wemirr.platform.authority.service.impl.DataScopeServiceImpl;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -48,7 +48,7 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
     @Resource
     private LoginLogService loginLogService;
     @Resource
-    private DataScopeService dataScopeService;
+    private DataScopeServiceImpl dataScopeServiceImpl;
 
 
     @Override
@@ -100,7 +100,8 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
         info.setRoles(roles.stream().map(Role::getCode).toList());
         final List<String> permissions = this.resourceMapper.selectPermissionByUserId(user.getId());
         info.setFuncPermissions(permissions);
-        info.setDataPermission(dataScopeService.getDataPermissionById(user.getId(), user.getOrgId()));
+        // 为了减少一次数据库查询,所以用了这个不规范写法
+        info.setDataPermission(dataScopeServiceImpl.getDataPermissionById(user.getId(), user.getOrgId()));
         this.loginLogService.addLog(info);
         return info;
     }

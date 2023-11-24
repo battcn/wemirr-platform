@@ -17,7 +17,7 @@ import net.sf.jsqlparser.schema.Table;
 import java.util.List;
 
 /**
- * 3.5.2 之后推荐用 MultiDataPermissionHandler  但是多表条件会频繁获取 权限范围 数据 性能较差暂时没想好如何优化
+ * 数据权限处理
  *
  * @author Levin
  */
@@ -26,7 +26,6 @@ import java.util.List;
 public class DataScopePermissionHandler implements MultiDataPermissionHandler {
 
     private final AuthenticationContext context;
-
 
     @SneakyThrows
     @Override

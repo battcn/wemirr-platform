@@ -1,5 +1,6 @@
 package com.wemirr.platform.authority.feign;
 
+import com.wemirr.framework.commons.FeignConstants;
 import com.wemirr.framework.commons.remote.LoadService;
 import com.wemirr.platform.authority.feign.domain.resp.UserInfoResp;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -12,7 +13,7 @@ import java.util.Set;
 /**
  * @author Levin
  */
-@FeignClient(name = FeignConstants.FEIGN_NAME, dismiss404 = true)
+@FeignClient(name = FeignConstants.AUTH_FEIGN_NAME, dismiss404 = true)
 public interface UserFeign extends LoadService<Long, UserInfoResp> {
 
     /**
