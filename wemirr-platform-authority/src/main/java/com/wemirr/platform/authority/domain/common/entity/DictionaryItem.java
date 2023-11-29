@@ -67,10 +67,6 @@ public class DictionaryItem extends SuperEntity<Long> {
     @TableField("`status`")
     private Boolean status;
 
-    @Schema(description = "颜色")
-    @TableField("`color`")
-    private String color;
-
     /**
      * 描述
      */

@@ -63,7 +63,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
         final Dictionary record = Optional.ofNullable(this.baseMapper.selectById(dictionary.getId()))
                 .orElseThrow(() -> CheckedException.notFound("字典不存在"));
         if (record.getReadonly()) {
-            throw CheckedException.notFound("内置数据无法删除");
+            throw CheckedException.notFound("内置数据无法修改");
         }
         final Long count = this.baseMapper.selectCount(Wraps.<Dictionary>lbQ().ne(Dictionary::getId, dictionary.getId())
                 .eq(Dictionary::getCode, dictionary.getCode()));

@@ -56,16 +56,16 @@ public class DictionaryController {
     @AccessLog(description = "字典新增")
     @Operation(summary = "新增字典 - [DONE] - [Levin]", description = "新增字典 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('sys:dict:add')")
-    public void save(@Validated @RequestBody DictionarySaveReq dto) {
-        this.dictionaryService.addDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(dto));
+    public void save(@Validated @RequestBody DictionarySaveReq req) {
+        this.dictionaryService.addDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(req));
     }
 
     @PutMapping("/{id}")
     @AccessLog(description = "字典编辑")
     @Operation(summary = "编辑字典 - [DONE] - [Levin]", description = "编辑字典 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('sys:dict:edit')")
-    public void edit(@PathVariable Long id, @Validated @RequestBody DictionarySaveReq dto) {
-        this.dictionaryService.editDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(dto, id));
+    public void edit(@PathVariable Long id, @Validated @RequestBody DictionarySaveReq req) {
+        this.dictionaryService.editDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(req, id));
     }
 
     @DeleteMapping("/{id}")

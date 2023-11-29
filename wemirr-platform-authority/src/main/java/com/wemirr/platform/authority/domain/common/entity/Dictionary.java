@@ -10,8 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-
 /**
  * <p>
  * 实体类
@@ -27,44 +25,28 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @EqualsAndHashCode(callSuper = true)
 @TableName("common_dictionary")
 @SuperBuilder
-@Schema(name= "Dictionary", description = "字典类型")
+@Schema(name = "Dictionary", description = "字典类型")
 public class Dictionary extends SuperEntity<Long> {
 
-    
-
-    /**
-     * 编码
-     */
     @Schema(description = "编码")
-    @TableField(value = "`code`", condition = LIKE)
+    @TableField(value = "`code`")
     private String code;
 
-    /**
-     * 名称
-     */
+
     @Schema(description = "名称")
-    @TableField(value = "name", condition = LIKE)
+    @TableField(value = "name")
     private String name;
 
-    /**
-     * 描述
-     */
     @Schema(description = "描述")
-    @TableField(value = "description", condition = LIKE)
+    @TableField(value = "description")
     private String description;
 
-    /**
-     * 状态
-     */
+
     @Schema(description = "状态")
     private Boolean status;
 
     @TableField(value = "`readonly`")
     @Schema(description = "只读")
     private Boolean readonly;
-
-    @TableField(value = "`sequence`")
-    @Schema(description = "排序")
-    private Integer sequence;
 
 }
