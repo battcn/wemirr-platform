@@ -1,9 +1,9 @@
 package com.wemirr.platform.authority.configuration;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthentication;
 import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthenticator;
 import com.wemirr.framework.security.domain.UserInfoDetails;
@@ -21,6 +21,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -50,7 +51,6 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
     @Resource
     private DataScopeServiceImpl dataScopeServiceImpl;
 
-
     @Override
     public int getOrder() {
         return 100;
@@ -73,13 +73,18 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
     @Override
     public UserInfoDetails authenticate(IntegrationAuthentication authentication) {
         String username = authentication.getUsername();
+        String password = authentication.getPassword();
         String tenantCode = authentication.getTenantCode();
-        final Tenant tenant = Optional.ofNullable(tenantMapper.selectOne(Wraps.<Tenant>lbQ().eq(Tenant::getCode, tenantCode)))
+        final Tenant tenant = Optional.ofNullable(tenantMapper.selectOne(Tenant::getCode, tenantCode))
                 .orElseThrow(() -> CheckedException.notFound("{0}租户不存在", tenantCode));
         if (tenant.getLocked()) {
             throw CheckedException.badRequest("租户已被禁用,请联系管理员");
         }
         final User user = Optional.ofNullable(this.userMapper.selectUserByTenantId(username, tenant.getId())).orElseThrow(() -> CheckedException.notFound("账户不存在"));
+        final PasswordEncoder passwordEncoder = SpringUtil.getBean(PasswordEncoder.class);
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw CheckedException.badRequest("用户名或密码错误");
+        }
         final UserInfoDetails info = new UserInfoDetails();
         info.setTenantCode(tenantCode);
         info.setTenantName(tenant.getName());
