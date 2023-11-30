@@ -64,8 +64,4 @@ public class TenantDictionary extends SuperEntity<Long> {
     @Schema(description = "是否只读")
     private Boolean readonly;
 
-    @Schema(description = "排序")
-    @TableField(value = "`sequence`")
-    private Integer sequence;
-
 }

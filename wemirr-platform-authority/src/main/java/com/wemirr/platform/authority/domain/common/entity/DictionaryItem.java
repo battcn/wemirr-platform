@@ -50,14 +50,14 @@ public class DictionaryItem extends SuperEntity<Long> {
      * 编码
      */
     @Schema(description = "编码")
-    @TableField(value = "`value`", condition = LIKE)
+    @TableField(value = "`value`")
     private String value;
 
     /**
      * 名称
      */
     @Schema(description = "名称")
-    @TableField(value = "label", condition = LIKE)
+    @TableField(value = "label")
     private String label;
 
     /**
@@ -71,8 +71,7 @@ public class DictionaryItem extends SuperEntity<Long> {
      * 描述
      */
     @Schema(description = "描述")
-    @Length(max = 255, message = "描述长度不能超过 {max}")
-    @TableField(value = "description", condition = LIKE)
+    @TableField(value = "description")
     private String description;
 
     /**

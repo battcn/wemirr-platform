@@ -72,16 +72,11 @@ public class TenantDictionaryItem extends SuperEntity<Long> {
     @TableField("`status`")
     private Boolean status;
 
-    @Schema(description = "颜色")
-    @TableField("`color`")
-    private String color;
-
     /**
      * 描述
      */
     @Schema(description = "描述")
-    @Length(max = 255, message = "描述长度不能超过 {max}")
-    @TableField(value = "description", condition = LIKE)
+    @TableField(value = "description")
     private String description;
 
     /**

@@ -24,9 +24,6 @@ public class DictionaryItemReq {
     @Schema(description = "状态")
     private Boolean status;
 
-    @Schema(description = "排序")
-    private Integer sequence;
-
     @Schema(description = "描述")
     @Length(max = 100, message = "值的长度不能超过{max}")
     private String description;
