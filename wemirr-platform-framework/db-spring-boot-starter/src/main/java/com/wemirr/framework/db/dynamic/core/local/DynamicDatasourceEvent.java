@@ -1,11 +1,10 @@
 package com.wemirr.framework.db.dynamic.core.local;
 
+import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.db.dynamic.core.TenantDynamicDatasource;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.cloud.bus.event.Destination;
-import org.springframework.cloud.bus.event.RemoteApplicationEvent;
+import org.springframework.context.ApplicationEvent;
 
 
 /**
@@ -13,23 +12,14 @@ import org.springframework.cloud.bus.event.RemoteApplicationEvent;
  */
 @Getter
 @Setter
-@NoArgsConstructor
-public class DynamicDatasourceEvent extends RemoteApplicationEvent {
+public class DynamicDatasourceEvent extends ApplicationEvent {
 
-    private TenantDynamicDatasource dynamicDatasource;
-    private Integer action;
+    private EventAction action;
+    private TenantDynamicDatasource datasource;
 
-
-    public DynamicDatasourceEvent(Object body, String originService, Destination destinationService, TenantDynamicDatasource dynamicDatasource) {
-        super(body, originService, destinationService);
-        this.dynamicDatasource = dynamicDatasource;
-
-    }
-
-    public DynamicDatasourceEvent(Object body, String originService, TenantDynamicDatasource dynamicDatasource, Integer action) {
-        super(body, originService, () -> "wemirr-platform-tools");
-        this.dynamicDatasource = dynamicDatasource;
+    public DynamicDatasourceEvent(EventAction action, TenantDynamicDatasource datasource) {
+        super(datasource);
+        this.datasource = datasource;
         this.action = action;
     }
-
 }

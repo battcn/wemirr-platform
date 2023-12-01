@@ -7,6 +7,8 @@ import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEventPublish;
+import com.wemirr.framework.db.dynamic.core.local.DynamicDatasourceEvent;
+import com.wemirr.framework.db.dynamic.core.local.DynamicDatasourceLocalListener;
 import com.wemirr.framework.db.dynamic.core.redis.RedisDynamicDatasourceListener;
 import com.wemirr.framework.db.dynamic.core.redis.RedisDynamicDatasourcePublish;
 import com.wemirr.framework.db.dynamic.feign.TenantFeignClient;
@@ -18,9 +20,11 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -44,8 +48,14 @@ public class TenantDynamicDataSourceEventBusAutoConfiguration {
 
     @Bean(initMethod = "init")
     @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "strategy", havingValue = "feign")
-    public TenantDynamicDataSourceLoad tenantDynamicDataSourceLoad(TenantDynamicDataSourceHandler process, TenantFeignClient tenantFeignClient) {
-        return new TenantDynamicDataSourceLoad(process, tenantFeignClient);
+    public TenantDynamicDataSourceLoad tenantDynamicDataSourceLoad(TenantDynamicDataSourceHandler handler, TenantFeignClient tenantFeignClient) {
+        return new TenantDynamicDataSourceLoad(handler, tenantFeignClient);
+    }
+
+    @Bean
+    @Order(value = Integer.MIN_VALUE)
+    public ApplicationListener<DynamicDatasourceEvent> applicationListener(TenantDynamicDataSourceHandler handler) {
+        return new DynamicDatasourceLocalListener(handler);
     }
 
     @Bean
@@ -56,8 +66,9 @@ public class TenantDynamicDataSourceEventBusAutoConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "db-notify", havingValue = "redis")
-    public MessageEventListener redisDynamicDatasourceListener(TenantDynamicDataSourceHandler tenantDynamicDataSourceHandler) {
-        return new RedisDynamicDatasourceListener(tenantDynamicDataSourceHandler);
+    @Order(value = Integer.MIN_VALUE)
+    public MessageEventListener redisDynamicDatasourceListener(TenantDynamicDataSourceHandler handler) {
+        return new RedisDynamicDatasourceListener(handler);
     }
 
     @Bean

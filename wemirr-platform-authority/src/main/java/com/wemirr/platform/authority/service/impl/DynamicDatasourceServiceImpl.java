@@ -8,6 +8,7 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEventPublish;
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.db.dynamic.core.TenantDynamicDatasource;
+import com.wemirr.framework.db.dynamic.core.local.DynamicDatasourceEvent;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
@@ -21,6 +22,7 @@ import com.wemirr.platform.authority.service.TenantDatasourceService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,6 +42,8 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
 
     private final TenantConfigMapper tenantConfigMapper;
     private final DatabaseProperties databaseProperties;
+    private final ApplicationContext applicationContext;
+
 
     @Override
     public List<TenantDatasourceResp> selectTenantDynamicDatasource() {
@@ -62,7 +66,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
             return;
         }
         for (TenantDatasourceResp dynamicDatasource : dataSourceList) {
-            publishEvent(EventAction.ADD, dynamicDatasource);
+            publishEvent(true, EventAction.ADD, dynamicDatasource);
         }
     }
 
@@ -87,17 +91,17 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
         this.baseMapper.deleteById(id);
         final List<TenantDatasourceResp> dataSourceList = this.tenantConfigMapper.selectTenantDynamicDatasource(id);
         for (TenantDatasourceResp tenantDynamicDatasource : dataSourceList) {
-            publishEvent(EventAction.DEL, tenantDynamicDatasource);
+            publishEvent(false, EventAction.DEL, tenantDynamicDatasource);
         }
     }
 
     @Override
     public void publishEvent(EventAction action, Long tenantId) {
         final TenantDatasourceResp dynamicDatasource = this.tenantConfigMapper.getTenantDynamicDatasourceByTenantId(tenantId);
-        publishEvent(action, dynamicDatasource);
+        publishEvent(false, action, dynamicDatasource);
     }
 
-    private void publishEvent(EventAction action, TenantDatasourceResp dynamicDatasource) {
+    private void publishEvent(boolean init, EventAction action, TenantDatasourceResp dynamicDatasource) {
         if (Objects.isNull(dynamicDatasource)) {
             throw CheckedException.notFound("租户未关联数据源信息");
         }
@@ -107,7 +111,11 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
         final DynamicDatasourceEventPublish eventPublisher = SpringUtil.getBean(DynamicDatasourceEventPublish.class);
         final TenantDynamicDatasource datasource = TENANT_DYNAMIC_DATASOURCE_VO_2_TENANT_DYNAMIC_DATASOURCE_CONVERTS.convert(dynamicDatasource);
         datasource.setAction(action.getType());
-        eventPublisher.publish(datasource);
+        if (init) {
+            applicationContext.publishEvent(new DynamicDatasourceEvent(action, datasource));
+        } else {
+            eventPublisher.publish(datasource);
+        }
         log.debug("event publish successful - {}", datasource);
     }
 }
