@@ -27,7 +27,7 @@
 
         <!-- Spring Boot 相关 版本-->
         <spring-boot-admin.version>3.1.6</spring-boot-admin.version>
-        <spring-boot.version>3.1.4</spring-boot.version>
+        <spring-boot.version>3.1.6</spring-boot.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
         <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
         <spring-authorization-server.version>1.2.0</spring-authorization-server.version>
@@ -36,8 +36,8 @@
         <dynamic-datasource.version>4.2.0</dynamic-datasource.version>
         <mysql.version>8.0.30</mysql.version>
         <!-- 文件存储 -->
-        <minio.version>8.4.6</minio.version>
-        <aliyun-sdk-oss.version>3.16.1</aliyun-sdk-oss.version>
+        <minio.version>8.5.7</minio.version>
+        <aliyun-sdk-oss.version>3.17.2</aliyun-sdk-oss.version>
         <qiniu-java-sdk.version>7.14.0</qiniu-java-sdk.version>
         <cos_api.version>5.5.9</cos_api.version>
         <!-- 工具包 -->

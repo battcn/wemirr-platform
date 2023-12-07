@@ -36,6 +36,12 @@
             <artifactId>minio</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.12.0</version>
+            <optional>true</optional>
+        </dependency>
         <!-- 阿里云存储 -->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
