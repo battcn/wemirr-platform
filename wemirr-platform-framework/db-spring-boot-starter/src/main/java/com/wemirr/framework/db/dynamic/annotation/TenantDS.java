@@ -16,7 +16,7 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@DS("#custom.tenant_code")
+@DS("#custom.Tenant-Code")
 public @interface TenantDS {
 
 }

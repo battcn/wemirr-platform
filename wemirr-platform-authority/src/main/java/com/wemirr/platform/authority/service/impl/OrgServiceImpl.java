@@ -57,6 +57,9 @@ public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements 
             return null;
         }
         final Org org = this.baseMapper.selectById(id);
+        if (org == null) {
+            return null;
+        }
         List<Long> treePath = org.getTreePath();
         treePath.add(org.getId());
         final List<Long> list = this.baseMapper.selectList(Wraps.<Org>lbQ()

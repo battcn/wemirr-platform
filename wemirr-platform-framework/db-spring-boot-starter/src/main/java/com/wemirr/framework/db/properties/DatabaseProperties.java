@@ -146,7 +146,7 @@ public class DatabaseProperties {
         /**
          * 租户字段参数名称（前端传递给后端）
          */
-        private String tenantCodeColumn = "tenant_code";
+        private String tenantCodeColumn = "Tenant-Code";
 
         /**
          * 超级租户编码
