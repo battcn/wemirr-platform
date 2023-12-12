@@ -310,6 +310,7 @@ CREATE TABLE `common_opt_log` (
   `request` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '请求参数',
   `response` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '返回值',
   `message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '异常详情信息',
+  `status` bit null COMMENT '日志状态（true=正常;false=异常）',
   `start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
   `finish_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
   `consuming_time` bigint DEFAULT '0' COMMENT '消耗时间',
