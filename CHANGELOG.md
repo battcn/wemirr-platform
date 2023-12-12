@@ -5,6 +5,7 @@
 - 升级 pom.xml 版本依赖
 - 增强 `redis-plus-spring-boot` 中锁的支持
 - **岗位管理**查询增强(支持点击机构查询出机构下所有的岗位)
+- 日志采集优化 **区分异常日志/正常日志**
 
 ### 🔧 Continuous Integration
 
@@ -15,6 +16,7 @@
 ### 🐛 Bug Fixes
 
 - 资源吗对照关系异常修复
+- SQL 脚本文件异常处理
 
 # 2.0.2-release
 
