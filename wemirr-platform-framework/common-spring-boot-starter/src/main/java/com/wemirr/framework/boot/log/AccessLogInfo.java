@@ -1,6 +1,7 @@
 package com.wemirr.framework.boot.log;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -8,10 +9,7 @@ import lombok.Data;
 import java.time.Instant;
 
 /**
- * <p>
- * 实体类
- * 系统日志
- * </p>
+ * 访问日志
  *
  * @author Levin
  * @since 2023-10-13
@@ -52,6 +50,9 @@ public class AccessLogInfo {
     @Schema(description = "异常描述")
     protected String message;
 
+    @Schema(description = "日志状态")
+    private Boolean status;
+
     @Schema(description = "开始时间")
     protected Instant startTime;
 
@@ -84,4 +85,7 @@ public class AccessLogInfo {
     private String dsKey;
 
 
+    public Boolean getStatus() {
+        return StrUtil.isBlank(message);
+    }
 }

@@ -17,6 +17,7 @@ import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.io.ResourceLoader;
 
 import javax.sql.DataSource;
@@ -66,14 +67,7 @@ public class TenantDynamicDataSourceHandler {
         }
         if (action == EventAction.INIT) {
             // 创建数据库
-            DataSourceProperty dataSourceProperty = new DataSourceProperty();
-            dataSourceProperty.setPoolName(dynamicDatasource.getPoolName() + "_" + dynamicDatasource.getCode());
-            dataSourceProperty.setDriverClassName(dynamicDatasource.getDriverClassName());
-            String url = "jdbc:mysql://" + dynamicDatasource.getHost();
-            dataSourceProperty.setUrl(url);
-            dataSourceProperty.setUsername(dynamicDatasource.getUsername());
-            dataSourceProperty.setPassword(dynamicDatasource.getPassword());
-            dataSourceProperty.setLazy(false);
+            DataSourceProperty dataSourceProperty = getDataSourceProperty(dynamicDatasource, "jdbc:mysql://" + dynamicDatasource.getHost(), false);
             DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
             log.debug("数据源信息 - {} - {} - {}", dataSourceProperty.getUsername(), dataSourceProperty.getPassword(), database);
             final String createDatabaseScript = String.format(CREATE_DATABASE_SCRIPT, database);
@@ -84,22 +78,26 @@ public class TenantDynamicDataSourceHandler {
                 log.error("执行创建数据库脚本异常", e);
             }
         }
-        DataSourceProperty dataSourceProperty = new DataSourceProperty();
-        dataSourceProperty.setPoolName(dynamicDatasource.getPoolName() + "_" + dynamicDatasource.getCode());
-        dataSourceProperty.setDriverClassName(dynamicDatasource.getDriverClassName());
-        String url = "jdbc:mysql://" + dynamicDatasource.getHost() +
-                "/" + database + "?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true";
-        dataSourceProperty.setUrl(url);
-        dataSourceProperty.setUsername(dynamicDatasource.getUsername());
-        dataSourceProperty.setPassword(dynamicDatasource.getPassword());
-        dataSourceProperty.setLazy(true);
+        DataSourceProperty dataSourceProperty = getDataSourceProperty(dynamicDatasource, "jdbc:mysql://" + dynamicDatasource.getHost() +
+                "/" + database + "?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true", true);
         DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
         log.debug("数据源信息 - {} - {} - {}", dataSourceProperty.getUsername(), dataSourceProperty.getPassword(), database);
         ds.addDataSource(database, dataSource);
         log.info("数据源添加成功 - {}", database);
         final Set<String> dsSets = ds.getDataSources().keySet();
         log.debug("连接池信息 - {}", dsSets);
+    }
 
+    @NotNull
+    private static DataSourceProperty getDataSourceProperty(TenantDynamicDatasource dynamicDatasource, String url, boolean lazy) {
+        DataSourceProperty dataSourceProperty = new DataSourceProperty();
+        dataSourceProperty.setPoolName(dynamicDatasource.getPoolName() + "_" + dynamicDatasource.getCode());
+        dataSourceProperty.setDriverClassName(dynamicDatasource.getDriverClassName());
+        dataSourceProperty.setUrl(url);
+        dataSourceProperty.setUsername(dynamicDatasource.getUsername());
+        dataSourceProperty.setPassword(dynamicDatasource.getPassword());
+        dataSourceProperty.setLazy(lazy);
+        return dataSourceProperty;
     }
 
     public String buildDb(String tenantCode) {

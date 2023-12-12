@@ -57,7 +57,7 @@ public final class DataPermissionUtils {
     /**
      * 使用指定的数据权限执行任务
      *
-     * @param dataPermissionRule 当前任务执行时使用的数据权限规则
+     * @param rule 当前任务执行时使用的数据权限规则
      * @param supplier           待执行的动作
      */
     public static <T> T executeWithDataPermissionRule(DataPermissionRule rule, Supplier<T> supplier) {

@@ -1,6 +1,7 @@
 package com.wemirr.platform.authority.domain.common.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.OrderBy;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.boot.log.AccessLogInfo;
@@ -16,6 +17,7 @@ import lombok.EqualsAndHashCode;
 public class OptLog extends AccessLogInfo {
 
     @TableId(type = IdType.ASSIGN_ID)
+    @OrderBy
     private Long id;
 
 }

@@ -21,13 +21,13 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -54,22 +54,13 @@ public class AccessLogAspect {
     private static final int MAX_LENGTH = 65535;
     private static final TransmittableThreadLocal<AccessLogInfo> THREAD_LOCAL = new TransmittableThreadLocal<>();
     private static final String USER_AGENT = "User-Agent";
-    /**
-     * 事件发布是由ApplicationContext对象管控的，我们发布事件前需要注入ApplicationContext对象调用publishEvent方法完成事件发布
-     **/
-    @Autowired
+    @Resource
     private ApplicationContext applicationContext;
-    @Autowired
-    private DatabaseProperties properties;
+    @Resource
+    private DatabaseProperties databaseProperties;
 
-    /***
-     * 定义controller切入点拦截规则：拦截标记SysLog注解和指定包下的方法
-     * execution(public * com.wemirr.base.controller.*.*(..)) 解释：
-     * 第一个* 任意返回类型
-     * 第三个* 类下的所有方法
-     * ()中间的.. 任意参数
-     * annotation(com.wemirr.framework.commons.annotation.log.SysLog) 解释：
-     * 标记了@SysLog 注解的方法
+    /**
+     * 切面
      */
     @Pointcut("execution(public * com.wemirr..*.*(..)) && @annotation(com.wemirr.framework.commons.annotation.log.AccessLog)")
     public void accessLogAspect() {
@@ -139,7 +130,7 @@ public class AccessLogAspect {
      */
     @AfterThrowing(pointcut = "accessLogAspect()", throwing = "e")
     public void doAfterThrowable(JoinPoint joinPoint, Throwable e) {
-        tryCatch((aaa) -> {
+        tryCatch((ex) -> {
             AccessLog accessLogAnnotation = AccessLogUtil.getTargetAnnotation(joinPoint);
             if (accessLogAnnotation == null) {
                 return;
@@ -194,7 +185,7 @@ public class AccessLogAspect {
             HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
             String strArgs = getArgs(annotation, joinPoint.getArgs(), request);
             log.setRequest(getText(strArgs));
-            final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+            final DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
             if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
                 String tenantCode = request.getHeader(multiTenant.getTenantCodeColumn());
                 if (StringUtils.equals(multiTenant.getSuperTenantCode(), tenantCode)) {

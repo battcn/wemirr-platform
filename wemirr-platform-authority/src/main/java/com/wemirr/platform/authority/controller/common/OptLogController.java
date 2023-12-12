@@ -3,9 +3,9 @@ package com.wemirr.platform.authority.controller.common;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.boot.log.AccessLogInfo;
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
-import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.common.entity.OptLog;
+import com.wemirr.platform.authority.domain.common.req.OptLogPageReq;
 import com.wemirr.platform.authority.service.OptLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,16 +39,13 @@ public class OptLogController {
     private final OptLogService optLogService;
 
     @GetMapping
-    @Parameters({
-            @Parameter(name = "location", description = "地区", in = ParameterIn.QUERY),
-            @Parameter(name = "description", description = "描述信息", in = ParameterIn.QUERY)
-    })
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('log:opt:page')")
-    public Page<OptLog> query(PageRequest request, String location, String description) {
-        return this.optLogService.page(request.buildPage(), Wraps.<OptLog>lbQ()
-                .like(OptLog::getLocation, location)
-                .like(OptLog::getDescription, description).orderByDesc(OptLog::getStartTime));
+    public Page<OptLog> page(OptLogPageReq req) {
+        return this.optLogService.page(req.buildPage(), Wraps.<OptLog>lbQ()
+                .eq(OptLog::getHttpMethod, req.getHttpMethod())
+                .eq(OptLog::getStatus, req.getStatus())
+                .eq(OptLog::getPlatform, req.getPlatform()));
     }
 
     @DeleteMapping("/{day}")
