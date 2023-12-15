@@ -11,15 +11,10 @@ public class TenantDatasourceResp {
 
     @Schema(description = "租户ID")
     private Long tenantId;
-    @Schema(description = "编码")
-    private String code;
-    @Schema(description = "名称")
-    private String name;
-    /**
-     * 连接池名称
-     */
-    @Schema(description = "连接池名称")
-    private String poolName;
+    @Schema(description = "租户编码")
+    private String tenantCode;
+    @Schema(description = "租户名称")
+    private String tenantName;
     /**
      * 数据库类型(只支持Mysql)
      */
@@ -35,7 +30,7 @@ public class TenantDatasourceResp {
     @Schema(description = "密码")
     private String password;
 
-    @Schema(description = "host")
+    @Schema(description = "HOST")
     private String host;
 
 }

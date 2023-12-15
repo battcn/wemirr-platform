@@ -17,10 +17,10 @@ public interface TenantConfigMapper extends SuperMapper<TenantConfig> {
     /**
      * 查询所有可用的动态数据源
      *
-     * @param datasourceId datasourceId
+     * @param id id
      * @return 查询结果
      */
-    List<TenantDatasourceResp> selectTenantDynamicDatasource(@Param("datasourceId") Long datasourceId);
+    List<TenantDatasourceResp> selectTenantDbById(@Param("id") Long id);
 
     /**
      * 获取租户动态数据源

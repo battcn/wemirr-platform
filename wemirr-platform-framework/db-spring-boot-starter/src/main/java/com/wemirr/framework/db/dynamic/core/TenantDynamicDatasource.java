@@ -13,13 +13,10 @@ public class TenantDynamicDatasource implements java.io.Serializable {
     private Long tenantId;
 
     @Schema(description = "租户编码")
-    private String code;
+    private String tenantCode;
 
     @Schema(description = "名称")
-    private String name;
-
-    @Schema(description = "连接池名称")
-    private String poolName;
+    private String tenantName;
 
     @Schema(description = "数据库类型(只支持Mysql)")
     private String dbType;
@@ -33,7 +30,7 @@ public class TenantDynamicDatasource implements java.io.Serializable {
     @Schema(description = "密码")
     private String password;
 
-    @Schema(description = "端口")
+    @Schema(description = "HOST")
     private String host;
 
     /**

@@ -1,6 +1,5 @@
 package com.wemirr.platform.authority.domain.tenant.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
@@ -23,8 +22,8 @@ import lombok.experimental.SuperBuilder;
 public class DynamicDatasource extends SuperEntity<Long> {
 
 
-    @Schema(description = "连接池名称")
-    private String poolName;
+    @Schema(description = "连接名")
+    private String name;
 
     @Schema(description = "数据库类型(只支持Mysql)")
     private String dbType;
@@ -32,14 +31,9 @@ public class DynamicDatasource extends SuperEntity<Long> {
     @Schema(description = "驱动类名")
     private String driverClassName;
 
-
-    @TableField(value = "`database`", updateStrategy = FieldStrategy.NEVER)
-    private String database;
-
     @TableField("`username`")
     @Schema(description = "用户名")
     private String username;
-
 
     @TableField("`password`")
     @Schema(description = "密码")

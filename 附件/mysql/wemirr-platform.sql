@@ -860,15 +860,12 @@ COMMIT;
 DROP TABLE IF EXISTS `t_dynamic_datasource`;
 CREATE TABLE `t_dynamic_datasource` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `pool_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '连接池名称',
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '连接名称',
   `username` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户名',
   `password` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '密码',
   `db_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '数据库类型',
   `driver_class_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `database` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '数据库名称',
-  `connection_type` tinyint DEFAULT '0' COMMENT '连接类型（0=单库多schema ,1 = 单库单schema）',
-  `host` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'localhost' COMMENT '数据库连接',
-  `port` int NOT NULL DEFAULT '3306' COMMENT '数据库端口',
+  `host` varchar(100) null comment 'HOST',
   `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述信息',
   `locked` bit(1) DEFAULT b'0' COMMENT '0=正常1=禁用',
   `deleted` bit(1) DEFAULT b'0',
@@ -881,14 +878,6 @@ CREATE TABLE `t_dynamic_datasource` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='动态数据源';
 
--- ----------------------------
--- Records of t_dynamic_datasource
--- ----------------------------
-BEGIN;
-INSERT INTO `t_dynamic_datasource` (`id`, `pool_name`, `username`, `password`, `db_type`, `driver_class_name`, `database`, `connection_type`, `host`, `port`, `description`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, 'TenantDataSourcePool', 'root', '123456', 'mysql', 'com.mysql.cj.jdbc.Driver', NULL, 0, 'localhost:3306', 3306, 'tenant-8888', b'0', b'0', NULL, NULL, '2021-08-06 13:57:40', 1, '长风一梦8888', '2021-11-27 06:50:34');
-INSERT INTO `t_dynamic_datasource` (`id`, `pool_name`, `username`, `password`, `db_type`, `driver_class_name`, `database`, `connection_type`, `host`, `port`, `description`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (2, '123123123', 'admin', '123456', 'mysql', 'com.mysql.cj.jdbc.Driver', NULL, 0, '123123213123', 3306, NULL, b'0', b'1', 1, '长风一梦8888', '2023-02-21 01:02:51', 1, '长风一梦8888', '2023-11-09 07:28:47');
-INSERT INTO `t_dynamic_datasource` (`id`, `pool_name`, `username`, `password`, `db_type`, `driver_class_name`, `database`, `connection_type`, `host`, `port`, `description`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (3, '21312312', 'admin', '123456', 'mysql', 'com.mysql.cj.jdbc.Driver', NULL, 0, '31231231231231', 3306, NULL, b'0', b'1', 1, '长风一梦8888', '2023-02-21 01:05:06', NULL, NULL, '2023-11-09 07:28:46');
-COMMIT;
 
 -- ----------------------------
 -- Table structure for t_file

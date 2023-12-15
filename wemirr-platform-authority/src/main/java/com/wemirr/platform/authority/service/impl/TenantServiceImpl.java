@@ -116,7 +116,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             if (CollUtil.isNotEmpty(users)) {
                 final List<Long> userIdList = users.stream().map(User::getId).distinct().collect(Collectors.toList());
                 log.warn("开始清除租户 - {} 的系统数据,危险动作", tenant.getName());
-                if (userIdList.size() > 0) {
+                if (CollUtil.isNotEmpty(userIdList)) {
                     //等于0全表会删。
                     this.userRoleMapper.delete(Wraps.<UserRole>lbQ().in(UserRole::getUserId, userIdList));
                 }

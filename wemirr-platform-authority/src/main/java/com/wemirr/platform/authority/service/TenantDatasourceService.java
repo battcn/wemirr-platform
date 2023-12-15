@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.service;
 
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
+import com.wemirr.platform.authority.domain.baseinfo.req.DynamicDatasourceReq;
 import com.wemirr.platform.authority.domain.tenant.entity.DynamicDatasource;
 import com.wemirr.platform.authority.domain.tenant.resp.TenantDatasourceResp;
 
@@ -29,16 +30,24 @@ public interface TenantDatasourceService extends SuperService<DynamicDatasource>
     /**
      * 添加或者保存动态数据源信息
      *
-     * @param dynamicDatasource dynamicDatasource
+     * @param req req
      */
-    void saveOrUpdateDatabase(DynamicDatasource dynamicDatasource);
+    void created(DynamicDatasourceReq req);
+
+    /**
+     * 添加或者保存动态数据源信息
+     *
+     * @param id  id
+     * @param req req
+     */
+    void edit(Long id, DynamicDatasourceReq req);
 
     /**
      * 删除数据源
      *
      * @param id id
      */
-    void removeDatabaseById(Long id);
+    void delete(Long id);
 
     /**
      * 发布数据源事件

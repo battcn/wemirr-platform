@@ -3,19 +3,19 @@
 <mapper namespace="com.wemirr.platform.authority.repository.tenant.TenantConfigMapper">
 
 
-    <select id="selectTenantDynamicDatasource" resultType="com.wemirr.platform.authority.domain.tenant.resp.TenantDatasourceResp">
-        SELECT t2.tenant_id,t1.`code`,t1.`name`,t3.pool_name,t3.username,t3.`password`,t3.db_type,t3.driver_class_name,t3.`database`,t3.connection_type,t3.`host`,t3.`port` FROM t_tenant t1
+    <select id="selectTenantDbById" resultType="com.wemirr.platform.authority.domain.tenant.resp.TenantDatasourceResp">
+        SELECT t2.tenant_id,t1.`code` tenant_code,t1.`name` tenant_name,t3.username,t3.`password`,t3.db_type,t3.driver_class_name,t3.`host` FROM t_tenant t1
         JOIN t_tenant_config t2 ON t1.id = t2.tenant_id
         JOIN t_dynamic_datasource t3 ON t2.dynamic_datasource_id = t3.id
         WHERE t1.locked = 0 and t1.deleted = 0 and t2.deleted = 0 and t3.deleted = 0
-        <if test="datasourceId != null">
-            and t3.id = #{datasourceId}
+        <if test="id != null">
+            and t3.id = #{id}
         </if>
     </select>
 
     <select id="getTenantDynamicDatasourceByTenantId"
             resultType="com.wemirr.platform.authority.domain.tenant.resp.TenantDatasourceResp">
-        SELECT t2.tenant_id,t1.`code`,t1.`name`,t3.pool_name,t3.username,t3.`password`,t3.db_type,t3.driver_class_name,t3.`database`,t3.connection_type,t3.`host`,t3.`port` FROM t_tenant t1
+        SELECT t2.tenant_id,t1.`code` tenant_code,t1.`name` tenant_name,t3.username,t3.`password`,t3.db_type,t3.driver_class_name,t3.`host` FROM t_tenant t1
         JOIN t_tenant_config t2 ON t1.id = t2.tenant_id AND t2.deleted = 0
         JOIN t_dynamic_datasource t3 ON t2.dynamic_datasource_id = t3.id
         WHERE t1.locked = 0 and t1.deleted = 0 and t2.deleted = 0 and t3.deleted = 0 AND t1.id = #{tenantId}

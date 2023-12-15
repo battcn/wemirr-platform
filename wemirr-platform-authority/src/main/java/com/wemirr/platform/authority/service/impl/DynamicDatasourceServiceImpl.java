@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEventPublish;
 import com.wemirr.framework.db.dynamic.core.EventAction;
@@ -11,9 +12,9 @@ import com.wemirr.framework.db.dynamic.core.TenantDynamicDatasource;
 import com.wemirr.framework.db.dynamic.core.local.DynamicDatasourceEvent;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
+import com.wemirr.platform.authority.domain.baseinfo.req.DynamicDatasourceReq;
 import com.wemirr.platform.authority.domain.tenant.entity.DynamicDatasource;
 import com.wemirr.platform.authority.domain.tenant.resp.TenantDatasourceResp;
 import com.wemirr.platform.authority.repository.common.DynamicDatasourceMapper;
@@ -47,7 +48,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
 
     @Override
     public List<TenantDatasourceResp> selectTenantDynamicDatasource() {
-        return this.tenantConfigMapper.selectTenantDynamicDatasource(null);
+        return this.tenantConfigMapper.selectTenantDbById(null);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
 
     @PostConstruct
     public void init() {
-        final List<TenantDatasourceResp> dataSourceList = this.tenantConfigMapper.selectTenantDynamicDatasource(null);
+        final List<TenantDatasourceResp> dataSourceList = this.tenantConfigMapper.selectTenantDbById(null);
         if (CollectionUtil.isEmpty(dataSourceList)) {
             log.warn("未找到符合条件的数据源...");
             return;
@@ -72,24 +73,34 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
 
     @Override
     @DSTransactional
-    public void saveOrUpdateDatabase(DynamicDatasource dynamicDatasource) {
-        final LbqWrapper<DynamicDatasource> lbqWrapper = Wraps.<DynamicDatasource>lbQ().eq(DynamicDatasource::getPoolName, dynamicDatasource.getPoolName());
-        if (dynamicDatasource.getId() != null) {
-            lbqWrapper.ne(DynamicDatasource::getId, dynamicDatasource.getId());
-        }
-        final long count = super.count(lbqWrapper);
+    public void created(DynamicDatasourceReq req) {
+        final long count = super.count(Wraps.<DynamicDatasource>lbQ().eq(DynamicDatasource::getName, req.getName()));
         if (count > 0) {
-            throw CheckedException.badRequest("连接池名称已存在");
+            throw CheckedException.badRequest("连接名称已存在");
         }
-        super.saveOrUpdate(dynamicDatasource);
+        DynamicDatasource bean = BeanUtilPlus.toBean(req, DynamicDatasource.class);
+        this.baseMapper.insert(bean);
     }
 
     @Override
     @DSTransactional
-    public void removeDatabaseById(Long id) {
+    public void edit(Long id, DynamicDatasourceReq req) {
+        final long count = super.count(Wraps.<DynamicDatasource>lbQ()
+                .ne(DynamicDatasource::getId, id)
+                .eq(DynamicDatasource::getName, req.getName()));
+        if (count > 0) {
+            throw CheckedException.badRequest("连接名称已存在");
+        }
+        DynamicDatasource bean = BeanUtilPlus.toBean(id, req, DynamicDatasource.class);
+        this.baseMapper.updateById(bean);
+    }
+
+    @Override
+    @DSTransactional
+    public void delete(Long id) {
         Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("数据连接信息不存在"));
         this.baseMapper.deleteById(id);
-        final List<TenantDatasourceResp> dataSourceList = this.tenantConfigMapper.selectTenantDynamicDatasource(id);
+        final List<TenantDatasourceResp> dataSourceList = this.tenantConfigMapper.selectTenantDbById(id);
         for (TenantDatasourceResp tenantDynamicDatasource : dataSourceList) {
             publishEvent(false, EventAction.DEL, tenantDynamicDatasource);
         }

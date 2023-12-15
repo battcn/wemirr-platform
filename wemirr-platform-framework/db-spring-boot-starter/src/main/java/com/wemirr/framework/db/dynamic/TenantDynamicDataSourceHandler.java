@@ -23,6 +23,7 @@ import org.springframework.core.io.ResourceLoader;
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.List;
@@ -35,6 +36,7 @@ import java.util.Set;
 @Slf4j
 public class TenantDynamicDataSourceHandler {
 
+    public static final String TENANT_DATASOURCE_POOL = "TenantDataSourcePool_%s";
     private static final String CREATE_DATABASE_SCRIPT = "CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
 
 
@@ -47,8 +49,8 @@ public class TenantDynamicDataSourceHandler {
     @Resource
     private ResourceLoader resourceLoader;
 
-    public void handler(EventAction action, TenantDynamicDatasource dynamicDatasource) {
-        if (Objects.isNull(dynamicDatasource)) {
+    public void handler(EventAction action, TenantDynamicDatasource db) {
+        if (Objects.isNull(db)) {
             log.warn("event dynamicDatasource is null....");
             return;
         }
@@ -56,10 +58,10 @@ public class TenantDynamicDataSourceHandler {
             log.warn("event action is null....");
             return;
         }
-        log.info("接收租户事件消息: - {} - {}", action, dynamicDatasource);
+        log.info("接收租户事件消息: - {} - {}", action, db);
         DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
         final DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
-        String database = multiTenant.getDsPrefix() + dynamicDatasource.getCode();
+        final String database = multiTenant.getDsPrefix() + db.getTenantCode();
         if (action == EventAction.DEL) {
             ds.removeDataSource(database);
             log.info("数据源移除成功 - {}", database);
@@ -67,7 +69,7 @@ public class TenantDynamicDataSourceHandler {
         }
         if (action == EventAction.INIT) {
             // 创建数据库
-            DataSourceProperty dataSourceProperty = getDataSourceProperty(dynamicDatasource, "jdbc:mysql://" + dynamicDatasource.getHost(), false);
+            DataSourceProperty dataSourceProperty = getDataSourceProperty(db, database, false);
             DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
             log.debug("数据源信息 - {} - {} - {}", dataSourceProperty.getUsername(), dataSourceProperty.getPassword(), database);
             final String createDatabaseScript = String.format(CREATE_DATABASE_SCRIPT, database);
@@ -77,9 +79,9 @@ public class TenantDynamicDataSourceHandler {
             } catch (Exception e) {
                 log.error("执行创建数据库脚本异常", e);
             }
+            return;
         }
-        DataSourceProperty dataSourceProperty = getDataSourceProperty(dynamicDatasource, "jdbc:mysql://" + dynamicDatasource.getHost() +
-                "/" + database + "?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true", true);
+        DataSourceProperty dataSourceProperty = getDataSourceProperty(db, database, true);
         DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
         log.debug("数据源信息 - {} - {} - {}", dataSourceProperty.getUsername(), dataSourceProperty.getPassword(), database);
         ds.addDataSource(database, dataSource);
@@ -89,13 +91,19 @@ public class TenantDynamicDataSourceHandler {
     }
 
     @NotNull
-    private static DataSourceProperty getDataSourceProperty(TenantDynamicDatasource dynamicDatasource, String url, boolean lazy) {
+    private static DataSourceProperty getDataSourceProperty(TenantDynamicDatasource db, String database, boolean lazy) {
         DataSourceProperty dataSourceProperty = new DataSourceProperty();
-        dataSourceProperty.setPoolName(dynamicDatasource.getPoolName() + "_" + dynamicDatasource.getCode());
-        dataSourceProperty.setDriverClassName(dynamicDatasource.getDriverClassName());
-        dataSourceProperty.setUrl(url);
-        dataSourceProperty.setUsername(dynamicDatasource.getUsername());
-        dataSourceProperty.setPassword(dynamicDatasource.getPassword());
+        dataSourceProperty.setPoolName(String.format(TENANT_DATASOURCE_POOL, db.getTenantCode()));
+        dataSourceProperty.setDriverClassName(db.getDriverClassName());
+        if (lazy) {
+            String url = "jdbc:mysql://" + db.getHost() + "/" + database + "?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true";
+            dataSourceProperty.setUrl(url);
+        } else {
+            String url = "jdbc:mysql://" + db.getHost();
+            dataSourceProperty.setUrl(url);
+        }
+        dataSourceProperty.setUsername(db.getUsername());
+        dataSourceProperty.setPassword(db.getPassword());
         dataSourceProperty.setLazy(lazy);
         return dataSourceProperty;
     }
@@ -139,7 +147,8 @@ public class TenantDynamicDataSourceHandler {
                 final String context = StrUtil.replace(text, "${tenant_id}", String.valueOf(tenantId));
                 newSqlScript.add(context);
             }
-            FileUtil.writeLines(newSqlScript, tmpFile, "UTF-8");
+
+            FileUtil.writeLines(newSqlScript, tmpFile, StandardCharsets.UTF_8);
             scriptRunner.runScript(dataSource, tmpFile.getName());
             FileUtil.del(tmpFile);
         }
