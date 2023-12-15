@@ -25,7 +25,7 @@ import org.springframework.data.redis.core.ValueOperations;
 public class RedisWebSocketManager extends MemWebSocketManager {
 
     public static final String CHANNEL = "websocket";
-    private static final String COUNT_KEY = "RedisWebSocketManagerCountKey";
+    private static final String COUNT_KEY = "websocket:connection:count";
 
 
     @Override

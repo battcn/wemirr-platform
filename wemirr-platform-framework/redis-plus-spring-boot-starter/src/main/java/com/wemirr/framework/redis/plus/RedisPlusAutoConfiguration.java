@@ -1,5 +1,6 @@
 package com.wemirr.framework.redis.plus;
 
+import com.alibaba.fastjson2.support.spring6.data.redis.GenericFastJsonRedisSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wemirr.framework.redis.plus.interceptor.RedisLimitInterceptor;
 import com.wemirr.framework.redis.plus.interceptor.RedisLockInterceptor;
@@ -18,7 +19,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
@@ -75,23 +75,19 @@ public class RedisPlusAutoConfiguration {
     @Order(value = -1)
     @ConditionalOnBean(RedisConnectionFactory.class)
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory, ObjectMapper objectMapper) {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        // 设置连接工厂
+        redisTemplate.setConnectionFactory(connectionFactory);
         // 字符串序列化器
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         // 存入redis时序列化值的序列化器
-//        FastJsonRedisSerializer<Object> valueSerializer = new FastJsonRedisSerializer<>(Object.class);
-        // 存入redis时序列化值的序列化器
-        Jackson2JsonRedisSerializer<Object> valueSerializer = new Jackson2JsonRedisSerializer<>(objectMapper, Object.class);
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        // 设置hash格式数据值的序列化器
-        redisTemplate.setHashValueSerializer(valueSerializer);
-        // 默认的Key序列化器为：JdkSerializationRedisSerializer
+        GenericFastJsonRedisSerializer valueSerializer = new GenericFastJsonRedisSerializer();
         redisTemplate.setKeySerializer(stringRedisSerializer);
-        // 设置字符串序列化器
-        redisTemplate.setStringSerializer(stringRedisSerializer);
-        // 设置hash结构的key的序列化器
         redisTemplate.setHashKeySerializer(stringRedisSerializer);
-        // 设置连接工厂
-        redisTemplate.setConnectionFactory(connectionFactory);
+        redisTemplate.setDefaultSerializer(valueSerializer);
+        // 允许事务
+        redisTemplate.setEnableTransactionSupport(true);
+        redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
 

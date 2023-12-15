@@ -89,6 +89,7 @@ public class RedisTokenStore<V> {
      * @return ValueOperations
      */
     private ValueOperations<String, V> valueOperations() {
+        redisTemplate.setValueSerializer(RedisSerializer.java());
         return redisTemplate.opsForValue();
     }
 

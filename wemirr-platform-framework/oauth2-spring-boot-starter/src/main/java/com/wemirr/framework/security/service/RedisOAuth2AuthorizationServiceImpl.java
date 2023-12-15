@@ -1,7 +1,7 @@
 package com.wemirr.framework.security.service;
 
+import com.wemirr.framework.security.configuration.server.store.RedisTokenStore;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.lang.Nullable;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RedisOAuth2AuthorizationServiceImpl implements OAuth2AuthorizationService {
 
-    private final RedisTemplate<String, Object> tokenStore;
+    private final RedisTokenStore<OAuth2Authorization> redisTokenStore;
     private final static Long TIMEOUT = 30L;
 
 
@@ -35,23 +35,23 @@ public class RedisOAuth2AuthorizationServiceImpl implements OAuth2AuthorizationS
         Assert.notNull(authorization, "authorization cannot be null");
         if (isState(authorization)) {
             String state = authorization.getAttribute(STATE);
-            tokenStore.opsForValue().set(buildKey(OAuth2ParameterNames.STATE, state), authorization, TIMEOUT, TimeUnit.MINUTES);
+            redisTokenStore.set(buildKey(OAuth2ParameterNames.STATE, state), authorization, TIMEOUT, TimeUnit.MINUTES);
         }
         if (isCode(authorization)) {
             OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode = Objects.requireNonNull((authorization.getToken(OAuth2AuthorizationCode.class)));
             OAuth2AuthorizationCode authorizationCodeToken = authorizationCode.getToken();
             long between = ChronoUnit.MINUTES.between(Objects.requireNonNull(authorizationCodeToken.getIssuedAt()), authorizationCodeToken.getExpiresAt());
-            tokenStore.opsForValue().set(buildKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()), authorization, between, TimeUnit.MINUTES);
+            redisTokenStore.set(buildKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()), authorization, between, TimeUnit.MINUTES);
         }
         if (isRefreshToken(authorization)) {
             OAuth2RefreshToken refreshToken = Objects.requireNonNull((authorization.getRefreshToken())).getToken();
             long between = ChronoUnit.SECONDS.between(Objects.requireNonNull(refreshToken.getIssuedAt()), refreshToken.getExpiresAt());
-            tokenStore.opsForValue().set(buildKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()), authorization, between, TimeUnit.SECONDS);
+            redisTokenStore.set(buildKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()), authorization, between, TimeUnit.SECONDS);
         }
         if (isAccessToken(authorization)) {
             OAuth2AccessToken accessToken = authorization.getAccessToken().getToken();
             long between = ChronoUnit.SECONDS.between(Objects.requireNonNull(accessToken.getIssuedAt()), accessToken.getExpiresAt());
-            tokenStore.opsForValue().set(buildKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()), authorization, between, TimeUnit.SECONDS);
+            redisTokenStore.set(buildKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()), authorization, between, TimeUnit.SECONDS);
         }
     }
 
@@ -75,7 +75,7 @@ public class RedisOAuth2AuthorizationServiceImpl implements OAuth2AuthorizationS
             OAuth2AccessToken accessToken = authorization.getAccessToken().getToken();
             keys.add(buildKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()));
         }
-        tokenStore.delete(keys);
+        redisTokenStore.delete(keys);
     }
 
     private static final String AUTHORIZATION = "token";
@@ -93,7 +93,7 @@ public class RedisOAuth2AuthorizationServiceImpl implements OAuth2AuthorizationS
         Assert.hasText(token, "token cannot be empty");
         Assert.notNull(tokenType, "tokenType cannot be empty");
         String key = buildKey(tokenType.getValue(), token);
-        return (OAuth2Authorization) tokenStore.opsForValue().get(key);
+        return redisTokenStore.get(key);
     }
 
     private String buildKey(String type, String id) {

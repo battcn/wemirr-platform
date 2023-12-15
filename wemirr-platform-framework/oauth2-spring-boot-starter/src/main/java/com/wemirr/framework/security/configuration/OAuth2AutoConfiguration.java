@@ -1,10 +1,10 @@
 package com.wemirr.framework.security.configuration;
 
 import com.wemirr.framework.security.configuration.client.ResourceAuthExceptionEntryPoint;
+import com.wemirr.framework.security.configuration.server.store.RedisTokenStore;
 import com.wemirr.framework.security.service.RedisOAuth2AuthorizationServiceImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
@@ -64,7 +64,7 @@ public class OAuth2AutoConfiguration {
      */
     @Bean
     @ConditionalOnExpression("'${extend.oauth2.authorization-type}'.equalsIgnoreCase('redis')")
-    public OAuth2AuthorizationService oAuth2AuthorizationService(RedisTemplate<String, Object> redisTemplate) {
+    public OAuth2AuthorizationService oAuth2AuthorizationService(RedisTokenStore redisTemplate) {
         return new RedisOAuth2AuthorizationServiceImpl(redisTemplate);
     }
 
