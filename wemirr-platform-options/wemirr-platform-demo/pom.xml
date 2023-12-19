@@ -62,6 +62,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>robot-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

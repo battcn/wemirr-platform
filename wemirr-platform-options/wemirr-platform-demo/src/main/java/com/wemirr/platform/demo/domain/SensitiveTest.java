@@ -1,4 +1,4 @@
-package com.wemirr.platform.authority.domain.common.entity;
+package com.wemirr.platform.demo.domain;
 
 import com.wemirr.framework.boot.sensitive.Sensitive;
 import lombok.AllArgsConstructor;

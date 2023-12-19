@@ -1,13 +1,9 @@
-package com.wemirr.platform.authority.controller;
+package com.wemirr.platform.demo.controller;
 
-import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
-import com.wemirr.platform.authority.domain.common.entity.SensitiveTest;
-import com.wemirr.platform.authority.repository.baseinfo.ResourceMapper;
-import com.wemirr.platform.authority.repository.tenant.TenantConfigMapper;
+import com.wemirr.platform.demo.domain.SensitiveTest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,10 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SensitiveController {
 
-    private final ResourceMapper resourceMapper;
-    private final TenantConfigMapper tenantConfigMapper;
-    private final PasswordEncoder passwordEncoder;
-
     @GetMapping("/list")
     @IgnoreAuthorize
     public List<SensitiveTest> list() {
@@ -39,14 +31,6 @@ public class SensitiveController {
         final SensitiveTest s2 = SensitiveTest.builder().mobile("13000002222")
                 .desc("随机打码").none("不打码").username("1837307555@qq.com").build();
         return List.of(s1, s2);
-    }
-
-
-    @GetMapping("/feign_language")
-    @IgnoreAuthorize
-    public SensitiveTest language() {
-        log.info("info - {}",passwordEncoder.encode("uuid"));
-        throw CheckedException.badRequest("feign.text");
     }
 
 

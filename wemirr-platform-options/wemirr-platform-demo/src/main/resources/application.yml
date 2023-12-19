@@ -46,5 +46,13 @@ extend:
       enabled: true
       interceptor: true
     enabled: true
-
+  robot:
+    enabled: true
+    ding-talk:
+      enabled: true
+      secret: 123
+      access-token: 123
+    we-chat:
+      enabled: true
+      key: 123
 

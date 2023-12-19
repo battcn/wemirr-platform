@@ -1,7 +1,6 @@
 package com.wemirr.platform.demo.controller;
 
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.framework.db.dynamic.feign.TenantFeignClient;
 import com.wemirr.framework.i18n.annotation.I18nMethod;
 import com.wemirr.framework.redis.plus.anontation.RedisLock;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
@@ -34,7 +33,6 @@ public class DemoController {
 
     private final DemoService demoService;
     private final DemoTestFeignClient demoTestFeignClient;
-    private final TenantFeignClient tenantFeignClient;
 
     @IgnoreAuthorize
     @GetMapping("/ignore")
