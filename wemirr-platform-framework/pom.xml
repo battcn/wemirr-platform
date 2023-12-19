@@ -33,6 +33,7 @@
         <module>feign-plugin-spring-boot-starter</module>
         <module>redis-plus-spring-boot-starter</module>
         <module>i18n-spring-boot-starter</module>
+        <module>robot-spring-boot-starter</module>
     </modules>
 
     <dependencies>

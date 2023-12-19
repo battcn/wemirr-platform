@@ -28,7 +28,7 @@ public abstract class BaseWebSocketEndpoint {
 
     public void connect(String identifier, Session session) {
         try {
-            if (null == identifier || "".equals(identifier)) {
+            if (null == identifier || identifier.isEmpty()) {
                 return;
             }
             WebSocketManager websocketManager = getWebSocketManager();
