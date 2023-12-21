@@ -49,11 +49,13 @@ extend:
   robot:
     enabled: true
     ding-talk:
-      enabled: true
-      #
+      enabled: false
+      # 填写钉钉 token
       access-token: ding-talk-access-token
     we-chat:
       enabled: false
       key: 123
     fei-shu:
-      enabled: false
+      enabled: true
+      key: 飞书申请
+      secret: 飞书申请,如果不校验签名就可以不配置

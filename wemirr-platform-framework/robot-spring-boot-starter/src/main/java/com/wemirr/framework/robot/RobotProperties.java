@@ -45,6 +45,9 @@ public class RobotProperties {
          */
         private Boolean enabled = false;
 
+        /**
+         * 需要再企业微信开发者申请
+         */
         private String key;
 
     }
@@ -72,11 +75,15 @@ public class RobotProperties {
 
     @Data
     public static class FeiShu {
+
         /**
          * 是否启用
          */
         private Boolean enabled = false;
 
+        /**
+         * <a href="https://open.feishu.cn/open-apis/bot/v2/hook/后面的就是 KEY"></a>
+         */
         private String key;
 
         private String secret;
