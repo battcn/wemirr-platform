@@ -1,11 +1,8 @@
 
 package com.wemirr.framework.robot.message.push;
 
-import cn.hutool.extra.spring.SpringUtil;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.web.client.RestTemplate;
+import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson2.JSON;
 
 import java.util.Map;
 
@@ -28,10 +25,7 @@ public interface RobotMessageHandler {
 
 
     default String request(Map<String, Object> body) {
-        RestTemplate template = SpringUtil.getBean(RestTemplate.class);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        return template.postForEntity(this.getUrl(), new HttpEntity<>(body, headers), String.class).getBody();
+        return HttpUtil.post(this.getUrl(), JSON.toJSONString(body));
     }
 
 

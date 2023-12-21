@@ -29,7 +29,9 @@ public class DingTalkRobotMessageHandler implements RobotMessageHandler {
                 Map.entry("at", Map.of("isAtAll", true)),
                 Map.entry("text", Map.of("content", message))
         );
-        return this.request(body);
+        String response = this.request(body);
+        log.info("ding talk notify response - {}", response);
+        return response;
     }
 
     @Override

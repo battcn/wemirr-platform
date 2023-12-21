@@ -50,9 +50,10 @@ extend:
     enabled: true
     ding-talk:
       enabled: true
-      secret: 123
-      access-token: 123
+      #
+      access-token: ding-talk-access-token
     we-chat:
-      enabled: true
+      enabled: false
       key: 123
-
+    fei-shu:
+      enabled: false

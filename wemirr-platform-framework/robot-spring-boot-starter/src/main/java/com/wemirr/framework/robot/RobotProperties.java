@@ -15,8 +15,8 @@ public class RobotProperties {
 
     public static final String PREFIX = "extend.robot";
     public static final String WECHAT_PREFIX = PREFIX + ".we-chat";
-    public static final String DING_TALK_PREFIX = PREFIX + "ding-talk";
-    public static final String FEI_SHU_PREFIX = PREFIX + "fei-shu";
+    public static final String DING_TALK_PREFIX = PREFIX + ".ding-talk";
+    public static final String FEI_SHU_PREFIX = PREFIX + ".fei-shu";
     /**
      * 是否启用
      */
@@ -57,8 +57,15 @@ public class RobotProperties {
          */
         private Boolean enabled = false;
 
+        /**
+         * 必填
+         */
         private String accessToken;
 
+
+        /**
+         * 没有可以不填
+         */
         private String secret;
 
     }

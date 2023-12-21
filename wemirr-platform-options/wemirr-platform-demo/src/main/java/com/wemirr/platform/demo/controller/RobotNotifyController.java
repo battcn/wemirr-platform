@@ -2,6 +2,8 @@ package com.wemirr.platform.demo.controller;
 
 import com.wemirr.framework.robot.message.push.RobotMessageHandler;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,16 +19,19 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/notify")
+@RequestMapping("/robot_notify")
 @RequiredArgsConstructor
-public class NotifyController {
+@Tag(name = "机器人消息", description = "机器人消息")
+public class RobotNotifyController {
 
     private final List<RobotMessageHandler> robotMessageHandlerList;
+
     @GetMapping("/test1")
     @IgnoreAuthorize
-    public void list() {
+    @Operation(summary = "测试消息发送")
+    public void list(String message) {
         for (RobotMessageHandler handler : robotMessageHandlerList) {
-            handler.notify("测试消息");
+            handler.notify(message);
         }
     }
 
