@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.wemirr.framework.robot.RobotProperties;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import java.util.Map;
  *
  * @author Levin
  */
+@Slf4j
 @RequiredArgsConstructor
 public class FeiShuRobotMessageHandler implements RobotMessageHandler {
 
@@ -27,18 +29,22 @@ public class FeiShuRobotMessageHandler implements RobotMessageHandler {
         final String secret = robotProperties.getFeiShu().getSecret();
         final long currentTimeMillis = System.currentTimeMillis() / 1000L;
         final String stringToSign = currentTimeMillis + "\n" + secret;
-        String sign = SecureUtil.hmacSha256(stringToSign).digestBase64(StrUtil.EMPTY, true);
+        String sign = SecureUtil.hmacSha256(stringToSign).digestBase64(StrUtil.EMPTY, false);
         final Map<String, Object> body = Map.ofEntries(
                 Map.entry("timestamp", currentTimeMillis),
                 Map.entry("sign", sign),
                 Map.entry("msg_type", "text"),
                 Map.entry("content", Map.of("text", message))
         );
-        return this.request(body);
+        String response = this.request(body);
+        log.info("fei shu notify response - {}", response);
+        return response;
     }
 
     @Override
     public String getUrl() {
         return String.format(OPEN_API_URL, robotProperties.getFeiShu().getKey());
     }
+
+
 }
