@@ -79,6 +79,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     }
 
     @Override
+    @DSTransactional(rollbackFor = Exception.class)
     public void tenantConfig(TenantConfig tenantConfig) {
         final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantConfig.getTenantId()))
                 .orElseThrow(() -> CheckedException.notFound("租户不存在"));
@@ -96,10 +97,13 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         }
         // 先创建
         dynamicDatasourceService.publishEvent(EventAction.INIT, tenantConfig.getTenantId());
+        if (!tenantConfig.getLazy()) {
+            dynamicDatasourceService.publishEvent(EventAction.ADD, tenantConfig.getTenantId());
+        }
     }
 
     @Override
-    @DSTransactional
+    @DSTransactional(rollbackFor = Exception.class)
     public void initSqlScript(Long id) {
         final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("租户信息不存在"));
         if (tenant.getLocked()) {
