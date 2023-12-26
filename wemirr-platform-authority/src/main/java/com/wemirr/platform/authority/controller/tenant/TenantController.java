@@ -81,8 +81,11 @@ public class TenantController {
     @AccessLog(description = "配置租户")
     @Operation(summary = "配置租户")
     @PreAuthorize("hasAuthority('tenant:config')")
-    public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq dto) {
-        tenantService.tenantConfig(TenantConfig.builder().tenantId(id).dynamicDatasourceId(dto.getDynamicDatasourceId()).build());
+    public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq req) {
+        tenantService.tenantConfig(TenantConfig.builder().tenantId(id)
+                .description(req.getDescription()).lazy(req.isLazy())
+                .datasourceId(req.getDatasourceId())
+                .build());
     }
 
     @PutMapping("/{id}/init_sql_script")
