@@ -3,6 +3,7 @@ package com.wemirr.platform.authority.service;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.authority.domain.tenant.entity.Tenant;
 import com.wemirr.platform.authority.domain.tenant.entity.TenantConfig;
+import com.wemirr.platform.authority.domain.tenant.req.TenantConfigReq;
 
 /**
  * @author Levin
@@ -20,9 +21,10 @@ public interface TenantService extends SuperService<Tenant> {
     /**
      * 租户配置
      *
-     * @param tenantConfig 租户配置
+     * @param tenantId tenantId
+     * @param req      租户配置
      */
-    void tenantConfig(TenantConfig tenantConfig);
+    void tenantConfig(Long tenantId, TenantConfigReq req);
 
     /**
      * 初始化SQL脚本

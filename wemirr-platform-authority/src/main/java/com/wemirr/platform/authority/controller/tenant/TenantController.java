@@ -82,10 +82,7 @@ public class TenantController {
     @Operation(summary = "配置租户")
     @PreAuthorize("hasAuthority('tenant:config')")
     public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq req) {
-        tenantService.tenantConfig(TenantConfig.builder().tenantId(id)
-                .description(req.getDescription()).lazy(req.isLazy())
-                .datasourceId(req.getDatasourceId())
-                .build());
+        tenantService.tenantConfig(id, req);
     }
 
     @PutMapping("/{id}/init_sql_script")

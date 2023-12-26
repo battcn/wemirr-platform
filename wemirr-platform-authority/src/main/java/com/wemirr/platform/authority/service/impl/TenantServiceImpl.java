@@ -17,6 +17,7 @@ import com.wemirr.platform.authority.domain.baseinfo.entity.UserRole;
 import com.wemirr.platform.authority.domain.common.entity.AreaEntity;
 import com.wemirr.platform.authority.domain.tenant.entity.Tenant;
 import com.wemirr.platform.authority.domain.tenant.entity.TenantConfig;
+import com.wemirr.platform.authority.domain.tenant.req.TenantConfigReq;
 import com.wemirr.platform.authority.repository.baseinfo.OrgMapper;
 import com.wemirr.platform.authority.repository.baseinfo.RoleMapper;
 import com.wemirr.platform.authority.repository.baseinfo.UserMapper;
@@ -80,8 +81,8 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
 
     @Override
     @DSTransactional(rollbackFor = Exception.class)
-    public void tenantConfig(TenantConfig tenantConfig) {
-        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantConfig.getTenantId()))
+    public void tenantConfig(Long tenantId, TenantConfigReq req) {
+        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantId))
                 .orElseThrow(() -> CheckedException.notFound("租户不存在"));
         if (tenant.getLocked()) {
             throw CheckedException.badRequest("租户已被禁用");
@@ -89,15 +90,17 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         if (StringUtils.equals(tenant.getCode(), properties.getMultiTenant().getSuperTenantCode())) {
             throw CheckedException.badRequest("超级租户,禁止操作");
         }
-        if (tenantConfig.getId() == null) {
-            tenantConfigMapper.delete(Wraps.<TenantConfig>lbQ().eq(TenantConfig::getTenantId, tenantConfig.getTenantId()));
+        TenantConfig tenantConfig = this.tenantConfigMapper.selectOne(TenantConfig::getTenantId, tenantId);
+        if (tenantConfig == null) {
+            tenantConfig = TenantConfig.builder().tenantId(tenantId).datasourceId(req.getDatasourceId()).build();
             tenantConfigMapper.insert(tenantConfig);
         } else {
+            tenantConfig = TenantConfig.builder().id(tenantConfig.getId()).tenantId(tenantId).datasourceId(req.getDatasourceId()).build();
             tenantConfigMapper.updateById(tenantConfig);
         }
         // 先创建
         dynamicDatasourceService.publishEvent(EventAction.INIT, tenantConfig.getTenantId());
-        if (!tenantConfig.getLazy()) {
+        if (!req.isLazy()) {
             dynamicDatasourceService.publishEvent(EventAction.ADD, tenantConfig.getTenantId());
         }
     }

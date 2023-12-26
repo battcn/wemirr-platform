@@ -31,10 +31,4 @@ public class TenantConfig extends SuperEntity<Long> {
     @Schema(description = "数据源ID")
     private Long datasourceId;
 
-    @Schema(description = "配置原因")
-    private String description;
-
-    @Schema(description = "是否延迟加载")
-    private Boolean lazy;
-
 }
