@@ -999,7 +999,7 @@ DROP TABLE IF EXISTS `t_tenant_config`;
 CREATE TABLE `t_tenant_config` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `tenant_id` bigint NOT NULL COMMENT '租户ID',
-  `dynamic_datasource_id` bigint NOT NULL COMMENT '动态数据源ID',
+  `datasource_id` bigint NOT NULL COMMENT '动态数据源ID',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
   `created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
