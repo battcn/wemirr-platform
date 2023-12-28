@@ -5,9 +5,9 @@ import com.alicp.jetcache.anno.CacheInvalidate;
 import com.alicp.jetcache.anno.CacheRefresh;
 import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.anno.Cached;
+import com.wemirr.framework.commons.entity.KeyVal;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.authority.domain.common.entity.Dictionary;
-import com.wemirr.platform.authority.domain.common.entity.DictionaryItem;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -63,7 +63,7 @@ public interface DictionaryService extends SuperService<Dictionary> {
      */
     @Cached(name = SYS_DICT_CACHE_KEY_PREFIX, key = "#code", expire = 10, timeUnit = TimeUnit.MINUTES, cacheType = CacheType.LOCAL)
     @CacheRefresh(refresh = 5, timeUnit = TimeUnit.MINUTES)
-    List<DictionaryItem> findItemByCode(String code);
+    List<KeyVal> findItemByCode(String code);
 
 
 }

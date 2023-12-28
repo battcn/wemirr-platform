@@ -2,6 +2,7 @@ package com.wemirr.platform.authority.service.impl;
 
 
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.wemirr.framework.commons.entity.KeyVal;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -84,9 +85,11 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
     }
 
     @Override
-    public List<DictionaryItem> findItemByCode(String code) {
+    public List<KeyVal> findItemByCode(String code) {
         return this.dictionaryItemMapper.selectList(Wraps.<DictionaryItem>lbQ().eq(DictionaryItem::getStatus, true)
-                .eq(DictionaryItem::getDictionaryCode, code));
+                        .eq(DictionaryItem::getDictionaryCode, code))
+                .stream()
+                .map(x -> KeyVal.builder().label(x.getLabel()).value(x.getValue()).build()).toList();
     }
 
 

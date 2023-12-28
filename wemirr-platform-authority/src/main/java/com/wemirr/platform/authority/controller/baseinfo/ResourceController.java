@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
@@ -77,9 +78,9 @@ public class ResourceController {
     @GetMapping("/permissions")
     @Operation(summary = "资源码", description = "只能看到自身资源码")
     public List<String> permissions() {
-        List<VueRouter> routers = Optional.ofNullable(resourceService.findVisibleResource(ResourceQueryReq.builder()
+        final List<VueRouter> routers = Optional.ofNullable(resourceService.findVisibleResource(ResourceQueryReq.builder()
                 .userId(authenticationContext.userId()).build())).orElseGet(Lists::newArrayList);
-        return routers.stream().map(VueRouter::getPermission).collect(toList());
+        return routers.stream().map(VueRouter::getPermission).filter(StrUtil::isNotBlank).distinct().collect(toList());
     }
 
     @PostMapping

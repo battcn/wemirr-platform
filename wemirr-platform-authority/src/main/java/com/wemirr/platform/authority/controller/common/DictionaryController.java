@@ -3,9 +3,9 @@ package com.wemirr.platform.authority.controller.common;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
+import com.wemirr.framework.commons.entity.KeyVal;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.common.entity.Dictionary;
-import com.wemirr.platform.authority.domain.common.entity.DictionaryItem;
 import com.wemirr.platform.authority.domain.common.req.DictionaryPageReq;
 import com.wemirr.platform.authority.domain.common.req.DictionarySaveReq;
 import com.wemirr.platform.authority.service.DictionaryItemService;
@@ -88,7 +88,7 @@ public class DictionaryController {
     @GetMapping("/{code}/list")
     @Operation(summary = "查询字典子项 - [DONE] - [Levin]", description = "查询字典子项,缓存10分钟,每隔 5 分钟刷新一次,为了性能利用本地JVM缓存,字典过大可以采用远程缓存")
     @Parameter(name = "code", description = "编码", in = ParameterIn.PATH)
-    public List<DictionaryItem> list(@PathVariable("code") String code) {
+    public List<KeyVal> list(@PathVariable("code") String code) {
         return dictionaryService.findItemByCode(code);
     }
 }

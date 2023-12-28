@@ -8,7 +8,6 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.redis.plus.anontation.RedisLock;
 import com.wemirr.framework.redis.plus.anontation.RedisParam;
 import com.wemirr.platform.authority.domain.tenant.entity.Tenant;
-import com.wemirr.platform.authority.domain.tenant.entity.TenantConfig;
 import com.wemirr.platform.authority.domain.tenant.req.TenantConfigReq;
 import com.wemirr.platform.authority.domain.tenant.req.TenantPageReq;
 import com.wemirr.platform.authority.domain.tenant.req.TenantSaveReq;
