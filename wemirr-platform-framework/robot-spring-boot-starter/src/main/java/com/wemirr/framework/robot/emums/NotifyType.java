@@ -30,7 +30,7 @@ public enum NotifyType {
      */
     WECHAT("wechat", "微信"),
     FEI_SHU("fei-shu", "飞书"),
-    EMAIL("fei-shu", "邮箱"),
+    EMAIL("email", "邮箱"),
     ;
     @EnumValue
     @JsonValue
