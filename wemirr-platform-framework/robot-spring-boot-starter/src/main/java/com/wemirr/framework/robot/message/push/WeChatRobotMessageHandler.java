@@ -3,6 +3,7 @@ package com.wemirr.framework.robot.message.push;
 
 import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.robot.RobotProperties;
+import com.wemirr.framework.robot.emums.NotifyType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,5 +41,10 @@ public class WeChatRobotMessageHandler implements RobotMessageHandler {
     @Override
     public String getUrl() {
         return String.format(OPEN_API_URL, robotProperties.getWeChat().getKey());
+    }
+
+    @Override
+    public NotifyType notifyType() {
+        return NotifyType.WECHAT;
     }
 }

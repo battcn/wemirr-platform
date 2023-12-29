@@ -4,6 +4,7 @@ package com.wemirr.framework.robot.message.push;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.wemirr.framework.robot.RobotProperties;
+import com.wemirr.framework.robot.emums.NotifyType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,5 +50,10 @@ public class DingTalkRobotMessageHandler implements RobotMessageHandler {
         String sign = SecureUtil.hmacSha256(secret).digestHex(timestamp + "\n" + secret);
         url.append("&sign=").append(URLEncoder.encode(sign, StandardCharsets.UTF_8));
         return url.toString();
+    }
+
+    @Override
+    public NotifyType notifyType() {
+        return NotifyType.DING_TALK;
     }
 }
