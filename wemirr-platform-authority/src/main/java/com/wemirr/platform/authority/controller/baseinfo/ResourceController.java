@@ -12,6 +12,7 @@ import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Resource;
+import com.wemirr.platform.authority.domain.baseinfo.enums.ResourceType;
 import com.wemirr.platform.authority.domain.baseinfo.req.ResourceQueryReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.ResourceSaveReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.ResourcePageResp;
@@ -55,7 +56,7 @@ public class ResourceController {
     public List<Tree<Long>> router(@RequestParam(required = false, defaultValue = "false") Boolean all) {
         List<VueRouter> routers = resourceService.findVisibleResource(ResourceQueryReq.builder().userId(authenticationContext.userId()).build());
         List<TreeNode<Long>> list = routers.stream()
-                .filter(router -> all || (router.getType() != null && (router.getType() == 1 || router.getType() == 5)))
+                .filter(router -> all || (router.getType() != null && (router.getType() == ResourceType.MENU || router.getType() == ResourceType.BUILD_PUBLISH)))
                 .map(VUE_ROUTER_2_TREE_NODE_CONVERTS::convert).collect(toList());
         return TreeUtil.build(list, 0L);
     }

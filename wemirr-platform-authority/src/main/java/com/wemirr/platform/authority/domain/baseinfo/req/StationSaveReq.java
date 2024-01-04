@@ -36,7 +36,6 @@ public class StationSaveReq {
 
     /**
      * 组织ID
-     * #c_core_org
      */
     @Schema(description = "组织ID")
     @NotNull(message = "组织不能为空")

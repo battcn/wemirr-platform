@@ -32,7 +32,6 @@ public class RolePageResp {
     private Boolean locked;
     /**
      * 数据权限类型
-     * #DataScopeType
      */
     private DataScopeType scopeType;
 

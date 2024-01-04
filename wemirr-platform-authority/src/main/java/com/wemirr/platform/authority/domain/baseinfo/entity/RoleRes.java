@@ -32,7 +32,6 @@ public class RoleRes {
 
     /**
      * 角色id
-     * #t_sys_role
      */
     @Schema(description = "角色ID")
     @TableField("role_id")

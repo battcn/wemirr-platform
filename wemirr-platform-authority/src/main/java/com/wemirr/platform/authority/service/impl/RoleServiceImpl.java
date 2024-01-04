@@ -3,7 +3,6 @@ package com.wemirr.platform.authority.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
-import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.commons.security.DataResourceType;
@@ -47,7 +46,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     private final DataPermissionResourceMapper dataPermissionResourceMapper;
     private final UserRoleMapper userRoleMapper;
     private final ResourceMapper resourceMapper;
-    private final AuthenticationContext authenticationContext;
+    private final AuthenticationContext context;
 
     @Override
     public List<Role> list() {
@@ -74,17 +73,17 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
 
 
     @Override
-    public void saveRole(Long userId, RoleReq data) {
-        Role role = BeanUtil.toBean(data, Role.class);
+    public void saveRole(Long userId, RoleReq req) {
+        Role role = BeanUtil.toBean(req, Role.class);
         role.setReadonly(false);
         super.save(role);
-        saveRoleOrgDataPermission(role.getId(), data.getOrgList());
+        saveRoleOrgDataPermission(role.getId(), req.getOrgList());
     }
 
     @Override
     @DSTransactional(rollbackFor = Exception.class)
-    public void updateRole(Long roleId, Long userId, RoleReq data) {
-        Role role = BeanUtil.toBean(data, Role.class);
+    public void updateRole(Long roleId, Long userId, RoleReq req) {
+        Role role = BeanUtil.toBean(req, Role.class);
         if (role.getReadonly() != null && role.getReadonly()) {
             throw CheckedException.badRequest("内置角色无法编辑");
         }
@@ -93,7 +92,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         }
         role.setId(roleId);
         this.baseMapper.updateById(role);
-        saveRoleOrgDataPermission(role.getId(), data.getOrgList());
+        saveRoleOrgDataPermission(role.getId(), req.getOrgList());
     }
 
     @Override
@@ -124,9 +123,9 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     @Override
     public RolePermissionResp findRolePermissionById(Long roleId) {
         final List<VueRouter> buttons = resourceMapper.findVisibleResource(ResourceQueryReq.builder()
-                .userId(authenticationContext.userId()).build());
-        final List<Long> roleRes = Optional.of(this.roleResMapper.selectList(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, roleId)))
-                .orElse(Lists.newArrayList()).stream().map(RoleRes::getResId).collect(toList());
+                .userId(context.userId()).build());
+        final List<Long> roleRes = Optional.of(this.roleResMapper.selectList(RoleRes::getRoleId, roleId))
+                .orElseGet(List::of).stream().map(RoleRes::getResId).toList();
         return RolePermissionResp.builder().resIdList(roleRes).buttons(buttons).build();
     }
 }

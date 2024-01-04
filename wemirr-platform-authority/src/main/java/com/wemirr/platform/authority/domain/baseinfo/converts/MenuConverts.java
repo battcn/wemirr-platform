@@ -38,7 +38,7 @@ public class MenuConverts {
             extra.put("icon", route.getIcon());
             extra.put("permission", route.getPermission());
             extra.put("sequence", route.getSequence());
-            extra.put("type", route.getType());
+            extra.put("type", route.getType().getValue());
             extra.put("model", route.getModel());
             extra.put("status", route.getStatus());
             extra.put("global", route.getGlobal());

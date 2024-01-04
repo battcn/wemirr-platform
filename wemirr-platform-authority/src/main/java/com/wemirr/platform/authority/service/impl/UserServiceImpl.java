@@ -41,13 +41,13 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
 
     @Override
-    public void addUser(UserSaveReq dto) {
-        final long count = super.count(Wraps.<User>lbQ().eq(User::getUsername, dto.getUsername()));
+    public void addUser(UserSaveReq req) {
+        final long count = super.count(Wraps.<User>lbQ().eq(User::getUsername, req.getUsername()));
         if (count > 0) {
             throw CheckedException.badRequest("账号已存在");
         }
-        final User user = BeanUtil.toBean(dto, User.class);
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        final User user = BeanUtil.toBean(req, User.class);
+        user.setPassword(passwordEncoder.encode(req.getPassword()));
         user.setTenantId(authenticationContext.tenantId());
         super.save(user);
     }

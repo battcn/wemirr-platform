@@ -23,9 +23,9 @@ public interface UserService extends SuperService<User> {
     /**
      * 添加用户
      *
-     * @param dto 用户信息
+     * @param req 用户信息
      */
-    void addUser(UserSaveReq dto);
+    void addUser(UserSaveReq req);
 
 
     /**

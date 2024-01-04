@@ -22,8 +22,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
-
 /**
  * <p>
  * 业务实现类
@@ -55,15 +53,10 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
 
 
     @Override
-    public boolean saveUserRole(UserRoleSaveReq userRole) {
-        userRoleService.remove(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, userRole.getRoleId()));
-        List<UserRole> list = userRole.getUserIdList()
-                .stream()
-                .map((userId) -> UserRole.builder()
-                        .userId(userId)
-                        .roleId(userRole.getRoleId())
-                        .build())
-                .collect(Collectors.toList());
+    public boolean saveUserRole(UserRoleSaveReq req) {
+        userRoleService.remove(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, req.getRoleId()));
+        List<UserRole> list = req.getUserIdList().stream()
+                .map((userId) -> UserRole.builder().userId(userId).roleId(req.getRoleId()).build()).toList();
         userRoleService.saveBatch(list);
         return true;
     }
@@ -83,7 +76,7 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
         }
         final List<RoleRes> roleRes = set.stream().filter(Objects::nonNull)
                 .map(resId -> RoleRes.builder().resId(resId).roleId(roleId).build())
-                .collect(toList());
+                .toList();
         super.insertBatch(roleRes);
     }
 }

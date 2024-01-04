@@ -82,7 +82,6 @@ public class User extends SuperEntity<Long> {
 
     /**
      * 性别
-     * #Sex{W:女;M:男;N:未知}
      */
     @TableField(value = "sex")
     @Schema(description = "性别")

@@ -20,18 +20,17 @@ public interface RoleResService extends SuperService<RoleRes> {
     /**
      * 给用户分配角色
      *
-     * @param userRole userRole
+     * @param req req
      * @return 保存结果
      */
-    boolean saveUserRole(UserRoleSaveReq userRole);
+    boolean saveUserRole(UserRoleSaveReq req);
 
     /**
      * 给角色重新分配 权限（资源/菜单）
      *
-     * @param roleResSaveReq
-     * @return
+     * @param req req
      */
-    void saveRoleAuthority(RoleResSaveReq roleResSaveReq);
+    void saveRoleAuthority(RoleResSaveReq req);
 
     /**
      * 根据角色id查询资源

@@ -28,7 +28,6 @@ public class RoleResSaveReq implements Serializable {
 
     /**
      * 角色id
-     * #c_auth_role
      */
     @Schema(description = "角色id")
     @NotNull(message = "角色不能为空")

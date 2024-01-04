@@ -12,7 +12,7 @@ public interface OptLogService extends SuperService<OptLog> {
     /**
      * 保存操作日志
      *
-     * @param dto dto
+     * @param logInfo logInfo
      */
-    void listener(AccessLogInfo dto);
+    void listener(AccessLogInfo logInfo);
 }

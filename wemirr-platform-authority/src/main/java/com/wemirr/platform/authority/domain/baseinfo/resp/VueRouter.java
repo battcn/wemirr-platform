@@ -1,5 +1,6 @@
 package com.wemirr.platform.authority.domain.baseinfo.resp;
 
+import com.wemirr.platform.authority.domain.baseinfo.enums.ResourceType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -37,7 +38,7 @@ public class VueRouter {
     @Schema(description = "排序")
     private Integer sequence;
     @Schema(description = "类型（1=菜单;2=按钮;3=路由;5=一键发布模板）")
-    private Integer type;
+    private ResourceType type;
 
     private Boolean global;
     private Boolean status;

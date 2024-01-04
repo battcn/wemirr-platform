@@ -27,7 +27,6 @@ public class ResourcePageResp {
 
     /**
      * 菜单ID
-     * #c_auth_menu
      */
     private Long parentId;
 

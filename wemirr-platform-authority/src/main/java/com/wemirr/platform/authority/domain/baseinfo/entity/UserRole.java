@@ -29,7 +29,6 @@ public class UserRole {
 
     /**
      * 角色ID
-     * #c_auth_role
      */
     @Schema(description = "角色ID")
     @NotNull(message = "角色ID不能为空")
@@ -38,7 +37,6 @@ public class UserRole {
 
     /**
      * 用户ID
-     * #c_core_accou
      */
     @Schema(description = "用户ID")
     @NotNull(message = "用户ID不能为空")

@@ -30,14 +30,12 @@ public class RoleResResp implements Serializable {
 
     /**
      * 菜单ID
-     * #c_auth_menu
      */
     @Schema(description = "菜单ID")
     private List<Long> menuIdList;
 
     /**
      * 资源id
-     * #c_auth_resource
      */
     @Schema(description = "资源ID")
     private List<Long> resourceIdList;

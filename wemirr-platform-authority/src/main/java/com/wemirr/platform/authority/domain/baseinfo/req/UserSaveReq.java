@@ -45,13 +45,11 @@ public class UserSaveReq {
     private String nickName;
     /**
      * 组织ID
-     * #c_core_org
      */
     @Schema(description = "组织ID")
     private Long orgId;
     /**
      * 岗位ID
-     * #c_core_station
      */
     @Schema(description = "岗位ID")
     private Long stationId;
@@ -71,7 +69,6 @@ public class UserSaveReq {
     private String mobile;
     /**
      * 性别
-     * #Sex{W:女;M:男;N:未知}
      */
     @NotNull(message = "性别不能为空")
     @Schema(description = "性别")

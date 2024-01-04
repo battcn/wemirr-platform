@@ -38,19 +38,19 @@ public interface RoleService extends SuperService<Role> {
      * 1，保存角色
      * 2，保存 与组织的关系
      *
-     * @param data   data
+     * @param req    req
      * @param userId 用户id
      */
-    void saveRole(Long userId, RoleReq data);
+    void saveRole(Long userId, RoleReq req);
 
     /**
      * 修改角色
      *
-     * @param role   role
+     * @param req    req
      * @param userId userId
      * @param roleId 角色ID
      */
-    void updateRole(Long roleId, Long userId, RoleReq role);
+    void updateRole(Long roleId, Long userId, RoleReq req);
 
 
     /**

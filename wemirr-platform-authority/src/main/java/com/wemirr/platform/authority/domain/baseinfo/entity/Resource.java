@@ -54,7 +54,6 @@ public class Resource extends SuperEntity<Long> {
 
     /**
      * 菜单ID
-     * #c_auth_menu
      */
     @Schema(description = "菜单ID")
     private Long parentId;
