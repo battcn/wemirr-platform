@@ -1,4 +1,4 @@
-package com.wemirr.platform.gateway.config;
+package com.wemirr.platform.gateway.configuration;
 
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.context.annotation.Bean;

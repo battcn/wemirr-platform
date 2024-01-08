@@ -1,8 +1,8 @@
-package com.wemirr.platform.gateway.config;
+package com.wemirr.platform.gateway.configuration;
 
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.platform.gateway.config.rule.BlacklistHelper;
+import com.wemirr.platform.gateway.configuration.rule.BlacklistHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;

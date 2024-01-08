@@ -1,4 +1,4 @@
-package com.wemirr.platform.gateway.config.dynamic;
+package com.wemirr.platform.gateway.configuration.dynamic;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

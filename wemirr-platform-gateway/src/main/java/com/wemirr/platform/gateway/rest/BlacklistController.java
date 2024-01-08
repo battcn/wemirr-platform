@@ -1,7 +1,7 @@
 package com.wemirr.platform.gateway.rest;
 
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.platform.gateway.config.rule.BlacklistHelper;
+import com.wemirr.platform.gateway.configuration.rule.BlacklistHelper;
 import com.wemirr.platform.gateway.rest.domain.BlacklistRule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

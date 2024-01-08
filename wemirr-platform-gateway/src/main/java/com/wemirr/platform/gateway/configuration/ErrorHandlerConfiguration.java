@@ -1,7 +1,7 @@
-package com.wemirr.platform.gateway.config;
+package com.wemirr.platform.gateway.configuration;
 
 
-import com.wemirr.platform.gateway.config.rule.BlacklistHelper;
+import com.wemirr.platform.gateway.configuration.rule.BlacklistHelper;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.autoconfigure.web.WebProperties;

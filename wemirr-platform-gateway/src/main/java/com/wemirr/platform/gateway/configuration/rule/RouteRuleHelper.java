@@ -1,4 +1,4 @@
-package com.wemirr.platform.gateway.config.rule;
+package com.wemirr.platform.gateway.configuration.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.URLUtil;
@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.wemirr.platform.gateway.config.rule.GatewayRule.Constants.GATEWAY_RULE_ROUTE;
+import static com.wemirr.platform.gateway.configuration.rule.GatewayRule.Constants.GATEWAY_RULE_ROUTE;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 

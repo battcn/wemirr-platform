@@ -1,4 +1,4 @@
-package com.wemirr.platform.gateway.config.rule;
+package com.wemirr.platform.gateway.configuration.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
@@ -19,9 +19,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.wemirr.platform.gateway.config.rule.GatewayRule.Constants.DEFAULT_RULE_LIMIT_TOTAL;
-import static com.wemirr.platform.gateway.config.rule.GatewayRule.Constants.GLOBAL_RANGE;
-import static com.wemirr.platform.gateway.config.rule.GatewayRule.GatewayRuleEnum.RULE_LIMIT;
+import static com.wemirr.platform.gateway.configuration.rule.GatewayRule.Constants.DEFAULT_RULE_LIMIT_TOTAL;
+import static com.wemirr.platform.gateway.configuration.rule.GatewayRule.Constants.GLOBAL_RANGE;
+import static com.wemirr.platform.gateway.configuration.rule.GatewayRule.GatewayRuleEnum.RULE_LIMIT;
 
 
 /**

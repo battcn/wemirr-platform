@@ -1,4 +1,4 @@
-package com.wemirr.platform.gateway.config.rule;
+package com.wemirr.platform.gateway.configuration.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson2.JSON;

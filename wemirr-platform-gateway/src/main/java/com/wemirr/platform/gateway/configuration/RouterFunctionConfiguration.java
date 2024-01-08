@@ -1,4 +1,4 @@
-package com.wemirr.platform.gateway.config;
+package com.wemirr.platform.gateway.configuration;
 
 import com.wemirr.platform.gateway.handler.ExceptionFallbackHandler;
 import lombok.AllArgsConstructor;

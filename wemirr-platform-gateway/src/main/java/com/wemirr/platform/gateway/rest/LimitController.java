@@ -3,7 +3,7 @@ package com.wemirr.platform.gateway.rest;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.platform.gateway.config.rule.LimitHelper;
+import com.wemirr.platform.gateway.configuration.rule.LimitHelper;
 import com.wemirr.platform.gateway.rest.domain.LimitRule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

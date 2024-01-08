@@ -1,4 +1,4 @@
-package com.wemirr.platform.gateway.config.rule;
+package com.wemirr.platform.gateway.configuration.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson2.JSON;
@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.wemirr.platform.gateway.config.rule.GatewayRule.GatewayRuleEnum.RULE_BLACKLIST;
+import static com.wemirr.platform.gateway.configuration.rule.GatewayRule.GatewayRuleEnum.RULE_BLACKLIST;
 
 
 /**
