@@ -23,12 +23,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
 /**
  * @author Levin
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
 @TableName("gen_dynamic_release_grid")
 public class DynamicReleaseGrid extends SuperEntity<Long> {
     
