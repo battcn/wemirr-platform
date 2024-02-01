@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.security.configuration.server.third;
 
 import com.wemirr.framework.security.domain.OAuth2ThirdAccount;
@@ -19,14 +37,14 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class Oauth2UserConverterContext {
-
+    
     /**
      * 注入所有实例，map的key是实例在ioc中的名字
      * 这里通过构造器注入所有Oauth2UserConverterStrategy的实例，实例名之前在编写时已经通过
      * {@link Component }注解指定过bean的名字，可以根据给定bean名称从map中获取对应的实例(如果存在)
      */
     private final Map<String, Oauth2UserConverter> userConverterStrategyMap;
-
+    
     /**
      * 获取转换器实例
      *
@@ -43,7 +61,7 @@ public class Oauth2UserConverterContext {
         }
         return userConverterStrategy;
     }
-
+    
     /**
      * 根据登录方式获取转换器实例，使用转换器获取用户信息
      *
@@ -69,5 +87,5 @@ public class Oauth2UserConverterContext {
         }
         return oauth2ThirdAccount;
     }
-
+    
 }

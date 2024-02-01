@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.security.configuration;
 
 import com.wemirr.framework.security.configuration.client.ResourceAuthExceptionEntryPoint;
@@ -19,14 +37,13 @@ import org.springframework.security.web.AuthenticationEntryPoint;
  */
 @SuppressWarnings("ALL")
 public class OAuth2AutoConfiguration {
-
+    
     @Bean
     @ConditionalOnExpression("'${extend.oauth2.server.registered-client}'.equalsIgnoreCase('jdbc')")
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
         return new JdbcRegisteredClientRepository(jdbcTemplate);
     }
-
-
+    
     /**
      * 配置基于db的授权确认管理服务
      *
@@ -42,7 +59,7 @@ public class OAuth2AutoConfiguration {
         // 基于分布式内存服务实现 RedisOAuth2AuthorizationConsentService - [暂未实现]
         return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository);
     }
-
+    
     /**
      * 配置基于db的oauth2的授权管理服务
      *
@@ -55,7 +72,7 @@ public class OAuth2AutoConfiguration {
     public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
         return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
     }
-
+    
     /**
      * 配置基于db的oauth2的授权管理服务
      *
@@ -67,11 +84,10 @@ public class OAuth2AutoConfiguration {
     public OAuth2AuthorizationService oAuth2AuthorizationService(RedisTokenStore redisTemplate) {
         return new RedisOAuth2AuthorizationServiceImpl(redisTemplate);
     }
-
-
+    
     @Bean
     public AuthenticationEntryPoint resourceAuthExceptionEntryPoint() {
         return new ResourceAuthExceptionEntryPoint();
     }
-
+    
 }

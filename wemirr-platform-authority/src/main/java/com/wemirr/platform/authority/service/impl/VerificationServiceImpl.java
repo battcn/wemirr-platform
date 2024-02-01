@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.captcha.CaptchaUtil;
@@ -22,11 +40,10 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class VerificationServiceImpl implements VerificationService {
-
+    
     private final StringRedisTemplate stringRedisTemplate;
     private static final String CAPTCHA_KEY_PREFIX = "captcha:prefix:%s";
-
-
+    
     @SneakyThrows
     @Override
     public CircleCaptcha create(String key, Integer width, Integer height) {
@@ -39,7 +56,7 @@ public class VerificationServiceImpl implements VerificationService {
         log.debug("验证码结果 - {}", captcha.getCode());
         return captcha;
     }
-
+    
     @Override
     public Result<Boolean> valid(String key, String value) {
         if (StringUtils.isBlank(value)) {
@@ -55,7 +72,7 @@ public class VerificationServiceImpl implements VerificationService {
         stringRedisTemplate.delete(geyKey(key));
         return Result.success();
     }
-
+    
     private String geyKey(String key) {
         return String.format(CAPTCHA_KEY_PREFIX, key);
     }

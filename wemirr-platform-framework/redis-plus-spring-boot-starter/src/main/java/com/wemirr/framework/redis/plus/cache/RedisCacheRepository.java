@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.redis.plus.cache;
 
 import cn.hutool.core.util.StrUtil;
@@ -31,7 +49,7 @@ import java.util.concurrent.Callable;
 @EqualsAndHashCode(callSuper = false)
 @SuppressWarnings("unchecked")
 public class RedisCacheRepository implements Cache {
-
+    
     /**
      * 某项缓存是否开启,默认开启
      */
@@ -41,35 +59,35 @@ public class RedisCacheRepository implements Cache {
      * 缓存固定名称
      */
     private String name;
-
+    
     /**
      * 缓存存活时间,默认24小时
      */
     @Builder.Default
     private long timeout = 60 * 60 * 24;
-
+    
     /**
      * 单项最终缓存前缀
      */
     private String keyPrefix;
-
+    
     private RedisTemplate<String, Object> redisTemplate;
-
+    
     private RedisConnectionFactory connectionFactory;
-
+    
     @Override
     @NonNull
     public String getName() {
         return this.name;
     }
-
+    
     @Override
     @NonNull
     public Object getNativeCache() {
         final Cache cache = RedisCacheManager.create(connectionFactory).getCache(name);
         return Optional.ofNullable(cache).orElseThrow(() -> new IllegalArgumentException("cache must not be null!"));
     }
-
+    
     /**
      * 获取缓存数据
      *
@@ -89,7 +107,7 @@ public class RedisCacheRepository implements Cache {
         });
         return (object != null ? new SimpleValueWrapper(object) : null);
     }
-
+    
     /**
      * 方法结果存入缓存
      *
@@ -113,7 +131,7 @@ public class RedisCacheRepository implements Cache {
             return 1L;
         });
     }
-
+    
     /**
      * 清除
      */
@@ -123,7 +141,7 @@ public class RedisCacheRepository implements Cache {
             redisTemplate.delete(getUkPrefix(key.toString()));
         }
     }
-
+    
     /**
      * 清除的时候，只会清除缓存名称为name前缀的缓存
      */
@@ -140,7 +158,7 @@ public class RedisCacheRepository implements Cache {
         }
         redisTemplate.delete(keys);
     }
-
+    
     /**
      * 从缓存获取参数
      *
@@ -163,7 +181,7 @@ public class RedisCacheRepository implements Cache {
         }
         return isEmpty(object) ? null : (T) object;
     }
-
+    
     /**
      * 从缓存获取参数
      *
@@ -185,7 +203,7 @@ public class RedisCacheRepository implements Cache {
         }
         return (T) object;
     }
-
+    
     /**
      * 自动将指定值在缓存中指定的键是否已经设置
      */
@@ -202,21 +220,21 @@ public class RedisCacheRepository implements Cache {
             return vw;
         }
     }
-
+    
     /**
      * 保证生成的key唯一前缀
      */
     private String getUkPrefix(String key) {
         return key.startsWith(keyPrefix + "_fn_" + name + "_") ? key : (keyPrefix + "_fn_" + name + "_" + key);
     }
-
+    
     /**
      * 判断对象是否为空
      */
     private boolean isEmpty(Object obj) {
         return obj == null || StrUtil.isBlank(obj.toString());
     }
-
+    
     /**
      * 对象转换字节流
      *
@@ -238,7 +256,7 @@ public class RedisCacheRepository implements Cache {
         }
         return bytes;
     }
-
+    
     /**
      * 字节流转换对象
      *
@@ -258,5 +276,5 @@ public class RedisCacheRepository implements Cache {
         }
         return obj;
     }
-
+    
 }

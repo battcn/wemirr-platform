@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -32,14 +50,13 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implements UserService {
-
+    
     private final UserMapper userMapper;
     private final UserRoleMapper userRoleMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationContext authenticationContext;
     private final OrgService orgService;
-
-
+    
     @Override
     public void addUser(UserSaveReq req) {
         final long count = super.count(Wraps.<User>lbQ().eq(User::getUsername, req.getUsername()));
@@ -51,12 +68,12 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         user.setTenantId(authenticationContext.tenantId());
         super.save(user);
     }
-
+    
     @Override
     public List<User> list() {
         return baseMapper.list();
     }
-
+    
     @Override
     public IPage<UserResp> pageList(UserPageReq req) {
         return baseMapper.findPage(req.buildPage(), Wraps.<User>lbQ()
@@ -70,7 +87,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
                 .in(User::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
                 .eq(User::getMobile, req.getMobile()));
     }
-
+    
     @Override
     public void changePassword(Long userId, String orgPassword, String newPassword) {
         final User user = Optional.ofNullable(this.baseMapper.selectById(userId)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
@@ -82,7 +99,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         record.setPassword(passwordEncoder.encode(newPassword));
         this.userMapper.updateById(record);
     }
-
+    
     @Override
     @DSTransactional
     public void deleteById(Long id) {
@@ -93,7 +110,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         baseMapper.deleteById(id);
         userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getUserId, id));
     }
-
+    
     @Override
     public void changeInfo(ChangeUserInfoReq req) {
         final Long userId = authenticationContext.userId();

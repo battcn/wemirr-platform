@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.i18n.configuration;
-
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
@@ -20,24 +37,23 @@ import org.springframework.data.redis.core.RedisTemplate;
 import java.time.Duration;
 import java.util.List;
 
-
 /**
  * @author Levin
  **/
 @Order
 @Configuration
 public class I18nConfiguration {
-
+    
     @Bean
     public MessageSourceProperties properties() {
         return new MessageSourceProperties();
     }
-
+    
     @Bean
     public DynamicMessageSource dynamicMessageSource(RedisTemplate<String, Object> redisTemplate) {
         return new DynamicMessageSource(redisTemplate);
     }
-
+    
     /**
      * 系统国际化文件配置
      *
@@ -65,27 +81,26 @@ public class I18nConfiguration {
         messageSource.setBasenames(ArrayUtil.toArray(baseNames, String.class));
         return messageSource;
     }
-
+    
     @Bean
     public MessageSourceHierarchicalChanger messageSourceHierarchicalChanger() {
         return new MessageSourceHierarchicalChanger();
     }
-
+    
     @Bean
     @Order
     public I18nRedisTemplate i18nPublishTemplate(RedisTemplate<String, Object> redisTemplate) {
         return new I18nRedisTemplate(redisTemplate);
     }
-
+    
     @Bean
     public I18nMessageResource i18nMessageResource(MessageSource messageSource) {
         return new I18nMessageResource(messageSource);
     }
-
+    
     @Bean
     public I18nAspect i18nAspect(I18nMessageResource messageSource) {
         return new I18nAspect(messageSource);
     }
-
-
+    
 }

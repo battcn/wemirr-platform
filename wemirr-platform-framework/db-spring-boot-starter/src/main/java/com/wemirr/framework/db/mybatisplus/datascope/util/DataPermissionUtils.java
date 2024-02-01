@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.db.mybatisplus.datascope.util;
-
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
@@ -38,11 +55,11 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public final class DataPermissionUtils {
-
+    
     private DataPermissionUtils() {
-
+        
     }
-
+    
     /**
      * 使用指定的数据权限执行任务
      *
@@ -53,7 +70,7 @@ public final class DataPermissionUtils {
         DataPermissionRule rule = DataPermissionRule.builder().columns(List.of(new DataPermissionRule.Column())).build();
         return executeWithDataPermissionRule(rule, supplier);
     }
-
+    
     /**
      * 使用指定的数据权限执行任务
      *
@@ -68,12 +85,12 @@ public final class DataPermissionUtils {
             DataPermissionRuleHolder.poll();
         }
     }
-
+    
     /**
      * 数据权限本地缓存,减少解析耗时 越用越流畅 遥遥领先
      */
     private static final Map<String, DataPermissionRule> DATA_SCOPE_CACHE = Maps.newConcurrentMap();
-
+    
     @SneakyThrows
     public static DataPermissionRule getDataPermissionRuleByMappedStatementId(String mappedStatementId) {
         if (DATA_SCOPE_CACHE.containsKey(mappedStatementId)) {
@@ -94,17 +111,18 @@ public final class DataPermissionUtils {
         }
         return null;
     }
-
+    
     private static DataPermissionRule buildPermissionRule(DataScope scope) {
         if (scope == null) {
             return null;
         }
         final List<DataPermissionRule.Column> columns = Arrays.stream(scope.columns())
                 .map(column -> DataPermissionRule.Column.builder().alias(column.alias()).name(column.name())
-                        .resource(column.resource()).javaClass(column.javaClass()).build()).toList();
+                        .resource(column.resource()).javaClass(column.javaClass()).build())
+                .toList();
         return DataPermissionRule.builder().ignore(scope.ignore()).columns(columns).build();
     }
-
+    
     public static List<Expression> buildConditions(AuthenticationContext context, final Table table, final List<DataPermissionRule.Column> columns) {
         final DataPermission permission = context.dataPermission();
         final Map<DataResourceType, List<Object>> dataPermissionMap = permission.getDataPermissionMap();
@@ -135,11 +153,11 @@ public final class DataPermissionUtils {
         }
         return conditions;
     }
-
+    
     private static String getMethodName(String mappedStatementId) {
         return mappedStatementId.substring(mappedStatementId.lastIndexOf(".") + 1);
     }
-
+    
     /**
      * 获取 ItemsList
      *
@@ -163,6 +181,5 @@ public final class DataPermissionUtils {
         }
         return itemsList;
     }
-
-
+    
 }

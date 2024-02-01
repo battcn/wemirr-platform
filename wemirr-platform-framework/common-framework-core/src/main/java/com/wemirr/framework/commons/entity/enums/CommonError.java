@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.commons.entity.enums;
-
 
 import lombok.AllArgsConstructor;
 
@@ -11,7 +28,7 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public enum CommonError implements IntEnum {
-
+    
     /**
      * 请求成功
      */
@@ -24,7 +41,7 @@ public enum CommonError implements IntEnum {
     DB_STORAGE_FAIL(206, "数据存储失败"),
     REMOTE_CALL_FAIL(207, "远程调用服务失败"),
     DATA_DUPLICATION(208, "第三方数据格式错误"),
-
+    
     THIRD_DATA_ERROR(210, "已存在重复的数据"),
     UNAUTHORIZED(401, "账户无权限, 无法操作，请联系管理员!"),
     ACCOUNT_DISABLE(402, "账户被禁用，登录失败，请联系管理员!"),
@@ -34,9 +51,9 @@ public enum CommonError implements IntEnum {
     ACCOUNT_UNBOUND(406, "该微信账号还未绑定手机号码"),
     ACCOUNT_NOT_FIND(407, "该账号不存在，请检查输入!"),
     UNKNOWN_ERROR(500, "未知错误"),
-
+    
     DATA_EXISTS(1000, "数据 %s 已存在"),
-
+    
     /**
      * 请求本系统类错误1001~2999
      * 请求标识类错误1001~1999
@@ -54,53 +71,48 @@ public enum CommonError implements IntEnum {
     REQUEST_APP_KEY_INVALID(1005, "非法appKey"),
     REQUEST_TOKEN_FAIL(1006, "TOKEN错误"),
     REQUEST_SERVICE_ERROR(1007, "业务异常【%s】"),
-
-
+    
     ORDER_NOT_FOUND(1008, "行【%s】缺少客户订单号"),
     API_PARAM_CUSTOMER_REPEAT(1009, "客户订单号【%s】重复"),
-
+    
     // TODO 需要修改
     REQUEST_INVALIDATE(1014, "请求参数不正确"),
     REQUEST_SIGN_ERROR(1015, "签名失败"),
     REQUEST_ASYNC_CALLBACK_NOT_NULL(1016, "异步请求时，回调地址不能为空"),
     REQUEST_PARAM_ERROR(1018, "请求参数验证失败"),
     REQUEST_CONFIG_LOCKED(1019, "该配置已被禁用"),
-
-
+    
     USER_NOT_FOUND(1501, "用户不存在"),
     ACCESS_DENIED(1101, "访问受限，您的权限不足"),
-
-
+    
     API_NOT_OPENED(5000, "平台API未对接完成"),
-
+    
     API_ERROR(2001, "API返回错误"),
     API_RETURN_ERROR(2002, "错误信息：【%s】"),
-
-
+    
     INTERNAL_ERROR(9000, "其他错误"),
     NETWORK_ERROR(9001, "网络错误"),
     ENCODE_ERROR(9003, "编码错误"),
     API_BODY_NOT_SUPPORT(9002, "内容格式不正确"),
     LBS_RESOLVE_FAILURE(9004, "地址解析失败"),
     INNER_SERVICE_ERROR(9005, "内部服务响应失败"),
-
+    
     TOO_MANY_REQUESTS(9005, "访问受限,超出最大访问次数"),
-
+    
     ;
-
+    
     private final Integer type;
-
+    
     private final String desc;
-
-
+    
     @Override
     public Integer type() {
         return type;
     }
-
+    
     @Override
     public String desc() {
         return desc;
     }
-
+    
 }

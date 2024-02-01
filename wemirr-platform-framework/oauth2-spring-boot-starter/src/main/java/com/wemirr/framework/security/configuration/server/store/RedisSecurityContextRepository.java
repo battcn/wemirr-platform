@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.security.configuration.server.store;
 
 import com.wemirr.framework.security.constant.SecurityConstants;
@@ -19,25 +37,24 @@ import org.springframework.util.ObjectUtils;
  */
 @RequiredArgsConstructor
 public class RedisSecurityContextRepository implements SecurityContextRepository {
-
+    
     private final RedisTokenStore<SecurityContext> redisTokenStore;
-
+    
     private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
-
-
+    
     @Override
     @Deprecated
     public SecurityContext loadContext(HttpRequestResponseHolder requestResponseHolder) {
         return readSecurityContextFromRedis(requestResponseHolder.getRequest());
     }
-
+    
     @Override
     public void saveContext(SecurityContext context, HttpServletRequest request, HttpServletResponse response) {
         String nonce = getNonce(request);
         if (ObjectUtils.isEmpty(nonce)) {
             return;
         }
-
+        
         // 如果当前的context是空的，则移除
         SecurityContext emptyContext = this.securityContextHolderStrategy.createEmptyContext();
         if (emptyContext.equals(context)) {
@@ -47,7 +64,7 @@ public class RedisSecurityContextRepository implements SecurityContextRepository
             redisTokenStore.set((SecurityConstants.RedisConstants.SECURITY_CONTEXT_PREFIX_KEY + nonce), context, SecurityConstants.RedisConstants.DEFAULT_TIMEOUT_SECONDS);
         }
     }
-
+    
     @Override
     public boolean containsContext(HttpServletRequest request) {
         String nonce = getNonce(request);
@@ -57,7 +74,7 @@ public class RedisSecurityContextRepository implements SecurityContextRepository
         // 检验当前请求是否有认证信息
         return redisTokenStore.get((SecurityConstants.RedisConstants.SECURITY_CONTEXT_PREFIX_KEY + nonce)) != null;
     }
-
+    
     /**
      * 从redis中获取认证信息
      *
@@ -68,7 +85,7 @@ public class RedisSecurityContextRepository implements SecurityContextRepository
         if (request == null) {
             return null;
         }
-
+        
         String nonce = getNonce(request);
         if (ObjectUtils.isEmpty(nonce)) {
             return null;
@@ -76,7 +93,7 @@ public class RedisSecurityContextRepository implements SecurityContextRepository
         // 根据缓存id获取认证信息
         return redisTokenStore.get((SecurityConstants.RedisConstants.SECURITY_CONTEXT_PREFIX_KEY + nonce));
     }
-
+    
     /**
      * 先从请求头中找，找不到去请求参数中找，找不到获取当前session的id
      * 2023-07-11新增逻辑：获取当前session的sessionId
@@ -95,5 +112,5 @@ public class RedisSecurityContextRepository implements SecurityContextRepository
         }
         return nonce;
     }
-
+    
 }

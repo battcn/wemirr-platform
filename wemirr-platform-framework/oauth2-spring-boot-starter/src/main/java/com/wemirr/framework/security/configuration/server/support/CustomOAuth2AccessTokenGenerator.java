@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.security.configuration.server.support;
 
 import cn.hutool.core.util.IdUtil;
@@ -23,9 +41,9 @@ import java.util.Set;
  */
 @SuppressWarnings("ALL")
 public class CustomOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OAuth2AccessToken> {
-
+    
     private OAuth2TokenCustomizer<OAuth2TokenClaimsContext> accessTokenCustomizer;
-
+    
     @Nullable
     @Override
     public OAuth2AccessToken generate(OAuth2TokenContext context) {
@@ -33,16 +51,16 @@ public class CustomOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OA
                 || !OAuth2TokenFormat.REFERENCE.equals(context.getRegisteredClient().getTokenSettings().getAccessTokenFormat())) {
             return null;
         }
-
+        
         String issuer = null;
         if (context.getAuthorizationServerContext() != null) {
             issuer = context.getAuthorizationServerContext().getIssuer();
         }
         RegisteredClient registeredClient = context.getRegisteredClient();
-
+        
         Instant issuedAt = Instant.now();
         Instant expiresAt = issuedAt.plus(registeredClient.getTokenSettings().getAccessTokenTimeToLive());
-
+        
         OAuth2TokenClaimsSet.Builder claimsBuilder = OAuth2TokenClaimsSet.builder();
         if (StringUtils.hasText(issuer)) {
             claimsBuilder.issuer(issuer);
@@ -57,7 +75,7 @@ public class CustomOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OA
         if (!CollectionUtils.isEmpty(context.getAuthorizedScopes())) {
             claimsBuilder.claim(OAuth2ParameterNames.SCOPE, context.getAuthorizedScopes());
         }
-
+        
         if (this.accessTokenCustomizer != null) {
             OAuth2TokenClaimsContext.Builder accessTokenContextBuilder = OAuth2TokenClaimsContext.with(claimsBuilder)
                     .registeredClient(context.getRegisteredClient())
@@ -75,13 +93,13 @@ public class CustomOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OA
             OAuth2TokenClaimsContext accessTokenContext = accessTokenContextBuilder.build();
             this.accessTokenCustomizer.customize(accessTokenContext);
         }
-
+        
         OAuth2TokenClaimsSet accessTokenClaimsSet = claimsBuilder.build();
         return new CustomOAuth2AccessTokenGenerator.OAuth2AccessTokenClaims(OAuth2AccessToken.TokenType.BEARER,
                 IdUtil.fastSimpleUUID(), accessTokenClaimsSet.getIssuedAt(), accessTokenClaimsSet.getExpiresAt(),
                 context.getAuthorizedScopes(), accessTokenClaimsSet.getClaims());
     }
-
+    
     /**
      * Sets the {@link OAuth2TokenCustomizer} that customizes the
      * {@link OAuth2TokenClaimsContext#getClaims() claims} for the
@@ -94,22 +112,22 @@ public class CustomOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OA
         Assert.notNull(accessTokenCustomizer, "accessTokenCustomizer cannot be null");
         this.accessTokenCustomizer = accessTokenCustomizer;
     }
-
+    
     private static final class OAuth2AccessTokenClaims extends OAuth2AccessToken implements ClaimAccessor {
-
+        
         private final Map<String, Object> claims;
-
+        
         private OAuth2AccessTokenClaims(TokenType tokenType, String tokenValue, Instant issuedAt, Instant expiresAt,
                                         Set<String> scopes, Map<String, Object> claims) {
             super(tokenType, tokenValue, issuedAt, expiresAt, scopes);
             this.claims = claims;
         }
-
+        
         @Override
         public Map<String, Object> getClaims() {
             return this.claims;
         }
-
+        
     }
-
+    
 }

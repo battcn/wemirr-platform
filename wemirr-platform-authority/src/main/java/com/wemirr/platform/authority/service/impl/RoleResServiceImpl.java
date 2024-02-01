@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
@@ -35,9 +53,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes> implements RoleResService {
-
+    
     private final UserRoleService userRoleService;
-
+    
     @Override
     public RoleResResp findAuthorityIdByRoleId(Long roleId) {
         final List<RoleResMenuMapperResp> list = this.baseMapper.selectRoleResByRoleId(roleId);
@@ -50,8 +68,7 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
                 .resourceIdList(resourceIdList)
                 .build();
     }
-
-
+    
     @Override
     public boolean saveUserRole(UserRoleSaveReq req) {
         userRoleService.remove(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, req.getRoleId()));
@@ -60,15 +77,15 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
         userRoleService.saveBatch(list);
         return true;
     }
-
+    
     @Override
     @DSTransactional
     public void saveRoleAuthority(RoleResSaveReq dto) {
-        //删除角色和资源的关联
+        // 删除角色和资源的关联
         super.remove(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, dto.getRoleId()));
         resHandler(dto, dto.getRoleId());
     }
-
+    
     private void resHandler(RoleResSaveReq data, Long roleId) {
         final Set<Long> set = data.getResIds();
         if (CollectionUtil.isEmpty(set)) {

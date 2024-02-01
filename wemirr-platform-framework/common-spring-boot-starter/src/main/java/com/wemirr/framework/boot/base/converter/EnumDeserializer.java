@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.boot.base.converter;
-
 
 import cn.hutool.core.util.ReflectUtil;
 import com.fasterxml.jackson.core.JsonParser;
@@ -22,14 +39,15 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 public class EnumDeserializer extends StdDeserializer<Enum<?>> {
+    
     public final static EnumDeserializer INSTANCE = new EnumDeserializer();
     private final static String ALL_ENUM_STRING_CONVERT_METHOD = "get";
     private final static String ALL_ENUM_KEY_FIELD = "code";
-
+    
     private EnumDeserializer() {
         super(Enum.class);
     }
-
+    
     @Override
     public Enum<?> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         JsonToken token = p.getCurrentToken();
@@ -46,13 +64,13 @@ public class EnumDeserializer extends StdDeserializer<Enum<?>> {
         if (value == null || "".equals(value)) {
             return null;
         }
-
+        
         Object obj = p.getCurrentValue();
         if (obj == null) {
             return null;
         }
         Field field = ReflectUtil.getField(obj.getClass(), p.getCurrentName());
-        //找不到字段
+        // 找不到字段
         if (field == null) {
             return null;
         }
@@ -65,6 +83,5 @@ public class EnumDeserializer extends StdDeserializer<Enum<?>> {
             return null;
         }
     }
-
-
+    
 }

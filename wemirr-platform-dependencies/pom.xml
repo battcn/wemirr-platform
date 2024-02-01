@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-dependencies</artifactId>
     <version>1.17.4-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>wemirr-platform-dependencies</name>
     <description>wemirr 平台包版本管理</description>
-
-
+    
     <properties>
         <!-- 打包跳过单元测试 -->
         <skipTests>true</skipTests>
@@ -24,7 +21,9 @@
         <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-
+        <maven-checkstyle-plugin.version>3.2.1</maven-checkstyle-plugin.version>
+        <spotless-maven-plugin.version>2.22.1</spotless-maven-plugin.version>
+        
         <!-- Spring Boot 相关 版本-->
         <spring-boot-admin.version>3.1.6</spring-boot-admin.version>
         <spring-boot.version>3.1.6</spring-boot.version>
@@ -53,8 +52,7 @@
         <!-- 自定义SDK版本 -->
         <wemirr-framework.version>1.17.4-SNAPSHOT</wemirr-framework.version>
     </properties>
-
-
+    
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -62,7 +60,7 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
             </dependency>
-
+            
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
@@ -102,7 +100,7 @@
                 <version>${qiniu-java-sdk.version}</version>
             </dependency>
             <!-- 七牛云存储结束 -->
-
+            
             <!-- 腾讯云存储开始 -->
             <dependency>
                 <groupId>com.qcloud</groupId>
@@ -140,7 +138,7 @@
                 <artifactId>spring-security-oauth2-authorization-server</artifactId>
                 <version>${spring-authorization-server.version}</version>
             </dependency>
-
+            
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
@@ -227,13 +225,13 @@
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
                 <artifactId>websocket-spring-boot-starter</artifactId>
+                <version>${wemirr-framework.version}</version>
                 <exclusions>
                     <exclusion>
-                        <artifactId>spring-boot-starter-tomcat</artifactId>
                         <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-tomcat</artifactId>
                     </exclusion>
                 </exclusions>
-                <version>${wemirr-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
@@ -268,24 +266,23 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+    
     <!-- 资源文件拷贝插件 -->
     <build>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
                 <filtering>false</filtering>
+                <directory>src/main/resources</directory>
             </resource>
             <resource>
+                <filtering>false</filtering>
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**/*.xml</include>
                 </includes>
-                <filtering>false</filtering>
             </resource>
         </resources>
-
-
+        
         <plugins>
             <!-- 资源文件拷贝插件 -->
             <plugin>
@@ -320,8 +317,57 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
+            
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless-maven-plugin.version}</version>
+                <configuration>
+                    <java>
+                        <eclipse>
+                            <file>../dev-support/spotless/wp_eclipse_formatter.xml</file>
+                        </eclipse>
+                        <licenseHeader>
+                            <file>../dev-support/spotless/license-header</file>
+                        </licenseHeader>
+                    </java>
+                    <pom>
+                        <sortPom>
+                            <encoding>UTF-8</encoding>
+                            <nrOfIndentSpace>4</nrOfIndentSpace>
+                            <keepBlankLines>true</keepBlankLines>
+                            <indentBlankLines>true</indentBlankLines>
+                            <indentSchemaLocation>false</indentSchemaLocation>
+                            <spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>
+                            <sortModules>false</sortModules>
+                            <sortExecutions>false</sortExecutions>
+                            <predefinedSortOrder>custom_1</predefinedSortOrder>
+                            <expandEmptyElements>false</expandEmptyElements>
+                            <sortProperties>false</sortProperties>
+                        </sortPom>
+                        <replace>
+                            <name>Leading blank line</name>
+                            <search>--&gt;&lt;project</search>
+                            <replacement>--&gt;&lt;project</replacement>
+                        </replace>
+                    </pom>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven-checkstyle-plugin.version}</version>
+                <configuration>
+                    <consoleOutput>true</consoleOutput>
+                    <failOnViolation>true</failOnViolation>
+                    <failsOnError>true</failsOnError>
+                    <violationSeverity>error</violationSeverity>
+                    <!--suppress MavenModelInspection -->
+                    <configLocation>../dev-support/checkstyle.xml</configLocation>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <excludes>**/autogen/**/*</excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
-
+    
 </project>

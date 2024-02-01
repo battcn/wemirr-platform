@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.platform.tools.service.impl;
 
 import cn.hutool.core.date.DateUtil;
@@ -42,9 +60,9 @@ import static com.baomidou.mybatisplus.generator.config.rules.DateType.TIME_PACK
 @Service
 @RequiredArgsConstructor
 public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, GenerateEntity> implements GenerateService {
-
+    
     private final DataSource dataSource;
-
+    
     @SneakyThrows
     @Override
     @DSTransactional
@@ -53,7 +71,7 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
         customMap.put("apiUrlPrefix", request.getApiUrlPrefix());
         customMap.put("platformId", request.getPlatformId());
         customMap.put("now", DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-
+        
         Map<String, String> customFiles = Maps.newHashMap();
         customFiles.put("/crud.ts", "/templates/front/crud.ts.ftl");
         customFiles.put("/index.vue", "/templates/front/index.vue.ftl");
@@ -95,15 +113,14 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
                         .xml("/templates/backend/mapper.xml")
                         .controller("/templates/backend/controller.java")
                         .build())
-                .injectionConfig((builder) -> builder.beforeOutputFile((tableInfo, objectMap) ->
-                                log.debug("tableInfo - {},objectMap - {}", tableInfo.getEntityName(), objectMap))
+                .injectionConfig((builder) -> builder.beforeOutputFile((tableInfo, objectMap) -> log.debug("tableInfo - {},objectMap - {}", tableInfo.getEntityName(), objectMap))
                         .customMap(customMap).customFile(customFiles).build())
                 .templateEngine(new FreemarkerTemplateEngine())
                 .execute();
         log.info("{}生成完成:{}", request.getTableName(), rootDir);
         return rootDir;
     }
-
+    
     @Override
     public List<GenerateTableResp> loadTables() {
         final List<String> tables = this.baseMapper.loadTables();
@@ -114,5 +131,5 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
                 .map(table -> GenerateTableResp.builder().label(table).value(table).build())
                 .collect(Collectors.toList());
     }
-
+    
 }

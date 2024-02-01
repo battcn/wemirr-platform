@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.boot.base.converter;
 
 import cn.hutool.core.util.ObjectUtil;
@@ -14,9 +32,9 @@ import java.util.Map;
  */
 @SuppressWarnings("all")
 public class StringCodeToEnumConverterFactory implements ConverterFactory<String, DictEnum<?>> {
-
+    
     private static final Map<Class, Converter> CONVERTERS = Maps.newHashMap();
-
+    
     /**
      * 获取一个从 Integer 转化为 T 的转换器，T 是一个泛型，有多个实现
      *
@@ -25,7 +43,7 @@ public class StringCodeToEnumConverterFactory implements ConverterFactory<String
      */
     @Override
     public <T extends DictEnum<?>> Converter<String, T> getConverter(Class<T> targetType) {
-
+        
         Converter<String, T> converter = CONVERTERS.get(targetType);
         if (converter == null) {
             converter = new StringCodeToEnumConverterFactory.StringToEnumConverter<>(targetType);
@@ -33,17 +51,18 @@ public class StringCodeToEnumConverterFactory implements ConverterFactory<String
         }
         return converter;
     }
-
+    
     public static class StringToEnumConverter<T extends DictEnum<?>> implements Converter<String, T> {
+        
         private final Map<String, T> enumMap = Maps.newHashMap();
-
+        
         public StringToEnumConverter(Class<T> enumType) {
             T[] enums = enumType.getEnumConstants();
             for (T e : enums) {
                 enumMap.put(e.getCode(), e);
             }
         }
-
+        
         @Override
         public T convert(@Nullable String source) {
             T t = enumMap.get(source);
@@ -53,5 +72,5 @@ public class StringCodeToEnumConverterFactory implements ConverterFactory<String
             return t;
         }
     }
-
+    
 }

@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.security.utils;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -54,11 +72,12 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public final class SecurityUtils {
+    
     private SecurityUtils() {
         // 禁止实例化工具类
         throw new UnsupportedOperationException("Utility classes cannot be instantiated.");
     }
-
+    
     /**
      * 认证与鉴权失败回调
      *
@@ -79,7 +98,7 @@ public final class SecurityUtils {
             log.error("写回错误信息失败", e);
         }
     }
-
+    
     /**
      * 获取异常信息map
      *
@@ -131,7 +150,7 @@ public final class SecurityUtils {
         parameters.putIfAbsent("message", e.getMessage());
         return parameters;
     }
-
+    
     /**
      * 从认证信息中获取客户端token
      *
@@ -148,11 +167,11 @@ public final class SecurityUtils {
         }
         throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
     }
-
+    
     public static Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
-
+    
     /**
      * 获取用户详细信息(只适用于 authority 模块)
      *
@@ -167,14 +186,15 @@ public final class SecurityUtils {
             return (UserInfoDetails) authentication.getPrincipal();
         }
         if (authentication instanceof JwtAuthenticationToken token) {
-            if (token.getPrincipal() instanceof Jwt jwt) {
+            if (token.getPrincipal()instanceof Jwt jwt) {
                 final Object userinfo = jwt.getClaim("userinfo");
                 return BeanUtil.toBean(userinfo, UserInfoDetails.class);
             } else {
                 final String tokenValue = token.getToken().getTokenValue();
                 final OAuth2AuthorizationService oAuth2AuthorizationService = SpringUtil.getBean(OAuth2AuthorizationService.class);
                 final OAuth2Authorization oAuth2Authorization = oAuth2AuthorizationService.findByToken(tokenValue, OAuth2TokenType.ACCESS_TOKEN);
-                final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) Objects.requireNonNull(oAuth2Authorization).getAttributes().get(Principal.class.getName());
+                final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                        (UsernamePasswordAuthenticationToken) Objects.requireNonNull(oAuth2Authorization).getAttributes().get(Principal.class.getName());
                 return (UserInfoDetails) usernamePasswordAuthenticationToken.getPrincipal();
             }
         }
@@ -182,10 +202,10 @@ public final class SecurityUtils {
         final JSONObject detailJson = JSON.parseObject(detailsText);
         return detailJson.getObject(AUTH_DETAILS_PRINCIPAL, UserInfoDetails.class);
     }
-
+    
     public static final String AUTH_DETAILS_PRINCIPAL = "principal";
     public static final String ANONYMOUS_USER = "anonymousUser";
-
+    
     /**
      * 是否为匿名用户
      *
@@ -201,7 +221,7 @@ public final class SecurityUtils {
         }
         return authentication.getPrincipal().equals(ANONYMOUS_USER);
     }
-
+    
     /**
      * 提取 request 请求参数
      *
@@ -213,10 +233,9 @@ public final class SecurityUtils {
             return null;
         }
         return request.getParameterMap().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,
-                entry -> entry.getValue().length > 1 ? entry.getValue() : entry.getValue()[0]
-        ));
+                entry -> entry.getValue().length > 1 ? entry.getValue() : entry.getValue()[0]));
     }
-
+    
     public static List<String> loadIgnoreAuthorizeUrl(RequestMappingHandlerMapping requestMappingHandlerMapping) {
         final List<String> urls = Lists.newArrayList();
         Map<RequestMappingInfo, HandlerMethod> handlerMethods = requestMappingHandlerMapping.getHandlerMethods();

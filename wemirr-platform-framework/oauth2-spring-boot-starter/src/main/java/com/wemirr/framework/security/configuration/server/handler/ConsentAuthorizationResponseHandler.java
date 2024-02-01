@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.security.configuration.server.handler;
 
 import com.wemirr.framework.commons.entity.Result;
@@ -33,10 +51,10 @@ import static org.springframework.security.oauth2.core.OAuth2ErrorCodes.INVALID_
  */
 @RequiredArgsConstructor
 public class ConsentAuthorizationResponseHandler implements AuthenticationSuccessHandler {
-
+    
     private final SecurityExtProperties.Server server;
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-
+    
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         // 获取将要重定向的回调地址
@@ -53,7 +71,7 @@ public class ConsentAuthorizationResponseHandler implements AuthenticationSucces
         // 否则重定向至回调地址
         this.redirectStrategy.sendRedirect(request, response, redirectUri);
     }
-
+    
     /**
      * 获取重定向的回调地址
      *
@@ -61,19 +79,19 @@ public class ConsentAuthorizationResponseHandler implements AuthenticationSucces
      * @return 地址
      */
     private String getAuthorizationResponseUri(Authentication authentication) {
-
+        
         OAuth2AuthorizationCodeRequestAuthenticationToken authorizationCodeRequestAuthentication =
                 (OAuth2AuthorizationCodeRequestAuthenticationToken) authentication;
         if (ObjectUtils.isEmpty(authorizationCodeRequestAuthentication.getRedirectUri())) {
             String authorizeUriError = "Redirect uri is not null";
             throw new OAuth2AuthorizationCodeRequestAuthenticationException(new OAuth2Error(INVALID_REQUEST, authorizeUriError, (null)), authorizationCodeRequestAuthentication);
         }
-
+        
         if (authorizationCodeRequestAuthentication.getAuthorizationCode() == null) {
             String authorizeError = "AuthorizationCode is not null";
             throw new OAuth2AuthorizationCodeRequestAuthenticationException(new OAuth2Error(INVALID_REQUEST, authorizeError, (null)), authorizationCodeRequestAuthentication);
         }
-
+        
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
                 .fromUriString(authorizationCodeRequestAuthentication.getRedirectUri())
                 .queryParam(OAuth2ParameterNames.CODE, authorizationCodeRequestAuthentication.getAuthorizationCode().getTokenValue());
@@ -84,7 +102,7 @@ public class ConsentAuthorizationResponseHandler implements AuthenticationSucces
         }
         // build(true) -> Components are explicitly encoded
         return uriBuilder.build(true).toUriString();
-
+        
     }
-
+    
 }

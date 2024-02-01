@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.security.configuration.server;
 
 import cn.hutool.extra.spring.SpringUtil;
@@ -26,11 +44,11 @@ import java.util.Collection;
  * @author Levin
  */
 public class SecurityApply {
-
+    
     private static final String CUSTOM_CONSENT_REDIRECT_URI = "/oauth2/consent/redirect";
-
+    
     private static final String CUSTOM_DEVICE_REDIRECT_URI = "/activate/redirect";
-
+    
     public static void applyFormLoginSecurity(HttpSecurity http, SecurityExtProperties properties) throws Exception {
         // 指定登录页面
         http.formLogin(formLogin -> {
@@ -42,7 +60,7 @@ public class SecurityApply {
             }
         });
     }
-
+    
     public static DefaultSecurityFilterChain applyCustomSecurity(HttpSecurity http, Collection<IntegrationAuthenticator> integrationAuthenticators, SecurityExtProperties properties) throws Exception {
         final SecurityExtProperties.Server server = properties.getServer();
         CustomGrantAuthenticationProvider provider = new CustomGrantAuthenticationProvider();
@@ -72,8 +90,7 @@ public class SecurityApply {
         provider.setIntegrationAuthenticators(integrationAuthenticators);
         return build;
     }
-
-
+    
     public static void applyDeviceSecurity(HttpSecurity http, SecurityExtProperties properties) {
         final SecurityExtProperties.Server server = properties.getServer();
         // 新建设备码converter和provider
@@ -97,7 +114,8 @@ public class SecurityApply {
                     }
                 })
                 // 设置设备码用户验证url(自定义用户验证页)
-                .deviceAuthorizationEndpoint(deviceAuthorizationEndpoint -> deviceAuthorizationEndpoint.verificationUri(UrlUtils.isAbsoluteUrl(server.getDeviceActivatedUri()) ? CUSTOM_DEVICE_REDIRECT_URI : server.getDeviceActivatedUri()))
+                .deviceAuthorizationEndpoint(deviceAuthorizationEndpoint -> deviceAuthorizationEndpoint
+                        .verificationUri(UrlUtils.isAbsoluteUrl(server.getDeviceActivatedUri()) ? CUSTOM_DEVICE_REDIRECT_URI : server.getDeviceActivatedUri()))
                 // 设置验证设备码用户确认页面
                 .deviceVerificationEndpoint(deviceVerificationEndpoint -> {
                     // 校验授权确认页面是否为完整路径；是否是前后端分离的页面
@@ -115,8 +133,9 @@ public class SecurityApply {
                     }
                 })
                 // 客户端认证添加设备码的converter和provider
-                .clientAuthentication(clientAuthentication -> clientAuthentication.authenticationConverter(deviceClientAuthenticationConverter).authenticationProvider(deviceClientAuthenticationProvider));
-
+                .clientAuthentication(
+                        clientAuthentication -> clientAuthentication.authenticationConverter(deviceClientAuthenticationConverter).authenticationProvider(deviceClientAuthenticationProvider));
+        
     }
-
+    
 }

@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.platform.tools.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
@@ -43,12 +61,11 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class MySqlDynamicReleaseServiceImpl implements DynamicReleaseService<Long> {
-
+    
     private final DynamicReleaseGridMapper dynamicReleaseGridMapper;
     private final DynamicReleaseMapper dynamicReleaseMapper;
     private final DynamicReleaseColumnMapper dynamicReleaseColumnMapper;
-
-
+    
     @Override
     public DynamicReleaseCurdOptionResp curdOptions(String model) {
         DynamicReleaseGrid releaseGrid = getDynamicReleaseGridByCode(model);
@@ -68,10 +85,10 @@ public class MySqlDynamicReleaseServiceImpl implements DynamicReleaseService<Lon
                     .dict(buildDict(dynamic.getDict()))
                     .build();
         }).collect(Collectors.toList());
-
+        
         return DynamicReleaseCurdOptionResp.builder().columns(columnRespList).build();
     }
-
+    
     @Override
     public IPage<?> pages(String model, PageRequest request, Map<String, Object> params) {
         // 防止生成的动态SQL出问题
@@ -102,53 +119,50 @@ public class MySqlDynamicReleaseServiceImpl implements DynamicReleaseService<Lon
         log.info("[编译的SQL] - {}", sql);
         return dynamicReleaseMapper.dynamicPageList(request.buildPage(), sql);
     }
-
-
+    
     @Override
     public IPage<?> pages(String model, DynamicReleaseQueryDrag drag) {
         throw CheckedException.badRequest("未实现");
     }
-
+    
     @Override
     public void batchDeleteByKeys(String model, List<Long> ids) {
-
+        
     }
-
+    
     @Override
     public void exportExcel(String model, ExportExcelReq req, HttpServletResponse response) {
-
+        
     }
-
+    
     @Override
     public void deleteById(String model, Long id) {
         DynamicReleaseGrid releaseGrid = getDynamicReleaseGridByCode(model);
         this.dynamicReleaseMapper.deleteById(releaseGrid.getTableName(), id);
     }
-
-
+    
     @Override
     public void save(String model, Map<String, Object> map) {
         DynamicReleaseGrid releaseGrid = getDynamicReleaseGridByCode(model);
         this.dynamicReleaseMapper.insertMap(releaseGrid.getTableName(), map);
     }
-
+    
     @Override
     public List<DynamicReleaseLogTrackResp<Long>> logTrack(String model, Long id) {
         return Lists.newArrayList();
     }
-
+    
     @Override
     public void pushTrack(String model, Long id) {
-
+        
     }
-
-
+    
     @Override
     public void updateById(String model, Long id, Map<String, Object> map) {
         DynamicReleaseGrid releaseGrid = getDynamicReleaseGridByCode(model);
         this.dynamicReleaseMapper.updateByMap(releaseGrid.getTableName(), id, map);
     }
-
+    
     private DynamicReleaseGrid getDynamicReleaseGridByCode(String model) {
         final DynamicReleaseGrid releaseGrid = this.dynamicReleaseGridMapper.selectOne(Wraps.<DynamicReleaseGrid>lbQ()
                 .eq(DynamicReleaseGrid::getModel, model));
@@ -157,12 +171,11 @@ public class MySqlDynamicReleaseServiceImpl implements DynamicReleaseService<Lon
         }
         return releaseGrid;
     }
-
-
+    
     public static String build(DynamicReleaseQuery param) {
         return ("`" + param.getColumn() + "` " + param.getExpression() + " " + param.getValue() + "");
     }
-
+    
     private DynamicReleaseCurdOptionResp.DynamicReleaseColumnDictResp buildDict(String dict) {
         if (StringUtils.isBlank(dict)) {
             return null;
@@ -178,6 +191,5 @@ public class MySqlDynamicReleaseServiceImpl implements DynamicReleaseService<Lon
         }
         return builder.build();
     }
-
-
+    
 }

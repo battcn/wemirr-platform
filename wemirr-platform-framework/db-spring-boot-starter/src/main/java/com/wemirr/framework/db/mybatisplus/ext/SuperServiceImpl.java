@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.db.mybatisplus.ext;
-
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
@@ -24,21 +41,21 @@ import java.util.List;
  * @since 2020年02月27日18:15:17
  */
 public class SuperServiceImpl<M extends SuperMapper<T>, T> extends ServiceImpl<M, T> implements SuperService<T> {
-
+    
     /**
      * 默认批次提交数量
      */
     private static final int DEFAULT_BATCH_SIZE = 500;
-
+    
     private static final Logger logger = LoggerFactory.getLogger(SuperServiceImpl.class);
-
+    
     public SuperMapper<T> getSuperMapper() {
         if (baseMapper != null) {
             return baseMapper;
         }
         throw new RuntimeException("Mapper类转换异常");
     }
-
+    
     @Override
     public boolean insertBatch(List<T> list) {
         if (CollectionUtils.isEmpty(list)) {
@@ -63,7 +80,7 @@ public class SuperServiceImpl<M extends SuperMapper<T>, T> extends ServiceImpl<M
         }
         return true;
     }
-
+    
     @Override
     public boolean updateBatch(List<T> list) {
         if (CollectionUtils.isEmpty(list)) {
@@ -88,5 +105,5 @@ public class SuperServiceImpl<M extends SuperMapper<T>, T> extends ServiceImpl<M
         }
         return true;
     }
-
+    
 }

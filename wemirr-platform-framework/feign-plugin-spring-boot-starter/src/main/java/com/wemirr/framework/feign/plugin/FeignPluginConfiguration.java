@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.feign.plugin;
 
 import com.google.common.cache.Cache;
@@ -42,29 +60,25 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 @EnableConfigurationProperties(value = {FeignPluginProperties.class, AutoRefreshTokenProperties.class, MockProperties.class})
 public class FeignPluginConfiguration {
-
-
+    
     @Bean
     public Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
     }
-
-
+    
     @Bean
     @Primary
     @LoadBalanced
     public RestTemplate lbRestTemplate() {
         return new RestTemplate();
     }
-
-
+    
     @Bean
     public Decoder feignDecoder(ObjectFactory<HttpMessageConverters> messageConverters,
                                 ObjectProvider<HttpMessageConverterCustomizer> customizers) {
         return new OptionalDecoder((new ResponseEntityDecoder(new FeignResponseDecoder(new SpringDecoder(messageConverters, customizers)))));
     }
-
-
+    
     @Bean
     public ErrorDecoder errorDecoder() {
         return (s, response) -> {
@@ -72,7 +86,7 @@ public class FeignPluginConfiguration {
             return new ErrorDecoder.Default().decode(s, response);
         };
     }
-
+    
     @Bean
     @Primary
     @ConditionalOnProperty(prefix = MockProperties.MOCK_PREFIX, name = "enabled", havingValue = "true")
@@ -82,14 +96,13 @@ public class FeignPluginConfiguration {
         return new MockLoadBalancerFeignClient(new Client.Default(null, null),
                 loadBalancerClient, loadBalancerClientFactory, transformers, mockProperties);
     }
-
-
+    
     @Bean
     @Order(-999999)
     public FeignPluginInterceptor feignPluginInterceptor(FeignPluginProperties properties) {
         return new FeignPluginInterceptor(properties);
     }
-
+    
     @Bean
     @ConditionalOnProperty(prefix = AutoRefreshTokenProperties.TOKEN_PREFIX, name = "enabled", havingValue = "true")
     public AutoRefreshTokenInterceptor feignTokenInterceptor(AutoRefreshTokenProperties properties) {

@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -37,24 +55,23 @@ import static java.util.stream.Collectors.toList;
 @Service
 @RequiredArgsConstructor
 public class I18nDataServiceImpl extends SuperServiceImpl<I18nDataMapper, I18nData> implements I18nDataService {
-
+    
     private final I18nDataMapper i18nDataMapper;
     private final I18nLocaleMessageMapper i18nLocaleMessageMapper;
     private final I18nRedisTemplate i18nRedisTemplate;
     private final AuthenticationContext context;
-
+    
     @PostConstruct
     public void init() {
         List<I18nMessage> messages = i18nDataMapper.loadI18nMessage();
         log.debug("从数据库加载国际化数据 - {}", JSON.toJSONString(messages));
         i18nRedisTemplate.loadI18nMessage(messages);
     }
-
-
+    
     @Override
     public IPage<I18nDataPageResp> pageList(I18nPageReq req) {
         final IPage<I18nDataPageResp> page = this.baseMapper.selectPage(req.buildPage(),
-                        Wraps.<I18nData>lbQ().like(I18nData::getCode, req.getCode()))
+                Wraps.<I18nData>lbQ().like(I18nData::getCode, req.getCode()))
                 .convert(x -> BeanUtil.toBean(x, I18nDataPageResp.class));
         final List<Long> i18nIdList = page.getRecords().stream().map(I18nDataPageResp::getId).toList();
         if (CollUtil.isEmpty(i18nIdList)) {
@@ -67,8 +84,7 @@ public class I18nDataServiceImpl extends SuperServiceImpl<I18nDataMapper, I18nDa
         }
         return page;
     }
-
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void add(I18nDataSaveReq req) {
@@ -81,7 +97,7 @@ public class I18nDataServiceImpl extends SuperServiceImpl<I18nDataMapper, I18nDa
                 .toList();
         this.i18nLocaleMessageMapper.insertBatchSomeColumn(list);
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void edit(Long id, I18nDataSaveReq req) {
@@ -94,7 +110,7 @@ public class I18nDataServiceImpl extends SuperServiceImpl<I18nDataMapper, I18nDa
                 .toList();
         this.i18nLocaleMessageMapper.insertBatchSomeColumn(list);
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public boolean removeById(Serializable id) {

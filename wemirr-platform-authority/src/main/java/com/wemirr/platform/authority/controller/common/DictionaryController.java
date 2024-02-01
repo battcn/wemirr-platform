@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.platform.authority.controller.common;
-
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
@@ -36,11 +53,10 @@ import static com.wemirr.platform.authority.domain.common.converts.DictionaryCon
 @Tag(name = "字典类型", description = "字典类型")
 @RequiredArgsConstructor
 public class DictionaryController {
-
-
+    
     private final DictionaryService dictionaryService;
     private final DictionaryItemService dictionaryItemService;
-
+    
     @GetMapping
     @AccessLog(description = "字典查询")
     @Operation(summary = "查询字典 - [DONE] - [Levin]", description = "查询字典 - [DONE] - [Levin]")
@@ -51,7 +67,7 @@ public class DictionaryController {
                 Wraps.<Dictionary>lbQ().eq(Dictionary::getStatus, req.getStatus()).like(Dictionary::getCode, req.getCode())
                         .like(Dictionary::getName, req.getName()));
     }
-
+    
     @PostMapping
     @AccessLog(description = "字典新增")
     @Operation(summary = "新增字典 - [DONE] - [Levin]", description = "新增字典 - [DONE] - [Levin]")
@@ -59,7 +75,7 @@ public class DictionaryController {
     public void save(@Validated @RequestBody DictionarySaveReq req) {
         this.dictionaryService.addDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(req));
     }
-
+    
     @PutMapping("/{id}")
     @AccessLog(description = "字典编辑")
     @Operation(summary = "编辑字典 - [DONE] - [Levin]", description = "编辑字典 - [DONE] - [Levin]")
@@ -67,7 +83,7 @@ public class DictionaryController {
     public void edit(@PathVariable Long id, @Validated @RequestBody DictionarySaveReq req) {
         this.dictionaryService.editDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(req, id));
     }
-
+    
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除指定字典项")
     @Operation(summary = "删除字典 - [DONE] - [Levin]", description = "删除字典 - [DONE] - [Levin]")
@@ -75,16 +91,14 @@ public class DictionaryController {
     public void del(@PathVariable Long id) {
         this.dictionaryService.deleteById(id);
     }
-
-
+    
     @GetMapping("/{code}/refresh")
     @AccessLog(description = "刷新字典")
     @Operation(summary = "刷新字典 - [DONE] - [Levin]", description = "刷新字典 - [DONE] - [Levin]")
     public void refresh(@PathVariable("code") String code) {
         this.dictionaryService.refresh(code);
     }
-
-
+    
     @GetMapping("/{code}/list")
     @Operation(summary = "查询字典子项 - [DONE] - [Levin]", description = "查询字典子项,缓存10分钟,每隔 5 分钟刷新一次,为了性能利用本地JVM缓存,字典过大可以采用远程缓存")
     @Parameter(name = "code", description = "编码", in = ParameterIn.PATH)

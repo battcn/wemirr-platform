@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.commons;
 
 import cn.hutool.core.collection.CollectionUtil;
@@ -21,7 +39,7 @@ import static java.util.stream.Collectors.toMap;
  * @author Levin
  */
 public class AreaUtils {
-
+    
     /**
      * 省
      */
@@ -32,7 +50,7 @@ public class AreaUtils {
      * 市
      */
     public static final String CITY = "市";
-
+    
     /**
      * 区
      */
@@ -41,7 +59,7 @@ public class AreaUtils {
      * 县
      */
     public static final String REGION = "县";
-
+    
     /**
      * 模糊搜索
      *
@@ -54,7 +72,7 @@ public class AreaUtils {
     public static Area likeByName(@NotEmpty Map<String, Area> provinces, @NotEmpty List<Area> nodes, @NotNull Integer parentId, @NotBlank String name) {
         return likeByName(provinces, nodes.stream().collect(toMap(Area::getId, Function.identity())), parentId, name);
     }
-
+    
     /**
      * 模糊搜索
      *
@@ -75,8 +93,7 @@ public class AreaUtils {
                         StringUtils.containsAny(provinceName, name,
                                 StringUtils.removeEnd(name, PROVINCE),
                                 StringUtils.removeEnd(name, ZZQ),
-                                StringUtils.removeEnd(name, ZZZ))
-                        ;
+                                StringUtils.removeEnd(name, ZZZ));
             }).findFirst();
             return optional.map(Map.Entry::getValue).orElse(null);
         }
@@ -88,14 +105,13 @@ public class AreaUtils {
         if (CollectionUtil.isEmpty(childrenList)) {
             return null;
         }
-        final Optional<Area> optional = childrenList.stream().filter(children ->
-                StringUtils.equals(children.getName(), name) ||
-                        StringUtils.containsAny(children.getName(), name,
-                                StringUtils.removeEnd(name, CITY),
-                                StringUtils.removeEnd(name, COUNTY),
-                                StringUtils.removeEnd(name, ZZQ),
-                                StringUtils.removeEnd(name, ZZZ),
-                                StringUtils.removeEnd(name, REGION)))
+        final Optional<Area> optional = childrenList.stream().filter(children -> StringUtils.equals(children.getName(), name) ||
+                StringUtils.containsAny(children.getName(), name,
+                        StringUtils.removeEnd(name, CITY),
+                        StringUtils.removeEnd(name, COUNTY),
+                        StringUtils.removeEnd(name, ZZQ),
+                        StringUtils.removeEnd(name, ZZZ),
+                        StringUtils.removeEnd(name, REGION)))
                 .findFirst();
         if (optional.isPresent()) {
             return optional.get();
@@ -103,14 +119,13 @@ public class AreaUtils {
         // 如果省里面没找到,那么就去市里面找
         final Optional<Area> optionalArea = area.getChildren().stream().filter(Objects::nonNull)
                 .filter(xx -> CollectionUtil.isNotEmpty(xx.getChildren()))
-                .flatMap(xx -> xx.getChildren().stream()).filter(children ->
-                        StringUtils.equals(children.getName(), name) ||
-                                StringUtils.containsAny(children.getName(), name,
-                                        StringUtils.removeEnd(name, CITY),
-                                        StringUtils.removeEnd(name, COUNTY),
-                                        StringUtils.removeEnd(name, ZZQ),
-                                        StringUtils.removeEnd(name, ZZZ),
-                                        StringUtils.removeEnd(name, REGION)))
+                .flatMap(xx -> xx.getChildren().stream()).filter(children -> StringUtils.equals(children.getName(), name) ||
+                        StringUtils.containsAny(children.getName(), name,
+                                StringUtils.removeEnd(name, CITY),
+                                StringUtils.removeEnd(name, COUNTY),
+                                StringUtils.removeEnd(name, ZZQ),
+                                StringUtils.removeEnd(name, ZZZ),
+                                StringUtils.removeEnd(name, REGION)))
                 .findFirst();
         return optionalArea.orElse(null);
     }

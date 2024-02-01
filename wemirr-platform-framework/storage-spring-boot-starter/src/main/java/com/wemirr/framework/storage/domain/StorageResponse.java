@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.storage.domain;
-
 
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +33,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 public class StorageResponse implements java.io.Serializable {
-
-
+    
     private Object fileId;
     private String etag;
     private String originName;
@@ -27,20 +43,20 @@ public class StorageResponse implements java.io.Serializable {
      * 文件存储的名字
      */
     private String md5;
-
+    
     /**
      * 文件的完整路径
      */
     private String fullUrl;
-
+    
     private String mappingPath;
-
+    
     private String bucket;
     /**
      * 对应存储的扩展字段
      */
     private Map<String, Object> extend;
-
+    
     @Builder
     public StorageResponse(String fileId, String etag, String originName, String targetName, String mappingPath,
                            String bucket,
@@ -60,9 +76,9 @@ public class StorageResponse implements java.io.Serializable {
             this.fullUrl = fullUrl;
         }
     }
-
+    
     private static final String SEPARATOR = "/";
-
+    
     public static String buildFullUrl(String mappingPath, String targetName) {
         if (mappingPath.endsWith(SEPARATOR) && targetName.startsWith(SEPARATOR)) {
             mappingPath = mappingPath.substring(0, mappingPath.length() - 1);

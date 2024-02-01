@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.redis.plus.cache;
 
 import cn.hutool.core.collection.CollectionUtil;
@@ -42,9 +60,9 @@ import java.util.stream.Collectors;
 @EnableConfigurationProperties(RedisPlusProperties.class)
 @ConditionalOnProperty(prefix = "extend.redis.cache", name = "enabled", havingValue = "true")
 public class RedisCacheAutoConfiguration implements CachingConfigurer {
-
+    
     private final RedisPlusProperties redisPlusProperties;
-
+    
     /**
      * 自定义SpringCache缓存key
      */
@@ -54,25 +72,24 @@ public class RedisCacheAutoConfiguration implements CachingConfigurer {
     @Override
     public KeyGenerator keyGenerator() {
         return (target, method, params) -> {
-            //保证key有序
+            // 保证key有序
             Map<String, Object> keyMap = new LinkedHashMap<>();
-            //放入target的名字
+            // 放入target的名字
             keyMap.put("target", target.getClass().toGenericString());
-            //放入method的名字
+            // 放入method的名字
             keyMap.put("method", method.getName());
             if (ArrayUtil.isNotEmpty(params)) {
-                //把所有参数放进去
+                // 把所有参数放进去
                 for (int i = 0; i < params.length; i++) {
                     keyMap.put("params-" + i, params[i]);
                 }
             }
             final String jsonText = JSON.toJSONString(keyMap);
-            //使用MD5生成位移key
+            // 使用MD5生成位移key
             return MD5.create().digestHex(jsonText);
         };
     }
-
-
+    
     /**
      * 自定义缓存SimpleCacheManager
      */
@@ -87,17 +104,18 @@ public class RedisCacheAutoConfiguration implements CachingConfigurer {
             return simple;
         }
         final long globalTimeOut = Optional.of(cache.getTimeout()).orElse(60 * 60 * 24L);
-        //祛除重复，过滤掉null
+        // 祛除重复，过滤掉null
         List<RedisPlusProperties.RedisCacheItem> items = new ArrayList<>(new HashSet<>(cacheItems));
         Set<RedisCacheRepository> caches = items.stream().filter(Objects::nonNull)
                 .filter(item -> StrUtil.isNotBlank(item.getName())).map(item -> RedisCacheRepository.builder()
                         .enabled(item.isEnabled()).name(item.getName())
-                        //配置默认超时时间
+                        // 配置默认超时时间
                         .timeout(Optional.of(item.getTimeout()).orElse(globalTimeOut))
                         .keyPrefix(cache.getPrefix())
-                        .redisTemplate(redisTemplate).connectionFactory(factory).build()).collect(Collectors.toSet());
+                        .redisTemplate(redisTemplate).connectionFactory(factory).build())
+                .collect(Collectors.toSet());
         simple.setCaches(caches);
         return simple;
     }
-
+    
 }

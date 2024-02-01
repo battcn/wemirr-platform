@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.security.configuration.server.support;
 
 import cn.hutool.core.util.StrUtil;
@@ -42,18 +60,18 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class CustomGrantAuthenticationProvider implements AuthenticationProvider {
-
+    
     private OAuth2TokenGenerator<?> tokenGenerator;
     private AuthenticationManager authenticationManager;
     private OAuth2AuthorizationService authorizationService;
-
+    
     @Setter
     private Collection<IntegrationAuthenticator> integrationAuthenticators;
-
+    
     private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
-
+    
     private static final OAuth2TokenType ID_TOKEN_TOKEN_TYPE = new OAuth2TokenType(OidcParameterNames.ID_TOKEN);
-
+    
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         CustomGrantAuthenticationToken authenticationToken = (CustomGrantAuthenticationToken) authentication;
@@ -74,7 +92,7 @@ public class CustomGrantAuthenticationProvider implements AuthenticationProvider
                 .authorizedScopes(authorizedScopes)
                 .authorizationGrantType(authenticationToken.getAuthorizationGrantType())
                 .authorizationGrant(authenticationToken);
-
+        
         // Initialize the OAuth2Authorization
         OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
                 // 存入授权scope
@@ -84,7 +102,7 @@ public class CustomGrantAuthenticationProvider implements AuthenticationProvider
                 // 设置当前用户认证信息
                 .attribute(Principal.class.getName(), authenticate)
                 .authorizationGrantType(authenticationToken.getAuthorizationGrantType());
-
+        
         // ----- Access token -----
         OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
         OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
@@ -104,7 +122,7 @@ public class CustomGrantAuthenticationProvider implements AuthenticationProvider
         // ----- Refresh token -----
         OAuth2RefreshToken refreshToken = null;
         if (registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.REFRESH_TOKEN) &&
-                // 不向公共客户端颁发刷新令牌
+        // 不向公共客户端颁发刷新令牌
                 !clientPrincipal.getClientAuthenticationMethod().equals(ClientAuthenticationMethod.NONE)) {
             tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
             OAuth2Token generatedRefreshToken = this.tokenGenerator.generate(tokenContext);
@@ -144,7 +162,7 @@ public class CustomGrantAuthenticationProvider implements AuthenticationProvider
         }
         return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken, additionalParameters);
     }
-
+    
     /**
      * 获取认证过的scope
      *
@@ -165,7 +183,7 @@ public class CustomGrantAuthenticationProvider implements AuthenticationProvider
         log.debug("Validated token request parameters");
         return authorizedScopes;
     }
-
+    
     public IntegrationAuthenticator getIntegrationAuthenticator(String loginType) {
         for (IntegrationAuthenticator authenticator : integrationAuthenticators) {
             boolean support = StrUtil.equals(authenticator.loginType(), loginType);
@@ -175,7 +193,7 @@ public class CustomGrantAuthenticationProvider implements AuthenticationProvider
         }
         throw new OAuth2InvalidException("未匹配到有效的登录规则");
     }
-
+    
     /**
      * 获取认证过的用户信息
      *
@@ -192,22 +210,22 @@ public class CustomGrantAuthenticationProvider implements AuthenticationProvider
         integrationAuthenticator.complete(authentication);
         return authenticate;
     }
-
+    
     @Override
     public boolean supports(Class<?> authentication) {
         return CustomGrantAuthenticationToken.class.isAssignableFrom(authentication);
     }
-
+    
     public void setTokenGenerator(OAuth2TokenGenerator<?> tokenGenerator) {
         Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
         this.tokenGenerator = tokenGenerator;
     }
-
+    
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         Assert.notNull(authorizationService, "authenticationManager cannot be null");
         this.authenticationManager = authenticationManager;
     }
-
+    
     public void setAuthorizationService(OAuth2AuthorizationService authorizationService) {
         Assert.notNull(authorizationService, "authorizationService cannot be null");
         this.authorizationService = authorizationService;

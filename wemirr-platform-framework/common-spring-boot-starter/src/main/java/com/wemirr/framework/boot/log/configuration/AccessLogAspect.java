@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.boot.log.configuration;
-
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.exceptions.ExceptionUtil;
@@ -48,9 +65,9 @@ import java.util.function.Consumer;
  */
 @Aspect
 public class AccessLogAspect {
-
+    
     private static final Logger logger = LoggerFactory.getLogger(AccessLogAspect.class);
-
+    
     private static final int MAX_LENGTH = 65535;
     private static final TransmittableThreadLocal<AccessLogInfo> THREAD_LOCAL = new TransmittableThreadLocal<>();
     private static final String USER_AGENT = "User-Agent";
@@ -58,19 +75,19 @@ public class AccessLogAspect {
     private ApplicationContext applicationContext;
     @Resource
     private DatabaseProperties databaseProperties;
-
+    
     /**
      * 切面
      */
     @Pointcut("execution(public * com.wemirr..*.*(..)) && @annotation(com.wemirr.framework.commons.annotation.log.AccessLog)")
     public void accessLogAspect() {
-
+        
     }
-
+    
     private AccessLogInfo get() {
         return Optional.ofNullable(THREAD_LOCAL.get()).orElseGet(AccessLogInfo::new);
     }
-
+    
     private void tryCatch(Consumer<String> consumer) {
         try {
             consumer.accept("");
@@ -79,7 +96,7 @@ public class AccessLogAspect {
             THREAD_LOCAL.remove();
         }
     }
-
+    
     /**
      * 返回通知
      *
@@ -115,16 +132,16 @@ public class AccessLogAspect {
             }
             publishEvent(log);
         });
-
+        
     }
-
+    
     private void publishEvent(AccessLogInfo log) {
         log.setFinishTime(Instant.now());
         log.setConsumingTime(log.getStartTime().until(log.getFinishTime(), ChronoUnit.MILLIS));
         applicationContext.publishEvent(new AccessLogEvent(log));
         THREAD_LOCAL.remove();
     }
-
+    
     /**
      * 异常通知
      */
@@ -149,7 +166,7 @@ public class AccessLogAspect {
             publishEvent(log);
         });
     }
-
+    
     /**
      * 截取指定长度的字符串
      *
@@ -162,9 +179,9 @@ public class AccessLogAspect {
         }
         return val;
     }
-
+    
     private static final int WARNING_LENGTH = 65535;
-
+    
     @Before(value = "accessLogAspect()")
     public void recordLog(JoinPoint joinPoint) {
         tryCatch((val) -> {
@@ -208,7 +225,7 @@ public class AccessLogAspect {
             THREAD_LOCAL.set(log);
         });
     }
-
+    
     private String getArgs(AccessLog accessLogAnnotation, Object[] args, HttpServletRequest request) {
         String strArgs = "";
         if (!accessLogAnnotation.request()) {
@@ -227,7 +244,5 @@ public class AccessLogAspect {
         }
         return strArgs;
     }
-
-
+    
 }
-

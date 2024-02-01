@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
@@ -45,7 +63,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> implements TenantService {
-
+    
     private final AreaMapper areaMapper;
     private final RoleMapper roleMapper;
     private final UserRoleMapper userRoleMapper;
@@ -55,7 +73,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     private final UserMapper userMapper;
     private final OrgMapper orgMapper;
     private final PasswordEncoder passwordEncoder;
-
+    
     @Override
     public void saveOrUpdateTenant(Tenant tenant) {
         tenant.setProvinceName(getNameById(tenant.getProvinceId()));
@@ -67,7 +85,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         }
         baseMapper.insert(tenant);
     }
-
+    
     private String getNameById(Long id) {
         if (Objects.isNull(id)) {
             return null;
@@ -78,7 +96,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         }
         return areaEntity.getName();
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void tenantConfig(Long tenantId, TenantConfigReq req) {
@@ -104,7 +122,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             initSqlScript(tenantId);
         }
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void initSqlScript(Long id) {
@@ -124,7 +142,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
                 final List<Long> userIdList = users.stream().map(User::getId).distinct().collect(Collectors.toList());
                 log.warn("开始清除租户 - {} 的系统数据,危险动作", tenant.getName());
                 if (CollUtil.isNotEmpty(userIdList)) {
-                    //等于0全表会删。
+                    // 等于0全表会删。
                     this.userRoleMapper.delete(Wraps.<UserRole>lbQ().in(UserRole::getUserId, userIdList));
                 }
                 this.userMapper.deleteByTenantId(tenant.getId());
@@ -149,7 +167,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             record.setStatus(true);
             this.userMapper.insert(record);
             this.userRoleMapper.insert(UserRole.builder().userId(record.getId()).roleId(role.getId()).build());
-
+            
         } else if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
             TenantDynamicDataSourceHandler tenantDynamicDataSourceHandler = SpringUtil.getBean(TenantDynamicDataSourceHandler.class);
             tenantDynamicDataSourceHandler.initSqlScript(tenant.getId(), tenant.getCode());

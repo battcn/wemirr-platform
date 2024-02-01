@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.platform.tools;
-
 
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
@@ -22,8 +39,7 @@ import java.util.Map;
 
 @Slf4j
 class CodeGeneratorTests {
-
-
+    
     @Test
     void sys() {
         final GenerateEntity request = new GenerateEntity();
@@ -33,16 +49,18 @@ class CodeGeneratorTests {
         request.setParentPackage("com.wemirr.platform.tools.gen");
         generate(request);
     }
-
+    
     public String generate(GenerateEntity request) {
         Map<String, Object> customMap = Maps.newHashMap();
         customMap.put("apiUrlPrefix", request.getApiUrlPrefix());
         customMap.put("platformId", request.getPlatformId());
         customMap.put("now", DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-
+        
         Map<String, String> customFiles = Maps.newHashMap();
         String rootDir = "/Users/battcn/Development/opensource/wemirr-platform/wemirr-platform-tools/src/main/java/";
-        FastAutoGenerator.create("jdbc:mysql://localhost:3306/wemirr-platform?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true", "root", "123456")
+        FastAutoGenerator
+                .create("jdbc:mysql://localhost:3306/wemirr-platform?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true",
+                        "root", "123456")
                 .globalConfig(builder -> builder.author(request.getAuthor()).fileOverride().outputDir(rootDir))
                 .packageConfig(builder -> builder.parent(request.getParentPackage()).moduleName(request.getModuleName())
                         .entity("domain").mapper("mapper").xml("mapper.xml")
@@ -63,15 +81,14 @@ class CodeGeneratorTests {
                         .superServiceImplClass(SuperServiceImpl.class)
                         .controllerBuilder().enableRestStyle())
                 .templateConfig(builder -> builder
-//                        .entity("/templates/backend/entity.java")
+                        // .entity("/templates/backend/entity.java")
                         .service("/templates/backend/service.java")
                         .serviceImpl("/templates/backend/serviceImpl.java")
                         .mapper("/templates/backend/mapper.java")
                         .xml("/templates/backend/mapper.xml")
                         .controller("/templates/backend/controller.java")
                         .build())
-                .injectionConfig((builder) -> builder.beforeOutputFile((tableInfo, objectMap) ->
-                                log.debug("tableInfo - {},objectMap - {}", tableInfo.getEntityName(), objectMap))
+                .injectionConfig((builder) -> builder.beforeOutputFile((tableInfo, objectMap) -> log.debug("tableInfo - {},objectMap - {}", tableInfo.getEntityName(), objectMap))
                         .customMap(customMap).customFile(customFiles).build())
                 .templateEngine(new FreemarkerTemplateEngine())
                 .execute();

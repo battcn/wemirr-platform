@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.security.configuration.client;
 
 import com.google.common.collect.Lists;
@@ -30,13 +48,12 @@ import java.util.List;
 @Import({RedisTokenStore.class, ResourceAuthExceptionEntryPoint.class})
 @EnableConfigurationProperties(SecurityExtProperties.class)
 public class ClientResourceServerConfiguration {
-
+    
     private final SecurityExtProperties properties;
     private final RestTemplate restTemplate;
     private final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
     private final RequestMappingHandlerMapping requestMappingHandlerMapping;
-
-
+    
     @Bean
     private OpaqueTokenIntrospector opaqueTokenIntrospector() {
         final SecurityExtProperties.OpaqueToken opaqueToken = properties.getClient().getOpaqueToken();
@@ -48,7 +65,7 @@ public class ClientResourceServerConfiguration {
         }
         throw new RuntimeException("未匹配到合适的 OpaqueTokenTemplate ");
     }
-
+    
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -56,18 +73,18 @@ public class ClientResourceServerConfiguration {
         urls.addAll(properties.getIgnore().getResourceUrls());
         urls.addAll(properties.getDefaultIgnoreUrls());
         urls.addAll(SecurityUtils.loadIgnoreAuthorizeUrl(requestMappingHandlerMapping));
-
+        
         AntPathRequestMatcher[] requestMatchers = urls.stream()
                 .map(AntPathRequestMatcher::new)
                 .toList()
                 .toArray(new AntPathRequestMatcher[]{});
         http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(requestMatchers)
-                        .permitAll().anyRequest().authenticated())
+                .permitAll().anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.authenticationEntryPoint(resourceAuthExceptionEntryPoint)
                         .opaqueToken(token -> token.introspector(opaqueTokenIntrospector())))
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
-
+    
 }

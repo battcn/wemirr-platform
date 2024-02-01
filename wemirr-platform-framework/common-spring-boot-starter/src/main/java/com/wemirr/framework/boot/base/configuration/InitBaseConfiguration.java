@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.boot.base.configuration;
-
 
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -34,7 +51,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-
 /**
  * 基础配置类
  *
@@ -43,11 +59,11 @@ import java.util.TimeZone;
 @Slf4j
 @Configuration
 public class InitBaseConfiguration implements WebMvcConfigurer {
-
+    
     @Value("${spring.profiles.active:local}")
     private String profile;
     private static final String PROFILE_DEMO = "demo";
-
+    
     /**
      * 枚举类的转换器工厂 addConverterFactory
      */
@@ -56,7 +72,7 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
         registry.addConverterFactory(new IntegerCodeToEnumConverterFactory());
         registry.addConverterFactory(new StringCodeToEnumConverterFactory());
     }
-
+    
     @Override
     public void addInterceptors(@NonNull InterceptorRegistry registry) {
         if (StrUtil.equals(PROFILE_DEMO, profile)) {
@@ -64,10 +80,10 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
             registry.addInterceptor(new DemoProfileInterceptor());
         }
     }
-
+    
     @Value("${spring.jackson.date-format:yyyy-MM-dd HH:mm:ss}")
     private String pattern;
-
+    
     /**
      * serializerByType 解决json中返回的 LocalDateTime 格式问题
      * deserializerByType 解决string类型入参转为 LocalDateTime 格式问题
@@ -83,14 +99,13 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
             builder.modules(new LocalJavaTimeModule(), new JavaTimeModule());
         };
     }
-
+    
     static class LocalJavaTimeModule extends SimpleModule {
-
-
+        
         private static final String NORM_DATE_PATTERN = "yyyy-MM-dd";
         private static final String NORM_TIME_PATTERN = "HH:mm:ss";
         private static final String NORM_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
-
+        
         LocalJavaTimeModule() {
             super(PackageVersion.VERSION);
             this.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN)));
@@ -100,9 +115,9 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
             this.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(NORM_DATE_PATTERN)));
             this.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(NORM_TIME_PATTERN)));
         }
-
+        
     }
-
+    
     /**
      * 解决 @RequestParam(value = "date") Date date
      * date 类型参数 格式问题
@@ -111,7 +126,7 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
     public Converter<String, Date> dateConvert() {
         return new String2DateConverter();
     }
-
+    
     /**
      * 解决 @RequestParam(value = "time") LocalDate time
      */
@@ -119,7 +134,7 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
     public Converter<String, LocalDate> localDateConverter() {
         return new String2LocalDateConverter();
     }
-
+    
     /**
      * 解决 @RequestParam(value = "time") LocalTime time
      */
@@ -127,7 +142,7 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
     public Converter<String, LocalTime> localTimeConverter() {
         return new String2LocalTimeConverter();
     }
-
+    
     /**
      * 解决 @RequestParam(value = "time") LocalDateTime time
      */
@@ -135,5 +150,5 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
     public Converter<String, LocalDateTime> localDateTimeConverter() {
         return new String2LocalDateTimeConverter();
     }
-
+    
 }

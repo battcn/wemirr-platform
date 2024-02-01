@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.platform.authority.controller.baseinfo;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -26,7 +44,6 @@ import java.util.Set;
 
 import static com.wemirr.platform.authority.domain.baseinfo.converts.UserConverts.USER_DTO_2_PO_CONVERTS;
 
-
 /**
  * 用户管理
  *
@@ -38,18 +55,17 @@ import static com.wemirr.platform.authority.domain.baseinfo.converts.UserConvert
 @RequestMapping("/users")
 @Tag(name = "用户管理", description = "用户管理")
 public class UserController {
-
+    
     private final UserService userService;
     private final DataScopeService dataScopeService;
-
+    
     @GetMapping
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
     @PreAuthorize("hasAuthority('sys:user:page')")
     public IPage<UserResp> page(UserPageReq req) {
         return this.userService.pageList(req);
     }
-
-
+    
     @PostMapping
     @AccessLog(description = "添加用户")
     @Operation(summary = "添加用户")
@@ -57,8 +73,7 @@ public class UserController {
     public void save(@Validated @RequestBody UserSaveReq dto) {
         this.userService.addUser(dto);
     }
-
-
+    
     @PutMapping("{id}")
     @AccessLog(description = "编辑用户")
     @Operation(summary = "编辑用户")
@@ -66,8 +81,7 @@ public class UserController {
     public void edit(@PathVariable Long id, @Validated @RequestBody UserUpdateReq dto) {
         this.userService.updateById(USER_DTO_2_PO_CONVERTS.convert(dto, id));
     }
-
-
+    
     @DeleteMapping("{id}")
     @AccessLog(description = "删除用户")
     @Operation(summary = "删除用户")
@@ -75,19 +89,18 @@ public class UserController {
     public void del(@PathVariable Long id) {
         this.userService.deleteById(id);
     }
-
+    
     @PostMapping("/batch_ids")
     @Operation(summary = "ID批量查询")
     public Map<Long, UserResp> batchIds(@RequestBody Set<Long> ids) {
         final List<User> users = this.userService.listByIds(ids);
         return MapHelper.toHashMap(users, Entity::getId, x -> BeanUtil.toBean(x, UserResp.class));
     }
-
-
+    
     @GetMapping("/{id}/data_permission")
     @Operation(summary = "获取数据权限")
     public void dataPermission(@PathVariable Long id) {
         this.dataScopeService.getDataScopeById(id);
     }
-
+    
 }

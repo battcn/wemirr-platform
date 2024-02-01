@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.db.mybatisplus.core;
 
 import cn.hutool.core.collection.CollectionUtil;
@@ -19,14 +37,14 @@ import static java.util.stream.Collectors.toList;
  * @since 2019/07/26
  */
 public interface DictEnum<T extends Serializable> extends IEnum<T> {
-
+    
     /**
      * 描述信息
      *
      * @return 描述
      */
     String getDesc();
-
+    
     /**
      * 语言
      *
@@ -35,7 +53,7 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
     default String getLanguage() {
         return null;
     }
-
+    
     /**
      * 获取枚举编码
      *
@@ -44,8 +62,7 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
     default String getCode() {
         return String.valueOf(this.getValue());
     }
-
-
+    
     /**
      * 枚举数组转集合
      *
@@ -60,7 +77,7 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
                 .code(dictionary.getCode()).desc(dictionary.getDesc())
                 .build()).collect(Collectors.toList());
     }
-
+    
     /**
      * 获取指定类型枚举映射
      *
@@ -79,10 +96,9 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
         }
         return null;
     }
-
+    
     char SEPARATOR = ',';
-
-
+    
     /**
      * 转换成字符串
      *
@@ -97,7 +113,7 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
                 .filter(Objects::nonNull)
                 .map(DictEnum::getCode).collect(Collectors.joining(","));
     }
-
+    
     /**
      * 转换成集合枚举
      *
@@ -114,5 +130,5 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
                 .map(type -> of(enumClass, Integer.parseInt(type)))
                 .collect(toList());
     }
-
+    
 }

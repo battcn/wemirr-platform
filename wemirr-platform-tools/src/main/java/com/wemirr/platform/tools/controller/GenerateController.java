@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.platform.tools.controller;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -37,22 +55,22 @@ import java.util.List;
 @Tag(name = "代码生成", description = "代码生成")
 @Validated
 public class GenerateController {
-
+    
     private final GenerateService generateService;
-
+    
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping
     public Page<GenerateEntity> page(PageRequest pageRequest, String author) {
         return generateService.page(pageRequest.buildPage(),
                 Wraps.<GenerateEntity>lbQ().eq(GenerateEntity::getAuthor, author));
     }
-
+    
     @Operation(summary = "获取所有的表", description = "获取所有的表")
     @GetMapping("/tables")
     public List<GenerateTableResp> tables() {
         return generateService.loadTables();
     }
-
+    
     @Operation(summary = "代码生成")
     @PostMapping("/{id}/download")
     public void add(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -80,14 +98,13 @@ public class GenerateController {
             }
         }
     }
-
+    
     @Operation(summary = "添加代码生成")
     @PostMapping
     public void add(@Validated @RequestBody GenerateReq req) {
         generateService.save(BeanUtil.toBean(req, GenerateEntity.class));
     }
-
-
+    
     @Operation(summary = "编辑代码生成")
     @PutMapping("/{id}")
     public void edit(@PathVariable Long id, @Validated @RequestBody GenerateReq req) {
@@ -95,7 +112,7 @@ public class GenerateController {
         request.setId(id);
         generateService.updateById(request);
     }
-
+    
     @Operation(summary = "删除代码生成")
     @DeleteMapping("/{id}")
     public void remove(@PathVariable Long id) {

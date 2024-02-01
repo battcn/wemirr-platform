@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.security.configuration.server.support;
 
 import cn.hutool.core.util.StrUtil;
@@ -27,7 +45,7 @@ import java.util.Optional;
  */
 @Slf4j
 public class CustomLoginAuthenticationProvider extends DaoAuthenticationProvider {
-
+    
     /**
      * 利用构造方法在通过{@link Component}注解初始化时
      * 注入UserDetailsService和passwordEncoder，然后
@@ -41,13 +59,13 @@ public class CustomLoginAuthenticationProvider extends DaoAuthenticationProvider
         super.setPasswordEncoder(passwordEncoder);
         super.setUserDetailsService(userDetailsService);
     }
-
+    
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         log.info("authenticate custom...");
         return super.authenticate(authentication);
     }
-
+    
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         log.info("进入自定义凭证验证流程....");
@@ -66,7 +84,7 @@ public class CustomLoginAuthenticationProvider extends DaoAuthenticationProvider
             super.additionalAuthenticationChecks(userDetails, authentication);
         }
     }
-
+    
     @Override
     public boolean supports(Class<?> authentication) {
         return super.supports(authentication);

@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.wemirr.framework</groupId>
         <artifactId>wemirr-platform-framework</artifactId>
         <version>1.17.4-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
     <artifactId>db-spring-boot-starter</artifactId>
     <name>${project.artifactId}</name>
     <description>数据库配置模块</description>
-
+    
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -31,7 +29,7 @@
             <groupId>com.wemirr.framework</groupId>
             <artifactId>common-framework-core</artifactId>
         </dependency>
-
+        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
@@ -73,5 +71,5 @@
             <artifactId>oauth2-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
-
+    
 </project>

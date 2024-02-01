@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.platform.authority.controller.common;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -34,10 +52,9 @@ import java.time.temporal.ChronoUnit;
 @TenantDS
 @RequiredArgsConstructor
 public class OptLogController {
-
-
+    
     private final OptLogService optLogService;
-
+    
     @GetMapping
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('log:opt:page')")
@@ -47,7 +64,7 @@ public class OptLogController {
                 .eq(OptLog::getStatus, req.getStatus())
                 .eq(OptLog::getPlatform, req.getPlatform()));
     }
-
+    
     @DeleteMapping("/{day}")
     @Parameters({
             @Parameter(name = "day", description = "天数", in = ParameterIn.PATH),
@@ -56,13 +73,11 @@ public class OptLogController {
     public void batchDelete(@PathVariable Integer day) {
         this.optLogService.remove(Wraps.<OptLog>lbQ().le(OptLog::getStartTime, Instant.now().plus(-day, ChronoUnit.DAYS)));
     }
-
-
+    
     @PostMapping("/listener")
     @Operation(summary = "监听日志 - [DONE] - [Levin]", description = "监听日志 - [DONE] - [Levin]")
     public void listener(@RequestBody AccessLogInfo info) {
         this.optLogService.listener(info);
     }
-
-
+    
 }

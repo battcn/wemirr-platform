@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.db.mybatisplus.ext;
-
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -19,7 +36,7 @@ import java.util.List;
  */
 @Repository
 public interface SuperMapper<T> extends BaseMapper<T> {
-
+    
     /**
      * 批量插入 仅适用于 最好是 mysql 其他数据库有可能有问题
      *
@@ -27,7 +44,7 @@ public interface SuperMapper<T> extends BaseMapper<T> {
      * @return 影响行数
      */
     int insertBatchSomeColumn(Collection<?> entityList);
-
+    
     /**
      * 批量修改 仅适用于 最好是 mysql 其他数据库有可能有问题
      *
@@ -35,7 +52,7 @@ public interface SuperMapper<T> extends BaseMapper<T> {
      * @return 影响行数
      */
     int updateBatchSomeColumnById(Collection<?> entityList);
-
+    
     /**
      * 查询单挑数据
      *
@@ -46,7 +63,7 @@ public interface SuperMapper<T> extends BaseMapper<T> {
     default T selectOne(SFunction<T, ?> field, Object value) {
         return selectOne(Wraps.<T>lbQ().eq(field, value));
     }
-
+    
     /**
      * 查询单挑数据
      *
@@ -59,7 +76,7 @@ public interface SuperMapper<T> extends BaseMapper<T> {
     default T selectOne(SFunction<T, ?> field1, Object value1, SFunction<T, ?> field2, Object value2) {
         return selectOne(Wraps.<T>lbQ().eq(field1, value1).eq(field2, value2));
     }
-
+    
     /**
      * 统计数据
      *
@@ -68,7 +85,7 @@ public interface SuperMapper<T> extends BaseMapper<T> {
     default Long selectCount() {
         return selectCount(Wraps.lbQ());
     }
-
+    
     /**
      * 统计数据
      *
@@ -79,7 +96,7 @@ public interface SuperMapper<T> extends BaseMapper<T> {
     default Long selectCount(SFunction<T, ?> field, Object value) {
         return selectCount(Wraps.<T>lbQ().eq(field, value));
     }
-
+    
     /**
      * 查询全部数据
      *
@@ -88,7 +105,7 @@ public interface SuperMapper<T> extends BaseMapper<T> {
     default List<T> selectList() {
         return selectList(Wraps.lbQ());
     }
-
+    
     /**
      * 查询数据
      *
@@ -99,7 +116,7 @@ public interface SuperMapper<T> extends BaseMapper<T> {
     default List<T> selectList(SFunction<T, ?> field, Object value) {
         return selectList(Wraps.<T>lbQ().eq(field, value));
     }
-
+    
     /**
      * 批量查询
      *
@@ -113,7 +130,7 @@ public interface SuperMapper<T> extends BaseMapper<T> {
         }
         return selectList(Wraps.<T>lbQ().in(field, values));
     }
-
+    
     /**
      * 批量插入，适合大量数据插入
      *
@@ -122,7 +139,7 @@ public interface SuperMapper<T> extends BaseMapper<T> {
     default void insertBatch(Collection<T> list) {
         Db.saveBatch(list);
     }
-
+    
     /**
      * 批量插入，适合大量数据插入
      *
@@ -132,7 +149,7 @@ public interface SuperMapper<T> extends BaseMapper<T> {
     default void insertBatch(Collection<T> list, int size) {
         Db.saveBatch(list, size);
     }
-
+    
     /**
      * 根据ID批量修改
      *
@@ -141,7 +158,7 @@ public interface SuperMapper<T> extends BaseMapper<T> {
     default void updateBatch(Collection<T> list) {
         Db.updateBatchById(list);
     }
-
+    
     /**
      * 根据ID批量修改
      *
@@ -151,5 +168,5 @@ public interface SuperMapper<T> extends BaseMapper<T> {
     default void updateBatch(Collection<T> list, int size) {
         Db.updateBatchById(list, size);
     }
-
+    
 }

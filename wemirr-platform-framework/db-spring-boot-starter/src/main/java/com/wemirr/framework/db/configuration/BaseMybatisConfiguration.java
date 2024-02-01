@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.db.configuration;
-
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -37,11 +54,10 @@ import java.util.List;
 @Configuration
 @EnableConfigurationProperties(DatabaseProperties.class)
 public abstract class BaseMybatisConfiguration {
-
+    
     private final DatabaseProperties properties;
     private final AuthenticationContext context;
-
-
+    
     /**
      * 新的分页插件,一缓和二缓遵循mybatis的规则,
      * 需要设置 MybatisConfiguration#useDeprecatedExecutor = false
@@ -56,32 +72,33 @@ public abstract class BaseMybatisConfiguration {
         if (MultiTenantType.NONE != multiTenant.getType()) {
             // 新增多租户拦截器
             interceptor.addInnerInterceptor(new TenantLineInnerInterceptor(new TenantLineHandler() {
+                
                 @Override
                 public Expression getTenantId() {
                     // 租户ID
                     log.debug("当前租户ID - {}", context.tenantId());
                     return context.tenantId() == null ? null : new LongValue(context.tenantId());
                 }
-
+                
                 @Override
                 public boolean ignoreTable(String tableName) {
                     final List<String> tables = multiTenant.getIncludeTables();
-                    //  判断哪些表不需要尽心多租户判断,返回false表示都需要进行多租户判断
+                    // 判断哪些表不需要尽心多租户判断,返回false表示都需要进行多租户判断
                     return context.anonymous() || !tables.contains(tableName);
                 }
-
+                
                 @Override
                 public String getTenantIdColumn() {
                     return multiTenant.getTenantIdColumn();
                 }
-
+                
             }));
         }
         // 加载其它插件
         loadInnerInterceptor(interceptor);
         return interceptor;
     }
-
+    
     /**
      * mybatis-plus 分页插件
      *
@@ -96,18 +113,17 @@ public abstract class BaseMybatisConfiguration {
         paginationInnerInterceptor.setDialect(pagination.getDialect());
         return paginationInnerInterceptor;
     }
-
-
+    
     protected void loadInnerInterceptor(MybatisPlusInterceptor interceptor) {
         final DatabaseProperties.Intercept intercept = properties.getIntercept();
         if (intercept.getDataPermission().isEnabled()) {
-            //分页拦截器之前的插件 => 数据权限插件
+            // 分页拦截器之前的插件 => 数据权限插件
             interceptor.addInnerInterceptor(new DataPermissionInterceptor(new DataScopePermissionHandler(context)));
         }
         // 分页插件
         interceptor.addInnerInterceptor(paginationInnerInterceptor(intercept.getPagination()));
         if (intercept.isBlockAttack()) {
-            //防止全表更新与删除插件: BlockAttackInnerInterceptor
+            // 防止全表更新与删除插件: BlockAttackInnerInterceptor
             interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
         }
         if (intercept.isIllegalSql()) {
@@ -115,13 +131,13 @@ public abstract class BaseMybatisConfiguration {
             interceptor.addInnerInterceptor(new IllegalSQLInnerInterceptor());
         }
     }
-
+    
     @Bean
     @ConditionalOnMissingBean
     public MySqlInjector getMySqlInjector() {
         return new MySqlInjector();
     }
-
+    
     @Bean
     @ConditionalOnMissingBean
     public MetaObjectHandler metaObjectHandler() {

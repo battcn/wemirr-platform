@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.db.dynamic;
 
 import cn.hutool.core.collection.CollectionUtil;
@@ -35,11 +53,10 @@ import java.util.Set;
  */
 @Slf4j
 public class TenantDynamicDataSourceHandler {
-
+    
     public static final String TENANT_DATASOURCE_POOL = "TenantDataSourcePool_%s";
     private static final String CREATE_DATABASE_SCRIPT = "CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
-
-
+    
     @Resource
     private DataSource dataSource;
     @Resource
@@ -48,7 +65,7 @@ public class TenantDynamicDataSourceHandler {
     private DatabaseProperties databaseProperties;
     @Resource
     private ResourceLoader resourceLoader;
-
+    
     public void handler(EventAction action, TenantDynamicDatasource db) {
         if (Objects.isNull(db)) {
             log.warn("event dynamicDatasource is null....");
@@ -89,14 +106,15 @@ public class TenantDynamicDataSourceHandler {
         final Set<String> dsSets = ds.getDataSources().keySet();
         log.debug("连接池信息 - {}", dsSets);
     }
-
+    
     @NotNull
     private static DataSourceProperty getDataSourceProperty(TenantDynamicDatasource db, String database, boolean lazy) {
         DataSourceProperty dataSourceProperty = new DataSourceProperty();
         dataSourceProperty.setPoolName(String.format(TENANT_DATASOURCE_POOL, db.getTenantCode()));
         dataSourceProperty.setDriverClassName(db.getDriverClassName());
         if (lazy) {
-            String url = "jdbc:mysql://" + db.getHost() + "/" + database + "?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true";
+            String url =
+                    "jdbc:mysql://" + db.getHost() + "/" + database + "?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true";
             dataSourceProperty.setUrl(url);
         } else {
             String url = "jdbc:mysql://" + db.getHost();
@@ -107,7 +125,7 @@ public class TenantDynamicDataSourceHandler {
         dataSourceProperty.setLazy(lazy);
         return dataSourceProperty;
     }
-
+    
     public String buildDb(String tenantCode) {
         final DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
         if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
@@ -115,11 +133,11 @@ public class TenantDynamicDataSourceHandler {
         }
         return multiTenant.getDsPrefix() + tenantCode;
     }
-
+    
     public void initSqlScript(Long tenantId, String tenantCode) {
         runScript(tenantId, tenantCode);
     }
-
+    
     @SneakyThrows
     private void runScript(Long tenantId, String tenantCode) {
         log.info("tenantId - {},tenantCode - {}", tenantId, tenantCode);
@@ -147,7 +165,7 @@ public class TenantDynamicDataSourceHandler {
                 final String context = StrUtil.replace(text, "${tenant_id}", String.valueOf(tenantId));
                 newSqlScript.add(context);
             }
-
+            
             FileUtil.writeLines(newSqlScript, tmpFile, StandardCharsets.UTF_8);
             scriptRunner.runScript(dataSource, tmpFile.getName());
             FileUtil.del(tmpFile);

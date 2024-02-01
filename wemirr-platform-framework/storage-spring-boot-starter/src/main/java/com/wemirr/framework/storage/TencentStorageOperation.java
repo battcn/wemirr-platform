@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.framework.storage;
 
 import cn.hutool.core.io.FileUtil;
@@ -25,23 +43,21 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 
-
 /**
  * @author Levin
  */
 @Slf4j
 @AllArgsConstructor
 public class TencentStorageOperation implements StorageOperation {
-
+    
     private final COSClient client;
     private final TencentStorageProperties properties;
-
-
+    
     @Override
     public DownloadResponse download(String fileName) {
         return download(properties.getBucket(), fileName);
     }
-
+    
     @Override
     public DownloadResponse download(String bucketName, String fileName) {
         final String path = StringUtils.defaultIfBlank(this.properties.getTmpDir(), this.getClass().getResource("/").getPath());
@@ -51,44 +67,41 @@ public class TencentStorageOperation implements StorageOperation {
         return DownloadResponse.builder().inputStream(FileUtil.getInputStream(file))
                 .file(file).localFilePath(file.getPath()).build();
     }
-
+    
     @Override
     public void download(String bucketName, String fileName, File file) {
         final String bucket = StrUtil.blankToDefault(bucketName, properties.getBucket());
         this.client.getObject(new GetObjectRequest(bucket, fileName), file);
     }
-
+    
     @Override
     public void download(String fileName, File file) {
         download(properties.getBucket(), fileName, file);
     }
-
+    
     @Override
     public List<StorageItem> list() {
         return null;
     }
-
+    
     @Override
     public void rename(String oldName, String newName) {
-
+        
     }
-
-
+    
     @Override
     public void rename(String bucketName, String oldName, String newName) {
-
+        
     }
-
-
+    
     @Override
     public StorageResponse upload(String fileName, byte[] content) {
         return upload(properties.getBucket(), fileName, content);
     }
-
-
+    
     @Override
     public StorageResponse upload(String bucketName, String fileName, InputStream content) {
-        //腾讯云必需要以"/"开头
+        // 腾讯云必需要以"/"开头
         if (!fileName.startsWith(File.separator)) {
             fileName = File.separator + fileName;
         }
@@ -107,11 +120,10 @@ public class TencentStorageOperation implements StorageOperation {
             throw new StorageException(BaseStorageProperties.StorageType.TENCENT, "文件上传失败," + e.getLocalizedMessage());
         }
     }
-
-
+    
     @Override
     public StorageResponse upload(String bucketName, String fileName, byte[] content) {
-        //腾讯云必需要以"/"开头
+        // 腾讯云必需要以"/"开头
         if (!fileName.startsWith(File.separator)) {
             fileName = File.separator + fileName;
         }
@@ -127,24 +139,24 @@ public class TencentStorageOperation implements StorageOperation {
         return StorageResponse.builder().originName(fileName).targetName(fileName)
                 .size(objectMetadata.getContentLength()).fullUrl(properties.getMappingPath() + fileName).build();
     }
-
+    
     @Override
     public StorageResponse upload(StorageRequest request) {
         return null;
     }
-
+    
     @Override
     public void remove(String fileName) {
-
+        
     }
-
+    
     @Override
     public void remove(String bucketName, String fileName) {
-
+        
     }
-
+    
     @Override
     public void remove(String bucketName, Path path) {
-
+        
     }
 }

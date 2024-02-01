@@ -1,5 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.wemirr.platform.authority.controller.common;
-
 
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
@@ -40,9 +57,9 @@ import static com.wemirr.platform.authority.domain.common.converts.AreaConverts.
 @Tag(name = "地区管理", description = "地区管理")
 @RequiredArgsConstructor
 public class AreaController {
-
+    
     private final AreaService areaService;
-
+    
     /**
      * 查询系统所有的组织树
      */
@@ -63,14 +80,14 @@ public class AreaController {
         }).collect(Collectors.toList());
         return TreeUtil.build(nodes, 0L);
     }
-
+    
     @GetMapping("/{parent_id}/children")
     @Operation(summary = "查询子节点 - [DONE] - [Levin]", description = "查询子节点 - [DONE] - [Levin]")
     public List<AreaNodeResp> list(@PathVariable(name = "parent_id") Integer parentId) {
         final List<AreaEntity> list = this.areaService.listArea(parentId);
         return AREA_ENTITY_2_NODE_RESP_CONVERTS.converts(list);
     }
-
+    
     @PostMapping
     @Parameter(name = "id", description = "国标码", in = ParameterIn.PATH)
     @Operation(summary = "保存地址 - [DONE] - [Levin]", description = "保存地址 - [DONE] - [Levin]")
@@ -78,14 +95,14 @@ public class AreaController {
         this.areaService.saveOrUpdateArea(AREA_DTO_2_PO_CONVERTS.convert(dto));
         
     }
-
+    
     @DeleteMapping
     @Operation(summary = "批量删除 - [DONE] - [Levin]", description = "批量删除 - [DONE] - [Levin]")
     public void batchDel(@RequestBody List<Long> ids) {
         this.areaService.removeByIds(ids);
         
     }
-
+    
     @DeleteMapping("/{id}")
     @Parameter(name = "id", description = "国标码", in = ParameterIn.PATH)
     @Operation(summary = "删除地址 - [DONE] - [Levin]", description = "删除地址 - [DONE] - [Levin]")
