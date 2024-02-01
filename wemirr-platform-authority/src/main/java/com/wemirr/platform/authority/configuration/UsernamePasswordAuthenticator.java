@@ -56,30 +56,30 @@ import java.util.Optional;
 @Primary
 @Component
 public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
-
+    
     @Resource
     private UserMapper userMapper;
-
+    
     @Resource
     private TenantMapper tenantMapper;
-
+    
     @Resource
     private RoleMapper roleMapper;
-
+    
     @Resource
     private ResourceMapper resourceMapper;
-
+    
     @Resource
     private LoginLogService loginLogService;
-
+    
     @Resource
     private DataScopeServiceImpl dataScopeServiceImpl;
-
+    
     @Override
     public int getOrder() {
         return 100;
     }
-
+    
     @Override
     public void prepare(final IntegrationAuthentication authentication) {
         log.info("[用户密码登陆] - [{}]", JSON.toJSONString(authentication));
@@ -92,7 +92,7 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
             throw new OAuth2InvalidException("租户编码不能为空");
         }
     }
-
+    
     @Override
     public UserInfoDetails authenticate(final IntegrationAuthentication authentication) {
         String username = authentication.getUsername();
@@ -133,7 +133,7 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
         this.loginLogService.addLog(info);
         return info;
     }
-
+    
     @Override
     public boolean support(final IntegrationAuthentication integrationAuthentication) {
         return StrUtil.equals(integrationAuthentication.getLoginType(), loginType()) || loginType() == null;

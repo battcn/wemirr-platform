@@ -35,5 +35,5 @@ import org.springframework.stereotype.Repository;
 @TenantDS
 @Repository
 public interface TenantDictionaryMapper extends SuperMapper<TenantDictionary> {
-
+    
 }

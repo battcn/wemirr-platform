@@ -54,7 +54,7 @@ public enum Sex implements DictEnum<Integer> {
      * 女
      */
     WOMAN(2, "女");
-
+    
     @EnumValue
     @JsonValue
     private Integer type;

@@ -42,9 +42,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RegisteredClientRefServiceImpl extends SuperServiceImpl<RegisteredClientRefMapper, RegisteredClientRef> implements RegisteredClientRefService {
-
+    
     private final RegisteredClientRepository registeredClientRepository;
-
+    
     @Override
     public void registeredClient(RegisteredClientRefReq req) {
         final RegisteredClientRefReq.TokenSettingsReq token = req.getTokenSettings();
@@ -69,9 +69,9 @@ public class RegisteredClientRefServiceImpl extends SuperServiceImpl<RegisteredC
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                 .build();
         registeredClientRepository.save(registeredClient);
-
+        
     }
-
+    
     @Override
     public void deleteById(String id) {
         this.baseMapper.removeById(id);

@@ -60,7 +60,7 @@ public enum ResourceType implements DictEnum<Integer> {
      * 三方
      */
     BUILD_PUBLISH(5, "一键发布模板");
-
+    
     @EnumValue
     @JsonValue
     private Integer type;

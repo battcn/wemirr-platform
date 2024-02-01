@@ -52,7 +52,7 @@ public enum ReceiverType implements DictEnum<Integer> {
      * 角色
      */
     ROLE(2, "角色"),;
-
+    
     @EnumValue
     @JsonValue
     private Integer type;

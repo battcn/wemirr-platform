@@ -34,7 +34,7 @@ import java.util.List;
  */
 @Repository
 public interface TenantConfigMapper extends SuperMapper<TenantConfig> {
-
+    
     /**
      * 查询所有可用的动态数据源.
      *
@@ -42,7 +42,7 @@ public interface TenantConfigMapper extends SuperMapper<TenantConfig> {
      * @return 查询结果
      */
     List<TenantDatasourceResp> selectTenantDbById(@Param("id") Long id);
-
+    
     /**
      * 获取租户动态数据源
      *
@@ -50,5 +50,5 @@ public interface TenantConfigMapper extends SuperMapper<TenantConfig> {
      * @return 查询结果
      */
     TenantDatasourceResp getTenantDynamicDatasourceByTenantId(Long tenantId);
-
+    
 }

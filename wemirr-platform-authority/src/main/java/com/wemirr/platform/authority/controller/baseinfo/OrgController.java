@@ -54,7 +54,7 @@ import java.util.stream.Collectors;
 public class OrgController {
     
     private final OrgService orgService;
-
+    
     @GetMapping("/trees")
     @Operation(summary = "查询系统所有的组织树", description = "查询系统所有的组织树")
     public List<Tree<Long>> tree(String name, Boolean status) {

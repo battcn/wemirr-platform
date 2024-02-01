@@ -34,12 +34,12 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 public class VerificationCodeIntegrationAuthenticator extends UsernamePasswordAuthenticator {
-
+    
     private static final String VERIFICATION_CODE_AUTH_TYPE = "vc";
-
+    
     @Resource
     private VerificationService verificationService;
-
+    
     @Override
     public void prepare(final IntegrationAuthentication integrationAuthentication) {
         String vcToken = integrationAuthentication.getAuthParameter("vc_token");
@@ -51,7 +51,7 @@ public class VerificationCodeIntegrationAuthenticator extends UsernamePasswordAu
         }
         super.prepare(integrationAuthentication);
     }
-
+    
     @Override
     public String loginType() {
         return VERIFICATION_CODE_AUTH_TYPE;

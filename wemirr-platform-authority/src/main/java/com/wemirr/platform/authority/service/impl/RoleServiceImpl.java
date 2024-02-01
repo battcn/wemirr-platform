@@ -59,18 +59,18 @@ import static java.util.stream.Collectors.toList;
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implements RoleService {
-
+    
     private final RoleResMapper roleResMapper;
     private final DataPermissionResourceMapper dataPermissionResourceMapper;
     private final UserRoleMapper userRoleMapper;
     private final ResourceMapper resourceMapper;
     private final AuthenticationContext context;
-
+    
     @Override
     public List<Role> list() {
         return baseMapper.list();
     }
-
+    
     @Override
     @DSTransactional
     public void removeByRoleId(Long roleId) {
@@ -88,7 +88,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         roleResMapper.delete(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, roleId));
         userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId));
     }
-
+    
     @Override
     public void saveRole(Long userId, RoleReq req) {
         Role role = BeanUtil.toBean(req, Role.class);
@@ -96,7 +96,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         super.save(role);
         saveRoleOrgDataPermission(role.getId(), req.getOrgList());
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void updateRole(Long roleId, Long userId, RoleReq req) {
@@ -111,17 +111,17 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         this.baseMapper.updateById(role);
         saveRoleOrgDataPermission(role.getId(), req.getOrgList());
     }
-
+    
     @Override
     @DSTransactional
     public void saveUserRole(Long roleId, List<Long> userIdList) {
         this.userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId));
         final List<UserRole> userRoles = userIdList.stream().map(userId -> UserRole.builder()
-                        .roleId(roleId).userId(userId).build())
+                .roleId(roleId).userId(userId).build())
                 .toList();
         this.userRoleMapper.insertBatchSomeColumn(userRoles);
     }
-
+    
     private void saveRoleOrgDataPermission(Long roleId, List<Long> orgList) {
         dataPermissionResourceMapper.delete(Wraps.<DataPermissionResource>lbQ()
                 .eq(DataPermissionResource::getOwnerId, roleId)
@@ -137,7 +137,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
                 .collect(toList());
         dataPermissionResourceMapper.insertBatchSomeColumn(list);
     }
-
+    
     @Override
     public RolePermissionResp findRolePermissionById(Long roleId) {
         final List<VueRouter> buttons = resourceMapper.findVisibleResource(ResourceQueryReq.builder()

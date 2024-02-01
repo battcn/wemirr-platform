@@ -35,8 +35,7 @@ public class DictionaryConverts {
     
     public static final DictionaryConverts.DictionaryDto2PoConverts DICTIONARY_DTO_2_PO_CONVERTS = new DictionaryConverts.DictionaryDto2PoConverts();
     public static final DictionaryConverts.DictionaryItemDto2ItemPoConverts DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS = new DictionaryConverts.DictionaryItemDto2ItemPoConverts();
-
-
+    
     public static class DictionaryDto2PoConverts implements BasePageConverts<DictionarySaveReq, Dictionary> {
         
         @Override
@@ -62,7 +61,6 @@ public class DictionaryConverts {
         }
     }
     
-
     public static class DictionaryItemDto2ItemPoConverts implements BasePageConverts<DictionaryItemReq, DictionaryItem> {
         
         @Override

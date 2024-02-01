@@ -47,11 +47,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
+    
     private static final String USER_AGENT = "User-Agent";
-
+    
     private final HttpServletRequest request;
-
-
+    
     @Override
     public void addLog(UserInfoDetails details) {
         final String clientId = request.getParameter("client_id");

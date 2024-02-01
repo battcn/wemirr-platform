@@ -41,10 +41,11 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class VerificationServiceImpl implements VerificationService {
+    
     private static final String CAPTCHA_KEY_PREFIX = "captcha:prefix:%s";
-
+    
     private final StringRedisTemplate stringRedisTemplate;
-
+    
     @SneakyThrows
     @Override
     public CircleCaptcha create(String key, Integer width, Integer height) {
