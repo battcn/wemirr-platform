@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.repository.tenant;
 
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
@@ -30,10 +31,9 @@ import org.springframework.stereotype.Repository;
  * </p>
  *
  * @author Levin
- * @date 2019-07-02
  */
 @TenantDS
 @Repository
 public interface TenantDictionaryMapper extends SuperMapper<TenantDictionary> {
-    
+
 }

@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.domain.baseinfo.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -58,8 +59,8 @@ public enum ResourceType implements DictEnum<Integer> {
     /**
      * 三方
      */
-    BUILD_PUBLISH(5, "一键发布模板"),
-    ;
+    BUILD_PUBLISH(5, "一键发布模板");
+
     @EnumValue
     @JsonValue
     private Integer type;

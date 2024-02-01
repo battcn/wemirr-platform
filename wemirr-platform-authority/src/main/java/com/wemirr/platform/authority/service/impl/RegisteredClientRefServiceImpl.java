@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
@@ -41,16 +42,16 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RegisteredClientRefServiceImpl extends SuperServiceImpl<RegisteredClientRefMapper, RegisteredClientRef> implements RegisteredClientRefService {
-    
+
     private final RegisteredClientRepository registeredClientRepository;
-    
+
     @Override
     public void registeredClient(RegisteredClientRefReq req) {
         final RegisteredClientRefReq.TokenSettingsReq token = req.getTokenSettings();
         final RegisteredClient registeredClient = RegisteredClient.withId(req.getClientId()).clientName(req.getClientName())
                 .clientId(req.getClientId()).clientIdIssuedAt(req.getClientIdIssuedAt())
                 .clientSecret(req.getClientSecret()).clientSecretExpiresAt(req.getClientSecretExpiresAt())
-                .authorizationGrantTypes((grantTypes) -> {
+                .authorizationGrantTypes(grantTypes -> {
                     if (CollUtil.isNotEmpty(req.getAuthorizationGrantTypes())) {
                         final List<AuthorizationGrantType> list = req.getAuthorizationGrantTypes().stream().map(AuthorizationGrantType::new).toList();
                         grantTypes.addAll(list);
@@ -58,7 +59,7 @@ public class RegisteredClientRefServiceImpl extends SuperServiceImpl<RegisteredC
                 })
                 .redirectUri(req.getRedirectUris())
                 .postLogoutRedirectUri(req.getRedirectUris())
-                .scopes((x) -> x.addAll(req.getScopes()))
+                .scopes(x -> x.addAll(req.getScopes()))
                 .tokenSettings(TokenSettings.builder()
                         .accessTokenTimeToLive(Duration.ofMinutes(token.getAccessTokenTimeToLive()))
                         .refreshTokenTimeToLive(Duration.ofMinutes(token.getRefreshTokenTimeToLive()))
@@ -68,9 +69,9 @@ public class RegisteredClientRefServiceImpl extends SuperServiceImpl<RegisteredC
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                 .build();
         registeredClientRepository.save(registeredClient);
-        
+
     }
-    
+
     @Override
     public void deleteById(String id) {
         this.baseMapper.removeById(id);

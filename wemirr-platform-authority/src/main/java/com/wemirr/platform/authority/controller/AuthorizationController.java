@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.controller;
 
 import jakarta.servlet.http.HttpSession;
@@ -110,6 +111,7 @@ public class AuthorizationController {
      * @param userCode  设备码授权流程中的用户码
      * @param principal 当前认证信息
      * @return 页面所需数据
+     * @throws RuntimeException  RuntimeException
      */
     private Map<String, Object> getConsentParameters(String scope,
                                                      String state,
@@ -171,29 +173,29 @@ public class AuthorizationController {
     public static class ScopeWithDescription {
         
         private static final String DEFAULT_DESCRIPTION = "UNKNOWN SCOPE - We cannot provide information about this permission, use caution when granting this.";
-        private static final Map<String, String> scopeDescriptions = new HashMap<>();
+        private static final Map<String, String> SCOPE_DESCRIPTIONS = new HashMap<>();
         
         static {
-            scopeDescriptions.put(
+            SCOPE_DESCRIPTIONS.put(
                     OidcScopes.PROFILE,
                     "This application will be able to read your profile information.");
-            scopeDescriptions.put(
+            SCOPE_DESCRIPTIONS.put(
                     "message.read",
                     "This application will be able to read your message.");
-            scopeDescriptions.put(
+            SCOPE_DESCRIPTIONS.put(
                     "message.write",
                     "This application will be able to add new messages. It will also be able to edit and delete existing messages.");
-            scopeDescriptions.put(
+            SCOPE_DESCRIPTIONS.put(
                     "other.scope",
                     "This is another scope example of a scope description.");
         }
         
-        public final String scope;
-        public final String description;
+        private final String scope;
+        private final String description;
         
         ScopeWithDescription(String scope) {
             this.scope = scope;
-            this.description = scopeDescriptions.getOrDefault(scope, DEFAULT_DESCRIPTION);
+            this.description = SCOPE_DESCRIPTIONS.getOrDefault(scope, DEFAULT_DESCRIPTION);
         }
     }
     

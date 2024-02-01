@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -55,7 +56,7 @@ public class RegisteredClientRefController {
     @GetMapping
     @Parameters({
             @Parameter(description = "clientId", name = "clientId", in = ParameterIn.QUERY),
-            @Parameter(description = "clientName", name = "clientName", in = ParameterIn.QUERY),
+            @Parameter(description = "clientName", name = "clientName", in = ParameterIn.QUERY)
     })
     @Operation(summary = "应用列表 - [Levin] - [DONE]")
     public IPage<RegisteredClientRefResp> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,

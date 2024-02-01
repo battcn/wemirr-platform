@@ -34,9 +34,7 @@
         <property name="fileExtensions" value="java" />
         <property name="max" value="200" />
     </module>
-    <module name="NewlineAtEndOfFile">
-        <property name="lineSeparator" value="lf" />
-    </module>
+    <module name="NewlineAtEndOfFile"/>
     <module name="Translation" />
     <module name="UniqueProperties" />
 
@@ -53,7 +51,6 @@
             <property name="tokens" value="VARIABLE_DEF" />
             <property name="allowSamelineMultipleAnnotations" value="true" />
         </module>
-        <module name="AnnotationUseStyle" />
         <module name="MissingDeprecated" />
         <module name="MissingOverride" />
         <module name="PackageAnnotation" />
@@ -110,11 +107,9 @@
         <module name="NestedForDepth">
             <property name="severity" value="warning" />
         </module>
-        <module name="NestedIfDepth" />
         <module name="NestedTryDepth" />
         <module name="NoArrayTrailingComma" />
         <module name="NoClone" />
-        <module name="NoEnumTrailingComma" />
         <module name="NoFinalizer" />
         <module name="OneStatementPerLine" />
         <module name="OverloadMethodsDeclarationOrder" />
@@ -135,10 +130,6 @@
         <module name="VariableDeclarationUsageDistance" />
 
         <!-- Imports -->
-        <module name="AvoidStarImport" />
-        <module name="AvoidStaticImport">
-            <property name="excludes" value="org.junit.jupiter.api.Assertions.*,org.junit.jupiter.api.Assumptions.*,org.hamcrest.Matchers.*,org.hamcrest.CoreMatchers.*,org.hamcrest.MatcherAssert.*,org.mockito.Mockito.*,org.mockito.ArgumentMatchers.*" />
-        </module>
         <module name="IllegalImport" />
         <module name="RedundantImport" />
         <module name="UnusedImports" />
@@ -161,15 +152,11 @@
             <property name="violateExecutionOnNonTightHtml" value="true" />
             <property name="allowNewlineParagraph" value="false" />
         </module>
-        <module name="JavadocStyle" />
+        <!--<module name="JavadocStyle" />-->
         <module name="JavadocTagContinuationIndentation">
             <property name="violateExecutionOnNonTightHtml" value="true" />
         </module>
         <module name="JavadocType" />
-        <module name="MissingJavadocMethod">
-            <property name="allowMissingPropertyJavadoc" value="true" />
-            <property name="tokens" value="METHOD_DEF" />
-        </module>
         <module name="MissingJavadocPackage" />
         <module name="NonEmptyAtclauseDescription">
             <property name="violateExecutionOnNonTightHtml" value="true" />
@@ -178,9 +165,9 @@
             <property name="violateExecutionOnNonTightHtml" value="true" />
             <property name="ignoreInlineTags" value="false" />
         </module>
-        <module name="SummaryJavadoc">
+        <!--<module name="SummaryJavadoc">
             <property name="violateExecutionOnNonTightHtml" value="true" />
-        </module>
+        </module>-->
 
         <!-- Metrics -->
         <module name="BooleanExpressionComplexity">
@@ -208,7 +195,6 @@
         <module name="AvoidEscapedUnicodeCharacters" />
         <module name="CommentsIndentation" />
         <module name="DescendantToken" />
-        <module name="FinalParameters" />
         <module name="Indentation">
             <property name="arrayInitIndent" value="2" />
             <property name="lineWrappingIndentation" value="8" />
@@ -218,7 +204,7 @@
         <module name="TodoComment" />
         <module name="TrailingComment" />
         <module name="UncommentedMain">
-            <property name="excludedClasses" value="\.Bootstrap" />
+            <property name="excludedClasses" value=".*Application$" />
         </module>
         <module name="UpperEll" />
 
@@ -256,7 +242,6 @@
             <property name="severity" value="warning" />
             <property name="max" value="50" />
         </module>
-        <module name="LambdaBodyLength" />
         <module name="MethodCount">
             <property name="severity" value="warning" />
         </module>
@@ -267,10 +252,6 @@
         <!-- Whitespace -->
         <module name="EmptyForInitializerPad" />
         <module name="EmptyForIteratorPad" />
-        <module name="EmptyLineSeparator">
-            <property name="allowMultipleEmptyLines" value="false" />
-            <property name="allowMultipleEmptyLinesInsideClassMembers" value="false" />
-        </module>
         <module name="GenericWhitespace" />
         <module name="MethodParamPad" />
         <module name="NoLineWrap" />

@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.domain.baseinfo.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -52,8 +53,8 @@ public enum Sex implements DictEnum<Integer> {
     /**
      * 女
      */
-    WOMAN(2, "女"),
-    ;
+    WOMAN(2, "女");
+
     @EnumValue
     @JsonValue
     private Integer type;

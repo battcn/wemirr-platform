@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
@@ -53,9 +54,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes> implements RoleResService {
-    
+
     private final UserRoleService userRoleService;
-    
+
     @Override
     public RoleResResp findAuthorityIdByRoleId(Long roleId) {
         final List<RoleResMenuMapperResp> list = this.baseMapper.selectRoleResByRoleId(roleId);
@@ -68,16 +69,16 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
                 .resourceIdList(resourceIdList)
                 .build();
     }
-    
+
     @Override
     public boolean saveUserRole(UserRoleSaveReq req) {
         userRoleService.remove(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, req.getRoleId()));
         List<UserRole> list = req.getUserIdList().stream()
-                .map((userId) -> UserRole.builder().userId(userId).roleId(req.getRoleId()).build()).toList();
+                .map(userId -> UserRole.builder().userId(userId).roleId(req.getRoleId()).build()).toList();
         userRoleService.saveBatch(list);
         return true;
     }
-    
+
     @Override
     @DSTransactional
     public void saveRoleAuthority(RoleResSaveReq dto) {
@@ -85,7 +86,7 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
         super.remove(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, dto.getRoleId()));
         resHandler(dto, dto.getRoleId());
     }
-    
+
     private void resHandler(RoleResSaveReq data, Long roleId) {
         final Set<Long> set = data.getResIds();
         if (CollectionUtil.isEmpty(set)) {

@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.repository.tenant;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
@@ -27,19 +28,21 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
+ * 租户配置.
+ *
  * @author Levin
  */
 @Repository
 public interface TenantConfigMapper extends SuperMapper<TenantConfig> {
-    
+
     /**
-     * 查询所有可用的动态数据源
+     * 查询所有可用的动态数据源.
      *
      * @param id id
      * @return 查询结果
      */
     List<TenantDatasourceResp> selectTenantDbById(@Param("id") Long id);
-    
+
     /**
      * 获取租户动态数据源
      *
@@ -47,5 +50,5 @@ public interface TenantConfigMapper extends SuperMapper<TenantConfig> {
      * @return 查询结果
      */
     TenantDatasourceResp getTenantDynamicDatasourceByTenantId(Long tenantId);
-    
+
 }

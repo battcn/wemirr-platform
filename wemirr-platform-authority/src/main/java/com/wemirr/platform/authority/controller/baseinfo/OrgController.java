@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.controller.baseinfo;
 
 import cn.hutool.core.lang.tree.Tree;
@@ -53,16 +54,13 @@ import java.util.stream.Collectors;
 public class OrgController {
     
     private final OrgService orgService;
-    
-    /**
-     * 查询系统所有的组织树
-     */
+
     @GetMapping("/trees")
     @Operation(summary = "查询系统所有的组织树", description = "查询系统所有的组织树")
     public List<Tree<Long>> tree(String name, Boolean status) {
         List<Org> list = this.orgService.list(Wraps.<Org>lbQ().like(Org::getLabel, name).eq(Org::getStatus, status).orderByAsc(Org::getSequence));
         final List<TreeNode<Long>> nodes = list.stream().map(org -> {
-            TreeNode<Long> treeNode = new TreeNode<>(org.getId(), org.getParentId(), org.getLabel(), org.getSequence());
+            final TreeNode<Long> treeNode = new TreeNode<>(org.getId(), org.getParentId(), org.getLabel(), org.getSequence());
             Map<String, Object> extra = Maps.newLinkedHashMap();
             extra.put("label", org.getLabel());
             extra.put("alias", org.getAlias());

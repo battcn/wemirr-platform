@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority;
 
 import com.wemirr.framework.boot.log.event.AccessLogListener;
@@ -38,6 +39,8 @@ import org.springframework.stereotype.Repository;
 import java.net.InetAddress;
 
 /**
+ * 鉴权服务启动类.
+ *
  * @author Levin
  */
 @Slf4j
@@ -50,13 +53,24 @@ import java.net.InetAddress;
 @EnableOAuth2Server
 public class AuthorityApplication {
     
+    /**
+     * 操作日志监听回调.
+     *
+     * @param optLogService 操作日志存储服务
+     * @return AccessLogListener
+     */
     @Bean
-    public AccessLogListener accessLogListener(OptLogService optLogService) {
+    public AccessLogListener accessLogListener(final OptLogService optLogService) {
         return new AccessLogListener(optLogService::listener);
     }
     
+    /**
+     * 启动类.
+     *
+     * @param args 启动参数
+     */
     @SneakyThrows
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         final ConfigurableApplicationContext applicationContext = SpringApplication.run(AuthorityApplication.class, args);
         Environment env = applicationContext.getEnvironment();
         final String appName = env.getProperty("spring.application.name");

@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.domain.baseinfo.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -50,9 +51,8 @@ public enum ReceiverType implements DictEnum<Integer> {
     /**
      * 角色
      */
-    ROLE(2, "角色"),
-    
-    ;
+    ROLE(2, "角色"),;
+
     @EnumValue
     @JsonValue
     private Integer type;

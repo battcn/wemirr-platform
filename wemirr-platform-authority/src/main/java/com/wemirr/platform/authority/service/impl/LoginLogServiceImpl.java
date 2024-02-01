@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.extra.servlet.JakartaServletUtil;
@@ -46,11 +47,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
-    
-    private final HttpServletRequest request;
-    
     private static final String USER_AGENT = "User-Agent";
-    
+
+    private final HttpServletRequest request;
+
+
     @Override
     public void addLog(UserInfoDetails details) {
         final String clientId = request.getParameter("client_id");

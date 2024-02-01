@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.repository.tenant;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
@@ -29,9 +30,8 @@ import org.springframework.stereotype.Repository;
  * </p>
  *
  * @author Levin
- * @date 2019-07-02
  */
 @Repository
 public interface TenantDictionaryItemMapper extends SuperMapper<TenantDictionaryItem> {
-    
+
 }

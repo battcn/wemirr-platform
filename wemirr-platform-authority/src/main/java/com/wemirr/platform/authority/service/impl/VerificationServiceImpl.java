@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.captcha.CaptchaUtil;
@@ -40,10 +41,10 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class VerificationServiceImpl implements VerificationService {
-    
-    private final StringRedisTemplate stringRedisTemplate;
     private static final String CAPTCHA_KEY_PREFIX = "captcha:prefix:%s";
-    
+
+    private final StringRedisTemplate stringRedisTemplate;
+
     @SneakyThrows
     @Override
     public CircleCaptcha create(String key, Integer width, Integer height) {

@@ -16,10 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.controller.common;
 
 import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.wemirr.platform.authority.domain.common.resp.CaptchaResp;
 import com.wemirr.platform.authority.service.VerificationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,9 +44,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "验证码", description = "验证码")
 @RequiredArgsConstructor
 public class CaptchaController {
-    
+
     private final VerificationService verificationService;
-    
+
     @SneakyThrows
     @GetMapping(value = "/captcha2", produces = "image/png")
     @Operation(summary = "验证码 - [DONE] - [Levin]", description = "验证码 - [DONE] - [Levin]")
@@ -59,17 +61,15 @@ public class CaptchaController {
         final CircleCaptcha captcha = verificationService.create(key, width, height);
         response.getOutputStream().write(captcha.getImageBytes());
     }
-    
+
     @GetMapping("/captcha")
     @Operation(summary = "验证码 - [DONE] - [Levin]", description = "验证码 - [DONE] - [Levin]")
     public CaptchaResp getCaptcha(@RequestParam(value = "key", required = false) String key,
                                   @RequestParam(defaultValue = "130", required = false) Integer width,
                                   @RequestParam(defaultValue = "34", required = false) Integer height) {
-        if (key == null) {
-            key = IdUtil.fastSimpleUUID();
-        }
-        final CircleCaptcha captcha = verificationService.create(key, width, height);
-        return CaptchaResp.builder().captchaId(key).code(captcha.getCode()).imageData(captcha.getImageBase64Data()).build();
+        final String captchaId = StrUtil.blankToDefault(key, IdUtil.fastSimpleUUID());
+        final CircleCaptcha captcha = verificationService.create(captchaId, width, height);
+        return CaptchaResp.builder().captchaId(captchaId).code(captcha.getCode()).imageData(captcha.getImageBase64Data()).build();
     }
-    
+
 }

@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.configuration;
 
 import cn.hutool.core.util.StrUtil;
@@ -47,7 +48,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * 默认登录处理
+ * 默认登录处理.
  *
  * @author Levin
  **/
@@ -55,27 +56,32 @@ import java.util.Optional;
 @Primary
 @Component
 public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
-    
+
     @Resource
     private UserMapper userMapper;
+
     @Resource
     private TenantMapper tenantMapper;
+
     @Resource
     private RoleMapper roleMapper;
+
     @Resource
     private ResourceMapper resourceMapper;
+
     @Resource
     private LoginLogService loginLogService;
+
     @Resource
     private DataScopeServiceImpl dataScopeServiceImpl;
-    
+
     @Override
     public int getOrder() {
         return 100;
     }
-    
+
     @Override
-    public void prepare(IntegrationAuthentication authentication) {
+    public void prepare(final IntegrationAuthentication authentication) {
         log.info("[用户密码登陆] - [{}]", JSON.toJSONString(authentication));
         String username = authentication.getUsername();
         String tenantCode = authentication.getTenantCode();
@@ -86,9 +92,9 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
             throw new OAuth2InvalidException("租户编码不能为空");
         }
     }
-    
+
     @Override
-    public UserInfoDetails authenticate(IntegrationAuthentication authentication) {
+    public UserInfoDetails authenticate(final IntegrationAuthentication authentication) {
         String username = authentication.getUsername();
         String password = authentication.getPassword();
         String tenantCode = authentication.getTenantCode();
@@ -127,9 +133,9 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
         this.loginLogService.addLog(info);
         return info;
     }
-    
+
     @Override
-    public boolean support(IntegrationAuthentication integrationAuthentication) {
+    public boolean support(final IntegrationAuthentication integrationAuthentication) {
         return StrUtil.equals(integrationAuthentication.getLoginType(), loginType()) || loginType() == null;
     }
 }

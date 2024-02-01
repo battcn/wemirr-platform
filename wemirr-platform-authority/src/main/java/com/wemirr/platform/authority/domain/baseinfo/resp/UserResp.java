@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.domain.baseinfo.resp;
 
 import com.wemirr.platform.authority.domain.baseinfo.enums.Sex;
@@ -86,6 +87,6 @@ public class UserResp {
     private String positionStatus;
     
     @Schema(description = "创建时间")
-    protected Instant createdTime;
+    private Instant createdTime;
     
 }

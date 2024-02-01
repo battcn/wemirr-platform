@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.domain.common.resp;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -42,7 +43,7 @@ public class AreaNodeResp {
     @Schema(description = "级别")
     private Integer level;
     @Schema(description = "父ID")
-    protected Long parentId;
+    private Long parentId;
     private Boolean isLeaf;
     /**
      * 经度

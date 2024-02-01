@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.domain.baseinfo.resp;
 
 import io.swagger.v3.oas.annotations.media.Schema;

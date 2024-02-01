@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.controller.common;
 
 import cn.hutool.core.lang.tree.Tree;
@@ -57,18 +58,15 @@ import static com.wemirr.platform.authority.domain.common.converts.AreaConverts.
 @Tag(name = "地区管理", description = "地区管理")
 @RequiredArgsConstructor
 public class AreaController {
-    
+
     private final AreaService areaService;
-    
-    /**
-     * 查询系统所有的组织树
-     */
+
     @GetMapping("/trees")
-    @Operation(summary = "查询地址树", description = "查询地址树")
+    @Operation(summary = "查询地址树", description = "查询系统所有的组织树")
     public List<Tree<Long>> tree() {
         List<AreaEntity> list = this.areaService.list(Wraps.<AreaEntity>lbQ().orderByAsc(AreaEntity::getSequence));
         final List<TreeNode<Long>> nodes = list.stream().map(area -> {
-            TreeNode<Long> treeNode = new TreeNode<>(area.getId(), area.getParentId(), area.getName(), area.getSequence());
+            final TreeNode<Long> treeNode = new TreeNode<>(area.getId(), area.getParentId(), area.getName(), area.getSequence());
             Map<String, Object> extra = Maps.newLinkedHashMap();
             extra.put("value", area.getId());
             extra.put("label", area.getName());
@@ -80,34 +78,34 @@ public class AreaController {
         }).collect(Collectors.toList());
         return TreeUtil.build(nodes, 0L);
     }
-    
+
     @GetMapping("/{parent_id}/children")
     @Operation(summary = "查询子节点 - [DONE] - [Levin]", description = "查询子节点 - [DONE] - [Levin]")
     public List<AreaNodeResp> list(@PathVariable(name = "parent_id") Integer parentId) {
         final List<AreaEntity> list = this.areaService.listArea(parentId);
         return AREA_ENTITY_2_NODE_RESP_CONVERTS.converts(list);
     }
-    
+
     @PostMapping
     @Parameter(name = "id", description = "国标码", in = ParameterIn.PATH)
     @Operation(summary = "保存地址 - [DONE] - [Levin]", description = "保存地址 - [DONE] - [Levin]")
     public void save(@Validated @RequestBody AreaReq dto) {
         this.areaService.saveOrUpdateArea(AREA_DTO_2_PO_CONVERTS.convert(dto));
-        
+
     }
-    
+
     @DeleteMapping
     @Operation(summary = "批量删除 - [DONE] - [Levin]", description = "批量删除 - [DONE] - [Levin]")
     public void batchDel(@RequestBody List<Long> ids) {
         this.areaService.removeByIds(ids);
-        
+
     }
-    
+
     @DeleteMapping("/{id}")
     @Parameter(name = "id", description = "国标码", in = ParameterIn.PATH)
     @Operation(summary = "删除地址 - [DONE] - [Levin]", description = "删除地址 - [DONE] - [Levin]")
     public void del(@PathVariable Integer id) {
         this.areaService.removeById(id);
-        
+
     }
 }

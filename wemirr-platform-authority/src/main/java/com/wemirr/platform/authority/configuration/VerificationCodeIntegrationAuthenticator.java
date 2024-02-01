@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.configuration;
 
 import com.wemirr.framework.commons.entity.Result;
@@ -27,20 +28,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 /**
- * 集成验证码认证
+ * 集成验证码认证.
  *
  * @author Levin
  **/
 @Component
 public class VerificationCodeIntegrationAuthenticator extends UsernamePasswordAuthenticator {
-    
-    private final static String VERIFICATION_CODE_AUTH_TYPE = "vc";
-    
+
+    private static final String VERIFICATION_CODE_AUTH_TYPE = "vc";
+
     @Resource
     private VerificationService verificationService;
-    
+
     @Override
-    public void prepare(IntegrationAuthentication integrationAuthentication) {
+    public void prepare(final IntegrationAuthentication integrationAuthentication) {
         String vcToken = integrationAuthentication.getAuthParameter("vc_token");
         String vcCode = integrationAuthentication.getAuthParameter("vc_code");
         // 验证验证码
@@ -50,7 +51,7 @@ public class VerificationCodeIntegrationAuthenticator extends UsernamePasswordAu
         }
         super.prepare(integrationAuthentication);
     }
-    
+
     @Override
     public String loginType() {
         return VERIFICATION_CODE_AUTH_TYPE;

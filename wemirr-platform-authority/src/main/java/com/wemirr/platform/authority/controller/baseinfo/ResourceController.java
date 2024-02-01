@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.controller.baseinfo;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -65,20 +66,31 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 @Tag(name = "菜单资源", description = "菜单资源")
 public class ResourceController {
-    
+
     private final ResourceService resourceService;
     private final AuthenticationContext authenticationContext;
-    
+
     @GetMapping("/router")
     @Operation(summary = "菜单路由", description = "只能看到自身权限")
     public List<Tree<Long>> router(@RequestParam(required = false, defaultValue = "false") Boolean all) {
         List<VueRouter> routers = resourceService.findVisibleResource(ResourceQueryReq.builder().userId(authenticationContext.userId()).build());
         List<TreeNode<Long>> list = routers.stream()
-                .filter(router -> all || (router.getType() != null && (router.getType() == ResourceType.MENU || router.getType() == ResourceType.BUILD_PUBLISH)))
+                .filter(router -> all || isValidRouterType(router))
                 .map(VUE_ROUTER_2_TREE_NODE_CONVERTS::convert).collect(toList());
         return TreeUtil.build(list, 0L);
     }
-    
+
+    /**
+     * 判断Router的类型是否有效
+     *
+     * @param router router
+     * @return 是否有效
+     */
+    private boolean isValidRouterType(VueRouter router) {
+        ResourceType type = router.getType();
+        return type == ResourceType.MENU || type == ResourceType.BUILD_PUBLISH;
+    }
+
     @GetMapping
     @Parameters({
             @Parameter(description = "父ID", name = "parentId", in = ParameterIn.QUERY),
@@ -93,7 +105,7 @@ public class ResourceController {
         return resourceService.page(new Page<>(current, size), Wraps.<Resource>lbQ().eq(Resource::getParentId, parentId)
                 .eq(Resource::getType, type)).convert(x -> BeanUtil.toBean(x, ResourcePageResp.class));
     }
-    
+
     @GetMapping("/permissions")
     @Operation(summary = "资源码", description = "只能看到自身资源码")
     public List<String> permissions() {
@@ -101,7 +113,7 @@ public class ResourceController {
                 .userId(authenticationContext.userId()).build())).orElseGet(Lists::newArrayList);
         return routers.stream().map(VueRouter::getPermission).filter(StrUtil::isNotBlank).distinct().collect(toList());
     }
-    
+
     @PostMapping
     @AccessLog(description = "添加资源")
     @Operation(summary = "添加资源")
@@ -109,7 +121,7 @@ public class ResourceController {
     public void save(@Validated @RequestBody ResourceSaveReq req) {
         resourceService.add(req);
     }
-    
+
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除资源")
     @Operation(summary = "删除资源")
@@ -117,7 +129,7 @@ public class ResourceController {
     public void del(@PathVariable Long id) {
         this.resourceService.delete(id);
     }
-    
+
     @PutMapping("/{id}")
     @AccessLog(description = "修改资源")
     @Operation(summary = "修改资源")
@@ -125,5 +137,5 @@ public class ResourceController {
     public void edit(@PathVariable Long id, @Validated @RequestBody ResourceSaveReq req) {
         resourceService.edit(id, req);
     }
-    
+
 }

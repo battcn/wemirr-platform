@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.domain.common.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -39,9 +40,9 @@ public class AreaReq {
     /**
      * 名称
      */
-    @NotBlank(message = "名称不能为空")
     @Schema(description = "名称")
-    protected String name;
+    @NotBlank(message = "名称不能为空")
+    private String name;
     
     @Schema(description = "层级")
     private Integer level;
@@ -49,9 +50,9 @@ public class AreaReq {
     /**
      * 父ID
      */
-    @NotNull(message = "上级国标码不能为空")
     @Schema(description = "父级ID")
-    protected Long parentId;
+    @NotNull(message = "上级国标码不能为空")
+    private Long parentId;
     
     /**
      * 经度
@@ -65,8 +66,8 @@ public class AreaReq {
     private BigDecimal latitude;
     @Schema(description = "排序")
     private Integer sequence;
-    @Length(max = 255, message = "数据来源不能超过 {max}")
     @Schema(description = "数据来源")
+    @Length(max = 255, message = "数据来源不能超过 {max}")
     private String source;
     
 }

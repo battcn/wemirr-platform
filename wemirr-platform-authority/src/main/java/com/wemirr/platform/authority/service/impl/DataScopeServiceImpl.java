@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.service.impl;
 
 import com.wemirr.framework.commons.entity.Entity;
@@ -50,18 +51,18 @@ import static com.wemirr.framework.commons.security.DataScopeType.*;
 @Service
 @RequiredArgsConstructor
 public class DataScopeServiceImpl implements DataScopeService {
-    
+
     private final RoleMapper roleMapper;
     private final DataPermissionResourceMapper dataPermissionResourceMapper;
     private final UserMapper userMapper;
     private final OrgService orgService;
-    
+
     @Override
     public DataPermission getDataScopeById(Long userId) {
         final User user = Optional.ofNullable(this.userMapper.selectById(userId)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
         return getDataPermissionById(userId, user.getOrgId());
     }
-    
+
     /**
      * 开发者可以根据自己企业需求动态扩展数据权限（默认就支撑多维度数据权限，此处以用户维护演示）
      *
@@ -75,14 +76,14 @@ public class DataScopeServiceImpl implements DataScopeService {
             return DataPermission.builder().build();
         }
         // 找到 dsType 最大的角色， dsType越大，角色拥有的权限最大
-        Role role = list.stream().max(Comparator.comparingInt((item) -> item.getScopeType().getType())).get();
+        Role role = list.stream().max(Comparator.comparingInt(item -> item.getScopeType().getType())).get();
         DataPermission permission = DataPermission.builder().scopeType(role.getScopeType()).build();
         List<Long> userIdList = null;
         if (role.getScopeType() == CUSTOMIZE) {
             List<Long> orgIdList = dataPermissionResourceMapper.selectList(Wraps.<DataPermissionResource>lbQ().select(DataPermissionResource::getDataId)
-                    .eq(DataPermissionResource::getOwnerId, role.getId())
-                    .eq(DataPermissionResource::getOwnerType, DataResourceType.ROLE)
-                    .eq(DataPermissionResource::getDataType, DataResourceType.ORG))
+                            .eq(DataPermissionResource::getOwnerId, role.getId())
+                            .eq(DataPermissionResource::getOwnerType, DataResourceType.ROLE)
+                            .eq(DataPermissionResource::getDataType, DataResourceType.ORG))
                     .stream().map(DataPermissionResource::getDataId).distinct().toList();
             userIdList = this.userMapper.selectList(Wraps.<User>lbQ().select(User::getId).in(User::getOrgId, orgIdList))
                     .stream().map(Entity::getId).toList();

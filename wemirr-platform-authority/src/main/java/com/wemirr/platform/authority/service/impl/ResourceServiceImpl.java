@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -56,21 +57,22 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resource> implements ResourceService {
-    
+
+    public static final String DEFAULT_PATH = "/system/development/release/tenant_%s";
+    public static final String DEFAULT_COMPONENT = "/system/development/build/standard";
+
+    private static final String SPEL = "/";
+
     private final RoleMapper roleMapper;
     private final RoleResMapper roleResMapper;
     private final AuthenticationContext authenticationContext;
-    
+
     @Override
     public List<VueRouter> findVisibleResource(ResourceQueryReq req) {
         return baseMapper.findVisibleResource(req);
     }
-    
-    public static final String DEFAULT_PATH = "/system/development/release/tenant_%s";
-    public static final String DEFAULT_COMPONENT = "/system/development/build/standard";
-    
-    private static final String SPEL = "/";
-    
+
+
     @Override
     @DSTransactional
     public void add(ResourceSaveReq req) {
@@ -96,7 +98,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
                 .toList();
         roleResMapper.insertBatchSomeColumn(roleResList);
     }
-    
+
     @Override
     public void edit(Long id, ResourceSaveReq req) {
         final Resource resource = BeanUtil.toBean(req, Resource.class);
@@ -107,7 +109,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
         }
         this.baseMapper.updateById(resource);
     }
-    
+
     @Override
     @DSTransactional
     public void delete(Long id) {

@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.authority.domain.common.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -57,7 +58,7 @@ public class AreaEntity extends SuperEntity<Long> {
     private Integer level;
     
     @Schema(description = "父ID")
-    protected Long parentId;
+    private Long parentId;
     
     @Schema(description = "经度")
     private BigDecimal longitude;
