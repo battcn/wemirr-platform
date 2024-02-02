@@ -4,14 +4,19 @@
 
 - 升级 pom.xml 版本依赖
 - 增强 `redis-plus-spring-boot` 中锁的支持
+- 新增 `robot-spring-boot-starter` SDK 模块
+- 动态数据源初始化优化
+- Redis 数据存储结构优化
 - **岗位管理**查询增强(支持点击机构查询出机构下所有的岗位)
 - 日志采集优化 **区分异常日志/正常日志**
+- 优化代码命名规范
 
 ### 🔧 Continuous Integration
 
 - https://docs.battcn.com 文档更新
 - `mybatis-plus` 版本升级 3.5.4.1
 - `spring-authorization-server` 版本升级 1.2.0
+spotless代码格式化、checkstyle 代码格式化检查
 
 ### 🐛 Bug Fixes
 
