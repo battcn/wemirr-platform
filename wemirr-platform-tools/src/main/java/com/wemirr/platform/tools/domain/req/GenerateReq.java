@@ -42,7 +42,7 @@ public class GenerateReq {
      * 开启 swagger2 模式
      */
     @Builder.Default
-    private boolean swagger2 = false;
+    private Boolean swagger2 = false;
     /**
      * 表名
      */

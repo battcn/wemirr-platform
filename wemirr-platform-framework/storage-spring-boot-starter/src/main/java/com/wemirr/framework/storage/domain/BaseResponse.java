@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.storage.domain;
 
 import lombok.Data;
@@ -28,7 +29,7 @@ import lombok.Data;
 @Data
 public class BaseResponse implements java.io.Serializable {
     
-    protected boolean successful;
-    protected String message;
+    private Boolean successful = false;
+    private String message;
     
 }

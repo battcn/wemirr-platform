@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.boot.base.converter;
 
 import cn.hutool.core.util.ReflectUtil;
@@ -40,9 +41,9 @@ import java.lang.reflect.Method;
 @Slf4j
 public class EnumDeserializer extends StdDeserializer<Enum<?>> {
     
-    public final static EnumDeserializer INSTANCE = new EnumDeserializer();
-    private final static String ALL_ENUM_STRING_CONVERT_METHOD = "get";
-    private final static String ALL_ENUM_KEY_FIELD = "code";
+    public static final EnumDeserializer INSTANCE = new EnumDeserializer();
+    private static final String ALL_ENUM_STRING_CONVERT_METHOD = "get";
+    private static final String ALL_ENUM_KEY_FIELD = "code";
     
     private EnumDeserializer() {
         super(Enum.class);

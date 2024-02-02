@@ -92,7 +92,7 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
                         .service("service").serviceImpl("service.impl").controller("controller")
                         // 设置mapperXml生成路径
                         .pathInfo(Collections.singletonMap(OutputFile.xml, rootDir)))
-                .strategyConfig((builder) -> builder.enableCapitalMode()
+                .strategyConfig(builder -> builder.enableCapitalMode()
                         .enableSkipView().disableSqlFilter()
                         .addInclude(request.getTableName())
                         .addTablePrefix(request.getTablePrefix())
@@ -103,7 +103,7 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
                         .enableLombok().superClass(SuperEntity.class)
                         .mapperBuilder().superClass(SuperMapper.class)
                         .serviceBuilder().superServiceClass(SuperService.class)
-                        .convertServiceFileName((entityName -> entityName + ConstVal.SERVICE))
+                        .convertServiceFileName(entityName -> entityName + ConstVal.SERVICE)
                         .superServiceImplClass(SuperServiceImpl.class)
                         .controllerBuilder().enableRestStyle())
                 .templateConfig(builder -> builder
@@ -113,7 +113,7 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
                         .xml("/templates/backend/mapper.xml")
                         .controller("/templates/backend/controller.java")
                         .build())
-                .injectionConfig((builder) -> builder.beforeOutputFile((tableInfo, objectMap) -> log.debug("tableInfo - {},objectMap - {}", tableInfo.getEntityName(), objectMap))
+                .injectionConfig(builder -> builder.beforeOutputFile((tableInfo, objectMap) -> log.debug("tableInfo - {},objectMap - {}", tableInfo.getEntityName(), objectMap))
                         .customMap(customMap).customFile(customFiles).build())
                 .templateEngine(new FreemarkerTemplateEngine())
                 .execute();

@@ -38,7 +38,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DynamicReleaseDatasourceServiceImpl extends SuperServiceImpl<DynamicReleaseDatasourceMapper, DynamicReleaseDatasource> implements DynamicReleaseDatasourceService {
-    
+
     @Override
     public HikariDataSource ping(Long id) {
         final DynamicReleaseDatasource datasource = this.baseMapper.selectById(id);
@@ -66,11 +66,11 @@ public class DynamicReleaseDatasourceServiceImpl extends SuperServiceImpl<Dynami
             throw CheckedException.badRequest("连接失败 " + ex.getLocalizedMessage());
         }
     }
-    
+
     @Override
     public List<String> tables(Long id) {
         HikariDataSource dataSource = ping(id);
-        // dataSource.
+        log.info("dataSource - {}", dataSource);
         return null;
     }
 }

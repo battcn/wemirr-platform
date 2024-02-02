@@ -22,17 +22,15 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wemirr.framework.db.mybatisplus.core.DictEnum;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Levin
  */
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @JsonFormat
 public enum Expression implements DictEnum<String> {
     
@@ -47,10 +45,9 @@ public enum Expression implements DictEnum<String> {
     LE("<="),
     IS_NULL("IS NULL"),
     LIKE("LIKE"),
-    IS_NOT_NULL("IS NOT NULL"),
-    ;
+    IS_NOT_NULL("IS NOT NULL"),;
     
-    public String value;
+    private final String value;
     
     @JsonCreator
     public static Expression of(String name) {
@@ -60,17 +57,6 @@ public enum Expression implements DictEnum<String> {
             }
         }
         return null;
-    }
-    
-    public boolean eq(String val) {
-        return this.name().equalsIgnoreCase(val);
-    }
-    
-    public boolean eq(Expression val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
     }
     
     @Override

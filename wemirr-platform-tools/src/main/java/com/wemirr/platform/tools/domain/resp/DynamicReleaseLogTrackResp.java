@@ -24,6 +24,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * @param <T> T
  * @author Levin
  */
 @Data
@@ -31,11 +32,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DynamicReleaseLogTrackResp<T> {
-    
+
     private T id;
     private String createdName;
     private String createdTime;
     private Integer status;
     private String result;
-    
+
 }

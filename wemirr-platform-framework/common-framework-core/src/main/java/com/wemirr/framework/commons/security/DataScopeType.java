@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.commons.security;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -61,8 +62,7 @@ public enum DataScopeType implements IEnum<Integer> {
      */
     SELF(10, "个人"),
     
-    IGNORE(0, "跟随系统上下文"),
-    ;
+    IGNORE(0, "跟随系统上下文"),;
     
     @EnumValue
     @JsonValue

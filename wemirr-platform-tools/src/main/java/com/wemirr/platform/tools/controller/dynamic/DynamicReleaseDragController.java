@@ -41,6 +41,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +55,8 @@ import java.util.Map;
 @Tag(name = "代码生成", description = "代码生成")
 @Validated
 public class DynamicReleaseDragController {
-    
+
+    private final DynamicReleaseDragService dynamicReleaseDragService;
     private final DynamicReleaseService<Long> dynamicReleaseService;
     
     @PostMapping("/{model}/pages")
@@ -70,7 +72,7 @@ public class DynamicReleaseDragController {
     
     @Operation(summary = "修改数据记录")
     @PutMapping("/{model}/{id}")
-    public void edit(@PathVariable String model, @PathVariable Long id, @RequestBody Map<String, Object> body) {
+    public void modify(@PathVariable String model, @PathVariable Long id, @RequestBody Map<String, Object> body) {
         this.dynamicReleaseService.updateById(model, id, body);
     }
     
@@ -93,7 +95,7 @@ public class DynamicReleaseDragController {
     }
     
     @DeleteMapping("/{model}/{id}")
-    public void del(@PathVariable String model, @PathVariable Long id) {
+    public void delModel(@PathVariable String model, @PathVariable Long id) {
         this.dynamicReleaseService.deleteById(model, id);
     }
     
@@ -107,7 +109,7 @@ public class DynamicReleaseDragController {
     public void export(@PathVariable String model, @RequestBody ExportExcelReq req, HttpServletResponse response) {
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
-        String filename = URLEncoder.encode("运力宽表", "utf-8");
+        String filename = URLEncoder.encode("运力宽表", StandardCharsets.UTF_8);
         response.setHeader("Content-disposition",
                 "attachment;filename=" + filename + ExcelTypeEnum.XLSX.getValue());
         final long millis = System.currentTimeMillis();
@@ -115,10 +117,9 @@ public class DynamicReleaseDragController {
         dynamicReleaseService.exportExcel(model, req, response);
         // 使空闲的线程回收
         response.flushBuffer();
-        log.info("Excel导出 - 结束时间 - {}", (System.currentTimeMillis() - millis));
+        log.info("Excel导出 - 结束时间 - {}", System.currentTimeMillis() - millis);
     }
-    
-    private final DynamicReleaseDragService dynamicReleaseDragService;
+
     
     @Operation(summary = "添加模板列表")
     @PostMapping

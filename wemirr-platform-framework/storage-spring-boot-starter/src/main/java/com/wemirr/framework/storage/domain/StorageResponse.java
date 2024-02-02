@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.storage.domain;
 
 import lombok.Builder;
@@ -33,6 +34,8 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 public class StorageResponse implements java.io.Serializable {
+
+    private static final String SEPARATOR = "/";
     
     private Object fileId;
     private String etag;
@@ -76,8 +79,6 @@ public class StorageResponse implements java.io.Serializable {
             this.fullUrl = fullUrl;
         }
     }
-    
-    private static final String SEPARATOR = "/";
     
     public static String buildFullUrl(String mappingPath, String targetName) {
         if (mappingPath.endsWith(SEPARATOR) && targetName.startsWith(SEPARATOR)) {

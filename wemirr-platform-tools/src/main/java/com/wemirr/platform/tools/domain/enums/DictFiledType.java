@@ -22,9 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wemirr.framework.db.mybatisplus.core.DictEnum;
 import io.swagger.v3.oas.annotations.Parameter;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 /**
  * <p>
@@ -35,9 +34,8 @@ import lombok.NoArgsConstructor;
  * @author Levin
  */
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @JsonFormat
+@RequiredArgsConstructor
 public enum DictFiledType implements DictEnum<String> {
     
     /**
@@ -51,13 +49,12 @@ public enum DictFiledType implements DictEnum<String> {
     /**
      * select
      */
-    SELECT("select", "select"),
-    ;
+    SELECT("select", "select"),;
     
-    private String type;
+    private final String type;
     
     @Parameter(description = "描述信息")
-    private String desc;
+    private final String desc;
     
     @JsonCreator
     public static DictFiledType of(String type) {
@@ -71,18 +68,7 @@ public enum DictFiledType implements DictEnum<String> {
         }
         return null;
     }
-    
-    public boolean eq(String val) {
-        return this.name().equalsIgnoreCase(val);
-    }
-    
-    public boolean eq(DictFiledType val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
-    }
-    
+
     @Override
     public String getValue() {
         return this.type;

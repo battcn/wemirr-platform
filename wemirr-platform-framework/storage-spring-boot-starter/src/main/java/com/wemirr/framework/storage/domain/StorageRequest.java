@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.storage.domain;
 
 import com.wemirr.framework.storage.FileUtils;
@@ -39,27 +40,27 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StorageRequest implements java.io.Serializable {
-    
+
     /**
      * 如果为空则取应用配置的
      */
     private String bucket;
-    
+
     /**
      * 原始文件名称
      */
     private String originName;
-    
+
     /**
      * 如果为 true 则会随机生成文件名
      */
     @Builder.Default
     private boolean randomName = true;
-    
+
     private PrefixRule rule;
-    
+
     private String prefix;
-    
+
     /**
      * content 与 inputStream 二选一
      */
@@ -68,13 +69,13 @@ public class StorageRequest implements java.io.Serializable {
      * inputStream 与 content 二选一
      */
     private InputStream inputStream;
-    
+
     private String contentType;
-    
+
     private Object tenantId;
-    
+
     private Object userId;
-    
+
     public enum PrefixRule {
         /**
          * 无规则 默认提取 prefix 否则自动生成前缀
@@ -84,22 +85,23 @@ public class StorageRequest implements java.io.Serializable {
          * 当前日期+月份
          */
         now_date_mouth,
-        
+
         /**
          * 当前年月日
          */
         now_date_mouth_day,
-        
+
         /**
          * 租户当前日期策略
          */
-        tenant_now_date_mouth_day;
+        tenant_now_date_mouth_day
     }
-    
+
     /**
      * 获取目标名字
      *
      * @return 目标名称
+     * @throws RuntimeException RuntimeException
      */
     public String buildTargetName() {
         if (StringUtils.isBlank(this.getOriginName())) {

@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.commons;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -33,10 +34,11 @@ import java.util.stream.Collectors;
  * @author Levin
  */
 public class BeanUtilPlus extends BeanUtil {
-    
+
     /**
      * 对象或Map转Bean
      *
+     * @param id     id
      * @param <T>    转换的Bean类型
      * @param source Bean对象或Map
      * @param clazz  目标的Bean类型
@@ -48,7 +50,7 @@ public class BeanUtilPlus extends BeanUtil {
         ReflectUtil.setFieldValue(bean, "id", id);
         return bean;
     }
-    
+
     /**
      * 转换 list （如果有枚举类型请勿使用该方法 ）
      *
@@ -67,5 +69,5 @@ public class BeanUtilPlus extends BeanUtil {
                 .map((source) -> toBean(source, destinationClass))
                 .collect(Collectors.toList());
     }
-    
+
 }

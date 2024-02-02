@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.boot.security;
 
 import com.wemirr.framework.commons.security.AuthenticationContext;

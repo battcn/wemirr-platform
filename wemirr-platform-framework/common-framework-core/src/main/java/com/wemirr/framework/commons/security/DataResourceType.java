@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.commons.security;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -45,8 +46,7 @@ public enum DataResourceType {
     ORG("org", "机构维度"),
     TENANT("tenant", "租户维度"),
     COMPANY("company", "公司维护"),
-    AREA("area", "地区维度"),
-    ;
+    AREA("area", "地区维度"),;
     
     @EnumValue
     @JsonValue

@@ -49,6 +49,6 @@ public class DynamicReleaseDragPushServerModel {
      */
     @TableField(value = "created_time")
     @Parameter(description = "创建时间")
-    protected Instant createdTime;
+    private Instant createdTime;
     
 }

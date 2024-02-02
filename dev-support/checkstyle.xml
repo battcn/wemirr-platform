@@ -71,9 +71,7 @@
         <module name="FinalClass" />
         <!-- cannot recognize for lombok @NoArgsConstructor(access = AccessLevel.PRIVATE), just ignore -->
         <!--<module name="HideUtilityClassConstructor" />-->
-        <module name="InnerTypeLast" />
         <module name="InterfaceIsType" />
-        <module name="MutableException" />
         <module name="OneTopLevelClass" />
         <module name="ThrowsCount">
             <property name="ignorePrivateMethods" value="false" />
@@ -91,7 +89,6 @@
         <module name="EqualsHashCode" />
         <module name="ExplicitInitialization" />
         <module name="FallThrough" />
-        <module name="IllegalCatch" />
         <module name="IllegalInstantiation" />
         <module name="IllegalThrows" />
         <module name="IllegalToken" />
@@ -121,7 +118,6 @@
         <module name="StringLiteralEquality" />
         <module name="SuperClone" />
         <module name="SuperFinalize" />
-        <module name="UnnecessaryParentheses" />
         <module name="UnnecessarySemicolonAfterOuterTypeDeclaration" />
         <module name="UnnecessarySemicolonAfterTypeMemberDeclaration" />
         <module name="UnnecessarySemicolonInEnumeration" />
@@ -219,7 +215,6 @@
         <module name="CatchParameterName" />
         <module name="ClassTypeParameterName" />
         <module name="ConstantName" />
-        <module name="InterfaceTypeParameterName" />
         <module name="LambdaParameterName" />
         <module name="LocalFinalVariableName" />
         <module name="LocalVariableName" />
@@ -289,7 +284,6 @@
             <property name="validateComments" value="true" />
         </module>
         <module name="TypecastParenPad" />
-        <module name="WhitespaceAfter" />
         <module name="WhitespaceAround" />
     </module>
 </module>

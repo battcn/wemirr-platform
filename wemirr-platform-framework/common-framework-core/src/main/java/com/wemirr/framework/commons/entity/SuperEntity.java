@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.commons.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -34,38 +35,39 @@ import java.time.Instant;
 /**
  * 增强实体类
  *
+ * @param <T> ID 类型
  * @author Levin
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
+@SuperBuilder(toBuilder = true)
 @Accessors(chain = true)
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class SuperEntity<T> extends Entity<T> {
-    
+
     public static final String UPDATE_TIME = "lastModifiedTime";
     public static final String UPDATE_USER = "lastModifiedBy";
     public static final String UPDATE_USER_NAME = "lastModifiedName";
-    
+
     public static final String UPDATE_TIME_COLUMN = "last_modified_time";
     public static final String UPDATE_USER_COLUMN = "last_modified_by";
     public static final String UPDATE_USER_NAME_COLUMN = "last_modified_name";
-    
+
     @Schema(description = "最后修改时间")
     @TableField(value = UPDATE_TIME_COLUMN, fill = FieldFill.UPDATE)
-    protected Instant lastModifiedTime;
-    
+    private Instant lastModifiedTime;
+
     @Schema(description = "最后修改人ID")
     @TableField(value = UPDATE_USER_COLUMN, fill = FieldFill.UPDATE)
-    protected T lastModifiedBy;
-    
+    private T lastModifiedBy;
+
     @Schema(description = "最后修改人名称")
     @TableField(value = UPDATE_USER_NAME_COLUMN, fill = FieldFill.UPDATE)
-    protected String lastModifiedName;
-    
+    private String lastModifiedName;
+
     @TableLogic
     @Schema(description = "逻辑删除")
     private Boolean deleted;
-    
+
 }

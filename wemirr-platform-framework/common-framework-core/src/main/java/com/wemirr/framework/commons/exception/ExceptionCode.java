@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.commons.exception;
 
 import lombok.AllArgsConstructor;
@@ -23,8 +24,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 全局错误码 10000-15000
  * <p>
+ * 全局错误码 10000-15000
+ * </p>
  * 预警异常编码    范围： 30000~34999
  * 标准服务异常编码 范围：35000~39999
  * 邮件服务异常编码 范围：40000~44999
@@ -43,6 +45,7 @@ import lombok.NoArgsConstructor;
  * 运维服务平台 异常编码 范围：  105000-109999
  * 统一监管平台异常 编码 范围：  110000-114999
  * 认证方面的异常编码  范围：115000-115999
+ * </p>
  *
  * @author Levin
  */
@@ -50,7 +53,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public enum ExceptionCode implements BaseExceptionCode {
-    
+
     /**
      * 系统繁忙,请稍后再试
      */
@@ -65,7 +68,7 @@ public enum ExceptionCode implements BaseExceptionCode {
     BASE_VALID_PARAM(-9, "统一验证参数异常"),
     OPERATION_EX(-10, "操作异常"),
     SERVICE_MAPPER_ERROR(-11, "Mapper类转换异常"),
-    
+
     OK(200, "OK"),
     BAD_REQUEST(400, "错误的请求"),
     /**
@@ -81,44 +84,27 @@ public enum ExceptionCode implements BaseExceptionCode {
      */
     NOT_FOUND(404, "没有找到资源"),
     METHOD_NOT_ALLOWED(405, "不支持当前请求类型"),
-    
+
     TOO_MANY_REQUESTS(429, "请求超过次数限制"),
     INTERNAL_SERVER_ERROR(500, "内部服务错误"),
     BAD_GATEWAY(502, "网关错误"),
     GATEWAY_TIMEOUT(504, "网关超时"),
     // 系统相关 end
-    
-    REQUIRED_FILE_PARAM_EX(1001, "请求中必须至少包含一个有效文件"),
-    
-    DATA_SAVE_ERROR(2000, "新增数据失败"),
-    DATA_UPDATE_ERROR(2001, "修改数据失败"),
-    TOO_MUCH_DATA_ERROR(2002, "批量新增数据过多"),
-    // jwt token 相关 start
-    
-    JWT_TOKEN_EXPIRED(40001, "会话超时，请重新登录"),
-    JWT_SIGNATURE(40002, "不合法的token，请认真比对 token 的签名"),
-    JWT_ILLEGAL_ARGUMENT(40003, "缺少token参数"),
-    JWT_GEN_TOKEN_FAIL(40004, "生成token失败"),
-    JWT_PARSER_TOKEN_FAIL(40005, "解析token失败"),
-    JWT_USER_INVALID(40006, "用户名或密码错误"),
-    JWT_USER_ENABLED(40007, "用户已经被禁用！"),
-    // jwt token 相关 end
-    
-    ;
-    
+    REQUIRED_FILE_PARAM_EX(1001, "请求中必须至少包含一个有效文件"),;
+
     private int code;
     private String message;
-    
+
     public ExceptionCode param(Object... param) {
         message = String.format(message, param);
         return this;
     }
-    
+
     @Override
     public int getCode() {
         return this.code;
     }
-    
+
     @Override
     public String getMessage() {
         return this.message;

@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.storage.properties;
 
 import lombok.Data;
@@ -27,7 +28,7 @@ import org.springframework.beans.factory.annotation.Value;
 @Data
 public class BaseStorageProperties implements java.io.Serializable {
     
-    private boolean enabled = false;
+    private Boolean enabled = false;
     
     @Value("${spring.application.name:'oss'}")
     private String bucket;
@@ -57,8 +58,7 @@ public class BaseStorageProperties implements java.io.Serializable {
         MINIO,
         ALIYUN,
         TENCENT,
-        QINIU,
-        ;
+        QINIU
     }
     
 }

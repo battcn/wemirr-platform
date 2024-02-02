@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.security.service;
 
 import com.wemirr.framework.security.configuration.server.store.RedisTokenStore;
@@ -44,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisOAuth2AuthorizationServiceImpl implements OAuth2AuthorizationService {
     
     private final RedisTokenStore<OAuth2Authorization> redisTokenStore;
-    private final static Long TIMEOUT = 30L;
+    private static final Long TIMEOUT = 30L;
     
     @Override
     public void save(OAuth2Authorization authorization) {

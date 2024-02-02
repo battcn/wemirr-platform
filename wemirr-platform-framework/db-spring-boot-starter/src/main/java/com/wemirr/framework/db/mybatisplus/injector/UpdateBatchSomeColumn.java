@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.db.mybatisplus.injector;
 
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;

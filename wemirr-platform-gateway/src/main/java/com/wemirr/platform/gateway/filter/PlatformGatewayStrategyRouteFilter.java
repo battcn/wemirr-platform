@@ -32,7 +32,7 @@ public class PlatformGatewayStrategyRouteFilter implements GlobalFilter {
     @Resource
     private LimitHelper limitHelper;
 
-    private final static String TRACE_ID = "n-d-trace-id";
+    private static final String TRACE_ID = "n-d-trace-id";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

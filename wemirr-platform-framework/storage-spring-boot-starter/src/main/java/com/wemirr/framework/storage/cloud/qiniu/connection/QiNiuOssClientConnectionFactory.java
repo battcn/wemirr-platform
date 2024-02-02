@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.storage.cloud.qiniu.connection;
 
 import com.qiniu.cdn.CdnManager;
@@ -75,7 +76,7 @@ public class QiNiuOssClientConnectionFactory implements QiNiuConnectionFactory {
         Map<String, QiNiuStorageProperties.QiNiuStrategy> strategies = qiNiuStorageProperties.getStrategies();
         QiNiuStorageProperties.QiNiuStrategy strategy = strategies.get(bucket);
         long expires = 3600L;
-        boolean strict = qiNiuStorageProperties.isStrict();
+        boolean strict = qiNiuStorageProperties.getStrict();
         if (strategy == null) {
             // 生成上传凭证
             return getAuth().uploadToken(bucket, key, expires, null, strict);

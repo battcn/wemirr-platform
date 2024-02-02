@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.commons.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -16,11 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.commons.exception;
 
 import com.wemirr.framework.commons.entity.enums.CommonError;
 import com.wemirr.framework.commons.entity.enums.IntEnum;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
 
 /**
@@ -29,6 +31,7 @@ import lombok.Setter;
  * @author Levin
  * @since 2019-03-13
  */
+@Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
 public class RedisLimitException extends RuntimeException {

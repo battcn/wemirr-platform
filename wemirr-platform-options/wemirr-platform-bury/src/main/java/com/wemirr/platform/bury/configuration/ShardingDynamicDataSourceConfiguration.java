@@ -4,13 +4,13 @@ import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.provider.AbstractDataSourceProvider;
 import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
+import jakarta.annotation.Resource;
+import jakarta.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 
-import jakarta.annotation.Resource;
-import jakarta.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 

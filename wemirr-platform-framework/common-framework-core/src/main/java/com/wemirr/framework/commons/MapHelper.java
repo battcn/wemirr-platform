@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.commons;
 
 import cn.hutool.core.map.MapUtil;
@@ -38,16 +39,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @since 2020/07/29
  */
 public class MapHelper {
-    
+
     /**
      * 增强 guava 的 Maps.uniqueIndex方法
      * <p>
      * guava 的 Maps.uniqueIndex方法可以实现：
-     * <br>
+     * </p>
      * 将 list&lt;V&gt 转成 Map&lt;K , V&gt
      * K 需要自己指定， V不能指定
      * </p>
-     * <p>
      * 本方法实现了：
      * <p>
      * 将 list&lt;V&gt 转成 Map&lt;K , M&gt
@@ -60,7 +60,8 @@ public class MapHelper {
      * @param <K>           转换后Map的键 类型
      * @param <V>           转换前Iterable的迭代类型
      * @param <M>           转换后Map的值 类型
-     * @return
+     * @return 转换集合
+     * @throws IllegalArgumentException IllegalArgumentException
      */
     public static <K, V, M> ImmutableMap<K, M> uniqueIndex(Iterable<V> values, Function<? super V, K> keyFunction, Function<? super V, M> valueFunction) {
         Iterator<V> iterator = values.iterator();
@@ -74,12 +75,10 @@ public class MapHelper {
         try {
             return builder.build();
         } catch (IllegalArgumentException duplicateKeys) {
-            throw new IllegalArgumentException(
-                    duplicateKeys.getMessage()
-                            + ".若要在键下索引多个值，请使用: Multimaps.index.");
+            throw new IllegalArgumentException(duplicateKeys.getMessage() + ".若要在键下索引多个值，请使用: Multimaps.index.");
         }
     }
-    
+
     /**
      * 增强 guava 的 Maps.uniqueIndex方法
      * <p>
@@ -88,7 +87,6 @@ public class MapHelper {
      * 将 list&lt;V&gt 转成 Map&lt;K , V&gt
      * K 需要自己指定， V不能指定
      * </p>
-     * <p>
      * 本方法实现了：
      * <p>
      * 将 list&lt;V&gt 转成 Map&lt;K , M&gt
@@ -101,12 +99,12 @@ public class MapHelper {
      * @param <K>           转换后Map的键 类型
      * @param <V>           转换前Iterable的迭代类型
      * @param <M>           转换后Map的值 类型
-     * @return ImmutableMap<K, M>
+     * @return ImmutableMap
      */
     public static <K, V, M> Map<K, M> toImmutableMap(Iterable<V> values, Function<? super V, K> keyFunction, Function<? super V, M> valueFunction) {
         return uniqueIndex(values, keyFunction, valueFunction);
     }
-    
+
     /**
      * List 转 HashMap
      * K 需要自己指定， M需要自己指定
@@ -118,7 +116,7 @@ public class MapHelper {
      * @param <K>           转换后Map的键 类型
      * @param <V>           转换前Iterable的迭代类型
      * @param <M>           转换后Map的值 类型
-     * @return ImmutableMap<K, M>
+     * @return ImmutableMap
      */
     public static <K, V, M> Map<K, M> toHashMap(Iterable<V> values, Function<? super V, K> keyFunction, Function<? super V, M> valueFunction) {
         checkNotNull(values);
@@ -131,13 +129,13 @@ public class MapHelper {
         }
         return map;
     }
-    
+
     /**
      * 转换 Map 的 K 和 V
      *
      * @param map map
-     * @param <K> <K>
-     * @param <V> <V>
+     * @param <K> K
+     * @param <V> V
      * @return 转换结果
      */
     public static <K, V> Map<V, K> inverse(Map<K, V> map) {
@@ -148,5 +146,5 @@ public class MapHelper {
         map.forEach(biMap::forcePut);
         return biMap.inverse();
     }
-    
+
 }

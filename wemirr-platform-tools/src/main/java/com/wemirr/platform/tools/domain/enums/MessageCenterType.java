@@ -58,8 +58,7 @@ public enum MessageCenterType implements DictEnum<Integer> {
     /**
      * WARN="预警"
      */
-    WARN(-1, "预警"),
-    ;
+    WARN(-1, "预警"),;
     
     private Integer type;
     

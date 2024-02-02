@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.commons.entity;
 
 import com.google.common.collect.Lists;
@@ -38,18 +39,18 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Area implements java.io.Serializable {
-    
+
     private Integer id;
     /**
      * 名称
      */
-    protected String name;
-    
+    private String name;
+
     /**
      * 父ID
      */
-    protected Integer parentId;
-    
+    private Integer parentId;
+
     /**
      * 经度
      */
@@ -58,9 +59,9 @@ public class Area implements java.io.Serializable {
      * 纬度
      */
     private BigDecimal latitude;
-    
+
     private List<Area> children;
-    
+
     /**
      * 初始化子类
      */
@@ -69,7 +70,7 @@ public class Area implements java.io.Serializable {
             this.setChildren(Lists.newArrayList());
         }
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -79,13 +80,13 @@ public class Area implements java.io.Serializable {
             return false;
         }
         Area area = (Area) o;
-        return id.equals(area.id) &&
-                name.equals(area.name) &&
-                parentId.equals(area.parentId) &&
-                Objects.equals(longitude, area.longitude) &&
-                Objects.equals(latitude, area.latitude);
+        return id.equals(area.id)
+                && name.equals(area.name)
+                && parentId.equals(area.parentId)
+                && Objects.equals(longitude, area.longitude)
+                && Objects.equals(latitude, area.latitude);
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hash(id, name, parentId, longitude, latitude);

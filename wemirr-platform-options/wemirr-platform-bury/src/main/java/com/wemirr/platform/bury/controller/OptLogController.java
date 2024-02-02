@@ -5,7 +5,6 @@ import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.boot.RegionUtils;
 import com.wemirr.framework.boot.log.OptLogDTO;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.page.PageRequest;
 import com.wemirr.framework.security.client.annotation.IgnoreAuthorize;

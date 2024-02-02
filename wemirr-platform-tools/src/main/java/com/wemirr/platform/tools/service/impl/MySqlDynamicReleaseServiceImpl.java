@@ -173,7 +173,7 @@ public class MySqlDynamicReleaseServiceImpl implements DynamicReleaseService<Lon
     }
     
     public static String build(DynamicReleaseQuery param) {
-        return ("`" + param.getColumn() + "` " + param.getExpression() + " " + param.getValue() + "");
+        return "`" + param.getColumn() + "` " + param.getExpression() + " " + param.getValue();
     }
     
     private DynamicReleaseCurdOptionResp.DynamicReleaseColumnDictResp buildDict(String dict) {

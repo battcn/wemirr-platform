@@ -31,6 +31,7 @@ import java.util.Map;
 
 /**
  * @author Levin
+ * @param <T>  泛型
  */
 public interface DynamicReleaseService<T> {
     

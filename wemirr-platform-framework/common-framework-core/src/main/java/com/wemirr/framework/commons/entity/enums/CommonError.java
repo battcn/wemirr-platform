@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.commons.entity.enums;
 
 import lombok.AllArgsConstructor;
@@ -97,9 +98,7 @@ public enum CommonError implements IntEnum {
     LBS_RESOLVE_FAILURE(9004, "地址解析失败"),
     INNER_SERVICE_ERROR(9005, "内部服务响应失败"),
     
-    TOO_MANY_REQUESTS(9005, "访问受限,超出最大访问次数"),
-    
-    ;
+    TOO_MANY_REQUESTS(9005, "访问受限,超出最大访问次数"),;
     
     private final Integer type;
     

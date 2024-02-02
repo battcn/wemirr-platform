@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.i18n;
 
 import com.wemirr.framework.i18n.domain.I18nMessage;

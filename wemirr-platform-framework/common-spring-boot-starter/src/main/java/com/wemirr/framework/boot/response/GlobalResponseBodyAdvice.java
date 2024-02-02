@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.boot.response;
 
 import com.google.common.collect.Lists;
@@ -46,9 +47,9 @@ import java.util.List;
 @RestControllerAdvice(annotations = {RestController.class})
 public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     
-    private final static String REWRITE = "1";
-    public final static String RESPONSE_DATA_REWRITE = "rewrite";
-    private final static List<String> IGNORE_URLS = Lists.newArrayList("/v3/api-docs", "/v3/api-docs/swagger-config");
+    private static final String REWRITE = "1";
+    public static final String RESPONSE_DATA_REWRITE = "rewrite";
+    private static final List<String> IGNORE_URLS = Lists.newArrayList("/v3/api-docs", "/v3/api-docs/swagger-config");
     
     @SneakyThrows
     @Override

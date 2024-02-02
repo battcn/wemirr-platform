@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.framework.storage.properties;
 
 import lombok.Data;
@@ -57,11 +58,7 @@ public class MinioStorageProperties extends BaseStorageProperties {
     /**
      * If the scheme is not provided in {@code url} property, define if the connection is done via HTTP or HTTPS.
      */
-    private boolean secure = false;
-    
-    /**
-     * 应用程序的存储桶名称。默认值是在 application.properties 中定义的应用程序名称。存储桶必须已经存在于minio上。
-     */
+    private Boolean secure = false;
     
     /**
      * 在执行器上注册的度量配置前缀。

@@ -27,7 +27,7 @@ public class RedisRouteDefinitionRepository implements RouteDefinitionRepository
     /**
      * 存储的的key
      */
-    private final static String KEY = "gateway_dynamic_route";
+    private static final String KEY = "gateway_dynamic_route";
     private final StringRedisTemplate redisTemplate;
 
     public RouteDefinition find(String routeId) {
