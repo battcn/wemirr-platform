@@ -83,7 +83,7 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
         FastAutoGenerator.create(new DataSourceConfig.Builder(ds))
                 .globalConfig(builder -> {
                     builder.author(request.getAuthor()).outputDir(rootDir).dateType(TIME_PACK);
-                    if (request.isSpringdoc()) {
+                    if (request.getSpringdoc()) {
                         builder.enableSpringdoc();
                     }
                 })

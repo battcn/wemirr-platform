@@ -47,7 +47,7 @@ public enum Expression implements DictEnum<String> {
     LIKE("LIKE"),
     IS_NOT_NULL("IS NOT NULL"),;
     
-    private final String value;
+    public final String value;
     
     @JsonCreator
     public static Expression of(String name) {
