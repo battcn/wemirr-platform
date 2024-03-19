@@ -27,6 +27,7 @@ import com.wemirr.framework.commons.entity.enums.CommonError;
 import com.wemirr.framework.commons.entity.enums.IntEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -43,6 +44,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Accessors(chain = true)
+@NoArgsConstructor
 public class Result<T> implements Serializable {
 
     public static final String OPERATION_SUCCESS = "操作成功!";
