@@ -23,6 +23,7 @@ import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
+import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -77,8 +78,8 @@ public class FileController {
     @GetMapping("/token")
     @Parameter(description = "文件名", name = "originName", in = ParameterIn.QUERY)
     @Operation(summary = "上传Token获取 - [Levin] - [DONE]")
-    public String getToken(String key, @RequestParam(defaultValue = "true") boolean random) {
-        return storageOperation.token(key, random);
+    public Result<?> getToken(String key, @RequestParam(defaultValue = "true") boolean random) {
+        return Result.ok(storageOperation.token(key, random));
     }
     
     @GetMapping

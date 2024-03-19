@@ -66,6 +66,11 @@
             <groupId>com.wemirr.framework</groupId>
             <artifactId>robot-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.wemirr</groupId>
+            <artifactId>wemirr-platform-tools-api</artifactId>
+            <version>1.17.4-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

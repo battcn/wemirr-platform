@@ -5,6 +5,7 @@ import com.wemirr.framework.i18n.annotation.I18nMethod;
 import com.wemirr.framework.redis.plus.anontation.RedisLock;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import com.wemirr.framework.security.utils.SecurityUtils;
+import com.wemirr.platform.authority.feign.FileServiceFeign;
 import com.wemirr.platform.demo.domain.enums.I18nEnum;
 import com.wemirr.platform.demo.domain.resp.I18nDemoResp;
 import com.wemirr.platform.demo.service.DemoService;
@@ -14,9 +15,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +33,7 @@ public class DemoController {
 
     private final DemoService demoService;
     private final DemoTestFeignClient demoTestFeignClient;
+    private final FileServiceFeign fileServiceFeign;
 
     @IgnoreAuthorize
     @GetMapping("/ignore")
@@ -55,7 +56,7 @@ public class DemoController {
     @GetMapping("/feign")
     @Operation(summary = "自动生成Token查询", description = "需要配置登录信息才可以")
     public List<?> feign() {
-        return demoTestFeignClient.query();
+        return demoTestFeignClient.query("hahaha");
     }
 
 
@@ -105,6 +106,15 @@ public class DemoController {
             TimeUnit.SECONDS.sleep(1);
             log.info("lock2 sleep {}", i);
         }
+    }
+
+    @SneakyThrows
+    @IgnoreAuthorize
+    @PostMapping("/upload")
+    public Result<?> upload(@RequestParam("file") MultipartFile file) {
+        fileServiceFeign.getToken("key", true);
+//        return fileServiceFeign.upload(file);
+        return Result.success();
     }
 
 

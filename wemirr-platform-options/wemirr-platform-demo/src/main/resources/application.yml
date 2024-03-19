@@ -47,7 +47,7 @@ extend:
       interceptor: true
     enabled: true
   robot:
-    enabled: true
+    enabled: false
     ding-talk:
       enabled: false
       # 填写钉钉 token
