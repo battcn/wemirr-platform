@@ -39,7 +39,6 @@ import net.sf.jsqlparser.expression.StringValue;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
-import net.sf.jsqlparser.expression.operators.relational.ItemsList;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 
@@ -146,7 +145,7 @@ public final class DataPermissionUtils {
                 log.warn("data permission context is empty,skip process......");
                 return null;
             }
-            ItemsList itemsList = getItemsList(dataPermissionMap, column);
+            Expression itemsList = getItemsList(dataPermissionMap, column);
             if (itemsList == null) {
                 continue;
             }
@@ -166,18 +165,18 @@ public final class DataPermissionUtils {
      * @param column        字段
      * @return ItemsList
      */
-    private static ItemsList getItemsList(Map<DataResourceType, List<Object>> permissionMap, DataPermissionRule.Column column) {
-        ItemsList itemsList = null;
+    private static Expression getItemsList(Map<DataResourceType, List<Object>> permissionMap, DataPermissionRule.Column column) {
+        Expression itemsList = null;
         final List<?> valList = permissionMap.get(column.getResource());
         if (CollUtil.isEmpty(valList)) {
             return null;
         }
         final Class<?> javaClass = column.getJavaClass();
         if (javaClass.equals(Integer.class) || javaClass.equals(Long.class)) {
-            itemsList = new ExpressionList(valList.stream().filter(Objects::nonNull)
+            itemsList = new ExpressionList<>(valList.stream().filter(Objects::nonNull)
                     .map(x -> new LongValue(Integer.parseInt(x.toString()))).collect(Collectors.toList()));
         } else if (javaClass.equals(String.class)) {
-            itemsList = new ExpressionList(valList.stream().filter(Objects::nonNull)
+            itemsList = new ExpressionList<>(valList.stream().filter(Objects::nonNull)
                     .map(x -> new StringValue(x.toString())).collect(Collectors.toList()));
         }
         return itemsList;
