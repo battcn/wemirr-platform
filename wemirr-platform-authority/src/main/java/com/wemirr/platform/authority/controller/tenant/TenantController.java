@@ -21,13 +21,13 @@ package com.wemirr.platform.authority.controller.tenant;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.redis.plus.anontation.RedisLock;
 import com.wemirr.framework.redis.plus.anontation.RedisParam;
 import com.wemirr.platform.authority.domain.tenant.entity.Tenant;
 import com.wemirr.platform.authority.domain.tenant.req.TenantConfigReq;
+import com.wemirr.platform.authority.domain.tenant.req.TenantModifyReq;
 import com.wemirr.platform.authority.domain.tenant.req.TenantPageReq;
 import com.wemirr.platform.authority.domain.tenant.req.TenantSaveReq;
 import com.wemirr.platform.authority.domain.tenant.resp.TenantDatasourceResp;
@@ -55,10 +55,10 @@ import java.util.List;
 @RequestMapping("/tenants")
 @Tag(name = "租户管理", description = "租户管理")
 public class TenantController {
-    
+
     private final TenantService tenantService;
     private final TenantDatasourceService dynamicDatasourceService;
-    
+
     @PostMapping("/page")
     @Operation(summary = "租户列表 - [Levin] - [DONE]")
     @PreAuthorize("hasAuthority('tenant:page')")
@@ -71,29 +71,29 @@ public class TenantController {
                 .eq(Tenant::getIndustry, req.getIndustry()).eq(Tenant::getStatus, req.getStatus())
                 .eq(Tenant::getType, req.getType())).convert(x -> BeanUtil.toBean(x, TenantPageResp.class));
     }
-    
+
     @Operation(summary = "查询可用", description = "查询可用数据源")
     @GetMapping("/databases/active")
     public List<TenantDatasourceResp> queryActive() {
         return this.dynamicDatasourceService.selectTenantDynamicDatasource();
     }
-    
+
     @PostMapping
     @AccessLog(description = "添加租户")
     @Operation(summary = "添加租户")
     @PreAuthorize("hasAuthority('tenant:add')")
-    public void add(@Validated @RequestBody TenantSaveReq dto) {
-        tenantService.saveOrUpdateTenant(BeanUtil.toBean(dto, Tenant.class));
+    public void create(@Validated @RequestBody TenantSaveReq req) {
+        tenantService.create(req);
     }
-    
+
     @PutMapping("/{id}")
     @AccessLog(description = "编辑租户")
     @Operation(summary = "编辑租户")
     @PreAuthorize("hasAuthority('tenant:edit')")
-    public void edit(@PathVariable Long id, @Validated @RequestBody TenantSaveReq dto) {
-        tenantService.saveOrUpdateTenant(BeanUtilPlus.toBean(id, dto, Tenant.class));
+    public void modify(@PathVariable Long id, @Validated @RequestBody TenantModifyReq req) {
+        tenantService.modify(id, req);
     }
-    
+
     @PutMapping("/{id}/config")
     @AccessLog(description = "配置租户")
     @Operation(summary = "配置租户")
@@ -101,7 +101,7 @@ public class TenantController {
     public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq req) {
         tenantService.tenantConfig(id, req);
     }
-    
+
     @PutMapping("/{id}/init_sql_script")
     @AccessLog(description = "加载初始数据")
     @Operation(summary = "加载初始数据")
@@ -109,7 +109,7 @@ public class TenantController {
     public void initSqlScript(@RedisParam(name = "id") @PathVariable Long id) {
         tenantService.initSqlScript(id);
     }
-    
+
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除租户")
     @Operation(summary = "删除租户")
@@ -117,5 +117,5 @@ public class TenantController {
     public void del(@PathVariable Long id) {
         tenantService.removeById(id);
     }
-    
+
 }

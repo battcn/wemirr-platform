@@ -19,6 +19,7 @@
 
 package com.wemirr.platform.authority.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
@@ -37,6 +38,8 @@ import com.wemirr.platform.authority.domain.common.entity.AreaEntity;
 import com.wemirr.platform.authority.domain.tenant.entity.Tenant;
 import com.wemirr.platform.authority.domain.tenant.entity.TenantConfig;
 import com.wemirr.platform.authority.domain.tenant.req.TenantConfigReq;
+import com.wemirr.platform.authority.domain.tenant.req.TenantModifyReq;
+import com.wemirr.platform.authority.domain.tenant.req.TenantSaveReq;
 import com.wemirr.platform.authority.repository.baseinfo.OrgMapper;
 import com.wemirr.platform.authority.repository.baseinfo.RoleMapper;
 import com.wemirr.platform.authority.repository.baseinfo.UserMapper;
@@ -64,7 +67,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> implements TenantService {
-    
+
     private final AreaMapper areaMapper;
     private final RoleMapper roleMapper;
     private final UserRoleMapper userRoleMapper;
@@ -74,19 +77,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     private final UserMapper userMapper;
     private final OrgMapper orgMapper;
     private final PasswordEncoder passwordEncoder;
-    
-    @Override
-    public void saveOrUpdateTenant(Tenant tenant) {
-        tenant.setProvinceName(getNameById(tenant.getProvinceId()));
-        tenant.setCityName(getNameById(tenant.getCityId()));
-        tenant.setDistrictName(getNameById(tenant.getDistrictId()));
-        if (tenant.getId() != null) {
-            baseMapper.updateById(tenant);
-            return;
-        }
-        baseMapper.insert(tenant);
-    }
-    
+
     private String getNameById(Long id) {
         if (Objects.isNull(id)) {
             return null;
@@ -97,7 +88,36 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         }
         return areaEntity.getName();
     }
-    
+
+    @Override
+    @DSTransactional(rollbackFor = Exception.class)
+    public void create(TenantSaveReq req) {
+        // 随机生成租户编码
+//        String tenantCode = RandomUtil.randomNumbers(4);
+        Long countCount = this.baseMapper.selectCount(Tenant::getCode, req.getCode());
+        if (countCount > 0) {
+            throw CheckedException.badRequest("租户编码已存在");
+        }
+        Tenant tenant = BeanUtil.toBean(req, Tenant.class);
+        tenant.setProvinceName(getNameById(tenant.getProvinceId()));
+        tenant.setCityName(getNameById(tenant.getCityId()));
+        tenant.setDistrictName(getNameById(tenant.getDistrictId()));
+        baseMapper.insert(tenant);
+    }
+
+    @Override
+    @DSTransactional(rollbackFor = Exception.class)
+    public void modify(Long id, TenantModifyReq req) {
+        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(id))
+                .orElseThrow(() -> CheckedException.notFound("租户不存在"));
+        Tenant bean = BeanUtil.toBean(req, Tenant.class);
+        bean.setId(id);
+        bean.setProvinceName(getNameById(tenant.getProvinceId()));
+        bean.setCityName(getNameById(tenant.getCityId()));
+        bean.setDistrictName(getNameById(tenant.getDistrictId()));
+        baseMapper.updateById(bean);
+    }
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void tenantConfig(Long tenantId, TenantConfigReq req) {
@@ -123,7 +143,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             initSqlScript(tenantId);
         }
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void initSqlScript(Long id) {
@@ -168,7 +188,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             record.setStatus(true);
             this.userMapper.insert(record);
             this.userRoleMapper.insert(UserRole.builder().userId(record.getId()).roleId(role.getId()).build());
-            
+
         } else if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
             TenantDynamicDataSourceHandler tenantDynamicDataSourceHandler = SpringUtil.getBean(TenantDynamicDataSourceHandler.class);
             tenantDynamicDataSourceHandler.initSqlScript(tenant.getId(), tenant.getCode());
