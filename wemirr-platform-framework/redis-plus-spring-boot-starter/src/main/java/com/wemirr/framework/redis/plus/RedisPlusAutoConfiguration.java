@@ -93,6 +93,7 @@ public class RedisPlusAutoConfiguration {
     @Bean
     @Order(value = -1)
     @ConditionalOnBean(RedisConnectionFactory.class)
+    @Primary
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory, ObjectMapper objectMapper) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         // 设置连接工厂

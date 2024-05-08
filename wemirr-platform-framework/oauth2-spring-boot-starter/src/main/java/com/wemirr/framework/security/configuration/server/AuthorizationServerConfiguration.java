@@ -41,6 +41,7 @@ import com.wemirr.framework.security.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -95,12 +96,12 @@ import java.util.UUID;
 @Import({RedisSecurityContextRepository.class, RedisTokenStore.class, SecurityExtProperties.class})
 @EnableMethodSecurity(jsr250Enabled = true, securedEnabled = true)
 public class AuthorizationServerConfiguration {
-    
+
     private final RedisTokenStore<String> redisTokenStore;
     private final SecurityExtProperties properties;
     private final Collection<IntegrationAuthenticator> integrationAuthenticators;
-    private final RequestMappingHandlerMapping requestMappingHandlerMapping;
-    
+//    private final RequestMappingHandlerMapping requestMappingHandlerMapping;
+
     /**
      * 配置端点的过滤器链
      *
@@ -131,13 +132,13 @@ public class AuthorizationServerConfiguration {
         }
         return http.build();
     }
-    
+
     @Bean
     @ConditionalOnExpression("'${extend.oauth2.server.token-type}'.equalsIgnoreCase('custom')")
     private OpaqueTokenIntrospector opaqueTokenIntrospector() {
         return new RedisOpaqueTokenIntrospector();
     }
-    
+
     /**
      * 配置认证相关的过滤器链(资源服务，客户端配置)
      *
@@ -146,7 +147,8 @@ public class AuthorizationServerConfiguration {
      * @throws Exception 抛出
      */
     @Bean
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain defaultSecurityFilterChain(@Qualifier("requestMappingHandlerMapping") RequestMappingHandlerMapping requestMappingHandlerMapping,
+                                                          HttpSecurity http) throws Exception {
         // 禁用 csrf 与 cors
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(AbstractHttpConfigurer::disable);
@@ -155,10 +157,10 @@ public class AuthorizationServerConfiguration {
         urls.addAll(properties.getIgnore().getResourceUrls());
         urls.addAll(properties.getDefaultIgnoreUrls());
         urls.addAll(SecurityUtils.loadIgnoreAuthorizeUrl(requestMappingHandlerMapping));
-        
+
         AntPathRequestMatcher[] requestMatchers = urls.stream().map(AntPathRequestMatcher::new).toList().toArray(new AntPathRequestMatcher[]{});
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers(requestMatchers).permitAll().anyRequest().authenticated());
-        
+
         final RedisSecurityContextRepository securityContextRepository = SpringUtil.getBean(RedisSecurityContextRepository.class);
         // 使用redis存储、读取登录的认证信息
         http.securityContext(context -> context.securityContextRepository(securityContextRepository));
@@ -177,7 +179,7 @@ public class AuthorizationServerConfiguration {
                 (exceptions) -> exceptions.defaultAuthenticationEntryPointFor(new LoginTargetAuthenticationEntryPoint(properties), new MediaTypeRequestMatcher(MediaType.APPLICATION_JSON)));
         return http.build();
     }
-    
+
     /**
      * 配置密码解析器，使用BCrypt的方式对密码进行加密和验证
      *
@@ -187,18 +189,18 @@ public class AuthorizationServerConfiguration {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-    
+
     @Bean
     public UserDetailsService userDetailsService(List<IntegrationAuthenticator> authenticators) {
         return new IntegrationUserDetailsServiceImpl(authenticators);
     }
-    
+
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(UserDetailsService userDetailsService,
                                                                PasswordEncoder passwordEncoder) {
         return new CustomLoginAuthenticationProvider(userDetailsService, passwordEncoder);
     }
-    
+
     /**
      * 自定义jwt，将权限信息放至jwt中
      *
@@ -209,7 +211,7 @@ public class AuthorizationServerConfiguration {
     public OAuth2TokenCustomizer<JwtEncodingContext> oAuth2TokenCustomizer() {
         return new CustomTokenCustomizer(properties);
     }
-    
+
     /**
      * 配置jwk源，使用非对称加密，公开用于检索匹配指定选择器的JWK的方法
      *
@@ -238,7 +240,7 @@ public class AuthorizationServerConfiguration {
         JWKSet jwkSet = JWKSet.parse(jwkSetCache);
         return new ImmutableJWKSet<>(jwkSet);
     }
-    
+
     /**
      * 生成rsa密钥对，提供给jwk
      *
@@ -255,7 +257,7 @@ public class AuthorizationServerConfiguration {
         }
         return keyPair;
     }
-    
+
     /**
      * 自定义jwt解析器，设置解析出来的权限信息的前缀与在jwt中的key
      *
@@ -273,7 +275,7 @@ public class AuthorizationServerConfiguration {
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
         return jwtAuthenticationConverter;
     }
-    
+
     /**
      * 配置jwt解析器
      *
@@ -285,14 +287,14 @@ public class AuthorizationServerConfiguration {
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
-    
+
     @Bean
     @ConditionalOnExpression("'${extend.oauth2.server.token-type}'.equalsIgnoreCase('custom')")
     public OAuth2TokenGenerator<OAuth2Token> oAuth2TokenGenerator() {
         CustomOAuth2AccessTokenGenerator accessTokenGenerator = new CustomOAuth2AccessTokenGenerator();
         return new DelegatingOAuth2TokenGenerator(accessTokenGenerator, new OAuth2RefreshTokenGenerator());
     }
-    
+
     /**
      * 将AuthenticationManager注入ioc中，其它需要使用地方可以直接从ioc中获取
      *
@@ -304,7 +306,7 @@ public class AuthorizationServerConfiguration {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) {
         return authenticationConfiguration.getAuthenticationManager();
     }
-    
+
     /**
      * 添加认证服务器配置，设置jwt签发者、默认端点请求地址等
      *
@@ -318,5 +320,5 @@ public class AuthorizationServerConfiguration {
                 .issuer("http://127.0.0.1:5001")
                 .build();
     }
-    
+
 }

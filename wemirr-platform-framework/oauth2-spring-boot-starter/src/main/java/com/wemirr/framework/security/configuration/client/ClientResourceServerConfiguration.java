@@ -19,12 +19,14 @@
 
 package com.wemirr.framework.security.configuration.client;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.configuration.server.store.RedisTokenStore;
 import com.wemirr.framework.security.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -53,7 +55,7 @@ public class ClientResourceServerConfiguration {
     private final SecurityExtProperties properties;
     private final RestTemplate restTemplate;
     private final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
-    private final RequestMappingHandlerMapping requestMappingHandlerMapping;
+//    private final RequestMappingHandlerMapping requestMappingHandlerMapping;
     
     @Bean
     private OpaqueTokenIntrospector opaqueTokenIntrospector() {
@@ -69,7 +71,8 @@ public class ClientResourceServerConfiguration {
     
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(@Qualifier("requestMappingHandlerMapping") RequestMappingHandlerMapping requestMappingHandlerMapping,
+                                                   HttpSecurity http) throws Exception {
         final List<String> urls = Lists.newArrayList();
         urls.addAll(properties.getIgnore().getResourceUrls());
         urls.addAll(properties.getDefaultIgnoreUrls());
