@@ -4,23 +4,23 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `common_area`;
 CREATE TABLE `common_area` (
-                               `id` int DEFAULT NULL COMMENT 'ID',
-                               `name` varchar(64) DEFAULT NULL COMMENT '名称',
-                               `parent_id` int DEFAULT NULL COMMENT '父ID',
-                               `level` tinyint DEFAULT NULL COMMENT '级别',
-                               `longitude` decimal(10,3) DEFAULT NULL COMMENT '经度',
-                               `latitude` decimal(10,3) DEFAULT NULL COMMENT '纬度',
-                               `source` varchar(255) DEFAULT NULL COMMENT '数据 来源',
-                               `sequence` varchar(255) DEFAULT '0' COMMENT '排序',
-                               `deleted` bit(1) DEFAULT b'0',
-                               `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-                               `created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-                               `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                               `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-                               `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-                               `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                               KEY `idx_parent_id` (`parent_id`),
-                               KEY `idx_name` (`name`)
+   `id` int DEFAULT NULL COMMENT 'ID',
+   `name` varchar(64) DEFAULT NULL COMMENT '名称',
+   `parent_id` int DEFAULT NULL COMMENT '父ID',
+   `level` tinyint DEFAULT NULL COMMENT '级别',
+   `longitude` decimal(10,3) DEFAULT NULL COMMENT '经度',
+   `latitude` decimal(10,3) DEFAULT NULL COMMENT '纬度',
+   `source` varchar(255) DEFAULT NULL COMMENT '数据 来源',
+   `sequence` varchar(255) DEFAULT '0' COMMENT '排序',
+   `deleted` bit(1) DEFAULT b'0',
+   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
+   `created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
+   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+   `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
+   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+   KEY `idx_parent_id` (`parent_id`),
+   KEY `idx_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='省市区详情表';
 
 -- ----------------------------
