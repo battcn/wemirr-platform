@@ -15,10 +15,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-all</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.wemirr.framework</groupId>
 			<artifactId>common-framework-core</artifactId>
 		</dependency>
