@@ -19,6 +19,7 @@
 package com.wemirr.platform.tools.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
@@ -79,7 +80,7 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
         customFiles.put("_menu.sql", "/templates/sql/resource.sql.ftl");
         final String peek = DynamicDataSourceContextHolder.peek();
         final DataSource ds = ((DynamicRoutingDataSource) dataSource).getDataSource(peek);
-        final String rootDir = StringUtils.defaultString(request.getRootDir(), System.getProperty("user.dir") + "/.generated/");
+        final String rootDir = StrUtil.blankToDefault(request.getRootDir(), System.getProperty("user.dir") + "/.generated/");
         FastAutoGenerator.create(new DataSourceConfig.Builder(ds))
                 .globalConfig(builder -> {
                     builder.author(request.getAuthor()).outputDir(rootDir).dateType(TIME_PACK);

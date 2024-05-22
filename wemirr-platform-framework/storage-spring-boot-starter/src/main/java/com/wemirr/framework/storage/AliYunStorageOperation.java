@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.storage;
 
+import cn.hutool.core.util.StrUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.common.comm.ResponseMessage;
 import com.aliyun.oss.model.GetObjectRequest;
@@ -34,7 +35,6 @@ import com.wemirr.framework.storage.properties.AliYunStorageProperties;
 import com.wemirr.framework.storage.properties.BaseStorageProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.DisposableBean;
 
 import java.io.ByteArrayInputStream;
@@ -147,7 +147,7 @@ public class AliYunStorageOperation implements StorageOperation, DisposableBean 
     @Override
     public StorageResponse upload(StorageRequest request) {
         try {
-            String bucket = StringUtils.defaultString(request.getBucket(), properties.getBucket());
+            String bucket = StrUtil.blankToDefault(request.getBucket(), properties.getBucket());
             String fileName = request.isRandomName() ? request.buildTargetName() : request.getOriginName();
             PutObjectRequest objectRequest = new PutObjectRequest(bucket, fileName, request.getInputStream());
             final PutObjectResult object = ossClient.putObject(objectRequest);

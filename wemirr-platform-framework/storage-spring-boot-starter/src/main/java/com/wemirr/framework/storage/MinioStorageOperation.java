@@ -20,6 +20,7 @@
 package com.wemirr.framework.storage;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.storage.domain.DownloadResponse;
 import com.wemirr.framework.storage.domain.StorageItem;
@@ -32,7 +33,6 @@ import io.minio.*;
 import io.minio.messages.Item;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 
 import java.io.*;
@@ -146,7 +146,7 @@ public class MinioStorageOperation implements StorageOperation {
     @Override
     public StorageResponse upload(StorageRequest request) {
         try {
-            String bucket = StringUtils.defaultString(request.getBucket(), properties.getBucket());
+            String bucket = StrUtil.blankToDefault(request.getBucket(), properties.getBucket());
             String fileName = request.isRandomName() ? request.buildTargetName() : request.getOriginName();
             final InputStream inputStream = request.getInputStream();
             final ObjectWriteResponse object = minioClient.putObject(PutObjectArgs.builder().bucket(bucket)

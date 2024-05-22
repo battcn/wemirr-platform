@@ -1,6 +1,7 @@
 package com.wemirr.platform.gateway.configuration.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
@@ -159,7 +160,7 @@ public class RouteRuleHelper {
             rule.setStatus(true);
             rule.setUri(routeDefinition.getUri().toString());
             rule.setOrder(routeDefinition.getOrder());
-            rule.setName(StringUtils.defaultString(routeDefinition.getUri().getHost(), rule.getUri().replace("lb:ws://", "").replace("lb:wss://", "")));
+            rule.setName(StrUtil.blankToDefault(routeDefinition.getUri().getHost(), rule.getUri().replace("lb:ws://", "").replace("lb:wss://", "")));
             rule.setDynamic(false);
             final List<RouteRule.Filter> filters = routeDefinition.getFilters().stream().map(filterDefinition -> {
                 List<RouteRule.Filter.FilterArg> args = filterDefinition.getArgs().entrySet().stream().map(entry -> RouteRule.Filter.FilterArg.builder()

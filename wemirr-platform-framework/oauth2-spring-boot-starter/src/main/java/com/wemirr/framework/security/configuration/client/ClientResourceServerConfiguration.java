@@ -19,7 +19,6 @@
 
 package com.wemirr.framework.security.configuration.client;
 
-import cn.hutool.extra.spring.SpringUtil;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.configuration.server.store.RedisTokenStore;
