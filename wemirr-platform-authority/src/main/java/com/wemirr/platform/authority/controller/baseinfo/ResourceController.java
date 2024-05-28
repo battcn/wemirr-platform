@@ -117,7 +117,7 @@ public class ResourceController {
     @PostMapping
     @AccessLog(description = "添加资源")
     @Operation(summary = "添加资源")
-    @PreAuthorize("hasAuthority('sys:resources:add')")
+    @PreAuthorize("hasAuthority('sys:menu:add')")
     public void save(@Validated @RequestBody ResourceSaveReq req) {
         resourceService.add(req);
     }
@@ -125,7 +125,7 @@ public class ResourceController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除资源")
     @Operation(summary = "删除资源")
-    @PreAuthorize("hasAuthority('sys:resources:remove')")
+    @PreAuthorize("hasAuthority('sys:menu:remove')")
     public void del(@PathVariable Long id) {
         this.resourceService.delete(id);
     }
@@ -133,7 +133,7 @@ public class ResourceController {
     @PutMapping("/{id}")
     @AccessLog(description = "修改资源")
     @Operation(summary = "修改资源")
-    @PreAuthorize("hasAuthority('sys:resources:edit')")
+    @PreAuthorize("hasAuthority('sys:menu:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody ResourceSaveReq req) {
         resourceService.edit(id, req);
     }
