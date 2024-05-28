@@ -37,7 +37,7 @@ public interface TenantDictionaryService extends SuperService<TenantDictionary> 
      *
      * @param dictionary 字典信息
      */
-    void addDictionary(TenantDictionary dictionary);
+    void create(TenantDictionary dictionary);
     
     /**
      * 删除字典
@@ -51,5 +51,5 @@ public interface TenantDictionaryService extends SuperService<TenantDictionary> 
      *
      * @param dictionary 字典信息
      */
-    void editDictionary(TenantDictionary dictionary);
+    void modify(TenantDictionary dictionary);
 }

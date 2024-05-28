@@ -22,10 +22,9 @@ package com.wemirr.platform.authority.controller.tenant;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.framework.security.domain.UserInfoDetails;
-import com.wemirr.framework.security.utils.SecurityUtils;
 import com.wemirr.platform.authority.domain.tenant.entity.TenantDictionary;
 import com.wemirr.platform.authority.domain.tenant.entity.TenantDictionaryItem;
 import com.wemirr.platform.authority.domain.tenant.req.TenantDictionaryReq;
@@ -54,46 +53,48 @@ import java.util.List;
 @Tag(name = "业务字典", description = "业务字典")
 @RequiredArgsConstructor
 public class TenantDictionaryController {
-    
+
+    private final AuthenticationContext context;
     private final TenantDictionaryService tenantDictionaryService;
     private final TenantDictionaryItemService tenantDictionaryItemService;
-    
+
     @GetMapping
     @AccessLog(description = "字典查询")
     @Operation(description = "查询字典 - [DONE] - [Levin]")
     @Parameter(name = "name", description = "名称", in = ParameterIn.QUERY)
     public IPage<TenantDictionary> query(PageRequest pageRequest, String name, String code, Boolean status) {
         // 获取租户ID
-        UserInfoDetails userInfoDetails = SecurityUtils.getAuthInfo();
         return this.tenantDictionaryService.page(pageRequest.buildPage(),
-                Wraps.<TenantDictionary>lbQ().eq(TenantDictionary::getStatus, status).eq(TenantDictionary::getTenantId, userInfoDetails.getTenantId())
+                Wraps.<TenantDictionary>lbQ().eq(TenantDictionary::getStatus, status).eq(TenantDictionary::getTenantId, context.tenantId())
                         .like(TenantDictionary::getCode, code).like(TenantDictionary::getName, name)
                         .orderByDesc(TenantDictionary::getId));
     }
-    
+
     @PostMapping
     @AccessLog(description = "字典新增")
     @Operation(description = "新增字典 - [DONE] - [Levin]")
-    public void save(@Validated @RequestBody TenantDictionaryReq dto) {
-        this.tenantDictionaryService.addDictionary(BeanUtil.toBean(dto, TenantDictionary.class));
+    public void create(@Validated @RequestBody TenantDictionaryReq dto) {
+        TenantDictionary bean = BeanUtil.toBean(dto, TenantDictionary.class);
+        bean.setTenantId(context.tenantId());
+        this.tenantDictionaryService.create(bean);
     }
-    
+
     @PutMapping("/{id}")
     @AccessLog(description = "字典编辑")
     @Operation(description = "编辑字典 - [DONE] - [Levin]")
-    public void edit(@PathVariable Long id, @Validated @RequestBody TenantDictionaryReq dto) {
+    public void modify(@PathVariable Long id, @Validated @RequestBody TenantDictionaryReq dto) {
         final TenantDictionary bean = BeanUtil.toBean(dto, TenantDictionary.class);
         bean.setId(id);
-        this.tenantDictionaryService.editDictionary(bean);
+        this.tenantDictionaryService.modify(bean);
     }
-    
+
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除指定字典项")
     @Operation(description = "删除字典 - [DONE] - [Levin]")
     public void del(@PathVariable Long id) {
         this.tenantDictionaryService.deleteById(id);
     }
-    
+
     @GetMapping("/{dictionary_code}/list")
     @Operation(description = "查询字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dictionary_code", description = "编码", in = ParameterIn.PATH)

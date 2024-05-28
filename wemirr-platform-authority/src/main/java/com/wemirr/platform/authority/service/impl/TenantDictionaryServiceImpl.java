@@ -50,7 +50,7 @@ public class TenantDictionaryServiceImpl extends SuperServiceImpl<TenantDictiona
     private final DictionaryItemMapper dictionaryItemMapper;
     
     @Override
-    public void addDictionary(TenantDictionary dictionary) {
+    public void create(TenantDictionary dictionary) {
         if (dictionary == null) {
             throw CheckedException.notFound("字典内容不能为空");
         }
@@ -75,7 +75,7 @@ public class TenantDictionaryServiceImpl extends SuperServiceImpl<TenantDictiona
     
     @DSTransactional
     @Override
-    public void editDictionary(TenantDictionary dictionary) {
+    public void modify(TenantDictionary dictionary) {
         final TenantDictionary record = Optional.ofNullable(this.baseMapper.selectById(dictionary.getId()))
                 .orElseThrow(() -> CheckedException.notFound("字典不存在"));
         if (record.getReadonly()) {
