@@ -30,7 +30,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
-import static com.baomidou.mybatisplus.annotation.FieldStrategy.NEVER;
+import static com.baomidou.mybatisplus.annotation.FieldStrategy.ALWAYS;
 
 /**
  * <p>
@@ -73,22 +73,22 @@ public class Tenant extends SuperEntity<Long> {
     private String industry;
     
     @Schema(description = "省")
-    @TableField(updateStrategy = NEVER)
+    @TableField(updateStrategy = ALWAYS)
     private Long provinceId;
     @Schema(description = "省")
-    @TableField(updateStrategy = NEVER)
+    @TableField(updateStrategy = ALWAYS)
     private String provinceName;
     @Schema(description = "市")
-    @TableField(updateStrategy = NEVER)
+    @TableField(updateStrategy = ALWAYS)
     private Long cityId;
     @Schema(description = "市")
-    @TableField(updateStrategy = NEVER)
+    @TableField(updateStrategy = ALWAYS)
     private String cityName;
     @Schema(description = "区")
-    @TableField(updateStrategy = NEVER)
+    @TableField(updateStrategy = ALWAYS)
     private Long districtId;
     @Schema(description = "区")
-    @TableField(updateStrategy = NEVER)
+    @TableField(updateStrategy = ALWAYS)
     private String districtName;
     
     private String address;

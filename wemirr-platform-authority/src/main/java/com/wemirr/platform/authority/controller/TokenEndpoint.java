@@ -21,9 +21,15 @@ package com.wemirr.platform.authority.controller;
 
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.security.domain.UserInfoDetails;
+import com.wemirr.platform.authority.domain.baseinfo.enums.LoginConfigType;
+import com.wemirr.platform.authority.domain.baseinfo.resp.LoginConfigResp;
 import com.wemirr.platform.authority.domain.common.req.ChangePasswordReq;
 import com.wemirr.platform.authority.domain.common.req.ChangeUserInfoReq;
+import com.wemirr.platform.authority.domain.tenant.entity.Tenant;
+import com.wemirr.platform.authority.service.TenantService;
 import com.wemirr.platform.authority.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -53,27 +59,46 @@ import java.util.Objects;
 @RequestMapping
 @Tag(name = "Token管理", description = "Token管理")
 public class TokenEndpoint {
-    
+
     private final AuthenticationContext authenticationContext;
     private final UserService userService;
     private final OAuth2AuthorizationService oAuth2AuthorizationService;
-    
+    private final TenantService tenantService;
+    private final DatabaseProperties properties;
+
+    @Operation(summary = "登录配置", description = "登录配置")
+    @GetMapping("/oauth2/login_config")
+    public LoginConfigResp detail(@RequestParam("web_site") String webSite) {
+        LoginConfigType type = LoginConfigType.SAAS;
+        Tenant tenant = tenantService.getOne(Wraps.<Tenant>lbQ().eq(Tenant::getWebSite, webSite));
+        //  如果根据域名没查询到租户的信息,则返回默认平台的租户信息
+        if (tenant == null) {
+            tenant = tenantService.getOne(Wraps.<Tenant>lbQ().eq(Tenant::getCode, properties.getMultiTenant().getSuperTenantCode()));
+            type = LoginConfigType.PLATFORM;
+        }
+        return LoginConfigResp.builder().type(type)
+                .tenantId(tenant.getId()).tenantCode(tenant.getCode()).tenantName(tenant.getName())
+                .tenantLogo(tenant.getLogo()).webSite(tenant.getWebSite()).description(tenant.getDescription())
+                .createdTime(tenant.getCreatedTime())
+                .build();
+    }
+
     @GetMapping("/oauth2/check_token")
     public Authentication checkToken() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
-    
+
     @GetMapping("/oauth2/userinfo")
     public Object userinfo(Principal principal) {
         // 账号密码模式登陆
         if (principal instanceof UsernamePasswordAuthenticationToken token) {
-            if (token.getPrincipal()instanceof UserInfoDetails user) {
+            if (token.getPrincipal() instanceof UserInfoDetails user) {
                 return user;
             }
         }
         authenticationContext.tenantId();
         if (principal instanceof BearerTokenAuthentication token) {
-            if (token.getPrincipal()instanceof UserInfoDetails user) {
+            if (token.getPrincipal() instanceof UserInfoDetails user) {
                 return user;
             }
         }
@@ -86,7 +111,7 @@ public class TokenEndpoint {
         }
         return principal;
     }
-    
+
     @PutMapping("/oauth2/change_password")
     @Operation(summary = "修改密码")
     public void changePassword(@Validated @RequestBody ChangePasswordReq dto) {
@@ -96,13 +121,13 @@ public class TokenEndpoint {
         final Long userId = authenticationContext.userId();
         this.userService.changePassword(userId, dto.getOriginalPassword(), dto.getPassword());
     }
-    
+
     @PutMapping("/oauth2/change_info")
     @Operation(summary = "修改密码")
     public void changeInfo(@Validated @RequestBody ChangeUserInfoReq req) {
         this.userService.changeInfo(req);
     }
-    
+
     @DeleteMapping("/oauth2/logout")
     @Operation(summary = "退出登录")
     public void logout(Principal principal) {
@@ -111,5 +136,5 @@ public class TokenEndpoint {
             oAuth2AuthorizationService.remove(oAuth2AuthorizationService.findByToken(tokenValue, OAuth2TokenType.ACCESS_TOKEN));
         }
     }
-    
+
 }

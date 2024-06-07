@@ -21,6 +21,7 @@ package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.exception.CheckedException;
@@ -94,9 +95,19 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     public void create(TenantSaveReq req) {
         // 随机生成租户编码
 //        String tenantCode = RandomUtil.randomNumbers(4);
-        Long countCount = this.baseMapper.selectCount(Tenant::getCode, req.getCode());
-        if (countCount > 0) {
-            throw CheckedException.badRequest("租户编码已存在");
+        Long nameCount = this.baseMapper.selectCount(Tenant::getName, req.getName());
+        if (nameCount > 0) {
+            throw CheckedException.badRequest("租户名称重复");
+        }
+        Long codeCount = this.baseMapper.selectCount(Tenant::getCode, req.getCode());
+        if (codeCount > 0) {
+            throw CheckedException.badRequest("租户编码重复");
+        }
+        if (StrUtil.isNotBlank(req.getWebSite())) {
+            Long domainCount = this.baseMapper.selectCount(Tenant::getWebSite, req.getWebSite());
+            if (domainCount > 0) {
+                throw CheckedException.badRequest("域名已被使用");
+            }
         }
         Tenant tenant = BeanUtil.toBean(req, Tenant.class);
         tenant.setProvinceName(getNameById(tenant.getProvinceId()));
@@ -110,6 +121,14 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     public void modify(Long id, TenantModifyReq req) {
         final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(id))
                 .orElseThrow(() -> CheckedException.notFound("租户不存在"));
+        Long nameCount = this.baseMapper.selectCount(Wraps.<Tenant>lbQ().eq(Tenant::getName, req.getName()).ne(Tenant::getId, id));
+        if (nameCount > 0) {
+            throw CheckedException.badRequest("租户名称重复");
+        }
+        Long domainCount = this.baseMapper.selectCount(Wraps.<Tenant>lbQ().eq(Tenant::getWebSite, req.getWebSite()).ne(Tenant::getId, id));
+        if (domainCount > 0) {
+            throw CheckedException.badRequest("域名已被使用");
+        }
         Tenant bean = BeanUtil.toBean(req, Tenant.class);
         bean.setId(id);
         bean.setProvinceName(getNameById(tenant.getProvinceId()));
