@@ -39,6 +39,6 @@ public class AuditField {
     private String format;
 
     public String getFormat() {
-        return String.format("将字段 [%s] 数据从 %s 修改成 %s ", label, source, target);
+        return String.format("字段 [%s] 从 %s 修改至 %s ", label, source, target);
     }
 }
