@@ -27,8 +27,6 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
-import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
-
 /**
  * <p>
  * 实体类
@@ -48,12 +46,9 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @TableName("sys_station")
 @Schema(name = "Station", description = "岗位")
 public class Station extends SuperEntity<Long> {
-    
-    /**
-     * 名称
-     */
+
     @Schema(description = "名称")
-    @TableField(value = "`name`", condition = LIKE)
+    @TableField(value = "`name`")
     private String name;
     
     @Schema(description = "岗位编码")
@@ -64,19 +59,12 @@ public class Station extends SuperEntity<Long> {
     private Integer sequence;
     
     @Schema(description = "组织ID")
-    @TableField("org_id")
     private Long orgId;
-    
-    /**
-     * 状态
-     */
+
     @Schema(description = "状态")
     @TableField("`status`")
     private Boolean status;
-    
-    /**
-     * 描述
-     */
+
     @Schema(description = "描述")
     private String description;
     

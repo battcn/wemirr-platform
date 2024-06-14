@@ -25,6 +25,7 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Station;
+import com.wemirr.platform.authority.domain.baseinfo.resp.StationPageResp;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -48,6 +49,6 @@ public interface StationMapper extends SuperMapper<Station> {
      * @param wrapper wrapper
      * @return 查询结果
      */
-    IPage<Station> findStationPage(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<Station> wrapper);
+    IPage<StationPageResp> findStationPage(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<Station> wrapper);
     
 }
