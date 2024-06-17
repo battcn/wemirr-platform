@@ -22,12 +22,14 @@ package com.wemirr.framework.db.properties;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.IDialect;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 客户端认证配置
@@ -100,11 +102,20 @@ public class DatabaseProperties {
          */
         private boolean enabled = true;
 
-
         /**
          * 需要记录审计日志的表
          */
         private List<String> includeTables = Lists.newArrayList();
+
+        /**
+         * 全局忽略(默认情况下如果没给表单独配置则取全局忽略)
+         */
+        private List<String> ignoreGlobalColumns = Lists.newArrayList("deleted", "created_time", "created_by", "created_name", "last_modified_time", "last_modified_by", "last_modified_name");
+
+        /**
+         * 忽略表字段
+         */
+        private Map<String, List<String>> ignoreTableColumns = Maps.newHashMap();
     }
 
 

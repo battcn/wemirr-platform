@@ -4,7 +4,9 @@ import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
@@ -18,10 +20,7 @@ import org.apache.ibatis.mapping.MappedStatement;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Levin
@@ -64,7 +63,7 @@ public class AuditInterceptor implements InnerInterceptor {
         if (source == null) {
             return;
         }
-        Map<String, AuditField> differences = getDifferences(source, entity);
+        Map<String, AuditField> differences = compareDifferences(tableInfo, source, entity);
         log.info("审计日志 - {}", JSON.toJSONString(differences));
     }
 
@@ -77,14 +76,33 @@ public class AuditInterceptor implements InnerInterceptor {
         return null;
     }
 
-    private static Map<String, AuditField> getDifferences(Object sourceObject, Object targetObject) {
+    private Map<String, AuditField> compareDifferences(TableInfo tableInfo, Object sourceObject, Object targetObject) {
+        String tableName = tableInfo.getTableName();
         Map<String, AuditField> differences = new HashMap<>();
-        Field[] fields = ReflectUtil.getFields(sourceObject.getClass());
-        for (Field field : fields) {
+        for (TableFieldInfo fieldInfo : tableInfo.getFieldList()) {
+            Field field = fieldInfo.getField();
+            String column = fieldInfo.getColumn();
+            if (audit.getIgnoreGlobalColumns().contains(column)) {
+                log.debug("配置全局忽略记录 - {}", column);
+                continue;
+            }
+            List<String> list = audit.getIgnoreTableColumns().get(tableName);
+            if (list != null && list.contains(column)) {
+                log.debug("配置指定表忽略记录 - {} - {}", tableName, column);
+                continue;
+            }
+            boolean ignore = Optional.ofNullable(field.getAnnotation(AuditColumn.class)).map(AuditColumn::ignore).orElse(false);
+            if (ignore) {
+                log.debug("配置注解忽略 - {} - {}", tableName, column);
+                continue;
+            }
             String fieldName = field.getName();
             String label = Optional.ofNullable(field.getAnnotation(Schema.class)).map(Schema::description).orElse(null);
             Object oldValue = ReflectUtil.getFieldValue(sourceObject, field.getName());
             Object newValue = ReflectUtil.getFieldValue(targetObject, field.getName());
+            if (fieldInfo.getUpdateStrategy() == FieldStrategy.NOT_NULL && Objects.isNull(newValue)) {
+                continue;
+            }
             AuditField auditField = AuditField.builder().label(label).field(fieldName).source(oldValue).target(newValue).build();
             Object source = null;
             if (oldValue instanceof DictEnum<?> dict) {
