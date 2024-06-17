@@ -1,5 +1,6 @@
 package com.wemirr.framework.db.mybatisplus.audit;
 
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
@@ -7,6 +8,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
+import com.wemirr.framework.db.mybatisplus.core.DictEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
@@ -45,11 +47,11 @@ public class DataChangeAuditInterceptor implements InnerInterceptor {
         if (baseMapper == null) {
             return;
         }
-        Object currentEntity = baseMapper.selectById(getIdValue(entity));
-        if (currentEntity == null) {
+        Object currentObject = baseMapper.selectById(getIdValue(entity));
+        if (currentObject == null) {
             return;
         }
-        Map<String, AuditField> differences = getDifferences(currentEntity, entity);
+        Map<String, AuditField> differences = getDifferences(currentObject, entity);
         log.info("审计日志 - {}", JSON.toJSONString(differences));
     }
 
@@ -72,15 +74,24 @@ public class DataChangeAuditInterceptor implements InnerInterceptor {
         return (Serializable) tableInfo.getPropertyValue(entity, tableInfo.getKeyProperty());
     }
 
-    private static Map<String, AuditField> getDifferences(Object currentUser, Object updatedUser) {
+    private static Map<String, AuditField> getDifferences(Object sourceObject, Object targetObject) {
         Map<String, AuditField> differences = new HashMap<>();
-        Field[] fields = ReflectUtil.getFields(currentUser.getClass());
+        Field[] fields = ReflectUtil.getFields(sourceObject.getClass());
         for (Field field : fields) {
             String fieldName = field.getName();
-            String description = Optional.ofNullable(field.getAnnotation(Schema.class)).map(Schema::description).orElse(null);
-            Object oldValue = ReflectUtil.getFieldValue(currentUser, field.getName());
-            Object newValue = ReflectUtil.getFieldValue(updatedUser, field.getName());
-            AuditField auditField = AuditField.builder().label(description).field(fieldName).source(oldValue).target(newValue).build();
+            String label = Optional.ofNullable(field.getAnnotation(Schema.class)).map(Schema::description).orElse(null);
+            Object oldValue = ReflectUtil.getFieldValue(sourceObject, field.getName());
+            Object newValue = ReflectUtil.getFieldValue(targetObject, field.getName());
+            AuditField auditField = AuditField.builder().label(label).field(fieldName).source(oldValue).target(newValue).build();
+            Object source = null;
+            if (oldValue instanceof DictEnum<?> dict) {
+                source = ObjUtil.defaultIfNull(dict.getDesc(), oldValue);
+            }
+            if (newValue instanceof DictEnum<?> dict) {
+                Object target = ObjUtil.defaultIfNull(dict.getDesc(), newValue);
+                String format = String.format("字段 [%s] 从 %s 修改至 %s ", label, source, target);
+                auditField.setFormat(format);
+            }
             differences.put(fieldName, auditField);
             if (!Objects.equals(oldValue, newValue)) {
                 log.info("变化数据 - {}", auditField.getFormat());

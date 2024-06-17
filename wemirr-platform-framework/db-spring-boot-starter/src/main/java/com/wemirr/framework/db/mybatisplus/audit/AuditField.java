@@ -1,5 +1,6 @@
 package com.wemirr.framework.db.mybatisplus.audit;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,6 +40,9 @@ public class AuditField {
     private String format;
 
     public String getFormat() {
+        if (StrUtil.isNotBlank(format)) {
+            return format;
+        }
         return String.format("字段 [%s] 从 %s 修改至 %s ", label, source, target);
     }
 }
