@@ -24,7 +24,7 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.*;
 import com.wemirr.framework.commons.security.AuthenticationContext;
-import com.wemirr.framework.db.mybatisplus.audit.DataChangeAuditInterceptor;
+import com.wemirr.framework.db.mybatisplus.audit.AuditInterceptor;
 import com.wemirr.framework.db.mybatisplus.datascope.handler.DataScopePermissionHandler;
 import com.wemirr.framework.db.mybatisplus.handler.MyBatisMetaObjectHandler;
 import com.wemirr.framework.db.mybatisplus.injector.MySqlInjector;
@@ -56,10 +56,10 @@ import java.util.List;
 @Configuration
 @EnableConfigurationProperties(DatabaseProperties.class)
 public abstract class BaseMybatisConfiguration {
-    
+
     private final DatabaseProperties properties;
     private final AuthenticationContext context;
-    
+
     /**
      * 新的分页插件,一缓和二缓遵循mybatis的规则,
      * 需要设置 MybatisConfiguration#useDeprecatedExecutor = false
@@ -74,40 +74,40 @@ public abstract class BaseMybatisConfiguration {
         if (MultiTenantType.NONE != multiTenant.getType()) {
             // 新增多租户拦截器
             interceptor.addInnerInterceptor(new TenantLineInnerInterceptor(new TenantLineHandler() {
-                
+
                 @Override
                 public Expression getTenantId() {
                     // 租户ID
                     log.debug("当前租户ID - {}", context.tenantId());
                     return context.tenantId() == null ? null : new LongValue(context.tenantId());
                 }
-                
+
                 @Override
                 public boolean ignoreTable(String tableName) {
                     final List<String> tables = multiTenant.getIncludeTables();
                     // 判断哪些表不需要尽心多租户判断,返回false表示都需要进行多租户判断
                     return context.anonymous() || !tables.contains(tableName);
                 }
-                
+
                 @Override
                 public String getTenantIdColumn() {
                     return multiTenant.getTenantIdColumn();
                 }
-                
+
             }));
         }
         // 加载其它插件
         loadInnerInterceptor(interceptor);
         return interceptor;
     }
-    
+
     /**
      * mybatis-plus 分页插件
      *
      * @param pagination 参数配置
      * @return 插件
      */
-    public PaginationInnerInterceptor paginationInnerInterceptor(final DatabaseProperties.PaginationInterceptProperties pagination) {
+    public PaginationInnerInterceptor paginationInnerInterceptor(final DatabaseProperties.Pagination pagination) {
         // 新增MYSQL分页拦截器,一定要先设置租户判断后才进行分页拦截设置
         PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(pagination.getDbType());
         paginationInnerInterceptor.setMaxLimit(pagination.getMaxLimit());
@@ -115,15 +115,13 @@ public abstract class BaseMybatisConfiguration {
         paginationInnerInterceptor.setDialect(pagination.getDialect());
         return paginationInnerInterceptor;
     }
-    
+
     protected void loadInnerInterceptor(MybatisPlusInterceptor interceptor) {
         final DatabaseProperties.Intercept intercept = properties.getIntercept();
-        if (intercept.getDataPermission().isEnabled()) {
+        if (properties.getDataPermission().isEnabled()) {
             // 分页拦截器之前的插件 => 数据权限插件
             interceptor.addInnerInterceptor(new DataPermissionInterceptor(new DataScopePermissionHandler(context)));
         }
-        // 分页插件
-        interceptor.addInnerInterceptor(paginationInnerInterceptor(intercept.getPagination()));
         if (intercept.isBlockAttack()) {
             // 防止全表更新与删除插件: BlockAttackInnerInterceptor
             interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
@@ -132,15 +130,19 @@ public abstract class BaseMybatisConfiguration {
             // SQL性能规范插件，限制比较多，慎用哦
             interceptor.addInnerInterceptor(new IllegalSQLInnerInterceptor());
         }
-        interceptor.addInnerInterceptor(new DataChangeAuditInterceptor());
+        if (properties.getAudit().isEnabled()) {
+            interceptor.addInnerInterceptor(new AuditInterceptor(properties.getAudit()));
+        }
+        // 分页插件
+        interceptor.addInnerInterceptor(paginationInnerInterceptor(intercept.getPagination()));
     }
-    
+
     @Bean
     @ConditionalOnMissingBean
     public MySqlInjector getMySqlInjector() {
         return new MySqlInjector();
     }
-    
+
     @Bean
     @ConditionalOnMissingBean
     public MetaObjectHandler metaObjectHandler() {

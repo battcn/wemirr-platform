@@ -9,7 +9,9 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import com.wemirr.framework.db.mybatisplus.core.DictEnum;
+import com.wemirr.framework.db.properties.DatabaseProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -25,33 +27,44 @@ import java.util.Optional;
  * @author Levin
  */
 @Slf4j
-public class DataChangeAuditInterceptor implements InnerInterceptor {
+@RequiredArgsConstructor
+public class AuditInterceptor implements InnerInterceptor {
 
+    private final DatabaseProperties.Audit audit;
 
     @Override
     public boolean willDoUpdate(Executor executor, MappedStatement ms, Object parameter) {
         return ms.getId().endsWith("updateById");
     }
 
+    boolean ignoreTable(String name) {
+        return !audit.getIncludeTables().contains(name);
+    }
+
     @Override
     public void beforeUpdate(Executor executor, MappedStatement ms, Object parameter) {
-        log.info("ms - {} - parameter - [{}]", ms.getId(), JSON.toJSONString(parameter));
+        log.debug("ms - {} - parameter - [{}]", ms.getId(), JSON.toJSONString(parameter));
         Object entity = getEntityFromParameter(parameter);
         if (entity == null) {
+            log.warn("parameter entity is null...");
             return;
         }
-        String tableName = getTableName(entity);
-        log.info("tableName - {}", tableName);
+        TableInfo tableInfo = TableInfoHelper.getTableInfo(ms.getParameterMap().getType());
+        log.debug("tableInfo - {}", tableInfo);
+        if (ignoreTable(tableInfo.getTableName())) {
+            return;
+        }
         // 获取当前数据
         BaseMapper<?> baseMapper = getBaseMapper(ms);
         if (baseMapper == null) {
             return;
         }
-        Object currentObject = baseMapper.selectById(getIdValue(entity));
-        if (currentObject == null) {
+        Object keyValue = tableInfo.getPropertyValue(entity, tableInfo.getKeyProperty());
+        Object source = baseMapper.selectById((Serializable) keyValue);
+        if (source == null) {
             return;
         }
-        Map<String, AuditField> differences = getDifferences(currentObject, entity);
+        Map<String, AuditField> differences = getDifferences(source, entity);
         log.info("审计日志 - {}", JSON.toJSONString(differences));
     }
 
@@ -62,16 +75,6 @@ public class DataChangeAuditInterceptor implements InnerInterceptor {
             }
         }
         return null;
-    }
-
-    private String getTableName(Object entity) {
-        TableInfo tableInfo = TableInfoHelper.getTableInfo(entity.getClass());
-        return tableInfo.getTableName();
-    }
-
-    private Serializable getIdValue(Object entity) {
-        TableInfo tableInfo = TableInfoHelper.getTableInfo(entity.getClass());
-        return (Serializable) tableInfo.getPropertyValue(entity, tableInfo.getKeyProperty());
     }
 
     private static Map<String, AuditField> getDifferences(Object sourceObject, Object targetObject) {
