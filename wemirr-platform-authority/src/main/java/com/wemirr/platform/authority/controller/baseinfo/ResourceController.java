@@ -25,13 +25,13 @@ import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Resource;
 import com.wemirr.platform.authority.domain.baseinfo.enums.ResourceType;
+import com.wemirr.platform.authority.domain.baseinfo.req.ResourcePageReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.ResourceQueryReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.ResourceSaveReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.ResourcePageResp;
@@ -99,11 +99,10 @@ public class ResourceController {
             @Parameter(description = "类型", name = "type", in = ParameterIn.QUERY),
     })
     @Operation(summary = "资源列表 - [Levin] - [DONE]")
-    public IPage<ResourcePageResp> pageList(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
-                                            @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
-                                            Long parentId, Integer type) {
-        return resourceService.page(new Page<>(current, size), Wraps.<Resource>lbQ().eq(Resource::getParentId, parentId)
-                .eq(Resource::getType, type)).convert(x -> BeanUtil.toBean(x, ResourcePageResp.class));
+    public IPage<ResourcePageResp> pageList(ResourcePageReq req) {
+        return resourceService.page(req.buildPage(), Wraps.<Resource>lbQ()
+                .eq(Resource::getParentId, req.getParentId())
+                .eq(Resource::getType, req.getType())).convert(x -> BeanUtil.toBean(x, ResourcePageResp.class));
     }
     
     @GetMapping("/permissions")

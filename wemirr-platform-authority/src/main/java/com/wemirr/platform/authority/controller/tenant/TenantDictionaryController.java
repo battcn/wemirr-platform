@@ -60,7 +60,7 @@ public class TenantDictionaryController {
 
     @GetMapping
     @AccessLog(description = "字典查询")
-    @Operation(description = "查询字典 - [DONE] - [Levin]")
+    @Operation(summary = "查询字典 - [DONE] - [Levin]")
     @Parameter(name = "name", description = "名称", in = ParameterIn.QUERY)
     public IPage<TenantDictionary> query(PageRequest pageRequest, String name, String code, Boolean status) {
         // 获取租户ID
@@ -72,7 +72,7 @@ public class TenantDictionaryController {
 
     @PostMapping
     @AccessLog(description = "字典新增")
-    @Operation(description = "新增字典 - [DONE] - [Levin]")
+    @Operation(summary = "新增字典 - [DONE] - [Levin]")
     public void create(@Validated @RequestBody TenantDictionaryReq dto) {
         TenantDictionary bean = BeanUtil.toBean(dto, TenantDictionary.class);
         bean.setTenantId(context.tenantId());
@@ -81,7 +81,7 @@ public class TenantDictionaryController {
 
     @PutMapping("/{id}")
     @AccessLog(description = "字典编辑")
-    @Operation(description = "编辑字典 - [DONE] - [Levin]")
+    @Operation(summary = "编辑字典 - [DONE] - [Levin]")
     public void modify(@PathVariable Long id, @Validated @RequestBody TenantDictionaryReq dto) {
         final TenantDictionary bean = BeanUtil.toBean(dto, TenantDictionary.class);
         bean.setId(id);
@@ -90,13 +90,13 @@ public class TenantDictionaryController {
 
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除指定字典项")
-    @Operation(description = "删除字典 - [DONE] - [Levin]")
+    @Operation(summary = "删除字典 - [DONE] - [Levin]")
     public void del(@PathVariable Long id) {
         this.tenantDictionaryService.deleteById(id);
     }
 
     @GetMapping("/{dictionary_code}/list")
-    @Operation(description = "查询字典子项 - [DONE] - [Levin]")
+    @Operation(summary = "查询字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dictionary_code", description = "编码", in = ParameterIn.PATH)
     public List<TenantDictionaryItem> list(@PathVariable("dictionary_code") String dictionaryCode) {
         return this.tenantDictionaryItemService.list(Wraps.<TenantDictionaryItem>lbQ()

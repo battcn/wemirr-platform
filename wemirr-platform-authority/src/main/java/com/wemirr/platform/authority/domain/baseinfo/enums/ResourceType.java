@@ -43,7 +43,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "枚举")
 @JsonFormat
 public enum ResourceType implements DictEnum<Integer> {
-    
+
     /**
      * 按钮
      */
@@ -60,14 +60,14 @@ public enum ResourceType implements DictEnum<Integer> {
      * 三方
      */
     BUILD_PUBLISH(5, "一键发布模板");
-    
+
     @EnumValue
     @JsonValue
     private Integer type;
-    
+
     @Schema(description = "描述")
     private String desc;
-    
+
     @JsonCreator
     public static ResourceType of(Integer type) {
         if (type == null) {
@@ -80,26 +80,15 @@ public enum ResourceType implements DictEnum<Integer> {
         }
         return null;
     }
-    
-    public boolean eq(String val) {
-        return this.name().equalsIgnoreCase(val);
-    }
-    
-    public boolean eq(ResourceType val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
-    }
-    
+
     @Override
     public Integer getValue() {
         return this.type;
     }
-    
+
     @Override
     public String toString() {
         return String.valueOf(type);
     }
-    
+
 }

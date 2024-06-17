@@ -56,7 +56,7 @@ public class SiteNotifyController {
     private final SiteNotifyService siteNotifyService;
     
     @GetMapping("/page")
-    @Operation(summary = "站内通知列表")
+    @Operation(summary = "分页查询")
     @PreAuthorize("hasAuthority('sys:site_notify:page')")
     public IPage<SiteMessageResp> publishList(SiteMessagePageReq req) {
         return siteNotifyService.page(req.buildPage(), Wraps.<SiteNotify>lbQ()
@@ -66,13 +66,14 @@ public class SiteNotifyController {
     }
     
     @GetMapping("/{type}/receivers")
+    @Operation(summary = "接收人列表")
     public List<CommonDataResp> query(@PathVariable ReceiverType type, String search) {
         return this.siteNotifyService.queryReceiverByType(type, search);
     }
     
     @PostMapping
-    @AccessLog(description = "添加站内通知")
-    @Operation(summary = "添加站内通知")
+    @AccessLog(description = "添加通知")
+    @Operation(summary = "添加通知")
     @PreAuthorize("hasAuthority('sys:site_notify:add')")
     public void add(@Validated @RequestBody SiteMessageSaveReq req) {
         final SiteNotify bean = BeanUtil.toBean(req, SiteNotify.class);
@@ -81,8 +82,8 @@ public class SiteNotifyController {
     }
     
     @PutMapping("/{id}")
-    @AccessLog(description = "编辑站内通知")
-    @Operation(summary = "编辑站内通知")
+    @AccessLog(description = "编辑通知")
+    @Operation(summary = "编辑通知")
     @PreAuthorize("hasAuthority('sys:site_notify:edit')")
     public void edit(@PathVariable Long id, @Validated @RequestBody SiteMessageSaveReq req) {
         final SiteNotify bean = BeanUtil.toBean(req, SiteNotify.class);
@@ -92,8 +93,8 @@ public class SiteNotifyController {
     }
     
     @DeleteMapping("/{id}")
-    @AccessLog(description = "删除站内通知")
-    @Operation(summary = "删除站内通知")
+    @AccessLog(description = "删除通知")
+    @Operation(summary = "删除通知")
     @PreAuthorize("hasAuthority('sys:site_notify:remove')")
     public void del(@PathVariable Long id) {
         siteNotifyService.removeById(id);

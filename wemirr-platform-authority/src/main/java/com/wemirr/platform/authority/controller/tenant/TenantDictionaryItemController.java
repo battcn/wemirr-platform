@@ -59,7 +59,7 @@ public class TenantDictionaryItemController {
     private final TenantDictionaryItemService tenantDictionaryItemService;
     
     @GetMapping
-    @Operation(description = "查询字典子项 - [DONE] - [Levin]")
+    @Operation(summary = "查询字典子项 - [DONE] - [Levin]")
     @Parameters({
             @Parameter(name = "dictionary_id", description = "字典ID", in = ParameterIn.PATH),
             @Parameter(name = "label", description = "名称", in = ParameterIn.QUERY)
@@ -72,7 +72,7 @@ public class TenantDictionaryItemController {
     }
     
     @PostMapping
-    @Operation(description = "添加字典子项 - [DONE] - [Levin]")
+    @Operation(summary = "添加字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dictionary_id", description = "字典ID", in = ParameterIn.PATH)
     public void save(@PathVariable("dictionary_id") Long dictionaryId, @Validated @RequestBody DictionaryItemReq dto) {
         this.tenantDictionaryItemService.addDictionaryItem(dictionaryId, BeanUtil.toBean(dto, TenantDictionaryItem.class));
@@ -80,7 +80,7 @@ public class TenantDictionaryItemController {
     }
     
     @PutMapping("/{id}")
-    @Operation(description = "编辑字典子项 - [DONE] - [Levin]")
+    @Operation(summary = "编辑字典子项 - [DONE] - [Levin]")
     @Parameter(name = "id", description = "子项ID", in = ParameterIn.PATH)
     public void edit(@PathVariable("dictionary_id") Long dictionaryId, @PathVariable Long id, @Validated @RequestBody DictionaryItemReq dto) {
         final TenantDictionaryItem tenantDictionaryItem = BeanUtil.toBean(dto, TenantDictionaryItem.class);
@@ -90,7 +90,7 @@ public class TenantDictionaryItemController {
     }
     
     @DeleteMapping("/{id}")
-    @Operation(description = "删除字典子项 - [DONE] - [Levin]")
+    @Operation(summary = "删除字典子项 - [DONE] - [Levin]")
     @Parameter(name = "id", description = "子项ID", in = ParameterIn.PATH)
     public void del(@PathVariable Long id) {
         this.tenantDictionaryItemService.removeById(id);
@@ -98,7 +98,7 @@ public class TenantDictionaryItemController {
     }
     
     @GetMapping("/{dictionary_code}")
-    @Operation(description = "字典子项获取 - [DONE] - [Levin]")
+    @Operation(summary = "字典子项获取 - [DONE] - [Levin]")
     @Parameter(name = "dictionary_code", description = "子项编码", in = ParameterIn.PATH)
     public List<TenantDictionaryItemResp> dictionaryItem(@PathVariable("dictionary_id") Long dictionaryId, @PathVariable("dictionary_code") String dictionaryCode) {
         UserInfoDetails userInfoDetails = SecurityUtils.getAuthInfo();

@@ -19,13 +19,16 @@
 
 package com.wemirr.platform.authority.controller.common;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
-import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.platform.authority.domain.baseinfo.req.SiteMessagePageReq;
+import com.wemirr.platform.authority.domain.baseinfo.resp.SiteMessagePageResp;
 import com.wemirr.platform.authority.domain.common.entity.SiteMessage;
 import com.wemirr.platform.authority.service.SiteMessageService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,30 +48,35 @@ import java.util.List;
 @TenantDS
 @RequestMapping("/site_messages")
 public class SiteMessageController {
-    
-    private final AuthenticationContext authenticationContext;
+
+    private final AuthenticationContext context;
     private final SiteMessageService siteMessageService;
-    
+
     @GetMapping("/page")
-    public Page<SiteMessage> pageList(String title, String level, Boolean mark, PageRequest request) {
-        return siteMessageService.page(request.buildPage(), Wraps.<SiteMessage>lbQ()
-                .like(SiteMessage::getTitle, title).eq(SiteMessage::getLevel, level)
-                .eq(SiteMessage::getMark, mark).eq(SiteMessage::getReceiveId, authenticationContext.userId()));
+    @Operation(summary = "消息列表")
+    public IPage<SiteMessagePageResp> pageList(SiteMessagePageReq req) {
+        return siteMessageService.page(req.buildPage(), Wraps.<SiteMessage>lbQ()
+                .like(SiteMessage::getTitle, req.getTitle()).eq(SiteMessage::getLevel, req.getTitle())
+                .eq(SiteMessage::getMark, req.getMark())
+                .eq(SiteMessage::getReceiveId, context.userId())).convert(x -> BeanUtil.toBean(x, SiteMessagePageResp.class));
     }
-    
+
     @PatchMapping("/{id}/mark")
+    @Operation(summary = "标记已读")
     public void mark(@PathVariable("id") Long id) {
         this.siteMessageService.updateById(SiteMessage.builder().mark(true).id(id).build());
     }
-    
+
     @DeleteMapping("/{id}")
+    @Operation(summary = "删除消息")
     public void del(@PathVariable("id") Long id) {
         this.siteMessageService.removeById(id);
     }
-    
+
     @DeleteMapping("/batch_remove")
+    @Operation(summary = "批量删除")
     public void batchDel(@RequestBody List<Long> ids) {
         this.siteMessageService.removeByIds(ids);
     }
-    
+
 }

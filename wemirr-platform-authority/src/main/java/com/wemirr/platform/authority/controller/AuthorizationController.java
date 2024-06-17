@@ -19,6 +19,7 @@
 
 package com.wemirr.platform.authority.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -49,18 +50,19 @@ import java.util.*;
  */
 @Controller
 @RequiredArgsConstructor
+@Hidden
 public class AuthorizationController {
-    
+
     private final RegisteredClientRepository registeredClientRepository;
     private final OAuth2AuthorizationConsentService authorizationConsentService;
-    
+
     @GetMapping("/oauth2/code")
     @ResponseBody
     public Map<String, Object> codeDetail(String code) {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return Map.of("authentication", authentication, "code", code);
     }
-    
+
     @GetMapping("/activate")
     public String activate(@RequestParam(value = "user_code", required = false) String userCode) {
         if (userCode != null) {
@@ -68,31 +70,31 @@ public class AuthorizationController {
         }
         return "device-activate";
     }
-    
+
     @GetMapping("/activated")
     public String activated() {
         return "device-activated";
     }
-    
+
     @GetMapping(value = "/")
     public String success() {
         return "device-activated";
     }
-    
+
     @GetMapping(value = "/oauth2/consent")
     public String consent(Principal principal, Model model,
                           @RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
                           @RequestParam(OAuth2ParameterNames.SCOPE) String scope,
                           @RequestParam(OAuth2ParameterNames.STATE) String state,
                           @RequestParam(name = OAuth2ParameterNames.USER_CODE, required = false) String userCode) {
-        
+
         // 获取consent页面所需的参数
         Map<String, Object> consentParameters = getConsentParameters(scope, state, clientId, userCode, principal);
         // 转至model中，让框架渲染页面
         consentParameters.forEach(model::addAttribute);
         return "consent";
     }
-    
+
     @GetMapping("/login")
     public String login(Model model, HttpSession session) {
         Object attribute = session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
@@ -101,7 +103,7 @@ public class AuthorizationController {
         }
         return "login";
     }
-    
+
     /**
      * 根据授权确认相关参数获取授权确认与未确认的scope相关参数
      *
@@ -111,7 +113,7 @@ public class AuthorizationController {
      * @param userCode  设备码授权流程中的用户码
      * @param principal 当前认证信息
      * @return 页面所需数据
-     * @throws RuntimeException  RuntimeException
+     * @throws RuntimeException RuntimeException
      */
     private Map<String, Object> getConsentParameters(String scope,
                                                      String state,
@@ -143,7 +145,7 @@ public class AuthorizationController {
                 scopesToApprove.add(requestedScope);
             }
         }
-        
+
         Map<String, Object> parameters = new HashMap<>(7);
         parameters.put("clientId", registeredClient.getClientId());
         parameters.put("clientName", registeredClient.getClientName());
@@ -159,22 +161,22 @@ public class AuthorizationController {
         }
         return parameters;
     }
-    
+
     private static Set<ScopeWithDescription> withDescription(Set<String> scopes) {
         Set<ScopeWithDescription> scopeWithDescriptions = new HashSet<>();
         for (String scope : scopes) {
             scopeWithDescriptions.add(new ScopeWithDescription(scope));
-            
+
         }
         return scopeWithDescriptions;
     }
-    
+
     @Data
     public static class ScopeWithDescription {
-        
+
         private static final String DEFAULT_DESCRIPTION = "UNKNOWN SCOPE - We cannot provide information about this permission, use caution when granting this.";
         private static final Map<String, String> SCOPE_DESCRIPTIONS = new HashMap<>();
-        
+
         static {
             SCOPE_DESCRIPTIONS.put(
                     OidcScopes.PROFILE,
@@ -189,14 +191,14 @@ public class AuthorizationController {
                     "other.scope",
                     "This is another scope example of a scope description.");
         }
-        
+
         private final String scope;
         private final String description;
-        
+
         ScopeWithDescription(String scope) {
             this.scope = scope;
             this.description = SCOPE_DESCRIPTIONS.getOrDefault(scope, DEFAULT_DESCRIPTION);
         }
     }
-    
+
 }

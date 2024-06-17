@@ -84,11 +84,13 @@ public class TokenEndpoint {
     }
 
     @GetMapping("/oauth2/check_token")
+    @Operation(summary = "验证Token", description = "验证Token是否有效")
     public Authentication checkToken() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
     @GetMapping("/oauth2/userinfo")
+    @Operation(summary = "用户信息", description = "获取用户信息")
     public Object userinfo(Principal principal) {
         // 账号密码模式登陆
         if (principal instanceof UsernamePasswordAuthenticationToken token) {
