@@ -69,7 +69,7 @@ public class AccessLogInfo {
     protected String message;
     
     @Schema(description = "日志状态")
-    private Boolean status;
+    protected Boolean status;
     
     @Schema(description = "开始时间")
     protected Instant startTime;

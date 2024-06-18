@@ -100,7 +100,7 @@ public class DatabaseProperties {
         /**
          * 是否启用
          */
-        private boolean enabled = true;
+        private boolean enabled = false;
 
         /**
          * 需要记录审计日志的表

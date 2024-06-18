@@ -25,6 +25,7 @@
         <module>redis-plus-spring-boot-starter</module>
         <module>i18n-spring-boot-starter</module>
         <module>robot-spring-boot-starter</module>
+        <module>diff-log-spring-boot-starter</module>
     </modules>
     
     <properties>

@@ -26,10 +26,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author Levin
  */
 @Data
-@ConfigurationProperties(LogProperties.PREFIX)
-public class LogProperties {
+@ConfigurationProperties(AccessLogProperties.PREFIX)
+public class AccessLogProperties {
     
-    public static final String PREFIX = "extend.boot.log";
+    public static final String PREFIX = "extend.boot.log.access";
     
     private boolean enabled = true;
     

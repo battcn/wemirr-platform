@@ -19,7 +19,7 @@
 
 package com.wemirr.framework.boot.log.configuration;
 
-import com.wemirr.framework.boot.log.LogProperties;
+import com.wemirr.framework.boot.log.AccessLogProperties;
 import com.wemirr.framework.boot.log.event.AccessLogListener;
 import com.wemirr.framework.boot.log.feign.AccessLogFeign;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -41,8 +41,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @EnableAsync
 @Configuration
-@EnableConfigurationProperties(LogProperties.class)
-@ConditionalOnProperty(prefix = LogProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
+@EnableConfigurationProperties(AccessLogProperties.class)
+@ConditionalOnProperty(prefix = AccessLogProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AccessLogAutoConfiguration {
     
     @Bean
