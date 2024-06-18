@@ -1,18 +1,23 @@
 package com.wemirr.framework.log.diff.support.aop;
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
 import com.wemirr.framework.log.diff.domain.DiffLogInfo;
 import com.wemirr.framework.log.diff.domain.DiffLogOps;
 import com.wemirr.framework.log.diff.domain.MethodExecute;
-import com.wemirr.framework.log.diff.domain.VariableType;
 import com.wemirr.framework.log.diff.service.IDiffLogPerformanceMonitor;
 import com.wemirr.framework.log.diff.service.IDiffLogService;
 import com.wemirr.framework.log.diff.service.IFunctionService;
 import com.wemirr.framework.log.diff.service.impl.DiffParseFunction;
 import com.wemirr.framework.log.diff.support.parse.DiffLogFunctionParser;
 import com.wemirr.framework.log.diff.support.parse.DiffLogValueParser;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -21,6 +26,9 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StopWatch;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -28,6 +36,7 @@ import java.time.Instant;
 import java.util.*;
 
 import static com.wemirr.framework.log.diff.service.IDiffLogPerformanceMonitor.*;
+import static org.springframework.http.HttpHeaders.USER_AGENT;
 
 
 /**
@@ -40,9 +49,8 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
 
     private DiffLogOperationSource diffLogOperationSource;
     private String serviceName;
-    private IDiffLogService bizLogService;
+    private IDiffLogService diffLogService;
     private AuthenticationContext context;
-
     private IDiffLogPerformanceMonitor diffLogPerformanceMonitor;
 
     private boolean joinTransaction;
@@ -168,7 +176,7 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
         }
         List<String> spElTemplates = getSpElTemplates(operation, action);
         Map<String, String> expressionValues = processTemplate(spElTemplates, methodExecute, functionNameAndReturnMap);
-        saveLog(methodExecute.getMethod(), !flag, operation, context.userId(), action, expressionValues);
+        saveLog(methodExecute.getMethod(), !flag, operation, action, expressionValues);
     }
 
     private void failRecordExecute(MethodExecute methodExecute, Map<String, String> functionNameAndReturnMap,
@@ -180,47 +188,56 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
         String action = operation.getFailLogTemplate();
         List<String> spElTemplates = getSpElTemplates(operation, action);
         Map<String, String> expressionValues = processTemplate(spElTemplates, methodExecute, functionNameAndReturnMap);
-        saveLog(methodExecute.getMethod(), true, operation, context.userId(), action, expressionValues);
+        saveLog(methodExecute.getMethod(), true, operation, action, expressionValues);
     }
 
     private boolean exitsCondition(MethodExecute methodExecute,
                                    Map<String, String> functionNameAndReturnMap, DiffLogOps operation) {
-        if (!StrUtil.isBlank(operation.getCondition())) {
+        if (StrUtil.isNotBlank(operation.getCondition())) {
             String condition = singleProcessTemplate(methodExecute, operation.getCondition(), functionNameAndReturnMap);
-            if (StrUtil.equalsIgnoreCase(condition, "false")) {
-                return true;
-            }
+            return StrUtil.equalsIgnoreCase(condition, "false");
         }
         return false;
     }
 
-    private void saveLog(Method method, boolean flag, DiffLogOps ops, Object operatorId,
-                         String description, Map<String, String> expressionValues) {
-        if (StrUtil.isBlank(expressionValues.get(description)) ||
-                (!diffLog && description.contains("#") && Objects.equals(description, expressionValues.get(description)))) {
+    private void saveLog(Method method, boolean flag, DiffLogOps ops,
+                         String description, Map<String, String> expressions) {
+        if (StrUtil.isBlank(expressions.get(description))
+                || (!diffLog && description.contains("#") && Objects.equals(description, expressions.get(description)))) {
             return;
+        }
+        var variables = MapUtil.builder()
+                .put("class", method.getDeclaringClass())
+                .put("method", method.getName())
+                .put("method", method.getName());
+        RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
+        if (attributes instanceof ServletRequestAttributes requestAttributes) {
+            HttpServletRequest request = requestAttributes.getRequest();
+            final String ip = JakartaServletUtil.getClientIP(request);
+            variables.put("ip", ip);
+            variables.put("uri", URLUtil.getPath(request.getRequestURI()));
+//            log.setLocation(RegionUtils.getRegion(ip));
+            final UserAgent userAgent = UserAgentUtil.parse(request.getHeader(USER_AGENT));
+            variables.put("engine", userAgent.getEngine().getName());
+            variables.put("os", userAgent.getOs().getName());
+            variables.put("platform", userAgent.getPlatform().getName());
+            variables.put("browser", userAgent.getBrowser().getName());
         }
         DiffLogInfo diffLogInfo = DiffLogInfo.builder()
                 .serviceName(serviceName)
-                .group(expressionValues.get(ops.getGroup()))
-                .tag(expressionValues.get(ops.getTag()))
-                .businessKey(expressionValues.get(ops.getBusinessKey()))
-                .extra(expressionValues.get(ops.getExtra()))
-                .variables(getCodeVariable(method))
-                .description(expressionValues.get(description))
+                .group(expressions.get(ops.getGroup()))
+                .tag(expressions.get(ops.getTag()))
+                .businessKey(expressions.get(ops.getBusinessKey()))
+                .extra(expressions.get(ops.getExtra()))
+                .description(expressions.get(description))
                 .status(flag)
+                .tenantId(context.tenantId())
                 .createdBy(context.userId())
                 .createdName(context.realName())
                 .createTime(Instant.now())
+                .variables(variables.build())
                 .build();
-        bizLogService.handler(diffLogInfo);
-    }
-
-    private Map<VariableType, Object> getCodeVariable(Method method) {
-        Map<VariableType, Object> map = new HashMap<>();
-        map.put(VariableType.CLASS, method.getDeclaringClass());
-        map.put(VariableType.METHOD, method.getName());
-        return map;
+        diffLogService.handler(diffLogInfo);
     }
 
     private List<String> getSpElTemplates(DiffLogOps operation, String... actions) {
@@ -246,8 +263,8 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
         this.serviceName = serviceName;
     }
 
-    public void setDiffLogService(IDiffLogService bizLogService) {
-        this.bizLogService = bizLogService;
+    public void setDiffLogService(IDiffLogService diffLogService) {
+        this.diffLogService = diffLogService;
     }
 
     public void setDiffLogPerformanceMonitor(IDiffLogPerformanceMonitor diffLogPerformanceMonitor) {
@@ -264,7 +281,7 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
 
     @Override
     public void afterSingletonsInstantiated() {
-        bizLogService = beanFactory.getBean(IDiffLogService.class);
+        diffLogService = beanFactory.getBean(IDiffLogService.class);
         context = beanFactory.getBean(AuthenticationContext.class);
         this.setLogFunctionParser(new DiffLogFunctionParser(beanFactory.getBean(IFunctionService.class)));
         this.setDiffParseFunction(beanFactory.getBean(DiffParseFunction.class));

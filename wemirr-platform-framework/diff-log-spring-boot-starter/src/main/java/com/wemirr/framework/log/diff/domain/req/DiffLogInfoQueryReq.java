@@ -17,8 +17,8 @@ public class DiffLogInfoQueryReq {
 
     private String businessKey;
 
-    private String type;
+    private String group;
 
-    private String subType;
+    private String tag;
 
 }

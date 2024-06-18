@@ -37,6 +37,9 @@ public class DiffLogInfo {
     @Schema(description = "日志状态")
     protected Boolean status;
 
+    @Schema(description = "租户ID")
+    protected Long tenantId;
+
     @Schema(description = "操作人ID")
     protected Long createdBy;
 
@@ -50,5 +53,5 @@ public class DiffLogInfo {
     protected String extra;
 
     @Schema(description = "日志的代码信息")
-    protected Map<VariableType, Object> variables;
+    protected Map<Object, Object> variables;
 }
