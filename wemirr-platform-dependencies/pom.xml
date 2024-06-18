@@ -190,6 +190,11 @@
             <!-- 自定义SDK -->
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
+                <artifactId>diff-log-spring-boot-starter</artifactId>
+                <version>${wemirr-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wemirr.framework</groupId>
                 <artifactId>robot-spring-boot-starter</artifactId>
                 <version>${wemirr-framework.version}</version>
             </dependency>

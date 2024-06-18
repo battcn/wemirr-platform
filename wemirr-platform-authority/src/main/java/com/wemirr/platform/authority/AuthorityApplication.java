@@ -20,6 +20,7 @@
 package com.wemirr.platform.authority;
 
 import com.wemirr.framework.boot.log.event.AccessLogListener;
+import com.wemirr.framework.log.diff.core.annotation.EnableDiffLog;
 import com.wemirr.framework.security.configuration.server.annotation.EnableOAuth2Server;
 import com.wemirr.framework.websocket.redis.EnableRedisWebSocket;
 import com.wemirr.platform.authority.service.OptLogService;
@@ -51,8 +52,9 @@ import java.net.InetAddress;
 @EnableFeignClients(basePackages = "com.wemirr")
 @MapperScan(value = "com.wemirr.**.repository", annotationClass = Repository.class)
 @EnableOAuth2Server
+@EnableDiffLog(serviceName = "基础服务")
 public class AuthorityApplication {
-    
+
     /**
      * 操作日志监听回调.
      *
@@ -63,7 +65,7 @@ public class AuthorityApplication {
     public AccessLogListener accessLogListener(final OptLogService optLogService) {
         return new AccessLogListener(optLogService::listener);
     }
-    
+
     /**
      * 启动类.
      *
@@ -77,12 +79,12 @@ public class AuthorityApplication {
         String host = InetAddress.getLocalHost().getHostAddress();
         String port = env.getProperty("server.port");
         log.info("""
-                
-                ----------------------------------------------------------
-                \tApplication '{}' is running! Access URLs:
-                \tDoc: \thttp://{}:{}/doc.html
-                ----------------------------------------------------------""",
+                                        
+                        ----------------------------------------------------------
+                        \tApplication '{}' is running! Access URLs:
+                        \tDoc: \thttp://{}:{}/doc.html
+                        ----------------------------------------------------------""",
                 appName, host, port);
     }
-    
+
 }

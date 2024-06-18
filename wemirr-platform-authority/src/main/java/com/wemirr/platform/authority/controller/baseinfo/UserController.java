@@ -43,8 +43,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.wemirr.platform.authority.domain.baseinfo.converts.UserConverts.USER_DTO_2_PO_CONVERTS;
-
 /**
  * 用户管理
  *
@@ -56,17 +54,18 @@ import static com.wemirr.platform.authority.domain.baseinfo.converts.UserConvert
 @RequestMapping("/users")
 @Tag(name = "用户管理", description = "用户管理")
 public class UserController {
-    
+
     private final UserService userService;
     private final DataScopeService dataScopeService;
-    
+
+
     @GetMapping
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
     @PreAuthorize("hasAuthority('sys:user:page')")
     public IPage<UserResp> page(UserPageReq req) {
         return this.userService.pageList(req);
     }
-    
+
     @PostMapping
     @AccessLog(description = "添加用户")
     @Operation(summary = "添加用户")
@@ -74,15 +73,15 @@ public class UserController {
     public void save(@Validated @RequestBody UserSaveReq dto) {
         this.userService.addUser(dto);
     }
-    
+
     @PutMapping("{id}")
     @AccessLog(description = "编辑用户")
     @Operation(summary = "编辑用户")
     @PreAuthorize("hasAuthority('sys:user:edit')")
-    public void edit(@PathVariable Long id, @Validated @RequestBody UserUpdateReq dto) {
-        this.userService.updateById(USER_DTO_2_PO_CONVERTS.convert(dto, id));
+    public void modify(@PathVariable Long id, @Validated @RequestBody UserUpdateReq req) {
+        this.userService.modify(id, req);
     }
-    
+
     @DeleteMapping("{id}")
     @AccessLog(description = "删除用户")
     @Operation(summary = "删除用户")
@@ -90,18 +89,18 @@ public class UserController {
     public void del(@PathVariable Long id) {
         this.userService.deleteById(id);
     }
-    
+
     @PostMapping("/batch_ids")
     @Operation(summary = "ID批量查询")
     public Map<Long, UserResp> batchIds(@RequestBody Set<Long> ids) {
         final List<User> users = this.userService.listByIds(ids);
         return MapHelper.toHashMap(users, Entity::getId, x -> BeanUtil.toBean(x, UserResp.class));
     }
-    
+
     @GetMapping("/{id}/data_permission")
     @Operation(summary = "获取数据权限")
     public void dataPermission(@PathVariable Long id) {
         this.dataScopeService.getDataScopeById(id);
     }
-    
+
 }

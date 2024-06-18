@@ -26,10 +26,14 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.framework.log.diff.core.annotation.DiffLog;
+import com.wemirr.framework.log.diff.core.context.DiffLogContext;
+import com.wemirr.framework.log.diff.service.impl.DiffParseFunction;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
 import com.wemirr.platform.authority.domain.baseinfo.entity.UserRole;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserPageReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserSaveReq;
+import com.wemirr.platform.authority.domain.baseinfo.req.UserUpdateReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.UserResp;
 import com.wemirr.platform.authority.domain.common.req.ChangeUserInfoReq;
 import com.wemirr.platform.authority.repository.baseinfo.UserMapper;
@@ -44,6 +48,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.wemirr.platform.authority.domain.baseinfo.converts.UserConverts.USER_DTO_2_PO_CONVERTS;
+
 /**
  * @author Levin
  */
@@ -51,13 +57,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implements UserService {
-    
-    private final UserMapper userMapper;
+
     private final UserRoleMapper userRoleMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationContext authenticationContext;
     private final OrgService orgService;
-    
+
     @Override
     public void addUser(UserSaveReq req) {
         final long count = super.count(Wraps.<User>lbQ().eq(User::getUsername, req.getUsername()));
@@ -69,12 +74,23 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         user.setTenantId(authenticationContext.tenantId());
         super.save(user);
     }
-    
+
+    private static final String USER_MODIFY = "更新用户信息 {_DIFF{#user}}";
+
+    @Override
+    @DiffLog(group = "用户管理", tag = "编辑用户", businessKey = "{{#id}}", success = USER_MODIFY, fail = "用户更新失败{t_user{#id}} 更新的数据 {{#req}}")
+    public void modify(Long id, UserUpdateReq req) {
+        User entity = USER_DTO_2_PO_CONVERTS.convert(req, id);
+        DiffLogContext.putVariable(DiffParseFunction.OLD_OBJECT, this.baseMapper.selectById(id));
+        DiffLogContext.putVariable("user", entity);
+        this.baseMapper.updateById(entity);
+    }
+
     @Override
     public List<User> list() {
         return baseMapper.list();
     }
-    
+
     @Override
     public IPage<UserResp> pageList(UserPageReq req) {
         return baseMapper.findPage(req.buildPage(), Wraps.<User>lbQ()
@@ -88,7 +104,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
                 .in(User::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
                 .eq(User::getMobile, req.getMobile()));
     }
-    
+
     @Override
     public void changePassword(Long userId, String orgPassword, String newPassword) {
         final User user = Optional.ofNullable(this.baseMapper.selectById(userId)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
@@ -98,9 +114,9 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         User record = new User();
         record.setId(userId);
         record.setPassword(passwordEncoder.encode(newPassword));
-        this.userMapper.updateById(record);
+        this.baseMapper.updateById(record);
     }
-    
+
     @Override
     @DSTransactional
     public void deleteById(Long id) {
@@ -111,12 +127,12 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         baseMapper.deleteById(id);
         userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getUserId, id));
     }
-    
+
     @Override
     public void changeInfo(ChangeUserInfoReq req) {
         final Long userId = authenticationContext.userId();
         User record = User.builder().id(userId).email(req.getEmail()).mobile(req.getMobile())
                 .nickName(req.getNickName()).birthday(req.getBirthday()).description(req.getDescription()).build();
-        this.userMapper.updateById(record);
+        this.baseMapper.updateById(record);
     }
 }

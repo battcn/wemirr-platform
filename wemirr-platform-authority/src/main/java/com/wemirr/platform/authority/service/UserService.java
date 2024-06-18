@@ -24,6 +24,7 @@ import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserPageReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserSaveReq;
+import com.wemirr.platform.authority.domain.baseinfo.req.UserUpdateReq;
 import com.wemirr.platform.authority.domain.baseinfo.resp.UserResp;
 import com.wemirr.platform.authority.domain.common.req.ChangeUserInfoReq;
 
@@ -37,14 +38,23 @@ import com.wemirr.platform.authority.domain.common.req.ChangeUserInfoReq;
  * @since 2019-07-03
  */
 public interface UserService extends SuperService<User> {
-    
+
     /**
      * 添加用户
      *
      * @param req 用户信息
      */
     void addUser(UserSaveReq req);
-    
+
+
+    /**
+     * 修改用户信息
+     *
+     * @param id  id
+     * @param req req
+     */
+    void modify(Long id, UserUpdateReq req);
+
     /**
      * 数据权限 分页
      *
@@ -52,7 +62,7 @@ public interface UserService extends SuperService<User> {
      * @return 查询结果
      */
     IPage<UserResp> pageList(UserPageReq req);
-    
+
     /**
      * 修改密码
      *
@@ -61,14 +71,14 @@ public interface UserService extends SuperService<User> {
      * @param newPassword 新密码
      */
     void changePassword(Long userId, String orgPassword, String newPassword);
-    
+
     /**
      * 根据ID删除用户
      *
      * @param id id
      */
     void deleteById(Long id);
-    
+
     /**
      * 修改用户信息
      *
