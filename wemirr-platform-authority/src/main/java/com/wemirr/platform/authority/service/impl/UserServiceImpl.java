@@ -28,7 +28,6 @@ import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.log.diff.core.annotation.DiffLog;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
-import com.wemirr.framework.log.diff.service.impl.DiffParseFunction;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
 import com.wemirr.platform.authority.domain.baseinfo.entity.UserRole;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserPageReq;
@@ -78,12 +77,11 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
     @Override
     @DiffLog(group = "用户管理", tag = "编辑用户", businessKey = "{{#id}}",
-            success = "更新用户信息 {_DIFF{#user}}",
+            success = "更新用户信息 {_DIFF{#_newObj}}",
             fail = "更新用户信息异常 {{#id}} 需要更新的数据 {{#req}}")
     public void modify(Long id, UserUpdateReq req) {
         User entity = USER_DTO_2_PO_CONVERTS.convert(req, id);
-        DiffLogContext.putVariable(DiffParseFunction.OLD_OBJECT, this.baseMapper.selectById(id));
-        DiffLogContext.putVariable("user", entity);
+        DiffLogContext.putDiffItem(this.baseMapper.selectById(id), entity);
         this.baseMapper.updateById(entity);
     }
 

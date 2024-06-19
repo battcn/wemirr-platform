@@ -34,8 +34,8 @@ public class DiffLogServiceImpl implements IDiffLogService {
     @Override
     public List<DiffLogInfo> queryLog(DiffLogInfoQueryReq req) {
         return this.diffLogMapper.selectObjs(Wraps.<DiffLogEntity>lbQ()
-                .eq(DiffLogEntity::getGroup, req.getGroup())
-                .eq(DiffLogEntity::getTag, req.getTag())
+                .eq(DiffLogEntity::getBusinessGroup, req.getBusinessGroup())
+                .eq(DiffLogEntity::getBusinessTag, req.getBusinessTag())
                 .eq(DiffLogEntity::getBusinessKey, req.getBusinessKey()));
     }
 

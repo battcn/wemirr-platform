@@ -56,7 +56,7 @@ public class JsonTypeHandler extends AbstractJsonTypeHandler<JSONObject> {
 
     @Override
     public String toJson(Object obj) {
-        return obj == null ? null : obj.toString();
+        return obj == null ? null : JSON.toJSONString(obj);
     }
 
 

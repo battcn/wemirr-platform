@@ -23,10 +23,10 @@ public class DiffLogInfo {
     protected String serviceName;
 
     @Schema(description = "业务组，比如：订单类型、商品类型")
-    protected String group;
+    protected String businessGroup;
 
     @Schema(description = "日志标签 比如 编辑用户")
-    protected String tag;
+    protected String businessTag;
 
     @Schema(description = "业务ID")
     protected String businessKey;
@@ -47,7 +47,7 @@ public class DiffLogInfo {
     protected String createdName;
 
     @Schema(description = "日志的创建时间")
-    protected Instant createTime;
+    protected Instant createdTime;
 
     @Schema(description = "日志的额外信息")
     protected String extra;

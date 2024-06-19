@@ -23,6 +23,7 @@ import java.util.Set;
 public class DiffParseFunction {
     public static final String DIFF_FUNCTION_NAME = "_DIFF";
     public static final String OLD_OBJECT = "_oldObj";
+    public static final String NEW_OBJECT = "_newObj";
 
     private IDiffItemsToLogContentService diffItemsToLogContentService;
 

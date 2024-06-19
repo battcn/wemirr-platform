@@ -1,5 +1,6 @@
 package com.wemirr.framework.log.diff.core.context;
 
+import com.wemirr.framework.log.diff.service.impl.DiffParseFunction;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayDeque;
@@ -18,6 +19,11 @@ public final class DiffLogContext {
 
     private DiffLogContext() {
         throw new IllegalStateException("Utility class");
+    }
+
+    public static void putDiffItem(Object oldVal, Object newVal) {
+        DiffLogContext.putVariable(DiffParseFunction.OLD_OBJECT, oldVal);
+        DiffLogContext.putVariable(DiffParseFunction.NEW_OBJECT, newVal);
     }
 
     public static void putVariable(String name, Object value) {

@@ -225,8 +225,8 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
         }
         DiffLogInfo diffLogInfo = DiffLogInfo.builder()
                 .serviceName(serviceName)
-                .group(expressions.get(ops.getGroup()))
-                .tag(expressions.get(ops.getTag()))
+                .businessGroup(expressions.get(ops.getGroup()))
+                .businessTag(expressions.get(ops.getTag()))
                 .businessKey(expressions.get(ops.getBusinessKey()))
                 .extra(expressions.get(ops.getExtra()))
                 .description(expressions.get(description))
@@ -234,7 +234,7 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
                 .tenantId(context.tenantId())
                 .createdBy(context.userId())
                 .createdName(context.realName())
-                .createTime(Instant.now())
+                .createdTime(Instant.now())
                 .variables(variables.build())
                 .build();
         diffLogService.handler(diffLogInfo);
