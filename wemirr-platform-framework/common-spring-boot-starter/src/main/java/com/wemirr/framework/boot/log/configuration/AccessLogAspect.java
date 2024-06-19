@@ -29,7 +29,7 @@ import cn.hutool.http.useragent.UserAgentUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.ttl.TransmittableThreadLocal;
-import com.wemirr.framework.boot.RegionUtils;
+import com.wemirr.framework.commons.RegionUtils;
 import com.wemirr.framework.boot.log.AccessLogInfo;
 import com.wemirr.framework.boot.log.AccessLogUtil;
 import com.wemirr.framework.boot.log.event.AccessLogEvent;

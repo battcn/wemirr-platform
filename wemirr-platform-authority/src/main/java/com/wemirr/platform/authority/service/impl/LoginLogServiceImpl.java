@@ -23,7 +23,7 @@ import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
-import com.wemirr.framework.boot.RegionUtils;
+import com.wemirr.framework.commons.RegionUtils;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.platform.authority.domain.common.entity.LoginLog;

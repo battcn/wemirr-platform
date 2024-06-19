@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.wemirr.framework.boot;
+package com.wemirr.framework.commons;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.StrUtil;

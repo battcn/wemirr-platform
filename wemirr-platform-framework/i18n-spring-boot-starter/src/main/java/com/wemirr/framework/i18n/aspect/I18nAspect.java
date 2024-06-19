@@ -45,13 +45,13 @@ public class I18nAspect {
     private final I18nMessageResource messageSource;
     
     /***
-     * 定义controller切入点拦截规则：拦截标记SysLog注解和指定包下的方法
+     * 定义controller切入点拦截规则：拦截标记AccessLog注解和指定包下的方法
      * execution(public * com.wemirr.base.controller.*.*(..)) 解释：
      * 第一个* 任意返回类型
      * 第三个* 类下的所有方法
      * ()中间的.. 任意参数
-     * annotation(com.wemirr.framework.commons.annotation.log.SysLog) 解释：
-     * 标记了@SysLog 注解的方法
+     * annotation(com.wemirr.framework.commons.annotation.log.AccessLog) 解释：
+     * 标记了@AccessLog 注解的方法
      */
     @Pointcut("execution(public * com.wemirr..*.*(..)) && @annotation(com.wemirr.framework.i18n.annotation.I18nMethod)")
     public void i18nAspect() {
