@@ -75,10 +75,11 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         super.save(user);
     }
 
-    private static final String USER_MODIFY = "更新用户信息 {_DIFF{#user}}";
 
     @Override
-    @DiffLog(group = "用户管理", tag = "编辑用户", businessKey = "{{#id}}", success = USER_MODIFY, fail = "用户更新失败{t_user{#id}} 更新的数据 {{#req}}")
+    @DiffLog(group = "用户管理", tag = "编辑用户", businessKey = "{{#id}}",
+            success = "更新用户信息 {_DIFF{#user}}",
+            fail = "更新用户信息异常 {{#id}} 需要更新的数据 {{#req}}")
     public void modify(Long id, UserUpdateReq req) {
         User entity = USER_DTO_2_PO_CONVERTS.convert(req, id);
         DiffLogContext.putVariable(DiffParseFunction.OLD_OBJECT, this.baseMapper.selectById(id));
