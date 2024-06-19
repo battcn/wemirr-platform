@@ -80,9 +80,10 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             success = "更新用户信息 {_DIFF{#_newObj}}",
             fail = "更新用户信息异常 {{#id}} 需要更新的数据 {{#req}}")
     public void modify(Long id, UserUpdateReq req) {
-        User entity = USER_DTO_2_PO_CONVERTS.convert(req, id);
-        DiffLogContext.putDiffItem(this.baseMapper.selectById(id), entity);
-        this.baseMapper.updateById(entity);
+        User oldVal = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
+        User newVal = USER_DTO_2_PO_CONVERTS.convert(req, id);
+        DiffLogContext.putDiffItem(oldVal, newVal);
+        this.baseMapper.updateById(newVal);
     }
 
     @Override
