@@ -55,12 +55,12 @@ public class DefaultDiffItemsToLogContentService implements IDiffItemsToLogConte
         }
         StringBuilder builder = new StringBuilder();
         for (Change change : diff.getChanges()) {
-            generateAllFieldLog(source != null ? source.getClass() : target.getClass(), builder, javers, change);
+            processChangeNode(source != null ? source.getClass() : target.getClass(), builder, javers, change);
         }
         return builder.toString().replaceAll(diffLogProperties.getFieldSeparator().concat("$"), "");
     }
 
-    private void generateAllFieldLog(Class<?> clazz, StringBuilder builder, Javers javers, Change change) {
+    private void processChangeNode(Class<?> clazz, StringBuilder builder, Javers javers, Change change) {
         if (!(change instanceof ValueChange valueChange)) {
             return;
         }
@@ -76,7 +76,7 @@ public class DefaultDiffItemsToLogContentService implements IDiffItemsToLogConte
         String filedLogName = Optional.ofNullable(annotation).map(DiffField::name).orElse(property.getName());
         String functionName = Optional.ofNullable(annotation).map(DiffField::function).orElse(null);
         DiffFieldStrategy strategy = Optional.ofNullable(annotation).map(DiffField::strategy).orElse(DiffFieldStrategy.ALWAYS);
-        String logContent = getDiffLogContent(valueChange, filedLogName, functionName, strategy);
+        String logContent = getFieldLogContent(valueChange, filedLogName, functionName, strategy);
         if (StrUtil.isBlank(logContent)) {
             return;
         }
@@ -84,7 +84,7 @@ public class DefaultDiffItemsToLogContentService implements IDiffItemsToLogConte
     }
 
 
-    public String getDiffLogContent(Change change, String filedLogName, String functionName, DiffFieldStrategy strategy) {
+    public String getFieldLogContent(Change change, String filedLogName, String functionName, DiffFieldStrategy strategy) {
         if (change instanceof InitialValueChange node) {
             return diffLogProperties.formatAdd(filedLogName, getFunctionValue(node.getRight(), functionName));
         }

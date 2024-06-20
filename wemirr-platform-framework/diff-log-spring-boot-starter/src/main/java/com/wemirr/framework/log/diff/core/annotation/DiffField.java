@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * @author Levin
- * 差异字段
+ * 对比差异字段注解
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DiffField {

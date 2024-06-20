@@ -13,16 +13,6 @@ import java.lang.annotation.*;
 public @interface DiffLog {
 
     /**
-     * @return 方法执行成功后的日志模版
-     */
-    String success();
-
-    /**
-     * @return 方法执行失败后的日志模版
-     */
-    String fail() default "";
-
-    /**
      * 业务组
      *
      * @return 业务组
@@ -38,6 +28,16 @@ public @interface DiffLog {
      * @return 日志绑定的业务标识
      */
     String businessKey();
+
+    /**
+     * @return 方法执行成功后的日志模版
+     */
+    String success();
+
+    /**
+     * @return 方法执行失败后的日志模版
+     */
+    String fail() default "";
 
     /**
      * @return 日志的额外信息

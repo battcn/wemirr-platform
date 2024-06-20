@@ -6,6 +6,7 @@ import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
+import com.wemirr.framework.commons.RegionUtils;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
 import com.wemirr.framework.log.diff.domain.DiffLogInfo;
@@ -216,7 +217,7 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
             final String ip = JakartaServletUtil.getClientIP(request);
             variables.put("ip", ip);
             variables.put("uri", URLUtil.getPath(request.getRequestURI()));
-//            log.setLocation(RegionUtils.getRegion(ip));
+            variables.put("location", RegionUtils.getRegion(ip));
             final UserAgent userAgent = UserAgentUtil.parse(request.getHeader(USER_AGENT));
             variables.put("engine", userAgent.getEngine().getName());
             variables.put("os", userAgent.getOs().getName());
