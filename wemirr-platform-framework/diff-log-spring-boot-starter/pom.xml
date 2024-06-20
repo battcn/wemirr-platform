@@ -31,10 +31,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.javers</groupId>
+            <artifactId>javers-core</artifactId>
+            <version>7.4.6</version>
+        </dependency>
+        <!--<dependency>
             <groupId>de.danielbechler</groupId>
             <artifactId>java-object-diff</artifactId>
             <version>0.95</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>annotations</artifactId>

@@ -52,6 +52,7 @@
         <transmittable.version>2.14.3</transmittable.version>
         <!-- 自定义SDK版本 -->
         <wemirr-framework.version>1.17.4-SNAPSHOT</wemirr-framework.version>
+        <jakarta-validation.version>3.0.2</jakarta-validation.version>
     </properties>
     
     <dependencyManagement>
@@ -66,7 +67,11 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
             </dependency>
-            
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${jakarta-validation.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>

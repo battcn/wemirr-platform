@@ -3,10 +3,6 @@ package com.wemirr.framework.log.diff.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.wemirr.framework.log.diff.IDiffItemsToLogContentService;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
-import com.wemirr.framework.log.diff.util.ArrayDiffer;
-import de.danielbechler.diff.ObjectDifferBuilder;
-import de.danielbechler.diff.comparison.ComparisonService;
-import de.danielbechler.diff.node.DiffNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.support.AopUtils;
 
@@ -51,15 +47,16 @@ public class DiffParseFunction {
             log.error("diff的两个对象类型不同, source.class={}, target.class={}", source.getClass(), target.getClass());
             return "";
         }
-        ObjectDifferBuilder objectDifferBuilder = ObjectDifferBuilder.startBuilding();
-        ObjectDifferBuilder register = objectDifferBuilder
-                .differs().register((differDispatcher, nodeQueryService) ->
-                        new ArrayDiffer(differDispatcher, (ComparisonService) objectDifferBuilder.comparison(), objectDifferBuilder.identity()));
-        for (Class<?> clazz : comparisonSet) {
-            register.comparison().ofType(clazz).toUseEqualsMethod();
-        }
-        DiffNode diffNode = register.build().compare(target, source);
-        return diffItemsToLogContentService.toLogContent(diffNode, source, target);
+//        ObjectDifferBuilder objectDifferBuilder = ObjectDifferBuilder.startBuilding();
+//        ObjectDifferBuilder register = objectDifferBuilder
+//                .differs().register((differDispatcher, nodeQueryService) ->
+//                        new ArrayDiffer(differDispatcher, (ComparisonService) objectDifferBuilder.comparison(), objectDifferBuilder.identity()));
+//        for (Class<?> clazz : comparisonSet) {
+//            register.comparison().ofType(clazz).toUseEqualsMethod();
+//        }
+//        DiffNode diffNode = register.build().compare(target, source);
+        return diffItemsToLogContentService.toLogContent(source, target);
+//        return diffItemsToLogContentService.toLogContent(diffNode, source, target);
     }
 
     public String diff(Object newObj) {

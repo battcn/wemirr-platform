@@ -1,11 +1,16 @@
 package com.wemirr.framework.log.diff;
 
-import de.danielbechler.diff.node.DiffNode;
-
 /**
  * @author Levin
  */
 public interface IDiffItemsToLogContentService {
 
-    String toLogContent(DiffNode diffNode, final Object o1, final Object o2);
+    /**
+     * 日志内容
+     *
+     * @param source 来源
+     * @param target 目标
+     * @return 日志内容
+     */
+    String toLogContent(final Object source, final Object target);
 }

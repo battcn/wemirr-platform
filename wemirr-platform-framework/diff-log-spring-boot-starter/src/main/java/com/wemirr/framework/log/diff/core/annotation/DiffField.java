@@ -1,5 +1,7 @@
 package com.wemirr.framework.log.diff.core.annotation;
 
+import com.wemirr.framework.log.diff.core.DiffFieldStrategy;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -11,11 +13,11 @@ import java.lang.annotation.RetentionPolicy;
 public @interface DiffField {
 
     /**
-     * 标题
+     * 名字
      *
      * @return 标题
      */
-    String title();
+    String name();
 
     /**
      * 函数
@@ -23,5 +25,14 @@ public @interface DiffField {
      * @return 函数
      */
     String function() default "";
+
+
+    /**
+     * 策略（默认不处理）
+     *
+     * @return 策略
+     */
+    DiffFieldStrategy strategy() default DiffFieldStrategy.ALWAYS;
+
 
 }

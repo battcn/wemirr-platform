@@ -21,6 +21,7 @@ package com.wemirr.platform.authority.domain.baseinfo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
+import com.wemirr.framework.log.diff.core.DiffFieldStrategy;
 import com.wemirr.framework.log.diff.core.annotation.DiffField;
 import com.wemirr.platform.authority.domain.baseinfo.enums.Sex;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -47,7 +48,8 @@ import java.time.LocalDate;
 @Schema(name = "User", description = "用户")
 public class User extends SuperEntity<Long> {
 
-    @Schema(description = "账号")
+    @Schema(description = "用户名")
+    @DiffField(name = "用户名", strategy = DiffFieldStrategy.NOT_NULL)
     private String username;
 
     @Schema(description = "租户ID")
@@ -57,26 +59,26 @@ public class User extends SuperEntity<Long> {
     private String password;
 
     @Schema(description = "昵称")
-    @DiffField(title = "昵称")
+    @DiffField(name = "昵称")
     private String nickName;
 
     @Schema(description = "描述")
     private String description;
 
     @Schema(description = "身份证")
-    @DiffField(title = "身份证")
+    @DiffField(name = "身份证")
     private String idCard;
 
     @Schema(description = "邮箱")
-    @DiffField(title = "邮箱")
+    @DiffField(name = "邮箱")
     private String email;
 
     @Schema(description = "手机号")
-    @DiffField(title = "手机号")
+    @DiffField(name = "手机号")
     private String mobile;
 
     @Schema(description = "性别")
-    @DiffField(title = "性别")
+    @DiffField(name = "性别")
     private Sex sex;
 
     @Schema(description = "头像")

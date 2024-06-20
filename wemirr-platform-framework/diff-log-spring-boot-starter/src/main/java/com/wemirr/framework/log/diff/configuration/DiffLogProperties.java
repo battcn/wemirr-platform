@@ -1,8 +1,11 @@
 package com.wemirr.framework.log.diff.configuration;
 
 import cn.hutool.core.util.StrUtil;
+import com.google.common.collect.Lists;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.List;
 
 /**
  * @author Levin
@@ -12,6 +15,18 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class DiffLogProperties {
 
     public static final String PREFIX = "extend.boot.log.diff";
+
+    /**
+     * 是否检查
+     */
+    private boolean checkAnnotation = true;
+
+
+    /**
+     * 全局忽略(默认情况下如果没给表单独配置则取全局忽略)
+     */
+    private List<String> ignoreGlobalFields = Lists.newArrayList("deleted", "createdTime", "createdBy", "createdName", "lastModifiedTime", "lastModifiedBy", "lastModifiedName");
+
 
     /**
      * 字段名称的替换变量
