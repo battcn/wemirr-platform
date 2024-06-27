@@ -62,7 +62,7 @@ public class RedisSequenceHelper {
         if (formatter != null) {
             localDate = LocalDateTime.now().format(formatter);
         }
-        Long increment = redisTemplate.opsForHash().increment(sequence.key() + localDate, isolationKey, 1);
+        Long increment = redisTemplate.opsForHash().increment(sequence.key() + localDate, String.valueOf(isolationKey), 1);
         return sequence.prefix()
                 + localDate
                 + StrUtil.blankToDefault(sequence.delimiter(), "")
