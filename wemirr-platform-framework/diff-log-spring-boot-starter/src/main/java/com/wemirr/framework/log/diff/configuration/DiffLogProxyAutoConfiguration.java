@@ -3,6 +3,7 @@ package com.wemirr.framework.log.diff.configuration;
 import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.log.diff.DefaultDiffItemsToLogContentService;
 import com.wemirr.framework.log.diff.IDiffItemsToLogContentService;
+import com.wemirr.framework.log.diff.core.NoopJaversRepository;
 import com.wemirr.framework.log.diff.core.annotation.EnableDiffLog;
 import com.wemirr.framework.log.diff.service.IDiffLogPerformanceMonitor;
 import com.wemirr.framework.log.diff.service.IDiffLogService;
@@ -13,6 +14,8 @@ import com.wemirr.framework.log.diff.support.aop.BeanFactoryDiffLogAdvisor;
 import com.wemirr.framework.log.diff.support.aop.DiffLogInterceptor;
 import com.wemirr.framework.log.diff.support.aop.DiffLogOperationSource;
 import lombok.extern.slf4j.Slf4j;
+import org.javers.core.Javers;
+import org.javers.core.JaversBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,6 +30,8 @@ import org.springframework.core.type.AnnotationMetadata;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.javers.core.diff.ListCompareAlgorithm.LEVENSHTEIN_DISTANCE;
 
 /**
  * @author Levin
@@ -60,6 +65,16 @@ public class DiffLogProxyAutoConfiguration implements ImportAware {
     @ConditionalOnMissingBean(IParseFunction.class)
     public DefaultParseFunction parseFunction() {
         return new DefaultParseFunction();
+    }
+
+
+    @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    public Javers javers() {
+        return JaversBuilder.javers()
+                .registerJaversRepository(NoopJaversRepository.INSTANCE)
+                .withListCompareAlgorithm(LEVENSHTEIN_DISTANCE)
+                .build();
     }
 
 
@@ -108,8 +123,8 @@ public class DiffLogProxyAutoConfiguration implements ImportAware {
     @Bean
     @ConditionalOnMissingBean(IDiffItemsToLogContentService.class)
     @Role(BeanDefinition.ROLE_APPLICATION)
-    public IDiffItemsToLogContentService diffItemsToLogContentService(DiffLogProperties diffLogProperties) {
-        return new DefaultDiffItemsToLogContentService(diffLogProperties);
+    public IDiffItemsToLogContentService diffItemsToLogContentService(Javers javers, DiffLogProperties diffLogProperties) {
+        return new DefaultDiffItemsToLogContentService(javers, diffLogProperties);
     }
 
     @Bean

@@ -6,7 +6,7 @@
         <artifactId>wemirr-platform-framework</artifactId>
         <version>1.17.4-SNAPSHOT</version>
     </parent>
-    <artifactId>diff-log-spring-boot-starter</artifactId>
+    <artifactId>pdf-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
     
     <properties>
@@ -22,32 +22,31 @@
             <artifactId>common-framework-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.javers</groupId>
-            <artifactId>javers-core</artifactId>
-            <version>7.4.6</version>
-        </dependency>
+        <!-- FreeMarker -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
+       <!-- <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext-core</artifactId>
+            <version>8.0.4</version>
+        </dependency>-->
+        <!-- itext7html转pdf  -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>html2pdf</artifactId>
+            <version>5.0.4</version>
         </dependency>
+        <!-- 中文字体支持 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>font-asian</artifactId>
+            <version>8.0.4</version>
         </dependency>
     </dependencies>
     

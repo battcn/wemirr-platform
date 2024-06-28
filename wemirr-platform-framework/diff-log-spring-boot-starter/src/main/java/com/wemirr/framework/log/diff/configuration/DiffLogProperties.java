@@ -23,6 +23,12 @@ public class DiffLogProperties {
 
 
     /**
+     * 格式化输出 DIFF 差异结果树
+     */
+    private boolean prettyValuePrinter = true;
+
+
+    /**
      * 全局忽略(默认情况下如果没给表单独配置则取全局忽略)
      */
     private List<String> ignoreGlobalFields = Lists.newArrayList("deleted", "createdTime", "createdBy", "createdName", "lastModifiedTime", "lastModifiedBy", "lastModifiedName");
