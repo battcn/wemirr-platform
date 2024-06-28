@@ -64,16 +64,16 @@ public class DefaultDiffItemsToLogContentService implements IDiffItemsToLogConte
         }
         StringBuilder builder = new StringBuilder();
         for (Change change : changes) {
-            processChangeNode(source != null ? source.getClass() : target.getClass(), builder, change);
+            processChangeNode(builder, change);
         }
         return builder.toString().replaceAll(diffLogProperties.getFieldSeparator().concat("$"), "");
     }
 
-    private void processChangeNode(Class<?> clazz, StringBuilder builder, Change change) {
+    private void processChangeNode(StringBuilder builder, Change change) {
         if (!(change instanceof LocalPropertyChange valueChange)) {
             return;
         }
-        Field field = ReflectUtil.getField(clazz, valueChange.getOriginalName());
+        Field field = ReflectUtil.getField(valueChange.getClassName(), valueChange.getOriginalName());
         if (diffLogProperties.getIgnoreGlobalFields().contains(valueChange.getOriginalName())) {
             return;
         }

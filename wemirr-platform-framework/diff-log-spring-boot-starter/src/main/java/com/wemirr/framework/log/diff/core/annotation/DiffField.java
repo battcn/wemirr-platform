@@ -13,9 +13,10 @@ import java.lang.annotation.RetentionPolicy;
 public @interface DiffField {
 
     /**
-     * 名字
+     * 名字 等同  @PropertyName("xxx")
      *
      * @return 标题
+     * @see org.javers.core.metamodel.annotation.PropertyName
      */
     String name();
 

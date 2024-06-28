@@ -24,6 +24,8 @@ public class LocalPropertyChange extends PropertyChange<Object> {
     private final Atomic right;
     @Getter
     private final String originalName;
+    @Getter
+    private final Class<?> className;
 
 
     private LocalPropertyChange(Javers javers, PropertyChange<?> propertyChange) {
@@ -36,6 +38,7 @@ public class LocalPropertyChange extends PropertyChange<Object> {
         this.left = new Atomic(propertyChange.getLeft());
         this.right = new Atomic(propertyChange.getRight());
         this.originalName = javers.getProperty(propertyChange).getOriginalName();
+        this.className = propertyChange.getAffectedObject().<Class<?>>map(Object::getClass).orElse(null);
     }
 
     public static Change wrap(Javers javers, PropertyChange<?> propertyChange) {
