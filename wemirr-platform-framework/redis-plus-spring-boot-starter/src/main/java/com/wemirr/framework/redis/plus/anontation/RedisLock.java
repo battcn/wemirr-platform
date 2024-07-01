@@ -42,11 +42,11 @@ public @interface RedisLock {
     String prefix() default "";
     
     /**
-     * 过期秒数,默认为 0 则会自动开启看门狗时间续约
+     * 过期秒数,默认为 -1 则会自动开启看门狗时间续约
      *
      * @return 轮询锁的时间
      */
-    int expire() default 0;
+    int expire() default -1;
     
     /**
      * 等待时间
