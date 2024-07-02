@@ -1,6 +1,6 @@
 package com.wemirr.framework.excel.domain;
 
-import com.wemirr.framework.excel.head.HeadGenerator;
+import com.wemirr.framework.excel.handler.head.HeadGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

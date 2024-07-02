@@ -55,6 +55,7 @@ public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValue
                 .inMemory(excel.inMemory())
                 .include(Optional.ofNullable(excel.include()).map(Arrays::asList).orElse(null))
                 .exclude(Optional.ofNullable(excel.exclude()).map(Arrays::asList).orElse(null))
+                .headGenerator(excel.headGenerator())
                 .writeHandlers(excel.writeHandlers())
                 .converters(excel.converters())
                 .i18nHeader(excel.i18nHeader())

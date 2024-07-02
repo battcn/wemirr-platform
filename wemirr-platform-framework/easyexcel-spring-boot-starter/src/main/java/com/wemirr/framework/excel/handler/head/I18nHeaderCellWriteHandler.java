@@ -1,4 +1,4 @@
-package com.wemirr.framework.excel.head;
+package com.wemirr.framework.excel.handler.head;
 
 
 import com.alibaba.excel.metadata.Head;
@@ -19,6 +19,11 @@ import org.springframework.util.PropertyPlaceholderHelper;
 @RequiredArgsConstructor
 public class I18nHeaderCellWriteHandler implements CellWriteHandler {
 
+    /**
+     * SPEL 语法处理
+     */
+    private final PropertyPlaceholderHelper propertyPlaceholderHelper = new PropertyPlaceholderHelper("${", "}");
+
 
     private final MessageSource messageSource;
     private final PropertyPlaceholderHelper.PlaceholderResolver placeholderResolver;
@@ -28,11 +33,6 @@ public class I18nHeaderCellWriteHandler implements CellWriteHandler {
         this.placeholderResolver = placeholderName -> this.messageSource.getMessage(placeholderName, null,
                 LocaleContextHolder.getLocale());
     }
-
-    /**
-     * 占位符处理
-     */
-    private final PropertyPlaceholderHelper propertyPlaceholderHelper = new PropertyPlaceholderHelper("${", "}");
 
     @Override
     public void beforeCellCreate(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, Row row,

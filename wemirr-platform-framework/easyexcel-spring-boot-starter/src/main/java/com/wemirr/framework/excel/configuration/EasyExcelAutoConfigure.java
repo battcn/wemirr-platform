@@ -28,35 +28,29 @@ import java.util.List;
 @Import(ExcelHandlerConfiguration.class)
 public class EasyExcelAutoConfigure {
 
-
     private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
     private final ExcelWriteFileReturnValueHandler excelWriteFileReturnValueHandler;
     private final ResponseExcelReturnValueHandler responseExcelReturnValueHandler;
 
-
-    /**
-     * 追加 Excel返回值处理器 到 springmvc 中
-     */
     @PostConstruct
     public void setReturnValueHandlers() {
-        List<HandlerMethodReturnValueHandler> returnValueHandlers = requestMappingHandlerAdapter
-                .getReturnValueHandlers();
-
-        List<HandlerMethodReturnValueHandler> newHandlers = new ArrayList<>();
-        newHandlers.add(responseExcelReturnValueHandler);
-        newHandlers.add(excelWriteFileReturnValueHandler);
-        assert returnValueHandlers != null;
-        newHandlers.addAll(returnValueHandlers);
-        requestMappingHandlerAdapter.setReturnValueHandlers(newHandlers);
+        var returnValueHandlers = requestMappingHandlerAdapter.getReturnValueHandlers();
+        final List<HandlerMethodReturnValueHandler> handlers = new ArrayList<>();
+        // 拦截 @ResponseExcel 注解
+        handlers.add(responseExcelReturnValueHandler);
+        // 拦截 ExcelWriteFile 对象
+        handlers.add(excelWriteFileReturnValueHandler);
+        if (returnValueHandlers != null) {
+            handlers.addAll(returnValueHandlers);
+        }
+        requestMappingHandlerAdapter.setReturnValueHandlers(handlers);
     }
 
-    /**
-     * 追加 Excel 请求处理器 到 springmvc 中
-     */
     @PostConstruct
     public void setRequestExcelArgumentResolver() {
         List<HandlerMethodArgumentResolver> argumentResolvers = requestMappingHandlerAdapter.getArgumentResolvers();
         List<HandlerMethodArgumentResolver> resolverList = new ArrayList<>();
+        // 拦截 @RequestExcel 注解
         resolverList.add(new RequestExcelArgumentResolver());
         if (argumentResolvers != null) {
             resolverList.addAll(argumentResolvers);

@@ -5,6 +5,7 @@ import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.handler.WriteHandler;
 import com.wemirr.framework.excel.domain.WriterType;
+import com.wemirr.framework.excel.handler.head.HeadGenerator;
 
 import java.lang.annotation.*;
 
@@ -86,12 +87,12 @@ public @interface ResponseExcel {
      */
     Class<? extends Converter<?>>[] converters() default {};
 
-//    /**
-//     * 自定义Excel头生成器
-//     *
-//     * @return HeadGenerator
-//     */
-//    Class<? extends HeadGenerator> headGenerator() default HeadGenerator.class;
+    /**
+     * 自定义Excel头生成器
+     *
+     * @return HeadGenerator
+     */
+    Class<? extends HeadGenerator> headGenerator() default HeadGenerator.class;
 
     /**
      * excel 头信息国际化

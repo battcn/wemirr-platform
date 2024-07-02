@@ -1,8 +1,8 @@
 package com.wemirr.framework.excel.configuration;
 
 import com.wemirr.framework.excel.handler.ISheetWriteHandler;
-import com.wemirr.framework.excel.handler.SingleSheetWriteHandler;
-import com.wemirr.framework.excel.head.I18nHeaderCellWriteHandler;
+import com.wemirr.framework.excel.handler.head.I18nHeaderCellWriteHandler;
+import com.wemirr.framework.excel.handler.write.SingleSheetWriteHandler;
 import com.wemirr.framework.excel.web.handler.ExcelWriteFileReturnValueHandler;
 import com.wemirr.framework.excel.web.handler.ResponseExcelReturnValueHandler;
 import lombok.RequiredArgsConstructor;

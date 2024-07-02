@@ -13,9 +13,9 @@ import com.wemirr.framework.excel.convert.DictConverter;
 import com.wemirr.framework.excel.convert.InstantConverter;
 import com.wemirr.framework.excel.domain.ExcelWriteFile;
 import com.wemirr.framework.excel.domain.SheetInfo;
-import com.wemirr.framework.excel.head.HeadGenerator;
-import com.wemirr.framework.excel.head.HeadMeta;
-import com.wemirr.framework.excel.head.I18nHeaderCellWriteHandler;
+import com.wemirr.framework.excel.handler.head.HeadGenerator;
+import com.wemirr.framework.excel.handler.head.HeadMeta;
+import com.wemirr.framework.excel.handler.head.I18nHeaderCellWriteHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
@@ -38,7 +38,7 @@ import java.util.List;
 public interface ISheetWriteHandler {
 
     /**
-     * 是否支持
+     * 验证是导出的结构和对象否支持
      *
      * @param obj obj
      * @return true | false
@@ -71,6 +71,7 @@ public interface ISheetWriteHandler {
                 .autoCloseStream(true)
                 .excelType(file.getExcelType())
                 .inMemory(file.getInMemory());
+        // 设置文件密码
         if (StringUtils.hasText(file.getPassword())) {
             writerBuilder.password(file.getPassword());
         }
@@ -80,6 +81,7 @@ public interface ISheetWriteHandler {
         if (file.getExclude() != null) {
             writerBuilder.excludeColumnFieldNames(file.getExclude());
         }
+        // 拦截器，自定义样式等处理器
         Class<? extends WriteHandler>[] writeHandlers = file.getWriteHandlers();
         if (writeHandlers != null) {
             for (Class<? extends WriteHandler> clazz : writeHandlers) {
@@ -91,8 +93,9 @@ public interface ISheetWriteHandler {
         if (file.getI18nHeader() && headerCellWriteHandler != null) {
             writerBuilder.registerWriteHandler(headerCellWriteHandler);
         }
-        // 注入自定义类型转换
+        // 注入全局类型转换
         registerGlobalConverters(context, writerBuilder);
+        // 注入自定义类型转换
         registerConverters(writerBuilder);
         Class<? extends Converter<?>>[] converters = file.getConverters();
         if (converters != null) {
@@ -101,10 +104,11 @@ public interface ISheetWriteHandler {
             }
         }
         EasyExcelProperties properties = context.getBean(EasyExcelProperties.class);
-        // 自动列宽
+        // 自动列宽（不一定好使，还是建议自己设置一个默认列宽）
         if (properties.getAutoColumnWidth()) {
             writerBuilder.registerWriteHandler(new LongestMatchColumnWidthStyleStrategy());
         }
+        // 填充模式往模板写入内容
         String templatePath = properties.getTemplatePath();
         if (StringUtils.hasText(file.getTemplate())) {
             ClassPathResource classPathResource = new ClassPathResource(
@@ -113,6 +117,48 @@ public interface ISheetWriteHandler {
             writerBuilder.withTemplate(inputStream);
         }
         return writerBuilder.build();
+    }
+
+
+    /**
+     * 注入自定义类型转换
+     *
+     * @param writerBuilder writerBuilder
+     */
+    default void registerConverters(ExcelWriterBuilder writerBuilder) {
+    }
+
+
+    default WriteSheet sheet(ApplicationContext context, SheetInfo sheet, Class<?> dataClass, String template, Class<? extends HeadGenerator> headGenerator) {
+        // Sheet 编号和名称
+        Integer sheetNo = sheet.getSheetNo() >= 0 ? sheet.getSheetNo() : null;
+        String sheetName = sheet.getName();
+        // 是否模板写入
+        ExcelWriterSheetBuilder writerSheetBuilder = StringUtils.hasText(template) ? EasyExcel.writerSheet(sheetNo)
+                : EasyExcel.writerSheet(sheetNo, sheetName);
+        Class<? extends HeadGenerator> headGenerateClass = null;
+        // 优先使用 Sheet 指定的头信息
+        if (isNotInterface(sheet.getHeadGenerateClass())) {
+            headGenerateClass = sheet.getHeadGenerateClass();
+        } else {
+            if (isNotInterface(headGenerator)) {
+                // 其次使用 @ResponseExcel 中定义的全局头信息增强
+                headGenerateClass = headGenerator;
+            }
+        }
+        // 定义头信息增强则使用其生成头信息，否则使用 dataClass 来自动获取
+        if (headGenerateClass != null) {
+            fillCustomHeadInfo(context, dataClass, headGenerator, writerSheetBuilder);
+        } else if (dataClass != null) {
+            writerSheetBuilder.head(dataClass);
+            if (sheet.getExcludes() != null) {
+                writerSheetBuilder.excludeColumnFieldNames(sheet.getExcludes());
+            }
+            if (sheet.getIncludes() != null) {
+                writerSheetBuilder.includeColumnFieldNames(sheet.getIncludes());
+            }
+        }
+        return writerSheetBuilder.build();
     }
 
     /**
@@ -134,46 +180,9 @@ public interface ISheetWriteHandler {
         writerSheetBuilder.excludeColumnFieldNames(head.getIgnoreFields());
     }
 
-    default WriteSheet sheet(ApplicationContext context, SheetInfo sheet, Class<?> dataClass, String template, Class<? extends HeadGenerator> headGenerator) {
-        // Sheet 编号和名称
-        Integer sheetNo = sheet.getSheetNo() >= 0 ? sheet.getSheetNo() : null;
-        String sheetName = sheet.getName();
-        // 是否模板写入
-        ExcelWriterSheetBuilder writerSheetBuilder = StringUtils.hasText(template) ? EasyExcel.writerSheet(sheetNo)
-                : EasyExcel.writerSheet(sheetNo, sheetName);
-        // 头信息增强 1. 优先使用 sheet 指定的头信息增强 2. 其次使用 @ResponseExcel 中定义的全局头信息增强
-        Class<? extends HeadGenerator> headGenerateClass = null;
-        if (isNotInterface(sheet.getHeadGenerateClass())) {
-            headGenerateClass = sheet.getHeadGenerateClass();
-        } else if (isNotInterface(headGenerator)) {
-            headGenerateClass = headGenerator;
-        }
-        // 定义头信息增强则使用其生成头信息，否则使用 dataClass 来自动获取
-        if (headGenerateClass != null) {
-            fillCustomHeadInfo(context, dataClass, headGenerator, writerSheetBuilder);
-        } else if (dataClass != null) {
-            writerSheetBuilder.head(dataClass);
-            if (sheet.getExcludes() != null) {
-                writerSheetBuilder.excludeColumnFieldNames(sheet.getExcludes());
-            }
-            if (sheet.getIncludes() != null) {
-                writerSheetBuilder.includeColumnFieldNames(sheet.getIncludes());
-            }
-        }
-        return writerSheetBuilder.build();
-    }
-
     default void registerGlobalConverters(ApplicationContext context, ExcelWriterBuilder builder) {
         ObjectProvider<List<Converter<?>>> converterProvider = context.getBeanProvider(ResolvableType.forClass(Converter.class));
         converterProvider.ifAvailable(converters -> converters.forEach(builder::registerConverter));
-    }
-
-    /**
-     * 注入自定义类型转换
-     *
-     * @param writerBuilder writerBuilder
-     */
-    default void registerConverters(ExcelWriterBuilder writerBuilder) {
     }
 
 

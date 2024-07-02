@@ -16,7 +16,7 @@ public class EasyExcelProperties {
     /**
      * 模板路径
      */
-    private String templatePath = "excel";
+    private String templatePath = "template";
 
     /**
      * 自动列宽
