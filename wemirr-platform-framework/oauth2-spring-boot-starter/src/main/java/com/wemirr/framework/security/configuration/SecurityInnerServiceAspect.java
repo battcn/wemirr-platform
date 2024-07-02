@@ -21,7 +21,6 @@ package com.wemirr.framework.security.configuration;
 
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import com.wemirr.framework.commons.entity.enums.CommonError;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.security.configuration.client.annotation.InnerService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,6 +32,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -46,12 +46,12 @@ import java.util.List;
 @AllArgsConstructor
 @EnableConfigurationProperties(SecurityExtProperties.class)
 public class SecurityInnerServiceAspect implements Ordered {
-    
+
     private final HttpServletRequest request;
     private final SecurityExtProperties properties;
-    
+
     private static final String SEPARATOR = ",";
-    
+
     @Around("@annotation(inner)")
     public Object around(ProceedingJoinPoint point, InnerService inner) throws Throwable {
         String ipAddress = JakartaServletUtil.getClientIP(request);
@@ -71,23 +71,24 @@ public class SecurityInnerServiceAspect implements Ordered {
         }
         final SecurityExtProperties.InnerService innerService = properties.getInnerService();
         List<String> whiteLists = innerService.getWhiteLists();
+        HttpStatus httpStatus = HttpStatus.FORBIDDEN;
         String signatureName = point.getSignature().getName();
         if (!whiteLists.contains(ipAddress)) {
             log.warn("访问受限，非白名单，[IP] - [{}] - [方法] - [{}]", ipAddress, signatureName);
-            throw CheckedException.badRequest(CommonError.ACCESS_DENIED);
+            throw CheckedException.badRequest(httpStatus.value(), httpStatus.getReasonPhrase());
         }
         String header = request.getHeader(innerService.getHeader());
         String headerValue = innerService.getHeaderValue();
         if (inner.value() && !StringUtils.equals(headerValue, header)) {
             log.warn("访问受限，非白名单，[IP] - [{}] - [方法] - [{}]", ipAddress, signatureName);
-            throw CheckedException.badRequest(CommonError.ACCESS_DENIED);
+            throw CheckedException.badRequest(httpStatus.value(), httpStatus.getReasonPhrase());
         }
         return point.proceed();
     }
-    
+
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE + 1;
     }
-    
+
 }

@@ -19,7 +19,7 @@
 
 package com.wemirr.framework.commons.exception;
 
-import com.wemirr.framework.commons.entity.enums.IntEnum;
+import com.wemirr.framework.commons.entity.Dict;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -89,34 +89,38 @@ public class CheckedException extends RuntimeException {
         return new CheckedException(BAD_REQUEST, MessageFormat.format(message, arguments), arguments);
     }
 
+    public static CheckedException badRequest(int code, String message) {
+        return new CheckedException(code, message);
+    }
+
     /**
      * badRequest
      *
-     * @param intEnum 实现了 IntEnum 接口的任何类，意味着是可插拔的
+     * @param dict 实现了 Dict 接口的任何类，意味着是可插拔的
      * @return 异常
      */
-    public static CheckedException badRequest(IntEnum intEnum) {
-        return new CheckedException(intEnum.type(), intEnum.desc());
+    public static CheckedException badRequest(Dict<Integer> dict) {
+        return new CheckedException(dict.getValue(), dict.getLabel());
     }
 
-    public static CheckedException badRequest(IntEnum intEnum, String arg) {
-        return new CheckedException(intEnum.type(), String.format(intEnum.desc(), arg));
+    public static CheckedException badRequest(int code, String message, String arg) {
+        return new CheckedException(code, String.format(message, arg));
     }
 
     public static CheckedException notFound(String message, Object... arguments) {
         return new CheckedException(NOT_FOUND, MessageFormat.format(message, arguments), arguments);
     }
 
-    public static CheckedException notFound(IntEnum intEnum, String arg) {
-        return new CheckedException(intEnum.type(), String.format(intEnum.desc(), arg));
+    public static CheckedException notFound(int code, String message, String arg) {
+        return new CheckedException(code, String.format(message, arg));
     }
 
     public static CheckedException notFound(String message) {
         return new CheckedException(NOT_FOUND, message);
     }
 
-    public static CheckedException notFound(IntEnum intEnum) {
-        return new CheckedException(intEnum.type(), intEnum.desc());
+    public static CheckedException notFound(int code, String message) {
+        return new CheckedException(code, message);
     }
 
     public static CheckedException forbidden() {

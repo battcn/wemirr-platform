@@ -21,9 +21,9 @@ package com.wemirr.framework.redis.plus.interceptor;
 
 import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.commons.exception.RedisLockException;
 import com.wemirr.framework.redis.plus.RedisKeyGenerator;
 import com.wemirr.framework.redis.plus.anontation.RedisLock;
+import com.wemirr.framework.redis.plus.exception.RedisLockException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -45,41 +45,41 @@ import java.lang.reflect.Method;
 @Aspect
 @RequiredArgsConstructor
 public class RedisLockInterceptor {
-    
+
     private final RedissonClient redissonClient;
     private final RedisKeyGenerator redisKeyGenerator;
-    
+
     @SneakyThrows
     @Around("execution(public * *(..)) && @annotation(com.wemirr.framework.redis.plus.anontation.RedisLock)")
     public Object interceptor(ProceedingJoinPoint pjp) {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         RLock rLock = null;
-        
+
         RedisLock lock = method.getAnnotation(RedisLock.class);
         final String defaultKeyPrefix = StrUtil.join(pjp.getTarget().getClass().getName(), lock.delimiter(), method.getName());
         final String prefix = StrUtil.blankToDefault(lock.prefix(), defaultKeyPrefix);
         log.debug("defaultKeyPrefix - {} - prefix - {}", defaultKeyPrefix, prefix);
-        
+
         if (StrUtil.isBlank(prefix)) {
             throw CheckedException.notFound("Lock key prefix cannot be null.");
         }
-        
+
         final String lockKey = redisKeyGenerator.generate(prefix, lock.delimiter(), pjp);
-        
+
         try {
             // 假设上锁成功，但是设置过期时间失效，以后拿到的都是 false
             rLock = getLock(lockKey, lock.lockType());
             final boolean success = rLock.tryLock(lock.waitTime(), lock.expire(), lock.timeUnit());
-            
+
             if (log.isDebugEnabled()) {
                 log.debug("Redis lock key is {} and status is {}", lockKey, success);
             }
-            
+
             if (!success) {
                 throw new RedisLockException(lock.message());
             }
-            
+
             return pjp.proceed();
         } catch (InterruptedException e) {
             log.error("Redis try lock InterruptedException", e);
@@ -93,7 +93,7 @@ public class RedisLockInterceptor {
             }
         }
     }
-    
+
     /**
      * 获取指定类型锁
      *

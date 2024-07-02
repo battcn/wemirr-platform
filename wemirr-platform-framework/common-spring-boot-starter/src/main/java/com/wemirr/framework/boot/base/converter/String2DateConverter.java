@@ -22,6 +22,8 @@ package com.wemirr.framework.boot.base.converter;
 import com.wemirr.framework.commons.exception.ValidException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -30,7 +32,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.wemirr.framework.commons.exception.ExceptionCode.BASE_VALID_PARAM;
 import static com.wemirr.framework.commons.times.TimeConstants.*;
 
 /**
@@ -41,9 +42,9 @@ import static com.wemirr.framework.commons.times.TimeConstants.*;
  */
 @Slf4j
 public class String2DateConverter extends BaseDateConverter<Date> implements Converter<String, Date> {
-    
+
     private static final Map<String, String> FORMAT = new LinkedHashMap<>(11);
-    
+
     static {
         FORMAT.put(DEFAULT_YEAR_FORMAT, "^\\d{4}");
         FORMAT.put(DEFAULT_MONTH_FORMAT, "^\\d{4}-\\d{1,2}$");
@@ -57,7 +58,7 @@ public class String2DateConverter extends BaseDateConverter<Date> implements Con
         FORMAT.put("yyyy/MM/dd HH:mm", "^\\d{4}/\\d{1,2}/\\d{1,2} {1}\\d{1,2}:\\d{1,2}$");
         FORMAT.put("yyyy/MM/dd HH:mm:ss", "^\\d{4}/\\d{1,2}/\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$");
     }
-    
+
     /**
      * 格式化日期
      *
@@ -74,19 +75,19 @@ public class String2DateConverter extends BaseDateConverter<Date> implements Con
             date = dateFormat.parse(dateStr);
         } catch (ParseException e) {
             log.info("转换日期失败, date={}, format={}", dateStr, format, e);
-            throw new ValidException(BASE_VALID_PARAM, e.getMessage());
+            throw new ValidException(HttpStatus.UNPROCESSABLE_ENTITY.value(), e.getMessage());
         }
         return date;
     }
-    
+
     @Override
     protected Map<String, String> getFormat() {
         return FORMAT;
     }
-    
+
     @Override
-    public Date convert(String source) {
+    public Date convert(@NonNull String source) {
         return super.convert(source, (key) -> parseDate(source, key));
     }
-    
+
 }

@@ -17,27 +17,41 @@
  * limitations under the License.
  */
 
-package com.wemirr.framework.commons.entity.enums;
+package com.wemirr.framework.redis.plus.exception;
+
+import lombok.EqualsAndHashCode;
+import lombok.Setter;
 
 /**
- * 基础 enum 类，主要用来给其它类进行继承
+ * Redis Lock 异常
  *
  * @author Levin
- * @since 2019-07-09
+ * @since 2019-03-13
  */
-public interface IntEnum {
-    
-    /**
-     * type
-     *
-     * @return type
-     */
-    Integer type();
-    
-    /**
-     * 描述
-     *
-     * @return desc
-     */
-    String desc();
+@Setter
+@EqualsAndHashCode(callSuper = true)
+public class RedisLockException extends RuntimeException {
+
+    private int code;
+
+    public RedisLockException(int code, String message) {
+        super(message);
+        this.setCode(code);
+    }
+
+    public RedisLockException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public RedisLockException(Throwable cause) {
+        super(cause);
+    }
+
+    public RedisLockException(String message) {
+        super(message);
+    }
+
+    public RedisLockException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

@@ -79,6 +79,10 @@
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>
+            <artifactId>easyexcel-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
             <artifactId>feign-plugin-spring-boot-starter</artifactId>
         </dependency>
         <dependency>

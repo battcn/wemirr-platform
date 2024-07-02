@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
-import com.wemirr.framework.db.mybatisplus.core.DictEnum;
+import com.wemirr.framework.commons.entity.DictEnum;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;

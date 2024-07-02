@@ -17,9 +17,8 @@
  * limitations under the License.
  */
 
-package com.wemirr.framework.db.mybatisplus.core;
+package com.wemirr.framework.commons.entity;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.IEnum;
 
@@ -38,14 +37,14 @@ import static java.util.stream.Collectors.toList;
  * @since 2019/07/26
  */
 public interface DictEnum<T extends Serializable> extends IEnum<T> {
-    
+
     /**
      * 描述信息
      *
      * @return 描述
      */
     String getDesc();
-    
+
     /**
      * 语言
      *
@@ -54,31 +53,29 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
     default String getLanguage() {
         return null;
     }
-    
+
     /**
      * 获取枚举编码
      *
      * @return 编码
      */
-    default String getCode() {
-        return String.valueOf(this.getValue());
+    default T getCode() {
+        return this.getValue();
     }
-    
+
     /**
      * 枚举数组转集合
      *
-     * @param dictionaries 枚举
+     * @param dictList 枚举
      * @return 集合
      */
-    static List<BaseDict> getList(DictEnum<?>[] dictionaries) {
-        if (dictionaries == null) {
+    static List<Dict<?>> toDictList(DictEnum<?>[] dictList) {
+        if (dictList == null) {
             return null;
         }
-        return Arrays.stream(dictionaries).map(dictionary -> BaseDict.builder()
-                .code(dictionary.getCode()).desc(dictionary.getDesc())
-                .build()).collect(Collectors.toList());
+        return Arrays.stream(dictList).map(dictionary -> new Dict<>(dictionary.getCode(), dictionary.getDesc())).collect(toList());
     }
-    
+
     /**
      * 获取指定类型枚举映射
      *
@@ -87,49 +84,53 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
      * @param <E>       包装类
      * @return 枚举值
      */
-    static <E extends DictEnum<?>> E of(Class<E> enumClass, Serializable type) {
+    static <E extends DictEnum<?>> E of(Class<E> enumClass, Object type) {
         E[] enumConstants = enumClass.getEnumConstants();
         for (E e : enumConstants) {
-            final Serializable value = e.getValue();
-            if (value == type) {
+            final Object value = e.getValue();
+            if (Objects.equals(type, value)) {
                 return e;
             }
         }
         return null;
     }
-    
+
+
     char SEPARATOR = ',';
-    
+
     /**
      * 转换成字符串
      *
-     * @param dictionaries 枚举
+     * @param dictList 枚举集合
      * @return 转换结果
      */
-    static <E extends DictEnum<?>> String of(List<E> dictionaries) {
-        if (CollectionUtil.isEmpty(dictionaries)) {
+    static <E extends DictEnum<?>> String toStr(List<E> dictList) {
+        if (dictList == null) {
             return null;
         }
-        return dictionaries.stream()
+        return dictList.stream()
                 .filter(Objects::nonNull)
-                .map(DictEnum::getCode).collect(Collectors.joining(","));
+                .map(DictEnum::getCode)
+                .filter(Objects::nonNull)
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
     }
-    
+
     /**
      * 转换成集合枚举
      *
-     * @param enumClass    枚举类
-     * @param dictionaries 枚举
+     * @param enumClass 枚举类
+     * @param str       枚举 比如 1,2,3
      * @return 转换结果
      */
-    static <E extends DictEnum<?>> List<E> of(Class<E> enumClass, String dictionaries) {
-        if (StrUtil.isBlank(dictionaries)) {
+    static <E extends DictEnum<?>> List<E> toDictList(Class<E> enumClass, String str) {
+        if (StrUtil.isBlank(str)) {
             return null;
         }
-        final List<String> split = StrUtil.split(dictionaries, SEPARATOR);
+        final List<String> split = StrUtil.split(str, SEPARATOR);
         return split.stream().filter(Objects::nonNull)
-                .map(type -> of(enumClass, Integer.parseInt(type)))
+                .map(type -> of(enumClass, type))
                 .collect(toList());
     }
-    
+
 }

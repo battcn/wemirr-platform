@@ -30,7 +30,7 @@ import java.util.function.Function;
  * @since 2019-04-30
  */
 public abstract class BaseDateConverter<T> {
-    
+
     public T convert(String source, Function<String, T> function) {
         if (source == null || source.isEmpty()) {
             return null;
@@ -44,7 +44,7 @@ public abstract class BaseDateConverter<T> {
         }
         throw new IllegalArgumentException("无效的日期参数格式:'" + source + "'");
     }
-    
+
     /**
      * 获取子类 具体的格式化表达式
      *

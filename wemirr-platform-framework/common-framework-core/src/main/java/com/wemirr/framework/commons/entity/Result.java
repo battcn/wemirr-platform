@@ -20,11 +20,7 @@
 package com.wemirr.framework.commons.entity;
 
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.wemirr.framework.commons.entity.enums.CommonError;
-import com.wemirr.framework.commons.entity.enums.IntEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,41 +55,21 @@ public class Result<T> implements Serializable {
     public static final int VALID_EX_CODE = -9;
     public static final int OPERATION_EX_CODE = -400;
 
-    /**
-     * 是否执行默认操作
-     */
-    @JsonIgnore
-    private Boolean defExec = false;
-
     @Schema(description = "是否成功")
     private boolean successful = true;
 
-    /**
-     * 消息id
-     */
     @Schema(description = "消息ID")
     private int code;
 
-    /**
-     * 消息内容
-     */
     @Schema(description = "消息内容")
     private String message;
-    /**
-     * 时间戳：Date 类型
-     */
+
     @Schema(description = "时间戳")
     private long timestamp;
-    /**
-     * 返回数据
-     */
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Schema(description = "返回数据")
     private T data;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Schema(description = "拓展字段")
-    private JSONObject ext;
 
     private Result(Result.Builder<T> builder) {
         this.code = builder.code;
@@ -101,16 +77,14 @@ public class Result<T> implements Serializable {
         this.timestamp = builder.timestamp;
         this.successful = builder.successful;
         this.data = builder.data;
-        this.ext = builder.ext;
     }
 
 
-    public Result(int code, T data, String message, boolean successful, boolean defExec) {
+    public Result(int code, T data, String message, boolean successful) {
         this.code = code;
         this.data = data;
         this.message = message;
         this.successful = successful;
-        this.defExec = defExec;
         this.timestamp = System.currentTimeMillis();
     }
 
@@ -120,23 +94,10 @@ public class Result<T> implements Serializable {
         this.message = message;
         this.successful = code == SUCCESS_CODE;
         this.timestamp = System.currentTimeMillis();
-        this.defExec = false;
     }
 
     public static <E> Result<E> result(int code, E data, String msg) {
         return new Result<>(code, data, msg);
-    }
-
-    public static <E> Result<E> successDef(E data) {
-        return new Result<>(SUCCESS_CODE, data, OPERATION_SUCCESS, true, true);
-    }
-
-    public static <E> Result<E> successDef() {
-        return new Result<>(SUCCESS_CODE, null, OPERATION_SUCCESS, true, true);
-    }
-
-    public static <E> Result<E> successDef(E data, String msg) {
-        return new Result<>(SUCCESS_CODE, data, msg, true, true);
     }
 
     public static <E> Result<E> success() {
@@ -175,12 +136,6 @@ public class Result<T> implements Serializable {
         return success(SUCCESS_CODE, OPERATION_SUCCESS, data);
     }
 
-    public static <T> Result<T> exists(String label, JSONObject ext) {
-        final int code = CommonError.DATA_EXISTS.type();
-        final String message = String.format(CommonError.DATA_EXISTS.desc(), label);
-        return new Builder<T>(code, System.currentTimeMillis(), false)
-                .message(message).ext(ext).data(null).build();
-    }
 
     public static <E> Result<E> validFail(String msg) {
         return new Result<>(VALID_EX_CODE, null, (msg == null || msg.isEmpty()) ? DEF_ERROR_MESSAGE : msg);
@@ -215,18 +170,6 @@ public class Result<T> implements Serializable {
         return new Result<>(OPERATION_EX_CODE, null, message);
     }
 
-    public static <T> Result<T> fail(IntEnum intEnum) {
-        return getResponse(intEnum.type(), intEnum.desc(), false, null);
-    }
-
-    public static <T> Result<T> fail(IntEnum intEnum, T data) {
-        return getResponse(intEnum.type(), intEnum.desc(), false, data);
-    }
-
-    public static <T> Result<T> fail(IntEnum intEnum, String format) {
-        return getResponse(intEnum.type(), String.format(intEnum.desc(), format), false, null);
-    }
-
     public static <T> Result<T> fail(int code, String message) {
         return getResponse(code, message, false, null);
     }
@@ -235,17 +178,6 @@ public class Result<T> implements Serializable {
         return getResponse(code, message, false, data);
     }
 
-    public static <T> Result<T> getResponse(Boolean flag) {
-        return flag ? success(OPERATION_SUCCESS) : fail(DEF_ERROR_MESSAGE);
-    }
-
-    public static <T> Result<T> getResponse(boolean successful, String message) {
-        return successful ? success(message) : fail(message);
-    }
-
-    public static <T> Result<T> getResponse(boolean successful, String message, T data) {
-        return successful ? success(message, data) : fail(message);
-    }
 
     public static <T> Result<T> getResponse(int code, String message, boolean successful, T data) {
         return new Result.Builder<T>(code, System.currentTimeMillis(), successful).message(message).data(data).build();
@@ -259,7 +191,6 @@ public class Result<T> implements Serializable {
         private final long timestamp;
         private final boolean successful;
         private T data;
-        private JSONObject ext;
 
         public Builder(int code, long timestamp, boolean successful) {
             this.code = code;
@@ -269,11 +200,6 @@ public class Result<T> implements Serializable {
 
         public Result.Builder<T> message(String message) {
             this.message = message;
-            return this;
-        }
-
-        public Result.Builder<T> ext(JSONObject ext) {
-            this.ext = ext;
             return this;
         }
 
