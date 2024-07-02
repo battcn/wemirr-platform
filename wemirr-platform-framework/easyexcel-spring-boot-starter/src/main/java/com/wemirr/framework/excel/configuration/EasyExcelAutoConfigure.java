@@ -2,6 +2,7 @@ package com.wemirr.framework.excel.configuration;
 
 import com.wemirr.framework.excel.web.handler.ExcelWriteFileReturnValueHandler;
 import com.wemirr.framework.excel.web.handler.ResponseExcelReturnValueHandler;
+import com.wemirr.framework.excel.web.resolver.RequestExcelArgumentResolver;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -56,8 +57,10 @@ public class EasyExcelAutoConfigure {
     public void setRequestExcelArgumentResolver() {
         List<HandlerMethodArgumentResolver> argumentResolvers = requestMappingHandlerAdapter.getArgumentResolvers();
         List<HandlerMethodArgumentResolver> resolverList = new ArrayList<>();
-//        resolverList.add(new RequestExcelArgumentResolver());
-        resolverList.addAll(argumentResolvers);
+        resolverList.add(new RequestExcelArgumentResolver());
+        if (argumentResolvers != null) {
+            resolverList.addAll(argumentResolvers);
+        }
         requestMappingHandlerAdapter.setArgumentResolvers(resolverList);
     }
 

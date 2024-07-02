@@ -6,7 +6,6 @@ import com.wemirr.framework.excel.head.I18nHeaderCellWriteHandler;
 import com.wemirr.framework.excel.web.handler.ExcelWriteFileReturnValueHandler;
 import com.wemirr.framework.excel.web.handler.ResponseExcelReturnValueHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
@@ -29,8 +28,6 @@ public class ExcelHandlerConfiguration {
      * @return I18nHeaderCellWriteHandler
      */
     @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnBean(MessageSource.class)
     public I18nHeaderCellWriteHandler i18nHeaderCellWriteHandler(MessageSource messageSource) {
         return new I18nHeaderCellWriteHandler(messageSource);
     }
