@@ -21,7 +21,7 @@ package com.wemirr.platform.authority.controller.common;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
-import com.wemirr.framework.commons.entity.KeyVal;
+import com.wemirr.framework.commons.entity.Dict;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.common.entity.Dictionary;
 import com.wemirr.platform.authority.domain.common.req.DictionaryPageReq;
@@ -54,10 +54,10 @@ import static com.wemirr.platform.authority.domain.common.converts.DictionaryCon
 @Tag(name = "字典类型", description = "字典类型")
 @RequiredArgsConstructor
 public class DictionaryController {
-    
+
     private final DictionaryService dictionaryService;
     private final DictionaryItemService dictionaryItemService;
-    
+
     @GetMapping
     @AccessLog(description = "字典查询")
     @Operation(summary = "查询字典 - [DONE] - [Levin]", description = "查询字典 - [DONE] - [Levin]")
@@ -68,7 +68,7 @@ public class DictionaryController {
                 Wraps.<Dictionary>lbQ().eq(Dictionary::getStatus, req.getStatus()).like(Dictionary::getCode, req.getCode())
                         .like(Dictionary::getName, req.getName()));
     }
-    
+
     @PostMapping
     @AccessLog(description = "字典新增")
     @Operation(summary = "新增字典 - [DONE] - [Levin]", description = "新增字典 - [DONE] - [Levin]")
@@ -76,7 +76,7 @@ public class DictionaryController {
     public void save(@Validated @RequestBody DictionarySaveReq req) {
         this.dictionaryService.addDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(req));
     }
-    
+
     @PutMapping("/{id}")
     @AccessLog(description = "字典编辑")
     @Operation(summary = "编辑字典 - [DONE] - [Levin]", description = "编辑字典 - [DONE] - [Levin]")
@@ -84,7 +84,7 @@ public class DictionaryController {
     public void edit(@PathVariable Long id, @Validated @RequestBody DictionarySaveReq req) {
         this.dictionaryService.editDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(req, id));
     }
-    
+
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除指定字典项")
     @Operation(summary = "删除字典 - [DONE] - [Levin]", description = "删除字典 - [DONE] - [Levin]")
@@ -92,18 +92,18 @@ public class DictionaryController {
     public void del(@PathVariable Long id) {
         this.dictionaryService.deleteById(id);
     }
-    
+
     @GetMapping("/{code}/refresh")
     @AccessLog(description = "刷新字典")
     @Operation(summary = "刷新字典 - [DONE] - [Levin]", description = "刷新字典 - [DONE] - [Levin]")
     public void refresh(@PathVariable("code") String code) {
         this.dictionaryService.refresh(code);
     }
-    
+
     @GetMapping("/{code}/list")
     @Operation(summary = "查询字典子项 - [DONE] - [Levin]", description = "查询字典子项,缓存10分钟,每隔 5 分钟刷新一次,为了性能利用本地JVM缓存,字典过大可以采用远程缓存")
     @Parameter(name = "code", description = "编码", in = ParameterIn.PATH)
-    public List<KeyVal> list(@PathVariable("code") String code) {
+    public List<Dict<String>> list(@PathVariable("code") String code) {
         return dictionaryService.findItemByCode(code);
     }
 }

@@ -25,6 +25,7 @@ import com.wemirr.framework.commons.MapHelper;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.db.mybatisplus.datascope.service.DataScopeService;
+import com.wemirr.framework.excel.annotation.ResponseExcel;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserPageReq;
 import com.wemirr.platform.authority.domain.baseinfo.req.UserSaveReq;
@@ -59,14 +60,22 @@ public class UserController {
     private final DataScopeService dataScopeService;
 
 
-    @GetMapping
+    @PostMapping("/page")
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
     @PreAuthorize("hasAuthority('sys:user:page')")
-    public IPage<UserResp> page(UserPageReq req) {
+    public IPage<UserResp> pageList(@RequestBody UserPageReq req) {
         return this.userService.pageList(req);
     }
 
-    @PostMapping
+    @PostMapping("/export")
+    @Operation(summary = "用户列表 - [Levin] - [DONE]")
+    @PreAuthorize("hasAuthority('sys:user:page')")
+    @ResponseExcel(fileName = "用户列表")
+    public List<UserResp> exportList(@RequestBody UserPageReq req) {
+        return this.userService.pageList(req).getRecords();
+    }
+
+    @PostMapping("/create")
     @AccessLog(description = "添加用户")
     @Operation(summary = "添加用户")
     @PreAuthorize("hasAuthority('sys:user:add')")

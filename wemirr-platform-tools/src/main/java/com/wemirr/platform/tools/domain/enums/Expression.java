@@ -21,7 +21,7 @@ package com.wemirr.platform.tools.domain.enums;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wemirr.framework.db.mybatisplus.core.DictEnum;
+import com.wemirr.framework.commons.entity.DictEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

@@ -20,7 +20,7 @@
 package com.wemirr.platform.authority.service.impl;
 
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
-import com.wemirr.framework.commons.entity.KeyVal;
+import com.wemirr.framework.commons.entity.Dict;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -49,9 +49,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Dictionary> implements DictionaryService {
-    
+
     private final DictionaryItemMapper dictionaryItemMapper;
-    
+
     @Override
     public void addDictionary(Dictionary dictionary) {
         if (dictionary == null) {
@@ -63,7 +63,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
         }
         this.baseMapper.insert(dictionary);
     }
-    
+
     @DSTransactional
     @Override
     public void deleteById(Long id) {
@@ -75,7 +75,7 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
         this.baseMapper.deleteById(id);
         this.dictionaryItemMapper.delete(Wraps.<DictionaryItem>lbQ().eq(DictionaryItem::getDictionaryId, id));
     }
-    
+
     @DSTransactional
     @Override
     public void editDictionary(Dictionary dictionary) {
@@ -91,24 +91,23 @@ public class DictionaryServiceImpl extends SuperServiceImpl<DictionaryMapper, Di
         }
         this.baseMapper.updateById(dictionary);
         this.dictionaryItemMapper.update(DictionaryItem.builder()
-                .status(dictionary.getStatus())
-                .dictionaryCode(dictionary.getCode())
-                .build(),
+                        .status(dictionary.getStatus())
+                        .dictionaryCode(dictionary.getCode())
+                        .build(),
                 Wraps.<DictionaryItem>lbQ()
                         .eq(DictionaryItem::getDictionaryId, dictionary.getId()));
     }
-    
+
     @Override
     public void refresh(String code) {
         log.info("刷新缓存的最好办法就是删除缓存,等接口重新请求,避免造成频繁误触刷新按钮 - 本次刷新的字典是 - {}", code);
     }
-    
+
     @Override
-    public List<KeyVal> findItemByCode(String code) {
+    public List<Dict<String>> findItemByCode(String code) {
         return this.dictionaryItemMapper.selectList(Wraps.<DictionaryItem>lbQ().eq(DictionaryItem::getStatus, true)
-                .eq(DictionaryItem::getDictionaryCode, code))
-                .stream()
-                .map(x -> KeyVal.builder().label(x.getLabel()).value(x.getValue()).build()).toList();
+                        .eq(DictionaryItem::getDictionaryCode, code))
+                .stream().map(x -> new Dict<>(x.getValue(), x.getLabel())).toList();
     }
-    
+
 }

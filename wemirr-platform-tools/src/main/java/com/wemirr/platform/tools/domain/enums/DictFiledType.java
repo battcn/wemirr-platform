@@ -20,7 +20,7 @@ package com.wemirr.platform.tools.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wemirr.framework.db.mybatisplus.core.DictEnum;
+import com.wemirr.framework.commons.entity.DictEnum;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

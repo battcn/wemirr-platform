@@ -19,6 +19,10 @@
 
 package com.wemirr.platform.authority.domain.baseinfo.resp;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.wemirr.framework.excel.convert.DictConverter;
 import com.wemirr.platform.authority.domain.baseinfo.enums.Sex;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -30,63 +34,83 @@ import java.time.LocalDate;
  * @author Levin
  */
 @Data
+@ColumnWidth(30)
 public class UserResp {
-    
+
+    @ExcelIgnore
     @Schema(description = "ID")
     private Long id;
-    
+
+    @ExcelProperty("账号")
     @Schema(description = "账号")
     private String username;
-    
+
+    @ExcelIgnore
     @Schema(description = "租户ID")
     private Long tenantId;
-    
+
+    @ExcelProperty("昵称")
     @Schema(description = "昵称")
     private String nickName;
-    
-    @Schema(description = "描述")
-    private String description;
-    
+
+    @ExcelProperty("身份证")
     @Schema(description = "身份证")
     private String idCard;
-    
+
+    @ExcelProperty("邮箱")
     @Schema(description = "邮箱")
     private String email;
-    
+
+    @ExcelProperty("手机号")
     @Schema(description = "手机号")
     private String mobile;
-    
+
+    @ExcelProperty(value = "性别", converter = DictConverter.class)
     @Schema(description = "性别")
     private Sex sex;
-    
+
+    @ExcelIgnore
     @Schema(description = "头像")
     private String avatar;
-    
+
+    @ExcelIgnore
     @Schema(description = "是否只读")
     private Boolean readonly;
-    
+
+    @ExcelIgnore
     @Schema(description = "状态")
     private Boolean status;
-    
+
+    @ExcelIgnore
     @Schema(description = "民族")
     private String nation;
-    
+
+    @ExcelIgnore
     @Schema(description = "学历")
     private String education;
-    
+
+    @ExcelProperty("生日")
     @Schema(description = "生日")
     private LocalDate birthday;
-    
+
+    @ExcelIgnore
     @Schema(description = "机构ID")
     private Long orgId;
-    
+
+    @ExcelIgnore
     @Schema(description = "岗位ID")
     private Long stationId;
-    
+
+    @ExcelIgnore
     @Schema(description = "职位状态")
     private String positionStatus;
-    
+
+    @ExcelProperty("描述")
+    @Schema(description = "描述")
+    private String description;
+
+//    @ExcelIgnore
     @Schema(description = "创建时间")
     private Instant createdTime;
-    
+
 }
