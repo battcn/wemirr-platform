@@ -41,7 +41,7 @@ public class ExcelController {
     public ExcelWriteFile export2() {
         ExcelDomain d1 = ExcelDomain.builder().name("中文").type("哈哈").build();
         ExcelDomain d2 = ExcelDomain.builder().name("英文").type("哈哈").build();
-        return ExcelWriteFile.builder().fileName(null).i18nHeader(true).data(List.of(d1, d2)).build();
+        return ExcelWriteFile.builder().fileName("导出测试").i18nHeader(true).data(List.of(d1, d2)).build();
     }
 
 
