@@ -17,6 +17,9 @@ import com.wemirr.framework.excel.handler.head.HeadGenerator;
 import com.wemirr.framework.excel.handler.head.HeadMeta;
 import com.wemirr.framework.excel.handler.head.I18nHeaderCellWriteHandler;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.ObjectProvider;
@@ -31,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Modifier;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Levin
@@ -191,7 +195,13 @@ public interface ISheetWriteHandler {
      *
      * @param writeFile writeFile
      */
-    void validate(ExcelWriteFile writeFile);
+    default void validate(ApplicationContext context, ExcelWriteFile writeFile) {
+        Set<ConstraintViolation<ExcelWriteFile>> violations = context.getBean(Validator.class).validate(writeFile);
+        if (violations == null) {
+            return;
+        }
+        throw new ConstraintViolationException(violations);
+    }
 
     /**
      * 返回的对象

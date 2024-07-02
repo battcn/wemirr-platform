@@ -29,13 +29,8 @@ public class SingleSheetWriteHandler implements ISheetWriteHandler {
     private final ApplicationContext context;
 
     @Override
-    public void validate(ExcelWriteFile writeFile) {
-
-    }
-
-    @Override
     public void export(HttpServletResponse response, ExcelWriteFile file) {
-        validate(file);
+        validate(context, file);
         String name = Optional.ofNullable(file.getFileName()).orElse(String.valueOf(System.currentTimeMillis()));
         String fileName = String.format("%s%s", URLEncoder.encode(name, StandardCharsets.UTF_8), file.getExcelType().getValue());
         String contentType = MediaTypeFactory.getMediaType(fileName).map(MediaType::toString).orElse("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

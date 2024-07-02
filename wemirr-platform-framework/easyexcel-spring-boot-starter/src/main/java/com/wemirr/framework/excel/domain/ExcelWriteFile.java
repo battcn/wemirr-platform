@@ -5,6 +5,10 @@ import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.handler.WriteHandler;
 import com.wemirr.framework.excel.handler.head.HeadGenerator;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +30,7 @@ public class ExcelWriteFile {
      * 文件名称
      */
     @Builder.Default
+    @NotBlank(message = "文件名不能为空")
     private String fileName = "default";
 
     /**
@@ -36,6 +41,7 @@ public class ExcelWriteFile {
      * 文件类型
      */
     @Builder.Default
+    @NotNull(message = "文件类型不能为空")
     private ExcelTypeEnum excelType = ExcelTypeEnum.XLSX;
 
     /**
@@ -67,6 +73,8 @@ public class ExcelWriteFile {
      * sheet 列表
      */
     @Builder.Default
+    @NotEmpty(message = "Sheet 列表不能为空")
+    @Size(min = 1, max = 10, message = "Sheet 列表必须在{min} - {max} 之间")
     private List<SheetInfo> sheetList = List.of(new SheetInfo());
 
     /**
@@ -82,7 +90,11 @@ public class ExcelWriteFile {
     @Builder.Default
     private Boolean i18nHeader = false;
 
+    /**
+     * 头生成器
+     */
     @Builder.Default
+    @NotNull(message = "HeadGenerator 不能为空")
     private Class<? extends HeadGenerator> headGenerator = HeadGenerator.class;
 
     /**

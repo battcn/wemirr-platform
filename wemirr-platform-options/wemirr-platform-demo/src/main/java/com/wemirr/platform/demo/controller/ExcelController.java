@@ -37,11 +37,11 @@ public class ExcelController {
 
     @IgnoreAuthorize
     @GetMapping("/export2")
-    @Operation(summary = "注解导出-带国际化")
+    @Operation(summary = "普通导出-带国际化")
     public ExcelWriteFile export2() {
         ExcelDomain d1 = ExcelDomain.builder().name("中文").type("哈哈").build();
         ExcelDomain d2 = ExcelDomain.builder().name("英文").type("哈哈").build();
-        return ExcelWriteFile.builder().i18nHeader(true).data(List.of(d1, d2)).build();
+        return ExcelWriteFile.builder().fileName(null).i18nHeader(true).data(List.of(d1, d2)).build();
     }
 
 

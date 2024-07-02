@@ -2,7 +2,7 @@ package com.wemirr.framework.excel.handler.head;
 
 
 /**
- * Excel头生成器，用于自定义生成头部信息
+ * Excel头生成器
  *
  * @author Levin
  */
