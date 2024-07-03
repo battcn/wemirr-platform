@@ -81,7 +81,7 @@ public class GenerateController {
             throw CheckedException.badRequest("文件不存在");
         }
         try (FileInputStream fis = new FileInputStream(file)) {
-            response.setCharacterEncoding("utf-8");
+            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
             IoUtil.copy(fis, response.getOutputStream());

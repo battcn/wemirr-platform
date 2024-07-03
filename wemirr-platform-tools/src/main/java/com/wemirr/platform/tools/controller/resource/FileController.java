@@ -125,7 +125,7 @@ public class FileController {
             return;
         }
         final DownloadResponse download = storageOperation.download(file.getTargetName());
-        response.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; filename=" + file.getOriginName());
         try (ServletOutputStream outputStream = response.getOutputStream()) {

@@ -108,7 +108,7 @@ public class DynamicReleaseDragController {
     @PatchMapping(value = "/{model}/export", produces = "application/octet-stream")
     public void export(@PathVariable String model, @RequestBody ExportExcelReq req, HttpServletResponse response) {
         response.setContentType("application/vnd.ms-excel");
-        response.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         String filename = URLEncoder.encode("运力宽表", StandardCharsets.UTF_8);
         response.setHeader("Content-disposition",
                 "attachment;filename=" + filename + ExcelTypeEnum.XLSX.getValue());
