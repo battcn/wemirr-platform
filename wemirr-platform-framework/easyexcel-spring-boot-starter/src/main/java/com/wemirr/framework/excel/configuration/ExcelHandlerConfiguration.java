@@ -40,14 +40,14 @@ public class ExcelHandlerConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ResponseExcelReturnValueHandler responseExcelReturnValueHandler(List<ISheetWriteHandler> sheetWriteHandlers) {
-        return new ResponseExcelReturnValueHandler(sheetWriteHandlers);
+    public ResponseExcelReturnValueHandler responseExcelReturnValueHandler(ApplicationContext context, List<ISheetWriteHandler> sheetWriteHandlers) {
+        return new ResponseExcelReturnValueHandler(context, sheetWriteHandlers);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ExcelWriteFileReturnValueHandler excelWriteFileReturnValueHandler(List<ISheetWriteHandler> sheetWriteHandlers) {
-        return new ExcelWriteFileReturnValueHandler(sheetWriteHandlers);
+    public ExcelWriteFileReturnValueHandler excelWriteFileReturnValueHandler(ApplicationContext context, List<ISheetWriteHandler> sheetWriteHandlers) {
+        return new ExcelWriteFileReturnValueHandler(context, sheetWriteHandlers);
     }
 
 }

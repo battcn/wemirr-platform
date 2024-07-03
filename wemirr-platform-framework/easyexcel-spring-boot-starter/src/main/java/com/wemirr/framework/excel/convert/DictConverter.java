@@ -6,7 +6,6 @@ import com.alibaba.excel.metadata.GlobalConfiguration;
 import com.alibaba.excel.metadata.data.ReadCellData;
 import com.alibaba.excel.metadata.data.WriteCellData;
 import com.alibaba.excel.metadata.property.ExcelContentProperty;
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.wemirr.framework.commons.entity.DictEnum;
 
 import java.lang.reflect.Field;
@@ -20,7 +19,7 @@ public class DictConverter implements Converter<DictEnum<?>> {
 
     @Override
     public Class<?> supportJavaTypeKey() {
-        return IEnum.class;
+        return DictEnum.class;
     }
 
     @Override

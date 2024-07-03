@@ -33,6 +33,14 @@ public class EasyExcelAutoConfigure {
     private final ResponseExcelReturnValueHandler responseExcelReturnValueHandler;
 
     @PostConstruct
+    public void init() {
+        // 设置导出返回处理器
+        setReturnValueHandlers();
+        // 设置导入请求参数解析
+        setRequestExcelArgumentResolver();
+    }
+
+
     public void setReturnValueHandlers() {
         var returnValueHandlers = requestMappingHandlerAdapter.getReturnValueHandlers();
         final List<HandlerMethodReturnValueHandler> handlers = new ArrayList<>();
@@ -46,7 +54,7 @@ public class EasyExcelAutoConfigure {
         requestMappingHandlerAdapter.setReturnValueHandlers(handlers);
     }
 
-    @PostConstruct
+
     public void setRequestExcelArgumentResolver() {
         List<HandlerMethodArgumentResolver> argumentResolvers = requestMappingHandlerAdapter.getArgumentResolvers();
         List<HandlerMethodArgumentResolver> resolverList = new ArrayList<>();

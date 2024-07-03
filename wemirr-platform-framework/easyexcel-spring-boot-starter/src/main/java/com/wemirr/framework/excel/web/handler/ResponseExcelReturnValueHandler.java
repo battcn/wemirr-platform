@@ -7,6 +7,7 @@ import com.wemirr.framework.excel.handler.ISheetWriteHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.MethodParameter;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -26,6 +27,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValueHandler {
 
+    private final ApplicationContext context;
     private final List<ISheetWriteHandler> sheetWriteHandlerList;
 
     @Override
@@ -40,10 +42,11 @@ public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValue
         ResponseExcel excel = returnType.getMethodAnnotation(ResponseExcel.class);
         Assert.state(excel != null, "No @ResponseExcel");
         mavContainer.setRequestHandled(true);
+        ExcelWriteFile writeFile = getExcelWriteFile(returnValue, excel);
         sheetWriteHandlerList.stream()
-                .filter(handler -> handler.support(returnValue))
+                .filter(handler -> handler.support(writeFile.getSheetList()))
                 .findFirst()
-                .ifPresent(handler -> handler.export(response, getExcelWriteFile(returnValue, excel)));
+                .ifPresent(handler -> handler.export(context, response, writeFile));
     }
 
     public ExcelWriteFile getExcelWriteFile(Object returnValue, ResponseExcel excel) {

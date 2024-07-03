@@ -13,6 +13,7 @@ import com.wemirr.framework.excel.convert.DictConverter;
 import com.wemirr.framework.excel.convert.InstantConverter;
 import com.wemirr.framework.excel.domain.ExcelWriteFile;
 import com.wemirr.framework.excel.domain.SheetInfo;
+import com.wemirr.framework.excel.exception.ExcelException;
 import com.wemirr.framework.excel.handler.head.HeadGenerator;
 import com.wemirr.framework.excel.handler.head.HeadMeta;
 import com.wemirr.framework.excel.handler.head.I18nHeaderCellWriteHandler;
@@ -26,6 +27,9 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -33,7 +37,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Modifier;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -41,23 +48,9 @@ import java.util.Set;
  */
 public interface ISheetWriteHandler {
 
-    /**
-     * 验证是导出的结构和对象否支持
-     *
-     * @param obj obj
-     * @return true | false
-     */
-    default boolean support(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj instanceof List<?> list) {
-            return !list.isEmpty();
-        }
-        if (obj instanceof ExcelWriteFile file) {
-            return support(file.getData());
-        }
-        return false;
+
+    default boolean support(List<SheetInfo> sheets) {
+        throw new ExcelException("未匹配到有效的 WriteHandler ");
     }
 
     /**
@@ -70,11 +63,7 @@ public interface ISheetWriteHandler {
     @SneakyThrows(IOException.class)
     default ExcelWriter getExcelWriter(ApplicationContext context, HttpServletResponse response, ExcelWriteFile file) {
         ExcelWriterBuilder writerBuilder = EasyExcel.write(response.getOutputStream())
-                .registerConverter(new DictConverter())
-                .registerConverter(new InstantConverter())
-                .autoCloseStream(true)
-                .excelType(file.getExcelType())
-                .inMemory(file.getInMemory());
+                .autoCloseStream(true).excelType(file.getExcelType()).inMemory(file.getInMemory());
         // 设置文件密码
         if (StringUtils.hasText(file.getPassword())) {
             writerBuilder.password(file.getPassword());
@@ -185,6 +174,7 @@ public interface ISheetWriteHandler {
     }
 
     default void registerGlobalConverters(ApplicationContext context, ExcelWriterBuilder builder) {
+        builder.registerConverter(new DictConverter()).registerConverter(new InstantConverter());
         ObjectProvider<List<Converter<?>>> converterProvider = context.getBeanProvider(ResolvableType.forClass(Converter.class));
         converterProvider.ifAvailable(converters -> converters.forEach(builder::registerConverter));
     }
@@ -197,7 +187,7 @@ public interface ISheetWriteHandler {
      */
     default void validate(ApplicationContext context, ExcelWriteFile writeFile) {
         Set<ConstraintViolation<ExcelWriteFile>> violations = context.getBean(Validator.class).validate(writeFile);
-        if (violations == null) {
+        if (violations == null || violations.isEmpty()) {
             return;
         }
         throw new ConstraintViolationException(violations);
@@ -209,7 +199,17 @@ public interface ISheetWriteHandler {
      * @param response 输出对象
      * @param file     file
      */
-    void export(HttpServletResponse response, ExcelWriteFile file);
+    default void export(ApplicationContext context, HttpServletResponse response, ExcelWriteFile file) {
+        validate(context, file);
+        String name = Optional.ofNullable(file.getFileName()).orElse(String.valueOf(System.currentTimeMillis()));
+        String fileName = String.format("%s%s", URLEncoder.encode(name, StandardCharsets.UTF_8), file.getExcelType().getValue());
+        String contentType = MediaTypeFactory.getMediaType(fileName).map(MediaType::toString).orElse("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setContentType(contentType);
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
+        response.setCharacterEncoding("utf-8");
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + fileName);
+        write(response, file);
+    }
 
     /**
      * 写成对象

@@ -18,6 +18,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
+ * Instant 类型转换
+ * 支持 JsonFormat 注解
+ *
  * @author levin
  */
 @Slf4j
