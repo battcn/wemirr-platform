@@ -109,7 +109,7 @@ public class UserResp {
     @Schema(description = "描述")
     private String description;
 
-//    @ExcelIgnore
+    @ExcelProperty("创建时间")
     @Schema(description = "创建时间")
     private Instant createdTime;
 
