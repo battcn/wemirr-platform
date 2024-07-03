@@ -72,6 +72,9 @@ public class UserController {
     @PreAuthorize("hasAuthority('sys:user:page')")
     @ResponseExcel(fileName = "用户列表")
     public List<UserResp> exportList(@RequestBody UserPageReq req) {
+        // 因为导出要全部数据
+        req.setCurrent(1);
+        req.setSize(Integer.MAX_VALUE);
         return this.userService.pageList(req).getRecords();
     }
 
