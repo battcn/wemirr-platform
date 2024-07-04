@@ -10,7 +10,7 @@
  
 ```
 
-### 用法一（ExcelWriteFile）
+### 导出用法一（ExcelWriteFile）
 
 **根据实际业务需要,自己设置写入的文件和Sheet 内容,方便动态赋值**
 
@@ -23,7 +23,7 @@ public ExcelWriteFile exportList(@RequestBody UserPageReq req) {
 ```
 
 
-### 用法二
+### 导出用法二
 
 **注解导出，省时省力，缺点就是不能根据条件动态去设置文件和Sheet**
 
@@ -32,6 +32,37 @@ public ExcelWriteFile exportList(@RequestBody UserPageReq req) {
 @ResponseExcel(fileName = "用户列表")
 public List<User> exportList() {
     // 直接返回需要导出的集合即可
+    return list;
+}
+```
+
+
+### 导入用法一（ExcelReadFile）
+
+
+**根据实际业务需要,自己设置的文件和Sheet 内容,方便动态赋值（如：密码、SheetNo、SheetName）**
+
+``` java
+@SneakyThrows
+@IgnoreAuthorize
+@PostMapping("/import1")
+@Operation(summary = "普通导入 - 1")
+public ValidateAnalysisEventListener<?> import1(@RequestParam MultipartFile file) {
+    return ExcelReadResolver.read(ExcelReadFile.builder().inputStream(file.getInputStream()).build());
+}
+```
+
+
+### 导入用法二
+
+**注解导入，省时省力，缺点就是不能根据条件动态去设置文件和Sheet**
+
+``` java
+@IgnoreAuthorize
+@PostMapping("/import2")
+@Operation(summary = "普通导入 - 2")
+@Parameter(name = "file")
+public List<ExcelDomain> import2(@RequestExcel List<ExcelDomain> list) {
     return list;
 }
 ```
