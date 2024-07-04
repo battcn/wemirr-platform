@@ -50,7 +50,11 @@ public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValue
     }
 
     public ExcelWriteFile getExcelWriteFile(Object returnValue, ResponseExcel excel) {
-        var sheetList = Arrays.stream(excel.sheets()).map(sheet -> SheetInfo.builder().sheetNo(sheet.sheetNo()).name(sheet.name()).build()).toList();
+        var sheetList = Arrays.stream(excel.sheets()).map(sheet -> SheetInfo.builder()
+                .sheetNo(sheet.sheetNo()).name(sheet.name())
+                .excludes(List.of(sheet.excludes())).includes(List.of(sheet.includes()))
+                .headGenerateClass(sheet.headGenerateClass())
+                .build()).toList();
         return ExcelWriteFile.builder().fileName(excel.fileName())
                 .template(excel.template())
                 .excelType(excel.excelType())

@@ -1,5 +1,7 @@
 package com.wemirr.framework.excel.annotation;
 
+import com.wemirr.framework.excel.handler.head.HeadGenerator;
+
 import java.lang.annotation.*;
 
 /**
@@ -27,9 +29,9 @@ public @interface Sheet {
      */
     String[] excludes() default {};
 
-//    /**
-//     * 头生成器
-//     */
-//    Class<? extends HeadGenerator> headGenerateClass() default HeadGenerator.class;
+    /**
+     * 头生成器
+     */
+    Class<? extends HeadGenerator> headGenerateClass() default HeadGenerator.class;
 
 }

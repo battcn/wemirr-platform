@@ -7,6 +7,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -28,6 +29,7 @@ import java.util.List;
 @Import(ExcelHandlerConfiguration.class)
 public class EasyExcelAutoConfigure {
 
+    private final ApplicationContext context;
     private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
     private final ExcelWriteFileReturnValueHandler excelWriteFileReturnValueHandler;
     private final ResponseExcelReturnValueHandler responseExcelReturnValueHandler;
@@ -59,7 +61,7 @@ public class EasyExcelAutoConfigure {
         List<HandlerMethodArgumentResolver> argumentResolvers = requestMappingHandlerAdapter.getArgumentResolvers();
         List<HandlerMethodArgumentResolver> resolverList = new ArrayList<>();
         // 拦截 @RequestExcel 注解
-        resolverList.add(new RequestExcelArgumentResolver());
+        resolverList.add(new RequestExcelArgumentResolver(context));
         if (argumentResolvers != null) {
             resolverList.addAll(argumentResolvers);
         }
