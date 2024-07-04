@@ -1,16 +1,21 @@
 package com.wemirr.platform.demo.controller;
 
+import com.wemirr.framework.excel.annotation.RequestExcel;
 import com.wemirr.framework.excel.annotation.ResponseExcel;
+import com.wemirr.framework.excel.domain.ExcelReadFile;
 import com.wemirr.framework.excel.domain.ExcelWriteFile;
+import com.wemirr.framework.excel.handler.read.ValidateAnalysisEventListener;
+import com.wemirr.framework.excel.web.resolver.ExcelReadResolver;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import com.wemirr.platform.demo.domain.resp.ExcelDomain;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -44,5 +49,22 @@ public class ExcelController {
         return ExcelWriteFile.builder().fileName("导出测试").i18nHeader(true).data(List.of(d1, d2)).build();
     }
 
+    @IgnoreAuthorize
+    @PostMapping("/import1")
+    @Operation(summary = "普通导入-1")
+    @Parameter(name = "file")
+    public List<ExcelDomain> import1(@Parameter(hidden = true) @RequestExcel List<ExcelDomain> list) {
+
+        return list;
+    }
+
+
+    @SneakyThrows
+    @IgnoreAuthorize
+    @PostMapping("/import2")
+    @Operation(summary = "普通导入-2")
+    public ValidateAnalysisEventListener<?> import2(@RequestParam MultipartFile file) {
+        return ExcelReadResolver.read(ExcelReadFile.builder().inputStream(file.getInputStream()).build());
+    }
 
 }

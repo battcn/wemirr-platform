@@ -17,10 +17,10 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ExcelDomain {
 
-    @ExcelProperty("${excel.name}")
+    @ExcelProperty(value = "${excel.name}", index = 0)
     private String name;
 
-    @ExcelProperty("${excel.type}")
+    @ExcelProperty(value = "${excel.type}", index = 1)
     private String type;
 
 }
