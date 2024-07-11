@@ -3,6 +3,7 @@ package com.wemirr.platform.demo.controller;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.i18n.annotation.I18nMethod;
 import com.wemirr.framework.redis.plus.anontation.RedisLock;
+import com.wemirr.framework.redis.plus.lock.RedisLockHelper;
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import com.wemirr.framework.security.utils.SecurityUtils;
 import com.wemirr.platform.authority.feign.FileServiceFeign;
@@ -34,6 +35,7 @@ public class DemoController {
     private final DemoService demoService;
     private final DemoTestFeignClient demoTestFeignClient;
     private final FileServiceFeign fileServiceFeign;
+    private final RedisLockHelper lockHelper;
 
     @IgnoreAuthorize
     @GetMapping("/ignore")
@@ -106,6 +108,19 @@ public class DemoController {
             TimeUnit.SECONDS.sleep(1);
             log.info("lock2 sleep {}", i);
         }
+    }
+
+    @SneakyThrows
+    @GetMapping("/lock3")
+    @IgnoreAuthorize
+    public void lock3() {
+        String result = lockHelper.execute("lock3", 0, TimeUnit.SECONDS, () -> {
+            for (int i = 0; i < 80; i++) {
+                log.info("lock2 sleep {}", i);
+            }
+            return "任务返回值";
+        });
+        log.info("result - {}", result);
     }
 
     @SneakyThrows
