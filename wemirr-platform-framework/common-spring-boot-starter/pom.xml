@@ -18,6 +18,7 @@
     </properties>
     
     <dependencies>
+        <!-- 暂时未集成,存在BUG -->
         <dependency>
             <groupId>com.fhs-opensource</groupId>
             <artifactId>easy-trans-spring-boot-starter</artifactId>
