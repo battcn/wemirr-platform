@@ -77,7 +77,7 @@ public class SiteNotifyServiceImpl extends SuperServiceImpl<SiteMessagePublishMa
             }
             return users.stream().map(user -> CommonDataResp.builder().id(user.getId()).name(user.getNickName()).build()).collect(toList());
         }
-        final List<Role> roles = roleMapper.selectList(Wraps.<Role>lbQ().eq(Role::getLocked, false)
+        final List<Role> roles = roleMapper.selectList(Wraps.<Role>lbQ().eq(Role::getStatus, true)
                 .like(Role::getName, search).or().like(Role::getCode, search));
         if (CollectionUtil.isEmpty(roles)) {
             return null;

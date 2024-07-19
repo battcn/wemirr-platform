@@ -17,26 +17,25 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.authority.domain.common.resp;
+package com.wemirr.platform.authority.domain.common.req;
 
+import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author Levin
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class DictResp {
+@EqualsAndHashCode(callSuper = true)
+@Schema(name = "DictionaryItemPageReq")
+public class DictItemPageReq extends PageRequest {
     
-    @Schema(description = "字典值")
-    private Long value;
-    @Schema(description = "字典名")
+    @Schema(description = "标签")
     private String label;
+    
+    @Schema(description = "状态")
+    private Boolean status;
     
 }

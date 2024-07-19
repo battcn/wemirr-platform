@@ -19,16 +19,12 @@
 
 package com.wemirr.platform.authority.service;
 
-import com.alicp.jetcache.anno.CacheInvalidate;
-import com.alicp.jetcache.anno.CacheRefresh;
-import com.alicp.jetcache.anno.CacheType;
-import com.alicp.jetcache.anno.Cached;
 import com.wemirr.framework.commons.entity.Dict;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.authority.domain.common.entity.Dictionary;
+import com.wemirr.platform.authority.domain.common.entity.SysDict;
+import com.wemirr.platform.authority.domain.common.req.DictSaveReq;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -39,16 +35,14 @@ import java.util.concurrent.TimeUnit;
  * @author Levin
  * @since 2019-07-02
  */
-public interface DictionaryService extends SuperService<Dictionary> {
-
-    String SYS_DICT_CACHE_KEY_PREFIX = "sys:dict:-";
+public interface DictService extends SuperService<SysDict> {
 
     /**
      * 添加字典
      *
-     * @param dictionary 字典信息
+     * @param req 字典信息
      */
-    void addDictionary(Dictionary dictionary);
+    void create(DictSaveReq req);
 
     /**
      * 删除字典
@@ -60,17 +54,15 @@ public interface DictionaryService extends SuperService<Dictionary> {
     /**
      * 编辑字典
      *
-     * @param dictionary 字典信息
+     * @param id  id
+     * @param req 字典信息
      */
-    void editDictionary(Dictionary dictionary);
+    void modify(Long id, DictSaveReq req);
 
     /**
      * 刷新缓存
-     *
-     * @param code code
      */
-    @CacheInvalidate(name = SYS_DICT_CACHE_KEY_PREFIX, key = "#code")
-    void refresh(String code);
+    void refresh();
 
     /**
      * 根据 code 查询
@@ -78,8 +70,6 @@ public interface DictionaryService extends SuperService<Dictionary> {
      * @param code code
      * @return 查询结果
      */
-    @Cached(name = SYS_DICT_CACHE_KEY_PREFIX, key = "#code", expire = 10, timeUnit = TimeUnit.MINUTES, cacheType = CacheType.LOCAL)
-    @CacheRefresh(refresh = 5, timeUnit = TimeUnit.MINUTES)
     List<Dict<String>> findItemByCode(String code);
 
 }

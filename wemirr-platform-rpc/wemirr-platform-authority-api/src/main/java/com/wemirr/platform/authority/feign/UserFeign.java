@@ -14,7 +14,7 @@ import java.util.Set;
  * @author Levin
  */
 @FeignClient(name = FeignConstants.AUTH_FEIGN_NAME, dismiss404 = true)
-public interface UserFeign extends LoadService<Long, UserInfoResp> {
+public interface UserFeign extends LoadService<UserInfoResp> {
 
     /**
      * 根据 ID 批量查询
@@ -24,6 +24,6 @@ public interface UserFeign extends LoadService<Long, UserInfoResp> {
      */
     @Override
     @PostMapping("/users/batch_ids")
-    Map<Long, UserInfoResp> findByIds(@RequestBody Set<Long> ids);
+    Map<Object, UserInfoResp> findByIds(@RequestBody Set<Object> ids);
 
 }

@@ -59,7 +59,7 @@ public interface ResourceService extends SuperService<Resource> {
      * @param id  id
      * @param req 资源
      */
-    void edit(Long id, ResourceSaveReq req);
+    void modify(Long id, ResourceSaveReq req);
     
     /**
      * 删除资源

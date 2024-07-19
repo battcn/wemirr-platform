@@ -54,8 +54,8 @@ public class Role extends Entity<Long> {
     @Schema(description = "是否只读")
     private Boolean readonly;
     
-    @Schema(description = "是否被锁定")
-    private Boolean locked;
+    @Schema(description = "状态(true=启用;false=禁用)")
+    private Boolean status;
     
     @Schema(description = "权限类型")
     private DataScopeType scopeType;

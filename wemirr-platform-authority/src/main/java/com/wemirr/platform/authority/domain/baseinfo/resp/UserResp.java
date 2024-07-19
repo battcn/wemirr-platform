@@ -22,6 +22,8 @@ package com.wemirr.platform.authority.domain.baseinfo.resp;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.wemirr.framework.boot.remote.dict.DictLoadService;
+import com.wemirr.framework.commons.annotation.remote.Remote;
 import com.wemirr.framework.excel.convert.DictConverter;
 import com.wemirr.platform.authority.domain.baseinfo.enums.Sex;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -83,7 +85,11 @@ public class UserResp {
 
     @ExcelIgnore
     @Schema(description = "民族")
+    @Remote(beanClass = DictLoadService.class, tag = "NATION", fields = {@Remote.FieldRef(target = "nationName")})
     private String nation;
+
+    @Schema(description = "民族")
+    private String nationName;
 
     @ExcelIgnore
     @Schema(description = "学历")

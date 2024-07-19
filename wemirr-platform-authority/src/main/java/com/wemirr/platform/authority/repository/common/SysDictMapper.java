@@ -17,35 +17,25 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.authority.service;
+package com.wemirr.platform.authority.repository.common;
 
-import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.authority.domain.common.entity.DictionaryItem;
+import com.wemirr.framework.db.dynamic.annotation.TenantDS;
+import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
+import com.wemirr.platform.authority.domain.common.entity.SysDict;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
- * 业务接口
- * 字典项
+ * Mapper 接口
+ * 字典类型
  * </p>
  *
  * @author Levin
  * @since 2019-07-02
  */
-public interface DictionaryItemService extends SuperService<DictionaryItem> {
-    
-    /**
-     * 添加字典项
-     *
-     * @param dictionaryId 字典ID
-     * @param item         字典项
-     */
-    void addDictionaryItem(Long dictionaryId, DictionaryItem item);
-    
-    /**
-     * 修改字典项
-     *
-     * @param dictionaryId 字典ID
-     * @param item         字典项
-     */
-    void editDictionaryItem(Long dictionaryId, DictionaryItem item);
+@TenantDS
+@Repository
+public interface SysDictMapper extends SuperMapper<SysDict> {
+
+
 }

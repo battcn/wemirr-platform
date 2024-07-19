@@ -26,7 +26,7 @@ import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.framework.security.utils.SecurityUtils;
-import com.wemirr.platform.authority.domain.common.req.DictionaryItemReq;
+import com.wemirr.platform.authority.domain.common.req.DictItemSaveReq;
 import com.wemirr.platform.authority.domain.tenant.entity.TenantDictionaryItem;
 import com.wemirr.platform.authority.domain.tenant.resp.TenantDictionaryItemResp;
 import com.wemirr.platform.authority.service.TenantDictionaryItemService;
@@ -64,28 +64,28 @@ public class TenantDictionaryItemController {
             @Parameter(name = "dictionary_id", description = "字典ID", in = ParameterIn.PATH),
             @Parameter(name = "label", description = "名称", in = ParameterIn.QUERY)
     })
-    public Result<Page<TenantDictionaryItem>> query(@PathVariable("dictionary_id") Long dictionaryId, String label, Boolean status, PageRequest params) {
+    public Result<Page<TenantDictionaryItem>> query(@PathVariable("dictionary_id") Long dictId, String label, Boolean status, PageRequest params) {
         final Page<TenantDictionaryItem> itemPage = this.tenantDictionaryItemService.page(params.buildPage(), Wraps.<TenantDictionaryItem>lbQ()
                 .like(TenantDictionaryItem::getLabel, label).eq(TenantDictionaryItem::getStatus, status)
-                .eq(TenantDictionaryItem::getDictionaryId, dictionaryId));
+                .eq(TenantDictionaryItem::getDictId, dictId));
         return Result.success(itemPage);
     }
     
     @PostMapping
     @Operation(summary = "添加字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dictionary_id", description = "字典ID", in = ParameterIn.PATH)
-    public void save(@PathVariable("dictionary_id") Long dictionaryId, @Validated @RequestBody DictionaryItemReq dto) {
-        this.tenantDictionaryItemService.addDictionaryItem(dictionaryId, BeanUtil.toBean(dto, TenantDictionaryItem.class));
+    public void save(@PathVariable("dictionary_id") Long dictId, @Validated @RequestBody DictItemSaveReq dto) {
+        this.tenantDictionaryItemService.addDictionaryItem(dictId, BeanUtil.toBean(dto, TenantDictionaryItem.class));
         
     }
     
     @PutMapping("/{id}")
     @Operation(summary = "编辑字典子项 - [DONE] - [Levin]")
     @Parameter(name = "id", description = "子项ID", in = ParameterIn.PATH)
-    public void edit(@PathVariable("dictionary_id") Long dictionaryId, @PathVariable Long id, @Validated @RequestBody DictionaryItemReq dto) {
+    public void edit(@PathVariable("dictionary_id") Long dictId, @PathVariable Long id, @Validated @RequestBody DictItemSaveReq dto) {
         final TenantDictionaryItem tenantDictionaryItem = BeanUtil.toBean(dto, TenantDictionaryItem.class);
         tenantDictionaryItem.setId(id);
-        this.tenantDictionaryItemService.editDictionaryItem(dictionaryId, tenantDictionaryItem);
+        this.tenantDictionaryItemService.editDictionaryItem(dictId, tenantDictionaryItem);
         
     }
     
@@ -100,13 +100,12 @@ public class TenantDictionaryItemController {
     @GetMapping("/{dictionary_code}")
     @Operation(summary = "字典子项获取 - [DONE] - [Levin]")
     @Parameter(name = "dictionary_code", description = "子项编码", in = ParameterIn.PATH)
-    public List<TenantDictionaryItemResp> dictionaryItem(@PathVariable("dictionary_id") Long dictionaryId, @PathVariable("dictionary_code") String dictionaryCode) {
+    public List<TenantDictionaryItemResp> dictionaryItem(@PathVariable("dictionary_id") Long dictId, @PathVariable("dictionary_code") String dictionaryCode) {
         UserInfoDetails userInfoDetails = SecurityUtils.getAuthInfo();
         List<TenantDictionaryItem> list = this.tenantDictionaryItemService.list(Wraps.<TenantDictionaryItem>lbQ()
-                .eq(TenantDictionaryItem::getDictionaryId, dictionaryId)
+                .eq(TenantDictionaryItem::getDictId, dictId)
                 .eq(TenantDictionaryItem::getTenantId, userInfoDetails.getTenantId())
-                .eq(TenantDictionaryItem::getStatus, true)
-                .eq(TenantDictionaryItem::getDictionaryCode, dictionaryCode));
+                .eq(TenantDictionaryItem::getStatus, true));
         return list.stream()
                 .map(item -> TenantDictionaryItemResp.builder().value(item.getValue()).label(item.getLabel()).build())
                 .collect(Collectors.toList());

@@ -100,7 +100,6 @@ public class TenantDictionaryController {
     @Parameter(name = "dictionary_code", description = "编码", in = ParameterIn.PATH)
     public List<TenantDictionaryItem> list(@PathVariable("dictionary_code") String dictionaryCode) {
         return this.tenantDictionaryItemService.list(Wraps.<TenantDictionaryItem>lbQ()
-                .eq(TenantDictionaryItem::getStatus, true)
-                .eq(TenantDictionaryItem::getDictionaryCode, dictionaryCode));
+                .eq(TenantDictionaryItem::getStatus, true));
     }
 }

@@ -17,33 +17,51 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.authority.domain.common.req;
+package com.wemirr.platform.authority.domain.common.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
+ * <p>
+ * 实体类
+ * 字典类型
+ * </p>
+ *
  * @author Levin
+ * @since 2020-01-03
  */
 @Data
-public class DictionaryItemReq {
-    
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@TableName("sys_dict")
+@Schema(name = "SysDict", description = "字典类型")
+public class SysDict extends SuperEntity<Long> {
+
     @Schema(description = "名称")
-    @NotBlank(message = "名称不能为空")
-    @Length(max = 64, message = "名称长度不能超过{max}")
     private String label;
-    
-    @Schema(description = "值")
-    @NotBlank(message = "值不能为空")
-    @Length(max = 64, message = "值的长度不能超过{max}")
-    private String value;
-    
+
+    @Schema(description = "编码")
+    private String code;
+
+    @Schema(description = "排序")
+    private Integer sequence;
+
     @Schema(description = "状态")
     private Boolean status;
-    
+
+    @Schema(description = "只读")
+    private Boolean readonly;
+
     @Schema(description = "描述")
-    @Length(max = 100, message = "值的长度不能超过{max}")
     private String description;
+
 }

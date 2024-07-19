@@ -22,8 +22,8 @@ package com.wemirr.platform.authority.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Resource;
@@ -65,7 +65,6 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
 
     private final RoleMapper roleMapper;
     private final RoleResMapper roleResMapper;
-    private final AuthenticationContext authenticationContext;
 
     @Override
     public List<VueRouter> findVisibleResource(ResourceQueryReq req) {
@@ -73,13 +72,9 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
     }
 
     @Override
-    @DSTransactional
+    @DSTransactional(rollbackFor = Exception.class)
     public void add(ResourceSaveReq req) {
         final Resource resource = BeanUtil.toBean(req, Resource.class);
-        if (ResourceType.BUILD_PUBLISH == resource.getType()) {
-            resource.setPath(String.format(DEFAULT_PATH, authenticationContext.tenantId()) + SPEL + resource.getModel());
-            resource.setComponent(DEFAULT_COMPONENT);
-        }
         if (ResourceType.MENU == resource.getType()) {
             if (!StringUtils.startsWith(resource.getPath(), SPEL)) {
                 resource.setPath(SPEL + resource.getPath());
@@ -87,7 +82,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
         }
         this.baseMapper.insert(resource);
         final List<Role> roles = this.roleMapper.selectList(Wraps.<Role>lbQ().eq(Role::getSuperRole, true)
-                .eq(Role::getLocked, false));
+                .eq(Role::getStatus, true));
         if (CollUtil.isEmpty(roles)) {
             return;
         }
@@ -99,18 +94,13 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
     }
 
     @Override
-    public void edit(Long id, ResourceSaveReq req) {
-        final Resource resource = BeanUtil.toBean(req, Resource.class);
-        resource.setId(id);
-        if (ResourceType.BUILD_PUBLISH == req.getType()) {
-            resource.setPath(String.format(DEFAULT_PATH, authenticationContext.tenantId()) + "/" + resource.getModel());
-            resource.setComponent(DEFAULT_COMPONENT);
-        }
+    public void modify(Long id, ResourceSaveReq req) {
+        final Resource resource = BeanUtilPlus.toBean(id, req, Resource.class);
         this.baseMapper.updateById(resource);
     }
 
     @Override
-    @DSTransactional
+    @DSTransactional(rollbackFor = Exception.class)
     public void delete(Long id) {
         final Long count = this.baseMapper.selectCount(Resource::getParentId, id);
         if (count != null && count > 0) {

@@ -17,34 +17,22 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.authority.domain.common.req;
+package com.wemirr.platform.authority.repository.common;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import org.hibernate.validator.constraints.Length;
+import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
+import com.wemirr.platform.authority.domain.common.entity.SysDictItem;
+import org.springframework.stereotype.Repository;
 
 /**
+ * <p>
+ * Mapper 接口
+ * 字典项
+ * </p>
+ *
  * @author Levin
+ * @since 2019-07-02
  */
-@Data
-public class DictionarySaveReq {
-    
-    @Schema(description = "字典编码(字典编码唯一)")
-    @NotBlank(message = "编码不能为空")
-    @Length(max = 64, message = "类型长度不能超过64")
-    private String code;
-    
-    @Schema(description = "名称")
-    @NotBlank(message = "名称不能为空")
-    @Length(max = 64, message = "名称长度不能超过64")
-    private String name;
-    
-    @Schema(description = "描述")
-    @Length(max = 200, message = "描述长度不能超过200")
-    private String description;
-    
-    @Schema(description = "状态")
-    private Boolean status;
+@Repository
+public interface SysDictItemMapper extends SuperMapper<SysDictItem> {
     
 }

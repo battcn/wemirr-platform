@@ -53,7 +53,7 @@ public class UserPageReq extends PageRequest {
     @Schema(description = "状态")
     private Boolean status;
     
-    @Schema(description = "状态")
+    @Schema(description = "学历")
     private String education;
     
 }

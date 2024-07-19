@@ -30,50 +30,46 @@ import java.time.Instant;
  */
 @Data
 public class ResourcePageResp {
-    
+
+    @Schema(description = "ID")
     private Long id;
-    
+
     @Schema(description = "权限编码")
     private String permission;
-    
-    /**
-     * 名称
-     */
+
     @Schema(description = "名称")
     private String label;
-    
+
+    @Schema(description = "是否只读")
     private Boolean readonly;
-    
-    /**
-     * 菜单ID
-     */
+
+    @Schema(description = "父级ID")
     private Long parentId;
-    
-    /**
-     * '资源类型（1=按钮，0=菜单）'
-     */
+
+    @Schema(description = "资源类型（2=按钮，1=菜单）'")
     private ResourceType type;
-    
+
+    @Schema(description = "排序")
     private Integer sequence;
-    
-    private String style;
-    
+
+    @Schema(description = "图标")
     private String icon;
-    
+
+    @Schema(description = "路径")
     private String path;
-    
+
+    @Schema(description = "组件")
     private String component;
-    
-    private String model;
-    
-    private String treePath;
-    /**
-     * 是否公开菜单
-     * 就是无需分配就可以访问的。所有人可见
-     */
+
+    @Schema(description = "是否全局菜单")
     private Boolean global;
+
+    @Schema(description = "状态")
     private Boolean status;
+
     @Schema(description = "创建时间")
     private Instant createdTime;
-    
+
+    @Schema(description = "描述信息")
+    private String description;
 }

@@ -44,21 +44,9 @@ import lombok.NoArgsConstructor;
 @JsonFormat
 public enum ResourceType implements DictEnum<Integer> {
 
-    /**
-     * 按钮
-     */
-    BUTTON(2, "按钮"),
-    /**
-     * 菜单
-     */
     MENU(1, "菜单"),
-    /**
-     * 三方
-     */
+    BUTTON(2, "按钮"),
     ROUTE(3, "路由"),
-    /**
-     * 三方
-     */
     BUILD_PUBLISH(5, "一键发布模板");
 
     @EnumValue

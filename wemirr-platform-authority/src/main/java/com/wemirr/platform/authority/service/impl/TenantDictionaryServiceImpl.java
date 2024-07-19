@@ -23,9 +23,9 @@ import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.authority.domain.common.entity.DictionaryItem;
+import com.wemirr.platform.authority.domain.common.entity.SysDictItem;
 import com.wemirr.platform.authority.domain.tenant.entity.TenantDictionary;
-import com.wemirr.platform.authority.repository.common.DictionaryItemMapper;
+import com.wemirr.platform.authority.repository.common.SysDictItemMapper;
 import com.wemirr.platform.authority.repository.tenant.TenantDictionaryMapper;
 import com.wemirr.platform.authority.service.TenantDictionaryService;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +47,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TenantDictionaryServiceImpl extends SuperServiceImpl<TenantDictionaryMapper, TenantDictionary> implements TenantDictionaryService {
     
-    private final DictionaryItemMapper dictionaryItemMapper;
+    private final SysDictItemMapper sysDictItemMapper;
     
     @Override
     public void create(TenantDictionary dictionary) {
@@ -70,7 +70,7 @@ public class TenantDictionaryServiceImpl extends SuperServiceImpl<TenantDictiona
             throw CheckedException.notFound("内置数据无法删除");
         }
         this.baseMapper.deleteById(id);
-        this.dictionaryItemMapper.delete(Wraps.<DictionaryItem>lbQ().eq(DictionaryItem::getDictionaryId, id));
+        this.sysDictItemMapper.delete(Wraps.<SysDictItem>lbQ().eq(SysDictItem::getDictId, id));
     }
     
     @DSTransactional
@@ -87,12 +87,12 @@ public class TenantDictionaryServiceImpl extends SuperServiceImpl<TenantDictiona
             throw CheckedException.badRequest("字典类型编码重复");
         }
         this.baseMapper.updateById(dictionary);
-        this.dictionaryItemMapper.update(DictionaryItem.builder()
+        this.sysDictItemMapper.update(SysDictItem.builder()
                 .status(dictionary.getStatus())
-                .dictionaryCode(dictionary.getCode())
+//                .dictId(dictionary.getCode())
                 .build(),
-                Wraps.<DictionaryItem>lbQ()
-                        .eq(DictionaryItem::getDictionaryId, dictionary.getId()));
+                Wraps.<SysDictItem>lbQ()
+                        .eq(SysDictItem::getDictId, dictionary.getId()));
     }
     
 }

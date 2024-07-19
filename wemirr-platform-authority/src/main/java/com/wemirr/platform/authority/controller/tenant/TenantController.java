@@ -62,9 +62,10 @@ public class TenantController {
     @PostMapping("/page")
     @Operation(summary = "租户列表 - [Levin] - [DONE]")
     @PreAuthorize("hasAuthority('tenant:page')")
-    public IPage<TenantPageResp> query(TenantPageReq req) {
+    public IPage<TenantPageResp> pageList(@RequestBody TenantPageReq req) {
         return tenantService.page(req.buildPage(), Wraps.<Tenant>lbQ()
-                .like(Tenant::getName, req.getName()).eq(Tenant::getCode, req.getCode())
+                .like(Tenant::getName, req.getName())
+                .eq(Tenant::getCode, req.getCode())
                 .eq(Tenant::getProvinceId, req.getProvinceId())
                 .eq(Tenant::getCityId, req.getCityId())
                 .eq(Tenant::getDistrictId, req.getDistrictId())

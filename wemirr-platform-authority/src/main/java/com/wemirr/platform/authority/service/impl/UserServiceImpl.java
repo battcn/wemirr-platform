@@ -22,6 +22,7 @@ package com.wemirr.platform.authority.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.commons.annotation.remote.RemoteResult;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
@@ -92,6 +93,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     }
 
     @Override
+    @RemoteResult
     public IPage<UserResp> pageList(UserPageReq req) {
         return baseMapper.findPage(req.buildPage(), Wraps.<User>lbQ()
                 .like(User::getUsername, req.getUsername())

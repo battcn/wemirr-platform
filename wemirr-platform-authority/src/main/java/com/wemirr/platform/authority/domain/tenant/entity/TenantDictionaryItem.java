@@ -46,60 +46,27 @@ import lombok.experimental.SuperBuilder;
 @TableName("t_tenant_dictionary_item")
 @Schema(name = "TenantDictionaryItem", description = "字典项")
 public class TenantDictionaryItem extends SuperEntity<Long> {
-    
-    /**
-     * 类型ID
-     */
-    @Schema(description = "类型ID")
-    @TableField("dictionary_id")
-    private Long dictionaryId;
-    
-    /**
-     * 类型ID
-     */
+
+    @Schema(description = "字典ID")
+    private Long dictId;
+
     @Schema(description = "租户ID")
-    @TableField("tenant_id")
     private Long tenantId;
-    
-    /**
-     * 编码
-     */
+
     @Schema(description = "编码")
-    private String dictionaryCode;
-    
-    /**
-     * 编码
-     */
-    @Schema(description = "编码")
-    @TableField(value = "`value`")
     private String value;
-    
-    /**
-     * 名称
-     */
+
     @Schema(description = "名称")
-    @TableField(value = "label")
     private String label;
-    
-    /**
-     * 状态
-     */
+
     @Schema(description = "状态")
-    @TableField("`status`")
     private Boolean status;
-    
-    /**
-     * 描述
-     */
+
     @Schema(description = "描述")
-    @TableField(value = "description")
     private String description;
-    
-    /**
-     * 排序
-     */
+
     @Schema(description = "排序")
     @TableField("`sequence`")
     private Integer sequence;
-    
+
 }

@@ -49,26 +49,26 @@ public class TenantDictionaryItemServiceImpl extends SuperServiceImpl<TenantDict
     private final TenantDictionaryMapper tenantDictionaryMapper;
     
     @Override
-    public void addDictionaryItem(Long dictionaryId, TenantDictionaryItem item) {
+    public void addDictionaryItem(Long dictId, TenantDictionaryItem item) {
         final long count = this.baseMapper.selectCount(Wraps.<TenantDictionaryItem>lbQ()
                 .eq(TenantDictionaryItem::getValue, item.getValue())
-                .eq(TenantDictionaryItem::getDictionaryId, dictionaryId));
+                .eq(TenantDictionaryItem::getDictId, dictId));
         if (count > 0) {
             throw CheckedException.badRequest("auth.dict.item.exists");
         }
-        final TenantDictionary dictionary = Optional.ofNullable(this.tenantDictionaryMapper.selectById(dictionaryId))
+        final TenantDictionary dictionary = Optional.ofNullable(this.tenantDictionaryMapper.selectById(dictId))
                 .orElseThrow(() -> CheckedException.notFound("auth.dict.not-exists"));
-        item.setDictionaryId(dictionaryId);
-        item.setDictionaryCode(dictionary.getCode());
+        item.setDictId(dictId);
+//        item.setDictionaryCode(dictionary.getCode());
         this.baseMapper.insert(item);
     }
     
     @Override
-    public void editDictionaryItem(Long dictionaryId, TenantDictionaryItem item) {
+    public void editDictionaryItem(Long dictId, TenantDictionaryItem item) {
         final long count = this.baseMapper.selectCount(Wraps.<TenantDictionaryItem>lbQ()
-                .eq(TenantDictionaryItem::getValue, item.getValue())
                 .ne(TenantDictionaryItem::getId, item.getId())
-                .eq(TenantDictionaryItem::getDictionaryId, dictionaryId));
+                .eq(TenantDictionaryItem::getValue, item.getValue())
+                .eq(TenantDictionaryItem::getDictId, dictId));
         if (count > 0) {
             throw CheckedException.badRequest("auth.dict.item.exists");
         }

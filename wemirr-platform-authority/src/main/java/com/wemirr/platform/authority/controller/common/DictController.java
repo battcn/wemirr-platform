@@ -19,15 +19,14 @@
 
 package com.wemirr.platform.authority.controller.common;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.entity.Dict;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.authority.domain.common.entity.Dictionary;
-import com.wemirr.platform.authority.domain.common.req.DictionaryPageReq;
-import com.wemirr.platform.authority.domain.common.req.DictionarySaveReq;
-import com.wemirr.platform.authority.service.DictionaryItemService;
-import com.wemirr.platform.authority.service.DictionaryService;
+import com.wemirr.platform.authority.domain.common.entity.SysDict;
+import com.wemirr.platform.authority.domain.common.req.DictSaveReq;
+import com.wemirr.platform.authority.domain.common.resp.SysDictResp;
+import com.wemirr.platform.authority.service.DictService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -40,8 +39,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.wemirr.platform.authority.domain.common.converts.DictionaryConverts.DICTIONARY_DTO_2_PO_CONVERTS;
-
 /**
  * 字典类型
  *
@@ -50,39 +47,43 @@ import static com.wemirr.platform.authority.domain.common.converts.DictionaryCon
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/dictionaries")
-@Tag(name = "字典类型", description = "字典类型")
+@RequestMapping("/dict")
+@Tag(name = "系统字典", description = "系统字典")
 @RequiredArgsConstructor
-public class DictionaryController {
+public class DictController {
 
-    private final DictionaryService dictionaryService;
-    private final DictionaryItemService dictionaryItemService;
+    private final DictService dictService;
 
-    @GetMapping
-    @AccessLog(description = "字典查询")
-    @Operation(summary = "查询字典 - [DONE] - [Levin]", description = "查询字典 - [DONE] - [Levin]")
-    @Parameter(name = "name", description = "名称", in = ParameterIn.QUERY)
+    @GetMapping("/list")
+    @Operation(summary = "字典列表 - [DONE] - [Levin]", description = "查询字典列表 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('sys:dict:page')")
-    public IPage<Dictionary> query(DictionaryPageReq req) {
-        return this.dictionaryService.page(req.buildPage(),
-                Wraps.<Dictionary>lbQ().eq(Dictionary::getStatus, req.getStatus()).like(Dictionary::getCode, req.getCode())
-                        .like(Dictionary::getName, req.getName()));
+    public List<SysDictResp> list() {
+        List<SysDict> list = this.dictService.list(Wraps.<SysDict>lbQ().eq(SysDict::getStatus, true));
+        return BeanUtilPlus.toBeans(list, SysDictResp.class);
     }
 
-    @PostMapping
+    @PostMapping("/refresh")
+    @AccessLog(description = "刷新字典")
+    @Operation(summary = "刷新字典 - [DONE] - [Levin]", description = "刷新字典缓存数据 - [DONE] - [Levin]")
+    @PreAuthorize("hasAuthority('sys:dict:refresh')")
+    public void refresh() {
+        this.dictService.refresh();
+    }
+
+    @PostMapping("/create")
     @AccessLog(description = "字典新增")
     @Operation(summary = "新增字典 - [DONE] - [Levin]", description = "新增字典 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('sys:dict:add')")
-    public void save(@Validated @RequestBody DictionarySaveReq req) {
-        this.dictionaryService.addDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(req));
+    public void create(@Validated @RequestBody DictSaveReq req) {
+        this.dictService.create(req);
     }
 
     @PutMapping("/{id}")
     @AccessLog(description = "字典编辑")
     @Operation(summary = "编辑字典 - [DONE] - [Levin]", description = "编辑字典 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('sys:dict:edit')")
-    public void edit(@PathVariable Long id, @Validated @RequestBody DictionarySaveReq req) {
-        this.dictionaryService.editDictionary(DICTIONARY_DTO_2_PO_CONVERTS.convert(req, id));
+    public void modify(@PathVariable Long id, @Validated @RequestBody DictSaveReq req) {
+        this.dictService.modify(id, req);
     }
 
     @DeleteMapping("/{id}")
@@ -90,20 +91,13 @@ public class DictionaryController {
     @Operation(summary = "删除字典 - [DONE] - [Levin]", description = "删除字典 - [DONE] - [Levin]")
     @PreAuthorize("hasAuthority('sys:dict:remove')")
     public void del(@PathVariable Long id) {
-        this.dictionaryService.deleteById(id);
-    }
-
-    @GetMapping("/{code}/refresh")
-    @AccessLog(description = "刷新字典")
-    @Operation(summary = "刷新字典 - [DONE] - [Levin]", description = "刷新字典 - [DONE] - [Levin]")
-    public void refresh(@PathVariable("code") String code) {
-        this.dictionaryService.refresh(code);
+        this.dictService.deleteById(id);
     }
 
     @GetMapping("/{code}/list")
-    @Operation(summary = "查询字典子项 - [DONE] - [Levin]", description = "查询字典子项,缓存10分钟,每隔 5 分钟刷新一次,为了性能利用本地JVM缓存,字典过大可以采用远程缓存")
+    @Operation(summary = "查询字典子项 - [DONE] - [Levin]", description = "查询字典子项")
     @Parameter(name = "code", description = "编码", in = ParameterIn.PATH)
     public List<Dict<String>> list(@PathVariable("code") String code) {
-        return dictionaryService.findItemByCode(code);
+        return dictService.findItemByCode(code);
     }
 }

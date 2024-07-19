@@ -35,16 +35,16 @@ public interface TenantDictionaryItemService extends SuperService<TenantDictiona
     /**
      * 添加字典项
      *
-     * @param dictionaryId 字典ID
+     * @param dictId 字典ID
      * @param item         字典项
      */
-    void addDictionaryItem(Long dictionaryId, TenantDictionaryItem item);
+    void addDictionaryItem(Long dictId, TenantDictionaryItem item);
     
     /**
      * 修改字典项
      *
-     * @param dictionaryId 字典ID
+     * @param dictId 字典ID
      * @param item         字典项
      */
-    void editDictionaryItem(Long dictionaryId, TenantDictionaryItem item);
+    void editDictionaryItem(Long dictId, TenantDictionaryItem item);
 }

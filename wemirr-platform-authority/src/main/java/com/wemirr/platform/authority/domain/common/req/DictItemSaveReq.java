@@ -19,24 +19,31 @@
 
 package com.wemirr.platform.authority.domain.common.req;
 
-import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * @author Levin
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Schema(name = "DictionaryPageReq")
-public class DictionaryPageReq extends PageRequest {
+public class DictItemSaveReq {
     
     @Schema(description = "名称")
-    private String name;
-    @Schema(description = "编码")
-    private String code;
+    @NotBlank(message = "名称不能为空")
+    @Length(max = 64, message = "名称长度不能超过{max}")
+    private String label;
+    
+    @Schema(description = "值")
+    @NotBlank(message = "值不能为空")
+    @Length(max = 64, message = "值的长度不能超过{max}")
+    private String value;
+    
     @Schema(description = "状态")
     private Boolean status;
     
+    @Schema(description = "描述")
+    @Length(max = 100, message = "值的长度不能超过{max}")
+    private String description;
 }
