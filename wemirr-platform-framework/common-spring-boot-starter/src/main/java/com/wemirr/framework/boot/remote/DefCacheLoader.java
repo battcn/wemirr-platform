@@ -28,7 +28,6 @@ import com.wemirr.framework.boot.remote.properties.RemoteProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 
-import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -41,17 +40,17 @@ import java.util.concurrent.TimeUnit;
  * @author Levin
  */
 @Slf4j
-public class DefCacheLoader extends CacheLoader<CacheLoadKeys, Map<Serializable, Object>> {
+public class DefCacheLoader extends CacheLoader<CacheLoadKeys, Map<Object, Object>> {
     
     /**
      * 侦听执行器服务
      */
     private final ListeningExecutorService backgroundRefreshPools;
     
-    public DefCacheLoader(RemoteProperties.GuavaCache guavaCache) {
+    public DefCacheLoader(RemoteProperties.LocalCache localCache) {
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("remote-cache-pool-%d").build();
         this.backgroundRefreshPools = MoreExecutors.listeningDecorator(
-                new ThreadPoolExecutor(guavaCache.getRefreshThreadPoolSize(), guavaCache.getRefreshThreadPoolSize(),
+                new ThreadPoolExecutor(localCache.getRefreshThreadPoolSize(), localCache.getRefreshThreadPoolSize(),
                         0L, TimeUnit.MILLISECONDS,
                         new LinkedBlockingQueue<>(), namedThreadFactory));
     }
@@ -63,7 +62,7 @@ public class DefCacheLoader extends CacheLoader<CacheLoadKeys, Map<Serializable,
      * @return 加载后的数据
      */
     @Override
-    public Map<Serializable, Object> load(@NonNull CacheLoadKeys type) {
+    public Map<Object, Object> load(@NonNull CacheLoadKeys type) {
         log.info("首次读取缓存: " + type);
         return type.loadMap();
     }
@@ -76,7 +75,7 @@ public class DefCacheLoader extends CacheLoader<CacheLoadKeys, Map<Serializable,
      * @return 重新加载后的数据
      */
     @Override
-    public ListenableFuture<Map<Serializable, Object>> reload(@NonNull CacheLoadKeys key, @NonNull Map<Serializable, Object> oldValue) {
+    public ListenableFuture<Map<Object, Object>> reload(@NonNull CacheLoadKeys key, @NonNull Map<Object, Object> oldValue) {
         return backgroundRefreshPools.submit(() -> load(key));
     }
 }

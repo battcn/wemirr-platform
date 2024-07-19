@@ -46,14 +46,6 @@ import static cn.hutool.core.text.CharSequenceUtil.EMPTY;
 public @interface Remote {
 
     /**
-     * 提供自动注入值的 查询类
-     * 注意： 用 @Remote(bean = "xxxServiceImpl")时，要保证当前服务有 xxxServiceImpl 类. 没这个类就要用 xxxApi  (FeignClient)
-     *
-     * @return 查询类的Spring Name
-     */
-    String beanName() default EMPTY;
-
-    /**
      * @return 查询类的Spring Bean Class
      */
     Class<?> beanClass();
@@ -64,6 +56,14 @@ public @interface Remote {
      * @return 分隔符
      */
     String rule() default EMPTY;
+
+
+    /**
+     * 分组 Key (如果有group 则说明查询需要带上 group 并且需要根据其内容分组)
+     *
+     * @return 分组 Key
+     */
+    String tag() default EMPTY;
 
     /**
      * 回显到那个字段

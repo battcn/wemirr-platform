@@ -20,6 +20,7 @@
 package com.wemirr.framework.boot.remote.configuration;
 
 import com.wemirr.framework.boot.remote.RemoteService;
+import com.wemirr.framework.boot.remote.dict.DictLoadService;
 import com.wemirr.framework.boot.remote.properties.RemoteProperties;
 import com.wemirr.framework.commons.remote.LoadService;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Map;
 
@@ -41,15 +43,21 @@ import java.util.Map;
 @Configuration
 @AllArgsConstructor
 @EnableConfigurationProperties(RemoteProperties.class)
+@ConditionalOnProperty(prefix = RemoteProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class RemoteAutoConfiguration {
-    
+
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = RemoteProperties.PREFIX, name = "aop-enabled", havingValue = "true", matchIfMissing = true)
     public RemoteResultAspect getRemoteResultAspect(RemoteService remoteService) {
         return new RemoteResultAspect(remoteService);
     }
-    
+
+    @Bean
+    @ConditionalOnMissingBean
+    public DictLoadService dictLoadService(RedisTemplate<String, Object> redisTemplate) {
+        return new DictLoadService(redisTemplate);
+    }
+
     /**
      * 回显服务
      *

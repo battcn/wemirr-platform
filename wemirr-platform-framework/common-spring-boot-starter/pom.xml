@@ -18,11 +18,12 @@
     </properties>
     
     <dependencies>
-        <!-- 暂时未集成,存在BUG -->
+        <!-- 暂时未集成,存在BUG
         <dependency>
             <groupId>com.fhs-opensource</groupId>
             <artifactId>easy-trans-spring-boot-starter</artifactId>
         </dependency>
+         -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>

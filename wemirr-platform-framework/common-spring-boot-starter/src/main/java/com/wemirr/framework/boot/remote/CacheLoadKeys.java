@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.boot.remote;
 
+import com.wemirr.framework.boot.remote.dict.DictLoadService;
 import com.wemirr.framework.commons.annotation.remote.Remote;
 import com.wemirr.framework.commons.remote.LoadService;
 import lombok.EqualsAndHashCode;
@@ -26,7 +27,6 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -38,42 +38,41 @@ import java.util.Set;
  *
  * @author Levin
  */
-@Getter
 @Slf4j
+@Getter
 @ToString
 @EqualsAndHashCode
 public class CacheLoadKeys {
-    
-    /**
-     * 执行查询任务的类
-     */
-    private final String beanName;
+
     private final Class<?> beanClass;
-    
+    private String tag;
+
     /**
      * 动态查询值
      */
-    private Set<Serializable> keys = new HashSet<>();
-    private LoadService<Serializable, Object> loadService;
-    
+    private Set<Object> keys = new HashSet<>();
+    private LoadService<Object> loadService;
+
     public CacheLoadKeys(Remote rf) {
-        this.beanName = rf.beanName();
         this.beanClass = rf.beanClass();
     }
-    
-    public CacheLoadKeys(LoadKey lk, LoadService<Serializable, Object> loadService, Set<Serializable> keys) {
-        this.beanName = lk.getBeanName();
+
+    public CacheLoadKeys(LoadKey lk, LoadService<Object> loadService, Set<Object> keys) {
         this.beanClass = lk.getBeanClass();
         this.loadService = loadService;
         this.keys = keys;
+        this.tag = lk.getTag();
     }
-    
+
     /**
      * 加载数据
      *
      * @return 查询指定接口后得到的值
      */
-    public Map<Serializable, Object> loadMap() {
+    public Map<Object, Object> loadMap() {
+        if (DictLoadService.class.isAssignableFrom(beanClass)) {
+            return loadService.findByIds(tag);
+        }
         return loadService.findByIds(keys);
     }
 }
