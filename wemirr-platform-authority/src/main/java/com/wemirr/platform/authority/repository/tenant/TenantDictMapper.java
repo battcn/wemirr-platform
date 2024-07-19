@@ -17,39 +17,23 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.authority.service;
+package com.wemirr.platform.authority.repository.tenant;
 
-import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.authority.domain.tenant.entity.TenantDictionary;
+import com.wemirr.framework.db.dynamic.annotation.TenantDS;
+import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
+import com.wemirr.platform.authority.domain.tenant.entity.TenantDict;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
- * 业务接口
+ * Mapper 接口
  * 字典类型
  * </p>
  *
  * @author Levin
  */
-public interface TenantDictionaryService extends SuperService<TenantDictionary> {
+@TenantDS
+@Repository
+public interface TenantDictMapper extends SuperMapper<TenantDict> {
     
-    /**
-     * 添加字典
-     *
-     * @param dictionary 字典信息
-     */
-    void create(TenantDictionary dictionary);
-    
-    /**
-     * 删除字典
-     *
-     * @param id id
-     */
-    void deleteById(Long id);
-    
-    /**
-     * 编辑字典
-     *
-     * @param dictionary 字典信息
-     */
-    void modify(TenantDictionary dictionary);
 }

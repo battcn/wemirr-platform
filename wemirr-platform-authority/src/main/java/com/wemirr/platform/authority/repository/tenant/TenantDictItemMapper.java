@@ -19,21 +19,19 @@
 
 package com.wemirr.platform.authority.repository.tenant;
 
-import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.platform.authority.domain.tenant.entity.TenantDictionary;
+import com.wemirr.platform.authority.domain.tenant.entity.TenantDictItem;
 import org.springframework.stereotype.Repository;
 
 /**
  * <p>
  * Mapper 接口
- * 字典类型
+ * 字典项
  * </p>
  *
  * @author Levin
  */
-@TenantDS
 @Repository
-public interface TenantDictionaryMapper extends SuperMapper<TenantDictionary> {
+public interface TenantDictItemMapper extends SuperMapper<TenantDictItem> {
     
 }

@@ -17,37 +17,49 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.authority.domain.tenant.req;
+package com.wemirr.platform.authority.domain.tenant.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
- * 业务字典
+ * <p>
+ * 租户字典
+ * </p>
  *
  * @author Levin
  */
 @Data
-@Schema(name = "TenantDictionaryReq")
-public class TenantDictionaryReq {
-    
-    @Schema(description = "编码类型(一颗树仅仅有一个统一的编码)")
-    @NotBlank(message = "编码不能为空")
-    @Length(max = 64, message = "类型长度不能超过 {max}")
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@TableName("t_tenant_dict")
+@Schema(name = "TenantDict", description = "租户字典")
+public class TenantDict extends SuperEntity<Long> {
+
+    @Schema(description = "编码")
     private String code;
-    
+
     @Schema(description = "名称")
-    @NotBlank(message = "名称不能为空")
-    @Length(max = 64, message = "名称长度不能超过 {max}")
     private String name;
-    
+
+    @TableField(value = TENANT_ID_COLUMN, fill = FieldFill.INSERT)
+    @Schema(description = "租户ID")
+    private Long tenantId;
+
     @Schema(description = "描述")
-    @Length(max = 200, message = "描述长度不能超过 {max}")
     private String description;
-    
+
     @Schema(description = "状态")
     private Boolean status;
-    
+
 }

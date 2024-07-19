@@ -17,34 +17,34 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.authority.service;
+package com.wemirr.platform.authority.domain.tenant.req;
 
-import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.authority.domain.tenant.entity.TenantDictionaryItem;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 /**
- * <p>
- * 业务接口
- * 字典项
- * </p>
+ * 业务字典
  *
  * @author Levin
  */
-public interface TenantDictionaryItemService extends SuperService<TenantDictionaryItem> {
-    
-    /**
-     * 添加字典项
-     *
-     * @param dictId 字典ID
-     * @param item         字典项
-     */
-    void addDictionaryItem(Long dictId, TenantDictionaryItem item);
-    
-    /**
-     * 修改字典项
-     *
-     * @param dictId 字典ID
-     * @param item         字典项
-     */
-    void editDictionaryItem(Long dictId, TenantDictionaryItem item);
+@Data
+@Schema(name = "TenantDictSaveReq")
+public class TenantDictSaveReq {
+
+    @Schema(description = "编码类型(一颗树仅仅有一个统一的编码)")
+    @NotBlank(message = "编码不能为空")
+    @Length(max = 64, message = "类型长度不能超过 {max}")
+    private String code;
+
+    @Schema(description = "名称")
+    @NotBlank(message = "名称不能为空")
+    @Length(max = 64, message = "名称长度不能超过 {max}")
+    private String name;
+
+    @Schema(description = "描述")
+    @Length(max = 200, message = "描述长度不能超过 {max}")
+    private String description;
+
 }

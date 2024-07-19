@@ -38,7 +38,7 @@ public class DictSaveReq {
     @Schema(description = "名称")
     @NotBlank(message = "名称不能为空")
     @Length(max = 64, message = "名称长度不能超过 {max}")
-    private String label;
+    private String name;
     
     @Schema(description = "描述")
     @Length(max = 200, message = "描述长度不能超过 {max}")

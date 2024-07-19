@@ -17,14 +17,14 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.authority.controller.common;
+package com.wemirr.platform.authority.controller.tenant;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.authority.domain.common.entity.SysDictItem;
 import com.wemirr.platform.authority.domain.common.req.DictItemPageReq;
 import com.wemirr.platform.authority.domain.common.req.DictItemSaveReq;
-import com.wemirr.platform.authority.service.DictItemService;
+import com.wemirr.platform.authority.domain.tenant.entity.TenantDictItem;
+import com.wemirr.platform.authority.service.TenantDictItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -44,11 +44,11 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "系统字典", description = "系统字典")
-@RequestMapping("/dict/{dict_id}/items")
-public class DictItemController {
+@Tag(name = "业务字典", description = "业务字典")
+@RequestMapping("/tenant_dict/{dict_id}/items")
+public class TenantDictItemController {
 
-    private final DictItemService dictItemService;
+    private final TenantDictItemService tenantDictItemService;
 
     @GetMapping
     @Operation(summary = "查询字典子项", description = "查询字典子项 - [DONE] - [Levin]")
@@ -56,16 +56,16 @@ public class DictItemController {
             @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH),
             @Parameter(name = "label", description = "名称", in = ParameterIn.QUERY)
     })
-    public Page<SysDictItem> pageList(@PathVariable("dict_id") Long dictId, DictItemPageReq req) {
-        return this.dictItemService.page(req.buildPage(), Wraps.<SysDictItem>lbQ().eq(SysDictItem::getDictId, dictId)
-                .eq(SysDictItem::getStatus, req.getStatus()).like(SysDictItem::getLabel, req.getLabel()));
+    public Page<TenantDictItem> pageList(@PathVariable("dict_id") Long dictId, DictItemPageReq req) {
+        return this.tenantDictItemService.page(req.buildPage(), Wraps.<TenantDictItem>lbQ().eq(TenantDictItem::getDictId, dictId)
+                .eq(TenantDictItem::getStatus, req.getStatus()).like(TenantDictItem::getLabel, req.getLabel()));
     }
 
     @PostMapping
     @Operation(summary = "添加字典子项", description = "添加字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH)
     public void save(@PathVariable("dict_id") Long dictId, @Validated @RequestBody DictItemSaveReq req) {
-        this.dictItemService.create(dictId, req);
+        this.tenantDictItemService.create(dictId, req);
 
     }
 
@@ -73,7 +73,7 @@ public class DictItemController {
     @Operation(summary = "编辑字典子项 - [DONE] - [Levin]", description = "编辑字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH)
     public void edit(@PathVariable("dict_id") Long dictId, @PathVariable("item_id") Long itemId, @Validated @RequestBody DictItemSaveReq req) {
-        this.dictItemService.modify(dictId, itemId, req);
+        this.tenantDictItemService.modify(dictId, itemId, req);
 
     }
 
@@ -81,7 +81,7 @@ public class DictItemController {
     @Operation(summary = "删除字典子项 - [DONE] - [Levin]", description = "删除字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH)
     public void del(@PathVariable("dict_id") Long dictId, @PathVariable("item_id") Long itemId) {
-        this.dictItemService.removeById(itemId);
+        this.tenantDictItemService.removeById(itemId);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.wemirr.platform.authority.domain.common.resp;
+package com.wemirr.platform.authority.domain.tenant.resp;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.Data;
  * @author Levin
  */
 @Data
-public class SysDictResp {
+public class TenantDictResp {
 
     @Schema(description = "ID")
     private Long key;
@@ -29,9 +29,6 @@ public class SysDictResp {
 
     @Schema(description = "状态")
     private Boolean status;
-
-    @Schema(description = "只读")
-    private Boolean readonly;
 
     @Schema(description = "描述")
     private String description;

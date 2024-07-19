@@ -47,7 +47,7 @@ import lombok.experimental.SuperBuilder;
 public class SysDict extends SuperEntity<Long> {
 
     @Schema(description = "名称")
-    private String label;
+    private String name;
 
     @Schema(description = "编码")
     private String code;

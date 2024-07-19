@@ -19,6 +19,7 @@
 
 package com.wemirr.platform.authority.domain.tenant.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
@@ -43,13 +44,17 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
 @Accessors(chain = true)
-@TableName("t_tenant_dictionary_item")
-@Schema(name = "TenantDictionaryItem", description = "字典项")
-public class TenantDictionaryItem extends SuperEntity<Long> {
+@TableName("t_tenant_dict_item")
+@Schema(name = "TenantDictItem", description = "租户字典项")
+public class TenantDictItem extends SuperEntity<Long> {
 
     @Schema(description = "字典ID")
     private Long dictId;
 
+    @Schema(description = "字典ID")
+    private String dictCode;
+
+    @TableField(value = TENANT_ID_COLUMN, fill = FieldFill.INSERT)
     @Schema(description = "租户ID")
     private Long tenantId;
 
