@@ -1,182 +1,47 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 127.0.0.1
+ Source Server         : localhost-docker
  Source Server Type    : MySQL
- Source Server Version : 80026 (8.0.26)
- Source Host           : 127.0.0.1:3306
+ Source Server Version : 80200 (8.2.0)
+ Source Host           : localhost:3306
  Source Schema         : wemirr-platform
 
  Target Server Type    : MySQL
- Target Server Version : 80026 (8.0.26)
+ Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 23/11/2023 11:11:25
+ Date: 19/07/2024 12:57:02
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for sys_dict
+-- Table structure for common_diff_log
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_dict`;
-CREATE TABLE `sys_dict` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `code` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '编码\r\n一颗树仅仅有一个统一的编码',
-  `name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '名称',
-  `description` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述',
-  `status` bit(1) DEFAULT b'1' COMMENT '状态',
-  `readonly` bit(1) DEFAULT b'0' COMMENT '内置角色',
-  `sequence` tinyint DEFAULT NULL COMMENT '排序',
-  `deleted` bit(1) DEFAULT b'0',
-  `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人名称',
-  `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人名称',
-  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1727245881201258498 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='字典类型';
+DROP TABLE IF EXISTS `common_diff_log`;
+CREATE TABLE `common_diff_log` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
+  `variables` json DEFAULT NULL COMMENT '变量信息，JSON格式',
+  `service_name` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT '服务名称',
+  `business_group` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT '业务组',
+  `business_tag` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT '业务标签',
+  `business_key` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT '业务关键字',
+  `description` text COLLATE utf8mb3_bin COMMENT '描述信息',
+  `status` int DEFAULT NULL COMMENT '状态',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  `created_by` bigint DEFAULT NULL COMMENT '创建者ID',
+  `created_name` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT '创建者名称',
+  `created_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `extra` text COLLATE utf8mb3_bin COMMENT '额外信息，JSON格式',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='通用差异日志表';
 
 -- ----------------------------
--- Records of sys_dict
+-- Records of common_diff_log
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, 'NATION', '民族', '123', b'1', b'1', 0, b'0', 0, '系统管理员', '2019-06-01 09:42:50', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (2, 'POSITION_STATUS', '在职状态', '11', b'1', b'1', 1, b'0', 0, '系统管理员', '2019-06-04 11:37:15', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (3, 'EDUCATION', '学历', '', b'1', b'1', 2, b'0', 0, '系统管理员', '2019-06-04 11:33:52', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (4, 'AREA_LEVEL', '行政区级', '', b'1', b'1', 3, b'0', 0, '系统管理员', '2020-01-20 15:12:05', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (5, 'ORG_TYPE', '机构类型', '', b'1', b'1', 4, b'0', 0, '系统管理员', '2020-08-19 15:02:57', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (6, 'SEX', '性别', '性别', b'1', b'1', 5, b'0', 0, '系统管理员', '2020-11-18 07:24:43', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (7, 'NOTICE', '消息类型', '消息类型', b'1', b'1', 6, b'0', 0, '系统管理员', '2020-11-19 02:57:22', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (8, 'STATION_TYPE', '岗位类型', NULL, b'1', b'1', 7, b'0', 0, '系统管理员', '2021-07-16 03:34:04', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (9, 'COLOR', '颜色', NULL, b'1', b'1', 8, b'0', 0, '系统管理员', '2021-07-16 04:12:21', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (10, 'INDUSTRY', '行业类型', '行业类型', b'1', b'1', 9, b'0', 0, '系统管理员', '2021-07-31 08:10:07', 0, '系统管理员', '2021-07-31 08:20:24');
-INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (11, '1231', '123', '23', b'1', b'0', 0, b'1', 1, '长风一梦8888', '2023-04-17 01:41:52', NULL, NULL, '2023-04-17 01:41:59');
-COMMIT;
-
--- ----------------------------
--- Table structure for sys_dict_item
--- ----------------------------
-DROP TABLE IF EXISTS `sys_dict_item`;
-CREATE TABLE `sys_dict_item` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `dictionary_id` bigint NOT NULL COMMENT '类型ID',
-  `dictionary_code` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '类型',
-  `value` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '编码',
-  `label` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '名称',
-  `status` bit(1) DEFAULT b'1' COMMENT '状态',
-  `color` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '颜色',
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '描述',
-  `sequence` int DEFAULT '1' COMMENT '排序',
-  `deleted` bit(1) DEFAULT b'0',
-  `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `dict_code_item_code_uniq` (`dictionary_code`,`value`) USING BTREE COMMENT '字典编码与字典项目编码联合唯一'
-) ENGINE=InnoDB AUTO_INCREMENT=1727245968195317762 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='字典项';
-
--- ----------------------------
--- Records of sys_dict_item
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, 4, 'AREA_LEVEL', 'COUNTRY', '国家', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-01-20 15:12:57', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (2, 4, 'AREA_LEVEL', 'PROVINCE', '省份', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2020-01-20 15:13:45', 1, '长风一梦', '2021-07-31 08:18:51');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (3, 4, 'AREA_LEVEL', 'CITY', '地市', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2020-01-20 15:14:16', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (4, 4, 'AREA_LEVEL', 'COUNTY', '区县', b'1', 'warning', '', 4, b'0', 0, '系统管理员', '2020-01-20 15:14:54', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (5, 5, 'ORG_TYPE', '01', '单位', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-08-19 15:03:40', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (6, 5, 'ORG_TYPE', '02', '部门', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-08-19 15:03:59', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (38, 3, 'EDUCATION', 'ZHUANKE', '专科', b'1', 'warning', '', 4, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (39, 3, 'EDUCATION', 'COLLEGE', '本科', b'1', 'warning', '', 5, b'0', 0, '系统管理员', '2019-06-04 11:36:19', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (40, 3, 'EDUCATION', 'SUOSHI', '硕士', b'1', 'warning', '', 6, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (41, 3, 'EDUCATION', 'BOSHI', '博士', b'1', 'warning', '', 7, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (42, 3, 'EDUCATION', 'BOSHIHOU', '博士后', b'1', 'warning', '', 8, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (43, 1, 'NATION', 'mz_hanz', '汉族', b'1', 'warning', '', 0, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (44, 1, 'NATION', 'mz_zz', '壮族', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (45, 1, 'NATION', 'mz_mz', '满族', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (46, 1, 'NATION', 'mz_hz', '回族', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (47, 1, 'NATION', 'mz_miaoz', '苗族', b'1', 'warning', '', 4, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (48, 1, 'NATION', 'mz_wwez', '维吾尔族', b'1', 'warning', '', 5, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (49, 1, 'NATION', 'mz_tjz', '土家族', b'1', 'warning', '', 6, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (50, 1, 'NATION', 'mz_yz', '彝族', b'1', 'warning', '', 7, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (51, 1, 'NATION', 'mz_mgz', '蒙古族', b'1', 'warning', '', 8, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (52, 1, 'NATION', 'mz_zhangz', '藏族', b'1', 'warning', '', 9, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (53, 1, 'NATION', 'mz_byz', '布依族', b'1', 'warning', '', 10, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (54, 1, 'NATION', 'mz_dz', '侗族', b'1', 'warning', '', 11, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (55, 1, 'NATION', 'mz_yaoz', '瑶族', b'1', 'warning', '', 12, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (56, 1, 'NATION', 'mz_cxz', '朝鲜族', b'1', 'warning', '', 13, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (57, 1, 'NATION', 'mz_bz', '白族', b'1', 'warning', '', 14, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (58, 1, 'NATION', 'mz_hnz', '哈尼族', b'1', 'warning', '', 15, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (59, 1, 'NATION', 'mz_hskz', '哈萨克族', b'1', 'warning', '', 16, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (60, 1, 'NATION', 'mz_lz', '黎族', b'1', 'warning', '', 17, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (61, 1, 'NATION', 'mz_daiz', '傣族', b'1', 'warning', '', 18, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (62, 1, 'NATION', 'mz_sz', '畲族', b'1', 'warning', '', 19, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (63, 1, 'NATION', 'mz_llz', '傈僳族', b'1', 'warning', '', 20, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (64, 1, 'NATION', 'mz_glz', '仡佬族', b'1', 'warning', '', 21, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (65, 1, 'NATION', 'mz_dxz', '东乡族', b'1', 'warning', '', 22, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (66, 1, 'NATION', 'mz_gsz', '高山族', b'1', 'warning', '', 23, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (67, 1, 'NATION', 'mz_lhz', '拉祜族', b'1', 'warning', '', 24, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (68, 1, 'NATION', 'mz_shuiz', '水族', b'1', 'warning', '', 25, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (69, 1, 'NATION', 'mz_wz', '佤族', b'1', 'warning', '', 26, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (70, 1, 'NATION', 'mz_nxz', '纳西族', b'1', 'warning', '', 27, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (71, 1, 'NATION', 'mz_qz', '羌族', b'1', 'warning', '', 28, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (72, 1, 'NATION', 'mz_tz', '土族', b'1', 'warning', '', 29, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (73, 1, 'NATION', 'mz_zlz', '仫佬族', b'1', 'warning', '', 30, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (74, 1, 'NATION', 'mz_xbz', '锡伯族', b'1', 'warning', '', 31, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (75, 1, 'NATION', 'mz_kehzz', '柯尔克孜族', b'1', 'warning', '', 32, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (76, 1, 'NATION', 'mz_dwz', '达斡尔族', b'1', 'warning', '', 33, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (77, 1, 'NATION', 'mz_jpz', '景颇族', b'1', 'warning', '', 34, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (78, 1, 'NATION', 'mz_mlz', '毛南族', b'1', 'warning', '', 35, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (79, 1, 'NATION', 'mz_slz', '撒拉族', b'1', 'warning', '', 36, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (80, 1, 'NATION', 'mz_tjkz', '塔吉克族', b'1', 'warning', '', 37, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (81, 1, 'NATION', 'mz_acz', '阿昌族', b'1', 'warning', '', 38, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (82, 1, 'NATION', 'mz_pmz', '普米族', b'1', 'warning', '', 39, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (83, 1, 'NATION', 'mz_ewkz', '鄂温克族', b'1', 'warning', '', 40, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (84, 1, 'NATION', 'mz_nz', '怒族', b'1', 'warning', '', 41, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (85, 1, 'NATION', 'mz_jz', '京族', b'1', 'warning', '', 42, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (86, 1, 'NATION', 'mz_jnz', '基诺族', b'1', 'warning', '', 43, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (87, 1, 'NATION', 'mz_daz', '德昂族', b'1', 'warning', '', 44, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (88, 1, 'NATION', 'mz_baz', '保安族', b'1', 'warning', '', 45, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (89, 1, 'NATION', 'mz_elsz', '俄罗斯族', b'1', 'warning', '', 46, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (90, 1, 'NATION', 'mz_ygz', '裕固族', b'1', 'warning', '', 47, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (91, 1, 'NATION', 'mz_wzbkz', '乌兹别克族', b'1', 'warning', '', 48, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (92, 1, 'NATION', 'mz_mbz', '门巴族', b'1', 'warning', '', 49, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (93, 1, 'NATION', 'mz_elcz', '鄂伦春族', b'1', 'warning', '', 50, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (94, 1, 'NATION', 'mz_dlz', '独龙族', b'1', 'warning', '', 51, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (95, 1, 'NATION', 'mz_tkez', '塔塔尔族', b'1', 'warning', '', 52, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (96, 1, 'NATION', 'mz_hzz', '赫哲族', b'1', 'warning', '', 53, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (97, 1, 'NATION', 'mz_lbz', '珞巴族', b'1', 'warning', '', 54, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (98, 1, 'NATION', 'mz_blz', '布朗族', b'1', 'warning', '', 55, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (99, 2, 'POSITION_STATUS', 'WORKING', '在职', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2019-06-04 11:38:16', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (100, 2, 'POSITION_STATUS', 'QUIT', '离职', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2019-06-04 11:38:50', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (101, 4, 'AREA_LEVEL', 'TOWNS', '乡镇', b'1', 'warning', '', 5, b'0', 0, '系统管理员', '2020-03-09 23:33:46', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (102, 3, 'EDUCATION', 'XIAOXUE', '小学', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-03-09 23:34:13', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (103, 3, 'EDUCATION', 'ZHONGXUE', '中学', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2020-03-09 23:34:32', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (104, 3, 'EDUCATION', 'GAOZHONG', '高中', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2020-03-09 23:34:40', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (105, 3, 'EDUCATION', 'QITA', '其他', b'1', 'warning', '', 20, b'0', 0, '系统管理员', '2020-03-09 23:34:54', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (106, 1, 'NATION', 'mz_qt', '其他', b'1', 'warning', '', 100, b'0', 0, '系统管理员', '2020-03-09 23:38:29', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (107, 2, 'POSITION_STATUS', 'LEAVE', '请假', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2020-03-09 23:39:30', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (108, 6, 'SEX', '1', '男', b'1', 'success', '男', 1, b'0', 0, '系统管理员', '2020-11-18 07:24:58', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (109, 6, 'SEX', '2', '女', b'1', 'error', '女', 1, b'0', 0, '系统管理员', '2020-11-18 07:25:07', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (110, 7, 'NOTICE', '0', '通知', b'1', 'success', '通知', 1, b'0', 0, '系统管理员', '2020-11-19 02:58:37', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (111, 7, 'NOTICE', '1', '消息', b'1', 'success', '消息', 1, b'0', 0, '系统管理员', '2020-11-19 02:58:55', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (112, 7, 'NOTICE', '2', '待办', b'1', 'error', '待办', 1, b'0', 0, '系统管理员', '2020-11-19 02:59:05', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (113, 8, 'STATION_TYPE', '0', '基层', b'1', 'success', '1111', 1, b'0', 0, '系统管理员', '2021-07-16 04:06:54', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (114, 9, 'COLOR', 'success', '成功', b'1', 'success', '成功', 1, b'0', 0, '系统管理员', '2021-07-16 04:12:47', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (115, 9, 'COLOR', 'warning', '警告', b'1', 'warning', '警告', 1, b'0', 0, '系统管理员', '2021-07-16 04:15:06', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (116, 9, 'COLOR', 'error', '错误', b'1', 'error', '红色', 1, b'0', 0, '系统管理员', '2021-07-16 04:16:55', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (118, 8, 'STATION_TYPE', '1', '中层', b'1', 'success', '中层', 1, b'0', 0, '系统管理员', '2021-07-16 04:59:51', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (119, 8, 'STATION_TYPE', '2', '高层', b'1', 'warning', '高层', 1, b'0', 0, '系统管理员', '2021-07-16 05:00:07', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (120, 10, 'INDUSTRY', '1', '医疗', b'1', 'success', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:08', NULL, NULL, '2021-07-31 08:20:13');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (121, 10, 'INDUSTRY', '2', '教育', b'1', 'success', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:17', NULL, NULL, '2021-07-31 08:20:14');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (122, 10, 'INDUSTRY', '3', '金融', b'1', 'success', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:28', NULL, NULL, '2021-07-31 08:20:17');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (123, 10, 'INDUSTRY', '4', '互联网', b'1', 'warning', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:40', 1, '长风一梦', '2021-07-31 08:20:17');
-INSERT INTO `sys_dict_item` (`id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (124, 10, 'INDUSTRY', '5', '电商', b'1', 'warning', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:58', 1, '长风一梦', '2021-07-31 08:20:18');
 COMMIT;
 
 -- ----------------------------
@@ -211,7 +76,7 @@ CREATE TABLE `common_generate` (
 BEGIN;
 INSERT INTO `common_generate` (`id`, `root_dir`, `springdoc`, `author`, `table_name`, `parent_package`, `module_name`, `table_prefix`, `api_url_prefix`, `logic_delete_field`, `platform_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (6, NULL, b'01', 'Levin', 't_user', 'com.wemirr.platform', 'authority', 't_', '/api/users', 'locked', 1, b'00', 0, NULL, '2020-11-06 09:34:40', 1, '长风一梦8888', '2022-06-06 05:04:37');
 INSERT INTO `common_generate` (`id`, `root_dir`, `springdoc`, `author`, `table_name`, `parent_package`, `module_name`, `table_prefix`, `api_url_prefix`, `logic_delete_field`, `platform_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (31, NULL, b'00', 'Levin', 't_user', 'com.wemirr.platform.authority', 'User', 't_', '/api/users', 'locked', 1, b'00', 2, '不告诉你', '2020-11-06 09:34:40', 2, '不告诉你', '2021-11-26 06:11:04');
-INSERT INTO `common_generate` (`id`, `root_dir`, `springdoc`, `author`, `table_name`, `parent_package`, `module_name`, `table_prefix`, `api_url_prefix`, `logic_delete_field`, `platform_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1706551921692655618, '/Users/battcn/Development/opensource/wemirr-platform/wemirr-platform-tools/target', b'00', '长风一梦8888', 'sys_dict', 'com.wemirr.platform.authority', 'common', 'common', '/api', NULL, 0, b'00', 1, '长风一梦8888', NULL, 1, '长风一梦8888', NULL);
+INSERT INTO `common_generate` (`id`, `root_dir`, `springdoc`, `author`, `table_name`, `parent_package`, `module_name`, `table_prefix`, `api_url_prefix`, `logic_delete_field`, `platform_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1706551921692655618, '/Users/battcn/Development/opensource/wemirr-platform/wemirr-platform-tools/target', b'00', '长风一梦8888', 'common_dictionary', 'com.wemirr.platform.authority', 'common', 'common', '/api', NULL, 0, b'00', 1, '长风一梦8888', NULL, 1, '长风一梦8888', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -282,7 +147,7 @@ CREATE TABLE `common_login_log` (
   `browser` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器名称',
   `os` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作系统',
   `created_by` bigint DEFAULT NULL,
-  `created_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='登录日志';
@@ -310,7 +175,7 @@ CREATE TABLE `common_opt_log` (
   `request` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '请求参数',
   `response` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '返回值',
   `message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '异常详情信息',
-  `status` bit null COMMENT '日志状态（true=正常;false=异常）',
+  `status` bit(1) DEFAULT NULL COMMENT '日志状态（true=正常;false=异常）',
   `start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
   `finish_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
   `consuming_time` bigint DEFAULT '0' COMMENT '消耗时间',
@@ -334,19 +199,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `oauth2_registered_client`;
 CREATE TABLE `oauth2_registered_client` (
-  `id` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `client_id` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `client_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `client_id_issued_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `client_secret` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `client_secret` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `client_secret_expires_at` timestamp NULL DEFAULT NULL,
-  `client_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `client_authentication_methods` varchar(1000) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `authorization_grant_types` varchar(1000) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `redirect_uris` varchar(1000) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `post_logout_redirect_uris` varchar(1000) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `scopes` varchar(1000) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `client_settings` varchar(2000) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `token_settings` varchar(2000) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `client_name` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `client_authentication_methods` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `authorization_grant_types` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `redirect_uris` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `post_logout_redirect_uris` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `scopes` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `client_settings` varchar(2000) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `token_settings` varchar(2000) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT NULL COMMENT '创建人id',
   `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
@@ -355,7 +220,7 @@ CREATE TABLE `oauth2_registered_client` (
   `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 
 -- ----------------------------
 -- Records of oauth2_registered_client
@@ -373,19 +238,217 @@ DROP TABLE IF EXISTS `sys_data_permission_resource`;
 CREATE TABLE `sys_data_permission_resource` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
   `owner_id` bigint NOT NULL COMMENT '拥有者',
-  `owner_type` varchar(30) COLLATE utf8mb4_bin NOT NULL COMMENT '拥有类型（角色，用户）',
+  `owner_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '拥有类型（角色，用户）',
   `data_id` bigint NOT NULL COMMENT '数据ID',
-  `data_type` varchar(255) COLLATE utf8mb4_bin NOT NULL COMMENT '数据类型（机构、角色、租户等等）',
+  `data_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '数据类型（机构、角色、租户等等）',
   `created_by` bigint DEFAULT NULL COMMENT '创建人id',
   `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='数据权限资源表';
+) ENGINE=InnoDB AUTO_INCREMENT=1813866396912828422 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='数据权限资源表';
 
 -- ----------------------------
 -- Records of sys_data_permission_resource
 -- ----------------------------
 BEGIN;
+INSERT INTO `sys_data_permission_resource` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `created_by`, `created_name`, `created_time`) VALUES (1813866396904439810, 1813866396828942338, 'role', 100, 'org', 1, '长风一梦000011', '2024-07-18 17:20:24');
+INSERT INTO `sys_data_permission_resource` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `created_by`, `created_name`, `created_time`) VALUES (1813866396904439811, 1813866396828942338, 'role', 10001, 'org', 1, '长风一梦000011', '2024-07-18 17:20:24');
+INSERT INTO `sys_data_permission_resource` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `created_by`, `created_name`, `created_time`) VALUES (1813866396904439812, 1813866396828942338, 'role', 10002, 'org', 1, '长风一梦000011', '2024-07-18 17:20:24');
+INSERT INTO `sys_data_permission_resource` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `created_by`, `created_name`, `created_time`) VALUES (1813866396908634114, 1813866396828942338, 'role', 10004, 'org', 1, '长风一梦000011', '2024-07-18 17:20:24');
+INSERT INTO `sys_data_permission_resource` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `created_by`, `created_name`, `created_time`) VALUES (1813866396908634115, 1813866396828942338, 'role', 10003, 'org', 1, '长风一梦000011', '2024-07-18 17:20:24');
+INSERT INTO `sys_data_permission_resource` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `created_by`, `created_name`, `created_time`) VALUES (1813866396908634116, 1813866396828942338, 'role', 10005, 'org', 1, '长风一梦000011', '2024-07-18 17:20:24');
+INSERT INTO `sys_data_permission_resource` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `created_by`, `created_name`, `created_time`) VALUES (1813866396908634117, 1813866396828942338, 'role', 10006, 'org', 1, '长风一梦000011', '2024-07-18 17:20:24');
+INSERT INTO `sys_data_permission_resource` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `created_by`, `created_name`, `created_time`) VALUES (1813866396908634118, 1813866396828942338, 'role', 10101, 'org', 1, '长风一梦000011', '2024-07-18 17:20:24');
+INSERT INTO `sys_data_permission_resource` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `created_by`, `created_name`, `created_time`) VALUES (1813866396908634119, 1813866396828942338, 'role', 10102, 'org', 1, '长风一梦000011', '2024-07-18 17:20:24');
+INSERT INTO `sys_data_permission_resource` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `created_by`, `created_name`, `created_time`) VALUES (1813866396912828418, 1813866396828942338, 'role', 10201, 'org', 1, '长风一梦000011', '2024-07-18 17:20:24');
+INSERT INTO `sys_data_permission_resource` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `created_by`, `created_name`, `created_time`) VALUES (1813866396912828419, 1813866396828942338, 'role', 10203, 'org', 1, '长风一梦000011', '2024-07-18 17:20:24');
+INSERT INTO `sys_data_permission_resource` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `created_by`, `created_name`, `created_time`) VALUES (1813866396912828420, 1813866396828942338, 'role', 10202, 'org', 1, '长风一梦000011', '2024-07-18 17:20:24');
+INSERT INTO `sys_data_permission_resource` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `created_by`, `created_name`, `created_time`) VALUES (1813866396912828421, 1813866396828942338, 'role', 10204, 'org', 1, '长风一梦000011', '2024-07-18 17:20:24');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_dict
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict`;
+CREATE TABLE `sys_dict` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '编码\r\n一颗树仅仅有一个统一的编码',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '名称',
+  `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述',
+  `status` bit(1) DEFAULT b'1' COMMENT '状态',
+  `readonly` bit(1) DEFAULT b'0' COMMENT '内置角色',
+  `sequence` tinyint DEFAULT NULL COMMENT '排序',
+  `deleted` bit(1) DEFAULT b'0',
+  `created_by` bigint DEFAULT '0' COMMENT '创建人id',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人名称',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1814139228460732419 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='字典类型';
+
+-- ----------------------------
+-- Records of sys_dict
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, 'NATION', '民族', '123', b'1', b'1', 0, b'0', 0, '系统管理员', '2019-06-01 09:42:50', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (2, 'POSITION_STATUS', '在职状态', '11', b'1', b'1', 1, b'0', 0, '系统管理员', '2019-06-04 11:37:15', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (3, 'EDUCATION', '学历', '', b'1', b'1', 2, b'0', 0, '系统管理员', '2019-06-04 11:33:52', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (4, 'AREA_LEVEL', '行政区级', '', b'1', b'1', 3, b'0', 0, '系统管理员', '2020-01-20 15:12:05', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (5, 'ORG_TYPE', '机构类型', '', b'1', b'1', 4, b'0', 0, '系统管理员', '2020-08-19 15:02:57', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (6, 'SEX', '性别', '性别', b'1', b'1', 5, b'0', 0, '系统管理员', '2020-11-18 07:24:43', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (7, 'NOTICE', '消息类型', '消息类型', b'1', b'1', 6, b'0', 0, '系统管理员', '2020-11-19 02:57:22', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (8, 'STATION_TYPE', '岗位类型', NULL, b'1', b'1', 7, b'0', 0, '系统管理员', '2021-07-16 03:34:04', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (9, 'COLOR', '颜色', NULL, b'1', b'1', 8, b'0', 0, '系统管理员', '2021-07-16 04:12:21', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (10, 'INDUSTRY', '行业类型', '行业类型', b'1', b'1', 9, b'0', 0, '系统管理员', '2021-07-31 08:10:07', 0, '系统管理员', '2021-07-31 08:20:24');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (11, '1231', '123', '23', b'1', b'0', 0, b'1', 1, '长风一梦8888', '2023-04-17 01:41:52', NULL, NULL, '2023-04-17 01:41:59');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813484534704971778, 'TEST', '审批', '12', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-17 16:03:01', 1, '长风一梦000011', '2024-07-17 09:32:24');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813526666618691585, '12312', '213123', '123123', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-17 18:50:26', 0, NULL, '2024-07-17 11:22:07');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813535391190441985, '12312', '123', '123', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-17 19:25:06', 0, NULL, '2024-07-18 01:07:12');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813535445255020546, '1231', '213', '123', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-17 19:25:19', 0, NULL, '2024-07-18 01:07:10');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813535462678159361, '333', '123', '1233', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-17 19:25:23', 0, NULL, '2024-07-17 11:25:28');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813739636711841793, '213', '123123', '123', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-18 08:56:42', 0, NULL, '2024-07-18 01:07:08');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813739876231766017, '123', '123', '123', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-18 08:57:39', 0, NULL, '2024-07-18 01:07:06');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813740025775480833, '33', '333', '333', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-18 08:58:14', 0, NULL, '2024-07-18 01:07:01');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813740399655739394, '4', '4', '4', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-18 08:59:44', 0, NULL, '2024-07-18 01:06:58');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813740641419616257, '6', '46', '5', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-18 09:00:41', 0, NULL, '2024-07-18 01:06:03');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813741721780051970, '5', '5', '5', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-18 09:04:59', 0, NULL, '2024-07-18 01:06:01');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813741814616776705, '7', '7', '7', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-18 09:05:21', 0, NULL, '2024-07-18 01:05:59');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813742767659114497, '1', '1', '1', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-18 09:09:08', 0, NULL, '2024-07-18 01:25:35');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813743858396258306, '2', '444', '444', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-18 09:13:28', 1, '长风一梦000011', '2024-07-19 03:24:43');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813744286806663170, '3', '3', '3', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-18 09:15:10', 0, NULL, '2024-07-18 01:25:40');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813744351021457410, '4', '4', '4', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-18 09:15:26', 0, NULL, '2024-07-18 01:25:38');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813744468734599170, '5', '5', '5', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-18 09:15:54', 0, NULL, '2024-07-18 01:25:36');
+INSERT INTO `sys_dict` (`id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1814139228460732418, '222', '111', '222', b'1', b'0', NULL, b'1', 1, '长风一梦000011', '2024-07-19 11:24:32', 0, NULL, '2024-07-19 03:24:41');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_dict_item
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict_item`;
+CREATE TABLE `sys_dict_item` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `dict_id` bigint NOT NULL COMMENT '类型ID',
+  `dict_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '类型',
+  `value` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '编码',
+  `label` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '名称',
+  `status` bit(1) DEFAULT b'1' COMMENT '状态',
+  `color` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '颜色',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '描述',
+  `sequence` int DEFAULT '1' COMMENT '排序',
+  `deleted` bit(1) DEFAULT b'0',
+  `created_by` bigint DEFAULT '0' COMMENT '创建人id',
+  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+  `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `dict_code_item_code_uniq` (`dict_code`,`value`) USING BTREE COMMENT '字典编码与字典项目编码联合唯一'
+) ENGINE=InnoDB AUTO_INCREMENT=1814139250375970819 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='字典项';
+
+-- ----------------------------
+-- Records of sys_dict_item
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, 4, 'AREA_LEVEL', 'COUNTRY', '国家', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-01-20 15:12:57', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (2, 4, 'AREA_LEVEL', 'PROVINCE', '省份', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2020-01-20 15:13:45', 1, '长风一梦', '2021-07-31 08:18:51');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (3, 4, 'AREA_LEVEL', 'CITY', '地市', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2020-01-20 15:14:16', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (4, 4, 'AREA_LEVEL', 'COUNTY', '区县', b'1', 'warning', '', 4, b'0', 0, '系统管理员', '2020-01-20 15:14:54', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (5, 5, 'ORG_TYPE', '01', '单位', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-08-19 15:03:40', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (6, 5, 'ORG_TYPE', '02', '部门', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-08-19 15:03:59', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (38, 3, 'EDUCATION', 'ZHUANKE', '专科', b'1', 'warning', '', 4, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (39, 3, 'EDUCATION', 'COLLEGE', '本科', b'1', 'warning', '', 5, b'0', 0, '系统管理员', '2019-06-04 11:36:19', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (40, 3, 'EDUCATION', 'SUOSHI', '硕士', b'1', 'warning', '', 6, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (41, 3, 'EDUCATION', 'BOSHI', '博士', b'1', 'warning', '', 7, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (42, 3, 'EDUCATION', 'BOSHIHOU', '博士后', b'1', 'warning', '', 8, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (43, 1, 'NATION', 'mz_hanz', '汉族', b'1', 'warning', '', 0, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (44, 1, 'NATION', 'mz_zz', '壮族', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (45, 1, 'NATION', 'mz_mz', '满族', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (46, 1, 'NATION', 'mz_hz', '回族', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (47, 1, 'NATION', 'mz_miaoz', '苗族', b'1', 'warning', '', 4, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (48, 1, 'NATION', 'mz_wwez', '维吾尔族', b'1', 'warning', '', 5, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (49, 1, 'NATION', 'mz_tjz', '土家族', b'1', 'warning', '', 6, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (50, 1, 'NATION', 'mz_yz', '彝族', b'1', 'warning', '', 7, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (51, 1, 'NATION', 'mz_mgz', '蒙古族', b'1', 'warning', '', 8, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (52, 1, 'NATION', 'mz_zhangz', '藏族', b'1', 'warning', '', 9, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (53, 1, 'NATION', 'mz_byz', '布依族', b'1', 'warning', '', 10, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (54, 1, 'NATION', 'mz_dz', '侗族', b'1', 'warning', '', 11, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (55, 1, 'NATION', 'mz_yaoz', '瑶族', b'1', 'warning', '', 12, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (56, 1, 'NATION', 'mz_cxz', '朝鲜族', b'1', 'warning', '', 13, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (57, 1, 'NATION', 'mz_bz', '白族', b'1', 'warning', '', 14, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (58, 1, 'NATION', 'mz_hnz', '哈尼族', b'1', 'warning', '', 15, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (59, 1, 'NATION', 'mz_hskz', '哈萨克族', b'1', 'warning', '', 16, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (60, 1, 'NATION', 'mz_lz', '黎族', b'1', 'warning', '', 17, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (61, 1, 'NATION', 'mz_daiz', '傣族', b'1', 'warning', '', 18, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (62, 1, 'NATION', 'mz_sz', '畲族', b'1', 'warning', '', 19, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (63, 1, 'NATION', 'mz_llz', '傈僳族', b'1', 'warning', '', 20, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (64, 1, 'NATION', 'mz_glz', '仡佬族', b'1', 'warning', '', 21, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (65, 1, 'NATION', 'mz_dxz', '东乡族', b'1', 'warning', '', 22, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (66, 1, 'NATION', 'mz_gsz', '高山族', b'1', 'warning', '', 23, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (67, 1, 'NATION', 'mz_lhz', '拉祜族', b'1', 'warning', '', 24, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (68, 1, 'NATION', 'mz_shuiz', '水族', b'1', 'warning', '', 25, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (69, 1, 'NATION', 'mz_wz', '佤族', b'1', 'warning', '', 26, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (70, 1, 'NATION', 'mz_nxz', '纳西族', b'1', 'warning', '', 27, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (71, 1, 'NATION', 'mz_qz', '羌族', b'1', 'warning', '', 28, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (72, 1, 'NATION', 'mz_tz', '土族', b'1', 'warning', '', 29, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (73, 1, 'NATION', 'mz_zlz', '仫佬族', b'1', 'warning', '', 30, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (74, 1, 'NATION', 'mz_xbz', '锡伯族', b'1', 'warning', '', 31, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (75, 1, 'NATION', 'mz_kehzz', '柯尔克孜族', b'1', 'warning', '', 32, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (76, 1, 'NATION', 'mz_dwz', '达斡尔族', b'1', 'warning', '', 33, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (77, 1, 'NATION', 'mz_jpz', '景颇族', b'1', 'warning', '', 34, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (78, 1, 'NATION', 'mz_mlz', '毛南族', b'1', 'warning', '', 35, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (79, 1, 'NATION', 'mz_slz', '撒拉族', b'1', 'warning', '', 36, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (80, 1, 'NATION', 'mz_tjkz', '塔吉克族', b'1', 'warning', '', 37, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (81, 1, 'NATION', 'mz_acz', '阿昌族', b'1', 'warning', '', 38, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (82, 1, 'NATION', 'mz_pmz', '普米族', b'1', 'warning', '', 39, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (83, 1, 'NATION', 'mz_ewkz', '鄂温克族', b'1', 'warning', '', 40, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (84, 1, 'NATION', 'mz_nz', '怒族', b'1', 'warning', '', 41, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (85, 1, 'NATION', 'mz_jz', '京族', b'1', 'warning', '', 42, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (86, 1, 'NATION', 'mz_jnz', '基诺族', b'1', 'warning', '', 43, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (87, 1, 'NATION', 'mz_daz', '德昂族', b'1', 'warning', '', 44, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (88, 1, 'NATION', 'mz_baz', '保安族', b'1', 'warning', '', 45, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (89, 1, 'NATION', 'mz_elsz', '俄罗斯族', b'1', 'warning', '', 46, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (90, 1, 'NATION', 'mz_ygz', '裕固族', b'1', 'warning', '', 47, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (91, 1, 'NATION', 'mz_wzbkz', '乌兹别克族', b'1', 'warning', '', 48, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (92, 1, 'NATION', 'mz_mbz', '门巴族', b'1', 'warning', '', 49, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (93, 1, 'NATION', 'mz_elcz', '鄂伦春族', b'1', 'warning', '', 50, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (94, 1, 'NATION', 'mz_dlz', '独龙族', b'1', 'warning', '', 51, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (95, 1, 'NATION', 'mz_tkez', '塔塔尔族', b'1', 'warning', '', 52, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (96, 1, 'NATION', 'mz_hzz', '赫哲族', b'1', 'warning', '', 53, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (97, 1, 'NATION', 'mz_lbz', '珞巴族', b'1', 'warning', '', 54, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (98, 1, 'NATION', 'mz_blz', '布朗族', b'1', 'warning', '', 55, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (99, 2, 'POSITION_STATUS', 'WORKING', '在职', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2019-06-04 11:38:16', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (100, 2, 'POSITION_STATUS', 'QUIT', '离职', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2019-06-04 11:38:50', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (101, 4, 'AREA_LEVEL', 'TOWNS', '乡镇', b'1', 'warning', '', 5, b'0', 0, '系统管理员', '2020-03-09 23:33:46', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (102, 3, 'EDUCATION', 'XIAOXUE', '小学', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-03-09 23:34:13', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (103, 3, 'EDUCATION', 'ZHONGXUE', '中学', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2020-03-09 23:34:32', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (104, 3, 'EDUCATION', 'GAOZHONG', '高中', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2020-03-09 23:34:40', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (105, 3, 'EDUCATION', 'QITA', '其他', b'1', 'warning', '', 20, b'0', 0, '系统管理员', '2020-03-09 23:34:54', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (106, 1, 'NATION', 'mz_qt', '其他', b'1', 'warning', '', 100, b'0', 0, '系统管理员', '2020-03-09 23:38:29', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (107, 2, 'POSITION_STATUS', 'LEAVE', '请假', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2020-03-09 23:39:30', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (108, 6, 'SEX', '1', '男', b'1', 'success', '男', 1, b'0', 0, '系统管理员', '2020-11-18 07:24:58', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (109, 6, 'SEX', '2', '女', b'1', 'error', '女', 1, b'0', 0, '系统管理员', '2020-11-18 07:25:07', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (110, 7, 'NOTICE', '0', '通知', b'1', 'success', '通知', 1, b'0', 0, '系统管理员', '2020-11-19 02:58:37', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (111, 7, 'NOTICE', '1', '消息', b'1', 'success', '消息', 1, b'0', 0, '系统管理员', '2020-11-19 02:58:55', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (112, 7, 'NOTICE', '2', '待办', b'1', 'error', '待办', 1, b'0', 0, '系统管理员', '2020-11-19 02:59:05', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (113, 8, 'STATION_TYPE', '0', '基层', b'1', 'success', '1111', 1, b'0', 0, '系统管理员', '2021-07-16 04:06:54', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (114, 9, 'COLOR', 'success', '成功', b'1', 'success', '成功', 1, b'0', 0, '系统管理员', '2021-07-16 04:12:47', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (115, 9, 'COLOR', 'warning', '警告', b'1', 'warning', '警告', 1, b'0', 0, '系统管理员', '2021-07-16 04:15:06', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (116, 9, 'COLOR', 'error', '错误', b'1', 'error', '红色', 1, b'0', 0, '系统管理员', '2021-07-16 04:16:55', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (118, 8, 'STATION_TYPE', '1', '中层', b'1', 'success', '中层', 1, b'0', 0, '系统管理员', '2021-07-16 04:59:51', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (119, 8, 'STATION_TYPE', '2', '高层', b'1', 'warning', '高层', 1, b'0', 0, '系统管理员', '2021-07-16 05:00:07', 0, '系统管理员', '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (120, 10, 'INDUSTRY', '1', '医疗', b'1', 'success', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:08', NULL, NULL, '2021-07-31 08:20:13');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (121, 10, 'INDUSTRY', '2', '教育', b'1', 'success', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:17', NULL, NULL, '2021-07-31 08:20:14');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (122, 10, 'INDUSTRY', '3', '金融', b'1', 'success', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:28', NULL, NULL, '2021-07-31 08:20:17');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (123, 10, 'INDUSTRY', '4', '互联网', b'1', 'warning', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:40', 1, '长风一梦', '2021-07-31 08:20:17');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (124, 10, 'INDUSTRY', '5', '电商', b'1', 'warning', '', 1, b'1', 1, '长风一梦', '2021-07-31 08:17:58', 1, '长风一梦000011', '2024-07-17 17:41:50');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813484574785740802, 1813484534704971778, 'TEST', '2', '哈哈', b'1', NULL, '', 1, b'1', 1, '长风一梦000011', '2024-07-17 16:03:10', 1, '长风一梦000011', '2024-07-17 17:25:12');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813484596059250689, 1813484534704971778, 'TEST', '3', '信息', b'1', NULL, '', 1, b'1', 1, '长风一梦000011', '2024-07-17 16:03:15', 1, '长风一梦000011', '2024-07-17 09:32:24');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813777657637232641, 1813743858396258306, '2', '123', '123', b'1', NULL, '1231', 1, b'1', 1, '长风一梦000011', '2024-07-18 11:27:47', 0, NULL, '2024-07-19 03:24:43');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813777674322173954, 1813743858396258306, '2', '12312', '312312', b'1', NULL, '123', 1, b'1', 1, '长风一梦000011', '2024-07-18 11:27:51', 1, '长风一梦000011', '2024-07-18 11:27:53');
+INSERT INTO `sys_dict_item` (`id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `description`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1814139250375970818, 1814139228460732418, '222', '33', '33', b'1', NULL, '33', 1, b'1', 1, '长风一梦000011', '2024-07-19 11:24:37', 1, '长风一梦000011', '2024-07-19 11:24:39');
 COMMIT;
 
 -- ----------------------------
@@ -399,7 +462,7 @@ CREATE TABLE `sys_org` (
   `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '简称',
   `tel` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系方式',
   `parent_id` bigint DEFAULT '0' COMMENT '父ID',
-  `tree_path` varchar(512) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '树节点路径',
+  `tree_path` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '树节点路径',
   `sequence` int DEFAULT '1' COMMENT '排序',
   `status` bit(1) DEFAULT b'1' COMMENT '状态',
   `deleted` bit(1) DEFAULT b'0',
@@ -462,7 +525,7 @@ CREATE TABLE `sys_resource` (
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `INX_STATUS` (`global`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1060204 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=1813858350924832770 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='菜单';
 
 -- ----------------------------
 -- Records of sys_resource
@@ -478,7 +541,7 @@ INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (105, '资源中心', 'resource:view', 1, '/resource', 'Layout', 20, 'carbon-group-resource', NULL, 1, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-08-03 05:47:50', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (106, '消息中心', 'message:view', 1, '/message', 'Layout', 30, 'bx-bx-message-alt-dots', NULL, 1, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-02 09:48:51', 1, '长风一梦8888', NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (120, '日志管理', 'log:view', 1, '/development/log', NULL, 20, 'radix-icons:activity-log', NULL, 1, b'1', b'0', b'0', b'1', '日志管理', b'0', NULL, NULL, '2020-11-12 04:51:38', NULL, NULL, NULL);
-INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (201, '租户管理', 'tenant:page', 2, '/platform/tenant/index', '/wemirr/platform/tenant/index', 0, 'ant-design:code-sandbox-outlined', NULL, 1, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-30 09:11:36', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (201, '租户管理', 'tenant:page', 2, '/platform/tenant/index', '/wemirr/platform/tenant/index', 0, 'ant-design:code-sandbox-outlined', NULL, 1, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-30 09:11:36', 1, '长风一梦000011', '2024-07-18 16:16:48');
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (202, '连接管理', NULL, 2, '/platform/tenant/database', '/wemirr/platform/tenant/database/index', 1, 'ant-design:database-filled', NULL, 1, b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦', '2021-08-06 09:33:09', 1, '长风一梦', NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (203, '业务数据', 'plat:view', 2, '/platform/business', 'Layout', 2, 'file-icons:config-coffeescript', NULL, 1, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2023-11-14 08:43:46', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1101, '流程设置', NULL, 11, '/bpm/setting', 'Layout', 11, 'ant-design:delivered-procedure-outlined', NULL, 1, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2022-09-09 14:55:58', 1, '长风一梦8888', NULL);
@@ -531,6 +594,9 @@ INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1010301, '添加', 'sys:station:add', 10103, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-21 09:46:49', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1010302, '编辑', 'sys:station:edit', 10103, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-21 09:47:31', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1010303, '删除', 'sys:station:remove', 10103, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-21 09:47:34', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1020101, '添加', 'sys:menu:add', 10201, '', NULL, 0, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-16 14:18:20', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1020102, '编辑', 'sys:menu:edit', 10201, '', NULL, 0, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-16 14:18:30', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1020103, '删除', 'sys:menu:remove', 10201, '', NULL, 0, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-16 14:18:38', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1020201, '添加', 'sys:role:add', 10202, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-21 09:56:38', 1, '长风一梦8888', NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1020202, '编辑', 'sys:role:edit', 10202, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-21 09:56:40', 1, '长风一梦8888', NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1020203, '删除', 'sys:role:remove', 10202, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-21 09:56:43', 1, '长风一梦8888', NULL);
@@ -539,6 +605,7 @@ INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1030101, '添加', 'sys:dict:add', 10301, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-21 09:54:12', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1030102, '编辑', 'sys:dict:edit', 10301, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-21 09:54:18', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1030103, '删除', 'sys:dict:remove', 10301, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-21 09:54:21', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1030104, '刷新缓存', 'sys:dict:refresh', 10301, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-21 09:54:21', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1030105, '添加', 'sys:site_notify:add', 10602, '', NULL, 0, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-16 14:18:20', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1030301, '添加', 'sys:i18n:add', 10303, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-21 09:54:12', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1030302, '编辑', 'sys:i18n:edit', 10303, '', NULL, 1, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', NULL, NULL, '2021-07-21 09:54:18', NULL, NULL, NULL);
@@ -546,6 +613,8 @@ INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1060201, '编辑', 'sys:site_notify:edit', 10602, '', NULL, 0, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-16 14:18:30', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1060202, '删除', 'sys:site_notify:remove', 10602, '', NULL, 0, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-16 14:18:38', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1060203, '发布', 'sys:site_notify:publish', 10602, '', NULL, 0, '', NULL, 2, b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-16 14:18:50', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813841006173405186, '123', '123', 2, '', NULL, 0, '', NULL, 2, b'1', b'0', b'0', b'1', '123213', b'1', 1, '长风一梦000011', '2024-07-18 15:39:30', 1, '长风一梦000011', '2024-07-18 16:01:16');
+INSERT INTO `sys_resource` (`id`, `label`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `style`, `type`, `status`, `readonly`, `global`, `display`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813858350924832769, '123', '123', 201, '', NULL, 0, '', NULL, 2, b'1', b'0', b'0', b'1', '123', b'1', 1, '长风一梦000011', '2024-07-18 16:48:25', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -555,29 +624,30 @@ DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `tenant_id` int DEFAULT NULL COMMENT '租户编码',
-  `code` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '角色编码',
-  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '名称',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '描述信息',
+  `code` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '角色编码',
+  `name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL DEFAULT '' COMMENT '名称',
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '描述信息',
   `scope_type` tinyint DEFAULT NULL COMMENT '数据权限范围，值越大，权限越大',
-  `locked` tinyint(1) DEFAULT '0' COMMENT '0=正常1=禁用',
+  `status` tinyint(1) DEFAULT '0' COMMENT '0=正常1=禁用',
   `super` tinyint(1) DEFAULT '0' COMMENT '0=非 1=管理员',
   `readonly` tinyint(1) DEFAULT '0' COMMENT '是否内置角色',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `created_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `last_modified_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1725059482402205699 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin COMMENT='角色';
+) ENGINE=InnoDB AUTO_INCREMENT=1813866396828942339 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='角色';
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `locked`, `super`, `readonly`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, 1, 'PLATFORM_ADMIN', '平台管理员', '平台管理员，拥有所有数据可视权', 50, 0, 1, 1, 0, '超级管理员', '2019-10-25 13:46:00', 57, NULL, '2021-07-15 06:38:17');
-INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `locked`, `super`, `readonly`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (2, 1, 'TENANT-ADMIN', '租户管理员', '租户管理员', 50, 0, 0, 1, 1, '长风一梦8888', '2022-06-07 07:52:29', 0, NULL, '2022-06-07 07:54:07');
-INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `locked`, `super`, `readonly`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1725059482402205698, 1, 'TEST', '测试权限范围', '123213', 10, 0, 0, 0, 1, '长风一梦0000', '2023-11-16 15:53:25', 0, NULL, NULL);
+INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, 1, 'PLATFORM_ADMIN', '平台管理员', '平台管理员，拥有所有数据可视权', 50, 1, 1, 1, 0, '超级管理员', '2019-10-25 13:46:00', 57, NULL, '2024-07-19 00:58:14');
+INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (2, 1, 'TENANT-ADMIN', '租户管理员', '租户管理员', 50, 1, 0, 1, 1, '长风一梦8888', '2022-06-07 07:52:29', 0, NULL, '2024-07-19 00:58:14');
+INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1725059482402205698, 1, 'TEST', '测试权限范围', '123213', 10, 1, 0, 0, 1, '长风一梦0000', '2023-11-16 15:53:25', 0, NULL, '2024-07-19 00:58:14');
+INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1813866396828942338, NULL, '123', '123', '123', 20, 1, 0, 0, 1, '长风一梦000011', '2024-07-18 17:20:24', 0, NULL, '2024-07-19 01:06:33');
 COMMIT;
 
 -- ----------------------------
@@ -665,6 +735,9 @@ INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1010
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1010301, '2021-08-10 02:31:23');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1010302, '2021-08-10 02:31:23');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1010303, '2021-08-10 02:31:23');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1020101, '2024-07-18 07:38:54');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1020102, '2024-07-18 07:38:56');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1020103, '2024-07-18 07:38:57');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1020201, '2021-08-10 02:31:23');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1020202, '2021-08-10 02:31:23');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1020203, '2021-08-10 02:31:23');
@@ -681,6 +754,7 @@ INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1030
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1030301, '2023-11-14 09:07:52');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1030302, '2023-11-14 09:07:54');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1030303, '2023-11-14 09:07:56');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1060203, '2023-12-15 06:14:10');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (2, 1, '2023-09-21 05:05:50');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (2, 20, '2023-09-21 05:05:50');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (2, 30, '2023-09-21 05:05:50');
@@ -736,12 +810,20 @@ CREATE TABLE `sys_site_message` (
   `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='站内消息';
+) ENGINE=InnoDB AUTO_INCREMENT=1735544428864069634 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='站内消息';
 
 -- ----------------------------
 -- Records of sys_site_message
 -- ----------------------------
 BEGIN;
+INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735544362195607554, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦0000', '2023-12-15 14:16:35', 0, NULL, NULL);
+INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735544362220773378, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'1', 1, '长风一梦0000', '2023-12-15 14:16:35', 1, '长风一梦0000', '2023-12-15 14:17:16');
+INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735544365437804545, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'0', 1, b'1', 1, '长风一梦0000', '2023-12-15 14:16:36', 1, '长风一梦0000', '2023-12-15 14:17:17');
+INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735544367937609729, '2', '测试待办', '<p>测试待办</p><img src=\"http://www.docmirror.cn:7070/api/upload/form/download?key=file/2021/7/15/30369909559790.png\" contenteditable=\"false\"/>', '测试待办', b'0', 1, b'1', 1, '长风一梦0000', '2023-12-15 14:16:37', 1, '长风一梦0000', '2023-12-15 14:17:12');
+INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735544422882992129, '2', '测试待办', '<p>测试待办</p><img src=\"http://www.docmirror.cn:7070/api/upload/form/download?key=file/2021/7/15/30369909559790.png\" contenteditable=\"false\"/>', '测试待办', b'0', 1, b'1', 1, '长风一梦0000', '2023-12-15 14:16:50', 1, '长风一梦0000', '2023-12-15 14:17:10');
+INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735544426183909378, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'0', 1, b'1', 1, '长风一梦0000', '2023-12-15 14:16:51', 1, '长风一梦0000', '2023-12-15 14:17:08');
+INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735544428834709505, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦0000', '2023-12-15 14:16:51', 0, NULL, NULL);
+INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735544428864069633, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'1', 1, '长风一梦0000', '2023-12-15 14:16:51', 1, '长风一梦0000', '2023-12-15 14:17:07');
 COMMIT;
 
 -- ----------------------------
@@ -772,9 +854,9 @@ CREATE TABLE `sys_site_notify` (
 -- Records of sys_site_notify
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_site_notify` (`id`, `tenant_id`, `level`, `status`, `type`, `title`, `receiver`, `content`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (2, 1, '1', 1, '1', '测试消息', '2,1', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, '管理员', '2021-07-12 11:41:31', 1, '长风一梦8888', '2021-11-16 11:06:34');
-INSERT INTO `sys_site_notify` (`id`, `tenant_id`, `level`, `status`, `type`, `title`, `receiver`, `content`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (3, 1, '0', 1, '1', '测试通知', '1', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'0', 1, '管理员', '2021-07-12 11:42:15', 1, '长风一梦8888', '2021-11-16 11:06:38');
-INSERT INTO `sys_site_notify` (`id`, `tenant_id`, `level`, `status`, `type`, `title`, `receiver`, `content`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (4, 2, '2', 1, '1', '测试待办', '1', '<p>测试待办</p><img src=\"http://www.docmirror.cn:7070/api/upload/form/download?key=file/2021/7/15/30369909559790.png\" contenteditable=\"false\"/>', '测试待办', b'0', 1, '管理员', '2021-07-12 11:42:26', 1, '长风一梦8888', '2021-11-16 11:06:38');
+INSERT INTO `sys_site_notify` (`id`, `tenant_id`, `level`, `status`, `type`, `title`, `receiver`, `content`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (2, 1, '1', 1, '1', '测试消息', '2,1', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, '管理员', '2021-07-12 11:41:31', 1, '长风一梦0000', '2023-12-15 14:16:51');
+INSERT INTO `sys_site_notify` (`id`, `tenant_id`, `level`, `status`, `type`, `title`, `receiver`, `content`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (3, 1, '0', 1, '1', '测试通知', '1', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'0', 1, '管理员', '2021-07-12 11:42:15', 1, '长风一梦0000', '2023-12-15 14:16:51');
+INSERT INTO `sys_site_notify` (`id`, `tenant_id`, `level`, `status`, `type`, `title`, `receiver`, `content`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (4, 2, '2', 1, '1', '测试待办', '1', '<p>测试待办</p><img src=\"http://www.docmirror.cn:7070/api/upload/form/download?key=file/2021/7/15/30369909559790.png\" contenteditable=\"false\"/>', '测试待办', b'0', 1, '管理员', '2021-07-12 11:42:26', 1, '长风一梦0000', '2023-12-15 14:16:50');
 COMMIT;
 
 -- ----------------------------
@@ -787,7 +869,7 @@ CREATE TABLE `sys_station` (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '名称',
   `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '编码',
   `sequence` tinyint DEFAULT NULL COMMENT '排序',
-  `org_id` bigint DEFAULT '0' COMMENT '组织ID\n#c_core_org',
+  `org_id` bigint DEFAULT '0' COMMENT '组织ID',
   `status` bit(1) DEFAULT b'1' COMMENT '状态',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '描述',
   `deleted` bit(1) DEFAULT b'0',
@@ -840,6 +922,7 @@ CREATE TABLE `sys_user_role` (
 BEGIN;
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1, 1);
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1, 2);
+INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1, 1725059482402205698);
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (2, 2);
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (8, 1);
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (10, 2);
@@ -850,7 +933,9 @@ INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (20, 2);
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (21, 2);
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (22, 2);
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (24, 2);
+INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (24, 1725059482402205698);
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1710534752819261442, 2);
+INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1710534752819261442, 1725059482402205698);
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1725059377381027842, 1725059482402205698);
 COMMIT;
 
@@ -860,24 +945,33 @@ COMMIT;
 DROP TABLE IF EXISTS `t_dynamic_datasource`;
 CREATE TABLE `t_dynamic_datasource` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '连接名称',
-  `username` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户名',
-  `password` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '密码',
-  `db_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '数据库类型',
-  `driver_class_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `host` varchar(100) null comment 'HOST',
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述信息',
+  `name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '连接名',
+  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户名',
+  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '密码',
+  `db_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '数据库类型',
+  `driver_class_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `host` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'localhost' COMMENT '数据库连接',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述信息',
   `locked` bit(1) DEFAULT b'0' COMMENT '0=正常1=禁用',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '最后修改人名称',
+  `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '最后修改人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='动态数据源';
+) ENGINE=InnoDB AUTO_INCREMENT=1735576153244049410 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='动态数据源';
 
+-- ----------------------------
+-- Records of t_dynamic_datasource
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_dynamic_datasource` (`id`, `name`, `username`, `password`, `db_type`, `driver_class_name`, `host`, `description`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, '测试专用1', 'root', '123456', 'mysql', 'com.mysql.cj.jdbc.Driver', 'localhost:3306', 'tenant-8888', b'0', b'0', NULL, NULL, '2021-08-06 13:57:40', 1, '长风一梦0000', '2023-12-15 08:24:48');
+INSERT INTO `t_dynamic_datasource` (`id`, `name`, `username`, `password`, `db_type`, `driver_class_name`, `host`, `description`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (2, '测试专用2', 'admin', '123456', 'mysql', 'com.mysql.cj.jdbc.Driver', '123123213123', NULL, b'0', b'1', 1, '长风一梦8888', '2023-02-21 01:02:51', 1, '长风一梦8888', '2023-12-15 08:24:47');
+INSERT INTO `t_dynamic_datasource` (`id`, `name`, `username`, `password`, `db_type`, `driver_class_name`, `host`, `description`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (3, '测试专用3', 'admin', '123456', 'mysql', 'com.mysql.cj.jdbc.Driver', '31231231231231', NULL, b'0', b'1', 1, '长风一梦8888', '2023-02-21 01:05:06', NULL, NULL, '2023-12-15 08:24:47');
+INSERT INTO `t_dynamic_datasource` (`id`, `name`, `username`, `password`, `db_type`, `driver_class_name`, `host`, `description`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735576153244049409, '测试专用4', '12322', '123213', 'mysql', 'com.mysql.cj.jdbc.Driver', '2131232222', '12312', b'0', b'1', 1, '长风一梦0000', '2023-12-15 16:22:55', 0, NULL, '2023-12-15 08:24:48');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for t_file
@@ -886,25 +980,25 @@ DROP TABLE IF EXISTS `t_file`;
 CREATE TABLE `t_file` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `content_type` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文件类型',
+  `content_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文件类型',
   `size` bigint DEFAULT NULL COMMENT '文件大小',
-  `location` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '登录地点',
-  `ip` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'IP',
-  `engine` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '引擎类型',
-  `engine_version` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '引擎版本',
-  `os` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作系统',
-  `bucket` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作系统',
-  `origin_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '原始名称',
-  `target_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '目标名称',
-  `mapping_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '映射地址',
-  `full_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '完整地址',
-  `extend` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '拓展字段',
+  `location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '登录地点',
+  `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'IP',
+  `engine` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '引擎类型',
+  `engine_version` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '引擎版本',
+  `os` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作系统',
+  `bucket` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作系统',
+  `origin_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '原始名称',
+  `target_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '目标名称',
+  `mapping_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '映射地址',
+  `full_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '完整地址',
+  `extend` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '拓展字段',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人名称',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `UN_TARGET_NAME` (`target_name`) USING BTREE
@@ -989,7 +1083,7 @@ BEGIN;
 INSERT INTO `t_tenant` (`id`, `code`, `name`, `type`, `status`, `alias`, `logo`, `email`, `contact_person`, `contact_phone`, `industry`, `province_id`, `province_name`, `city_id`, `city_name`, `address`, `district_id`, `district_name`, `credit_code`, `legal_person_name`, `web_site`, `description`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, '0000', '平台超级租户', 1, 1, '腾讯', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '000000@qq.com', '唐亚峰', '13002170000', '4', 440000, '广东省', 440300, '深圳市', '深圳市南山区粤海街道麻岭社区科技中一路腾讯大厦35层', 440305, '南山区', '91440300708461136T', '马化腾', 'https://cloud.battcn.com', NULL, b'0', b'0', 0, NULL, '2021-07-31 07:27:08', 1, '长风一梦', '2022-06-07 07:25:54');
 INSERT INTO `t_tenant` (`id`, `code`, `name`, `type`, `status`, `alias`, `logo`, `email`, `contact_person`, `contact_phone`, `industry`, `province_id`, `province_name`, `city_id`, `city_name`, `address`, `district_id`, `district_name`, `credit_code`, `legal_person_name`, `web_site`, `description`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (2, '2222', '小米科技有限责任公司', 1, 1, '小米', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '666666@qq.com', '雷军', '13002176666', '4', 110000, '北京市', 110100, '市辖区', '北京市海淀区西二旗中路33号院6号楼6层006号 ', 110108, '海淀区', '91110108551385082Q', '雷军', 'https://cloud.battcn.com', NULL, b'0', b'0', 0, NULL, '2021-07-31 08:14:02', 1, '长风一梦', '2022-06-07 07:24:34');
 INSERT INTO `t_tenant` (`id`, `code`, `name`, `type`, `status`, `alias`, `logo`, `email`, `contact_person`, `contact_phone`, `industry`, `province_id`, `province_name`, `city_id`, `city_name`, `address`, `district_id`, `district_name`, `credit_code`, `legal_person_name`, `web_site`, `description`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (3, '8888', '深圳腾讯科技股份有限公司', 1, 1, '腾讯', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '888888@qq.com', '马化腾', '13002178888', '4', 440000, '广东省', 440300, '深圳市', '深圳市南山区粤海街道麻岭社区科技中一路腾讯大厦35层', 440305, '南山区', '91440300708461136T', '马化腾', 'https://cloud.battcn.com', NULL, b'0', b'0', 0, NULL, '2021-07-31 07:27:08', 1, '长风一梦', '2022-06-07 07:25:25');
-INSERT INTO `t_tenant` (`id`, `code`, `name`, `type`, `status`, `alias`, `logo`, `email`, `contact_person`, `contact_phone`, `industry`, `province_id`, `province_name`, `city_id`, `city_name`, `address`, `district_id`, `district_name`, `credit_code`, `legal_person_name`, `web_site`, `description`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1722515686367961090, '3333', '测试3333', 0, 0, '测试', NULL, NULL, '测试3333', '13000000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, b'0', b'0', 1, '长风一梦0000', '2023-11-09 15:25:17', 1, '长风一梦0000', '2023-11-09 15:28:35');
+INSERT INTO `t_tenant` (`id`, `code`, `name`, `type`, `status`, `alias`, `logo`, `email`, `contact_person`, `contact_phone`, `industry`, `province_id`, `province_name`, `city_id`, `city_name`, `address`, `district_id`, `district_name`, `credit_code`, `legal_person_name`, `web_site`, `description`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1722515686367961090, '3333', '测试3333', 0, 0, '测试', NULL, '1231@163.com', '测试3333', '13000000000', NULL, 130000, NULL, 130500, NULL, '123', 130505, NULL, NULL, NULL, '123123', NULL, b'0', b'0', 1, '长风一梦0000', '2023-11-09 15:25:17', 1, '长风一梦000011', '2024-07-18 17:52:19');
 COMMIT;
 
 -- ----------------------------
@@ -1008,98 +1102,110 @@ CREATE TABLE `t_tenant_config` (
   `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='租户配置信息';
+) ENGINE=InnoDB AUTO_INCREMENT=1739834026784059395 DEFAULT CHARSET=utf8mb3 COMMENT='租户配置信息';
 
 -- ----------------------------
 -- Records of t_tenant_config
 -- ----------------------------
 BEGIN;
+INSERT INTO `t_tenant_config` (`id`, `tenant_id`, `datasource_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735576215613349889, 1722515686367961090, 1, b'1', 1, '长风一梦0000', '2023-12-15 16:23:10', 0, NULL, '2023-12-15 08:27:53');
+INSERT INTO `t_tenant_config` (`id`, `tenant_id`, `datasource_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735577406608539650, 1722515686367961090, 1, b'1', 1, '长风一梦0000', '2023-12-15 16:27:54', 0, NULL, '2023-12-15 08:28:23');
+INSERT INTO `t_tenant_config` (`id`, `tenant_id`, `datasource_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735577529853968386, 1722515686367961090, 1, b'1', 1, '长风一梦0000', '2023-12-15 16:28:23', 0, NULL, '2023-12-15 08:29:37');
+INSERT INTO `t_tenant_config` (`id`, `tenant_id`, `datasource_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735577839875960833, 1722515686367961090, 1, b'1', 1, '长风一梦0000', '2023-12-15 16:29:37', 0, NULL, '2023-12-15 08:30:20');
+INSERT INTO `t_tenant_config` (`id`, `tenant_id`, `datasource_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735578023552921601, 1722515686367961090, 1, b'1', 1, '长风一梦0000', '2023-12-15 16:30:21', 0, NULL, '2023-12-15 08:32:20');
+INSERT INTO `t_tenant_config` (`id`, `tenant_id`, `datasource_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1735578526504517633, 1722515686367961090, 1, b'1', 1, '长风一梦0000', '2023-12-15 16:32:21', 0, NULL, '2023-12-26 11:00:14');
+INSERT INTO `t_tenant_config` (`id`, `tenant_id`, `datasource_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1739834026784059394, 1722515686367961090, 1, b'0', 1, '长风一梦0000', '2023-12-27 10:22:11', 1, '长风一梦0000', '2023-12-27 10:23:24');
 COMMIT;
 
 -- ----------------------------
--- Table structure for t_tenant_dictionary
+-- Table structure for t_tenant_dict
 -- ----------------------------
-DROP TABLE IF EXISTS `t_tenant_dictionary`;
-CREATE TABLE `t_tenant_dictionary` (
+DROP TABLE IF EXISTS `t_tenant_dict`;
+CREATE TABLE `t_tenant_dict` (
   `id` bigint NOT NULL COMMENT '雪花算法ID',
   `tenant_id` bigint NOT NULL COMMENT '租户ID t_tenant.id',
-  `code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编码',
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
-  `status` bit(1) DEFAULT NULL COMMENT '状态',
-  `readonly` bit(1) DEFAULT b'0' COMMENT '内置角色',
+  `code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '编码',
+  `name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '名称',
+  `description` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '描述',
+  `status` bit(1) DEFAULT b'1' COMMENT '状态',
   `sequence` tinyint DEFAULT NULL COMMENT '排序',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `created_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人ID',
-  `last_modified_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人名称',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `_index_code_tenant_id` (`tenant_id`,`code`) USING BTREE COMMENT '组合键：tenant_id、code'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
--- Records of t_tenant_dictionary
+-- Records of t_tenant_dict
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686979951801745410, 1, 'CONTRACT_SEAL_TYPE', '用印类型', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-08-03 05:58:57', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698634189967577089, 1, 'PAYMENT_METHOD', '付款方法', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-04 09:48:44', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698634230920761345, 1, 'PAYMENT_TYPE', '付款类型', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-04 09:48:54', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699341989447098369, 1, 'TMS_PLATE_COLOR', 'TMS车牌颜色', 'TMS车牌颜色', b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-06 08:41:17', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699343995867914241, 1, 'TMS_ENERGY_TYPE', 'TMS能源类型', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-06 08:49:15', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070256599982081, 1, 'TMS_EXPENSE_ITEM', 'TMS费用项目', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-08 08:55:09', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1727250191221800961, 1, 'STATION_TYPE', '岗位类型', '12312', b'1', b'0', 0, b'0', 1, '长风一梦0000', '2023-11-22 16:58:31', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686979951801745410, 1, 'CONTRACT_SEAL_TYPE', '用印类型', NULL, b'1', 0, b'0', 1, '长风一梦8888', '2023-08-03 05:58:57', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698634189967577089, 1, 'PAYMENT_METHOD', '付款方法', NULL, b'1', 0, b'0', 1, '长风一梦8888', '2023-09-04 09:48:44', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698634230920761345, 1, 'PAYMENT_TYPE', '付款类型', NULL, b'1', 0, b'0', 1, '长风一梦8888', '2023-09-04 09:48:54', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699341989447098369, 1, 'TMS_PLATE_COLOR', 'TMS车牌颜色', 'TMS车牌颜色', b'1', 0, b'0', 1, '长风一梦8888', '2023-09-06 08:41:17', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699343995867914241, 1, 'TMS_ENERGY_TYPE', 'TMS能源类型', NULL, b'1', 0, b'0', 1, '长风一梦8888', '2023-09-06 08:49:15', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070256599982081, 1, 'TMS_EXPENSE_ITEM', 'TMS费用项目', NULL, b'1', 0, b'0', 1, '长风一梦8888', '2023-09-08 08:55:09', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1727250191221800961, 1, 'STATION_TYPE', '岗位类型', '12312', b'1', 0, b'0', 1, '长风一梦0000', '2023-11-22 16:58:31', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1814157665425752065, 1, '1', '1', '1', b'1', NULL, b'1', 1, '长风一梦000011', '2024-07-19 12:37:48', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1814158233477115905, 1, '2', '2', '2', b'1', NULL, b'1', 1, '长风一梦000011', '2024-07-19 12:40:03', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1814158999558352898, 1, '123', '123', '123', b'1', NULL, b'1', 1, '长风一梦000011', '2024-07-19 12:43:06', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1814159291137978369, 1, '3', '3', '3', b'1', NULL, b'1', 1, '长风一梦000011', '2024-07-19 12:44:15', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
--- Table structure for t_tenant_dictionary_item
+-- Table structure for t_tenant_dict_item
 -- ----------------------------
-DROP TABLE IF EXISTS `t_tenant_dictionary_item`;
-CREATE TABLE `t_tenant_dictionary_item` (
+DROP TABLE IF EXISTS `t_tenant_dict_item`;
+CREATE TABLE `t_tenant_dict_item` (
   `id` bigint NOT NULL COMMENT '雪花算法id',
   `tenant_id` bigint NOT NULL COMMENT '租户id，t_tenant.id',
-  `dictionary_id` bigint NOT NULL COMMENT '类型ID',
-  `dictionary_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '类型',
-  `value` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编码',
-  `label` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+  `dict_id` bigint NOT NULL COMMENT '类型ID',
+  `dict_code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '类型',
+  `value` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '编码',
+  `label` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '名称',
   `status` bit(1) DEFAULT b'1' COMMENT '状态',
-  `color` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '颜色',
+  `color` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '颜色',
   `deleted` bit(1) DEFAULT b'0',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '描述',
+  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '' COMMENT '描述',
   `sequence` int DEFAULT '1' COMMENT '排序',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人名称',
+  `last_modified_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
--- Records of t_tenant_dictionary_item
+-- Records of t_tenant_dict_item
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686980638975541249, 1, 1686979951801745410, 'CONTRACT_SEAL_TYPE', 'contractSeal', '合同章', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-08-03 06:01:41', 1, '长风一梦8888', '2023-08-03 06:02:47');
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686980976612818945, 1, 1686979951801745410, 'CONTRACT_SEAL_TYPE', 'officialSeal', '公章', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-08-03 06:03:02', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636487254986754, 1, 1698634230920761345, 'PAYMENT_TYPE', 'L0104', '退质保金-供应商', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:57:52', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636601793040386, 1, 1698634230920761345, 'PAYMENT_TYPE', 'L010', '预付款', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:58:19', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636716859576322, 1, 1698634230920761345, 'PAYMENT_TYPE', 'L0106', '退供应商履约保证金', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:58:47', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636805413916673, 1, 1698634189967577089, 'PAYMENT_METHOD', '1', '电汇', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:59:08', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636835654848514, 1, 1698634189967577089, 'PAYMENT_METHOD', '2', '支票', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:59:15', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342168325775361, 1, 1699341989447098369, 'TMS_PLATE_COLOR', 'RED', '红色', b'1', 'warning', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:41:59', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342201385279489, 1, 1699341989447098369, 'TMS_PLATE_COLOR', 'BLUE', '蓝色', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:42:07', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342322571304961, 1, 1699341989447098369, 'TMS_PLATE_COLOR', 'YELLOW', '黄色', b'1', 'warning', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:42:36', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699344187669241858, 1, 1699343995867914241, 'TMS_ENERGY_TYPE', '0', '汽油', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:50:01', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699344223807365121, 1, 1699343995867914241, 'TMS_ENERGY_TYPE', '1', '柴油', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:50:10', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070437932326913, 1, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'annually_inspect', '年检', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:55:52', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070499823476737, 1, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'annually_review', '年审', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:07', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070552264859650, 1, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'strong_insurance', '强险', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:20', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070643922984961, 1, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'commercial_insurance', '商业险', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:41', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070708079058946, 1, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'gps_fee', 'GPS费用', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:57', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1727250680726450178, 1, 1727250191221800961, 'STATION_TYPE', 'YB', '外包', b'1', 'success', b'0', '', 1, 1, '长风一梦0000', '2023-11-22 17:00:28', 0, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686980638975541249, 1, 1686979951801745410, 'CONTRACT_SEAL_TYPE', 'contractSeal', '合同章', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-08-03 06:01:41', 1, '长风一梦8888', '2023-08-03 06:02:47');
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686980976612818945, 1, 1686979951801745410, 'CONTRACT_SEAL_TYPE', 'officialSeal', '公章', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-08-03 06:03:02', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636487254986754, 1, 1698634230920761345, 'PAYMENT_TYPE', 'L0104', '退质保金-供应商', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:57:52', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636601793040386, 1, 1698634230920761345, 'PAYMENT_TYPE', 'L010', '预付款', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:58:19', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636716859576322, 1, 1698634230920761345, 'PAYMENT_TYPE', 'L0106', '退供应商履约保证金', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:58:47', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636805413916673, 1, 1698634189967577089, 'PAYMENT_METHOD', '1', '电汇', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:59:08', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636835654848514, 1, 1698634189967577089, 'PAYMENT_METHOD', '2', '支票', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:59:15', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342168325775361, 1, 1699341989447098369, 'TMS_PLATE_COLOR', 'RED', '红色', b'1', 'warning', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:41:59', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342201385279489, 1, 1699341989447098369, 'TMS_PLATE_COLOR', 'BLUE', '蓝色', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:42:07', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342322571304961, 1, 1699341989447098369, 'TMS_PLATE_COLOR', 'YELLOW', '黄色', b'1', 'warning', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:42:36', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699344187669241858, 1, 1699343995867914241, 'TMS_ENERGY_TYPE', '0', '汽油', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:50:01', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699344223807365121, 1, 1699343995867914241, 'TMS_ENERGY_TYPE', '1', '柴油', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:50:10', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070437932326913, 1, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'annually_inspect', '年检', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:55:52', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070499823476737, 1, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'annually_review', '年审', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:07', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070552264859650, 1, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'strong_insurance', '强险', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:20', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070643922984961, 1, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'commercial_insurance', '商业险', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:41', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070708079058946, 1, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'gps_fee', 'GPS费用', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:57', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1727250680726450178, 1, 1727250191221800961, 'STATION_TYPE', 'YB', '外包', b'1', 'success', b'0', '', 1, 1, '长风一梦0000', '2023-11-22 17:00:28', 0, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1814159340400078850, 1, 1814157665425752065, '1', '123', '123', b'1', NULL, b'1', '123123', 1, 1, '长风一梦000011', '2024-07-19 12:44:27', 1, '长风一梦000011', '2024-07-19 12:44:32');
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1814159354069315585, 1, 1814157665425752065, '1', '22', '22', b'1', NULL, b'1', '22', 1, 1, '长风一梦000011', '2024-07-19 12:44:30', 1, '长风一梦000011', '2024-07-19 12:44:34');
 COMMIT;
 
 -- ----------------------------
@@ -1109,29 +1215,29 @@ DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `username` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '账号',
-  `password` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '密码',
-  `nick_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '昵称',
+  `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '账号',
+  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '密码',
+  `nick_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '昵称',
   `org_id` bigint DEFAULT NULL COMMENT '组织ID',
   `station_id` bigint DEFAULT NULL COMMENT '岗位ID',
   `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否内置',
-  `email` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
-  `mobile` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '手机',
-  `id_card` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '身份证',
-  `sex` tinyint DEFAULT '1' COMMENT '性别\n#Sex{W:女;M:男;N:未知}',
+  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
+  `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '手机',
+  `id_card` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '身份证',
+  `sex` tinyint DEFAULT '1' COMMENT '性别',
   `status` bit(1) DEFAULT b'0' COMMENT '状态 \n1启用 0禁用',
-  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '头像',
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '头像',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述',
   `nation` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '民族',
   `education` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '学历',
   `position_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '职位状态',
   `birthday` date DEFAULT NULL COMMENT '生日',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人名称',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `UN_ACCOUNT_TENANT` (`username`,`tenant_id`) USING BTREE COMMENT '账号唯一约束'
@@ -1141,11 +1247,11 @@ CREATE TABLE `t_user` (
 -- Records of t_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `station_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '长风一梦0000', 100, 100, b'0', '1837307557@qq.com', '13002171111', '111111111', 1, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '个人介绍', 'mz_daiz', 'SUOSHI', 'QUIT', '2023-10-14', b'0', 0, NULL, '2020-10-16 03:25:36', 1, '长风一梦0000', NULL);
+INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `station_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '长风一梦000011', 100, 100, b'0', '1837307557@qq.com', '13002171111', '111111111', 1, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '个人介绍', 'mz_daiz', 'SUOSHI', 'QUIT', '2023-10-14', b'0', 0, NULL, '2020-10-16 03:25:36', 1, '长风一梦0000', '2024-06-14 17:23:36');
 INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `station_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (23, 1, '1234', '{bcrypt}$2a$10$j1U0rIRl8ODzc2j5rkLx8OSvjjEZ.cJ/Xe8DzkqL2jgAyX2c3x.4C', '444', NULL, NULL, b'0', NULL, '13002171921', NULL, 1, b'0', '', NULL, NULL, NULL, NULL, NULL, b'1', 1, '长风一梦8888', '2022-12-04 08:05:29', NULL, NULL, '2023-11-16 06:37:05');
 INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `station_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (24, 1, 'admin2', '{bcrypt}$2a$10$ieDPTa5Awa8Kq48BzRuBuurU8.4AvUYUOX1RmRxxbccf56vUX/wbC', '仨是多3', 100, 100, b'0', 'em@163.com', '13002171921', NULL, 1, b'1', '', NULL, 'mz_daiz', 'XIAOXUE', 'QUIT', NULL, b'0', 1, '长风一梦8888', '2023-02-21 01:17:43', 1, '长风一梦8888', NULL);
 INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `station_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1710534752819261442, 2, 'admin', '{bcrypt}$2a$10$VjkzPHKfMoN0ZNLJSl.PkOWx9LVA7BqLmcI6sgyvzpe5D1INtm8xe', '雷军', NULL, NULL, b'0', NULL, '13002176666', NULL, 1, b'1', '', NULL, NULL, NULL, NULL, NULL, b'0', 1, '长风一梦8888', NULL, 0, NULL, NULL);
-INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `station_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1725059377381027842, 1, 'admin3', '{bcrypt}$2a$10$oaKlJc26SNFT4obD4B0aOOil12YtKH7/yyayzhbGrLrWyAgc.X.Ji', 'admin3', 10001, 104, b'0', NULL, '13002171933', NULL, 1, b'1', '', NULL, NULL, NULL, 'QUIT', NULL, b'0', 1, '长风一梦0000', '2023-11-16 15:53:00', 0, NULL, '2023-11-16 07:55:24');
+INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `station_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1725059377381027842, 1, 'admin3', '{bcrypt}$2a$10$oaKlJc26SNFT4obD4B0aOOil12YtKH7/yyayzhbGrLrWyAgc.X.Ji', 'admin3', 10001, 104, b'0', '3333@163.com', '13002171934', NULL, 2, b'0', '', NULL, NULL, NULL, 'QUIT', NULL, b'0', 1, '长风一梦0000', '2023-11-16 15:53:00', 1, '长风一梦000011', '2024-07-19 01:06:45');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

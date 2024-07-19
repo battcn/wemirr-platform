@@ -4,21 +4,21 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict`;
 CREATE TABLE `sys_dict` (
-                                     `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-                                     `code` varchar(64) NOT NULL COMMENT '编码\r\n一颗树仅仅有一个统一的编码',
-                                     `name` varchar(64) NOT NULL COMMENT '名称',
-                                     `description` varchar(200) DEFAULT NULL COMMENT '描述',
-                                     `status` bit(1) DEFAULT b'1' COMMENT '状态',
-                                     `readonly` bit(1) DEFAULT b'0' COMMENT '内置角色',
-                                     `sequence` tinyint DEFAULT NULL COMMENT '排序',
-                                     `deleted` bit(1) DEFAULT b'0',
-                                     `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-                                     `created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-                                     `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                     `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-                                     `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-                                     `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                                     PRIMARY KEY (`id`) USING BTREE
+ `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+ `code` varchar(64) NOT NULL COMMENT '编码\r\n一颗树仅仅有一个统一的编码',
+ `name` varchar(64) NOT NULL COMMENT '名称',
+ `description` varchar(200) DEFAULT NULL COMMENT '描述',
+ `status` bit(1) DEFAULT b'1' COMMENT '状态',
+ `readonly` bit(1) DEFAULT b'0' COMMENT '内置角色',
+ `sequence` tinyint DEFAULT NULL COMMENT '排序',
+ `deleted` bit(1) DEFAULT b'0',
+ `created_by` bigint DEFAULT '0' COMMENT '创建人id',
+ `created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
+ `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+ `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+ `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
+ `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+ PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=11  COMMENT='字典类型';
 
 -- ----------------------------
@@ -44,24 +44,24 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict_item`;
 CREATE TABLE `sys_dict_item` (
-                                          `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-                                          `dictionary_id` bigint NOT NULL COMMENT '类型ID',
-                                          `dictionary_code` varchar(64) NOT NULL COMMENT '类型',
-                                          `value` varchar(64) NOT NULL DEFAULT '' COMMENT '编码',
-                                          `label` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
-                                          `status` bit(1) DEFAULT b'1' COMMENT '状态',
-                                          `color` varchar(255) DEFAULT NULL COMMENT '颜色',
-                                          `description` varchar(255) DEFAULT '' COMMENT '描述',
-                                          `sequence` int DEFAULT '1' COMMENT '排序',
-                                          `deleted` bit(1) DEFAULT b'0',
-                                          `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-                                          `created_name` varchar(255) DEFAULT NULL,
-                                          `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                          `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-                                          `last_modified_name` varchar(255) DEFAULT NULL,
-                                          `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                                          PRIMARY KEY (`id`) USING BTREE,
-                                          KEY `dict_code_item_code_uniq` (`dictionary_code`,`value`) USING BTREE COMMENT '字典编码与字典项目编码联合唯一'
+      `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+      `dict_id` bigint NOT NULL COMMENT '类型ID',
+      `dict_code` varchar(64) NOT NULL COMMENT '类型',
+      `value` varchar(64) NOT NULL DEFAULT '' COMMENT '编码',
+      `label` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
+      `status` bit(1) DEFAULT b'1' COMMENT '状态',
+      `color` varchar(255) DEFAULT NULL COMMENT '颜色',
+      `description` varchar(255) DEFAULT '' COMMENT '描述',
+      `sequence` int DEFAULT '1' COMMENT '排序',
+      `deleted` bit(1) DEFAULT b'0',
+      `created_by` bigint DEFAULT '0' COMMENT '创建人id',
+      `created_name` varchar(255) DEFAULT NULL,
+      `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+      `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+      `last_modified_name` varchar(255) DEFAULT NULL,
+      `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+      PRIMARY KEY (`id`) USING BTREE,
+      KEY `dict_code_item_code_uniq` (`dict_code`,`value`) USING BTREE COMMENT '字典编码与字典项目编码联合唯一'
 ) ENGINE=InnoDB AUTO_INCREMENT=125  COMMENT='字典项';
 
 -- ----------------------------
@@ -164,50 +164,50 @@ COMMIT;
 
 DROP TABLE IF EXISTS `common_login_log`;
 CREATE TABLE `common_login_log` (
-    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `user_id` bigint DEFAULT NULL COMMENT '登录人ID',
-    `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-    `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录IP',
-    `location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录地点',
-    `client_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人客户端ID',
-    `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人姓名',
-    `principal` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人账号',
-    `platform` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '平台',
-    `engine` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '引擎类型',
-    `browser` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器名称',
-    `os` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作系统',
-    `created_by` bigint DEFAULT NULL,
-    `created_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    PRIMARY KEY (`id`) USING BTREE
+`id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+`user_id` bigint DEFAULT NULL COMMENT '登录人ID',
+`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+`ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录IP',
+`location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录地点',
+`client_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人客户端ID',
+`name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人姓名',
+`principal` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人账号',
+`platform` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '平台',
+`engine` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '引擎类型',
+`browser` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器名称',
+`os` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作系统',
+`created_by` bigint DEFAULT NULL,
+`created_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='登录日志';
 
 
 DROP TABLE IF EXISTS `common_opt_log`;
 CREATE TABLE `common_opt_log` (
-      `id` bigint NOT NULL AUTO_INCREMENT,
-      `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-      `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作IP',
-      `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '地址',
-      `trace` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '日志链路追踪id日志标志',
-      `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作描述',
-      `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '类路径',
-      `uri` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '请求地址',
-      `http_method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'GET' COMMENT '请求类型\n#HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}',
-      `request` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '请求参数',
-      `response` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '返回值',
-      `message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '异常详情信息',
-      `status` bit null COMMENT '日志状态（true=正常;false=异常）',
-      `start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
-      `finish_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
-      `consuming_time` bigint DEFAULT '0' COMMENT '消耗时间',
-      `browser` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
-      `os` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
-      `engine` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
-      `platform` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
-      `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-      `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作人',
-      PRIMARY KEY (`id`) USING BTREE
+`id` bigint NOT NULL AUTO_INCREMENT,
+`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+`ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作IP',
+`location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '地址',
+`trace` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '日志链路追踪id日志标志',
+`description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作描述',
+`action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '类路径',
+`uri` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '请求地址',
+`http_method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'GET' COMMENT '请求类型\n#HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}',
+`request` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '请求参数',
+`response` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '返回值',
+`message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '异常详情信息',
+`status` bit null COMMENT '日志状态（true=正常;false=异常）',
+`start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
+`finish_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
+`consuming_time` bigint DEFAULT '0' COMMENT '消耗时间',
+`browser` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
+`os` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
+`engine` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
+`platform` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
+`created_by` bigint DEFAULT '0' COMMENT '创建人id',
+`created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作人',
+PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统日志';
 
 
@@ -216,24 +216,24 @@ CREATE TABLE `common_opt_log` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_org`;
 CREATE TABLE `sys_org` (
-   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-   `label` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
-   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-   `alias` varchar(255) DEFAULT '' COMMENT '简称',
-   `tel` varchar(255) DEFAULT NULL COMMENT '联系方式',
-   `tree_path` varchar(255) DEFAULT ',' COMMENT '所有父级ID',
-   `parent_id` bigint DEFAULT '0' COMMENT '父ID',
-   `sequence` int DEFAULT '1' COMMENT '排序',
-   `status` bit(1) DEFAULT b'1' COMMENT '状态',
-   `description` varchar(255) DEFAULT '' COMMENT '描述',
-   `deleted` bit(1) DEFAULT b'0',
-   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-   `created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-   `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-   PRIMARY KEY (`id`)
+`id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+`label` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+`alias` varchar(255) DEFAULT '' COMMENT '简称',
+`tel` varchar(255) DEFAULT NULL COMMENT '联系方式',
+`tree_path` varchar(255) DEFAULT ',' COMMENT '所有父级ID',
+`parent_id` bigint DEFAULT '0' COMMENT '父ID',
+`sequence` int DEFAULT '1' COMMENT '排序',
+`status` bit(1) DEFAULT b'1' COMMENT '状态',
+`description` varchar(255) DEFAULT '' COMMENT '描述',
+`deleted` bit(1) DEFAULT b'0',
+`created_by` bigint DEFAULT '0' COMMENT '创建人id',
+`created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
+`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+`last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
+`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1  COMMENT='组织';
 
 -- ----------------------------
@@ -248,31 +248,31 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_resource`;
 CREATE TABLE `sys_resource` (
-    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `label` varchar(100) NOT NULL DEFAULT '' COMMENT '名称',
-    `tree_path` varchar(500) DEFAULT ',' COMMENT '该节点的所有父节点',
-    `permission` varchar(255) DEFAULT NULL COMMENT '权限',
-    `parent_id` bigint DEFAULT '0' COMMENT '父级菜单ID',
-    `path` varchar(255) DEFAULT '' COMMENT '路径',
-    `component` varchar(255) DEFAULT NULL COMMENT '组件',
-    `sequence` int DEFAULT '1' COMMENT '排序',
-    `icon` varchar(255) DEFAULT '' COMMENT '菜单图标',
-    `style` varchar(255) DEFAULT NULL COMMENT '样式',
-    `type` tinyint DEFAULT '1' COMMENT '类型（1=菜单;2=按钮）',
-    `status` bit(1) DEFAULT b'1' COMMENT '1=启用;0=禁用',
-    `readonly` bit(1) DEFAULT b'0' COMMENT '内置菜单（0=否;1=是）',
-    `global` bit(1) DEFAULT b'0' COMMENT '公共资源\nTrue是无需分配所有人就可以访问的',
-    `display` bit(1) DEFAULT b'1' COMMENT '0=隐藏;1=显示',
-    `description` varchar(200) DEFAULT '' COMMENT '描述',
-    `deleted` bit(1) DEFAULT b'0',
-    `created_by` bigint DEFAULT NULL COMMENT '创建人id',
-    `created_name` varchar(255) DEFAULT NULL COMMENT '创建人名称',
-    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `last_modified_by` bigint DEFAULT NULL COMMENT '更新人id',
-    `last_modified_name` varchar(255) DEFAULT NULL COMMENT '更新人名称',
-    `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
-    PRIMARY KEY (`id`) USING BTREE,
-    KEY `INX_STATUS` (`global`) USING BTREE
+`id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+`label` varchar(100) NOT NULL DEFAULT '' COMMENT '名称',
+`tree_path` varchar(500) DEFAULT ',' COMMENT '该节点的所有父节点',
+`permission` varchar(255) DEFAULT NULL COMMENT '权限',
+`parent_id` bigint DEFAULT '0' COMMENT '父级菜单ID',
+`path` varchar(255) DEFAULT '' COMMENT '路径',
+`component` varchar(255) DEFAULT NULL COMMENT '组件',
+`sequence` int DEFAULT '1' COMMENT '排序',
+`icon` varchar(255) DEFAULT '' COMMENT '菜单图标',
+`style` varchar(255) DEFAULT NULL COMMENT '样式',
+`type` tinyint DEFAULT '1' COMMENT '类型（1=菜单;2=按钮）',
+`status` bit(1) DEFAULT b'1' COMMENT '1=启用;0=禁用',
+`readonly` bit(1) DEFAULT b'0' COMMENT '内置菜单（0=否;1=是）',
+`global` bit(1) DEFAULT b'0' COMMENT '公共资源\nTrue是无需分配所有人就可以访问的',
+`display` bit(1) DEFAULT b'1' COMMENT '0=隐藏;1=显示',
+`description` varchar(200) DEFAULT '' COMMENT '描述',
+`deleted` bit(1) DEFAULT b'0',
+`created_by` bigint DEFAULT NULL COMMENT '创建人id',
+`created_name` varchar(255) DEFAULT NULL COMMENT '创建人名称',
+`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_modified_by` bigint DEFAULT NULL COMMENT '更新人id',
+`last_modified_name` varchar(255) DEFAULT NULL COMMENT '更新人名称',
+`last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
+PRIMARY KEY (`id`) USING BTREE,
+KEY `INX_STATUS` (`global`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1030104  ROW_FORMAT=DYNAMIC COMMENT='菜单';
 
 -- ----------------------------
@@ -322,30 +322,30 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
-                            `id` bigint NOT NULL AUTO_INCREMENT,
-                            `tenant_id` bigint DEFAULT NULL COMMENT '租户编码',
-                            `code` varchar(30) DEFAULT NULL COMMENT '角色编码',
-                            `name` varchar(30) NOT NULL DEFAULT '' COMMENT '名称',
-                            `description` varchar(255) DEFAULT NULL COMMENT '描述信息',
-                            `scope_type` tinyint DEFAULT NULL COMMENT '数据权限范围，值越大，权限越大',
-                            `locked` tinyint(1) DEFAULT '0' COMMENT '0=正常1=禁用',
-                            `super` tinyint(1) DEFAULT '0' COMMENT '0=非 1=管理员',
-                            `readonly` tinyint(1) DEFAULT '0' COMMENT '是否内置角色',
-                            `deleted` bit(1) DEFAULT b'0',
-                            `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-                            `created_name` varchar(255) DEFAULT NULL,
-                            `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                            `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-                            `last_modified_name` varchar(255) DEFAULT NULL,
-                            `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                            PRIMARY KEY (`id`) USING BTREE
+`id` bigint NOT NULL AUTO_INCREMENT,
+`tenant_id` bigint DEFAULT NULL COMMENT '租户编码',
+`code` varchar(30) DEFAULT NULL COMMENT '角色编码',
+`name` varchar(30) NOT NULL DEFAULT '' COMMENT '名称',
+`description` varchar(255) DEFAULT NULL COMMENT '描述信息',
+`scope_type` tinyint DEFAULT NULL COMMENT '数据权限范围，值越大，权限越大',
+`status` tinyint(1) DEFAULT '0' COMMENT '1=正常 0=禁用',
+`super` tinyint(1) DEFAULT '0' COMMENT '0=非 1=管理员',
+`readonly` tinyint(1) DEFAULT '0' COMMENT '是否内置角色',
+`deleted` bit(1) DEFAULT b'0',
+`created_by` bigint DEFAULT '0' COMMENT '创建人id',
+`created_name` varchar(255) DEFAULT NULL,
+`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+`last_modified_name` varchar(255) DEFAULT NULL,
+`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3  ROW_FORMAT=DYNAMIC COMMENT='角色';
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` VALUES (1, ${tenant_id}, 'TENANT_ADMIN', '租户管理员', '租户管理员，拥有所有数据可视权', 50, 0, 1, 1, NULL, 0, '租户管理员', '2019-10-25 13:46:00', 57, NULL, '2021-07-15 06:38:17');
+INSERT INTO `sys_role` VALUES (1, ${tenant_id}, 'TENANT_ADMIN', '租户管理员', '租户管理员，拥有所有数据可视权', 50, 1, 1, 1, NULL, 0, '租户管理员', now(), 57, NULL, now());
 COMMIT;
 
 -- ----------------------------
@@ -353,9 +353,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_org`;
 CREATE TABLE `sys_role_org` (
-                                `role_id` bigint NOT NULL COMMENT '角色ID',
-                                `org_id` bigint NOT NULL COMMENT '组织ID',
-                                UNIQUE KEY `role_id` (`role_id`,`org_id`) USING BTREE
+`role_id` bigint NOT NULL COMMENT '角色ID',
+`org_id` bigint NOT NULL COMMENT '组织ID',
+UNIQUE KEY `role_id` (`role_id`,`org_id`) USING BTREE
 ) ENGINE=InnoDB  COMMENT='用户角色表';
 
 -- ----------------------------
@@ -369,10 +369,10 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_res`;
 CREATE TABLE `sys_role_res` (
-                                `role_id` bigint NOT NULL COMMENT '角色ID',
-                                `res_id` bigint NOT NULL COMMENT '菜单ID',
-                                `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                UNIQUE KEY `idx_role_res` (`role_id`,`res_id`) USING BTREE
+`role_id` bigint NOT NULL COMMENT '角色ID',
+`res_id` bigint NOT NULL COMMENT '菜单ID',
+`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+UNIQUE KEY `idx_role_res` (`role_id`,`res_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='角色权限表';
 
 -- ----------------------------
@@ -419,23 +419,23 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_station`;
 CREATE TABLE `sys_station` (
-                               `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-                               `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-                               `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
-                               `code` varchar(255) DEFAULT NULL COMMENT '编码',
-                               `type` tinyint DEFAULT NULL COMMENT '类型',
-                               `sequence` tinyint DEFAULT NULL COMMENT '排序',
-                               `org_id` bigint DEFAULT '0' COMMENT '组织ID\n#c_core_org',
-                               `status` bit(1) DEFAULT b'1' COMMENT '状态',
-                               `description` varchar(255) DEFAULT '' COMMENT '描述',
-                               `deleted` bit(1) DEFAULT b'0',
-                               `created_time` datetime DEFAULT CURRENT_TIMESTAMP,
-                               `created_name` varchar(255) DEFAULT NULL,
-                               `created_by` bigint DEFAULT NULL,
-                               `last_modified_by` bigint DEFAULT NULL,
-                               `last_modified_name` varchar(255) DEFAULT NULL,
-                               `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-                               PRIMARY KEY (`id`) USING BTREE
+`id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+`name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+`code` varchar(255) DEFAULT NULL COMMENT '编码',
+`type` tinyint DEFAULT NULL COMMENT '类型',
+`sequence` tinyint DEFAULT NULL COMMENT '排序',
+`org_id` bigint DEFAULT '0' COMMENT '组织ID',
+`status` bit(1) DEFAULT b'1' COMMENT '状态',
+`description` varchar(255) DEFAULT '' COMMENT '描述',
+`deleted` bit(1) DEFAULT b'0',
+`created_time` datetime DEFAULT CURRENT_TIMESTAMP,
+`created_name` varchar(255) DEFAULT NULL,
+`created_by` bigint DEFAULT NULL,
+`last_modified_by` bigint DEFAULT NULL,
+`last_modified_name` varchar(255) DEFAULT NULL,
+`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=10129  COMMENT='岗位';
 
 -- ----------------------------
@@ -443,21 +443,21 @@ CREATE TABLE `sys_station` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_site_message`;
 CREATE TABLE `sys_site_message` (
-    `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-    `level` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息级别',
-    `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
-    `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-    `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
-    `mark` bit(1) DEFAULT b'0' COMMENT '状态（0=未读 1=已读）',
-    `receive_id` bigint DEFAULT NULL COMMENT '接收人ID',
-    `deleted` bit(1) DEFAULT b'0',
-    `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-    `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-    `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-    `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY (`id`) USING BTREE
+`id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+`level` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息级别',
+`title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
+`content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+`description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
+`mark` bit(1) DEFAULT b'0' COMMENT '状态（0=未读 1=已读）',
+`receive_id` bigint DEFAULT NULL COMMENT '接收人ID',
+`deleted` bit(1) DEFAULT b'0',
+`created_by` bigint DEFAULT '0' COMMENT '创建人id',
+`created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+`last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='站内消息';
 
 
@@ -466,23 +466,23 @@ CREATE TABLE `sys_site_message` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_site_notify`;
 CREATE TABLE `sys_site_notify` (
-   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-   `level` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息级别',
-   `status` tinyint(1) DEFAULT NULL COMMENT '0=为发布;1=已发布',
-   `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '编码',
-   `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
-   `receiver` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '接受者ID',
-   `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-   `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
-   `deleted` bit(1) DEFAULT b'0',
-   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-   `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-   `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-   PRIMARY KEY (`id`) USING BTREE
+`id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+`level` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息级别',
+`status` tinyint(1) DEFAULT NULL COMMENT '0=为发布;1=已发布',
+`type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '编码',
+`title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
+`receiver` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '接受者ID',
+`content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+`description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
+`deleted` bit(1) DEFAULT b'0',
+`created_by` bigint DEFAULT '0' COMMENT '创建人id',
+`created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+`last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='站内消息';
 
 
@@ -491,9 +491,9 @@ CREATE TABLE `sys_site_notify` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role` (
-                                 `user_id` bigint NOT NULL COMMENT '用户ID',
-                                 `role_id` bigint NOT NULL COMMENT '角色ID',
-                                 UNIQUE KEY `role_id` (`user_id`,`role_id`) USING BTREE
+`user_id` bigint NOT NULL COMMENT '用户ID',
+`role_id` bigint NOT NULL COMMENT '角色ID',
+UNIQUE KEY `role_id` (`user_id`,`role_id`) USING BTREE
 ) ENGINE=InnoDB  COMMENT='用户角色表';
 
 -- ----------------------------
@@ -508,30 +508,30 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_file`;
 CREATE TABLE `t_file` (
-                          `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-                          `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-                          `content_type` varchar(100) DEFAULT NULL COMMENT '文件类型',
-                          `size` bigint DEFAULT NULL COMMENT '文件大小',
-                          `location` varchar(50) DEFAULT NULL COMMENT '登录地点',
-                          `ip` varchar(50) DEFAULT NULL COMMENT 'IP',
-                          `engine` varchar(255) DEFAULT NULL COMMENT '引擎类型',
-                          `engine_version` varchar(255) DEFAULT NULL COMMENT '引擎版本',
-                          `os` varchar(255) DEFAULT NULL COMMENT '操作系统',
-                          `bucket` varchar(255) DEFAULT NULL COMMENT '操作系统',
-                          `origin_name` varchar(255) DEFAULT NULL COMMENT '原始名称',
-                          `target_name` varchar(255) DEFAULT NULL COMMENT '目标名称',
-                          `mapping_path` varchar(255) DEFAULT NULL COMMENT '映射地址',
-                          `full_url` varchar(255) DEFAULT NULL COMMENT '完整地址',
-                          `extend` varchar(255) DEFAULT NULL COMMENT '拓展字段',
-                          `deleted` bit(1) DEFAULT b'0',
-                          `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-                          `created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-                          `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                          `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-                          `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-                          `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                          PRIMARY KEY (`id`) USING BTREE,
-                          UNIQUE KEY `UN_TARGET_NAME` (`target_name`) USING BTREE
+`id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+`content_type` varchar(100) DEFAULT NULL COMMENT '文件类型',
+`size` bigint DEFAULT NULL COMMENT '文件大小',
+`location` varchar(50) DEFAULT NULL COMMENT '登录地点',
+`ip` varchar(50) DEFAULT NULL COMMENT 'IP',
+`engine` varchar(255) DEFAULT NULL COMMENT '引擎类型',
+`engine_version` varchar(255) DEFAULT NULL COMMENT '引擎版本',
+`os` varchar(255) DEFAULT NULL COMMENT '操作系统',
+`bucket` varchar(255) DEFAULT NULL COMMENT '操作系统',
+`origin_name` varchar(255) DEFAULT NULL COMMENT '原始名称',
+`target_name` varchar(255) DEFAULT NULL COMMENT '目标名称',
+`mapping_path` varchar(255) DEFAULT NULL COMMENT '映射地址',
+`full_url` varchar(255) DEFAULT NULL COMMENT '完整地址',
+`extend` varchar(255) DEFAULT NULL COMMENT '拓展字段',
+`deleted` bit(1) DEFAULT b'0',
+`created_by` bigint DEFAULT '0' COMMENT '创建人id',
+`created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
+`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+`last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
+`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+PRIMARY KEY (`id`) USING BTREE,
+UNIQUE KEY `UN_TARGET_NAME` (`target_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=19  COMMENT='文件';
 
 -- ----------------------------
@@ -545,34 +545,34 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
-                          `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-                          `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-                          `username` varchar(30) NOT NULL COMMENT '账号',
-                          `password` varchar(200) DEFAULT NULL COMMENT '密码',
-                          `nick_name` varchar(50) DEFAULT NULL COMMENT '昵称',
-                          `org_id` bigint DEFAULT NULL COMMENT '组织ID',
-                          `station_id` bigint DEFAULT NULL COMMENT '岗位ID',
-                          `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否内置',
-                          `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
-                          `mobile` varchar(20) DEFAULT NULL COMMENT '手机',
-                          `id_card` varchar(50) DEFAULT NULL COMMENT '身份证',
-                          `sex` tinyint DEFAULT '1' COMMENT '性别（1=男;2=女）',
-                          `status` bit(1) DEFAULT b'0' COMMENT '状态 1启用 0禁用',
-                          `avatar` varchar(255) DEFAULT NULL COMMENT '头像',
-                          `description` varchar(255) DEFAULT NULL COMMENT '描述',
-                          `nation` varchar(20) DEFAULT NULL COMMENT '民族',
-                          `education` varchar(20) DEFAULT NULL COMMENT '学历',
-                          `position_status` varchar(20) DEFAULT NULL COMMENT '职位状态',
-                          `birthday` date DEFAULT NULL COMMENT '生日',
-                          `deleted` bit(1) DEFAULT b'0',
-                          `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-                          `created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-                          `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                          `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-                          `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-                          `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                          PRIMARY KEY (`id`) USING BTREE,
-                          UNIQUE KEY `UN_ACCOUNT` (`username`) USING BTREE
+`id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+`username` varchar(30) NOT NULL COMMENT '账号',
+`password` varchar(200) DEFAULT NULL COMMENT '密码',
+`nick_name` varchar(50) DEFAULT NULL COMMENT '昵称',
+`org_id` bigint DEFAULT NULL COMMENT '组织ID',
+`station_id` bigint DEFAULT NULL COMMENT '岗位ID',
+`readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否内置',
+`email` varchar(50) DEFAULT NULL COMMENT '邮箱',
+`mobile` varchar(20) DEFAULT NULL COMMENT '手机',
+`id_card` varchar(50) DEFAULT NULL COMMENT '身份证',
+`sex` tinyint DEFAULT '1' COMMENT '性别（1=男;2=女）',
+`status` bit(1) DEFAULT b'0' COMMENT '状态 1启用 0禁用',
+`avatar` varchar(255) DEFAULT NULL COMMENT '头像',
+`description` varchar(255) DEFAULT NULL COMMENT '描述',
+`nation` varchar(20) DEFAULT NULL COMMENT '民族',
+`education` varchar(20) DEFAULT NULL COMMENT '学历',
+`position_status` varchar(20) DEFAULT NULL COMMENT '职位状态',
+`birthday` date DEFAULT NULL COMMENT '生日',
+`deleted` bit(1) DEFAULT b'0',
+`created_by` bigint DEFAULT '0' COMMENT '创建人id',
+`created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
+`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+`last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
+`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+PRIMARY KEY (`id`) USING BTREE,
+UNIQUE KEY `UN_ACCOUNT` (`username`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=10  COMMENT='用户';
 
 -- ----------------------------
@@ -587,87 +587,86 @@ COMMIT;
 
 
 -- ----------------------------
--- Table structure for t_tenant_dictionary
+-- Table structure for t_tenant_dict
 -- ----------------------------
-DROP TABLE IF EXISTS `t_tenant_dictionary`;
-CREATE TABLE `t_tenant_dictionary` (
-                                       `id` bigint NOT NULL COMMENT '雪花算法ID',
-                                       `tenant_id` bigint NOT NULL COMMENT '租户ID t_tenant.id',
-                                       `code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编码',
-                                       `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-                                       `description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
-                                       `status` bit(1) DEFAULT NULL COMMENT '状态',
-                                       `readonly` bit(1) DEFAULT b'0' COMMENT '内置角色',
-                                       `sequence` tinyint DEFAULT NULL COMMENT '排序',
-                                       `deleted` bit(1) DEFAULT b'0',
-                                       `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
-                                       `created_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人名称',
-                                       `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                       `last_modified_by` bigint DEFAULT NULL COMMENT '更新人ID',
-                                       `last_modified_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人名称',
-                                       `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
-                                       PRIMARY KEY (`id`) USING BTREE,
-                                       UNIQUE KEY `_index_code_tenant_id` (`tenant_id`,`code`) USING BTREE COMMENT '组合键：tenant_id、code'
+DROP TABLE IF EXISTS `t_tenant_dict`;
+CREATE TABLE `t_tenant_dict` (
+   `id` bigint NOT NULL COMMENT '雪花算法ID',
+   `tenant_id` bigint NOT NULL COMMENT '租户ID t_tenant.id',
+   `code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编码',
+   `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+   `description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
+   `status` bit(1) DEFAULT NULL COMMENT '状态',
+   `sequence` tinyint DEFAULT NULL COMMENT '排序',
+   `deleted` bit(1) DEFAULT b'0',
+   `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
+   `created_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人名称',
+   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人ID',
+   `last_modified_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人名称',
+   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
+   PRIMARY KEY (`id`) USING BTREE,
+   UNIQUE KEY `_index_code_tenant_id` (`tenant_id`,`code`) USING BTREE COMMENT '组合键：tenant_id、code'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
--- Records of t_tenant_dictionary
+-- Records of t_tenant_dict
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686979951801745410, ${tenant_id}, 'CONTRACT_SEAL_TYPE', '用印类型', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-08-03 05:58:57', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698634189967577089, ${tenant_id}, 'PAYMENT_METHOD', '付款方法', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-04 09:48:44', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698634230920761345, ${tenant_id}, 'PAYMENT_TYPE', '付款类型', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-04 09:48:54', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699341989447098369, ${tenant_id}, 'TMS_PLATE_COLOR', 'TMS车牌颜色', 'TMS车牌颜色', b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-06 08:41:17', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699343995867914241, ${tenant_id}, 'TMS_ENERGY_TYPE', 'TMS能源类型', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-06 08:49:15', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070256599982081, ${tenant_id}, 'TMS_EXPENSE_ITEM', 'TMS费用项目', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-08 08:55:09', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1727250191221800961, ${tenant_id}, 'STATION_TYPE', '岗位类型', '12312', b'1', b'0', 0, b'0', 1, '长风一梦0000', '2023-11-22 16:58:31', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686979951801745410, ${tenant_id}, 'CONTRACT_SEAL_TYPE', '用印类型', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-08-03 05:58:57', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698634189967577089, ${tenant_id}, 'PAYMENT_METHOD', '付款方法', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-04 09:48:44', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698634230920761345, ${tenant_id}, 'PAYMENT_TYPE', '付款类型', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-04 09:48:54', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699341989447098369, ${tenant_id}, 'TMS_PLATE_COLOR', 'TMS车牌颜色', 'TMS车牌颜色', b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-06 08:41:17', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699343995867914241, ${tenant_id}, 'TMS_ENERGY_TYPE', 'TMS能源类型', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-06 08:49:15', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070256599982081, ${tenant_id}, 'TMS_EXPENSE_ITEM', 'TMS费用项目', NULL, b'1', b'0', 0, b'0', 1, '长风一梦8888', '2023-09-08 08:55:09', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `readonly`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1727250191221800961, ${tenant_id}, 'STATION_TYPE', '岗位类型', '12312', b'1', b'0', 0, b'0', 1, '长风一梦0000', '2023-11-22 16:58:31', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
--- Table structure for t_tenant_dictionary_item
+-- Table structure for t_tenant_dict_item
 -- ----------------------------
-DROP TABLE IF EXISTS `t_tenant_dictionary_item`;
-CREATE TABLE `t_tenant_dictionary_item` (
-    `id` bigint NOT NULL COMMENT '雪花算法id',
-    `tenant_id` bigint NOT NULL COMMENT '租户id，t_tenant.id',
-    `dictionary_id` bigint NOT NULL COMMENT '类型ID',
-    `dictionary_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '类型',
-    `value` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编码',
-    `label` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-    `status` bit(1) DEFAULT b'1' COMMENT '状态',
-    `color` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '颜色',
-    `deleted` bit(1) DEFAULT b'0',
-    `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '描述',
-    `sequence` int DEFAULT '1' COMMENT '排序',
-    `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-    `created_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人名称',
-    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-    `last_modified_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人名称',
-    `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY (`id`) USING BTREE
+DROP TABLE IF EXISTS `t_tenant_dict_item`;
+CREATE TABLE `t_tenant_dict_item` (
+`id` bigint NOT NULL COMMENT '雪花算法id',
+`tenant_id` bigint NOT NULL COMMENT '租户id，t_tenant.id',
+`dict_id` bigint NOT NULL COMMENT '类型ID',
+`dict_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '类型',
+`value` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编码',
+`label` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+`status` bit(1) DEFAULT b'1' COMMENT '状态',
+`color` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '颜色',
+`deleted` bit(1) DEFAULT b'0',
+`description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '描述',
+`sequence` int DEFAULT '1' COMMENT '排序',
+`created_by` bigint DEFAULT '0' COMMENT '创建人id',
+`created_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人名称',
+`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+`last_modified_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人名称',
+`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
--- Records of t_tenant_dictionary_item
+-- Records of t_tenant_dict_item
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686980638975541249, ${tenant_id}, 1686979951801745410, 'CONTRACT_SEAL_TYPE', 'contractSeal', '合同章', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-08-03 06:01:41', 1, '长风一梦8888', '2023-08-03 06:02:47');
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686980976612818945, ${tenant_id}, 1686979951801745410, 'CONTRACT_SEAL_TYPE', 'officialSeal', '公章', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-08-03 06:03:02', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636487254986754, ${tenant_id}, 1698634230920761345, 'PAYMENT_TYPE', 'L0104', '退质保金-供应商', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:57:52', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636601793040386, ${tenant_id}, 1698634230920761345, 'PAYMENT_TYPE', 'L010', '预付款', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:58:19', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636716859576322, ${tenant_id}, 1698634230920761345, 'PAYMENT_TYPE', 'L0106', '退供应商履约保证金', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:58:47', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636805413916673, ${tenant_id}, 1698634189967577089, 'PAYMENT_METHOD', '1', '电汇', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:59:08', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636835654848514, ${tenant_id}, 1698634189967577089, 'PAYMENT_METHOD', '2', '支票', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:59:15', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342168325775361, ${tenant_id}, 1699341989447098369, 'TMS_PLATE_COLOR', 'RED', '红色', b'1', 'warning', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:41:59', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342201385279489, ${tenant_id}, 1699341989447098369, 'TMS_PLATE_COLOR', 'BLUE', '蓝色', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:42:07', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342322571304961, ${tenant_id}, 1699341989447098369, 'TMS_PLATE_COLOR', 'YELLOW', '黄色', b'1', 'warning', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:42:36', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699344187669241858, ${tenant_id}, 1699343995867914241, 'TMS_ENERGY_TYPE', '0', '汽油', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:50:01', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699344223807365121, ${tenant_id}, 1699343995867914241, 'TMS_ENERGY_TYPE', '1', '柴油', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:50:10', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070437932326913, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'annually_inspect', '年检', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:55:52', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070499823476737, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'annually_review', '年审', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:07', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070552264859650, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'strong_insurance', '强险', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:20', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070643922984961, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'commercial_insurance', '商业险', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:41', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070708079058946, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'gps_fee', 'GPS费用', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:57', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dictionary_item` (`id`, `tenant_id`, `dictionary_id`, `dictionary_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1727250680726450178, ${tenant_id}, 1727250191221800961, 'STATION_TYPE', 'YB', '外包', b'1', 'success', b'0', '', 1, 1, '长风一梦0000', '2023-11-22 17:00:28', 0, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686980638975541249, ${tenant_id}, 1686979951801745410, 'CONTRACT_SEAL_TYPE', 'contractSeal', '合同章', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-08-03 06:01:41', 1, '长风一梦8888', '2023-08-03 06:02:47');
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686980976612818945, ${tenant_id}, 1686979951801745410, 'CONTRACT_SEAL_TYPE', 'officialSeal', '公章', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-08-03 06:03:02', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636487254986754, ${tenant_id}, 1698634230920761345, 'PAYMENT_TYPE', 'L0104', '退质保金-供应商', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:57:52', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636601793040386, ${tenant_id}, 1698634230920761345, 'PAYMENT_TYPE', 'L010', '预付款', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:58:19', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636716859576322, ${tenant_id}, 1698634230920761345, 'PAYMENT_TYPE', 'L0106', '退供应商履约保证金', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:58:47', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636805413916673, ${tenant_id}, 1698634189967577089, 'PAYMENT_METHOD', '1', '电汇', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:59:08', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636835654848514, ${tenant_id}, 1698634189967577089, 'PAYMENT_METHOD', '2', '支票', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:59:15', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342168325775361, ${tenant_id}, 1699341989447098369, 'TMS_PLATE_COLOR', 'RED', '红色', b'1', 'warning', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:41:59', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342201385279489, ${tenant_id}, 1699341989447098369, 'TMS_PLATE_COLOR', 'BLUE', '蓝色', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:42:07', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342322571304961, ${tenant_id}, 1699341989447098369, 'TMS_PLATE_COLOR', 'YELLOW', '黄色', b'1', 'warning', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:42:36', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699344187669241858, ${tenant_id}, 1699343995867914241, 'TMS_ENERGY_TYPE', '0', '汽油', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:50:01', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699344223807365121, ${tenant_id}, 1699343995867914241, 'TMS_ENERGY_TYPE', '1', '柴油', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:50:10', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070437932326913, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'annually_inspect', '年检', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:55:52', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070499823476737, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'annually_review', '年审', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:07', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070552264859650, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'strong_insurance', '强险', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:20', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070643922984961, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'commercial_insurance', '商业险', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:41', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070708079058946, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'gps_fee', 'GPS费用', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:57', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1727250680726450178, ${tenant_id}, 1727250191221800961, 'STATION_TYPE', 'YB', '外包', b'1', 'success', b'0', '', 1, 1, '长风一梦0000', '2023-11-22 17:00:28', 0, NULL, NULL);
 COMMIT;
