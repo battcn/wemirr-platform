@@ -65,6 +65,7 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
             log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
             return;
         }
+        this.setFieldValByName(Entity.TENANT_ID, context.tenantId(), metaObject);
         this.setFieldValByName(Entity.CREATE_USER, context.userId(), metaObject);
         this.setFieldValByName(Entity.CREATE_USER_NAME, context.realName(), metaObject);
     }

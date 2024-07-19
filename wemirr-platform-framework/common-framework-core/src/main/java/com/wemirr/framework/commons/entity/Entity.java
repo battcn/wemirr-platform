@@ -44,6 +44,8 @@ import java.time.Instant;
 @ToString(callSuper = true)
 public class Entity<T> implements Serializable {
 
+    public static final String TENANT_ID_COLUMN = "tenant_id";
+    public static final String TENANT_ID = "tenantId";
     public static final String FIELD_ID = "id";
     public static final String CREATE_TIME = "createdTime";
     public static final String CREATE_TIME_COLUMN = "created_time";
