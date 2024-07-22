@@ -21,10 +21,11 @@ package com.wemirr.framework.i18n.configuration;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import com.wemirr.framework.i18n.I18nMessageProvider;
 import com.wemirr.framework.i18n.aspect.I18nAspect;
 import com.wemirr.framework.i18n.core.DynamicMessageSource;
+import com.wemirr.framework.i18n.core.I18nMessageRedisProvider;
 import com.wemirr.framework.i18n.core.I18nMessageResource;
-import com.wemirr.framework.i18n.core.I18nRedisTemplate;
 import com.wemirr.framework.i18n.core.MessageSourceHierarchicalChanger;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.context.MessageSource;
@@ -90,8 +91,8 @@ public class I18nConfiguration {
     
     @Bean
     @Order
-    public I18nRedisTemplate i18nPublishTemplate(RedisTemplate<String, Object> redisTemplate) {
-        return new I18nRedisTemplate(redisTemplate);
+    public I18nMessageProvider i18nMessageProvider(RedisTemplate<String, Object> redisTemplate) {
+        return new I18nMessageRedisProvider(redisTemplate);
     }
     
     @Bean

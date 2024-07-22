@@ -28,21 +28,31 @@ import java.util.Locale;
  * @author Levin
  */
 public interface I18nMessageProvider {
-    
+
+
+    /**
+     * 获取消息
+     *
+     * @param tenantId 租户ID
+     * @param code     code
+     * @param locale   语言
+     * @return 国际化消息
+     */
+    String getI18nMessage(Long tenantId, String code, Locale locale);
+
     /**
      * 加载全部的 i18n 数据
      *
      * @return 国际化消息
      */
-    List<I18nMessage> selectI18nMessage();
-    
+    List<I18nMessage> list();
+
+
     /**
-     * 获取 I18nMessage 对象
+     * 加载消息到存储列表
      *
-     * @param code   国际化唯一标识
-     * @param locale 语言
-     * @return 国际化消息
+     * @param messages 消息
      */
-    I18nMessage getI18nMessage(String code, Locale locale);
-    
+    void loadI18nMessage(List<I18nMessage> messages);
+
 }

@@ -20,6 +20,7 @@
 package com.wemirr.framework.i18n.core;
 
 import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.i18n.I18nMessageProvider;
 import com.wemirr.framework.i18n.domain.I18nMessage;
 import com.wemirr.framework.i18n.domain.I18nRedisKeyConstants;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -35,17 +37,24 @@ import java.util.stream.Collectors;
  * @author Levin
  */
 @RequiredArgsConstructor
-public class I18nRedisTemplate {
+public class I18nMessageRedisProvider implements I18nMessageProvider {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-
+    @Override
     public String getI18nMessage(Long tenantId, String code, Locale locale) {
         String buildKey = I18nMessage.builder().tenantId(tenantId).code(code).locale(locale.toString()).build().buildKey();
         I18nMessage message = (I18nMessage) redisTemplate.opsForHash().get(I18nRedisKeyConstants.I18N_DATA_PREFIX, buildKey);
         return message == null ? null : message.getMessage();
     }
 
+    @Override
+    public List<I18nMessage> list() {
+        Map<Object, Object> entries = redisTemplate.opsForHash().entries(I18nRedisKeyConstants.I18N_DATA_PREFIX);
+        return entries.values().stream().filter(Objects::nonNull).map(x -> (I18nMessage) x).toList();
+    }
+
+    @Override
     public void loadI18nMessage(List<I18nMessage> messages) {
         if (messages == null) {
             return;

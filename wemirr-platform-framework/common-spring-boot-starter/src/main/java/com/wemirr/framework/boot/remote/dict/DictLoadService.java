@@ -3,7 +3,7 @@ package com.wemirr.framework.boot.remote.dict;
 import cn.hutool.core.lang.Pair;
 import com.wemirr.framework.commons.remote.LoadService;
 import com.wemirr.framework.commons.security.AuthenticationContext;
-import com.wemirr.framework.i18n.core.I18nRedisTemplate;
+import com.wemirr.framework.i18n.I18nMessageProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -25,7 +25,7 @@ public class DictLoadService implements LoadService<Object> {
 
     private final AuthenticationContext context;
     private final RedisTemplate<String, Object> redisTemplate;
-    private final I18nRedisTemplate i18nRedisTemplate;
+    private final I18nMessageProvider i18nMessageProvider;
 
     @Override
     public Map<Object, Object> findByIds(Set<Object> ids) {
@@ -39,7 +39,7 @@ public class DictLoadService implements LoadService<Object> {
         Map<Object, Object> entries = redisTemplate.opsForHash().entries(tag);
         for (Map.Entry<Object, Object> entry : entries.entrySet()) {
             String code = tag + "." + entry.getKey();
-            String message = i18nRedisTemplate.getI18nMessage(context.tenantId(), code, locale);
+            String message = i18nMessageProvider.getI18nMessage(context.tenantId(), code, locale);
             if (message == null) {
                 continue;
             }
