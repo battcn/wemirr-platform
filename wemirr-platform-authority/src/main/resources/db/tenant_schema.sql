@@ -1,11 +1,7 @@
-
--- ----------------------------
--- Table structure for sys_dict
--- ----------------------------
 DROP TABLE IF EXISTS `sys_dict`;
 CREATE TABLE `sys_dict` (
- `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
- `code` varchar(64) NOT NULL COMMENT '编码\r\n一颗树仅仅有一个统一的编码',
+ `id` bigint NOT NULL AUTO_INCREMENT,
+ `code` varchar(64) NOT NULL COMMENT '编码',
  `name` varchar(64) NOT NULL COMMENT '名称',
  `description` varchar(200) DEFAULT NULL COMMENT '描述',
  `status` bit(1) DEFAULT b'1' COMMENT '状态',
@@ -240,7 +236,7 @@ PRIMARY KEY (`id`)
 -- Records of sys_org
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_org` (`label`, `tenant_id`, `alias`, `tel`, `tree_path`, `parent_id`, `sequence`, `status`, `deleted`, `description`) VALUES ('根节点', ${tenant_id}, '根节点', '', ',', 0, 1, b'1', b'0', '初始化数据');
+INSERT INTO `sys_org` (`label`, `tenant_id`, `alias`, `tel`, `tree_path`, `parent_id`, `sequence`, `status`, `deleted`, `description`) VALUES ('${tenant_name}', ${tenant_id}, '${tenant_name}', '', ',', 0, 1, b'1', b'0', '初始化数据');
 COMMIT;
 
 -- ----------------------------

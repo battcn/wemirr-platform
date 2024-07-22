@@ -4,7 +4,7 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `c_area`;
 CREATE TABLE `c_area` (
-   `id` int DEFAULT NULL COMMENT 'ID',
+   `id` bigint NOT NULL COMMENT 'ID',
    `name` varchar(64) DEFAULT NULL COMMENT '名称',
    `parent_id` int DEFAULT NULL COMMENT '父ID',
    `level` tinyint DEFAULT NULL COMMENT '级别',
@@ -18,9 +18,7 @@ CREATE TABLE `c_area` (
    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
    `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-   KEY `idx_parent_id` (`parent_id`),
-   KEY `idx_name` (`name`)
+   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='省市区详情表';
 
 -- ----------------------------

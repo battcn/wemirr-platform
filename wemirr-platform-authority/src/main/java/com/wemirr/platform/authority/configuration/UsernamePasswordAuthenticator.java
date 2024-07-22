@@ -103,7 +103,8 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
         if (tenant.getLocked()) {
             throw CheckedException.badRequest("租户已被禁用,请联系管理员");
         }
-        final User user = Optional.ofNullable(this.userMapper.selectUserByTenantId(username, tenant.getId())).orElseThrow(() -> CheckedException.notFound("账户不存在"));
+        User user = this.userMapper.selectUserByTenantId(username, tenant.getId());
+//        final User user = Optional.ofNullable().orElseThrow(() -> CheckedException.notFound("账户不存在"));
         final PasswordEncoder passwordEncoder = SpringUtil.getBean(PasswordEncoder.class);
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw CheckedException.badRequest("用户名或密码错误");

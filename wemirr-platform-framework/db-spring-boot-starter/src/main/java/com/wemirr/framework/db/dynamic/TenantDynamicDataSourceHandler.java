@@ -46,6 +46,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -54,10 +55,10 @@ import java.util.Set;
  */
 @Slf4j
 public class TenantDynamicDataSourceHandler {
-    
+
     public static final String TENANT_DATASOURCE_POOL = "TenantDataSourcePool_%s";
     private static final String CREATE_DATABASE_SCRIPT = "CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
-    
+
     @Resource
     private DataSource dataSource;
     @Resource
@@ -66,7 +67,7 @@ public class TenantDynamicDataSourceHandler {
     private DatabaseProperties databaseProperties;
     @Resource
     private ResourceLoader resourceLoader;
-    
+
     public void handler(EventAction action, TenantDynamicDatasource db) {
         if (Objects.isNull(db)) {
             log.warn("event dynamicDatasource is null....");
@@ -107,7 +108,7 @@ public class TenantDynamicDataSourceHandler {
         final Set<String> dsSets = ds.getDataSources().keySet();
         log.debug("连接池信息 - {}", dsSets);
     }
-    
+
     @NotNull
     private static DataSourceProperty getDataSourceProperty(TenantDynamicDatasource db, String database, boolean lazy) {
         DataSourceProperty dataSourceProperty = new DataSourceProperty();
@@ -126,7 +127,7 @@ public class TenantDynamicDataSourceHandler {
         dataSourceProperty.setLazy(lazy);
         return dataSourceProperty;
     }
-    
+
     public String buildDb(String tenantCode) {
         final DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
         if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, multiTenant.getSuperTenantCode())) {
@@ -134,16 +135,16 @@ public class TenantDynamicDataSourceHandler {
         }
         return multiTenant.getDsPrefix() + tenantCode;
     }
-    
-    public void initSqlScript(Long tenantId, String tenantCode) {
-        runScript(tenantId, tenantCode);
+
+    public void initSqlScript(String tenantCode, Map<String, String> scriptContext) {
+        runScript(tenantCode, scriptContext);
     }
-    
+
     @SneakyThrows
-    private void runScript(Long tenantId, String tenantCode) {
-        log.info("tenantId - {},tenantCode - {}", tenantId, tenantCode);
-        if (tenantId == null) {
-            throw CheckedException.badRequest("租户ID不能为空");
+    private void runScript(String tenantCode, Map<String, String> scriptContext) {
+        log.info("runScript tenantCode - {}", tenantCode);
+        if (tenantCode == null) {
+            throw CheckedException.badRequest("租户编码不能为空");
         }
         String dsKey = buildDb(tenantCode);
         DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
@@ -163,10 +164,14 @@ public class TenantDynamicDataSourceHandler {
             final File tmpFile = FileUtil.createTempFile(new File(Objects.requireNonNull(this.getClass().getResource("/")).getPath()));
             List<String> newSqlScript = Lists.newArrayList();
             for (String text : scriptContent) {
-                final String context = StrUtil.replace(text, "${tenant_id}", String.valueOf(tenantId));
-                newSqlScript.add(context);
+                if (scriptContext == null) {
+                    continue;
+                }
+                for (Map.Entry<String, String> entry : scriptContext.entrySet()) {
+                    text = StrUtil.replace(text, "${" + entry.getKey() + "}", entry.getValue());
+                }
+                newSqlScript.add(text);
             }
-            
             FileUtil.writeLines(newSqlScript, tmpFile, StandardCharsets.UTF_8);
             scriptRunner.runScript(dataSource, tmpFile.getName());
             FileUtil.del(tmpFile);

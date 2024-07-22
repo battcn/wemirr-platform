@@ -57,6 +57,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -150,14 +151,12 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         }
         TenantConfig tenantConfig = this.tenantConfigMapper.selectOne(TenantConfig::getTenantId, tenantId);
         if (tenantConfig == null) {
-            tenantConfig = TenantConfig.builder().tenantId(tenantId).datasourceId(req.getDatasourceId()).build();
-            tenantConfigMapper.insert(tenantConfig);
+            tenantConfigMapper.insert(TenantConfig.builder().tenantId(tenantId).datasourceId(req.getDatasourceId()).build());
         } else {
-            tenantConfig = TenantConfig.builder().id(tenantConfig.getId()).tenantId(tenantId).datasourceId(req.getDatasourceId()).build();
-            tenantConfigMapper.updateById(tenantConfig);
+            tenantConfigMapper.updateById(TenantConfig.builder().id(tenantConfig.getId()).datasourceId(req.getDatasourceId()).build());
         }
         // 先创建
-        dynamicDatasourceService.publishEvent(EventAction.INIT, tenantConfig.getTenantId());
+        dynamicDatasourceService.publishEvent(EventAction.INIT, tenant.getId());
         if (!req.isLazy()) {
             initSqlScript(tenantId);
         }
@@ -210,7 +209,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
 
         } else if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
             TenantDynamicDataSourceHandler tenantDynamicDataSourceHandler = SpringUtil.getBean(TenantDynamicDataSourceHandler.class);
-            tenantDynamicDataSourceHandler.initSqlScript(tenant.getId(), tenant.getCode());
+            tenantDynamicDataSourceHandler.initSqlScript(tenant.getCode(), Map.of("tenant_id", tenant.getId() + "", "tenant_name", tenant.getName()));
         }
     }
 }

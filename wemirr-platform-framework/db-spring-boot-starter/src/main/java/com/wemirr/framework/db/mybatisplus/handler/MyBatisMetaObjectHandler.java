@@ -40,9 +40,9 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class MyBatisMetaObjectHandler implements MetaObjectHandler {
-    
+
     private final AuthenticationContext context;
-    
+
     /**
      * 注意：不支持 复合主键 自动注入！！
      * <p>
@@ -65,11 +65,12 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
             log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
             return;
         }
-        this.setFieldValByName(Entity.TENANT_ID, context.tenantId(), metaObject);
+        final Object tenantId = Optional.ofNullable(metaObject.getValue(Entity.TENANT_ID)).orElse(context.tenantId());
+        this.setFieldValByName(Entity.TENANT_ID, tenantId, metaObject);
         this.setFieldValByName(Entity.CREATE_USER, context.userId(), metaObject);
         this.setFieldValByName(Entity.CREATE_USER_NAME, context.realName(), metaObject);
     }
-    
+
     /**
      * 所有的继承了Entity、SuperEntity的实体，在update时，
      * lastModifiedBy: 自动赋予 当前线程上的登录人id
