@@ -14,4 +14,10 @@
         FROM t_user
     </select>
 
+
+    <select id="selectResByUserId" resultType="java.lang.Long">
+        SELECT res_id FROM sys_role_res
+        WHERE role_id IN ( SELECT role_id FROM sys_user_role WHERE user_id = #{userId} )
+    </select>
+
 </mapper>

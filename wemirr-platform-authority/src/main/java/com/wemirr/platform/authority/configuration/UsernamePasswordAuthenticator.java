@@ -30,11 +30,11 @@ import com.wemirr.framework.security.exception.OAuth2InvalidException;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Role;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
 import com.wemirr.platform.authority.domain.tenant.entity.Tenant;
-import com.wemirr.platform.authority.repository.baseinfo.ResourceMapper;
 import com.wemirr.platform.authority.repository.baseinfo.RoleMapper;
 import com.wemirr.platform.authority.repository.baseinfo.UserMapper;
 import com.wemirr.platform.authority.repository.tenant.TenantMapper;
 import com.wemirr.platform.authority.service.LoginLogService;
+import com.wemirr.platform.authority.service.ResourceService;
 import com.wemirr.platform.authority.service.impl.DataScopeServiceImpl;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -56,30 +56,30 @@ import java.util.Optional;
 @Primary
 @Component
 public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
-    
+
     @Resource
     private UserMapper userMapper;
-    
+
     @Resource
     private TenantMapper tenantMapper;
-    
+
     @Resource
     private RoleMapper roleMapper;
-    
+
     @Resource
-    private ResourceMapper resourceMapper;
-    
+    private ResourceService resourceService;
+
     @Resource
     private LoginLogService loginLogService;
-    
+
     @Resource
     private DataScopeServiceImpl dataScopeServiceImpl;
-    
+
     @Override
     public int getOrder() {
         return 100;
     }
-    
+
     @Override
     public void prepare(final IntegrationAuthentication authentication) {
         log.info("[用户密码登陆] - [{}]", JSON.toJSONString(authentication));
@@ -92,7 +92,7 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
             throw new OAuth2InvalidException("租户编码不能为空");
         }
     }
-    
+
     @Override
     public UserInfoDetails authenticate(final IntegrationAuthentication authentication) {
         String username = authentication.getUsername();
@@ -103,8 +103,8 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
         if (tenant.getLocked()) {
             throw CheckedException.badRequest("租户已被禁用,请联系管理员");
         }
-        User user = this.userMapper.selectUserByTenantId(username, tenant.getId());
-//        final User user = Optional.ofNullable().orElseThrow(() -> CheckedException.notFound("账户不存在"));
+        final User user = Optional.ofNullable(userMapper.selectUserByTenantId(username, tenant.getId()))
+                .orElseThrow(() -> CheckedException.notFound("账户不存在"));
         final PasswordEncoder passwordEncoder = SpringUtil.getBean(PasswordEncoder.class);
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw CheckedException.badRequest("用户名或密码错误");
@@ -127,14 +127,14 @@ public class UsernamePasswordAuthenticator implements IntegrationAuthenticator {
         info.setPassword(user.getPassword());
         final List<Role> roles = this.roleMapper.findRoleByUserId(user.getId());
         info.setRoles(roles.stream().map(Role::getCode).toList());
-        final List<String> permissions = this.resourceMapper.selectPermissionByUserId(user.getId());
+        final List<String> permissions = this.resourceService.selectPermissionByUserId(user.getId());
         info.setFuncPermissions(permissions);
         // 为了减少一次数据库查询,所以用了这个不规范写法
         info.setDataPermission(dataScopeServiceImpl.getDataPermissionById(user.getId(), user.getOrgId()));
         this.loginLogService.addLog(info);
         return info;
     }
-    
+
     @Override
     public boolean support(final IntegrationAuthentication integrationAuthentication) {
         return StrUtil.equals(integrationAuthentication.getLoginType(), loginType()) || loginType() == null;

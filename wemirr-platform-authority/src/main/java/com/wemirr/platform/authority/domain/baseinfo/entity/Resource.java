@@ -79,8 +79,11 @@ public class Resource extends SuperEntity<Long> {
     private String component;
 
     @TableField("`global`")
-    @Schema(description = "是否公开")
+    @Schema(description = "全局菜单")
     private Boolean global;
+
+    @Schema(description = "显示/隐藏")
+    private Boolean display;
 
     @Schema(description = "状态")
     private Boolean status;

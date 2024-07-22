@@ -68,12 +68,12 @@ import static java.util.stream.Collectors.toList;
 public class ResourceController {
 
     private final ResourceService resourceService;
-    private final AuthenticationContext authenticationContext;
+    private final AuthenticationContext context;
 
     @GetMapping("/router")
     @Operation(summary = "菜单路由", description = "只能看到自身权限")
     public List<Tree<Long>> router(@RequestParam(required = false, defaultValue = "false") Boolean all) {
-        List<VueRouter> routers = resourceService.findVisibleResource(ResourceQueryReq.builder().userId(authenticationContext.userId()).build());
+        List<VueRouter> routers = resourceService.findVisibleResource(ResourceQueryReq.builder().userId(context.userId()).build());
         List<TreeNode<Long>> list = routers.stream()
                 .filter(router -> all || isValidRouterType(router))
                 .map(VUE_ROUTER_2_TREE_NODE_CONVERTS::convert).collect(toList());
@@ -103,7 +103,7 @@ public class ResourceController {
     @Operation(summary = "资源码", description = "只能看到自身资源码")
     public List<String> permissions() {
         final List<VueRouter> routers = Optional.ofNullable(resourceService.findVisibleResource(ResourceQueryReq.builder()
-                .userId(authenticationContext.userId()).build())).orElseGet(Lists::newArrayList);
+                .userId(context.userId()).build())).orElseGet(Lists::newArrayList);
         return routers.stream().map(VueRouter::getPermission).filter(StrUtil::isNotBlank).distinct().collect(toList());
     }
 

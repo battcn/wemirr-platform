@@ -21,11 +21,14 @@ package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Resource;
 import com.wemirr.platform.authority.domain.baseinfo.entity.Role;
 import com.wemirr.platform.authority.domain.baseinfo.entity.RoleRes;
@@ -36,6 +39,7 @@ import com.wemirr.platform.authority.domain.baseinfo.resp.VueRouter;
 import com.wemirr.platform.authority.repository.baseinfo.ResourceMapper;
 import com.wemirr.platform.authority.repository.baseinfo.RoleMapper;
 import com.wemirr.platform.authority.repository.baseinfo.RoleResMapper;
+import com.wemirr.platform.authority.repository.baseinfo.UserMapper;
 import com.wemirr.platform.authority.service.ResourceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +47,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -62,13 +67,35 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
     public static final String DEFAULT_COMPONENT = "/system/development/build/standard";
 
     private static final String SPEL = "/";
-
+    private final DatabaseProperties databaseProperties;
     private final RoleMapper roleMapper;
+    private final UserMapper userMapper;
     private final RoleResMapper roleResMapper;
 
     @Override
     public List<VueRouter> findVisibleResource(ResourceQueryReq req) {
-        return baseMapper.findVisibleResource(req);
+        // 查询租户数据源
+        List<Long> resIdList = this.userMapper.selectResByUserId(req.getUserId());
+        DynamicDataSourceContextHolder.poll();
+        // 解决租户越权行为,菜单数据直接从主库查询,减少数据分发次数
+        DynamicDataSourceContextHolder.push(databaseProperties.getMultiTenant().getDefaultDsName());
+        List<Resource> list = this.baseMapper.selectList(Wraps.<Resource>lbQ()
+                .and(lb -> lb.eq(Resource::getGlobal, true).or(CollUtil.isNotEmpty(resIdList), xx -> xx.in(Resource::getId, resIdList)))
+                .eq(Resource::getParentId, req.getParentId()).eq(Resource::getType, req.getType()));
+        DynamicDataSourceContextHolder.poll();
+        return BeanUtilPlus.toBeans(list, VueRouter.class);
+    }
+
+    @Override
+    public List<String> selectPermissionByUserId(Long userId) {
+        // 查询租户数据源
+        List<Long> resIdList = this.userMapper.selectResByUserId(userId);
+        DynamicDataSourceContextHolder.poll();
+        // 解决租户越权行为,菜单数据直接从主库查询,减少数据分发次数
+        DynamicDataSourceContextHolder.push(databaseProperties.getMultiTenant().getDefaultDsName());
+        List<Resource> list = this.baseMapper.selectList(Wraps.<Resource>lbQ().select(Resource::getPermission).in(Resource::getId, resIdList));
+        DynamicDataSourceContextHolder.poll();
+        return list.stream().filter(Objects::nonNull).map(Resource::getPermission).filter(StrUtil::isNotBlank).toList();
     }
 
     @Override

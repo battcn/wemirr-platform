@@ -91,4 +91,13 @@ public interface UserMapper extends SuperMapper<User> {
     @InterceptorIgnore(tenantLine = "true")
     @Select("select * from t_user where tenant_id = #{tenantId}")
     List<User> selectByTenantId(@Param("tenantId") Long tenantId);
+
+
+    /**
+     * 根据用户ID查询角色权限
+     *
+     * @param userId 用户ID
+     * @return 查询结果
+     */
+    List<Long> selectResByUserId(@Param("userId") Long userId);
 }

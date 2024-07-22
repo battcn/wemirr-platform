@@ -2,12 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wemirr.platform.authority.repository.baseinfo.ResourceMapper">
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, created_by, created_time, last_modified_by, last_modified_time,
-        code, name, menu_id, describe_
-    </sql>
-
     <select id="findVisibleResource" resultType="com.wemirr.platform.authority.domain.baseinfo.resp.VueRouter">
         SELECT
         t1.*

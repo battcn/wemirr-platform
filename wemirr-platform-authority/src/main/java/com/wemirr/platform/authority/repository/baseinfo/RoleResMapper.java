@@ -40,7 +40,7 @@ import java.util.List;
 @TenantDS
 @Repository
 public interface RoleResMapper extends SuperMapper<RoleRes> {
-    
+
     /**
      * 根据角色ID查询角色资源菜单信息
      *
@@ -48,5 +48,5 @@ public interface RoleResMapper extends SuperMapper<RoleRes> {
      * @return 查询结果
      */
     List<RoleResMenuMapperResp> selectRoleResByRoleId(@Param("roleId") Long roleId);
-    
+
 }
