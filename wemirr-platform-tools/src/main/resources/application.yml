@@ -21,4 +21,6 @@ extend:
       qiniu:
         access-key: '123'
         secret-key: '123'
+        enabled: true
+        region: region0
 

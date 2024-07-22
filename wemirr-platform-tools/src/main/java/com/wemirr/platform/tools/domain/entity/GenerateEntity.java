@@ -38,7 +38,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("common_generate")
+@TableName("c_generate")
 public class GenerateEntity extends SuperEntity<Long> {
     
     /**
