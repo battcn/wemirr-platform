@@ -18,13 +18,13 @@
     SELECT code,
            remark,created_name,created_time,
            locale,message
-    FROM common_i18n_data
+    FROM c_i18n_data
     </select>
 
     <select id="loadI18nMessage" resultType="com.wemirr.framework.i18n.domain.I18nMessage">
         SELECT t1.code,t1.tenant_id,
                t2.message,t2.locale
-        FROM common_i18n_data t1 join common_i18n_locale_message t2 on t1.id = t2.parent_id
+        FROM c_i18n_data t1 join c_i18n_locale_message t2 on t1.id = t2.parent_id
     </select>
 
 

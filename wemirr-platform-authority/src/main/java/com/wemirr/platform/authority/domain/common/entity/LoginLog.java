@@ -43,7 +43,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("common_login_log")
+@TableName("c_login_log")
 public class LoginLog extends Entity<Long> {
     
     /**

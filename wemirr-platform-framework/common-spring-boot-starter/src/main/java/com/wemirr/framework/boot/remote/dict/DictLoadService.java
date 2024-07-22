@@ -2,11 +2,15 @@ package com.wemirr.framework.boot.remote.dict;
 
 import cn.hutool.core.lang.Pair;
 import com.wemirr.framework.commons.remote.LoadService;
+import com.wemirr.framework.commons.security.AuthenticationContext;
+import com.wemirr.framework.i18n.core.I18nRedisTemplate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,8 +23,9 @@ import static java.util.stream.Collectors.toMap;
 @RequiredArgsConstructor
 public class DictLoadService implements LoadService<Object> {
 
+    private final AuthenticationContext context;
     private final RedisTemplate<String, Object> redisTemplate;
-
+    private final I18nRedisTemplate i18nRedisTemplate;
 
     @Override
     public Map<Object, Object> findByIds(Set<Object> ids) {
@@ -30,7 +35,17 @@ public class DictLoadService implements LoadService<Object> {
 
     @Override
     public Map<Object, Object> findByIds(String tag) {
-        return redisTemplate.opsForHash().entries(tag);
+        Locale locale = LocaleContextHolder.getLocale();
+        Map<Object, Object> entries = redisTemplate.opsForHash().entries(tag);
+        for (Map.Entry<Object, Object> entry : entries.entrySet()) {
+            String code = tag + "." + entry.getKey();
+            String message = i18nRedisTemplate.getI18nMessage(context.tenantId(), code, locale);
+            if (message == null) {
+                continue;
+            }
+            entries.put(entry.getKey(), message);
+        }
+        return entries;
     }
 
     @Override

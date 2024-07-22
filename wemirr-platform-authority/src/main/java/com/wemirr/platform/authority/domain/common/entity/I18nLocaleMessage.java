@@ -36,7 +36,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName("common_i18n_locale_message")
+@TableName("c_i18n_locale_message")
 @Schema(name = "I18nLocaleMessage", description = "I18N语言数据")
 public class I18nLocaleMessage extends Entity<Long> {
     

@@ -43,7 +43,7 @@ public interface LoginLogMapper extends SuperMapper<LoginLog> {
      *
      * @return 统计结果
      */
-    @Select("SELECT count(DISTINCT ( ip )) FROM common_login_log")
+    @Select("SELECT count(DISTINCT ( ip )) FROM c_login_log")
     long countDistinctLoginIp();
     
 }

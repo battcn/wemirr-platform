@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -35,9 +36,16 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 public class I18nRedisTemplate {
-    
+
     private final RedisTemplate<String, Object> redisTemplate;
-    
+
+
+    public String getI18nMessage(Long tenantId, String code, Locale locale) {
+        String buildKey = I18nMessage.builder().tenantId(tenantId).code(code).locale(locale.toString()).build().buildKey();
+        I18nMessage message = (I18nMessage) redisTemplate.opsForHash().get(I18nRedisKeyConstants.I18N_DATA_PREFIX, buildKey);
+        return message == null ? null : message.getMessage();
+    }
+
     public void loadI18nMessage(List<I18nMessage> messages) {
         if (messages == null) {
             return;
@@ -46,7 +54,7 @@ public class I18nRedisTemplate {
         final Map<String, I18nMessage> map = messages.stream().collect(Collectors.toMap(I18nMessage::buildKey, Function.identity()));
         redisTemplate.opsForHash().putAll(I18nRedisKeyConstants.I18N_DATA_PREFIX, map);
     }
-    
+
     public void publish(List<I18nMessage> list) {
         if (list == null) {
             return;
@@ -55,9 +63,9 @@ public class I18nRedisTemplate {
             publish(message);
         }
     }
-    
+
     public void publish(I18nMessage message) {
         redisTemplate.convertAndSend(I18nRedisKeyConstants.CHANNEL_I18N_DATA_UPDATED, JSON.toJSONString(message));
     }
-    
+
 }

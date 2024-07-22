@@ -32,7 +32,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("common_opt_log")
+@TableName("c_opt_log")
 public class OptLog extends AccessLogInfo {
     
     @TableId(type = IdType.ASSIGN_ID)

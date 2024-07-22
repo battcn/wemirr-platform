@@ -36,7 +36,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName("common_i18n_data")
+@TableName("c_i18n_data")
 @Schema(name = "I18nData", description = "I18N数据")
 public class I18nData extends SuperEntity<Long> {
     

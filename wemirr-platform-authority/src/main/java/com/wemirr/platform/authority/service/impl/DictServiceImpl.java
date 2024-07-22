@@ -32,6 +32,7 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.authority.domain.common.entity.SysDict;
 import com.wemirr.platform.authority.domain.common.entity.SysDictItem;
 import com.wemirr.platform.authority.domain.common.req.DictSaveReq;
+import com.wemirr.platform.authority.repository.common.I18nLocaleMessageMapper;
 import com.wemirr.platform.authority.repository.common.SysDictItemMapper;
 import com.wemirr.platform.authority.repository.common.SysDictMapper;
 import com.wemirr.platform.authority.service.DictService;
@@ -61,6 +62,7 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
 
     private final SysDictItemMapper sysDictItemMapper;
     private final DictLoadService dictLoadService;
+    private final I18nLocaleMessageMapper i18nLocaleMessageMapper;
 
     @PostConstruct
     public void init() {

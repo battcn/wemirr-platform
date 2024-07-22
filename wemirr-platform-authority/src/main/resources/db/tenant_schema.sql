@@ -162,8 +162,8 @@ INSERT INTO `sys_dict_item` VALUES (123, 10, 'INDUSTRY', '4', '互联网', b'1',
 INSERT INTO `sys_dict_item` VALUES (124, 10, 'INDUSTRY', '5', '电商', b'1', 'warning', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:58', 1, '长风一梦', '2021-07-31 08:20:18');
 COMMIT;
 
-DROP TABLE IF EXISTS `common_login_log`;
-CREATE TABLE `common_login_log` (
+DROP TABLE IF EXISTS `c_login_log`;
+CREATE TABLE `c_login_log` (
 `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
 `user_id` bigint DEFAULT NULL COMMENT '登录人ID',
 `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
@@ -183,8 +183,8 @@ PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='登录日志';
 
 
-DROP TABLE IF EXISTS `common_opt_log`;
-CREATE TABLE `common_opt_log` (
+DROP TABLE IF EXISTS `c_opt_log`;
+CREATE TABLE `c_opt_log` (
 `id` bigint NOT NULL AUTO_INCREMENT,
 `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
 `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作IP',

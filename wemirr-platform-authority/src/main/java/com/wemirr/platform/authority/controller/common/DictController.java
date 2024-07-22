@@ -29,6 +29,7 @@ import com.wemirr.platform.authority.domain.common.resp.SysDictResp;
 import com.wemirr.platform.authority.service.DictService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -96,7 +97,10 @@ public class DictController {
 
     @GetMapping("/{code}/list")
     @Operation(summary = "查询字典子项 - [DONE] - [Levin]", description = "查询字典子项")
-    @Parameter(name = "code", description = "编码", in = ParameterIn.PATH)
+    @Parameters({
+            @Parameter(name = "Accept-Language", description = "语言", example = "zh-CN,zh;q=0.9", in = ParameterIn.HEADER),
+            @Parameter(name = "code", description = "编码", in = ParameterIn.PATH),
+    })
     public List<Dict<String>> list(@PathVariable("code") String code) {
         return dictService.findItemByCode(code);
     }

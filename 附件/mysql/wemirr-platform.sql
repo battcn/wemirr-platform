@@ -18,10 +18,10 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for common_diff_log
+-- Table structure for c_diff_log
 -- ----------------------------
-DROP TABLE IF EXISTS `common_diff_log`;
-CREATE TABLE `common_diff_log` (
+DROP TABLE IF EXISTS `c_diff_log`;
+CREATE TABLE `c_diff_log` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
   `variables` json DEFAULT NULL COMMENT '变量信息，JSON格式',
   `service_name` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT '服务名称',
@@ -39,16 +39,16 @@ CREATE TABLE `common_diff_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='通用差异日志表';
 
 -- ----------------------------
--- Records of common_diff_log
+-- Records of c_diff_log
 -- ----------------------------
 BEGIN;
 COMMIT;
 
 -- ----------------------------
--- Table structure for common_generate
+-- Table structure for c_generate
 -- ----------------------------
-DROP TABLE IF EXISTS `common_generate`;
-CREATE TABLE `common_generate` (
+DROP TABLE IF EXISTS `c_generate`;
+CREATE TABLE `c_generate` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `root_dir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '根目录',
   `springdoc` bit(2) DEFAULT b'0' COMMENT '是否添加swagger2',
@@ -71,19 +71,19 @@ CREATE TABLE `common_generate` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1706551921692655619 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='代码生成器';
 
 -- ----------------------------
--- Records of common_generate
+-- Records of c_generate
 -- ----------------------------
 BEGIN;
-INSERT INTO `common_generate` (`id`, `root_dir`, `springdoc`, `author`, `table_name`, `parent_package`, `module_name`, `table_prefix`, `api_url_prefix`, `logic_delete_field`, `platform_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (6, NULL, b'01', 'Levin', 't_user', 'com.wemirr.platform', 'authority', 't_', '/api/users', 'locked', 1, b'00', 0, NULL, '2020-11-06 09:34:40', 1, '长风一梦8888', '2022-06-06 05:04:37');
-INSERT INTO `common_generate` (`id`, `root_dir`, `springdoc`, `author`, `table_name`, `parent_package`, `module_name`, `table_prefix`, `api_url_prefix`, `logic_delete_field`, `platform_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (31, NULL, b'00', 'Levin', 't_user', 'com.wemirr.platform.authority', 'User', 't_', '/api/users', 'locked', 1, b'00', 2, '不告诉你', '2020-11-06 09:34:40', 2, '不告诉你', '2021-11-26 06:11:04');
-INSERT INTO `common_generate` (`id`, `root_dir`, `springdoc`, `author`, `table_name`, `parent_package`, `module_name`, `table_prefix`, `api_url_prefix`, `logic_delete_field`, `platform_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1706551921692655618, '/Users/battcn/Development/opensource/wemirr-platform/wemirr-platform-tools/target', b'00', '长风一梦8888', 'common_dictionary', 'com.wemirr.platform.authority', 'common', 'common', '/api', NULL, 0, b'00', 1, '长风一梦8888', NULL, 1, '长风一梦8888', NULL);
+INSERT INTO `c_generate` (`id`, `root_dir`, `springdoc`, `author`, `table_name`, `parent_package`, `module_name`, `table_prefix`, `api_url_prefix`, `logic_delete_field`, `platform_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (6, NULL, b'01', 'Levin', 't_user', 'com.wemirr.platform', 'authority', 't_', '/api/users', 'locked', 1, b'00', 0, NULL, '2020-11-06 09:34:40', 1, '长风一梦8888', '2022-06-06 05:04:37');
+INSERT INTO `c_generate` (`id`, `root_dir`, `springdoc`, `author`, `table_name`, `parent_package`, `module_name`, `table_prefix`, `api_url_prefix`, `logic_delete_field`, `platform_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (31, NULL, b'00', 'Levin', 't_user', 'com.wemirr.platform.authority', 'User', 't_', '/api/users', 'locked', 1, b'00', 2, '不告诉你', '2020-11-06 09:34:40', 2, '不告诉你', '2021-11-26 06:11:04');
+INSERT INTO `c_generate` (`id`, `root_dir`, `springdoc`, `author`, `table_name`, `parent_package`, `module_name`, `table_prefix`, `api_url_prefix`, `logic_delete_field`, `platform_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1706551921692655618, '/Users/battcn/Development/opensource/wemirr-platform/wemirr-platform-tools/target', b'00', '长风一梦8888', 'c_dictionary', 'com.wemirr.platform.authority', 'common', 'common', '/api', NULL, 0, b'00', 1, '长风一梦8888', NULL, 1, '长风一梦8888', NULL);
 COMMIT;
 
 -- ----------------------------
--- Table structure for common_i18n_data
+-- Table structure for c_i18n_data
 -- ----------------------------
-DROP TABLE IF EXISTS `common_i18n_data`;
-CREATE TABLE `common_i18n_data` (
+DROP TABLE IF EXISTS `c_i18n_data`;
+CREATE TABLE `c_i18n_data` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `code` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '唯一标识 = 业务:关键词',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
@@ -99,18 +99,18 @@ CREATE TABLE `common_i18n_data` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1724355494514126850 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='国际化信息';
 
 -- ----------------------------
--- Records of common_i18n_data
+-- Records of c_i18n_data
 -- ----------------------------
 BEGIN;
-INSERT INTO `common_i18n_data` (`id`, `code`, `remark`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1721821542981042178, 'i18n.db', '测试中文内容 {i18n.demo}', 1, b'0', 1, '长风一梦0000', '2023-11-07 17:27:00', 0, NULL, NULL);
-INSERT INTO `common_i18n_data` (`id`, `code`, `remark`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1724355494514126849, '123', '213', 1, b'1', 1, '长风一梦0000', '2023-11-14 17:16:02', 0, NULL, '2023-11-14 09:16:04');
+INSERT INTO `c_i18n_data` (`id`, `code`, `remark`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1721821542981042178, 'i18n.db', '测试中文内容 {i18n.demo}', 1, b'0', 1, '长风一梦0000', '2023-11-07 17:27:00', 0, NULL, NULL);
+INSERT INTO `c_i18n_data` (`id`, `code`, `remark`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1724355494514126849, '123', '213', 1, b'1', 1, '长风一梦0000', '2023-11-14 17:16:02', 0, NULL, '2023-11-14 09:16:04');
 COMMIT;
 
 -- ----------------------------
--- Table structure for common_i18n_locale_message
+-- Table structure for c_i18n_locale_message
 -- ----------------------------
-DROP TABLE IF EXISTS `common_i18n_locale_message`;
-CREATE TABLE `common_i18n_locale_message` (
+DROP TABLE IF EXISTS `c_i18n_locale_message`;
+CREATE TABLE `c_i18n_locale_message` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `parent_id` bigint DEFAULT NULL COMMENT 'i18n_data.id',
   `locale` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '语言',
@@ -122,18 +122,18 @@ CREATE TABLE `common_i18n_locale_message` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1724355494610595843 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='国际化信息';
 
 -- ----------------------------
--- Records of common_i18n_locale_message
+-- Records of c_i18n_locale_message
 -- ----------------------------
 BEGIN;
-INSERT INTO `common_i18n_locale_message` (`id`, `parent_id`, `locale`, `message`, `created_by`, `created_name`, `created_time`) VALUES (1721821543056539650, 1721821542981042178, 'zh_CN', '测试中文内容 {i18n.demo}', 1, '长风一梦0000', '2023-11-07 17:27:00');
-INSERT INTO `common_i18n_locale_message` (`id`, `parent_id`, `locale`, `message`, `created_by`, `created_name`, `created_time`) VALUES (1721821543060733954, 1721821542981042178, 'en_US', 'English Context', 1, '长风一梦0000', '2023-11-07 17:27:00');
+INSERT INTO `c_i18n_locale_message` (`id`, `parent_id`, `locale`, `message`, `created_by`, `created_name`, `created_time`) VALUES (1721821543056539650, 1721821542981042178, 'zh_CN', '测试中文内容 {i18n.demo}', 1, '长风一梦0000', '2023-11-07 17:27:00');
+INSERT INTO `c_i18n_locale_message` (`id`, `parent_id`, `locale`, `message`, `created_by`, `created_name`, `created_time`) VALUES (1721821543060733954, 1721821542981042178, 'en_US', 'English Context', 1, '长风一梦0000', '2023-11-07 17:27:00');
 COMMIT;
 
 -- ----------------------------
--- Table structure for common_login_log
+-- Table structure for c_login_log
 -- ----------------------------
-DROP TABLE IF EXISTS `common_login_log`;
-CREATE TABLE `common_login_log` (
+DROP TABLE IF EXISTS `c_login_log`;
+CREATE TABLE `c_login_log` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
   `user_id` bigint DEFAULT NULL COMMENT '登录人ID',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
@@ -153,16 +153,16 @@ CREATE TABLE `common_login_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='登录日志';
 
 -- ----------------------------
--- Records of common_login_log
+-- Records of c_login_log
 -- ----------------------------
 BEGIN;
 COMMIT;
 
 -- ----------------------------
--- Table structure for common_opt_log
+-- Table structure for c_opt_log
 -- ----------------------------
-DROP TABLE IF EXISTS `common_opt_log`;
-CREATE TABLE `common_opt_log` (
+DROP TABLE IF EXISTS `c_opt_log`;
+CREATE TABLE `c_opt_log` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
   `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作IP',
@@ -189,7 +189,7 @@ CREATE TABLE `common_opt_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统日志';
 
 -- ----------------------------
--- Records of common_opt_log
+-- Records of c_opt_log
 -- ----------------------------
 BEGIN;
 COMMIT;

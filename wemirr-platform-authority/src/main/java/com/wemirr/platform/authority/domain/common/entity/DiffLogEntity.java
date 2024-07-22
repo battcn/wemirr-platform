@@ -14,7 +14,7 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("common_diff_log")
+@TableName("c_diff_log")
 public class DiffLogEntity extends DiffLogInfo {
 
     @TableId(type = IdType.ASSIGN_ID)

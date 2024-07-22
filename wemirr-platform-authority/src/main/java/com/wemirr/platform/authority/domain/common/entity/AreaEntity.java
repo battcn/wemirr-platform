@@ -44,7 +44,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName("common_area")
+@TableName("c_area")
 public class AreaEntity extends SuperEntity<Long> {
     
     /**
