@@ -45,17 +45,17 @@ import java.util.List;
 @Order
 @Configuration
 public class I18nConfiguration {
-    
+
     @Bean
     public MessageSourceProperties properties() {
         return new MessageSourceProperties();
     }
-    
+
     @Bean
-    public DynamicMessageSource dynamicMessageSource(RedisTemplate<String, Object> redisTemplate) {
-        return new DynamicMessageSource(redisTemplate);
+    public DynamicMessageSource dynamicMessageSource(I18nMessageProvider i18nMessageProvider) {
+        return new DynamicMessageSource(i18nMessageProvider);
     }
-    
+
     /**
      * 系统国际化文件配置
      *
@@ -83,26 +83,26 @@ public class I18nConfiguration {
         messageSource.setBasenames(ArrayUtil.toArray(baseNames, String.class));
         return messageSource;
     }
-    
+
     @Bean
     public MessageSourceHierarchicalChanger messageSourceHierarchicalChanger() {
         return new MessageSourceHierarchicalChanger();
     }
-    
+
     @Bean
     @Order
     public I18nMessageProvider i18nMessageProvider(RedisTemplate<String, Object> redisTemplate) {
         return new I18nMessageRedisProvider(redisTemplate);
     }
-    
+
     @Bean
     public I18nMessageResource i18nMessageResource(MessageSource messageSource) {
         return new I18nMessageResource(messageSource);
     }
-    
+
     @Bean
     public I18nAspect i18nAspect(I18nMessageResource messageSource) {
         return new I18nAspect(messageSource);
     }
-    
+
 }

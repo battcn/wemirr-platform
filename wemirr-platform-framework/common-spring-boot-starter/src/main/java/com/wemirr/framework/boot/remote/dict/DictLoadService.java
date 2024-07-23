@@ -2,7 +2,6 @@ package com.wemirr.framework.boot.remote.dict;
 
 import cn.hutool.core.lang.Pair;
 import com.wemirr.framework.commons.remote.LoadService;
-import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.i18n.I18nMessageProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +22,9 @@ import static java.util.stream.Collectors.toMap;
 @RequiredArgsConstructor
 public class DictLoadService implements LoadService<Object> {
 
-    private final AuthenticationContext context;
     private final RedisTemplate<String, Object> redisTemplate;
     private final I18nMessageProvider i18nMessageProvider;
+    private static final String PLAT_DICT_HASH_KEY = "dict:platform";
 
     @Override
     public Map<Object, Object> findByIds(Set<Object> ids) {
@@ -34,13 +33,18 @@ public class DictLoadService implements LoadService<Object> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Map<Object, Object> findByIds(String tag) {
         Locale locale = LocaleContextHolder.getLocale();
-        Map<Object, Object> entries = redisTemplate.opsForHash().entries(tag);
+        Map<Object, Object> entries = (Map<Object, Object>) redisTemplate.opsForHash().get(PLAT_DICT_HASH_KEY, tag);
+        if (entries == null) {
+            return null;
+        }
         for (Map.Entry<Object, Object> entry : entries.entrySet()) {
             String code = tag + "." + entry.getKey();
-            String message = i18nMessageProvider.getI18nMessage(context.tenantId(), code, locale);
+            String message = i18nMessageProvider.getI18nMessage(code, locale);
             if (message == null) {
+                log.warn("未检测到 IN18N 队列中存在数据,请检查 Redis 缓存或者 DB是否有配置 - {}", code);
                 continue;
             }
             entries.put(entry.getKey(), message);
@@ -54,12 +58,13 @@ public class DictLoadService implements LoadService<Object> {
             return;
         }
         for (Map.Entry<String, List<Pair<String, String>>> entry : data.entrySet()) {
+            String key = entry.getKey();
             List<Pair<String, String>> value = entry.getValue();
             if (value == null) {
                 continue;
             }
             Map<String, String> map = value.stream().collect(toMap(Pair::getKey, Pair::getValue));
-            redisTemplate.opsForHash().putAll(entry.getKey(), map);
+            redisTemplate.opsForHash().put(PLAT_DICT_HASH_KEY, key, map);
         }
     }
 }

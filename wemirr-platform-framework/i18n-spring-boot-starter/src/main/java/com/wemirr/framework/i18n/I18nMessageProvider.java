@@ -33,12 +33,11 @@ public interface I18nMessageProvider {
     /**
      * 获取消息
      *
-     * @param tenantId 租户ID
-     * @param code     code
-     * @param locale   语言
+     * @param code   code
+     * @param locale 语言
      * @return 国际化消息
      */
-    String getI18nMessage(Long tenantId, String code, Locale locale);
+    String getI18nMessage(String code, Locale locale);
 
     /**
      * 加载全部的 i18n 数据

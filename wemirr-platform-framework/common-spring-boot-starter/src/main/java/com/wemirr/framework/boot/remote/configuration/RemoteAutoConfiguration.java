@@ -23,7 +23,6 @@ import com.wemirr.framework.boot.remote.RemoteService;
 import com.wemirr.framework.boot.remote.dict.DictLoadService;
 import com.wemirr.framework.boot.remote.properties.RemoteProperties;
 import com.wemirr.framework.commons.remote.LoadService;
-import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.i18n.I18nMessageProvider;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,8 +55,8 @@ public class RemoteAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public DictLoadService dictLoadService(AuthenticationContext context, RedisTemplate<String, Object> redisTemplate, I18nMessageProvider i18nMessageProvider) {
-        return new DictLoadService(context, redisTemplate, i18nMessageProvider);
+    public DictLoadService dictLoadService(RedisTemplate<String, Object> redisTemplate, I18nMessageProvider i18nMessageProvider) {
+        return new DictLoadService(redisTemplate, i18nMessageProvider);
     }
 
     /**

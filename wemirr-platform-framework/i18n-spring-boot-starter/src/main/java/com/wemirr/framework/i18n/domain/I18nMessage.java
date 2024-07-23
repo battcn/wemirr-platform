@@ -36,21 +36,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Schema(title = "国际化信息")
 public class I18nMessage {
-    
+
     @Schema(title = "国际化标识")
     private String code;
-    
+
     @Schema(title = "文本值，可以使用 { } 加角标，作为占位符")
     private String message;
-    
+
     @Schema(title = "语言")
     private String locale;
-    
+
     @Schema(title = "租户ID")
     private Long tenantId;
-    
+
     public String buildKey() {
-        return tenantId + ":" + locale + ":" + code;
+        return locale + ":" + code;
     }
-    
+
 }

@@ -42,8 +42,8 @@ public class I18nMessageRedisProvider implements I18nMessageProvider {
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    public String getI18nMessage(Long tenantId, String code, Locale locale) {
-        String buildKey = I18nMessage.builder().tenantId(tenantId).code(code).locale(locale.toString()).build().buildKey();
+    public String getI18nMessage(String code, Locale locale) {
+        String buildKey = I18nMessage.builder().code(code).locale(locale.toString()).build().buildKey();
         I18nMessage message = (I18nMessage) redisTemplate.opsForHash().get(I18nRedisKeyConstants.I18N_DATA_PREFIX, buildKey);
         return message == null ? null : message.getMessage();
     }
@@ -76,5 +76,4 @@ public class I18nMessageRedisProvider implements I18nMessageProvider {
     public void publish(I18nMessage message) {
         redisTemplate.convertAndSend(I18nRedisKeyConstants.CHANNEL_I18N_DATA_UPDATED, JSON.toJSONString(message));
     }
-
 }
