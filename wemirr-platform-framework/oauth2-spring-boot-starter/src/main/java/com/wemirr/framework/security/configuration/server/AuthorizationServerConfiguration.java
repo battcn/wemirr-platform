@@ -33,6 +33,7 @@ import com.wemirr.framework.security.configuration.server.store.RedisSecurityCon
 import com.wemirr.framework.security.configuration.server.store.RedisTokenStore;
 import com.wemirr.framework.security.configuration.server.support.CustomLoginAuthenticationProvider;
 import com.wemirr.framework.security.configuration.server.support.CustomOAuth2AccessTokenGenerator;
+import com.wemirr.framework.security.configuration.server.support.CustomOAuth2RefreshTokenGenerator;
 import com.wemirr.framework.security.configuration.server.support.CustomTokenCustomizer;
 import com.wemirr.framework.security.configuration.server.support.integration.IntegrationAuthenticator;
 import com.wemirr.framework.security.constant.SecurityConstants;
@@ -62,7 +63,10 @@ import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.token.*;
+import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
+import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
@@ -292,7 +296,7 @@ public class AuthorizationServerConfiguration {
     @ConditionalOnExpression("'${extend.oauth2.server.token-type}'.equalsIgnoreCase('custom')")
     public OAuth2TokenGenerator<OAuth2Token> oAuth2TokenGenerator() {
         CustomOAuth2AccessTokenGenerator accessTokenGenerator = new CustomOAuth2AccessTokenGenerator();
-        return new DelegatingOAuth2TokenGenerator(accessTokenGenerator, new OAuth2RefreshTokenGenerator());
+        return new DelegatingOAuth2TokenGenerator(accessTokenGenerator, new CustomOAuth2RefreshTokenGenerator());
     }
 
     /**
