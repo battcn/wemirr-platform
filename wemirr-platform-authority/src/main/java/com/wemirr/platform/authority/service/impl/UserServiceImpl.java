@@ -60,7 +60,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
     private final UserRoleMapper userRoleMapper;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationContext authenticationContext;
+    private final AuthenticationContext context;
     private final OrgService orgService;
 
     @Override
@@ -71,7 +71,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         }
         final User user = BeanUtil.toBean(req, User.class);
         user.setPassword(passwordEncoder.encode(req.getPassword()));
-        user.setTenantId(authenticationContext.tenantId());
+        user.setTenantId(context.tenantId());
         super.save(user);
     }
 
@@ -113,14 +113,11 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         if (!passwordEncoder.matches(orgPassword, user.getPassword())) {
             throw CheckedException.badRequest("原始密码错误");
         }
-        User record = new User();
-        record.setId(userId);
-        record.setPassword(passwordEncoder.encode(newPassword));
-        this.baseMapper.updateById(record);
+        this.baseMapper.updateById(User.builder().id(userId).password(passwordEncoder.encode(newPassword)).build());
     }
 
     @Override
-    @DSTransactional
+    @DSTransactional(rollbackFor = Exception.class)
     public void deleteById(Long id) {
         final User user = Optional.ofNullable(getById(id)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
         if (user.getReadonly()) {
@@ -132,7 +129,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
     @Override
     public void changeInfo(ChangeUserInfoReq req) {
-        final Long userId = authenticationContext.userId();
+        final Long userId = context.userId();
         User record = User.builder().id(userId).email(req.getEmail()).mobile(req.getMobile())
                 .nickName(req.getNickName()).birthday(req.getBirthday()).description(req.getDescription()).build();
         this.baseMapper.updateById(record);

@@ -21,40 +21,34 @@ package com.wemirr.platform.authority.domain.common.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * <p>
- * 实体类
- * 用户
- * </p>
+ * 修改密码
  *
  * @author Levin
- * @since 2019-11-04
  */
 @Data
-@Schema(name = "ChangePasswordReq", description = "用户")
+@Schema(name = "ChangePasswordReq", description = "修改密码")
 public class ChangePasswordReq {
-    
-    /**
-     * 密码
-     */
+
+
     @Schema(description = "旧密码")
     @NotBlank(message = "旧密码不能为空")
     @Length(max = 64, message = "旧密码长度不能超过 {max}")
-    private String originalPassword;
-    /**
-     * 密码
-     */
-    @Schema(description = "密码")
-    @NotBlank(message = "密码不能为空")
-    @Length(max = 64, message = "密码长度不能超过 {max}")
-    private String password;
-    
-    /**
-     * 密码
-     */
+    private String currentPassword;
+
+    @Schema(description = "新密码")
+    @NotBlank(message = "新密码不能为空")
+    @Length(max = 64, message = "新密码长度不能超过 {max}")
+    @Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+            message = "密码不符合复杂性要求，必须包含至少8个字符，其中包括一个大写字母、一个小写字母、一个数字和一个特殊字符。"
+    )
+    private String newPassword;
+
     @Schema(description = "确认密码")
     @NotBlank(message = "确认密码不能为空")
     @Length(max = 64, message = "确认密码长度不能超过 {max}")

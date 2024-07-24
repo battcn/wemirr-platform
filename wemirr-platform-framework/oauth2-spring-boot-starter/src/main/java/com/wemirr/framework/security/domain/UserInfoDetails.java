@@ -32,6 +32,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
+import java.io.Serial;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -44,10 +45,12 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInfoDetails implements UserDetails, OAuth2AuthenticatedPrincipal, CredentialsContainer {
-    
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private Long userId;
     private String email;
-    private Integer sex;
     private String mobile;
     private Long tenantId;
     private String tenantCode;
@@ -68,26 +71,26 @@ public class UserInfoDetails implements UserDetails, OAuth2AuthenticatedPrincipa
     private Collection<String> funcPermissions = new ArrayList<>();
     @Builder.Default
     private Collection<String> roles = new ArrayList<>();
-    
+
     private Collection<GrantedAuthority> authorities;
     @Builder.Default
     private Map<String, Object> attributes = new HashMap<>();
-    
+
     /**
      * 数据权限(可视范围)
      */
     private DataPermission dataPermission;
-    
+
     @Override
     public void eraseCredentials() {
         this.password = null;
     }
-    
+
     @Override
     public Map<String, Object> getAttributes() {
         return ObjectUtil.defaultIfNull(attributes, Map.of());
     }
-    
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (CollUtil.isNotEmpty(authorities)) {
@@ -102,37 +105,37 @@ public class UserInfoDetails implements UserDetails, OAuth2AuthenticatedPrincipa
         }
         return authorities;
     }
-    
+
     @Override
     public String getPassword() {
         return this.password;
     }
-    
+
     @Override
     public String getUsername() {
         return this.username;
     }
-    
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-    
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-    
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-    
+
     @Override
     public boolean isEnabled() {
         return this.enabled;
     }
-    
+
     @Override
     public String getName() {
         return this.username;

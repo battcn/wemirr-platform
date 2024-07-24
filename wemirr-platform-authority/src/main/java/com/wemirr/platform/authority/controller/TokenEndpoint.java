@@ -60,7 +60,7 @@ import java.util.Objects;
 @Tag(name = "Token管理", description = "Token管理")
 public class TokenEndpoint {
 
-    private final AuthenticationContext authenticationContext;
+    private final AuthenticationContext context;
     private final UserService userService;
     private final OAuth2AuthorizationService oAuth2AuthorizationService;
     private final TenantService tenantService;
@@ -98,7 +98,6 @@ public class TokenEndpoint {
                 return user;
             }
         }
-        authenticationContext.tenantId();
         if (principal instanceof BearerTokenAuthentication token) {
             if (token.getPrincipal() instanceof UserInfoDetails user) {
                 return user;
@@ -117,11 +116,10 @@ public class TokenEndpoint {
     @PutMapping("/oauth2/change_password")
     @Operation(summary = "修改密码")
     public void changePassword(@Validated @RequestBody ChangePasswordReq dto) {
-        if (!StringUtils.equals(dto.getPassword(), dto.getConfirmPassword())) {
+        if (!StringUtils.equals(dto.getNewPassword(), dto.getConfirmPassword())) {
             throw CheckedException.badRequest("新密码与确认密码不一致");
         }
-        final Long userId = authenticationContext.userId();
-        this.userService.changePassword(userId, dto.getOriginalPassword(), dto.getPassword());
+        this.userService.changePassword(context.userId(), dto.getCurrentPassword(), dto.getNewPassword());
     }
 
     @PutMapping("/oauth2/change_info")
