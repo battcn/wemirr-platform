@@ -74,7 +74,7 @@ public class UserController {
     public List<UserResp> exportList(@RequestBody UserPageReq req) {
         // 因为导出要全部数据
         req.setCurrent(1);
-        req.setSize(Integer.MAX_VALUE);
+        req.setSize(-1);
         return this.userService.pageList(req).getRecords();
     }
 

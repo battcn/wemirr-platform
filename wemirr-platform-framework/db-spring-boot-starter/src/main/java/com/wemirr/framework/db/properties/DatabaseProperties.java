@@ -124,8 +124,9 @@ public class DatabaseProperties {
 
         /**
          * 单页分页条数限制(默认无限制,参见 插件#handlerLimit 方法)
+         * 如果设置了最大分页数量,那么则最多只能查询出指定条数
          */
-        private long maxLimit = 1000L;
+        private long maxLimit = -1L;
         /**
          * 溢出总页数后是否进行处理
          */
