@@ -12,7 +12,6 @@ public class DiffLogOps {
 
     private String successLogTemplate;
     private String failLogTemplate;
-    private String operatorId;
     private String group;
     private String businessKey;
     private String tag;

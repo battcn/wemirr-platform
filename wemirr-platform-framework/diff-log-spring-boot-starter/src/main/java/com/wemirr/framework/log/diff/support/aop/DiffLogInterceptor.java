@@ -1,5 +1,6 @@
 package com.wemirr.framework.log.diff.support.aop;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
@@ -96,7 +97,7 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
         }
         stopWatch.start(MONITOR_TASK_AFTER_EXECUTE);
         try {
-            if (!CollectionUtils.isEmpty(operations)) {
+            if (CollUtil.isNotEmpty(operations)) {
                 recordExecute(methodExecute, functionNameAndReturnMap, operations);
             }
         } catch (Exception t) {
@@ -131,20 +132,20 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
     }
 
     private void recordExecute(MethodExecute methodExecute, Map<String, String> functionNameAndReturnMap,
-                               Collection<DiffLogOps> operations) {
-        for (DiffLogOps operation : operations) {
+                               Collection<DiffLogOps> logOps) {
+        for (DiffLogOps ops : logOps) {
             try {
-                if (StrUtil.isEmpty(operation.getSuccessLogTemplate())
-                        && StrUtil.isEmpty(operation.getFailLogTemplate())) {
+                if (StrUtil.isEmpty(ops.getSuccessLogTemplate())
+                        && StrUtil.isEmpty(ops.getFailLogTemplate())) {
                     continue;
                 }
-                if (exitsCondition(methodExecute, functionNameAndReturnMap, operation)) {
+                if (exitsCondition(methodExecute, functionNameAndReturnMap, ops)) {
                     continue;
                 }
                 if (!methodExecute.isSuccess()) {
-                    failRecordExecute(methodExecute, functionNameAndReturnMap, operation);
+                    failRecordExecute(methodExecute, functionNameAndReturnMap, ops);
                 } else {
-                    successRecordExecute(methodExecute, functionNameAndReturnMap, operation);
+                    successRecordExecute(methodExecute, functionNameAndReturnMap, ops);
                 }
             } catch (Exception t) {
                 log.error("log record execute exception", t);
@@ -156,46 +157,46 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
     }
 
     private void successRecordExecute(MethodExecute methodExecute, Map<String, String> functionNameAndReturnMap,
-                                      DiffLogOps operation) {
+                                      DiffLogOps ops) {
         // 若存在 isSuccess 条件模版，解析出成功/失败的模版
         String action = "";
         boolean flag = true;
-        if (!StrUtil.isEmpty(operation.getIsSuccess())) {
-            String condition = singleProcessTemplate(methodExecute, operation.getIsSuccess(), functionNameAndReturnMap);
+        if (!StrUtil.isEmpty(ops.getIsSuccess())) {
+            String condition = singleProcessTemplate(methodExecute, ops.getIsSuccess(), functionNameAndReturnMap);
             if (StrUtil.equalsIgnoreCase(condition, "true")) {
-                action = operation.getSuccessLogTemplate();
+                action = ops.getSuccessLogTemplate();
             } else {
-                action = operation.getFailLogTemplate();
+                action = ops.getFailLogTemplate();
                 flag = false;
             }
         } else {
-            action = operation.getSuccessLogTemplate();
+            action = ops.getSuccessLogTemplate();
         }
         if (StrUtil.isEmpty(action)) {
             // 没有日志内容则忽略
             return;
         }
-        List<String> spElTemplates = getSpElTemplates(operation, action);
+        List<String> spElTemplates = getSpElTemplates(ops, action);
         Map<String, String> expressionValues = processTemplate(spElTemplates, methodExecute, functionNameAndReturnMap);
-        saveLog(methodExecute.getMethod(), !flag, operation, action, expressionValues);
+        saveLog(methodExecute.getMethod(), !flag, ops, action, expressionValues);
     }
 
     private void failRecordExecute(MethodExecute methodExecute, Map<String, String> functionNameAndReturnMap,
-                                   DiffLogOps operation) {
-        if (StrUtil.isBlank(operation.getFailLogTemplate())) {
+                                   DiffLogOps ops) {
+        if (StrUtil.isBlank(ops.getFailLogTemplate())) {
             return;
         }
 
-        String action = operation.getFailLogTemplate();
-        List<String> spElTemplates = getSpElTemplates(operation, action);
+        String action = ops.getFailLogTemplate();
+        List<String> spElTemplates = getSpElTemplates(ops, action);
         Map<String, String> expressionValues = processTemplate(spElTemplates, methodExecute, functionNameAndReturnMap);
-        saveLog(methodExecute.getMethod(), true, operation, action, expressionValues);
+        saveLog(methodExecute.getMethod(), true, ops, action, expressionValues);
     }
 
     private boolean exitsCondition(MethodExecute methodExecute,
-                                   Map<String, String> functionNameAndReturnMap, DiffLogOps operation) {
-        if (StrUtil.isNotBlank(operation.getCondition())) {
-            String condition = singleProcessTemplate(methodExecute, operation.getCondition(), functionNameAndReturnMap);
+                                   Map<String, String> functionNameAndReturnMap, DiffLogOps ops) {
+        if (StrUtil.isNotBlank(ops.getCondition())) {
+            String condition = singleProcessTemplate(methodExecute, ops.getCondition(), functionNameAndReturnMap);
             return StrUtil.equalsIgnoreCase(condition, "false");
         }
         return false;
@@ -241,12 +242,12 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
         diffLogService.handler(diffLogInfo);
     }
 
-    private List<String> getSpElTemplates(DiffLogOps operation, String... actions) {
+    private List<String> getSpElTemplates(DiffLogOps ops, String... actions) {
         List<String> template = new ArrayList<>();
-        template.add(operation.getGroup());
-        template.add(operation.getBusinessKey());
-        template.add(operation.getTag());
-        template.add(operation.getExtra());
+        template.add(ops.getGroup());
+        template.add(ops.getBusinessKey());
+        template.add(ops.getTag());
+        template.add(ops.getExtra());
         template.addAll(Arrays.asList(actions));
         return template;
     }

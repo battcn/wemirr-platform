@@ -1,6 +1,5 @@
 package com.wemirr.framework.log.diff.configuration;
 
-import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.log.diff.DefaultDiffItemsToLogContentService;
 import com.wemirr.framework.log.diff.IDiffItemsToLogContentService;
 import com.wemirr.framework.log.diff.core.NoopJaversRepository;
@@ -27,8 +26,6 @@ import org.springframework.context.annotation.Role;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.javers.core.diff.ListCompareAlgorithm.LEVENSHTEIN_DISTANCE;
@@ -108,28 +105,22 @@ public class DiffLogProxyAutoConfiguration implements ImportAware {
     }
 
     @Bean
-    public DiffParseFunction diffParseFunction(IDiffItemsToLogContentService diffItemsToLogContentService,
-                                               DiffLogProperties diffLogProperties) {
+    public DiffParseFunction diffParseFunction(IDiffItemsToLogContentService diffItemsToLogContentService) {
         DiffParseFunction diffParseFunction = new DiffParseFunction();
         diffParseFunction.setDiffItemsToLogContentService(diffItemsToLogContentService);
-        // issue#111
-        diffParseFunction.addUseEqualsClass(LocalDateTime.class);
-        if (StrUtil.isNotBlank(diffLogProperties.getUseEqualsMethod())) {
-            diffParseFunction.addUseEqualsClass(Arrays.asList(diffLogProperties.getUseEqualsMethod().split(",")));
-        }
         return diffParseFunction;
     }
 
     @Bean
-    @ConditionalOnMissingBean(IDiffItemsToLogContentService.class)
     @Role(BeanDefinition.ROLE_APPLICATION)
+    @ConditionalOnMissingBean(IDiffItemsToLogContentService.class)
     public IDiffItemsToLogContentService diffItemsToLogContentService(Javers javers, DiffLogProperties diffLogProperties) {
         return new DefaultDiffItemsToLogContentService(javers, diffLogProperties);
     }
 
     @Bean
-    @ConditionalOnMissingBean(IDiffLogService.class)
     @Role(BeanDefinition.ROLE_APPLICATION)
+    @ConditionalOnMissingBean(IDiffLogService.class)
     public IDiffLogService diffLogService() {
         return new DefaultDiffLogServiceImpl();
     }

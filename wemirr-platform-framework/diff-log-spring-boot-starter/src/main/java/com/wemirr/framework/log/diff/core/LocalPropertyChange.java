@@ -1,5 +1,6 @@
 package com.wemirr.framework.log.diff.core;
 
+import com.wemirr.framework.log.diff.domain.enums.ChangeAction;
 import lombok.Getter;
 import org.javers.common.string.PrettyValuePrinter;
 import org.javers.core.Javers;
@@ -18,7 +19,8 @@ import java.util.Objects;
 public class LocalPropertyChange extends PropertyChange<Object> {
 
     @Serial
-    private static final long serialVersionUID = 2077718131360809701L;
+    private static final long serialVersionUID = 1L;
+    @Getter
     private final PropertyChange<?> propertyChange;
     private final Atomic left;
     private final Atomic right;
@@ -26,6 +28,9 @@ public class LocalPropertyChange extends PropertyChange<Object> {
     private final String originalName;
     @Getter
     private final Class<?> className;
+
+    @Getter
+    private final ChangeAction action;
 
 
     private LocalPropertyChange(Javers javers, PropertyChange<?> propertyChange) {
@@ -39,6 +44,13 @@ public class LocalPropertyChange extends PropertyChange<Object> {
         this.right = new Atomic(propertyChange.getRight());
         this.originalName = javers.getProperty(propertyChange).getOriginalName();
         this.className = propertyChange.getAffectedObject().<Class<?>>map(Object::getClass).orElse(null);
+        if (propertyChange.isPropertyAdded()) {
+            action = ChangeAction.ADDED;
+        } else if (propertyChange.isPropertyRemoved()) {
+            action = ChangeAction.REMOVED;
+        } else {
+            action = ChangeAction.UPDATED;
+        }
     }
 
     public static Change wrap(Javers javers, PropertyChange<?> propertyChange) {

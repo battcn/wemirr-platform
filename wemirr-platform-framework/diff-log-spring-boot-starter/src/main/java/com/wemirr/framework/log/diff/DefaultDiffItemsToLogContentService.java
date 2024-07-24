@@ -6,6 +6,7 @@ import com.wemirr.framework.log.diff.configuration.DiffLogProperties;
 import com.wemirr.framework.log.diff.core.DiffFieldStrategy;
 import com.wemirr.framework.log.diff.core.LocalPropertyChange;
 import com.wemirr.framework.log.diff.core.annotation.DiffField;
+import com.wemirr.framework.log.diff.domain.enums.ChangeAction;
 import com.wemirr.framework.log.diff.service.IFunctionService;
 import com.wemirr.framework.log.diff.utils.DiffUtils;
 import lombok.Getter;
@@ -15,10 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.javers.core.Javers;
 import org.javers.core.diff.Change;
 import org.javers.core.diff.DiffBuilder;
-import org.javers.core.diff.changetype.InitialValueChange;
 import org.javers.core.diff.changetype.PropertyChange;
-import org.javers.core.diff.changetype.TerminalValueChange;
-import org.javers.core.diff.changetype.ValueChange;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -93,13 +91,16 @@ public class DefaultDiffItemsToLogContentService implements IDiffItemsToLogConte
 
 
     public String getFieldLogContent(Change change, String filedLogName, String functionName, DiffFieldStrategy strategy) {
-        if (change instanceof InitialValueChange node) {
+        if (!(change instanceof LocalPropertyChange node)) {
+            return "";
+        }
+        if (node.getAction() == ChangeAction.ADDED) {
             return diffLogProperties.formatAdd(filedLogName, getFunctionValue(node.getRight(), functionName));
         }
-        if (change instanceof TerminalValueChange node) {
+        if (node.getAction() == ChangeAction.REMOVED) {
             return diffLogProperties.formatDeleted(filedLogName, getFunctionValue(node.getLeft(), functionName));
         }
-        if (change instanceof ValueChange node) {
+        if (node.getAction() == ChangeAction.UPDATED) {
             if (strategy == DiffFieldStrategy.NOT_NULL && Objects.isNull(node.getRight())) {
                 return "";
             }

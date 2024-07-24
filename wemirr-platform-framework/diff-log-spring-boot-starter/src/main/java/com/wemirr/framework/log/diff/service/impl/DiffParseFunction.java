@@ -1,16 +1,12 @@
 package com.wemirr.framework.log.diff.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import com.wemirr.framework.log.diff.IDiffItemsToLogContentService;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.support.AopUtils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * @author muzhantong
@@ -22,9 +18,6 @@ public class DiffParseFunction {
     public static final String NEW_OBJECT = "_newObj";
 
     private IDiffItemsToLogContentService diffItemsToLogContentService;
-
-    private final Set<Class<?>> comparisonSet = new HashSet<>();
-
     public String functionName() {
         return DIFF_FUNCTION_NAME;
     }
@@ -47,16 +40,7 @@ public class DiffParseFunction {
             log.error("diff的两个对象类型不同, source.class={}, target.class={}", source.getClass(), target.getClass());
             return "";
         }
-//        ObjectDifferBuilder objectDifferBuilder = ObjectDifferBuilder.startBuilding();
-//        ObjectDifferBuilder register = objectDifferBuilder
-//                .differs().register((differDispatcher, nodeQueryService) ->
-//                        new ArrayDiffer(differDispatcher, (ComparisonService) objectDifferBuilder.comparison(), objectDifferBuilder.identity()));
-//        for (Class<?> clazz : comparisonSet) {
-//            register.comparison().ofType(clazz).toUseEqualsMethod();
-//        }
-//        DiffNode diffNode = register.build().compare(target, source);
         return diffItemsToLogContentService.toLogContent(source, target);
-//        return diffItemsToLogContentService.toLogContent(diffNode, source, target);
     }
 
     public String diff(Object newObj) {
@@ -66,23 +50,5 @@ public class DiffParseFunction {
 
     public void setDiffItemsToLogContentService(IDiffItemsToLogContentService diffItemsToLogContentService) {
         this.diffItemsToLogContentService = diffItemsToLogContentService;
-    }
-
-    public void addUseEqualsClass(List<String> classList) {
-        if (CollUtil.isEmpty(classList)) {
-            return;
-        }
-        for (String clazz : classList) {
-            try {
-                Class<?> aClass = Class.forName(clazz);
-                comparisonSet.add(aClass);
-            } catch (ClassNotFoundException e) {
-                log.warn("无效的比对类型, className={}", clazz);
-            }
-        }
-    }
-
-    public void addUseEqualsClass(Class<?> clazz) {
-        comparisonSet.add(clazz);
     }
 }

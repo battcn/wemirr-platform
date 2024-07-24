@@ -93,7 +93,7 @@ public class DiffLogProperties {
     private String ofWord = "的";
 
     /**
-     * 是否不校验文案，全部记录日志
+     * 是否记录日志
      */
     private Boolean diffLog = false;
 
