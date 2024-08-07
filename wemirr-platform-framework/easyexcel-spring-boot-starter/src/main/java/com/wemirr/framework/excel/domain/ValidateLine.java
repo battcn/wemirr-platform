@@ -27,6 +27,7 @@ public class ValidateLine {
     /**
      * 异常信息
      */
+    @Builder.Default
     private Set<String> errors = new HashSet<>();
 
 }

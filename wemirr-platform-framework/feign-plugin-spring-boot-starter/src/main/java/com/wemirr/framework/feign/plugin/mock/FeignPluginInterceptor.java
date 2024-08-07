@@ -45,6 +45,21 @@ public class FeignPluginInterceptor implements RequestInterceptor {
     public final String IGNORE_HEADER = "ignore-header";
     private final FeignPluginProperties properties;
 
+    /**
+     * 需要排除的头部字段
+     */
+    public static final String[] EXCLUDED_DEFAULT_HEADERS = {HttpHeaders.CONTENT_LENGTH, HttpHeaders.COOKIE};
+
+    private boolean isExcluded(String headerKey) {
+        for (String header : EXCLUDED_DEFAULT_HEADERS) {
+            if (headerKey.contains(header) || StrUtil.equalsIgnoreCase(headerKey, header)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     @Override
     public void apply(RequestTemplate template) {
         final RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
@@ -55,10 +70,7 @@ public class FeignPluginInterceptor implements RequestInterceptor {
             while (headerNames.hasMoreElements()) {
                 final String headerKey = (String) headerNames.nextElement();
                 final String headerValue = request.getHeader(headerKey);
-                if (headerKey.contains(HttpHeaders.CONTENT_LENGTH) || StrUtil.equalsIgnoreCase(headerKey, HttpHeaders.CONTENT_LENGTH)) {
-                    continue;
-                }
-                if (ignoreHeader != null && ignoreHeader.contains(headerKey)) {
+                if (isExcluded(headerKey) || ignoreHeader != null && ignoreHeader.contains(headerKey)) {
                     continue;
                 }
                 template.header(headerKey, headerValue);
