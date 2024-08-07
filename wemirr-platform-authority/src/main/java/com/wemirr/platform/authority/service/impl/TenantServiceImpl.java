@@ -158,7 +158,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         // 先创建
         dynamicDatasourceService.publishEvent(EventAction.INIT, tenant.getId());
         if (!req.isLazy()) {
-            initSqlScript(tenantId);
+//            initSqlScript(tenantId);
         }
     }
 

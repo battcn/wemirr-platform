@@ -97,8 +97,8 @@ public class TenantDynamicDataSourceHandler {
                 stat.executeUpdate(createDatabaseScript);
             } catch (Exception e) {
                 log.error("执行创建数据库脚本异常", e);
+                return;
             }
-            return;
         }
         DataSourceProperty dataSourceProperty = getDataSourceProperty(db, database, true);
         DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
