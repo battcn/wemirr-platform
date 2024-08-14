@@ -21,7 +21,6 @@ package com.wemirr.framework.boot.base.converter;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -40,17 +39,17 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 public class EnumDeserializer extends StdDeserializer<Enum<?>> {
-    
+
     public static final EnumDeserializer INSTANCE = new EnumDeserializer();
     private static final String ALL_ENUM_STRING_CONVERT_METHOD = "get";
     private static final String ALL_ENUM_KEY_FIELD = "code";
-    
+
     private EnumDeserializer() {
         super(Enum.class);
     }
-    
+
     @Override
-    public Enum<?> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Enum<?> deserialize(JsonParser p, DeserializationContext context) throws IOException {
         JsonToken token = p.getCurrentToken();
         String value = null;
         while (!token.isStructEnd()) {
@@ -62,15 +61,15 @@ public class EnumDeserializer extends StdDeserializer<Enum<?>> {
             }
             token = p.getCurrentToken();
         }
-        if (value == null || "".equals(value)) {
+        if (value == null || value.isEmpty()) {
             return null;
         }
-        
-        Object obj = p.getCurrentValue();
+
+        Object obj = p.currentValue();
         if (obj == null) {
             return null;
         }
-        Field field = ReflectUtil.getField(obj.getClass(), p.getCurrentName());
+        Field field = ReflectUtil.getField(obj.getClass(), p.currentName());
         // 找不到字段
         if (field == null) {
             return null;
@@ -84,5 +83,5 @@ public class EnumDeserializer extends StdDeserializer<Enum<?>> {
             return null;
         }
     }
-    
+
 }
