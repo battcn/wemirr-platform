@@ -52,7 +52,7 @@ public class CustomOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OA
     public OAuth2AccessToken generate(OAuth2TokenContext context) {
         if (!OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())
                 || !OAuth2TokenFormat.REFERENCE.equals(context.getRegisteredClient().getTokenSettings().getAccessTokenFormat())) {
-            log.error("settings.token.access-token-format 配置不是 reference,如果配置的是 self-contained 请将 extend.oauth2.server.token-type 改成 jwt ");
+            log.warn("settings.token.access-token-format 配置不是 reference,如果配置的是 self-contained 请将 extend.oauth2.server.token-type 改成 jwt ");
             return null;
         }
         

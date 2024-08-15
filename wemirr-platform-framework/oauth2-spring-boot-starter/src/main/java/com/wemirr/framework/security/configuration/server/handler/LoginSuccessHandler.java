@@ -19,7 +19,7 @@
 
 package com.wemirr.framework.security.configuration.server.handler;
 
-import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.entity.Result;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +29,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
@@ -44,12 +45,14 @@ import java.util.Objects;
  */
 @Slf4j
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
-    
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-        log.info("登录成功 - {}", JSONObject.toJSONString(authentication));
+        log.debug("authentication success - principal - {}", authentication.getPrincipal());
         Map<String, Object> tokenInfo = Maps.newLinkedHashMap();
         if (authentication instanceof OAuth2AccessTokenAuthenticationToken toke) {
+            TokenSettings tokenSettings = toke.getRegisteredClient().getTokenSettings();
+            log.debug("token settings - {}", tokenSettings);
             final OAuth2AccessToken accessToken = toke.getAccessToken();
             tokenInfo.put("access_token", accessToken.getTokenValue());
             tokenInfo.put("token_type", accessToken.getTokenType().getValue());
@@ -66,5 +69,5 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         response.getWriter().write(success.toString());
         response.getWriter().flush();
     }
-    
+
 }
