@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
 import java.net.InetSocketAddress;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -48,9 +49,9 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
         record.setId(UuidUtils.generateUuid());
         record.setDescription("触发 sentinel 限流规则" + path + "拉入黑名单1小时");
         record.setStatus(true);
-        final LocalDateTime now = LocalDateTime.now();
+        final Instant now = Instant.now();
         record.setStartTime(now);
-        record.setEndTime(now.plusHours(1));
+        record.setEndTime(now.plus(1, ChronoUnit.HOURS));
         record.setIp(remoteAddress.getAddress().getHostAddress());
         record.setMethod(Objects.requireNonNull(exchange.getRequest().getMethod()).name());
         record.setPath(path);
@@ -104,7 +105,7 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
             rule.setId(UuidUtils.generateUuid());
         }
         if (rule.getCreatedTime() == null) {
-            rule.setCreatedTime(LocalDateTime.now());
+            rule.setCreatedTime(Instant.now());
         }
         final String content = JSON.toJSONString(rule);
         stringRedisTemplate.opsForHash().put(RULE_BLACKLIST.hashKey(), rule.getId(), content);

@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
 import java.net.InetSocketAddress;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -61,7 +63,7 @@ public class LimitHelper implements GatewayRule<LimitRule> {
             rule.setId(uuid);
         }
         if (rule.getCreatedTime() == null) {
-            rule.setCreatedTime(LocalDateTime.now());
+            rule.setCreatedTime(Instant.now());
         }
         stringRedisTemplate.opsForHash().put(RULE_LIMIT.hashKey(), rule.getId(), JSON.toJSONString(rule));
     }
@@ -100,9 +102,9 @@ public class LimitHelper implements GatewayRule<LimitRule> {
             record.setId(limitRule.getId());
             record.setDescription("访问" + limitRule.getPath() + "频率过快被拉入黑名单24小时");
             record.setStatus(true);
-            final LocalDateTime now = LocalDateTime.now();
+            final Instant now = Instant.now();
             record.setStartTime(now);
-            record.setEndTime(now.plusDays(1));
+            record.setEndTime(now.plus(1, ChronoUnit.HOURS));
             record.setIp(remoteAddress.getAddress().getHostAddress());
             record.setMethod(limitRule.getMethod());
             record.setPath(limitRule.getPath());
