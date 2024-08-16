@@ -20,6 +20,7 @@
 package com.wemirr.platform.authority.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.remote.RemoteResult;
@@ -128,10 +129,27 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     }
 
     @Override
+    @DSTransactional(rollbackFor = Exception.class)
     public void changeInfo(ChangeUserInfoReq req) {
         final Long userId = context.userId();
-        User record = User.builder().id(userId).email(req.getEmail()).mobile(req.getMobile())
-                .nickName(req.getNickName()).birthday(req.getBirthday()).description(req.getDescription()).build();
-        this.baseMapper.updateById(record);
+        User bean = User.builder().id(userId).email(req.getEmail()).mobile(req.getMobile())
+                .nickName(req.getNickName()).birthday(req.getBirthday())
+                .description(req.getDescription()).build();
+        this.baseMapper.updateById(bean);
+    }
+
+    @Override
+    @DSTransactional(rollbackFor = Exception.class)
+    public void resetPassword(Long id) {
+        final User user = Optional.ofNullable(getById(id)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
+        if (user.getReadonly()) {
+            throw CheckedException.badRequest("禁止重置内置用户密码");
+        }
+        String prefix = RandomUtil.randomString(4);
+        String suffix = RandomUtil.randomNumbers(6);
+        String password = prefix + suffix;
+        String encodePassword = passwordEncoder.encode(password);
+        log.info("随机生成的新密码 - {} - {}", password, encodePassword);
+        this.baseMapper.updateById(User.builder().id(id).password(encodePassword).build());
     }
 }

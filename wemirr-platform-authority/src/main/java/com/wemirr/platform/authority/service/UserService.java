@@ -85,4 +85,11 @@ public interface UserService extends SuperService<User> {
      * @param req req
      */
     void changeInfo(ChangeUserInfoReq req);
+
+    /**
+     * 重置密码
+     *
+     * @param id ID
+     */
+    void resetPassword(Long id);
 }

@@ -24,6 +24,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.MapHelper;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.entity.Entity;
+import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.datascope.service.DataScopeService;
 import com.wemirr.framework.excel.annotation.ResponseExcel;
 import com.wemirr.platform.authority.domain.baseinfo.entity.User;
@@ -36,6 +37,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -65,6 +67,14 @@ public class UserController {
     @PreAuthorize("hasAuthority('sys:user:page')")
     public IPage<UserResp> pageList(@RequestBody UserPageReq req) {
         return this.userService.pageList(req);
+    }
+
+
+    @PutMapping("/{id}/reset_password")
+    @PreAuthorize("hasAuthority('sys:user:reset')")
+    @Operation(summary = "重置密码", description = "重置密码,并且将随机生成的密码通过邮箱/短信的形式发送")
+    public void resetPassword(@PathVariable Long id) {
+        this.userService.resetPassword(id);
     }
 
     @PostMapping("/export")
