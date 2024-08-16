@@ -13,6 +13,7 @@
         <!-- 打包跳过单元测试 -->
         <skipTests>true</skipTests>
         <java.version>17</java.version>
+        <fastjson2.version>2.0.40</fastjson2.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
@@ -42,6 +43,7 @@
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
+            <version>${fastjson2.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>

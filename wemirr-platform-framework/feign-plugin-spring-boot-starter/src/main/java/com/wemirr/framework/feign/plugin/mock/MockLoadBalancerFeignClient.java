@@ -50,7 +50,7 @@ public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient
     
     private final MockProperties mockProperties;
     
-    public MockLoadBalancerFeignClient(Client.Default delegate, LoadBalancerClient loadBalancerClient,
+    public MockLoadBalancerFeignClient(Default delegate, LoadBalancerClient loadBalancerClient,
                                        LoadBalancerClientFactory loadBalancerClientFactory,
                                        List<LoadBalancerFeignRequestTransformer> transformers,
                                        MockProperties mockProperties) {

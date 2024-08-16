@@ -71,7 +71,7 @@ public class Result<T> implements Serializable {
     @Schema(description = "返回数据")
     private T data;
 
-    private Result(Result.Builder<T> builder) {
+    private Result(Builder<T> builder) {
         this.code = builder.code;
         this.message = builder.message;
         this.timestamp = builder.timestamp;
@@ -180,7 +180,7 @@ public class Result<T> implements Serializable {
 
 
     public static <T> Result<T> getResponse(int code, String message, boolean successful, T data) {
-        return new Result.Builder<T>(code, System.currentTimeMillis(), successful).message(message).data(data).build();
+        return new Builder<T>(code, System.currentTimeMillis(), successful).message(message).data(data).build();
     }
 
 
@@ -198,12 +198,12 @@ public class Result<T> implements Serializable {
             this.successful = successful;
         }
 
-        public Result.Builder<T> message(String message) {
+        public Builder<T> message(String message) {
             this.message = message;
             return this;
         }
 
-        public Result.Builder<T> data(T data) {
+        public Builder<T> data(T data) {
             this.data = data;
             return this;
         }

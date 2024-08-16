@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.robot.message.push;
 
+import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.wemirr.framework.robot.RobotProperties;
@@ -38,9 +39,9 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class DingTalkRobotMessageHandler implements RobotMessageHandler {
-    
+
     private final RobotProperties robotProperties;
-    
+
     @Override
     public String notify(String message) {
         Map<String, Object> body = Map.ofEntries(
@@ -51,7 +52,12 @@ public class DingTalkRobotMessageHandler implements RobotMessageHandler {
         log.info("ding talk notify response - {}", response);
         return response;
     }
-    
+
+    @Override
+    public String notify(String message, Map<?, ?> map, boolean ignoreNull) {
+        return notify(StrFormatter.format(message, map, ignoreNull));
+    }
+
     @Override
     public String getUrl() {
         RobotProperties.DingTalk dingTalk = robotProperties.getDingTalk();
@@ -68,7 +74,7 @@ public class DingTalkRobotMessageHandler implements RobotMessageHandler {
         url.append("&sign=").append(URLEncoder.encode(sign, StandardCharsets.UTF_8));
         return url.toString();
     }
-    
+
     @Override
     public NotifyType notifyType() {
         return NotifyType.DING_TALK;

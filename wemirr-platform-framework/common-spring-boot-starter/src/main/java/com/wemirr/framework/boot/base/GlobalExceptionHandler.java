@@ -72,6 +72,10 @@ import java.util.Objects;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+
+    private static final String BPM_MODEL_EXISTS_PROCESS = "Deletion of process definition without cascading failed.";
+
+
     @Resource
     private I18nMessageResource i18nMessageResource;
 
@@ -105,6 +109,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
         } else if (e instanceof RuntimeException exception) {
             log.error("异常信息", exception);
+            if (exception.getMessage().contains(BPM_MODEL_EXISTS_PROCESS)) {
+                return new ResponseEntity<>(Result.fail("删除失败,存在未完结的流程实例"), defaultErrorResult);
+            }
             return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
         }
         return new ResponseEntity<>(Result.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()), defaultErrorResult);

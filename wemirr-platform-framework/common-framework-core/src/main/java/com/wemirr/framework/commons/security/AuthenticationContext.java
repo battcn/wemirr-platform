@@ -43,6 +43,13 @@ public interface AuthenticationContext {
     Long tenantId();
     
     /**
+     * 租户名称
+     *
+     * @return tenantName
+     */
+    String tenantName();
+
+    /**
      * 用户ID
      *
      * @return id

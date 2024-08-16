@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.robot.message.push;
 
+import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.wemirr.framework.robot.RobotProperties;
@@ -37,11 +38,11 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class FeiShuRobotMessageHandler implements RobotMessageHandler {
-    
+
     private static final String OPEN_API_URL = "https://open.feishu.cn/open-apis/bot/v2/hook/%s";
-    
+
     private final RobotProperties robotProperties;
-    
+
     @Override
     public String notify(String message) {
         final String secret = robotProperties.getFeiShu().getSecret();
@@ -57,15 +58,20 @@ public class FeiShuRobotMessageHandler implements RobotMessageHandler {
         log.info("fei shu notify response - {}", response);
         return response;
     }
-    
+
+    @Override
+    public String notify(String message, Map<?, ?> map, boolean ignoreNull) {
+        return notify(StrFormatter.format(message, map, ignoreNull));
+    }
+
     @Override
     public String getUrl() {
         return String.format(OPEN_API_URL, robotProperties.getFeiShu().getKey());
     }
-    
+
     @Override
     public NotifyType notifyType() {
         return NotifyType.FEI_SHU;
     }
-    
+
 }

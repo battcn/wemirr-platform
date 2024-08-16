@@ -30,11 +30,11 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class AuthenticationContextConfiguration {
-    
+
     @Bean
     public AuthenticationContext authenticationContext() {
         return new AuthenticationContext() {
-            
+
             @Override
             public Long tenantId() {
                 if (SecurityUtils.anonymous() || SecurityUtils.getAuthInfo() == null) {
@@ -42,16 +42,23 @@ public class AuthenticationContextConfiguration {
                 }
                 return SecurityUtils.getAuthInfo().getTenantId();
             }
-            
+
+            public String tenantName() {
+                if (SecurityUtils.anonymous() || SecurityUtils.getAuthInfo() == null) {
+                    return null;
+                }
+                return SecurityUtils.getAuthInfo().getTenantName();
+            }
+
             @Override
             public String tenantCode() {
                 if (SecurityUtils.anonymous() || SecurityUtils.getAuthInfo() == null) {
                     return null;
                 }
                 return SecurityUtils.getAuthInfo().getTenantCode();
-                
+
             }
-            
+
             @Override
             public Long userId() {
                 if (SecurityUtils.anonymous() || SecurityUtils.getAuthInfo() == null) {
@@ -59,7 +66,7 @@ public class AuthenticationContextConfiguration {
                 }
                 return SecurityUtils.getAuthInfo().getUserId();
             }
-            
+
             @Override
             public String realName() {
                 if (SecurityUtils.anonymous() || SecurityUtils.getAuthInfo() == null) {
@@ -67,17 +74,17 @@ public class AuthenticationContextConfiguration {
                 }
                 return SecurityUtils.getAuthInfo().getRealName();
             }
-            
+
             @Override
             public boolean anonymous() {
                 return SecurityUtils.anonymous();
             }
-            
+
             @Override
             public DataPermission dataPermission() {
                 return SecurityUtils.getAuthInfo().getDataPermission();
             }
         };
     }
-    
+
 }

@@ -47,7 +47,7 @@ public class StringCodeToEnumConverterFactory implements ConverterFactory<String
         
         Converter<String, T> converter = CONVERTERS.get(targetType);
         if (converter == null) {
-            converter = new StringCodeToEnumConverterFactory.StringToEnumConverter<>(targetType);
+            converter = new StringToEnumConverter<>(targetType);
             CONVERTERS.put(targetType, converter);
         }
         return converter;

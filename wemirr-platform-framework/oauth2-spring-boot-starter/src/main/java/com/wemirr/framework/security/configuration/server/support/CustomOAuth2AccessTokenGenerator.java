@@ -99,7 +99,7 @@ public class CustomOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OA
         }
         
         OAuth2TokenClaimsSet accessTokenClaimsSet = claimsBuilder.build();
-        return new CustomOAuth2AccessTokenGenerator.OAuth2AccessTokenClaims(OAuth2AccessToken.TokenType.BEARER,
+        return new OAuth2AccessTokenClaims(OAuth2AccessToken.TokenType.BEARER,
                 IdUtil.fastSimpleUUID(), accessTokenClaimsSet.getIssuedAt(), accessTokenClaimsSet.getExpiresAt(),
                 context.getAuthorizedScopes(), accessTokenClaimsSet.getClaims());
     }

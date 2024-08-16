@@ -42,10 +42,10 @@ public interface Sequence {
 
 
     /**
-     * 流水号的位数，如10 表示 0000000001
+     * 流水号的位数，如10 表示 0001
      */
     default int size() {
-        return 6;
+        return 4;
     }
 
 

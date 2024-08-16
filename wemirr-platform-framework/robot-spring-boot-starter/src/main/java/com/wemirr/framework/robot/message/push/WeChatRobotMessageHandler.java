@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.robot.message.push;
 
+import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.robot.RobotProperties;
 import com.wemirr.framework.robot.emums.NotifyType;
@@ -37,11 +38,11 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class WeChatRobotMessageHandler implements RobotMessageHandler {
-    
+
     public static final String OPEN_API_URL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=%s";
-    
+
     private final RobotProperties robotProperties;
-    
+
     @Override
     public String notify(String message) {
         Map<String, Object> body = Map.ofEntries(
@@ -52,12 +53,17 @@ public class WeChatRobotMessageHandler implements RobotMessageHandler {
                         "content", StrUtil.subWithLength(message, 0, 2048).getBytes(StandardCharsets.UTF_8))));
         return this.request(body);
     }
-    
+
+    @Override
+    public String notify(String message, Map<?, ?> map, boolean ignoreNull) {
+        return notify(StrFormatter.format(message, map, ignoreNull));
+    }
+
     @Override
     public String getUrl() {
         return String.format(OPEN_API_URL, robotProperties.getWeChat().getKey());
     }
-    
+
     @Override
     public NotifyType notifyType() {
         return NotifyType.WECHAT;
