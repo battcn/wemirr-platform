@@ -2,7 +2,6 @@ package com.wemirr.framework.redis.plus.lock;
 
 
 import cn.hutool.core.collection.CollUtil;
-import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.redis.plus.exception.RedisLockException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,13 +25,48 @@ public class RedisLockHelper {
 
     private final RedissonClient redissonClient;
 
+    /**
+     * 批量上锁
+     *
+     * @param keys keys
+     * @return 锁集合
+     */
     public List<RLock> batchLock(List<String> keys) {
         return batchLock(keys, -1L);
     }
 
 
-    public <T> T execute(List<String> keys, long time, Supplier<T> func) {
-        List<RLock> locks = batchLock(keys, time);
+    /**
+     * 不带回调的锁
+     *
+     * @param key  分布式锁KEY
+     * @param func 回调函数
+     */
+    public void execute(String key, Runnable func) {
+        RLock lock = redissonClient.getLock(key);
+        boolean tryLock = lock.tryLock();
+        log.info("当前锁 - {} , 上锁状态 - {}", key, tryLock);
+        if (!tryLock) {
+            throw new RedisLockException("Redis 已被获取,请勿重复操作");
+        }
+        try {
+            func.run();
+        } finally {
+            unlock(List.of(lock));
+        }
+    }
+
+    /**
+     * 批量上锁
+     *
+     * @param keys     keys
+     * @param waitTime 等待时间
+     * @param func     回调函数
+     * @param <T>      T
+     * @return 执行结果
+     */
+    public <T> T execute(List<String> keys, long waitTime, Supplier<T> func) {
+        List<RLock> locks = batchLock(keys, waitTime);
         try {
             return func.get();
         } finally {
@@ -40,16 +74,37 @@ public class RedisLockHelper {
         }
     }
 
+    /**
+     * 函数回调执行
+     *
+     * @param key      分布式锁KEY
+     * @param waitTime 等待时间
+     * @param unit     时间单位
+     * @param func     回调函数
+     * @param <T>      T
+     * @return 执行结果
+     */
     public <T> T execute(String key, long waitTime, TimeUnit unit, Supplier<T> func) {
         return execute(key, waitTime, -1L, unit, func);
     }
 
+    /**
+     * 函数回调执行
+     *
+     * @param key       分布式锁KEY
+     * @param waitTime  等待时间
+     * @param leaseTime 分布式锁租期 -1 就是开启 watch dog 自动续签
+     * @param unit      时间单位
+     * @param func      执行回调的函数
+     * @param <T>       T
+     * @return 执行结果
+     */
     public <T> T execute(String key, long waitTime, long leaseTime, TimeUnit unit, Supplier<T> func) {
         RLock rLock = redissonClient.getLock(key);
         try {
             final boolean success = rLock.tryLock(waitTime, leaseTime, unit);
             if (!success) {
-                throw new RedisLockException("");
+                throw new RedisLockException("Redis 锁获取失败");
             }
             return func.get();
         } catch (InterruptedException e) {
@@ -63,10 +118,10 @@ public class RedisLockHelper {
     /**
      * 加锁（可重入）
      *
-     * @param keys 锁的key集合
-     * @param time time
+     * @param keys     锁的key集合
+     * @param waitTime time
      */
-    public List<RLock> batchLock(Collection<String> keys, long time) {
+    public List<RLock> batchLock(Collection<String> keys, long waitTime) {
         if (CollUtil.isEmpty(keys)) {
             return null;
         }
@@ -77,16 +132,15 @@ public class RedisLockHelper {
             for (String key : newKeys) {
                 RLock lock = redissonClient.getLock(key);
                 locks.add(lock);
-                lockStatus = lock.tryLock(time, TimeUnit.SECONDS);
+                lockStatus = lock.tryLock(waitTime, TimeUnit.SECONDS);
                 if (!lockStatus) {
-                    //加锁失败
-                    throw CheckedException.badRequest("当前分布式锁 KEY - {0}", key);
+                    // 加锁失败
+                    throw new RedisLockException("加锁失败 KEY ：" + key);
                 }
             }
         } catch (Exception e) {
             log.error("批量创建分布式锁异常 - {}", e.getLocalizedMessage());
-            //加锁失败
-            throw new CheckedException("添加锁异常");
+            throw new RedisLockException("批量创建分布式锁异常");
         } finally {
             if (!lockStatus) {
                 unlock(locks);
