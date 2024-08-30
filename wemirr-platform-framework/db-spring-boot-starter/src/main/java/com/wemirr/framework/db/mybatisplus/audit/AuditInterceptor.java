@@ -31,11 +31,6 @@ public class AuditInterceptor implements InnerInterceptor {
 
     private final DatabaseProperties.Audit audit;
 
-    @Override
-    public boolean willDoUpdate(Executor executor, MappedStatement ms, Object parameter) {
-        return ms.getId().endsWith("updateById");
-    }
-
     boolean ignoreTable(String name) {
         return !audit.getIncludeTables().contains(name);
     }
@@ -43,6 +38,9 @@ public class AuditInterceptor implements InnerInterceptor {
     @Override
     public void beforeUpdate(Executor executor, MappedStatement ms, Object parameter) {
         log.debug("ms - {} - parameter - [{}]", ms.getId(), JSON.toJSONString(parameter));
+        if (ms.getId().endsWith("updateById")) {
+            return;
+        }
         Object entity = getEntityFromParameter(parameter);
         if (entity == null) {
             log.warn("parameter entity is null...");

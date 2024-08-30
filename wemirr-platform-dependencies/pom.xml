@@ -296,20 +296,31 @@
 
     <repositories>
         <repository>
-            <id>central</id>
-            <name>aliyun maven</name>
+            <id>alimaven</id>
+            <name>Maven Aliyun Mirror</name>
             <url>https://maven.aliyun.com/repository/public</url>
-            <layout>default</layout>
-            <!-- 是否开启发布版构件下载 -->
             <releases>
                 <enabled>true</enabled>
             </releases>
-            <!-- 是否开启快照版构件下载 -->
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>alimaven</id>
+            <name>Maven Aliyun Mirror</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
     
     <!-- 资源文件拷贝插件 -->
     <build>
