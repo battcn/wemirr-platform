@@ -19,7 +19,6 @@
 
 package com.wemirr.framework.security.configuration.server.handler;
 
-import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.entity.Result;
 import jakarta.servlet.http.HttpServletRequest;

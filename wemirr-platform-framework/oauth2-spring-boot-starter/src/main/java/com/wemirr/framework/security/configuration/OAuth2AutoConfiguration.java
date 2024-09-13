@@ -38,13 +38,13 @@ import org.springframework.security.web.AuthenticationEntryPoint;
  */
 @SuppressWarnings("ALL")
 public class OAuth2AutoConfiguration {
-    
+
     @Bean
     @ConditionalOnExpression("'${extend.oauth2.server.registered-client}'.equalsIgnoreCase('jdbc')")
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
         return new JdbcRegisteredClientRepository(jdbcTemplate);
     }
-    
+
     /**
      * 配置基于db的授权确认管理服务
      *
@@ -60,7 +60,7 @@ public class OAuth2AutoConfiguration {
         // 基于分布式内存服务实现 RedisOAuth2AuthorizationConsentService - [暂未实现]
         return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository);
     }
-    
+
     /**
      * 配置基于db的oauth2的授权管理服务
      *
@@ -73,7 +73,7 @@ public class OAuth2AutoConfiguration {
     public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
         return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
     }
-    
+
     /**
      * 配置基于db的oauth2的授权管理服务
      *
@@ -85,10 +85,15 @@ public class OAuth2AutoConfiguration {
     public OAuth2AuthorizationService oAuth2AuthorizationService(RedisTokenStore redisTemplate) {
         return new RedisOAuth2AuthorizationServiceImpl(redisTemplate);
     }
-    
+
     @Bean
     public AuthenticationEntryPoint resourceAuthExceptionEntryPoint() {
         return new ResourceAuthExceptionEntryPoint();
     }
-    
+
+    @Bean
+    public SecurityInnerServiceAspect securityInnerServiceAspect(SecurityExtProperties securityExtProperties) {
+        return new SecurityInnerServiceAspect(securityExtProperties);
+    }
+
 }

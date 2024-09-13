@@ -61,25 +61,26 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 @EnableConfigurationProperties(value = {FeignPluginProperties.class, AutoRefreshTokenProperties.class, MockProperties.class})
 public class FeignPluginConfiguration {
-    
+
     @Bean
-    public Logger.Level feignLoggerLevel() {
-        return Logger.Level.FULL;
+    public Logger.Level feignLoggerLevel(FeignPluginProperties properties) {
+        log.info("=============================== Feign Full Logger =============================== ");
+        return properties.getLevel() != null ? properties.getLevel() : Logger.Level.BASIC;
     }
-    
+
     @Bean
     @Primary
     @LoadBalanced
     public RestTemplate lbRestTemplate() {
         return new RestTemplate();
     }
-    
+
     @Bean
     public Decoder feignDecoder(ObjectFactory<HttpMessageConverters> messageConverters,
                                 ObjectProvider<HttpMessageConverterCustomizer> customizers) {
         return new OptionalDecoder((new ResponseEntityDecoder(new FeignResponseDecoder(new SpringDecoder(messageConverters, customizers)))));
     }
-    
+
     @Bean
     public ErrorDecoder errorDecoder() {
         return (s, response) -> {
@@ -87,7 +88,7 @@ public class FeignPluginConfiguration {
             return new ErrorDecoder.Default().decode(s, response);
         };
     }
-    
+
     @Bean
     @Primary
     @ConditionalOnProperty(prefix = MockProperties.MOCK_PREFIX, name = "enabled", havingValue = "true")
@@ -97,13 +98,13 @@ public class FeignPluginConfiguration {
         return new MockLoadBalancerFeignClient(new Client.Default(null, null),
                 loadBalancerClient, loadBalancerClientFactory, transformers, mockProperties);
     }
-    
+
     @Bean
     @Order(-999999)
     public FeignPluginInterceptor feignPluginInterceptor(FeignPluginProperties properties) {
         return new FeignPluginInterceptor(properties);
     }
-    
+
     @Bean
     @ConditionalOnProperty(prefix = AutoRefreshTokenProperties.TOKEN_PREFIX, name = "enabled", havingValue = "true")
     public AutoRefreshTokenInterceptor feignTokenInterceptor(AutoRefreshTokenProperties properties) {

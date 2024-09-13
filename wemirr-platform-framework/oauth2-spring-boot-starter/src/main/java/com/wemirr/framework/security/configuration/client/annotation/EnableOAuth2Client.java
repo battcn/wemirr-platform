@@ -19,7 +19,6 @@
 
 package com.wemirr.framework.security.configuration.client.annotation;
 
-import com.wemirr.framework.security.configuration.SecurityInnerServiceAspect;
 import com.wemirr.framework.security.configuration.client.ClientResourceServerConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -41,7 +40,7 @@ import java.lang.annotation.*;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@Import({ClientResourceServerConfiguration.class, SecurityInnerServiceAspect.class})
+@Import({ClientResourceServerConfiguration.class})
 public @interface EnableOAuth2Client {
-    
+
 }

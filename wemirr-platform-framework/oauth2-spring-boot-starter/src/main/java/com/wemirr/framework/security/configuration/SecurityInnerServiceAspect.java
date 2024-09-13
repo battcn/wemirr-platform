@@ -22,19 +22,21 @@ package com.wemirr.framework.security.configuration;
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.security.configuration.client.annotation.InnerService;
+import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 服务间接口不鉴权处理逻辑
@@ -47,13 +49,16 @@ import java.util.List;
 @EnableConfigurationProperties(SecurityExtProperties.class)
 public class SecurityInnerServiceAspect implements Ordered {
 
-    private final HttpServletRequest request;
     private final SecurityExtProperties properties;
 
     private static final String SEPARATOR = ",";
 
-    @Around("@annotation(inner)")
-    public Object around(ProceedingJoinPoint point, InnerService inner) throws Throwable {
+    @Around("@annotation(authorize)")
+    public Object around(ProceedingJoinPoint point, IgnoreAuthorize authorize) throws Throwable {
+        if (authorize.global()) {
+            return point.proceed();
+        }
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String ipAddress = JakartaServletUtil.getClientIP(request);
         if (ipAddress.contains(SEPARATOR)) {
             String[] ips = ipAddress.split(SEPARATOR);
@@ -74,12 +79,6 @@ public class SecurityInnerServiceAspect implements Ordered {
         HttpStatus httpStatus = HttpStatus.FORBIDDEN;
         String signatureName = point.getSignature().getName();
         if (!whiteLists.contains(ipAddress)) {
-            log.warn("访问受限，非白名单，[IP] - [{}] - [方法] - [{}]", ipAddress, signatureName);
-            throw CheckedException.badRequest(httpStatus.value(), httpStatus.getReasonPhrase());
-        }
-        String header = request.getHeader(innerService.getHeader());
-        String headerValue = innerService.getHeaderValue();
-        if (inner.value() && !StringUtils.equals(headerValue, header)) {
             log.warn("访问受限，非白名单，[IP] - [{}] - [方法] - [{}]", ipAddress, signatureName);
             throw CheckedException.badRequest(httpStatus.value(), httpStatus.getReasonPhrase());
         }

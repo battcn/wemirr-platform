@@ -20,7 +20,6 @@
 package com.wemirr.framework.feign.plugin.mock;
 
 import cn.hutool.core.io.IoUtil;
-import feign.Client;
 import feign.Request;
 import feign.Response;
 import lombok.extern.slf4j.Slf4j;
