@@ -1,5 +1,6 @@
 package com.wemirr.platform.demo.service.client;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.feign.plugin.token.AutoRefreshTokenProperties;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,4 +27,7 @@ public interface DemoTestFeignClient {
      */
     @GetMapping(value = "/sensitives/feign_language")
     void feignLanguage();
+
+    @GetMapping(value = "/demos/test1")
+    JSONObject demoTest1();
 }

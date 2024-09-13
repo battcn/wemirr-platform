@@ -1,5 +1,6 @@
 package com.wemirr.platform.demo.controller;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.i18n.annotation.I18nMethod;
 import com.wemirr.framework.redis.plus.anontation.RedisLock;
@@ -132,5 +133,11 @@ public class DemoController {
         return Result.success();
     }
 
+
+    @IgnoreAuthorize
+    @GetMapping("/demos_test1")
+    public JSONObject demoTest1() {
+        return demoTestFeignClient.demoTest1();
+    }
 
 }
