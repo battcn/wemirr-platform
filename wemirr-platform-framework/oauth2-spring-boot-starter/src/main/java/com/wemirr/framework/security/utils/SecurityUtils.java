@@ -73,12 +73,12 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public final class SecurityUtils {
-    
+
     private SecurityUtils() {
         // 禁止实例化工具类
         throw new UnsupportedOperationException("Utility classes cannot be instantiated.");
     }
-    
+
     /**
      * 认证与鉴权失败回调
      *
@@ -99,7 +99,7 @@ public final class SecurityUtils {
             log.error("写回错误信息失败", e);
         }
     }
-    
+
     /**
      * 获取异常信息map
      *
@@ -109,8 +109,7 @@ public final class SecurityUtils {
      * @return 异常信息map
      */
     private static Map<String, String> getErrorParameter(HttpServletRequest request, HttpServletResponse response, Throwable e) {
-        e.printStackTrace();
-        log.error("security error - {}", e.getLocalizedMessage());
+        log.error("security error", e);
         Map<String, String> parameters = new LinkedHashMap<>();
         if (e instanceof OAuth2InvalidException exception) {
             // 权限不足
@@ -151,7 +150,7 @@ public final class SecurityUtils {
         parameters.putIfAbsent("message", e.getMessage());
         return parameters;
     }
-    
+
     /**
      * 从认证信息中获取客户端token
      *
@@ -168,11 +167,11 @@ public final class SecurityUtils {
         }
         throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
     }
-    
+
     public static Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
-    
+
     /**
      * 获取用户详细信息(只适用于 authority 模块)
      *
@@ -187,7 +186,7 @@ public final class SecurityUtils {
             return (UserInfoDetails) authentication.getPrincipal();
         }
         if (authentication instanceof JwtAuthenticationToken token) {
-            if (token.getPrincipal()instanceof Jwt jwt) {
+            if (token.getPrincipal() instanceof Jwt jwt) {
                 final Object userinfo = jwt.getClaim("userinfo");
                 return BeanUtil.toBean(userinfo, UserInfoDetails.class);
             } else {
@@ -203,10 +202,10 @@ public final class SecurityUtils {
         final JSONObject detailJson = JSON.parseObject(detailsText);
         return detailJson.getObject(AUTH_DETAILS_PRINCIPAL, UserInfoDetails.class);
     }
-    
+
     public static final String AUTH_DETAILS_PRINCIPAL = "principal";
     public static final String ANONYMOUS_USER = "anonymousUser";
-    
+
     /**
      * 是否为匿名用户
      *
@@ -222,7 +221,7 @@ public final class SecurityUtils {
         }
         return authentication.getPrincipal().equals(ANONYMOUS_USER);
     }
-    
+
     /**
      * 提取 request 请求参数
      *
@@ -236,7 +235,7 @@ public final class SecurityUtils {
         return request.getParameterMap().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,
                 entry -> entry.getValue().length > 1 ? entry.getValue() : entry.getValue()[0]));
     }
-    
+
     public static List<String> loadIgnoreAuthorizeUrl(RequestMappingHandlerMapping requestMappingHandlerMapping) {
         final List<String> urls = Lists.newArrayList();
         Map<RequestMappingInfo, HandlerMethod> handlerMethods = requestMappingHandlerMapping.getHandlerMethods();
