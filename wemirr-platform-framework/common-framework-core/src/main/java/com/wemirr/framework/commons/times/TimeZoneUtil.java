@@ -1,7 +1,15 @@
 package com.wemirr.framework.commons.times;
 
+import cn.hutool.core.date.DateField;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
+
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 
 /**
@@ -21,7 +29,12 @@ import java.util.TimeZone;
  *
  * @author Levin
  */
+@Slf4j
 public class TimeZoneUtil {
+
+    public static final String UTC = "UTC";
+
+
     public static TimeZone toTimeZone(Locale locale) {
         // 获取 locale 对应的国家代码
         String country = locale.getCountry();
@@ -72,5 +85,26 @@ public class TimeZoneUtil {
             case "ZA" -> ZoneId.of("Africa/Johannesburg");
             default -> ZoneId.systemDefault();
         };
+    }
+
+    public static Instant toOffsetUtcTime(String dateStr, Locale locale) {
+        if (StrUtil.isBlank(dateStr)) {
+            return null;
+        }
+        DateTime dateTime = DateUtil.parse(dateStr);
+        if (dateTime == null) {
+            return null;
+        }
+        TimeZone timeZone = TimeZoneUtil.toTimeZone(locale);
+        // 说明当前系统时区就是 临时区
+        if (!Objects.equals(TimeZone.getDefault(), TimeZone.getTimeZone(UTC))) {
+            // 如果系统不是临时区,那么就将当前时间转换成系统的UTC存储即可
+            return dateTime.setTimeZone(timeZone).toInstant();
+        }
+        // 获取目标时区的偏移量（相对于 UTC），单位为小时
+        int offsetHours = timeZone.getRawOffset() / (1000 * 60 * 60);
+        dateTime.offset(DateField.HOUR_OF_DAY, -offsetHours);
+        log.info("Locale: {}, 时区: {}, 偏移量: {} 小时", locale, timeZone.getID(), -offsetHours);
+        return dateTime.toInstant();
     }
 }

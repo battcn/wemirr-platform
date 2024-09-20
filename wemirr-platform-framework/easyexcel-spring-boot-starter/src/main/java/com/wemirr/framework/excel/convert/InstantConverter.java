@@ -1,7 +1,5 @@
 package com.wemirr.framework.excel.convert;
 
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.enums.CellDataTypeEnum;
@@ -18,7 +16,6 @@ import java.lang.reflect.Field;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Optional;
@@ -48,8 +45,7 @@ public class InstantConverter implements Converter<Instant> {
         if (StrUtil.isBlank(value)) {
             return null;
         }
-        DateTime dateTime = DateUtil.parse(value).setTimeZone(TimeZoneUtil.toTimeZone(ThreadLocalHolder.getLocal()));
-        return dateTime.toLocalDateTime().toInstant(ZoneOffset.UTC);
+        return TimeZoneUtil.toOffsetUtcTime(value, ThreadLocalHolder.getLocal());
     }
 
     @Override
