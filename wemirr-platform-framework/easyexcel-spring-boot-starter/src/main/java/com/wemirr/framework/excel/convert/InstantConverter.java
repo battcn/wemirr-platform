@@ -1,5 +1,8 @@
 package com.wemirr.framework.excel.convert;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.enums.CellDataTypeEnum;
 import com.alibaba.excel.metadata.GlobalConfiguration;
@@ -7,12 +10,15 @@ import com.alibaba.excel.metadata.data.ReadCellData;
 import com.alibaba.excel.metadata.data.WriteCellData;
 import com.alibaba.excel.metadata.property.ExcelContentProperty;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wemirr.framework.commons.threadlocal.ThreadLocalHolder;
+import com.wemirr.framework.commons.times.TimeZoneUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Optional;
@@ -37,9 +43,13 @@ public class InstantConverter implements Converter<Instant> {
     }
 
     @Override
-    public Instant convertToJavaData(ReadCellData cellData, ExcelContentProperty contentProperty,
-                                     GlobalConfiguration globalConfiguration) {
-        return Instant.parse(cellData.getStringValue());
+    public Instant convertToJavaData(ReadCellData cellData, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) {
+        String value = cellData.getStringValue();
+        if (StrUtil.isBlank(value)) {
+            return null;
+        }
+        DateTime dateTime = DateUtil.parse(value).setTimeZone(TimeZoneUtil.toTimeZone(ThreadLocalHolder.getLocal()));
+        return dateTime.toLocalDateTime().toInstant(ZoneOffset.UTC);
     }
 
     @Override
@@ -52,7 +62,7 @@ public class InstantConverter implements Converter<Instant> {
         // 暂时只读取 JsonFormat.format
         JsonFormat format = field.getAnnotation(JsonFormat.class);
         String pattern = Optional.ofNullable(format).map(JsonFormat::pattern).orElse("yyyy-MM-dd HH:MM:ss");
-        ZoneId zoneId = ZoneId.systemDefault();
+        ZoneId zoneId = TimeZoneUtil.toZoneId(ThreadLocalHolder.getLocal());
         log.debug("Instant 日期时区 - {}", zoneId);
         LocalDateTime localDateTime = LocalDateTime.ofInstant(value, zoneId);
         return new WriteCellData<>(localDateTime.format(DateTimeFormatter.ofPattern(pattern)));
