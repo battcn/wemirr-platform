@@ -38,34 +38,32 @@ public class TimeZoneUtil {
     public static TimeZone toTimeZone(Locale locale) {
         // 获取 locale 对应的国家代码
         String country = locale.getCountry();
-
-        // 根据国家代码获取对应的时区 ID
-        if (country != null && !country.isEmpty()) {
-            return switch (country) {
-                case "US" -> TimeZone.getTimeZone("America/New_York");
-                case "CN" -> TimeZone.getTimeZone("Asia/Shanghai");
-                case "IN" -> TimeZone.getTimeZone("Asia/Kolkata");
-                case "GB" -> TimeZone.getTimeZone("Europe/London");
-                case "JP" -> TimeZone.getTimeZone("Asia/Tokyo");
-                case "AU" -> TimeZone.getTimeZone("Australia/Sydney");
-                case "CA" -> TimeZone.getTimeZone("America/Toronto");
-                case "DE" -> TimeZone.getTimeZone("Europe/Berlin");
-                case "FR" -> TimeZone.getTimeZone("Europe/Paris");
-                case "KR" -> TimeZone.getTimeZone("Asia/Seoul");
-                case "RU" -> TimeZone.getTimeZone("Europe/Moscow");
-                case "BR" -> TimeZone.getTimeZone("America/Sao_Paulo");
-                case "ZA" -> TimeZone.getTimeZone("Africa/Johannesburg");
-                default -> TimeZone.getDefault();
-            };
+        if (StrUtil.isBlank(country)) {
+            return TimeZone.getDefault();
         }
-        // 如果没有找到合适的国家代码，返回系统默认时区
-        return TimeZone.getDefault();
+        // 根据国家代码获取对应的时区 ID
+        return switch (country) {
+            case "US" -> TimeZone.getTimeZone("America/New_York");
+            case "CN" -> TimeZone.getTimeZone("Asia/Shanghai");
+            case "IN" -> TimeZone.getTimeZone("Asia/Kolkata");
+            case "GB" -> TimeZone.getTimeZone("Europe/London");
+            case "JP" -> TimeZone.getTimeZone("Asia/Tokyo");
+            case "AU" -> TimeZone.getTimeZone("Australia/Sydney");
+            case "CA" -> TimeZone.getTimeZone("America/Toronto");
+            case "DE" -> TimeZone.getTimeZone("Europe/Berlin");
+            case "FR" -> TimeZone.getTimeZone("Europe/Paris");
+            case "KR" -> TimeZone.getTimeZone("Asia/Seoul");
+            case "RU" -> TimeZone.getTimeZone("Europe/Moscow");
+            case "BR" -> TimeZone.getTimeZone("America/Sao_Paulo");
+            case "ZA" -> TimeZone.getTimeZone("Africa/Johannesburg");
+            default -> TimeZone.getDefault();
+        };
     }
 
     public static ZoneId toZoneId(Locale locale) {
         // 获取 locale 对应的国家代码
         String country = locale.getCountry();
-        if (country == null || country.isEmpty()) {
+        if (StrUtil.isBlank(country)) {
             return ZoneId.systemDefault();
         }
         // 根据国家代码获取对应的时区 ID
