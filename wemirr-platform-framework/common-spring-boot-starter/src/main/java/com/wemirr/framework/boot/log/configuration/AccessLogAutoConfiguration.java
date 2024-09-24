@@ -22,6 +22,8 @@ package com.wemirr.framework.boot.log.configuration;
 import com.wemirr.framework.boot.log.AccessLogProperties;
 import com.wemirr.framework.boot.log.event.AccessLogListener;
 import com.wemirr.framework.boot.log.feign.AccessLogFeign;
+import com.wemirr.framework.boot.log.handler.AbstractLogHandler;
+import com.wemirr.framework.boot.log.handler.DefaultHandlerAbstract;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -44,18 +46,24 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableConfigurationProperties(AccessLogProperties.class)
 @ConditionalOnProperty(prefix = AccessLogProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AccessLogAutoConfiguration {
-    
+
     @Bean
     @ConditionalOnMissingBean
     public AccessLogAspect accessLogAspect() {
         return new AccessLogAspect();
     }
-    
+
+    @Bean
+    @ConditionalOnMissingBean(AbstractLogHandler.class)
+    public AbstractLogHandler logHandle() {
+        return new DefaultHandlerAbstract();
+    }
+
     @Bean
     @Order
     @ConditionalOnExpression("'${extend.boot.log.strategy}'.equalsIgnoreCase('feign')")
     public AccessLogListener accessLogListener(AccessLogFeign feign) {
         return new AccessLogListener(feign::listener);
     }
-    
+
 }

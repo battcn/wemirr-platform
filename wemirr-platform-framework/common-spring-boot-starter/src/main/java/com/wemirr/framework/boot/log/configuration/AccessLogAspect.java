@@ -19,7 +19,6 @@
 
 package com.wemirr.framework.boot.log.configuration;
 
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
@@ -28,10 +27,13 @@ import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONWriter;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.wemirr.framework.boot.log.AccessLogInfo;
+import com.wemirr.framework.boot.log.AccessLogProperties;
 import com.wemirr.framework.boot.log.AccessLogUtil;
 import com.wemirr.framework.boot.log.event.AccessLogEvent;
+import com.wemirr.framework.boot.log.handler.AbstractLogHandler;
 import com.wemirr.framework.commons.RegionUtils;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.entity.Result;
@@ -46,6 +48,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -66,9 +69,9 @@ import java.util.function.Consumer;
  */
 @Aspect
 public class AccessLogAspect {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(AccessLogAspect.class);
-    
+
     private static final int MAX_LENGTH = 65535;
     private static final TransmittableThreadLocal<AccessLogInfo> THREAD_LOCAL = new TransmittableThreadLocal<>();
     private static final String USER_AGENT = "User-Agent";
@@ -76,19 +79,24 @@ public class AccessLogAspect {
     private ApplicationContext applicationContext;
     @Resource
     private DatabaseProperties databaseProperties;
-    
+    @Resource
+    private AbstractLogHandler abstractLogHandler;
+
+    @Resource
+    private AccessLogProperties accessLogProperties;
+
     /**
      * 切面
      */
     @Pointcut("execution(public * com.wemirr..*.*(..)) && @annotation(com.wemirr.framework.commons.annotation.log.AccessLog)")
     public void accessLogAspect() {
-        
+
     }
-    
+
     private AccessLogInfo get() {
         return Optional.ofNullable(THREAD_LOCAL.get()).orElseGet(AccessLogInfo::new);
     }
-    
+
     private void tryCatch(Consumer<String> consumer) {
         try {
             consumer.accept("");
@@ -97,7 +105,7 @@ public class AccessLogAspect {
             THREAD_LOCAL.remove();
         }
     }
-    
+
     /**
      * 返回通知
      *
@@ -112,37 +120,31 @@ public class AccessLogAspect {
             }
             AccessLogInfo log = get();
             log.setStartTime(Instant.now());
-            if (ret instanceof Result) {
-                Result<?> result = Convert.convert(Result.class, ret);
-                if (result == null) {
-                    if (annotation.response()) {
-                        log.setResponse(getText(JSON.toJSONString(ret)));
-                    }
-                } else {
-                    if (!result.isSuccessful()) {
-                        log.setMessage(result.getMessage());
-                    }
-                    if (annotation.response()) {
-                        log.setResponse(result.toString());
-                    }
+            if (ret instanceof Result<?> result) {
+                if (!result.isSuccessful()) {
+                    log.setMessage(result.getMessage());
+                }
+                if (annotation.response()) {
+                    log.setResponse(result.toString());
                 }
             } else {
                 if (annotation.response()) {
-                    log.setResponse(getText(ret == null ? "" : JSON.toJSONString(ret)));
+                    log.setResponse(getText(ret == null ? "" : JSON.toJSONString(ret, JSONWriter.Feature.WriteMapNullValue)));
                 }
             }
             publishEvent(log);
         });
-        
+
     }
-    
+
     private void publishEvent(AccessLogInfo log) {
         log.setFinishTime(Instant.now());
         log.setConsumingTime(log.getStartTime().until(log.getFinishTime(), ChronoUnit.MILLIS));
+        abstractLogHandler.handler(log);
         applicationContext.publishEvent(new AccessLogEvent(log));
         THREAD_LOCAL.remove();
     }
-    
+
     /**
      * 异常通知
      */
@@ -167,7 +169,7 @@ public class AccessLogAspect {
             publishEvent(log);
         });
     }
-    
+
     /**
      * 截取指定长度的字符串
      *
@@ -180,9 +182,9 @@ public class AccessLogAspect {
         }
         return val;
     }
-    
+
     private static final int WARNING_LENGTH = 65535;
-    
+
     @Before(value = "accessLogAspect()")
     public void recordLog(JoinPoint joinPoint) {
         tryCatch((val) -> {
@@ -197,12 +199,14 @@ public class AccessLogAspect {
                 log.setCreatedBy(context.userId());
                 log.setCreatedName(context.realName());
             }
+            log.setTrace(MDC.get(accessLogProperties.getTrace()));
             log.setDescription(annotation.description());
             String action = joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName();
             log.setAction(action);
             HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
             String strArgs = getArgs(annotation, joinPoint.getArgs(), request);
             log.setRequest(getText(strArgs));
+            log.setToken(getRequestToken(request));
             final DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
             if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
                 String tenantCode = request.getHeader(multiTenant.getTenantCodeColumn());
@@ -226,16 +230,14 @@ public class AccessLogAspect {
             THREAD_LOCAL.set(log);
         });
     }
-    
-    private String getArgs(AccessLog accessLogAnnotation, Object[] args, HttpServletRequest request) {
+
+    private String getArgs(AccessLog annotation, Object[] args, HttpServletRequest request) {
         String strArgs = "";
-        if (!accessLogAnnotation.request()) {
+        if (!annotation.request() || request.getContentType().contains(MediaType.MULTIPART_FORM_DATA_VALUE)) {
             return strArgs;
         }
         try {
-            if (!request.getContentType().contains(MediaType.MULTIPART_FORM_DATA_VALUE)) {
-                strArgs = JSONObject.toJSONString(args);
-            }
+            strArgs = JSONObject.toJSONString(args, JSONWriter.Feature.WriteMapNullValue);
         } catch (Exception e) {
             try {
                 strArgs = Arrays.toString(args);
@@ -245,5 +247,20 @@ public class AccessLogAspect {
         }
         return strArgs;
     }
-    
+
+    /**
+     * 获取本次请求token，用户请求微服务的token或用户名
+     */
+    private String getRequestToken(HttpServletRequest request) {
+        String token = "";
+        if (StringUtils.isNotEmpty(request.getHeader(accessLogProperties.getToken()))) {
+            token = request.getHeader(accessLogProperties.getToken());
+        } else if (StringUtils.isNotEmpty(request.getParameter(accessLogProperties.getToken()))) {
+            token = request.getParameter(accessLogProperties.getToken());
+        } else if (org.apache.commons.lang3.ObjectUtils.isNotEmpty(request.getAttribute(accessLogProperties.getToken()))) {
+            token = request.getAttribute(accessLogProperties.getToken()).toString();
+        }
+        return token;
+    }
+
 }
