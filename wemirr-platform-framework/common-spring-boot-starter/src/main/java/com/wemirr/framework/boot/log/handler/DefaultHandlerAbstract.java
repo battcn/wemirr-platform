@@ -18,7 +18,7 @@ public class DefaultHandlerAbstract extends AbstractLogHandler {
     @Override
     public AccessLogInfo handler(AccessLogInfo info) {
         if (info.getStatus()) {
-            log.error("\n----------------------------全局日志开始----------------------------\n\t" +
+            log.info("\n----------------------------全局日志开始----------------------------\n\t" +
                             "租户ID - {} - 用户ID - {} - 用户名称 - {}\n\t" +
                             "令牌 - {} \n\t" +
                             "方法 - {} - 地址 - {} \n\t" +
@@ -36,7 +36,7 @@ public class DefaultHandlerAbstract extends AbstractLogHandler {
                     info.getMessage(),
                     info.getConsumingTime());
         } else {
-            log.info("\n----------------------------全局日志开始----------------------------\n\t" +
+            log.error("\n----------------------------全局日志开始----------------------------\n\t" +
                             "租户ID - {} - 用户ID - {} - 用户名称 - {}\n\t" +
                             "令牌 - {} \n\t" +
                             "方法 - {} - 地址 - {} \n\t" +

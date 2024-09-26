@@ -68,7 +68,7 @@ public class AccessLogInfo {
     @Schema(description = "异常描述")
     protected String message;
 
-    @Schema(description = "日志状态")
+    @Schema(description = "日志状态(true:正常;false:异常)")
     protected Boolean status;
 
     @Schema(description = "开始时间")
