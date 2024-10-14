@@ -592,3 +592,20 @@ INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `va
 INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070708079058946, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'gps_fee', 'GPS费用', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:57', NULL, NULL, NULL);
 INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1727250680726450178, ${tenant_id}, 1727250191221800961, 'STATION_TYPE', 'YB', '外包', b'1', 'success', b'0', '', 1, 1, '长风一梦0000', '2023-11-22 17:00:28', 0, NULL, NULL);
 COMMIT;
+
+
+-- ----------------------------
+-- Table structure for sys_data_permission_resource
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_data_permission_resource`;
+CREATE TABLE `sys_data_permission_resource` (
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `owner_id` bigint NOT NULL COMMENT '拥有者',
+    `owner_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '拥有类型（角色，用户）',
+    `data_id` bigint NOT NULL COMMENT '数据ID',
+    `data_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '数据类型（机构、角色、租户等等）',
+    `created_by` bigint DEFAULT NULL COMMENT '创建人id',
+    `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='数据权限资源表';
