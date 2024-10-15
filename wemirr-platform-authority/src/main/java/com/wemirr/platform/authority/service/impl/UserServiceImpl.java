@@ -24,8 +24,11 @@ import cn.hutool.core.util.RandomUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.remote.RemoteResult;
+import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
+import com.wemirr.framework.db.mybatisplus.datascope.handler.DataPermissionRule;
+import com.wemirr.framework.db.mybatisplus.datascope.util.DataPermissionUtils;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.log.diff.core.annotation.DiffLog;
@@ -96,7 +99,9 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     @Override
     @RemoteResult
     public IPage<UserResp> pageList(UserPageReq req) {
-        return baseMapper.findPage(req.buildPage(), Wraps.<User>lbQ()
+        return DataPermissionUtils.executeWithDataPermissionRule(DataPermissionRule.builder()
+                .columns(List.of(new DataPermissionRule.Column()))
+                .build(), () -> baseMapper.selectPage(req.buildPage(), Wraps.<User>lbQ()
                 .like(User::getUsername, req.getUsername())
                 .like(User::getNickName, req.getNickName())
                 .like(User::getEmail, req.getEmail())
@@ -105,7 +110,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
                 .eq(User::getDeleted, false)
                 .eq(User::getSex, req.getSex())
                 .in(User::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
-                .eq(User::getMobile, req.getMobile()));
+                .eq(User::getMobile, req.getMobile())).convert(x -> BeanUtil.toBean(x, UserResp.class)));
     }
 
     @Override

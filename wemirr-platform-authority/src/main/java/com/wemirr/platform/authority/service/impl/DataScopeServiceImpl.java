@@ -37,7 +37,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -51,18 +50,18 @@ import static com.wemirr.framework.commons.security.DataScopeType.*;
 @Service
 @RequiredArgsConstructor
 public class DataScopeServiceImpl implements DataScopeService {
-    
+
     private final RoleMapper roleMapper;
     private final DataPermissionResourceMapper dataPermissionResourceMapper;
     private final UserMapper userMapper;
     private final OrgService orgService;
-    
+
     @Override
     public DataPermission getDataScopeById(Long userId) {
         final User user = Optional.ofNullable(this.userMapper.selectById(userId)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
         return getDataPermissionById(userId, user.getOrgId());
     }
-    
+
     /**
      * 开发者可以根据自己企业需求动态扩展数据权限（默认就支撑多维度数据权限，此处以用户维护演示）
      *
@@ -81,9 +80,9 @@ public class DataScopeServiceImpl implements DataScopeService {
         List<Long> userIdList = null;
         if (role.getScopeType() == CUSTOMIZE) {
             List<Long> orgIdList = dataPermissionResourceMapper.selectList(Wraps.<DataPermissionResource>lbQ().select(DataPermissionResource::getDataId)
-                    .eq(DataPermissionResource::getOwnerId, role.getId())
-                    .eq(DataPermissionResource::getOwnerType, DataResourceType.ROLE)
-                    .eq(DataPermissionResource::getDataType, DataResourceType.ORG))
+                            .eq(DataPermissionResource::getOwnerId, role.getId())
+                            .eq(DataPermissionResource::getOwnerType, DataResourceType.ROLE)
+                            .eq(DataPermissionResource::getDataType, DataResourceType.ORG))
                     .stream().map(DataPermissionResource::getDataId).distinct().toList();
             userIdList = this.userMapper.selectList(Wraps.<User>lbQ().select(User::getId).in(User::getOrgId, orgIdList))
                     .stream().map(Entity::getId).toList();
@@ -96,7 +95,7 @@ public class DataScopeServiceImpl implements DataScopeService {
                     .stream().map(Entity::getId).toList();
         }
         if (userIdList != null) {
-            permission.getDataPermissionMap().put(DataResourceType.USER, Collections.singletonList(userIdList));
+            permission.getDataPermissionMap().put(DataResourceType.USER, userIdList.stream().map(x -> (Object) x).toList());
         }
         // 如果你还有其他维度可以自行扩展
         return permission;

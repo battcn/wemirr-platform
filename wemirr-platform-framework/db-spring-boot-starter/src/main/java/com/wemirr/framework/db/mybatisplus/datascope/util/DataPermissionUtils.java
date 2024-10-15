@@ -37,8 +37,8 @@ import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.StringValue;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
-import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
+import net.sf.jsqlparser.expression.operators.relational.ParenthesedExpressionList;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 
@@ -55,11 +55,11 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public final class DataPermissionUtils {
-    
+
     private DataPermissionUtils() {
-        
+
     }
-    
+
     /**
      * 使用指定的数据权限执行任务
      *
@@ -70,12 +70,12 @@ public final class DataPermissionUtils {
         DataPermissionRule rule = DataPermissionRule.builder().columns(List.of(new DataPermissionRule.Column())).build();
         return executeWithDataPermissionRule(rule, supplier);
     }
-    
+
     /**
      * 使用指定的数据权限执行任务
      *
-     * @param rule 当前任务执行时使用的数据权限规则
-     * @param supplier           待执行的动作
+     * @param rule     当前任务执行时使用的数据权限规则
+     * @param supplier 待执行的动作
      */
     public static <T> T executeWithDataPermissionRule(DataPermissionRule rule, Supplier<T> supplier) {
         DataPermissionRuleHolder.push(rule);
@@ -85,12 +85,12 @@ public final class DataPermissionUtils {
             DataPermissionRuleHolder.poll();
         }
     }
-    
+
     /**
      * 数据权限本地缓存,减少解析耗时 越用越流畅 遥遥领先
      */
     private static final Map<String, DataPermissionRule> DATA_SCOPE_CACHE = Maps.newConcurrentMap();
-    
+
     @SneakyThrows
     public static DataPermissionRule getDataPermissionRuleByMappedStatementId(String mappedStatementId) {
         if (DATA_SCOPE_CACHE.containsKey(mappedStatementId)) {
@@ -111,7 +111,7 @@ public final class DataPermissionUtils {
         }
         return null;
     }
-    
+
     private static DataPermissionRule buildPermissionRule(DataScope scope) {
         if (scope == null) {
             return null;
@@ -122,7 +122,7 @@ public final class DataPermissionUtils {
                 .toList();
         return DataPermissionRule.builder().ignore(scope.ignore()).columns(columns).build();
     }
-    
+
     public static List<Expression> buildConditions(AuthenticationContext context, final Table table, final List<DataPermissionRule.Column> columns) {
         final DataPermission permission = context.dataPermission();
         final Map<DataResourceType, List<Object>> dataPermissionMap = permission.getDataPermissionMap();
@@ -153,11 +153,11 @@ public final class DataPermissionUtils {
         }
         return conditions;
     }
-    
+
     private static String getMethodName(String mappedStatementId) {
         return mappedStatementId.substring(mappedStatementId.lastIndexOf(".") + 1);
     }
-    
+
     /**
      * 获取 ItemsList
      *
@@ -166,20 +166,19 @@ public final class DataPermissionUtils {
      * @return ItemsList
      */
     private static Expression getItemsList(Map<DataResourceType, List<Object>> permissionMap, DataPermissionRule.Column column) {
-        Expression itemsList = null;
         final List<?> valList = permissionMap.get(column.getResource());
         if (CollUtil.isEmpty(valList)) {
             return null;
         }
         final Class<?> javaClass = column.getJavaClass();
-        if (javaClass.equals(Integer.class) || javaClass.equals(Long.class)) {
-            itemsList = new ExpressionList<>(valList.stream().filter(Objects::nonNull)
-                    .map(x -> new LongValue(Integer.parseInt(x.toString()))).collect(Collectors.toList()));
-        } else if (javaClass.equals(String.class)) {
-            itemsList = new ExpressionList<>(valList.stream().filter(Objects::nonNull)
-                    .map(x -> new StringValue(x.toString())).collect(Collectors.toList()));
-        }
-        return itemsList;
+        return new ParenthesedExpressionList<>(valList.stream().filter(Objects::nonNull)
+                .map(x -> {
+                    if (javaClass.equals(Integer.class) || javaClass.equals(Long.class)) {
+                        return new LongValue(x.toString());
+                    }
+                    return new StringValue(x.toString());
+                }).collect(Collectors.toList()));
     }
-    
+
+
 }

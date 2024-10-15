@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.commons.security;
 
+import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,17 +36,17 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DataPermission implements java.io.Serializable {
-    
+
     /**
      * 权限范围
      */
     @Builder.Default
     private DataScopeType scopeType = DataScopeType.IGNORE;
-    
+
     /**
      * 多维度数据权限
      */
     @Builder.Default
-    private Map<DataResourceType, List<Object>> dataPermissionMap = Map.of();
-    
+    private Map<DataResourceType, List<Object>> dataPermissionMap = Maps.newHashMap();
+
 }
