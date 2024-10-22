@@ -201,7 +201,7 @@ public class QueryWrap<T> extends AbstractWrapper<T, String, QueryWrap<T>>
         if (val != null) {
             dateTime = LocalDateTime.of(val, LocalTime.MIN);
         }
-        return super.ge(this.checkCondition(val), column, val);
+        return super.ge(this.checkCondition(val), column, dateTime);
     }
     
     @Override

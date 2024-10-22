@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.boot.base.converter;
 
+import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.exception.ValidException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
@@ -29,7 +30,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.wemirr.framework.commons.times.TimeConstants.*;
@@ -43,7 +43,7 @@ import static com.wemirr.framework.commons.times.TimeConstants.*;
 @Slf4j
 public class String2DateConverter extends BaseDateConverter<Date> implements Converter<String, Date> {
 
-    private static final Map<String, String> FORMAT = new LinkedHashMap<>(11);
+    private static final Map<String, String> FORMAT = Maps.newLinkedHashMap();
 
     static {
         FORMAT.put(DEFAULT_YEAR_FORMAT, "^\\d{4}");

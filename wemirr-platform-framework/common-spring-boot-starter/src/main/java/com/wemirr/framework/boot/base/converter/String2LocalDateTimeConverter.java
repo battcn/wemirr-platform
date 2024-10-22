@@ -19,11 +19,11 @@
 
 package com.wemirr.framework.boot.base.converter;
 
+import com.google.common.collect.Maps;
 import org.springframework.core.convert.converter.Converter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.wemirr.framework.commons.times.TimeConstants.DEFAULT_DATE_TIME_FORMAT;
@@ -36,7 +36,7 @@ import static com.wemirr.framework.commons.times.TimeConstants.DEFAULT_DATE_TIME
  */
 public class String2LocalDateTimeConverter extends BaseDateConverter<LocalDateTime> implements Converter<String, LocalDateTime> {
     
-    protected static final Map<String, String> FORMAT = new LinkedHashMap<>(2);
+    protected static final Map<String, String> FORMAT = Maps.newLinkedHashMap();
     
     static {
         FORMAT.put(DEFAULT_DATE_TIME_FORMAT, "^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$");
