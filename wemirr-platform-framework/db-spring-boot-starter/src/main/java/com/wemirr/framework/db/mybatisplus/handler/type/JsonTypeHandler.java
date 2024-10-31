@@ -22,12 +22,9 @@ package com.wemirr.framework.db.mybatisplus.handler.type;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.extension.handlers.AbstractJsonTypeHandler;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.ibatis.type.MappedTypes;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
-import java.util.Set;
 
 /**
  * 参考 {@link com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler} 实现
@@ -37,10 +34,6 @@ import java.util.Set;
  */
 @MappedTypes(value = {JSONObject.class})
 public class JsonTypeHandler extends AbstractJsonTypeHandler<JSONObject> {
-
-    private static final TypeReference<Set<Long>> TYPE_REFERENCE = new TypeReference<>() {
-    };
-
     public JsonTypeHandler(Class<?> type, Field field) {
         super(type, field);
     }
@@ -51,7 +44,7 @@ public class JsonTypeHandler extends AbstractJsonTypeHandler<JSONObject> {
 
     @Override
     public JSONObject parse(String json) {
-        return JSON.parseObject(json, (Type) TYPE_REFERENCE);
+        return JSON.parseObject(json);
     }
 
     @Override
