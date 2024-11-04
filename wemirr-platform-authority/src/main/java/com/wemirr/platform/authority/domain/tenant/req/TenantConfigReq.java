@@ -35,8 +35,8 @@ public class TenantConfigReq {
     @Schema(description = "动态数据源ID")
     private Long datasourceId;
     
-    @NotBlank(message = "配置原因不能为空")
-    @Schema(description = "配置原因")
+    @NotBlank(message = "配置描述不能为空")
+    @Schema(description = "配置描述")
     private String description;
     
     @Schema(description = "是否延迟加载")
