@@ -43,7 +43,7 @@ import java.util.List;
 @TenantDS
 @Repository
 public interface UserMapper extends SuperMapper<User> {
-    
+
     /**
      * 分页查询用户
      *
@@ -53,7 +53,7 @@ public interface UserMapper extends SuperMapper<User> {
      */
     @DataScope(columns = @DataColumn(name = Entity.CREATE_USER_COLUMN))
     IPage<UserResp> findPage(@Param("page") IPage<User> page, @Param(Constants.WRAPPER) Wrapper<User> wrapper);
-    
+
     /**
      * 查询用户
      *
@@ -64,7 +64,7 @@ public interface UserMapper extends SuperMapper<User> {
     @InterceptorIgnore(tenantLine = "true")
     @Select("select * from t_user where username = #{username} and tenant_id = #{tenantId}")
     User selectUserByTenantId(@Param("username") String username, @Param("tenantId") Long tenantId);
-    
+
     /**
      * 带数据权限用户列表
      *
@@ -72,7 +72,7 @@ public interface UserMapper extends SuperMapper<User> {
      */
     @DataScope(columns = @DataColumn(name = Entity.CREATE_USER_COLUMN))
     List<User> list();
-    
+
     /**
      * 删除指定租户用户数据
      *
@@ -81,7 +81,7 @@ public interface UserMapper extends SuperMapper<User> {
     @InterceptorIgnore(tenantLine = "true")
     @Delete("delete from t_user where tenant_id = #{tenantId}")
     void deleteByTenantId(@Param("tenantId") Long tenantId);
-    
+
     /**
      * 查询指定租户用户信息
      *
@@ -91,7 +91,6 @@ public interface UserMapper extends SuperMapper<User> {
     @InterceptorIgnore(tenantLine = "true")
     @Select("select * from t_user where tenant_id = #{tenantId}")
     List<User> selectByTenantId(@Param("tenantId") Long tenantId);
-
 
     /**
      * 根据用户ID查询角色权限

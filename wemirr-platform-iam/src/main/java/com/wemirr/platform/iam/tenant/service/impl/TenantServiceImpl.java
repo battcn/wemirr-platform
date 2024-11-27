@@ -53,7 +53,6 @@ import com.wemirr.platform.iam.tenant.service.TenantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -78,7 +77,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     private final DatabaseProperties properties;
     private final UserMapper userMapper;
     private final OrgMapper orgMapper;
-    private PasswordEncoder passwordEncoder;
+//    private PasswordEncoder passwordEncoder;
 
     private String getNameById(Long id) {
         if (Objects.isNull(id)) {
@@ -199,7 +198,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             this.orgMapper.insert(org);
             User record = new User();
             record.setUsername("admin");
-            record.setPassword(passwordEncoder.encode("123456"));
+//            record.setPassword(passwordEncoder.encode("123456"));
             record.setTenantId(id);
             record.setNickName(tenant.getContactPerson());
             record.setMobile(tenant.getContactPhone());

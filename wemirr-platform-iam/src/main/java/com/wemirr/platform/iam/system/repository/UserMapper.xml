@@ -3,21 +3,20 @@
 <mapper namespace="com.wemirr.platform.iam.system.repository.UserMapper">
 
     <select id="findPage" resultType="com.wemirr.platform.iam.system.domain.dto.resp.UserResp">
-        SELECT
-        *
-        FROM t_user  ${ew.customSqlSegment}
+        SELECT *
+        FROM t_user ${ew.customSqlSegment}
     </select>
 
     <select id="list" resultType="com.wemirr.platform.iam.system.domain.entity.User">
-        SELECT
-        *
+        SELECT *
         FROM t_user
     </select>
 
 
     <select id="selectResByUserId" resultType="java.lang.Long">
-        SELECT res_id FROM sys_role_res
-        WHERE role_id IN ( SELECT role_id FROM sys_user_role WHERE user_id = #{userId} )
+        SELECT res_id
+        FROM sys_role_res
+        WHERE role_id IN (SELECT role_id FROM sys_user_role WHERE user_id = #{userId})
     </select>
 
 </mapper>

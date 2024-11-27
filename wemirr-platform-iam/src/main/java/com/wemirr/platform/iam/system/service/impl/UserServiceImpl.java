@@ -28,12 +28,14 @@ import com.wemirr.framework.commons.annotation.remote.RemoteResult;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.datascope.handler.DataPermissionRule;
+import com.wemirr.framework.db.mybatisplus.datascope.service.DataScopeService;
 import com.wemirr.framework.db.mybatisplus.datascope.util.DataPermissionUtils;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.log.diff.core.annotation.DiffLog;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
 import com.wemirr.framework.security.domain.UserInfoDetails;
+import com.wemirr.framework.security.utils.PasswordEncoderHelper;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangeUserInfoReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserPageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserSaveReq;
@@ -46,7 +48,10 @@ import com.wemirr.platform.iam.system.repository.RoleMapper;
 import com.wemirr.platform.iam.system.repository.UserMapper;
 import com.wemirr.platform.iam.system.repository.UserRoleMapper;
 import com.wemirr.platform.iam.system.service.OrgService;
+import com.wemirr.platform.iam.system.service.ResourceService;
 import com.wemirr.platform.iam.system.service.UserService;
+import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
+import com.wemirr.platform.iam.tenant.repository.TenantMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -67,7 +72,10 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     private final UserRoleMapper userRoleMapper;
     private final AuthenticationContext context;
     private final OrgService orgService;
+    private final ResourceService resourceService;
     private final RoleMapper roleMapper;
+    private final TenantMapper tenantMapper;
+    private final DataScopeService dataScopeService;
 
     @Override
     public void addUser(UserSaveReq req) {
@@ -76,7 +84,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             throw CheckedException.badRequest("账号已存在");
         }
         final User user = BeanUtil.toBean(req, User.class);
-//        user.setPassword(passwordEncoder.encode(req.getPassword()));
+        user.setPassword(PasswordEncoderHelper.encode(req.getPassword()));
         user.setTenantId(context.tenantId());
         super.save(user);
     }
@@ -162,10 +170,12 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
     @Override
     public UserInfoDetails userinfo(Long userId) {
-        User user = this.baseMapper.selectById(userId);
+        final User user = Optional.ofNullable(this.baseMapper.selectById(userId))
+                .orElseThrow(() -> CheckedException.notFound("用户信息不存在"));
+        Tenant tenant = this.tenantMapper.selectById(user.getTenantId());
         final UserInfoDetails info = new UserInfoDetails();
-//        info.setTenantCode(tenantCode);
-//        info.setTenantName(tenant.getName());
+        info.setTenantCode(tenant.getCode());
+        info.setTenantName(tenant.getName());
         info.setTenantId(user.getTenantId());
         info.setUserId(user.getId());
         info.setUsername(user.getUsername());
@@ -180,11 +190,10 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         info.setPassword(user.getPassword());
         final List<Role> roles = this.roleMapper.findRoleByUserId(user.getId());
         info.setRoles(roles.stream().map(Role::getCode).toList());
-//        final List<String> permissions = this.resourceService.selectPermissionByUserId(user.getId());
-//        info.setFuncPermissions(permissions);
+        final List<String> permissions = this.resourceService.selectPermissionByUserId(user.getId());
+        info.setFuncPermissions(permissions);
         // 为了减少一次数据库查询,所以用了这个不规范写法
-//        info.setDataPermission(dataScopeServiceImpl.getDataPermissionById(user.getId(), user.getOrgId()));
-//        this.loginLogService.addLog(info);
+        info.setDataPermission(dataScopeService.getDataScopeById(user.getId()));
         return info;
     }
 }

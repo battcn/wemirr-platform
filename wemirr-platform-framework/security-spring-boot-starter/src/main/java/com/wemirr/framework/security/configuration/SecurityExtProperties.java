@@ -22,7 +22,6 @@ package com.wemirr.framework.security.configuration;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,6 @@ import static com.wemirr.framework.security.configuration.SecurityExtProperties.
  * @author Levin
  */
 @Data
-@RefreshScope
 @ConfigurationProperties(prefix = PLUGIN_PREFIX)
 public class SecurityExtProperties {
 

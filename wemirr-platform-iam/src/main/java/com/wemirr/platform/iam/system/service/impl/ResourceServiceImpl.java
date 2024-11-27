@@ -29,6 +29,7 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.properties.DatabaseProperties;
+import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceQueryReq;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.VueRouter;
@@ -88,11 +89,16 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
 
     @Override
     public List<String> selectPermissionByUserId(Long userId) {
+        DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
+        if (multiTenant.getType() == MultiTenantType.COLUMN) {
+            return this.baseMapper.selectPermissionByUserId(userId);
+        }
         // 查询租户数据源
         List<Long> resIdList = this.userMapper.selectResByUserId(userId);
         DynamicDataSourceContextHolder.poll();
         // 解决租户越权行为,菜单数据直接从主库查询,减少数据分发次数
-        DynamicDataSourceContextHolder.push(databaseProperties.getMultiTenant().getDefaultDsName());
+        DynamicDataSourceContextHolder.push(multiTenant.getDefaultDsName());
+        // 此处应该还要读取一下主库下发的资源数据,防止租户库自己偷偷该数据
         List<Resource> list = this.baseMapper.selectList(Wraps.<Resource>lbQ().select(Resource::getPermission).in(Resource::getId, resIdList));
         DynamicDataSourceContextHolder.poll();
         return list.stream().filter(Objects::nonNull).map(Resource::getPermission).filter(StrUtil::isNotBlank).toList();

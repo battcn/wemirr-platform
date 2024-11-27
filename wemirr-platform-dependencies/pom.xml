@@ -215,7 +215,7 @@
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
-                <artifactId>oauth2-spring-boot-starter</artifactId>
+                <artifactId>security-spring-boot-starter</artifactId>
                 <version>${wemirr-framework.version}</version>
             </dependency>
             <dependency>

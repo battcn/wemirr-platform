@@ -47,4 +47,9 @@ public class OAuth2AutoConfiguration implements WebMvcConfigurer {
                     .check(r -> StpUtil.checkLogin());
         })).addPathPatterns("/**");
     }
+
+    //         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//    public PasswordEncoder passwordEncoder() {
+//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//    }
 }

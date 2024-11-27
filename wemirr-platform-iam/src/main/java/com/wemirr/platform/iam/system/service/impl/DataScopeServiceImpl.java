@@ -59,7 +59,7 @@ public class DataScopeServiceImpl implements DataScopeService {
     @Override
     public DataPermission getDataScopeById(Long userId) {
         final User user = Optional.ofNullable(this.userMapper.selectById(userId)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
-        return getDataPermissionById(userId, user.getOrgId());
+        return getDataScopeById(userId, user.getOrgId());
     }
 
     /**
@@ -69,7 +69,8 @@ public class DataScopeServiceImpl implements DataScopeService {
      * @param orgId  用户当前机构
      * @return 数据权限
      */
-    public DataPermission getDataPermissionById(Long userId, Long orgId) {
+    @Override
+    public DataPermission getDataScopeById(Long userId, Long orgId) {
         List<Role> list = roleMapper.findRoleByUserId(userId);
         if (CollectionUtils.isEmpty(list)) {
             return DataPermission.builder().build();
