@@ -70,7 +70,7 @@ public class DiffLogOperationSource {
                     try {
                         return ifc.getMethod(key.getName(), key.getParameterTypes());
                     } catch (NoSuchMethodException ex) {
-                        log.warn("告警原因 - {}", ex.getLocalizedMessage());
+                        log.trace("告警原因 - {}", ex.getLocalizedMessage());
                     }
                 }
                 current = current.getSuperclass();

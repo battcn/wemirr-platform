@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.wemirr.framework</groupId>
         <artifactId>wemirr-platform-framework</artifactId>
-        <version>1.17.4-SNAPSHOT</version>
+        <version>3.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>db-spring-boot-starter</artifactId>
     <name>${project.artifactId}</name>

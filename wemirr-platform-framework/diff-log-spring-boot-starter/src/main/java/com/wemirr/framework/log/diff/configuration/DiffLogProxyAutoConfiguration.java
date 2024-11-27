@@ -78,8 +78,7 @@ public class DiffLogProxyAutoConfiguration implements ImportAware {
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public BeanFactoryDiffLogAdvisor diffLogAdvisor(DiffLogProperties diffLogProperties) {
-        BeanFactoryDiffLogAdvisor advisor =
-                new BeanFactoryDiffLogAdvisor();
+        BeanFactoryDiffLogAdvisor advisor = new BeanFactoryDiffLogAdvisor();
         advisor.setDiffLogOperationSource(diffLogOperationSource());
         advisor.setAdvice(diffLogInterceptor(diffLogProperties));
         advisor.setOrder(attributes.getNumber("order"));

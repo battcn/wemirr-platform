@@ -21,7 +21,6 @@ package com.wemirr.framework.boot.security;
 
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.commons.security.DataPermission;
-import com.wemirr.framework.security.utils.SecurityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -37,52 +36,36 @@ public class AuthenticationContextConfiguration {
 
             @Override
             public Long tenantId() {
-                if (SecurityUtils.anonymous() || SecurityUtils.getAuthInfo() == null) {
-                    return null;
-                }
-                return SecurityUtils.getAuthInfo().getTenantId();
+                return null;
             }
 
             public String tenantName() {
-                if (SecurityUtils.anonymous() || SecurityUtils.getAuthInfo() == null) {
-                    return null;
-                }
-                return SecurityUtils.getAuthInfo().getTenantName();
+                return null;
             }
 
             @Override
             public String tenantCode() {
-                if (SecurityUtils.anonymous() || SecurityUtils.getAuthInfo() == null) {
-                    return null;
-                }
-                return SecurityUtils.getAuthInfo().getTenantCode();
-
+                return null;
             }
 
             @Override
             public Long userId() {
-                if (SecurityUtils.anonymous() || SecurityUtils.getAuthInfo() == null) {
-                    return null;
-                }
-                return SecurityUtils.getAuthInfo().getUserId();
+                return null;
             }
 
             @Override
             public String realName() {
-                if (SecurityUtils.anonymous() || SecurityUtils.getAuthInfo() == null) {
-                    return null;
-                }
-                return SecurityUtils.getAuthInfo().getRealName();
+                return null;
             }
 
             @Override
             public boolean anonymous() {
-                return SecurityUtils.anonymous();
+                return false;
             }
 
             @Override
             public DataPermission dataPermission() {
-                return SecurityUtils.getAuthInfo().getDataPermission();
+                return null;
             }
         };
     }

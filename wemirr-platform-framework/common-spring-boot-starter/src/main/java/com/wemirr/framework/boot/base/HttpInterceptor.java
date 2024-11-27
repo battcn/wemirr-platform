@@ -41,7 +41,7 @@ public class HttpInterceptor implements HandlerInterceptor {
         // 从请求头中获取地区信息
         Locale locale = request.getLocale();
         ThreadLocalHolder.setLocal(locale);
-        log.info("http header locale - {}", locale);
+        log.debug("http header locale - {}", locale);
         return true;
     }
 

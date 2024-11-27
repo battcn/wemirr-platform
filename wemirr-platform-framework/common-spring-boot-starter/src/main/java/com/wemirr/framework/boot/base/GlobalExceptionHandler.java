@@ -19,7 +19,6 @@
 
 package com.wemirr.framework.boot.base;
 
-import com.baomidou.dynamic.datasource.exception.CannotFindDataSourceException;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.wemirr.framework.commons.entity.Result;
@@ -28,7 +27,6 @@ import com.wemirr.framework.i18n.core.I18nMessageResource;
 import feign.RetryableException;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.UnexpectedTypeException;
 import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
@@ -44,9 +42,6 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.jdbc.BadSqlGrammarException;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -55,7 +50,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -71,70 +65,34 @@ import java.util.Objects;
 @Configuration
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
-
-    private static final String BPM_MODEL_EXISTS_PROCESS = "Deletion of process definition without cascading failed.";
-
-
     @Resource
     private I18nMessageResource i18nMessageResource;
 
-    @ExceptionHandler(value = Exception.class)
-    @ResponseBody
-    public ResponseEntity<Result<ResponseEntity<Void>>> jsonErrorHandler(HttpServletRequest request, Exception e) {
-        HttpStatus defaultErrorResult = HttpStatus.OK;
-        log.error("错误日志 - {} - {}", request.getRequestURI(), e.getLocalizedMessage());
-        if (e instanceof CheckedException exception) {
-            return new ResponseEntity<>(Result.fail(exception.getCode(), i18nMessageResource.getMessage(exception.getMessage(), exception.getArgs())), defaultErrorResult);
-        } else if (e instanceof IllegalArgumentException exception) {
-            return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
-        } else if (e instanceof MultipartException) {
-            return new ResponseEntity<>(Result.fail(i18nMessageResource.getMessage("global.exception.file-too-large")), defaultErrorResult);
-        } else if (e instanceof InternalAuthenticationServiceException exception) {
-            log.error("InternalAuthenticationServiceException", exception);
-            if (exception.getCause() instanceof SQLSyntaxErrorException) {
-                return new ResponseEntity<>(Result.fail(exception.getCause().getMessage()), defaultErrorResult);
-            }
-            if (e.getCause() instanceof MyBatisSystemException) {
-                if (e.getCause().getCause() instanceof PersistenceException) {
-                    if (e.getCause().getCause().getCause().getCause() instanceof SQLSyntaxErrorException sqlSyntaxErrorException) {
-                        return new ResponseEntity<>(Result.fail("未找到数据源" + sqlSyntaxErrorException.getMessage()), defaultErrorResult);
-                    }
-                }
-                if (e.getCause().getCause().getCause() instanceof CannotFindDataSourceException sourceException) {
-                    return new ResponseEntity<>(Result.fail("未找到数据源" + sourceException.getMessage()), defaultErrorResult);
-                }
-                return new ResponseEntity<>(Result.fail("SQL 异常,错误信息为 " + e.getCause().getMessage()), defaultErrorResult);
-            }
-            return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
-        } else if (e instanceof RuntimeException exception) {
-            log.error("异常信息", exception);
-            if (exception.getMessage().contains(BPM_MODEL_EXISTS_PROCESS)) {
-                return new ResponseEntity<>(Result.fail("删除失败,存在未完结的流程实例"), defaultErrorResult);
-            }
-            return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
-        }
-        return new ResponseEntity<>(Result.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()), defaultErrorResult);
-    }
+//    @ExceptionHandler(value = Exception.class)
+//    @ResponseBody
+//    public ResponseEntity<Result<ResponseEntity<Void>>> jsonErrorHandler(HttpServletRequest request, Exception e) {
+//        HttpStatus defaultErrorResult = HttpStatus.OK;
+//        log.error("错误日志 - {} - {}", request.getRequestURI(), e.getLocalizedMessage());
+//        if (e instanceof CheckedException exception) {
+//            return new ResponseEntity<>(Result.fail(exception.getCode(), i18nMessageResource.getMessage(exception.getMessage(), exception.getArgs())), defaultErrorResult);
+//        } else if (e instanceof IllegalArgumentException exception) {
+//            return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
+//        } else if (e instanceof MultipartException) {
+//            return new ResponseEntity<>(Result.fail(i18nMessageResource.getMessage("global.exception.file-too-large")), defaultErrorResult);
+//        } else if (e instanceof RuntimeException exception) {
+//            log.error("异常信息", exception);
+//            if (exception.getMessage().contains(BPM_MODEL_EXISTS_PROCESS)) {
+//                return new ResponseEntity<>(Result.fail("删除失败,存在未完结的流程实例"), defaultErrorResult);
+//            }
+//            return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
+//        }
+//        return new ResponseEntity<>(Result.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()), defaultErrorResult);
+//    }
 
     @ExceptionHandler(UnexpectedTypeException.class)
     @ResponseBody
     public final Result<ResponseEntity<Void>> unexpectedTypeException(UnexpectedTypeException e) {
         return Result.fail(e.getMessage());
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    @ResponseBody
-    public final Result<ResponseEntity<Void>> accessDeniedException(AccessDeniedException e, HttpServletRequest request) {
-        String method = request.getMethod();
-        String uri = request.getRequestURI();
-        log.warn("""
-                [================================================================]
-                [异常信息] - [{}]
-                [请求地址] - [{}] - [{}]
-                [返回消息] - [访问受限，您的权限不足]
-                [================================================================]""", e.getLocalizedMessage(), method, uri);
-        return Result.fail(HttpStatus.FORBIDDEN.value(), "访问受限，您的权限不足");
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -148,12 +106,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         if (e.getCause() instanceof SQLException exception) {
             return Result.fail(exception.getMessage());
         }
-        return Result.fail(e.getMessage());
-    }
-
-    @ExceptionHandler(InsufficientAuthenticationException.class)
-    @ResponseBody
-    public final Result<ResponseEntity<Void>> insufficientAuthenticationException(InsufficientAuthenticationException e) {
         return Result.fail(e.getMessage());
     }
 
@@ -247,7 +199,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             return new ResponseEntity<>(Result.fail("地址错误 " + e.getMessage()), HttpStatus.OK);
         }
         final String contextPath = request.getContextPath();
-        logger.error("参数转换失败 - [" + contextPath + "]", ex);
-        return new ResponseEntity<>(Result.fail("表单填写错误"), HttpStatus.OK);
+        logger.error("系统异常 - [" + contextPath + "]", ex);
+        return new ResponseEntity<>(Result.fail("系统异常：" + ex.getLocalizedMessage()), HttpStatus.OK);
     }
 }

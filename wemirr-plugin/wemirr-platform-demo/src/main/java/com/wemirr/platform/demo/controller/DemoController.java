@@ -1,0 +1,147 @@
+package com.wemirr.platform.demo.controller;
+
+import com.alibaba.fastjson2.JSONObject;
+import com.wemirr.framework.commons.annotation.log.AccessLog;
+import com.wemirr.framework.commons.entity.Result;
+import com.wemirr.framework.i18n.annotation.I18nMethod;
+import com.wemirr.framework.redis.plus.anontation.RedisLock;
+import com.wemirr.framework.redis.plus.lock.RedisLockHelper;
+import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
+import com.wemirr.framework.security.utils.SecurityUtils;
+import com.wemirr.platform.iam.feign.FileServiceFeign;
+import com.wemirr.platform.demo.domain.enums.I18nEnum;
+import com.wemirr.platform.demo.domain.resp.I18nDemoResp;
+import com.wemirr.platform.demo.service.DemoService;
+import com.wemirr.platform.demo.service.client.DemoTestFeignClient;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * @author Levin
+ */
+@Slf4j
+@RestController
+@RequestMapping("/demos")
+@RequiredArgsConstructor
+@Tag(name = "Demo测试", description = "Demo测试")
+public class DemoController {
+
+    private final DemoService demoService;
+    private final DemoTestFeignClient demoTestFeignClient;
+    private final FileServiceFeign fileServiceFeign;
+    private final RedisLockHelper lockHelper;
+
+    @IgnoreAuthorize
+    @AccessLog(description = "测试日志回执")
+    @GetMapping("/ignore")
+    @Operation(summary = "忽略权限查询")
+    public Result<?> ignore() {
+        log.info("输出内容 - {}", demoService.sayHello());
+        return Result.success();
+    }
+
+    @GetMapping("/say")
+    @Operation(summary = "带权限查询")
+    public Result<?> say() {
+
+        log.info("输出内容 - {}", demoService.sayHello());
+        return Result.success(SecurityUtils.getAuthInfo());
+    }
+
+
+    @IgnoreAuthorize
+    @GetMapping("/feign")
+    @Operation(summary = "自动生成Token查询", description = "需要配置登录信息才可以")
+    public List<?> feign() {
+        return demoTestFeignClient.query("hahaha");
+    }
+
+
+    @GetMapping("/feign_language")
+    @IgnoreAuthorize
+    public void language() {
+        demoTestFeignClient.feignLanguage();
+    }
+
+
+    @GetMapping("/i18n")
+    @IgnoreAuthorize
+    @I18nMethod
+    public I18nDemoResp i18n() {
+        return I18nDemoResp.builder().type("type").build();
+    }
+
+    @GetMapping("/i18n_list")
+    @IgnoreAuthorize
+    @I18nMethod
+    public List<I18nDemoResp> i18nList() {
+        return List.of(
+                I18nDemoResp.builder().type("i18n.demo.type").name("i18n.test").build(),
+                I18nDemoResp.builder().type("type").i18nEnum(I18nEnum.MI).build(),
+                I18nDemoResp.builder().dbCode("i18n.demo").i18nEnum(I18nEnum.MI).build(),
+                I18nDemoResp.builder().type("type").i18nEnum(I18nEnum.APPLE).build()
+        );
+    }
+
+    @SneakyThrows
+    @GetMapping("/lock")
+    @IgnoreAuthorize
+    @RedisLock(prefix = "lock", waitTime = 2)
+    public void lock() {
+        for (int i = 0; i < 90; i++) {
+            TimeUnit.SECONDS.sleep(1);
+            log.info("lock sleep {}", i);
+        }
+    }
+
+    @SneakyThrows
+    @GetMapping("/lock2")
+    @IgnoreAuthorize
+    @RedisLock(prefix = "lock", waitTime = 2)
+    public void lock2() {
+        for (int i = 0; i < 80; i++) {
+            TimeUnit.SECONDS.sleep(1);
+            log.info("lock2 sleep {}", i);
+        }
+    }
+
+    @SneakyThrows
+    @GetMapping("/lock3")
+    @IgnoreAuthorize
+    @AccessLog(description = "测试日志回执")
+    public void lock3() {
+        String result = lockHelper.execute("lock3", 0, TimeUnit.SECONDS, () -> {
+            for (int i = 0; i < 80; i++) {
+                log.info("lock2 sleep {}", i);
+            }
+            return "任务返回值";
+        });
+        log.info("result - {}", result);
+    }
+
+    @SneakyThrows
+    @IgnoreAuthorize
+    @PostMapping("/upload")
+    public Result<?> upload(@RequestParam("file") MultipartFile file) {
+        fileServiceFeign.getToken("key", true);
+//        return fileServiceFeign.upload(file);
+        return Result.success();
+    }
+
+
+    @IgnoreAuthorize
+    @AccessLog(description = "测试日志回执")
+    @GetMapping("/demos_test1")
+    public JSONObject demoTest1() {
+        return demoTestFeignClient.demoTest1();
+    }
+
+}
