@@ -20,10 +20,10 @@
 package com.wemirr.platform.iam.system.controller;
 
 import cn.dev33.satoken.annotation.SaIgnore;
-import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.security.configuration.server.support.AuthenticationPrincipal;
 import com.wemirr.framework.security.configuration.server.support.AuthenticatorStrategy;
 import com.wemirr.framework.security.domain.UserInfoDetails;
@@ -52,7 +52,7 @@ import java.util.List;
 @Tag(name = "Token管理", description = "Token管理")
 public class TokenController {
 
-    private final SaTokenDao saTokenDao;
+    private final AuthenticationContext context;
     private final UserService userService;
     private final List<AuthenticatorStrategy> authenticatorStrategies;
 
@@ -85,7 +85,7 @@ public class TokenController {
     @GetMapping("/userinfo")
     @Operation(summary = "用户信息", description = "获取用户信息")
     public UserInfoDetails userinfo() {
-        return (UserInfoDetails) saTokenDao.getObject(String.format("USER_INFO_KEY:%s", StpUtil.getTokenValue()));
+        return (UserInfoDetails) context.getContext();
     }
 
     @PutMapping("/change_password")

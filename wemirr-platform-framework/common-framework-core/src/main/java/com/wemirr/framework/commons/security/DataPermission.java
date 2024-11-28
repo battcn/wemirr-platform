@@ -25,6 +25,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class DataPermission implements java.io.Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 1L;
     /**
      * 权限范围
      */

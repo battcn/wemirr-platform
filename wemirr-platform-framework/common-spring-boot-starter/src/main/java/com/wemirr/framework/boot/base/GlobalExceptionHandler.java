@@ -50,6 +50,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -68,26 +69,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Resource
     private I18nMessageResource i18nMessageResource;
 
-//    @ExceptionHandler(value = Exception.class)
-//    @ResponseBody
-//    public ResponseEntity<Result<ResponseEntity<Void>>> jsonErrorHandler(HttpServletRequest request, Exception e) {
-//        HttpStatus defaultErrorResult = HttpStatus.OK;
-//        log.error("错误日志 - {} - {}", request.getRequestURI(), e.getLocalizedMessage());
-//        if (e instanceof CheckedException exception) {
-//            return new ResponseEntity<>(Result.fail(exception.getCode(), i18nMessageResource.getMessage(exception.getMessage(), exception.getArgs())), defaultErrorResult);
-//        } else if (e instanceof IllegalArgumentException exception) {
-//            return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
-//        } else if (e instanceof MultipartException) {
-//            return new ResponseEntity<>(Result.fail(i18nMessageResource.getMessage("global.exception.file-too-large")), defaultErrorResult);
-//        } else if (e instanceof RuntimeException exception) {
-//            log.error("异常信息", exception);
-//            if (exception.getMessage().contains(BPM_MODEL_EXISTS_PROCESS)) {
-//                return new ResponseEntity<>(Result.fail("删除失败,存在未完结的流程实例"), defaultErrorResult);
-//            }
-//            return new ResponseEntity<>(Result.fail(exception.getMessage()), defaultErrorResult);
-//        }
-//        return new ResponseEntity<>(Result.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()), defaultErrorResult);
-//    }
+    @ResponseBody
+    @ExceptionHandler(value = MultipartException.class)
+    public Result<ResponseEntity<Void>> handlerException(MultipartException e) {
+        return Result.fail(i18nMessageResource.getMessage("global.exception.file-too-large"));
+    }
+    @ResponseBody
+    @ExceptionHandler(value = CheckedException.class)
+    public Result<ResponseEntity<Void>> handlerException(CheckedException e) {
+        return Result.fail(e.getCode(), i18nMessageResource.getMessage(e.getMessage(), e.getArgs()));
+    }
 
     @ExceptionHandler(UnexpectedTypeException.class)
     @ResponseBody

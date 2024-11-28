@@ -19,13 +19,15 @@
 
 package com.wemirr.framework.commons.security;
 
+import java.util.List;
+
 /**
  * 认证上下文接口
  *
  * @author Levin
  */
 public interface AuthenticationContext {
-    
+
     /**
      * 租户编码
      *
@@ -34,14 +36,18 @@ public interface AuthenticationContext {
     default String tenantCode() {
         return null;
     }
-    
+
+    default Object getContext() {
+        return null;
+    }
+
     /**
      * 租户ID
      *
      * @return id
      */
     Long tenantId();
-    
+
     /**
      * 租户名称
      *
@@ -55,21 +61,36 @@ public interface AuthenticationContext {
      * @return id
      */
     Long userId();
-    
+
     /**
      * 用户ID
      *
      * @return id
      */
     String realName();
-    
+
     /**
      * 匿名用户
      *
      * @return 是否为匿名
      */
     boolean anonymous();
-    
+
+    /**
+     * 功能权限
+     *
+     * @return 功能权限
+     */
+    List<String> funcPermissionList();
+
+
+    /**
+     * 角色权限
+     *
+     * @return 角色权限
+     */
+    List<String> rolePermissionList();
+
     /**
      * 数据权限
      *

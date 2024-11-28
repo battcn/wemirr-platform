@@ -22,5 +22,4 @@ public class OAuth2ExceptionHandler {
         log.error("http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
         return ResponseEntity.ok(Result.fail(e.getMessage()));
     }
-
 }

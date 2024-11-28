@@ -69,16 +69,16 @@ public class WpTokenListener implements SaTokenListener {
                 .loginType(loginType)
                 .createdBy(userId).createdName(nickName)
                 .build();
+        UserInfoDetails info = this.userService.userinfo(userId);
+        this.saTokenDao.setObject(buildCacheKey(tokenValue), info, loginModel.getTimeout());
         // 记录登录日志
         this.loginLogMapper.insert(loginLog);
         // 刷新登录时间和IP
         this.userService.updateById(User.builder().id(userId).lastLoginIp(ip).lastLoginTime(Instant.now()).build());
-        UserInfoDetails info = this.userService.userinfo(userId);
-        this.saTokenDao.setObject(buildCacheKey(tokenValue), info, loginModel.getTimeout());
     }
 
     private String buildCacheKey(String tokenValue) {
-        return String.format("USER_INFO_KEY:%s", tokenValue);
+        return String.format(extProperties.getServer().getInfoKeyPrefix(), tokenValue);
     }
 
     /**

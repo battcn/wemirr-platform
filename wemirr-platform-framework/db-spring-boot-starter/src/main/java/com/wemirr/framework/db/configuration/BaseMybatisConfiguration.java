@@ -85,7 +85,7 @@ public abstract class BaseMybatisConfiguration {
                 @Override
                 public boolean ignoreTable(String tableName) {
                     final List<String> tables = multiTenant.getIncludeTables();
-                    // 判断哪些表不需要尽心多租户判断,返回false表示都需要进行多租户判断
+                    // 判断哪些表不需要进行多租户判断,返回false表示都需要进行多租户判断
                     return context.anonymous() || !tables.contains(tableName);
                 }
 

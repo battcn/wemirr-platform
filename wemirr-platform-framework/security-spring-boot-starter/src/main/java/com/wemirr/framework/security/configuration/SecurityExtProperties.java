@@ -47,6 +47,7 @@ public class SecurityExtProperties {
             "/favicon.ico", "/css/**", "/webjars/**",
             "/swagger-ui.html", "/doc.html", "/v3/api-docs/**");
 
+
     /**
      * 是否启用 oauth2 协议（不启用也不影响正常登录）
      */
@@ -60,15 +61,20 @@ public class SecurityExtProperties {
     /**
      * 服务端配置
      */
-    private Server server;
+    private Server server = new Server();
 
     /**
      * 客户端配置
      */
-    private Client client;
+    private Client client = new Client();
 
     @Data
     public static class Server {
+        /**
+         * 用户信息KEY
+         * %s = token
+         */
+        private String infoKeyPrefix = "wp-token:userinfo:%s";
 
     }
 

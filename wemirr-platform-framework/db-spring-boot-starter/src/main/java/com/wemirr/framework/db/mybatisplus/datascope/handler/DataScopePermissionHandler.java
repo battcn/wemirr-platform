@@ -54,7 +54,7 @@ public class DataScopePermissionHandler implements MultiDataPermissionHandler {
             return null;
         }
         if (log.isDebugEnabled()) {
-            log.debug("sql statementId{},where - {}", mappedStatementId, where);
+            log.debug("sql statementId => {},where => {}", mappedStatementId, where);
         }
         // 默认从当前线程上下文获取,兼容 DataPermissionUtils.executeWithDataPermissionRule 方式
         DataPermissionRule rule = DataPermissionRuleHolder.peek();

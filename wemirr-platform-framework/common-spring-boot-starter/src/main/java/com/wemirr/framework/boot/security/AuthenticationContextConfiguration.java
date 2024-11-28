@@ -19,53 +19,86 @@
 
 package com.wemirr.framework.boot.security;
 
+import cn.dev33.satoken.dao.SaTokenDao;
+import cn.dev33.satoken.stp.StpUtil;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.commons.security.DataPermission;
+import com.wemirr.framework.commons.threadlocal.ThreadLocalHolder;
+import com.wemirr.framework.security.configuration.SecurityExtProperties;
+import com.wemirr.framework.security.domain.UserInfoDetails;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Levin
  */
 @Configuration
+@RequiredArgsConstructor
 public class AuthenticationContextConfiguration {
 
+    private final SaTokenDao saTokenDao;
+    private static final String USER_INFO = "USER_INFO_KEY";
+
     @Bean
-    public AuthenticationContext authenticationContext() {
+    public AuthenticationContext authenticationContext(SecurityExtProperties properties) {
         return new AuthenticationContext() {
+            @Override
+            public UserInfoDetails getContext() {
+                String key = String.format(properties.getServer().getInfoKeyPrefix(), StpUtil.getTokenValue());
+                return (UserInfoDetails) ThreadLocalHolder.get(USER_INFO, () -> saTokenDao.getObject(key));
+            }
 
             @Override
             public Long tenantId() {
-                return null;
+                return getContext().getTenantId();
             }
 
+            @Override
             public String tenantName() {
-                return null;
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getTenantName).orElse(null);
             }
 
             @Override
             public String tenantCode() {
-                return null;
+                return getContext().getTenantCode();
             }
 
             @Override
             public Long userId() {
-                return null;
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getUserId).orElse(null);
             }
 
             @Override
             public String realName() {
-                return null;
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getRealName).orElse(null);
             }
 
             @Override
             public boolean anonymous() {
-                return false;
+                try {
+                    return StpUtil.isLogin();
+                } catch (Exception e) {
+                    return true;
+                }
+            }
+
+            @Override
+            public List<String> funcPermissionList() {
+                return (List<String>) getContext().getFuncPermissions();
+            }
+
+            @Override
+            public List<String> rolePermissionList() {
+                return (List<String>) getContext().getRoles();
             }
 
             @Override
             public DataPermission dataPermission() {
-                return null;
+                return getContext().getDataPermission();
             }
         };
     }
