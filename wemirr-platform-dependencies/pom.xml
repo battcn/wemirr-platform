@@ -41,7 +41,6 @@
         <qiniu-java-sdk.version>7.14.0</qiniu-java-sdk.version>
         <cos_api.version>5.6.191</cos_api.version>
         <!-- 工具包 -->
-        <xxl-job.version>2.4.1</xxl-job.version>
         <easyexcel.version>4.0.2</easyexcel.version>
         <guava.version>33.2.1-jre</guava.version>
         <hutool.version>5.8.31</hutool.version>
@@ -87,11 +86,6 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.xuxueli</groupId>
-                <artifactId>xxl-job-core</artifactId>
-                <version>${xxl-job.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -253,11 +247,6 @@
                         <artifactId>spring-boot-starter-tomcat</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>com.wemirr.framework</groupId>
-                <artifactId>xxl-job-spring-boot-starter</artifactId>
-                <version>${wemirr-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>

@@ -17,17 +17,14 @@ public class UserInfoResp {
     @Schema(description = "昵称")
     private String nickName;
 
-
     @Schema(description = "头像")
     private String avatar;
-
 
     @Schema(description = "邮箱")
     private String email;
 
     @Schema(description = "手机号")
     private String mobile;
-
 
     @Schema(description = "生日")
     private LocalDate birthday;
