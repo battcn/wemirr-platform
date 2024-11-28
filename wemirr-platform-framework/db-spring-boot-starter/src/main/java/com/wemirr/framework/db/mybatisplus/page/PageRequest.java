@@ -24,6 +24,7 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -39,20 +40,25 @@ import java.util.List;
  */
 @Data
 @Slf4j
+@Schema(description = "分页对象")
 public class PageRequest {
-    
+
+    @Schema(description = "当前页码", example = "1")
     @Parameter(description = "当前页码", example = "1")
     private long current = 1;
-    
-    @Parameter(description = "页面大小", example = "20")
+
+    @Schema(description = "分页大小", example = "20")
+    @Parameter(description = "分页大小", example = "20")
     private long size = 20;
-    
+
+    @Schema(description = "排序字段", example = "id")
     @Parameter(description = "排序字段")
     private String column;
-    
+
+    @Schema(description = "排序规则", example = "true")
     @Parameter(description = "排序规则")
     private Boolean asc = true;
-    
+
     @JsonIgnore
     public <T> Page<T> buildPage() {
         PageRequest params = this;

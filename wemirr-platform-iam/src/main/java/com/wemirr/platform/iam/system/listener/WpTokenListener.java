@@ -10,6 +10,7 @@ import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.wemirr.framework.commons.RegionUtils;
+import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.platform.iam.base.domain.entity.LoginLog;
 import com.wemirr.platform.iam.base.repository.LoginLogMapper;
@@ -32,6 +33,7 @@ import java.time.Instant;
 @RequiredArgsConstructor
 public class WpTokenListener implements SaTokenListener {
     private static final String USER_AGENT = "User-Agent";
+    private final SecurityExtProperties extProperties;
     private final SaTokenDao saTokenDao;
     private final LoginLogMapper loginLogMapper;
     private final UserService userService;
@@ -72,7 +74,11 @@ public class WpTokenListener implements SaTokenListener {
         // 刷新登录时间和IP
         this.userService.updateById(User.builder().id(userId).lastLoginIp(ip).lastLoginTime(Instant.now()).build());
         UserInfoDetails info = this.userService.userinfo(userId);
-        this.saTokenDao.setObject("USER_INFO_KEY:" + tokenValue, info, loginModel.getTimeout());
+        this.saTokenDao.setObject(buildCacheKey(tokenValue), info, loginModel.getTimeout());
+    }
+
+    private String buildCacheKey(String tokenValue) {
+        return String.format("USER_INFO_KEY:%s", tokenValue);
     }
 
     /**
@@ -82,7 +88,7 @@ public class WpTokenListener implements SaTokenListener {
      */
     @Override
     public void doRenewTimeout(String tokenValue, Object loginId, long timeout) {
-        this.saTokenDao.updateTimeout("USER_INFO_KEY:" + tokenValue, timeout);
+        this.saTokenDao.updateTimeout(buildCacheKey(tokenValue), timeout);
     }
 
     /**
@@ -92,7 +98,7 @@ public class WpTokenListener implements SaTokenListener {
      */
     @Override
     public void doLogout(String loginType, Object loginId, String tokenValue) {
-        this.saTokenDao.delete("USER_INFO_KEY:" + tokenValue);
+        this.saTokenDao.delete(buildCacheKey(tokenValue));
     }
 
     /**

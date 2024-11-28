@@ -21,7 +21,6 @@ package com.wemirr.platform.iam.system.strategy;
 
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.exception.SaTokenException;
-import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.commons.exception.CheckedException;
@@ -88,7 +87,7 @@ public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrat
         if (!PasswordEncoderHelper.matches(password, user.getPassword())) {
             throw CheckedException.badRequest("用户名或密码错误");
         }
-        StpUtil.setStpLogic(new StpLogic(principal.getLoginType()));
+//        StpUtil.setStpLogic(new StpLogic(principal.getLoginType()));
         SaHolder.getStorage()
                 .set("clientId", principal.getClientId())
                 .set("username", principal.getUsername())

@@ -20,10 +20,10 @@
 package com.wemirr.platform.iam.system.controller;
 
 import cn.dev33.satoken.annotation.SaIgnore;
+import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.security.configuration.server.support.AuthenticationPrincipal;
 import com.wemirr.framework.security.configuration.server.support.AuthenticatorStrategy;
 import com.wemirr.framework.security.domain.UserInfoDetails;
@@ -52,7 +52,7 @@ import java.util.List;
 @Tag(name = "Token管理", description = "Token管理")
 public class TokenController {
 
-    private final AuthenticationContext context;
+    private final SaTokenDao saTokenDao;
     private final UserService userService;
     private final List<AuthenticatorStrategy> authenticatorStrategies;
 
@@ -85,8 +85,7 @@ public class TokenController {
     @GetMapping("/userinfo")
     @Operation(summary = "用户信息", description = "获取用户信息")
     public UserInfoDetails userinfo() {
-        long userId = StpUtil.getLoginIdAsLong();
-        return userService.userinfo(userId);
+        return (UserInfoDetails) saTokenDao.getObject(String.format("USER_INFO_KEY:%s", StpUtil.getTokenValue()));
     }
 
     @PutMapping("/change_password")
@@ -95,7 +94,7 @@ public class TokenController {
         if (!StringUtils.equals(dto.getNewPassword(), dto.getConfirmPassword())) {
             throw CheckedException.badRequest("新密码与确认密码不一致");
         }
-        this.userService.changePassword(context.userId(), dto.getCurrentPassword(), dto.getNewPassword());
+        this.userService.changePassword(StpUtil.getLoginIdAsLong(), dto.getCurrentPassword(), dto.getNewPassword());
     }
 
     @PutMapping("/change_info")
