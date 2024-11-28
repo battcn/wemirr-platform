@@ -19,6 +19,8 @@
 
 package com.wemirr.platform.iam.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
@@ -76,7 +78,7 @@ public class OrgController {
     @PostMapping
     @AccessLog(description = "保存组织架构")
     @Operation(summary = "保存编辑组织架构")
-    //@PreAuthorize("hasAuthority('sys:org:add')")
+    @SaCheckPermission(value = {"sys:org:add"}, mode = SaMode.OR)
     public void save(@Validated @RequestBody OrgSaveReq req) {
         orgService.addOrg(req);
     }
@@ -84,7 +86,7 @@ public class OrgController {
     @PutMapping("/{id}")
     @AccessLog(description = "编辑组织架构")
     @Operation(summary = "编辑编辑组织架构")
-    //@PreAuthorize("hasAuthority('sys:org:edit')")
+    @SaCheckPermission(value = {"sys:org:edit"}, mode = SaMode.OR)
     public void edit(@PathVariable Long id, @Validated @RequestBody OrgSaveReq req) {
         orgService.updateById(BeanUtilPlus.toBean(id, req, Org.class));
     }
@@ -92,7 +94,7 @@ public class OrgController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除组织架构")
     @Operation(summary = "删除组织架构")
-    //@PreAuthorize("hasAuthority('sys:org:remove')")
+    @SaCheckPermission(value = {"sys:org:remove"}, mode = SaMode.OR)
     public void del(@PathVariable Long id) {
         orgService.remove(id);
     }

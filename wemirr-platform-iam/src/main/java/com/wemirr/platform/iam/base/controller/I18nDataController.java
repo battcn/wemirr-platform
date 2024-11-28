@@ -19,6 +19,8 @@
 
 package com.wemirr.platform.iam.base.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.platform.iam.base.domain.dto.req.I18nDataSaveReq;
@@ -48,7 +50,7 @@ public class I18nDataController {
     @GetMapping
     @AccessLog(description = "国际化查询")
     @Operation(summary = "查询国际化 - [DONE] - [Levin]", description = "查询国际化 - [DONE] - [Levin]")
-    //@PreAuthorize("hasAuthority('sys:i18n:page')")
+    @SaCheckPermission(value = {"sys:i18n:page"}, mode = SaMode.OR)
     public IPage<I18nDataPageResp> page(I18nPageReq req) {
         return this.i18nDataService.pageList(req);
     }
@@ -56,7 +58,7 @@ public class I18nDataController {
     @PostMapping
     @AccessLog(description = "国际化新增")
     @Operation(summary = "新增国际化 - [DONE] - [Levin]", description = "新增国际化 - [DONE] - [Levin]")
-    //@PreAuthorize("hasAuthority('sys:i18n:add')")
+    @SaCheckPermission(value = {"sys:i18n:add"}, mode = SaMode.OR)
     public void save(@Validated @RequestBody I18nDataSaveReq req) {
         this.i18nDataService.add(req);
     }
@@ -64,7 +66,7 @@ public class I18nDataController {
     @PutMapping("/{id}")
     @AccessLog(description = "国际化编辑")
     @Operation(summary = "编辑国际化 - [DONE] - [Levin]", description = "编辑国际化 - [DONE] - [Levin]")
-    //@PreAuthorize("hasAuthority('sys:i18n:edit')")
+    @SaCheckPermission(value = {"sys:i18n:edit"}, mode = SaMode.OR)
     public void edit(@PathVariable Long id, @Validated @RequestBody I18nDataSaveReq req) {
         this.i18nDataService.edit(id, req);
     }
@@ -72,7 +74,7 @@ public class I18nDataController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除指定国际化项")
     @Operation(summary = "删除国际化 - [DONE] - [Levin]", description = "删除国际化 - [DONE] - [Levin]")
-    //@PreAuthorize("hasAuthority('sys:i18n:remove')")
+    @SaCheckPermission(value = {"sys:i18n:remove"}, mode = SaMode.OR)
     public void del(@PathVariable Long id) {
         this.i18nDataService.removeById(id);
     }

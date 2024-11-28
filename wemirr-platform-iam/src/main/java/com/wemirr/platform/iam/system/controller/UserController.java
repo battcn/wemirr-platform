@@ -19,6 +19,8 @@
 
 package com.wemirr.platform.iam.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.MapHelper;
@@ -61,14 +63,14 @@ public class UserController {
 
     @PostMapping("/page")
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
-    //@PreAuthorize("hasAuthority('sys:user:page')")
+    @SaCheckPermission(value = {"sys:user:page"}, mode = SaMode.OR)
     public IPage<UserResp> pageList(@RequestBody UserPageReq req) {
         return this.userService.pageList(req);
     }
 
 
     @PutMapping("/{id}/reset_password")
-    //@PreAuthorize("hasAuthority('sys:user:reset')")
+    @SaCheckPermission(value = {"sys:user:reset"}, mode = SaMode.OR)
     @Operation(summary = "重置密码", description = "重置密码,并且将随机生成的密码通过邮箱/短信的形式发送")
     public void resetPassword(@PathVariable Long id) {
         this.userService.resetPassword(id);
@@ -76,7 +78,7 @@ public class UserController {
 
     @PostMapping("/export")
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
-    //@PreAuthorize("hasAuthority('sys:user:page')")
+    @SaCheckPermission(value = {"sys:user:page"}, mode = SaMode.OR)
     @ResponseExcel(fileName = "用户列表")
     public List<UserResp> exportList(@RequestBody UserPageReq req) {
         // 因为导出要全部数据
@@ -88,7 +90,7 @@ public class UserController {
     @PostMapping("/create")
     @AccessLog(description = "添加用户")
     @Operation(summary = "添加用户")
-    //@PreAuthorize("hasAuthority('sys:user:add')")
+    @SaCheckPermission(value = {"sys:user:add"}, mode = SaMode.OR)
     public void save(@Validated @RequestBody UserSaveReq dto) {
         this.userService.addUser(dto);
     }
@@ -96,7 +98,7 @@ public class UserController {
     @PutMapping("{id}")
     @AccessLog(description = "编辑用户")
     @Operation(summary = "编辑用户")
-    //@PreAuthorize("hasAuthority('sys:user:edit')")
+    @SaCheckPermission(value = {"sys:user:edit"}, mode = SaMode.OR)
     public void modify(@PathVariable Long id, @Validated @RequestBody UserUpdateReq req) {
         this.userService.modify(id, req);
     }
@@ -104,7 +106,7 @@ public class UserController {
     @DeleteMapping("{id}")
     @AccessLog(description = "删除用户")
     @Operation(summary = "删除用户")
-    //@PreAuthorize("hasAuthority('sys:user:remove')")
+    @SaCheckPermission(value = {"sys:user:remove"}, mode = SaMode.OR)
     public void del(@PathVariable Long id) {
         this.userService.deleteById(id);
     }

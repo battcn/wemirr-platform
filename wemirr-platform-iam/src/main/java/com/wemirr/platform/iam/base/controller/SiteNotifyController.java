@@ -19,6 +19,8 @@
 
 package com.wemirr.platform.iam.base.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
@@ -56,7 +58,7 @@ public class SiteNotifyController {
     
     @GetMapping("/page")
     @Operation(summary = "分页查询")
-    //@PreAuthorize("hasAuthority('sys:site_notify:page')")
+    @SaCheckPermission(value = {"sys:site_notify:page"}, mode = SaMode.OR)
     public IPage<SiteMessageResp> publishList(SiteMessagePageReq req) {
         return siteNotifyService.page(req.buildPage(), Wraps.<SiteNotify>lbQ()
                 .eq(SiteNotify::getTitle, req.getTitle()).eq(SiteNotify::getLevel, req.getLevel())
@@ -73,7 +75,7 @@ public class SiteNotifyController {
     @PostMapping
     @AccessLog(description = "添加通知")
     @Operation(summary = "添加通知")
-    //@PreAuthorize("hasAuthority('sys:site_notify:add')")
+    @SaCheckPermission(value = {"sys:site_notify:add"}, mode = SaMode.OR)
     public void add(@Validated @RequestBody SiteMessageSaveReq req) {
         final SiteNotify bean = BeanUtil.toBean(req, SiteNotify.class);
         bean.setReceiver(StringUtils.join(req.getReceiver(), ","));
@@ -83,7 +85,7 @@ public class SiteNotifyController {
     @PutMapping("/{id}")
     @AccessLog(description = "编辑通知")
     @Operation(summary = "编辑通知")
-    //@PreAuthorize("hasAuthority('sys:site_notify:edit')")
+    @SaCheckPermission(value = {"sys:site_notify:edit"}, mode = SaMode.OR)
     public void edit(@PathVariable Long id, @Validated @RequestBody SiteMessageSaveReq req) {
         final SiteNotify bean = BeanUtil.toBean(req, SiteNotify.class);
         bean.setReceiver(StringUtils.join(req.getReceiver(), ","));
@@ -94,7 +96,7 @@ public class SiteNotifyController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除通知")
     @Operation(summary = "删除通知")
-    //@PreAuthorize("hasAuthority('sys:site_notify:remove')")
+    @SaCheckPermission(value = {"sys:site_notify:remove"}, mode = SaMode.OR)
     public void del(@PathVariable Long id) {
         siteNotifyService.removeById(id);
     }
@@ -102,7 +104,7 @@ public class SiteNotifyController {
     @PatchMapping("/{id}/publish")
     @AccessLog(description = "发布通知")
     @Operation(summary = "发布通知")
-    //@PreAuthorize("hasAuthority('sys:site_notify:publish')")
+    @SaCheckPermission(value = {"sys:site_notify:publish"}, mode = SaMode.OR)
     public void publish(@PathVariable Long id) {
         siteNotifyService.publish(id);
     }

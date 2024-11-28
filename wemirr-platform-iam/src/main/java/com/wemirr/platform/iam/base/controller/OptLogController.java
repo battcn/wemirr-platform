@@ -19,6 +19,8 @@
 
 package com.wemirr.platform.iam.base.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.boot.log.AccessLogInfo;
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
@@ -52,19 +54,19 @@ import java.time.temporal.ChronoUnit;
 @TenantDS
 @RequiredArgsConstructor
 public class OptLogController {
-    
+
     private final OptLogService optLogService;
-    
+
     @GetMapping
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
-    //@PreAuthorize("hasAuthority('log:opt:page')")
+    @SaCheckPermission(value = {"log:opt:page"}, mode = SaMode.OR)
     public Page<OptLog> page(OptLogPageReq req) {
         return this.optLogService.page(req.buildPage(), Wraps.<OptLog>lbQ()
                 .eq(OptLog::getHttpMethod, req.getHttpMethod())
                 .eq(OptLog::getStatus, req.getStatus())
                 .eq(OptLog::getPlatform, req.getPlatform()));
     }
-    
+
     @DeleteMapping("/{day}")
     @Parameters({
             @Parameter(name = "day", description = "天数", in = ParameterIn.PATH),
@@ -73,11 +75,11 @@ public class OptLogController {
     public void batchDelete(@PathVariable Integer day) {
         this.optLogService.remove(Wraps.<OptLog>lbQ().le(OptLog::getStartTime, Instant.now().plus(-day, ChronoUnit.DAYS)));
     }
-    
+
     @PostMapping("/listener")
     @Operation(summary = "监听日志 - [DONE] - [Levin]", description = "监听日志 - [DONE] - [Levin]")
     public void listener(@RequestBody AccessLogInfo info) {
         this.optLogService.listener(info);
     }
-    
+
 }

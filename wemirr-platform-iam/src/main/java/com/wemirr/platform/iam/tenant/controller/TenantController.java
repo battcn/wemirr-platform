@@ -19,6 +19,8 @@
 
 package com.wemirr.platform.iam.tenant.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
@@ -60,7 +62,7 @@ public class TenantController {
 
     @PostMapping("/page")
     @Operation(summary = "租户列表 - [Levin] - [DONE]")
-    //@PreAuthorize("hasAuthority('tenant:page')")
+    @SaCheckPermission(value = {"tenant:page"}, mode = SaMode.OR)
     public IPage<TenantPageResp> pageList(@RequestBody TenantPageReq req) {
         return tenantService.page(req.buildPage(), Wraps.<Tenant>lbQ()
                 .like(Tenant::getName, req.getName())
@@ -81,7 +83,7 @@ public class TenantController {
     @PostMapping
     @AccessLog(description = "添加租户")
     @Operation(summary = "添加租户")
-    //@PreAuthorize("hasAuthority('tenant:add')")
+    @SaCheckPermission(value = {"tenant:add"}, mode = SaMode.OR)
     public void create(@Validated @RequestBody TenantSaveReq req) {
         tenantService.create(req);
     }
@@ -89,7 +91,7 @@ public class TenantController {
     @PutMapping("/{id}")
     @AccessLog(description = "编辑租户")
     @Operation(summary = "编辑租户")
-    //@PreAuthorize("hasAuthority('tenant:edit')")
+    @SaCheckPermission(value = {"tenant:edit"}, mode = SaMode.OR)
     public void modify(@PathVariable Long id, @Validated @RequestBody TenantModifyReq req) {
         tenantService.modify(id, req);
     }
@@ -97,7 +99,7 @@ public class TenantController {
     @PutMapping("/{id}/config")
     @AccessLog(description = "配置租户")
     @Operation(summary = "配置租户")
-    //@PreAuthorize("hasAuthority('tenant:config')")
+    @SaCheckPermission(value = {"tenant:config"}, mode = SaMode.OR)
     public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq req) {
         tenantService.tenantConfig(id, req);
     }
@@ -113,7 +115,7 @@ public class TenantController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除租户")
     @Operation(summary = "删除租户")
-    //@PreAuthorize("hasAuthority('tenant:remove')")
+    @SaCheckPermission(value = {"tenant:remove"}, mode = SaMode.OR)
     public void del(@PathVariable Long id) {
         tenantService.removeById(id);
     }

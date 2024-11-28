@@ -64,7 +64,7 @@ public class CaptchaController {
     
     @GetMapping("/captcha")
     @Operation(summary = "验证码 - [DONE] - [Levin]", description = "验证码 - [DONE] - [Levin]")
-    public CaptchaResp getCaptcha(@RequestParam(value = "key", required = false) String key,
+    public CaptchaResp create(@RequestParam(value = "key", required = false) String key,
                                   @RequestParam(defaultValue = "130", required = false) Integer width,
                                   @RequestParam(defaultValue = "34", required = false) Integer height) {
         final String captchaId = StrUtil.blankToDefault(key, IdUtil.fastSimpleUUID());

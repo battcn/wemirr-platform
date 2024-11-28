@@ -19,6 +19,8 @@
 
 package com.wemirr.platform.iam.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
@@ -68,7 +70,7 @@ public class StationController {
     @PostMapping
     @AccessLog(description = "添加岗位")
     @Operation(summary = "添加岗位")
-    //@PreAuthorize("hasAuthority('sys:station:add')")
+    @SaCheckPermission(value = {"sys:station:add"}, mode = SaMode.OR)
     public void add(@Validated @RequestBody StationSaveReq dto) {
         stationService.save(BeanUtil.toBean(dto, Station.class));
     }
@@ -76,7 +78,7 @@ public class StationController {
     @PutMapping("/{id}")
     @AccessLog(description = "编辑岗位")
     @Operation(summary = "编辑岗位")
-    //@PreAuthorize("hasAuthority('sys:station:edit')")
+    @SaCheckPermission(value = {"sys:station:edit"}, mode = SaMode.OR)
     public void edit(@PathVariable Long id, @Validated @RequestBody StationSaveReq dto) {
         stationService.updateById(BeanUtilPlus.toBean(id, dto, Station.class));
     }
@@ -84,7 +86,7 @@ public class StationController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除岗位")
     @Operation(summary = "删除岗位")
-    //@PreAuthorize("hasAuthority('sys:station:remove')")
+    @SaCheckPermission(value = {"sys:station:remove"}, mode = SaMode.OR)
     public void del(@PathVariable Long id) {
         stationService.removeById(id);
     }

@@ -19,6 +19,8 @@
 
 package com.wemirr.platform.iam.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
@@ -109,7 +111,7 @@ public class ResourceController {
     @PostMapping
     @AccessLog(description = "添加资源")
     @Operation(summary = "添加资源")
-    //@PreAuthorize("hasAuthority('sys:menu:add')")
+    @SaCheckPermission(value = {"sys:menu:add"}, mode = SaMode.OR)
     public void save(@Validated @RequestBody ResourceSaveReq req) {
         resourceService.add(req);
     }
@@ -117,7 +119,7 @@ public class ResourceController {
     @PutMapping("/{id}")
     @AccessLog(description = "修改资源")
     @Operation(summary = "修改资源")
-    //@PreAuthorize("hasAuthority('sys:menu:edit')")
+    @SaCheckPermission(value = {"sys:menu:edit"}, mode = SaMode.OR)
     public void modify(@PathVariable Long id, @Validated @RequestBody ResourceSaveReq req) {
         resourceService.modify(id, req);
     }
@@ -125,7 +127,7 @@ public class ResourceController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除资源")
     @Operation(summary = "删除资源")
-    //@PreAuthorize("hasAuthority('sys:menu:remove')")
+    @SaCheckPermission(value = {"sys:menu:remove"}, mode = SaMode.OR)
     public void del(@PathVariable Long id) {
         this.resourceService.delete(id);
     }
