@@ -23,8 +23,8 @@ spring:
 sa-token:
   # token 名称（同时也是 cookie 名称）
   token-name: wp-token
-  #  token-name: Authorization
-  #  token-prefix: Bearer
+#  token-name: Authorization
+  token-prefix: Bearer
   # token 有效期（单位：秒） 默认30天，-1 代表永久有效
   timeout: 86400
   # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结

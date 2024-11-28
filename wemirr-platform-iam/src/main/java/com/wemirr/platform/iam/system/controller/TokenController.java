@@ -20,6 +20,7 @@
 package com.wemirr.platform.iam.system.controller;
 
 import cn.dev33.satoken.annotation.SaIgnore;
+import cn.dev33.satoken.config.SaTokenConfig;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.wemirr.framework.commons.exception.CheckedException;
@@ -30,6 +31,7 @@ import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangePasswordReq;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangeUserInfoReq;
 import com.wemirr.platform.iam.system.domain.dto.req.LoginReq;
+import com.wemirr.platform.iam.system.domain.dto.resp.LoginResp;
 import com.wemirr.platform.iam.system.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,6 +54,7 @@ import java.util.List;
 @Tag(name = "Token管理", description = "Token管理")
 public class TokenController {
 
+    private final SaTokenConfig tokenConfig;
     private final AuthenticationContext context;
     private final UserService userService;
     private final List<AuthenticatorStrategy> authenticatorStrategies;
@@ -59,7 +62,7 @@ public class TokenController {
     @SaIgnore
     @PostMapping("/login")
     @Operation(summary = "用户登录", description = "用户登录")
-    public SaTokenInfo login(HttpServletRequest request, @Validated @RequestBody LoginReq req) {
+    public LoginResp login(HttpServletRequest request, @Validated @RequestBody LoginReq req) {
         for (AuthenticatorStrategy strategy : authenticatorStrategies) {
             if (!strategy.support(req.getLoginType())) {
                 continue;
@@ -76,7 +79,13 @@ public class TokenController {
             strategy.authenticate(principal);
             // 后置处理器
             strategy.complete(principal);
-            return StpUtil.getTokenInfo();
+            SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+            return LoginResp.builder()
+                    .accessToken(tokenInfo.getTokenValue())
+                    .expiresIn(tokenInfo.getTokenTimeout())
+                    .clientId(req.getClientId())
+                    .tokenType(tokenConfig.getTokenPrefix())
+                    .build();
         }
         throw CheckedException.notFound("未检测到有效的策略");
     }
