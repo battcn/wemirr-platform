@@ -65,9 +65,11 @@ public class TokenController {
                 continue;
             }
             AuthenticationPrincipal principal = AuthenticationPrincipal.builder()
-                    .loginType(req.getLoginType()).device(req.getDevice())
+                    .loginType(req.getLoginType()).tenantCode(req.getTenantCode())
+                    .clientId(req.getClientId()).clientSecret(req.getClientSecret())
                     .username(req.getUsername()).password(req.getPassword())
-                    .tenantCode("0000").request(request).build();
+                    .request(request)
+                    .build();
             // 前置处理器
             strategy.prepare(principal);
             // 登录

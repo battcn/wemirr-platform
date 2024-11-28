@@ -48,16 +48,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "登录日志", description = "登录日志")
 @RequiredArgsConstructor
 public class LoginLogController {
-    
+
     private final LoginLogService loginLogService;
-    
+
     @GetMapping
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
     @SaCheckPermission(value = {"log:login:page"}, mode = SaMode.OR)
     public Page<LoginLog> page(LoginLogPageReq req) {
-        return DataPermissionUtils.executeDefaultDataPermissionRule(() -> loginLogService.page(req.buildPage(), Wraps.<LoginLog>lbQ().like(LoginLog::getName, req.getName())
+        return DataPermissionUtils.executeDefaultDataPermissionRule(() -> loginLogService.page(req.buildPage(), Wraps.<LoginLog>lbQ()
+                .like(LoginLog::getCreatedBy, req.getNickName())
                 .like(LoginLog::getPrincipal, req.getPrincipal())
                 .eq(LoginLog::getPlatform, req.getPlatform())));
     }
-    
+
 }

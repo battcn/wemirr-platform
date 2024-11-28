@@ -19,18 +19,17 @@
 
 package com.wemirr.platform.iam.system.strategy;
 
+import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.exception.SaTokenException;
+import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.security.configuration.server.support.AuthenticationPrincipal;
 import com.wemirr.framework.security.configuration.server.support.AuthenticatorStrategy;
+import com.wemirr.framework.security.utils.PasswordEncoderHelper;
 import com.wemirr.platform.iam.system.domain.entity.User;
-import com.wemirr.platform.iam.system.repository.RoleMapper;
 import com.wemirr.platform.iam.system.repository.UserMapper;
-import com.wemirr.platform.iam.base.service.LoginLogService;
-import com.wemirr.platform.iam.system.service.ResourceService;
-import com.wemirr.platform.iam.system.service.impl.DataScopeServiceImpl;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
 import com.wemirr.platform.iam.tenant.repository.TenantMapper;
 import jakarta.annotation.Resource;
@@ -53,21 +52,8 @@ public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrat
 
     @Resource
     private UserMapper userMapper;
-
     @Resource
     private TenantMapper tenantMapper;
-
-    @Resource
-    private RoleMapper roleMapper;
-
-    @Resource
-    private ResourceService resourceService;
-
-    @Resource
-    private LoginLogService loginLogService;
-
-    @Resource
-    private DataScopeServiceImpl dataScopeServiceImpl;
 
     @Override
     public int getOrder() {
@@ -99,9 +85,16 @@ public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrat
         }
         final User user = Optional.ofNullable(userMapper.selectUserByTenantId(username, tenant.getId()))
                 .orElseThrow(() -> CheckedException.notFound("账户不存在"));
-//        if (!passwordEncoder.matches(password, user.getPassword())) {
-//            throw CheckedException.badRequest("用户名或密码错误");
-//        }
-        StpUtil.login(user.getId(), principal.getDevice());
+        if (!PasswordEncoderHelper.matches(password, user.getPassword())) {
+            throw CheckedException.badRequest("用户名或密码错误");
+        }
+        StpUtil.setStpLogic(new StpLogic(principal.getLoginType()));
+        SaHolder.getStorage()
+                .set("clientId", principal.getClientId())
+                .set("username", principal.getUsername())
+                .set("tenantId", tenant.getId())
+                .set("tenantCode", tenant.getCode())
+                .set("nickName", user.getNickName());
+        StpUtil.login(user.getId(), principal.getClientId());
     }
 }

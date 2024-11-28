@@ -48,8 +48,11 @@ public class AuthenticationPrincipal {
     @Schema(description = "租户编码", requiredMode = Schema.RequiredMode.REQUIRED)
     private String tenantCode;
 
-    @Schema(description = "登录设备", example = "pc")
-    private String device;
+    @Schema(description = "客户端ID", example = "pc-web")
+    private String clientId;
+
+    @Schema(description = "客户端密钥", example = "pc-web")
+    private String clientSecret;
 
     @JsonIgnore
     @JSONField(serialize = false, deserialize = false)

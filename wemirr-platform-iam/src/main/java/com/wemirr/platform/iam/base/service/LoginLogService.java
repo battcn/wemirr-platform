@@ -20,26 +20,14 @@
 package com.wemirr.platform.iam.base.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.platform.iam.base.domain.entity.LoginLog;
 
 /**
- * <p>
- * 业务接口
- * 系统日志
- *
- * </p>
+ * 登录日志
  *
  * @author Levin
- * @since 2019-10-20
  */
 public interface LoginLogService extends SuperService<LoginLog> {
-    
-    /**
-     * 记录登录日志
-     *
-     * @param details details
-     */
-    void addLog(UserInfoDetails details);
-    
+
+
 }

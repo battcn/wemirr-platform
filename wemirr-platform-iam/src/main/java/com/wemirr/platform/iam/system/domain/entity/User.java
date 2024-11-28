@@ -32,6 +32,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 /**
@@ -108,5 +109,11 @@ public class User extends SuperEntity<Long> {
 
     @Schema(description = "职位状态")
     private String positionStatus;
+
+    @Schema(description = "最后登录IP")
+    private String lastLoginIp;
+
+    @Schema(description = "最后登录时间")
+    private Instant lastLoginTime;
 
 }
