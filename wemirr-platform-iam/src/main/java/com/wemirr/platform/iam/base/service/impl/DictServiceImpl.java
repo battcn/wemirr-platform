@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.service.impl;
+package com.wemirr.platform.iam.base.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
@@ -35,7 +35,7 @@ import com.wemirr.platform.iam.base.domain.entity.SysDictItem;
 import com.wemirr.platform.iam.base.repository.I18nLocaleMessageMapper;
 import com.wemirr.platform.iam.base.repository.SysDictItemMapper;
 import com.wemirr.platform.iam.base.repository.SysDictMapper;
-import com.wemirr.platform.iam.system.service.DictService;
+import com.wemirr.platform.iam.base.service.DictService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

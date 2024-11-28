@@ -17,40 +17,22 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.service;
+package com.wemirr.platform.iam.base.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.iam.base.domain.dto.req.I18nDataSaveReq;
-import com.wemirr.platform.iam.base.domain.dto.req.I18nPageReq;
-import com.wemirr.platform.iam.base.domain.dto.resp.I18nDataPageResp;
-import com.wemirr.platform.iam.base.domain.entity.I18nData;
+import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
+import com.wemirr.platform.iam.base.domain.entity.SiteMessage;
+import com.wemirr.platform.iam.base.repository.SiteMessageMapper;
+import com.wemirr.platform.iam.base.service.SiteMessageService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Levin
  */
-public interface I18nDataService extends SuperService<I18nData> {
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class StationMessageServiceImpl extends SuperServiceImpl<SiteMessageMapper, SiteMessage> implements SiteMessageService {
     
-    /**
-     * 分页查询
-     *
-     * @param req req
-     * @return 查询结果
-     */
-    IPage<I18nDataPageResp> pageList(I18nPageReq req);
-    
-    /**
-     * 添加 i18n 数据
-     *
-     * @param req req
-     */
-    void add(I18nDataSaveReq req);
-    
-    /**
-     * 编辑I18N数据
-     *
-     * @param id  id
-     * @param req req
-     */
-    void edit(Long id, I18nDataSaveReq req);
 }

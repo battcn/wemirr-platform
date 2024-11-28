@@ -17,38 +17,36 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.service.impl;
+package com.wemirr.platform.iam.base.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson2.JSON;
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
+import com.wemirr.framework.boot.log.AccessLogInfo;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
-import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.iam.base.domain.entity.AreaEntity;
-import com.wemirr.platform.iam.base.repository.AreaMapper;
-import com.wemirr.platform.iam.system.service.AreaService;
+import com.wemirr.platform.iam.base.domain.entity.OptLog;
+import com.wemirr.platform.iam.base.repository.OptLogMapper;
+import com.wemirr.platform.iam.base.service.OptLogService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author Levin
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
-public class AreaServiceImpl extends SuperServiceImpl<AreaMapper, AreaEntity> implements AreaService {
+public class OptLogServiceImpl extends SuperServiceImpl<OptLogMapper, OptLog> implements OptLogService {
+    
+    private final OptLogMapper optLogMapper;
     
     @Override
-    public List<AreaEntity> listArea(Integer parentId) {
-        return baseMapper.listArea(parentId);
-    }
-    
-    @Override
-    public void saveOrUpdateArea(AreaEntity area) {
-        final long count = count(Wraps.<AreaEntity>lbQ().eq(AreaEntity::getId, area.getId()));
-        if (count == 0) {
-            baseMapper.insert(area);
-        } else {
-            baseMapper.updateById(area);
-        }
+    public void listener(AccessLogInfo info) {
+        DynamicDataSourceContextHolder.push(info.getDsKey());
+        log.debug("[日志信息] - {}", JSON.toJSONString(info));
+        this.optLogMapper.insert(BeanUtil.toBean(info, OptLog.class));
+        DynamicDataSourceContextHolder.poll();
     }
     
 }

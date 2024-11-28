@@ -28,7 +28,7 @@ import com.wemirr.framework.security.configuration.server.support.AuthenticatorS
 import com.wemirr.platform.iam.system.domain.entity.User;
 import com.wemirr.platform.iam.system.repository.RoleMapper;
 import com.wemirr.platform.iam.system.repository.UserMapper;
-import com.wemirr.platform.iam.system.service.LoginLogService;
+import com.wemirr.platform.iam.base.service.LoginLogService;
 import com.wemirr.platform.iam.system.service.ResourceService;
 import com.wemirr.platform.iam.system.service.impl.DataScopeServiceImpl;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;

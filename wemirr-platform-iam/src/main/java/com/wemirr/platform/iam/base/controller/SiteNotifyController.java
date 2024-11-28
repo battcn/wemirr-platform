@@ -32,7 +32,7 @@ import com.wemirr.platform.iam.base.domain.dto.resp.CommonDataResp;
 import com.wemirr.platform.iam.base.domain.dto.resp.SiteMessageResp;
 import com.wemirr.platform.iam.base.domain.entity.SiteNotify;
 import com.wemirr.platform.iam.system.domain.enums.ReceiverType;
-import com.wemirr.platform.iam.system.service.SiteNotifyService;
+import com.wemirr.platform.iam.base.service.SiteNotifyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

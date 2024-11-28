@@ -24,7 +24,7 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.base.domain.dto.req.DictItemPageReq;
 import com.wemirr.platform.iam.base.domain.dto.req.DictItemSaveReq;
 import com.wemirr.platform.iam.base.domain.entity.SysDictItem;
-import com.wemirr.platform.iam.system.service.DictItemService;
+import com.wemirr.platform.iam.base.service.DictItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

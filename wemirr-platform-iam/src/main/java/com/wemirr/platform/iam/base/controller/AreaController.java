@@ -27,7 +27,7 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.base.domain.dto.req.AreaReq;
 import com.wemirr.platform.iam.base.domain.dto.resp.AreaNodeResp;
 import com.wemirr.platform.iam.base.domain.entity.AreaEntity;
-import com.wemirr.platform.iam.system.service.AreaService;
+import com.wemirr.platform.iam.base.service.AreaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

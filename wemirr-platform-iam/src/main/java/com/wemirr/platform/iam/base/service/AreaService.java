@@ -17,22 +17,31 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.service.impl;
+package com.wemirr.platform.iam.base.service;
 
-import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
-import com.wemirr.platform.iam.base.domain.entity.SiteMessage;
-import com.wemirr.platform.iam.base.repository.SiteMessageMapper;
-import com.wemirr.platform.iam.system.service.SiteMessageService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import com.wemirr.framework.db.mybatisplus.ext.SuperService;
+import com.wemirr.platform.iam.base.domain.entity.AreaEntity;
+
+import java.util.List;
 
 /**
  * @author Levin
  */
-@Slf4j
-@Service
-@RequiredArgsConstructor
-public class StationMessageServiceImpl extends SuperServiceImpl<SiteMessageMapper, SiteMessage> implements SiteMessageService {
+public interface AreaService extends SuperService<AreaEntity> {
+    
+    /**
+     * 根据 parentId 查询数据集
+     *
+     * @param parentId parentId
+     * @return 查询结果
+     */
+    List<AreaEntity> listArea(Integer parentId);
+    
+    /**
+     * 保存或者修改地区
+     *
+     * @param area area
+     */
+    void saveOrUpdateArea(AreaEntity area);
     
 }

@@ -23,7 +23,7 @@ import com.wemirr.framework.boot.log.event.AccessLogListener;
 import com.wemirr.framework.log.diff.core.annotation.EnableDiffLog;
 import com.wemirr.framework.security.configuration.server.annotation.EnableOAuth2Server;
 import com.wemirr.framework.websocket.redis.EnableRedisWebSocket;
-import com.wemirr.platform.iam.system.service.OptLogService;
+import com.wemirr.platform.iam.base.service.OptLogService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;

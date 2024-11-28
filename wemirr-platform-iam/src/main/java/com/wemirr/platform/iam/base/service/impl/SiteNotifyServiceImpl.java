@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.service.impl;
+package com.wemirr.platform.iam.base.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson2.JSON;
@@ -38,7 +38,7 @@ import com.wemirr.platform.iam.system.domain.enums.ReceiverType;
 import com.wemirr.platform.iam.system.repository.RoleMapper;
 import com.wemirr.platform.iam.system.repository.UserMapper;
 import com.wemirr.platform.iam.system.repository.UserRoleMapper;
-import com.wemirr.platform.iam.system.service.SiteNotifyService;
+import com.wemirr.platform.iam.base.service.SiteNotifyService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;

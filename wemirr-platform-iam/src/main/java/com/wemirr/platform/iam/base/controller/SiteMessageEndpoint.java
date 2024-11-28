@@ -30,7 +30,7 @@ import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.framework.websocket.BaseWebSocketEndpoint;
 import com.wemirr.platform.iam.base.domain.entity.SiteMessage;
-import com.wemirr.platform.iam.system.service.SiteMessageService;
+import com.wemirr.platform.iam.base.service.SiteMessageService;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
 import com.wemirr.platform.iam.tenant.repository.TenantMapper;
 import jakarta.websocket.*;

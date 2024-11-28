@@ -17,31 +17,37 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.service;
+package com.wemirr.platform.iam.base.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.iam.base.domain.entity.AreaEntity;
-
-import java.util.List;
+import com.wemirr.platform.iam.base.domain.dto.req.DictItemSaveReq;
+import com.wemirr.platform.iam.base.domain.entity.SysDictItem;
 
 /**
+ * <p>
+ * 业务接口
+ * 字典项
+ * </p>
+ *
  * @author Levin
+ * @since 2019-07-02
  */
-public interface AreaService extends SuperService<AreaEntity> {
-    
+public interface DictItemService extends SuperService<SysDictItem> {
+
     /**
-     * 根据 parentId 查询数据集
+     * 添加字典项
      *
-     * @param parentId parentId
-     * @return 查询结果
+     * @param dictId 字典ID
+     * @param req    req
      */
-    List<AreaEntity> listArea(Integer parentId);
-    
+    void create(Long dictId, DictItemSaveReq req);
+
     /**
-     * 保存或者修改地区
+     * 修改字典项
      *
-     * @param area area
+     * @param dictId 字典ID
+     * @param itemId 字典项ID
+     * @param req    req
      */
-    void saveOrUpdateArea(AreaEntity area);
-    
+    void modify(Long dictId, Long itemId, DictItemSaveReq req);
 }

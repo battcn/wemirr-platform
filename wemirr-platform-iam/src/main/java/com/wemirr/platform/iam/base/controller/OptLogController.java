@@ -27,7 +27,7 @@ import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.base.domain.dto.req.OptLogPageReq;
 import com.wemirr.platform.iam.base.domain.entity.OptLog;
-import com.wemirr.platform.iam.system.service.OptLogService;
+import com.wemirr.platform.iam.base.service.OptLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

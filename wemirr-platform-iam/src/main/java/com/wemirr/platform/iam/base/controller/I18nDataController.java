@@ -26,7 +26,7 @@ import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.platform.iam.base.domain.dto.req.I18nDataSaveReq;
 import com.wemirr.platform.iam.base.domain.dto.req.I18nPageReq;
 import com.wemirr.platform.iam.base.domain.dto.resp.I18nDataPageResp;
-import com.wemirr.platform.iam.system.service.I18nDataService;
+import com.wemirr.platform.iam.base.service.I18nDataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

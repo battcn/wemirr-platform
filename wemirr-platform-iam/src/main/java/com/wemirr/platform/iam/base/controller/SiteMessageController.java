@@ -27,7 +27,7 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.base.domain.entity.SiteMessage;
 import com.wemirr.platform.iam.system.domain.dto.req.SiteMessagePageReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.SiteMessagePageResp;
-import com.wemirr.platform.iam.system.service.SiteMessageService;
+import com.wemirr.platform.iam.base.service.SiteMessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

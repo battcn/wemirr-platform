@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.service.impl;
+package com.wemirr.platform.iam.base.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.wemirr.framework.commons.BeanUtilPlus;
@@ -29,7 +29,7 @@ import com.wemirr.platform.iam.base.domain.entity.SysDict;
 import com.wemirr.platform.iam.base.domain.entity.SysDictItem;
 import com.wemirr.platform.iam.base.repository.SysDictItemMapper;
 import com.wemirr.platform.iam.base.repository.SysDictMapper;
-import com.wemirr.platform.iam.system.service.DictItemService;
+import com.wemirr.platform.iam.base.service.DictItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

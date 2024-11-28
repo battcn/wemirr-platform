@@ -17,59 +17,21 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.service;
+package com.wemirr.platform.iam.base.service;
 
-import com.wemirr.framework.commons.entity.Dict;
+import com.wemirr.framework.boot.log.AccessLogInfo;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.iam.base.domain.dto.req.DictSaveReq;
-import com.wemirr.platform.iam.base.domain.entity.SysDict;
-
-import java.util.List;
+import com.wemirr.platform.iam.base.domain.entity.OptLog;
 
 /**
- * <p>
- * 业务接口
- * 字典类型
- * </p>
- *
  * @author Levin
- * @since 2019-07-02
  */
-public interface DictService extends SuperService<SysDict> {
-
+public interface OptLogService extends SuperService<OptLog> {
+    
     /**
-     * 添加字典
+     * 保存操作日志
      *
-     * @param req 字典信息
+     * @param logInfo logInfo
      */
-    void create(DictSaveReq req);
-
-    /**
-     * 删除字典
-     *
-     * @param id id
-     */
-    void deleteById(Long id);
-
-    /**
-     * 编辑字典
-     *
-     * @param id  id
-     * @param req 字典信息
-     */
-    void modify(Long id, DictSaveReq req);
-
-    /**
-     * 刷新缓存
-     */
-    void refresh();
-
-    /**
-     * 根据 code 查询
-     *
-     * @param code code
-     * @return 查询结果
-     */
-    List<Dict<String>> findItemByCode(String code);
-
+    void listener(AccessLogInfo logInfo);
 }
