@@ -1,8 +1,8 @@
 package com.wemirr.platform.iam.system.listener;
 
-import cn.dev33.satoken.config.SaTokenConfig;
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.context.model.SaStorage;
+import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.hutool.extra.servlet.JakartaServletUtil;
@@ -10,10 +10,11 @@ import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.wemirr.framework.commons.RegionUtils;
+import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.platform.iam.base.domain.entity.LoginLog;
 import com.wemirr.platform.iam.base.repository.LoginLogMapper;
 import com.wemirr.platform.iam.system.domain.entity.User;
-import com.wemirr.platform.iam.system.repository.UserMapper;
+import com.wemirr.platform.iam.system.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,20 +23,18 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 
 /**
- * 用户行为 侦听器的实现
+ * 登录监听器
  *
- * @author Lion Li
+ * @author Levin
  */
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UserActionListener implements SaTokenListener {
-
+public class WpTokenListener implements SaTokenListener {
     private static final String USER_AGENT = "User-Agent";
-
-    private final SaTokenConfig tokenConfig;
+    private final SaTokenDao saTokenDao;
     private final LoginLogMapper loginLogMapper;
-    private final UserMapper userMapper;
+    private final UserService userService;
     private final HttpServletRequest request;
 
     /**
@@ -71,14 +70,38 @@ public class UserActionListener implements SaTokenListener {
         // 记录登录日志
         this.loginLogMapper.insert(loginLog);
         // 刷新登录时间和IP
-        this.userMapper.updateById(User.builder().id(userId).lastLoginIp(ip).lastLoginTime(Instant.now()).build());
+        this.userService.updateById(User.builder().id(userId).lastLoginIp(ip).lastLoginTime(Instant.now()).build());
+        UserInfoDetails info = this.userService.userinfo(userId);
+        this.saTokenDao.setObject("USER_INFO_KEY:" + tokenValue, info, loginModel.getTimeout());
     }
 
+    /**
+     * @param tokenValue token 值
+     * @param loginId    账号id
+     * @param timeout    续期时间
+     */
+    @Override
+    public void doRenewTimeout(String tokenValue, Object loginId, long timeout) {
+        this.saTokenDao.updateTimeout("USER_INFO_KEY:" + tokenValue, timeout);
+    }
+
+    /**
+     * @param loginType  账号类别
+     * @param loginId    账号id
+     * @param tokenValue token值
+     */
     @Override
     public void doLogout(String loginType, Object loginId, String tokenValue) {
-
+        this.saTokenDao.delete("USER_INFO_KEY:" + tokenValue);
     }
 
+    /**
+     * 每次被踢下线时触发
+     *
+     * @param loginType  账号类别
+     * @param loginId    账号id
+     * @param tokenValue token值
+     */
     @Override
     public void doKickout(String loginType, Object loginId, String tokenValue) {
 
@@ -116,11 +139,6 @@ public class UserActionListener implements SaTokenListener {
 
     @Override
     public void doLogoutSession(String id) {
-
-    }
-
-    @Override
-    public void doRenewTimeout(String tokenValue, Object loginId, long timeout) {
 
     }
 }

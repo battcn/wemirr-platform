@@ -106,8 +106,8 @@ public class TokenController {
 
     @DeleteMapping("/logout")
     @Operation(summary = "退出登录")
-    public void logout(String device) {
-        StpUtil.login(StpUtil.getLoginId(), device);
+    public void logout() {
+        StpUtil.logout();
     }
 
 }

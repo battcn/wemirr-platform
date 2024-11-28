@@ -28,6 +28,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -43,6 +44,8 @@ import java.time.Instant;
 @NoArgsConstructor
 @ToString(callSuper = true)
 public class Entity<T> implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public static final String TENANT_ID_COLUMN = "tenant_id";
     public static final String TENANT_ID = "tenantId";
