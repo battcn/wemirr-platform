@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <!-- 应用名称-->
-    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="authority.log"/>
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="iam.log"/>
 
     <property name="MAX_HISTORY" value="30" />
 

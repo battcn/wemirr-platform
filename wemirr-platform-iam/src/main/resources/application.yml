@@ -2,7 +2,7 @@ server:
   port: 5002
 spring:
   application:
-    name: wemirr-platform-authority
+    name: wemirr-platform-iam
   config:
     import:
       - optional:nacos:cloud-default.yaml
