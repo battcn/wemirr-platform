@@ -19,7 +19,6 @@
 
 package com.wemirr.framework.boot.security;
 
-import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.stp.StpUtil;
 import com.wemirr.framework.commons.security.AuthenticationContext;
@@ -55,23 +54,22 @@ public class AuthenticationContextConfiguration {
 
             @Override
             public Long tenantId() {
-                return Optional.ofNullable(getContext()).map(UserInfoDetails::getTenantId)
-                        .orElse(SaHolder.getStorage().getLong("tenantId"));
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getTenantId).orElse(null);
             }
 
             @Override
             public String tenantCode() {
-                return Optional.ofNullable(getContext()).map(UserInfoDetails::getTenantCode).orElse(SaHolder.getStorage().getString("tenantCode"));
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getTenantCode).orElse(null);
             }
 
             @Override
             public Long userId() {
-                return Optional.ofNullable(getContext()).map(UserInfoDetails::getUserId).orElse(SaHolder.getStorage().getLong("userId"));
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getUserId).orElse(null);
             }
 
             @Override
             public String nickName() {
-                return Optional.ofNullable(getContext()).map(UserInfoDetails::getNickName).orElse(SaHolder.getStorage().getString("nickName"));
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getNickName).orElse(null);
             }
 
             @Override
