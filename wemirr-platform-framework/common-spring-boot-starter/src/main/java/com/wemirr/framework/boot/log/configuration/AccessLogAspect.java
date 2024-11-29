@@ -197,7 +197,7 @@ public class AccessLogAspect {
             if (context != null) {
                 log.setTenantId(context.tenantId());
                 log.setCreatedBy(context.userId());
-                log.setCreatedName(context.realName());
+                log.setCreatedName(context.nickName());
             }
             log.setTrace(MDC.get(accessLogProperties.getTrace()));
             log.setDescription(annotation.description());

@@ -69,4 +69,9 @@ public class ThreadLocalHolder {
     public static void clear() {
         THREAD_LOCAL.remove();
     }
+
+    public static Long getLong(String key) {
+        Object object = get(key);
+        return object == null ? null : (Long) object;
+    }
 }

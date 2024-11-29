@@ -3,11 +3,10 @@ knife4j:
     enabled: true
     strategy: manual
     routes:
-      - name: 授权认证服务
-        url: /authority/v3/api-docs?group=default
-        # 目前这种配置存在BUG,不过可以忽略  在页面的 Curl 中实际显示的是 http://localhost:9000/authority//authority/resources/  但是发送的HTTP却 是 http://localhost:9000/authority/resources
-        context-path: /authority
-        service-name: wemirr-platform-authority
+      - name: IAM Server
+        url: /iam/v3/api-docs?group=default
+        context-path: /iam
+        service-name: wemirr-platform-iam
         order: 2
       - name: 工具服务
         url: /tools/v3/api-docs?group=default
@@ -51,10 +50,10 @@ spring:
           enabled: true
           lowerCaseServiceId: true
       routes:
-        - id: wemirr-platform-authority
-          uri: lb://wemirr-platform-authority
+        - id: wemirr-platform-iam
+          uri: lb://wemirr-platform-iam
           predicates:
-            - Path=/authority/**
+            - Path=/iam/**
           filters:
             # 密码加密过滤器，如果配置了那么在前端传递的 password 请进行 AES 加密
             - name: PasswordDecoderFilter
@@ -86,10 +85,10 @@ spring:
                   factor: 1
                   basedOnPreviousValue: false
                   exceptions: TimeoutException
-        - id: wemirr-platform-authority-websocket
-          uri: lb:ws://wemirr-platform-authority
+        - id: wemirr-platform-iam-websocket
+          uri: lb:ws://wemirr-platform-iam
           predicates:
-            - Path=/authority/**
+            - Path=/iam/**
           filters:
             - StripPrefix=1
         - id: wemirr-platform-tools
@@ -110,13 +109,6 @@ spring:
           uri: lb://wemirr-platform-demo
           predicates:
             - Path=/demo/**
-          filters:
-            - StripPrefix=1
-            - PreserveHostHeader
-        - id: wemirr-platform-bpm
-          uri: lb://wemirr-platform-bpm
-          predicates:
-            - Path=/bpm/**
           filters:
             - StripPrefix=1
             - PreserveHostHeader

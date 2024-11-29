@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.boot.security;
 
+import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.stp.StpUtil;
 import com.wemirr.framework.commons.security.AuthenticationContext;
@@ -54,36 +55,23 @@ public class AuthenticationContextConfiguration {
 
             @Override
             public Long tenantId() {
-                return getContext().getTenantId();
-            }
-
-            @Override
-            public String tenantName() {
-                return Optional.ofNullable(getContext()).map(UserInfoDetails::getTenantName).orElse(null);
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getTenantId)
+                        .orElse(SaHolder.getStorage().getLong("tenantId"));
             }
 
             @Override
             public String tenantCode() {
-                return getContext().getTenantCode();
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getTenantCode).orElse(SaHolder.getStorage().getString("tenantCode"));
             }
 
             @Override
             public Long userId() {
-                return Optional.ofNullable(getContext()).map(UserInfoDetails::getUserId).orElse(null);
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getUserId).orElse(SaHolder.getStorage().getLong("userId"));
             }
 
             @Override
-            public String realName() {
-                return Optional.ofNullable(getContext()).map(UserInfoDetails::getRealName).orElse(null);
-            }
-
-            @Override
-            public boolean anonymous() {
-                try {
-                    return StpUtil.isLogin();
-                } catch (Exception e) {
-                    return true;
-                }
+            public String nickName() {
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getNickName).orElse(SaHolder.getStorage().getString("nickName"));
             }
 
             @Override
@@ -99,6 +87,15 @@ public class AuthenticationContextConfiguration {
             @Override
             public DataPermission dataPermission() {
                 return getContext().getDataPermission();
+            }
+
+            @Override
+            public boolean anonymous() {
+                try {
+                    return StpUtil.isLogin();
+                } catch (Exception e) {
+                    return true;
+                }
             }
         };
     }

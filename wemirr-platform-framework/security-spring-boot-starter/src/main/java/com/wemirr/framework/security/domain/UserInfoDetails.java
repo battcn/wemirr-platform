@@ -60,8 +60,6 @@ public class UserInfoDetails implements Serializable {
     private String tenantName;
     @Schema(description = "昵称")
     private String nickName;
-    @Schema(description = "真实名称")
-    private String realName;
     @Schema(description = "用户名")
     private String username;
     @JsonIgnore

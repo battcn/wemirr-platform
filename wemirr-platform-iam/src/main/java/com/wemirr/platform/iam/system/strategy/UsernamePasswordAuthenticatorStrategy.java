@@ -87,13 +87,7 @@ public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrat
         if (!PasswordEncoderHelper.matches(password, user.getPassword())) {
             throw CheckedException.badRequest("用户名或密码错误");
         }
-//        StpUtil.setStpLogic(new StpLogic(principal.getLoginType()));
-        SaHolder.getStorage()
-                .set("clientId", principal.getClientId())
-                .set("username", principal.getUsername())
-                .set("tenantId", tenant.getId())
-                .set("tenantCode", tenant.getCode())
-                .set("nickName", user.getNickName());
+        SaHolder.getStorage().set("principalType", principal.getLoginType());
         StpUtil.login(user.getId(), principal.getClientId());
     }
 }

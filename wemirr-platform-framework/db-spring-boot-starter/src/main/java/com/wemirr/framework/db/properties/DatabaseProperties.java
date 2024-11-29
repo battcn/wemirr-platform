@@ -160,7 +160,7 @@ public class DatabaseProperties {
         private boolean enabled = true;
 
         /**
-         * 对时效性要求高就需要改成 true 了,但是这样性能不好
+         * 对时效性要求高就需要改成 true 了,但是这样性能有些许影响
          */
         private boolean remote = true;
     }
@@ -214,7 +214,7 @@ public class DatabaseProperties {
         /**
          * 是否从登陆上下文获取数据库信息
          */
-        private boolean useTenantContent;
+        private boolean useAuthContent;
         /**
          * 租户数据源切换拦截器（不建议使用）
          */

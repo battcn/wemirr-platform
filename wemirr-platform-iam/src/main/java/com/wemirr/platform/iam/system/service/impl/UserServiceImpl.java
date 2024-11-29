@@ -24,6 +24,8 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.plugins.IgnoreStrategy;
+import com.baomidou.mybatisplus.core.plugins.InterceptorIgnoreHelper;
 import com.wemirr.framework.commons.annotation.remote.RemoteResult;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
@@ -170,6 +172,8 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
     @Override
     public UserInfoDetails userinfo(Long userId) {
+        // TODO 后续通过注解和 API 方式动态控制
+        InterceptorIgnoreHelper.handle(IgnoreStrategy.builder().tenantLine(true).build());
         final User user = Optional.ofNullable(this.baseMapper.selectById(userId))
                 .orElseThrow(() -> CheckedException.notFound("用户信息不存在"));
         Tenant tenant = this.tenantMapper.selectById(user.getTenantId());
@@ -179,7 +183,6 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         info.setTenantId(user.getTenantId());
         info.setUserId(user.getId());
         info.setUsername(user.getUsername());
-        info.setRealName(user.getNickName());
         info.setNickName(user.getNickName());
         info.setMobile(user.getMobile());
         info.setEmail(user.getEmail());

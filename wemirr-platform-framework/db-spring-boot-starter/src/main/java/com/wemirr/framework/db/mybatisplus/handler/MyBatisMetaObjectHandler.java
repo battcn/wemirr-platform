@@ -71,7 +71,7 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
 //            this.setFieldValByName(Entity.TENANT_ID, tenantId, metaObject);
 //        }
         this.setFieldValByName(Entity.CREATE_USER, context.userId(), metaObject);
-        this.setFieldValByName(Entity.CREATE_USER_NAME, context.realName(), metaObject);
+        this.setFieldValByName(Entity.CREATE_USER_NAME, context.nickName(), metaObject);
     }
 
     /**
@@ -91,6 +91,6 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
             return;
         }
         this.setFieldValByName(SuperEntity.UPDATE_USER, context.userId(), metaObject);
-        this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, context.realName(), metaObject);
+        this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, context.nickName(), metaObject);
     }
 }

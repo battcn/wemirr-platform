@@ -1,7 +1,6 @@
 package com.wemirr.platform.iam.system.listener;
 
 import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.context.model.SaStorage;
 import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.stp.SaLoginModel;
@@ -47,29 +46,25 @@ public class WpTokenListener implements SaTokenListener {
      */
     @Override
     public void doLogin(String loginType, Object loginId, String tokenValue, SaLoginModel loginModel) {
-        SaStorage storage = SaHolder.getContext().getStorage();
         String ip = JakartaServletUtil.getClientIP(request);
         String region = RegionUtils.getRegion(ip);
         String ua = request.getHeader(USER_AGENT);
         final UserAgent userAgent = UserAgentUtil.parse(ua);
         final Browser browser = userAgent.getBrowser();
         final Long userId = Long.parseLong(loginId.toString());
-        Long tenantId = storage.getLong("tenantId");
-        String tenantCode = storage.getString("tenantCode");
-        String clientId = storage.getString("clientId");
-        String username = storage.getString("username");
-        String nickName = storage.getString("nickName");
-        LoginLog loginLog = LoginLog.builder().principal(username).clientId(clientId)
-                .tenantId(tenantId).tenantCode(tenantCode)
+        String principalType = SaHolder.getStorage().getString("principalType");
+        UserInfoDetails info = this.userService.userinfo(userId);
+        LoginLog loginLog = LoginLog.builder().principal(info.getUsername())
+                .clientId(loginModel.getDevice())
+                .tenantId(info.getTenantId()).tenantCode(info.getTenantCode())
                 .location(region).ip(ip)
                 .platform(userAgent.getPlatform().getName())
                 .engine(userAgent.getEngine().getName())
                 .browser(browser.getName())
                 .os(userAgent.getOs().getName())
-                .loginType(loginType)
-                .createdBy(userId).createdName(nickName)
+                .loginType(principalType)
+                .createdBy(userId).createdName(info.getNickName())
                 .build();
-        UserInfoDetails info = this.userService.userinfo(userId);
         this.saTokenDao.setObject(buildCacheKey(tokenValue), info, loginModel.getTimeout());
         // 记录登录日志
         this.loginLogMapper.insert(loginLog);

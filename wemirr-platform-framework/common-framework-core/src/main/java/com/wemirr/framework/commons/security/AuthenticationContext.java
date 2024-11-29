@@ -49,13 +49,6 @@ public interface AuthenticationContext {
     Long tenantId();
 
     /**
-     * 租户名称
-     *
-     * @return tenantName
-     */
-    String tenantName();
-
-    /**
      * 用户ID
      *
      * @return id
@@ -63,11 +56,11 @@ public interface AuthenticationContext {
     Long userId();
 
     /**
-     * 用户ID
+     * 名称
      *
-     * @return id
+     * @return 名称
      */
-    String realName();
+    String nickName();
 
     /**
      * 匿名用户

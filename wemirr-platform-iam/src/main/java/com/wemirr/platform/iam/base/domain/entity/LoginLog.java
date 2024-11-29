@@ -86,7 +86,4 @@ public class LoginLog extends Entity<Long> {
 
     @Schema(description = "登录类型")
     private String loginType;
-
-    @Schema(description = "登录设备")
-    private String device;
 }
