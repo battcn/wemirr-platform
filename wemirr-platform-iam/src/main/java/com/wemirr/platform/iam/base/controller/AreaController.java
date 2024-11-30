@@ -73,6 +73,7 @@ public class AreaController {
             extra.put("level", area.getLevel());
             extra.put("longitude", area.getLongitude());
             extra.put("latitude", area.getLatitude());
+            extra.put("source", area.getSource());
             treeNode.setExtra(extra);
             return treeNode;
         }).collect(Collectors.toList());

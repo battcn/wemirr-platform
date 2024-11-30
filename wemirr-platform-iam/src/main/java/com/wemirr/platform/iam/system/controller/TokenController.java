@@ -97,6 +97,12 @@ public class TokenController {
         return (UserInfoDetails) context.getContext();
     }
 
+    @GetMapping("/func_permissions")
+    @Operation(summary = "用户信息", description = "获取用户信息")
+    public List<String> funcPermissionList() {
+        return context.funcPermissionList();
+    }
+
     @PutMapping("/change_password")
     @Operation(summary = "修改密码")
     public void changePassword(@Validated @RequestBody ChangePasswordReq dto) {
