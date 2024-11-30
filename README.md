@@ -10,11 +10,6 @@
 
 **WP的使命：打破假开源，做全网最优秀、最简单、最漂亮的开源SAAS、多租户云平台架构。从开源中来,到开源中去,让大家有更多时间`摸鱼`、`学习`、`陪伴家人`、`锻炼身体`、`找对象`**
 
-
-> JDK8 - JDK11 的请使用 vben 分支（后续只提供BUG修复）
-
-> JDK17+SCA2022+SC2023 请使用 vben_jdk17 分支（强烈推荐使用这个版本,因为作者后期重心在它，同时新功能特性也会基于该版本进行开发发布）
-
 ## 版本管理
 
 **项目代码全部开源,非阉割版,有`Spring Cloud` 工作经验的 无需付费协助一样可以玩转项目**
@@ -40,17 +35,9 @@
 
 **模块定制化开发、远程支持、协助私有化部署**
 
-**图文或者远程处理技术难题 188 一次，解决后收费**
-
-**购买 BPM、TMS、WMS商用的业务模块**
-
-
-
-
 > 赞赏
 
 - 敬请期待（**微信： battcn2022**）
-
 
 ## 演示地址
 
@@ -65,8 +52,8 @@
 
 > 技术交流Q群： 789517089
 
-Vue、Spring Cloud Alibaba 2022、Spring Cloud 2022、Nacos、Sentinel、
-Nepxion、Mybatis-Plus、多租户、灰度、Oauth2.1、Spring Security、Redis、Mysql、
+Vue、Spring Cloud Alibaba 2023、Spring Cloud 2023、Nacos、Sentinel、
+Mybatis-Plus、多租户、灰度、Sa-Token、Spring Security、Redis、Mysql、
 
 
 ### 特点
@@ -75,7 +62,6 @@ Nepxion、Mybatis-Plus、多租户、灰度、Oauth2.1、Spring Security、Redis
 - 布局优雅：简洁、多套主题以及导览模式任意组合搭配
 - 功能齐全：SAAS/多租户/RBAC权限控制全都具备，下载代码开箱即用
 - 消息推送：内置基于WebSocket、Redis实现的分布式消息
-- 服务治理：整合 `Nepxion` 框架可以快速实现蓝绿/灰度/服务治理 等强大功能
 - 动态网关：支持页面配置(`Redis`)与 `Nacos` 两种推送方式、动态开启关闭网关路由
 - 网关管理：支持流量控制、拉黑名单等
 - 消息总线：使用 `RabbitMq` 做总线用于支持`动态数据`源消息广播
