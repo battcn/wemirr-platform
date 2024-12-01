@@ -20,6 +20,7 @@
 package com.wemirr.platform.iam.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.exception.CheckedException;
@@ -116,6 +117,9 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     @DSTransactional
     public void saveUserRole(Long roleId, List<Long> userIdList) {
         this.userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId));
+        if (CollUtil.isEmpty(userIdList)) {
+            return;
+        }
         final List<UserRole> userRoles = userIdList.stream().map(userId -> UserRole.builder()
                         .roleId(roleId).userId(userId).build())
                 .toList();

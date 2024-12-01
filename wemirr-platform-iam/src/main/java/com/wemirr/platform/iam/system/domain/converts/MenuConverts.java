@@ -48,7 +48,7 @@ public class MenuConverts {
             extra.put("label", route.getLabel());
             extra.put("path", route.getPath());
 //            extra.put("name", route.getPath());
-            extra.put("name", route.getName());
+            extra.put("name", route.getLabel());
 
 
 //            boolean isUrl = StringUtils.containsAny(route.getComponent(), "http://", "https://");
