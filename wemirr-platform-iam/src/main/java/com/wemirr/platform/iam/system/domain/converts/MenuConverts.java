@@ -39,43 +39,25 @@ public class MenuConverts {
 
         @Override
         public TreeNode<Long> convert(VueRouter route) {
-            TreeNode<Long> node = new TreeNode<>();
-            node.setId(route.getId());
-            node.setParentId(route.getParentId());
-            node.setName(route.getName());
+            TreeNode<Long> node = new TreeNode<>(route.getId(), route.getParentId(), route.getLabel(), route.getSequence());
             Map<String, Object> extra = Maps.newHashMap();
-//            extra.put("title", route.getLabel());
             extra.put("label", route.getLabel());
             extra.put("path", route.getPath());
-//            extra.put("name", route.getPath());
             extra.put("name", route.getLabel());
-
-
-//            boolean isUrl = StringUtils.containsAny(route.getComponent(), "http://", "https://");
-//            if (!isUrl) {
             if (StrUtil.isNotBlank(route.getComponent())) {
                 extra.put("component", route.getComponent());
             }
-//            }
             extra.put("icon", route.getIcon());
-//            extra.put("permission", route.getPermission());
-//            extra.put("sequence", route.getSequence());
-//            extra.put("type", route.getType().getValue());
-//            extra.put("model", route.getModel());
-//            extra.put("status", route.getStatus());
-//            extra.put("global", route.getGlobal());
+            extra.put("permission", route.getPermission());
             Map<String, Object> meta = Maps.newHashMap();
             meta.put("icon", route.getIcon());
             meta.put("title", route.getLabel());
-//            meta.put("hideMenu", !route.getDisplay());
-//            if (isUrl) {
-//                meta.put("frameSrc", route.getComponent());
-//            }
+            meta.put("keepAlive", route.getKeepAlive());
+            if (StrUtil.equals(route.getComponent(), "IFrameView")) {
+                meta.put("frameSrc", route.getUrl());
+            }
             extra.put("meta", meta);
-//            extra.put("description", route.getDescription());
-//            extra.put("display", route.getDisplay());
             node.setExtra(extra);
-            node.setWeight(route.getSequence());
             return node;
         }
     }
