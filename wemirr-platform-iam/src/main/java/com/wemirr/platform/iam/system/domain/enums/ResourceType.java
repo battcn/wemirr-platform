@@ -46,8 +46,7 @@ public enum ResourceType implements DictEnum<Integer> {
 
     MENU(1, "菜单"),
     BUTTON(2, "按钮"),
-    ROUTE(3, "路由"),
-    BUILD_PUBLISH(5, "一键发布模板");
+    ;
 
     @EnumValue
     @JsonValue

@@ -35,20 +35,20 @@ public class VueRouter {
     private Long id;
     @Schema(description = "父级ID")
     private Long parentId;
+    @Schema(description = "资源分类")
+    private Integer category;
     @Schema(description = "组件名称")
     private String name;
     @Schema(description = "路径")
     private String path;
     @Schema(description = "菜单名称")
-    private String label;
+    private String title;
     @Schema(description = "权限资源")
     private String permission;
     @Schema(description = "图标")
     private String icon;
     @Schema(description = "组件")
     private String component;
-    @Schema(description = "跳转地址")
-    private String url;
     @Schema(description = "面是否开启缓存，开启后页面会缓存，不会重新加载，仅在标签页启用时有效")
     private Boolean keepAlive;
     @Schema(description = "排序")

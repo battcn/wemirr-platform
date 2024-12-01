@@ -28,10 +28,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 /**
- * <p>
- * 实体类
- * 资源
- * </p>
+ * 菜单
  *
  * @author Levin
  * @since 2019-11-09
@@ -52,29 +49,26 @@ public class Resource extends SuperEntity<Long> {
     private String permission;
 
     @Schema(description = "名称")
-    private String label;
-
-    @Schema(description = "是否只读")
-    private Boolean readonly;
+    private String title;
 
     @Schema(description = "菜单ID")
     private Long parentId;
 
-    @Schema(description = "资源类型")
+    @Schema(description = "类型")
     private ResourceType type;
+
+    @Schema(description = "分类")
+    private Integer category;
 
     @Schema(description = "排序")
     private Integer sequence;
 
-    @TableField("`icon`")
     @Schema(description = "图标")
     private String icon;
 
-    @TableField("`path`")
     @Schema(description = "路径")
     private String path;
 
-    @TableField("`component`")
     @Schema(description = "组件")
     private String component;
 

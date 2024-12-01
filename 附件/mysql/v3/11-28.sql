@@ -15,3 +15,10 @@ ALTER TABLE `c_login_log`
 
 ALTER TABLE `c_login_log`
     ADD COLUMN `tenant_code` varchar(255) NULL COMMENT '租户编码' AFTER `tenant_id`;
+
+
+ALTER TABLE `sys_resource`
+    CHANGE COLUMN `label` `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '名称' AFTER `id`;
+
+ALTER TABLE `sys_resource`
+    ADD COLUMN `category` tinyint NULL COMMENT '分类' AFTER `type`;

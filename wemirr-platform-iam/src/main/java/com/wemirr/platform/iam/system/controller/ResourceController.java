@@ -83,7 +83,7 @@ public class ResourceController {
 
     private boolean isValidRouterType(VueRouter router) {
         ResourceType type = router.getType();
-        return type == ResourceType.MENU || type == ResourceType.BUILD_PUBLISH;
+        return type == ResourceType.MENU;
     }
 
     @GetMapping

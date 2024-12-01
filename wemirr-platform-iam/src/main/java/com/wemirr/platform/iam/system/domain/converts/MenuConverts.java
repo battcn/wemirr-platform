@@ -20,7 +20,6 @@
 package com.wemirr.platform.iam.system.domain.converts;
 
 import cn.hutool.core.lang.tree.TreeNode;
-import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.entity.BaseConverts;
 import com.wemirr.platform.iam.system.domain.dto.resp.VueRouter;
@@ -39,22 +38,31 @@ public class MenuConverts {
 
         @Override
         public TreeNode<Long> convert(VueRouter route) {
-            TreeNode<Long> node = new TreeNode<>(route.getId(), route.getParentId(), route.getLabel(), route.getSequence());
+            TreeNode<Long> node = new TreeNode<>(route.getId(), route.getParentId(), route.getTitle(), route.getSequence());
             Map<String, Object> extra = Maps.newHashMap();
-            extra.put("label", route.getLabel());
             extra.put("path", route.getPath());
-            extra.put("name", route.getLabel());
-            if (StrUtil.isNotBlank(route.getComponent())) {
+            extra.put("name", route.getTitle());
+            extra.put("title", route.getTitle());
+            extra.put("category", route.getCategory());
+            if (route.getCategory() == 0) {
+                extra.put("component", "BasicLayout");
+            } else if (route.getCategory() == 11 || route.getCategory() == 12) {
+                extra.put("component", "IFrameView");
+                extra.put("url", route.getComponent());
+            } else {
                 extra.put("component", route.getComponent());
             }
             extra.put("icon", route.getIcon());
             extra.put("permission", route.getPermission());
             Map<String, Object> meta = Maps.newHashMap();
             meta.put("icon", route.getIcon());
-            meta.put("title", route.getLabel());
+            meta.put("title", route.getTitle());
             meta.put("keepAlive", route.getKeepAlive());
-            if (StrUtil.equals(route.getComponent(), "IFrameView")) {
-                meta.put("frameSrc", route.getUrl());
+            if (route.getCategory() == 11) {
+                meta.put("link", route.getComponent());
+            }
+            if (route.getCategory() == 12) {
+                meta.put("iframeSrc", route.getComponent());
             }
             extra.put("meta", meta);
             node.setExtra(extra);

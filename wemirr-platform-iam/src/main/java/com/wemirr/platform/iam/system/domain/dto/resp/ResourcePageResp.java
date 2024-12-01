@@ -38,7 +38,7 @@ public class ResourcePageResp {
     private String permission;
 
     @Schema(description = "名称")
-    private String label;
+    private String title;
 
     @Schema(description = "是否只读")
     private Boolean readonly;

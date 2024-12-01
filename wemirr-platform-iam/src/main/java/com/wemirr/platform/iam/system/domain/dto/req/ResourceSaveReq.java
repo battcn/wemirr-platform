@@ -27,21 +27,18 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * <p>
- * 实体类
- * 资源
- * </p>
+ * 保存资源 DTO
  *
  * @author Levin
  */
 @Data
-@Schema(name = "ResourceSaveReq", description = "菜单/按钮创建DTO")
+@Schema(name = "ResourceSaveReq", description = "保存资源")
 public class ResourceSaveReq {
 
-    @Schema(description = "名称")
-    @NotEmpty(message = "名称不能为空")
-    @Length(max = 20, message = "名称长度不能超过20")
-    private String label;
+    @Schema(description = "标题")
+    @NotEmpty(message = "标题不能为空")
+    @Length(max = 30, message = "标题长度不能超过30")
+    private String title;
 
     @Schema(description = "路径")
     @Length(max = 255, message = "路径长度不能超过 {max}")
@@ -72,11 +69,11 @@ public class ResourceSaveReq {
     @Length(max = 100, message = "资源编码长度不能超过{max}")
     private String permission;
 
+    @Schema(description = "资源分类")
+    private Integer category;
+
     @Schema(description = "类型")
     private ResourceType type;
-
-    @Schema(description = "是否隐藏")
-    private Boolean display;
 
     @Schema(description = "描述")
     @Length(max = 200, message = "描述长度不能超过200")
