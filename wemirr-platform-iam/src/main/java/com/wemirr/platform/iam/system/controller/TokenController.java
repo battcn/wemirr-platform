@@ -34,6 +34,7 @@ import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangePasswordReq;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangeUserInfoReq;
 import com.wemirr.platform.iam.system.domain.dto.req.LoginReq;
+import com.wemirr.platform.iam.system.domain.dto.req.UserOnlinePageReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.LoginResp;
 import com.wemirr.platform.iam.system.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -129,11 +130,11 @@ public class TokenController {
         StpUtil.logout();
     }
 
-    @Operation(summary = "分页查询列表", description = "分页查询列表")
+    @Operation(summary = "在线用户", description = "分页查询在线用户列表")
     @SaCheckPermission("token:online:list")
-    @GetMapping
-    public IPage<Object> onlineAccountPage() {
-        return userService.onlineAccountPage();
+    @GetMapping("/online")
+    public IPage<Object> userOnlinePage(UserOnlinePageReq req) {
+        return userService.userOnlineList(req);
     }
 
     @Operation(summary = "强退用户", description = "强退在线用户")

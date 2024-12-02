@@ -75,6 +75,9 @@ public class UserInfoDetails implements Serializable {
     private LocalDate birthday;
     @Schema(description = "机构ID")
     private Long orgId;
+
+    @Schema(description = "登录日志")
+    private Object loginLog;
     /**
      * 功能权限（资源码）
      */

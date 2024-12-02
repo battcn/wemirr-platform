@@ -52,9 +52,10 @@ public class WpTokenListener implements SaTokenListener {
         final UserAgent userAgent = UserAgentUtil.parse(ua);
         final Browser browser = userAgent.getBrowser();
         final Long userId = Long.parseLong(loginId.toString());
+        String principal = SaHolder.getStorage().getString("principal");
         String principalType = SaHolder.getStorage().getString("principalType");
         UserInfoDetails info = this.userService.userinfo(userId);
-        LoginLog loginLog = LoginLog.builder().principal(info.getUsername())
+        LoginLog loginLog = LoginLog.builder().principal(principal)
                 .clientId(loginModel.getDevice())
                 .tenantId(info.getTenantId()).tenantCode(info.getTenantCode())
                 .location(region).ip(ip)
@@ -63,8 +64,9 @@ public class WpTokenListener implements SaTokenListener {
                 .browser(browser.getName())
                 .os(userAgent.getOs().getName())
                 .loginType(principalType)
-                .createdBy(userId).createdName(info.getNickName())
+                .createdBy(userId).createdTime(Instant.now()).createdName(info.getNickName())
                 .build();
+        info.setLoginLog(loginLog);
         this.saTokenDao.setObject(buildCacheKey(tokenValue), info, loginModel.getTimeout());
         // 记录登录日志
         this.loginLogMapper.insert(loginLog);
@@ -105,7 +107,8 @@ public class WpTokenListener implements SaTokenListener {
      */
     @Override
     public void doKickout(String loginType, Object loginId, String tokenValue) {
-
+        // 数据库可以记录一下操作日志
+        this.saTokenDao.delete(buildCacheKey(tokenValue));
     }
 
     @Override

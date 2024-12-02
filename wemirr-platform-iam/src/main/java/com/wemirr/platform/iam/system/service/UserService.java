@@ -23,6 +23,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangeUserInfoReq;
+import com.wemirr.platform.iam.system.domain.dto.req.UserOnlinePageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserPageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserUpdateReq;
@@ -102,7 +103,13 @@ public interface UserService extends SuperService<User> {
      */
     UserInfoDetails userinfo(Long userId);
 
-    IPage<Object> onlineAccountPage();
+    /**
+     * 查询在线用户列表
+     *
+     * @param req req
+     * @return 查询结果
+     */
+    IPage<Object> userOnlineList(UserOnlinePageReq req);
 
 
 }

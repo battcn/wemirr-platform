@@ -19,15 +19,20 @@
 
 package com.wemirr.platform.iam.system.service.impl;
 
+import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.plugins.IgnoreStrategy;
 import com.baomidou.mybatisplus.core.plugins.InterceptorIgnoreHelper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.annotation.remote.RemoteResult;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
@@ -41,6 +46,8 @@ import com.wemirr.framework.log.diff.core.context.DiffLogContext;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.framework.security.utils.PasswordEncoderHelper;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangeUserInfoReq;
+import com.wemirr.platform.iam.base.domain.entity.LoginLog;
+import com.wemirr.platform.iam.system.domain.dto.req.UserOnlinePageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserPageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserUpdateReq;
@@ -204,11 +211,43 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     }
 
 
+    private final SaTokenDao saTokenDao;
+
     @Override
-    public IPage<Object> onlineAccountPage() {
+    public IPage<Object> userOnlineList(UserOnlinePageReq req) {
         List<Object> list = Lists.newArrayList();
         // 查询所有在线 Token
         List<String> tokenKeyList = StpUtil.searchTokenValue(StrUtil.EMPTY, 0, -1, false);
-        return null;
+        for (String tokenKey : tokenKeyList) {
+            String token = StrUtil.subAfter(tokenKey, StrUtil.COLON, true);
+            // 如果已经过期则跳过
+            if (StpUtil.stpLogic.getTokenActiveTimeoutByToken(token) < -1) {
+                continue;
+            }
+            UserInfoDetails info = (UserInfoDetails) saTokenDao.getObject("wp-token:userinfo:" + token);
+            if (info == null || info.getLoginLog() == null) {
+                continue;
+            }
+            LoginLog loginLog = (LoginLog) info.getLoginLog();
+            if (StrUtil.isNotBlank(req.getClientId()) && !StrUtil.equals(req.getClientId(), loginLog.getClientId())) {
+                continue;
+            }
+            if (StrUtil.isNotBlank(req.getPrincipal()) && !StrUtil.equals(req.getPrincipal(), loginLog.getPrincipal())) {
+                continue;
+            }
+            if (StrUtil.isNotBlank(req.getPlatform()) && !StrUtil.equals(req.getPlatform(), loginLog.getPlatform())) {
+                continue;
+            }
+            if (ObjUtil.isNotNull(req.getTenantId()) && !ObjUtil.equals(req.getClientId(), loginLog.getClientId())) {
+                continue;
+            }
+            JSONObject item = JSONObject.from(info.getLoginLog());
+            item.put("token", token);
+            list.add(item);
+        }
+        IPage<Object> page = new Page<>(req.getCurrent(), req.getSize(), list.size());
+        List<Object> records = CollUtil.page((int) (ObjUtil.defaultIfNull(req.getCurrent(), 1L) - 1), (int) req.getSize(), list);
+        page.setRecords(records);
+        return page;
     }
 }
