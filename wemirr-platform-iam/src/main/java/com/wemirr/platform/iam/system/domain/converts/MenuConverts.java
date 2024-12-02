@@ -20,6 +20,7 @@
 package com.wemirr.platform.iam.system.domain.converts;
 
 import cn.hutool.core.lang.tree.TreeNode;
+import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.entity.BaseConverts;
 import com.wemirr.platform.iam.system.domain.dto.resp.VueRouter;
@@ -41,7 +42,8 @@ public class MenuConverts {
             TreeNode<Long> node = new TreeNode<>(route.getId(), route.getParentId(), route.getTitle(), route.getSequence());
             Map<String, Object> extra = Maps.newHashMap();
             extra.put("path", route.getPath());
-            extra.put("name", route.getTitle());
+            // TODO VBen5.x Name 如果为中文部分情况会 404
+            extra.put("name", route.getPath());
             extra.put("title", route.getTitle());
             extra.put("category", route.getCategory());
             if (route.getCategory() == 0) {
@@ -50,14 +52,18 @@ public class MenuConverts {
                 extra.put("component", "IFrameView");
                 extra.put("url", route.getComponent());
             } else {
-                extra.put("component", route.getComponent());
+                if (StrUtil.isNotBlank(route.getComponent())) {
+                    extra.put("component", route.getComponent());
+                }
             }
             extra.put("icon", route.getIcon());
             extra.put("permission", route.getPermission());
             Map<String, Object> meta = Maps.newHashMap();
             meta.put("icon", route.getIcon());
             meta.put("title", route.getTitle());
-            meta.put("keepAlive", route.getKeepAlive());
+            if (route.getKeepAlive() != null) {
+                meta.put("keepAlive", route.getKeepAlive());
+            }
             if (route.getCategory() == 11) {
                 meta.put("link", route.getComponent());
             }

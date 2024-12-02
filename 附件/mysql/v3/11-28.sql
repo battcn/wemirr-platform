@@ -22,3 +22,6 @@ ALTER TABLE `sys_resource`
 
 ALTER TABLE `sys_resource`
     ADD COLUMN `category` tinyint NULL COMMENT '分类' AFTER `type`;
+
+ALTER TABLE `sys_resource`
+    ADD COLUMN `keep_alive` bit(1) NULL COMMENT '开启后页面会缓存，不会重新加载，仅在标签页启用时有效' AFTER `status`;
