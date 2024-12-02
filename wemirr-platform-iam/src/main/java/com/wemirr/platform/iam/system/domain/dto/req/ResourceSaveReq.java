@@ -69,11 +69,11 @@ public class ResourceSaveReq {
     @Length(max = 100, message = "资源编码长度不能超过{max}")
     private String permission;
 
-    @Schema(description = "资源分类")
-    private Integer category;
-
     @Schema(description = "面是否开启缓存，开启后页面会缓存，不会重新加载，仅在标签页启用时有效")
     private Boolean keepAlive;
+
+    @Schema(description = "是否可见")
+    private Boolean visible;
 
     @Schema(description = "类型")
     private ResourceType type;

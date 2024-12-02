@@ -30,33 +30,34 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * <p>
- * TenantType
- * </p>
+ * 资源类型-枚举
  *
  * @author Levin
- * @since 2020-02-14
  */
 @Getter
+@JsonFormat
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "枚举")
-@JsonFormat
-public enum ResourceType implements DictEnum<Integer> {
+@Schema(description = "资源类型-枚举")
+public enum ResourceType implements DictEnum<String> {
 
-    MENU(1, "菜单"),
-    BUTTON(2, "按钮"),
+    DIRECTORY("directory", "目录"),
+    MENU("menu", "菜单"),
+    IFRAME("iframe", "内嵌"),
+    LINK("link", "外链"),
+    BUTTON("button", "按钮"),
     ;
 
     @EnumValue
     @JsonValue
-    private Integer type;
+    @Schema(description = "资源类型")
+    private String type;
 
     @Schema(description = "描述")
     private String desc;
 
     @JsonCreator
-    public static ResourceType of(Integer type) {
+    public static ResourceType of(String type) {
         if (type == null) {
             return null;
         }
@@ -69,13 +70,13 @@ public enum ResourceType implements DictEnum<Integer> {
     }
 
     @Override
-    public Integer getValue() {
+    public String getValue() {
         return this.type;
     }
 
     @Override
     public String toString() {
-        return String.valueOf(type);
+        return type;
     }
 
 }

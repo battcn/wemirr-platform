@@ -25,3 +25,11 @@ ALTER TABLE `sys_resource`
 
 ALTER TABLE `sys_resource`
     ADD COLUMN `keep_alive` bit(1) NULL COMMENT '开启后页面会缓存，不会重新加载，仅在标签页启用时有效' AFTER `status`;
+
+ALTER TABLE `sys_resource`
+    CHANGE COLUMN `display` `visible` bit(1) NULL DEFAULT b'1' COMMENT '0=隐藏;1=显示' AFTER `global`;
+
+
+ALTER TABLE `sys_resource`
+    DROP COLUMN `category`,
+    MODIFY COLUMN `type` varchar(30) NULL DEFAULT 1 COMMENT '类型 directory=目录;menu=菜单;iframe=内嵌;link=外链;button=按钮' AFTER `style`;

@@ -35,8 +35,6 @@ public class VueRouter {
     private Long id;
     @Schema(description = "父级ID")
     private Long parentId;
-    @Schema(description = "资源分类")
-    private Integer category;
     @Schema(description = "组件名称")
     private String name;
     @Schema(description = "路径")
@@ -51,6 +49,8 @@ public class VueRouter {
     private String component;
     @Schema(description = "面是否开启缓存，开启后页面会缓存，不会重新加载，仅在标签页启用时有效")
     private Boolean keepAlive;
+    @Schema(description = "是否可见")
+    private Boolean visible;
     @Schema(description = "排序")
     private Integer sequence;
     @Schema(description = "类型（1=菜单;2=按钮;3=路由;5=一键发布模板）")

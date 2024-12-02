@@ -24,6 +24,7 @@ import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.entity.BaseConverts;
 import com.wemirr.platform.iam.system.domain.dto.resp.VueRouter;
+import com.wemirr.platform.iam.system.domain.enums.ResourceType;
 
 import java.util.Map;
 
@@ -45,10 +46,10 @@ public class MenuConverts {
             // TODO VBen5.x Name 如果为中文部分情况会 404
             extra.put("name", route.getPath());
             extra.put("title", route.getTitle());
-            extra.put("category", route.getCategory());
-            if (route.getCategory() == 0) {
+            extra.put("type", route.getType().getValue());
+            if (route.getType() == ResourceType.DIRECTORY) {
                 extra.put("component", "BasicLayout");
-            } else if (route.getCategory() == 11 || route.getCategory() == 12) {
+            } else if (route.getType() == ResourceType.IFRAME || route.getType() == ResourceType.LINK) {
                 extra.put("component", "IFrameView");
                 extra.put("url", route.getComponent());
             } else {
@@ -56,23 +57,30 @@ public class MenuConverts {
                     extra.put("component", route.getComponent());
                 }
             }
+            if (route.getVisible() != null) {
+                extra.put("hideInMenu", route.getVisible());
+            }
             extra.put("icon", route.getIcon());
             extra.put("permission", route.getPermission());
+            extra.put("meta", buildRouteMeta(route));
+            node.setExtra(extra);
+            return node;
+        }
+
+        private static Map<String, Object> buildRouteMeta(VueRouter route) {
             Map<String, Object> meta = Maps.newHashMap();
             meta.put("icon", route.getIcon());
             meta.put("title", route.getTitle());
             if (route.getKeepAlive() != null) {
                 meta.put("keepAlive", route.getKeepAlive());
             }
-            if (route.getCategory() == 11) {
+            if (route.getType() == ResourceType.LINK) {
                 meta.put("link", route.getComponent());
             }
-            if (route.getCategory() == 12) {
+            if (route.getType() == ResourceType.IFRAME) {
                 meta.put("iframeSrc", route.getComponent());
             }
-            extra.put("meta", meta);
-            node.setExtra(extra);
-            return node;
+            return meta;
         }
     }
 

@@ -57,9 +57,6 @@ public class Resource extends SuperEntity<Long> {
     @Schema(description = "类型")
     private ResourceType type;
 
-    @Schema(description = "分类")
-    private Integer category;
-
     @Schema(description = "排序")
     private Integer sequence;
 
@@ -80,7 +77,7 @@ public class Resource extends SuperEntity<Long> {
     private Boolean global;
 
     @Schema(description = "显示/隐藏")
-    private Boolean display;
+    private Boolean visible;
 
     @Schema(description = "状态")
     private Boolean status;
