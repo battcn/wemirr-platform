@@ -16,35 +16,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wemirr.platform.tools.domain.resp;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+package com.wemirr.platform.iam.system.domain.entity;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.wemirr.framework.commons.entity.SuperEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
+ * 岗位
+ *
  * @author Levin
  */
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StationMailRep {
-    
-    private Long id;
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
+@TableName("sys_position")
+@Schema(name = "Position", description = "岗位")
+public class Position extends SuperEntity<Long> {
+
+    @Schema(description = "编码")
+    private String code;
+
+    @Schema(description = "标题")
     private String title;
-    private String createTime;
-    private StationMailType type;
-    
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class StationMailType {
-        
-        private String code;
-        private String desc;
-    }
-    
+
+    @Schema(description = "排序")
+    private Integer sequence;
+
+    @Schema(description = "组织ID")
+    private Long orgId;
+
+    @Schema(description = "状态")
+    private Boolean status;
+
+    @Schema(description = "描述")
+    private String description;
+
 }

@@ -26,7 +26,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 /**
  * redisson限流器自动配置项
@@ -38,7 +40,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 @AutoConfigureAfter(RedisConnectionFactory.class)
 @ConditionalOnProperty(prefix = "extend.redis", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class RedisListenerAutoConfiguration {
-    
+
     /**
      * 消息侦听器容器
      *
@@ -52,8 +54,11 @@ public class RedisListenerAutoConfiguration {
         var beans = SpringUtil.getBeansOfType(AbstractMessageEventListener.class);
         for (var entry : beans.entrySet()) {
             var listener = entry.getValue();
-            
-            container.addMessageListener(listener, listener.topic());
+//            if (listener.topic() instanceof PatternTopic) {
+//                container.addMessageListener(new MessageListenerAdapter(listener), listener.topic());
+//            } else {
+                container.addMessageListener(listener, listener.topic());
+//            }
         }
         return container;
     }

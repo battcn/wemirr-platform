@@ -45,7 +45,7 @@ public class UserUpdateReq implements Serializable {
     private Long orgId;
 
     @Schema(description = "岗位ID")
-    private Long stationId;
+    private Long positionId;
 
     @Schema(description = "邮箱")
     @Length(max = 100, message = "邮箱长度不能超过 {max}")

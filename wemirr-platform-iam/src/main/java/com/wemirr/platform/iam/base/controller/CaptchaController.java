@@ -23,7 +23,7 @@ import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wemirr.platform.iam.base.domain.dto.resp.CaptchaResp;
-import com.wemirr.platform.iam.system.service.VerificationService;
+import com.wemirr.platform.iam.system.service.CaptchaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CaptchaController {
 
-    private final VerificationService verificationService;
+    private final CaptchaService captchaService;
 
     @GetMapping("/captcha")
     @Operation(summary = "验证码 - [DONE] - [Levin]", description = "验证码 - [DONE] - [Levin]")
@@ -49,7 +49,7 @@ public class CaptchaController {
                               @RequestParam(defaultValue = "130", required = false) Integer width,
                               @RequestParam(defaultValue = "34", required = false) Integer height) {
         final String captchaId = StrUtil.blankToDefault(key, IdUtil.fastSimpleUUID());
-        final CircleCaptcha captcha = verificationService.create(captchaId, width, height);
+        final CircleCaptcha captcha = captchaService.create(captchaId, width, height);
         return CaptchaResp.builder().captchaId(captchaId).code(captcha.getCode()).imageData(captcha.getImageBase64Data()).build();
     }
 

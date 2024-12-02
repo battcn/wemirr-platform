@@ -24,7 +24,7 @@ import cn.hutool.captcha.CircleCaptcha;
 import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.platform.iam.system.service.VerificationService;
+import com.wemirr.platform.iam.system.service.CaptchaService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class VerificationServiceImpl implements VerificationService {
+public class CaptchaServiceImpl implements CaptchaService {
     
     private static final String CAPTCHA_KEY_PREFIX = "captcha:prefix:%s";
     

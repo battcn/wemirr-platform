@@ -31,7 +31,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  * @author Levin
  */
 public interface AbstractMessageEventListener<T> extends MessageEventListener {
-    
+
     /**
      * 公共消息处理
      *
@@ -48,15 +48,19 @@ public interface AbstractMessageEventListener<T> extends MessageEventListener {
         if (topic.equals(channelTopic)) {
             byte[] bodyBytes = message.getBody();
             String body = stringSerializer.deserialize(bodyBytes);
-            handleMessage(JSON.parseObject(body, type()));
+            try {
+                handleMessage(JSON.parseObject(body, type()));
+            } catch (Exception ex) {
+                handleMessage((T) body);
+            }
         }
     }
-    
+
     /**
      * 处理消息
      *
      * @param decodeMessage 反系列化之后的消息
      */
     void handleMessage(T decodeMessage);
-    
+
 }

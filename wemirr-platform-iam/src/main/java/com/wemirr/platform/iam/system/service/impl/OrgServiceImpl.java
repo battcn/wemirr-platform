@@ -39,19 +39,15 @@ import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 
 /**
- * <p>
- * 业务实现类
- * 组织
- * </p>
+ * 机构管理
  *
  * @author Levin
- * @since 2019-07-22
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements OrgService {
-    
+
     @Override
     public void remove(Long id) {
         final Long count = this.baseMapper.selectCount(Org::getParentId, id);
@@ -60,14 +56,14 @@ public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements 
         }
         this.baseMapper.deleteById(id);
     }
-    
+
     @Override
     public void addOrg(OrgSaveReq req) {
         final Org bean = BeanUtil.toBean(req, Org.class);
         bean.setTreePath(buildNewTreePath(req.getParentId()));
         this.baseMapper.insert(bean);
     }
-    
+
     @Override
     public List<Long> getFullTreeIdPath(Long id) {
         if (id == null) {
@@ -80,7 +76,7 @@ public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements 
         List<Long> treePath = org.getTreePath();
         treePath.add(org.getId());
         final List<Long> list = this.baseMapper.selectList(Wraps.<Org>lbQ()
-                .likeRight(Org::getTreePath, StrUtil.join(StrUtil.COMMA, treePath)))
+                        .likeRight(Org::getTreePath, StrUtil.join(StrUtil.COMMA, treePath)))
                 .stream()
                 .map(Entity::getId)
                 .distinct()
@@ -88,12 +84,12 @@ public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements 
         list.add(org.getId());
         return list;
     }
-    
+
     private List<Long> buildNewTreePath(Long id) {
         final Org org = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("父节点不存在"));
         final List<Long> treePath = org.getTreePath();
         treePath.add(org.getId());
         return treePath;
     }
-    
+
 }

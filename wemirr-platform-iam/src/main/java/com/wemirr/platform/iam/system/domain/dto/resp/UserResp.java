@@ -105,7 +105,7 @@ public class UserResp {
 
     @ExcelIgnore
     @Schema(description = "岗位ID")
-    private Long stationId;
+    private Long positionId;
 
     @ExcelIgnore
     @Schema(description = "职位状态")

@@ -37,7 +37,6 @@ import java.time.LocalDate;
 
 /**
  * @author Levin
- * @since 2020-02-14
  */
 @Data
 @SuperBuilder
@@ -105,7 +104,7 @@ public class User extends SuperEntity<Long> {
     private Long orgId;
 
     @Schema(description = "岗位ID")
-    private Long stationId;
+    private Long positionId;
 
     @Schema(description = "职位状态")
     private String positionStatus;

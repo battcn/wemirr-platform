@@ -101,4 +101,8 @@ public interface UserService extends SuperService<User> {
      * @return 用户信息
      */
     UserInfoDetails userinfo(Long userId);
+
+    IPage<Object> onlineAccountPage();
+
+
 }

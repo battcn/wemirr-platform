@@ -26,11 +26,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.iam.system.domain.dto.req.StationPageReq;
-import com.wemirr.platform.iam.system.domain.dto.req.StationSaveReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.StationPageResp;
-import com.wemirr.platform.iam.system.domain.entity.Station;
-import com.wemirr.platform.iam.system.service.StationService;
+import com.wemirr.platform.iam.system.domain.dto.req.PositionPageReq;
+import com.wemirr.platform.iam.system.domain.dto.req.PositionSaveReq;
+import com.wemirr.platform.iam.system.domain.dto.resp.PositionPageResp;
+import com.wemirr.platform.iam.system.domain.entity.Position;
+import com.wemirr.platform.iam.system.service.SysPositionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -48,39 +48,39 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/stations")
+@RequestMapping("/positions")
 @Tag(name = "岗位管理", description = "岗位管理")
-public class StationController {
+public class PositionController {
 
-    private final StationService stationService;
+    private final SysPositionService sysPositionService;
 
     @GetMapping("/list")
     @Operation(summary = "岗位列表 - [Levin] - [DONE]")
-    public List<StationPageResp> list(Long orgId) {
-        List<Station> list = stationService.list(Wraps.<Station>lbQ().eq(Station::getOrgId, orgId));
-        return BeanUtilPlus.toBeans(list, StationPageResp.class);
+    public List<PositionPageResp> list(Long orgId) {
+        List<Position> list = sysPositionService.list(Wraps.<Position>lbQ().eq(Position::getOrgId, orgId));
+        return BeanUtilPlus.toBeans(list, PositionPageResp.class);
     }
 
     @GetMapping("/page")
     @Operation(summary = "分页查询 - [Levin] - [DONE]")
-    public IPage<StationPageResp> pageList(StationPageReq req) {
-        return stationService.pageList(req);
+    public IPage<PositionPageResp> pageList(PositionPageReq req) {
+        return sysPositionService.pageList(req);
     }
 
     @PostMapping
     @AccessLog(description = "添加岗位")
     @Operation(summary = "添加岗位")
     @SaCheckPermission(value = {"sys:station:add"}, mode = SaMode.OR)
-    public void add(@Validated @RequestBody StationSaveReq dto) {
-        stationService.save(BeanUtil.toBean(dto, Station.class));
+    public void add(@Validated @RequestBody PositionSaveReq dto) {
+        sysPositionService.save(BeanUtil.toBean(dto, Position.class));
     }
 
     @PutMapping("/{id}")
     @AccessLog(description = "编辑岗位")
     @Operation(summary = "编辑岗位")
     @SaCheckPermission(value = {"sys:station:edit"}, mode = SaMode.OR)
-    public void edit(@PathVariable Long id, @Validated @RequestBody StationSaveReq dto) {
-        stationService.updateById(BeanUtilPlus.toBean(id, dto, Station.class));
+    public void edit(@PathVariable Long id, @Validated @RequestBody PositionSaveReq dto) {
+        sysPositionService.updateById(BeanUtilPlus.toBean(id, dto, Position.class));
     }
 
     @DeleteMapping("/{id}")
@@ -88,7 +88,7 @@ public class StationController {
     @Operation(summary = "删除岗位")
     @SaCheckPermission(value = {"sys:station:remove"}, mode = SaMode.OR)
     public void del(@PathVariable Long id) {
-        stationService.removeById(id);
+        sysPositionService.removeById(id);
     }
 
 }

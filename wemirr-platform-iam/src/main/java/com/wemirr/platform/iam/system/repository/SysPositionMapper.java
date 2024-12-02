@@ -24,24 +24,20 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.platform.iam.system.domain.dto.resp.StationPageResp;
-import com.wemirr.platform.iam.system.domain.entity.Station;
+import com.wemirr.platform.iam.system.domain.dto.resp.PositionPageResp;
+import com.wemirr.platform.iam.system.domain.entity.Position;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
- * <p>
- * Mapper 接口
  * 岗位
- * </p>
  *
  * @author Levin
- * @since 2019-07-22
  */
 @TenantDS
 @Repository
-public interface StationMapper extends SuperMapper<Station> {
-    
+public interface SysPositionMapper extends SuperMapper<Position> {
+
     /**
      * 分页查询岗位信息（含角色）
      *
@@ -49,6 +45,6 @@ public interface StationMapper extends SuperMapper<Station> {
      * @param wrapper wrapper
      * @return 查询结果
      */
-    IPage<StationPageResp> findStationPage(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<Station> wrapper);
-    
+    IPage<PositionPageResp> findStationPage(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<Position> wrapper);
+
 }

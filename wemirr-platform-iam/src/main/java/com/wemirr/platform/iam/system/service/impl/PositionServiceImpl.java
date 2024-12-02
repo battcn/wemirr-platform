@@ -19,16 +19,17 @@
 
 package com.wemirr.platform.iam.system.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
-import com.wemirr.platform.iam.system.domain.dto.req.StationPageReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.StationPageResp;
-import com.wemirr.platform.iam.system.domain.entity.Station;
-import com.wemirr.platform.iam.system.repository.StationMapper;
+import com.wemirr.platform.iam.system.domain.dto.req.PositionPageReq;
+import com.wemirr.platform.iam.system.domain.dto.resp.PositionPageResp;
+import com.wemirr.platform.iam.system.domain.entity.Position;
+import com.wemirr.platform.iam.system.repository.SysPositionMapper;
 import com.wemirr.platform.iam.system.service.OrgService;
-import com.wemirr.platform.iam.system.service.StationService;
+import com.wemirr.platform.iam.system.service.SysPositionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -45,18 +46,20 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class StationServiceImpl extends SuperServiceImpl<StationMapper, Station> implements StationService {
+public class PositionServiceImpl extends SuperServiceImpl<SysPositionMapper, Position> implements SysPositionService {
 
     private final OrgService orgService;
 
     @Override
-    public IPage<StationPageResp> pageList(StationPageReq req) {
-        final LbqWrapper<Station> wrapper = Wraps.<Station>lbQ().like(Station::getName, req.getName())
-                .eq(Station::getStatus, req.getStatus())
-                .in(Station::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
-                .eq(Station::getDeleted, false)
-                .orderByAsc(Station::getSequence);
-        return baseMapper.findStationPage(req.buildPage(), wrapper);
+    public IPage<PositionPageResp> pageList(PositionPageReq req) {
+        final LbqWrapper<Position> wrapper = Wraps.<Position>lbQ()
+                .like(Position::getTitle, req.getTitle())
+                .eq(Position::getStatus, req.getStatus())
+                .in(Position::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
+                .eq(Position::getDeleted, false)
+                .orderByAsc(Position::getSequence);
+        return baseMapper.selectPage(req.buildPage(), wrapper)
+                .convert(x -> BeanUtil.toBean(x, PositionPageResp.class));
     }
 
 }

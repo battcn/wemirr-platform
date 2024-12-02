@@ -31,8 +31,8 @@ import lombok.EqualsAndHashCode;
  * @author battcn
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @TableName("sys_role")
+@EqualsAndHashCode(callSuper = true)
 public class Role extends Entity<Long> {
     
     @Schema(description = "租户ID")

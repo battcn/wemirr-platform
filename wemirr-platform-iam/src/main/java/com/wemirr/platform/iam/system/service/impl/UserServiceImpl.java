@@ -20,8 +20,10 @@
 package com.wemirr.platform.iam.system.service.impl;
 
 import cn.dev33.satoken.secure.SaSecureUtil;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.plugins.IgnoreStrategy;
@@ -56,6 +58,7 @@ import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
 import com.wemirr.platform.iam.tenant.repository.TenantMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.compress.utils.Lists;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -198,5 +201,14 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         // 为了减少一次数据库查询,所以用了这个不规范写法
         info.setDataPermission(dataScopeService.getDataScopeById(user.getId()));
         return info;
+    }
+
+
+    @Override
+    public IPage<Object> onlineAccountPage() {
+        List<Object> list = Lists.newArrayList();
+        // 查询所有在线 Token
+        List<String> tokenKeyList = StpUtil.searchTokenValue(StrUtil.EMPTY, 0, -1, false);
+        return null;
     }
 }

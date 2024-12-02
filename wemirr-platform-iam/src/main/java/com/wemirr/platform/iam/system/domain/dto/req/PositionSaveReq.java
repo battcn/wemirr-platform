@@ -19,10 +19,11 @@
 
 package com.wemirr.platform.iam.system.domain.dto.req;
 
-import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * <p>
@@ -34,20 +35,39 @@ import lombok.EqualsAndHashCode;
  * @since 2019-07-28
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Schema(name = "StationPageReq", description = "岗位")
-public class StationPageReq extends PageRequest {
+@Schema(name = "StationSaveReq", description = "岗位")
+public class PositionSaveReq {
     
+    /**
+     * 名称
+     */
     @Schema(description = "名称")
+    @Length(max = 255, message = "岗位名称长度不能超过{max}")
+    @NotBlank(message = "岗位名称不能为空")
     private String name;
-
+    
+    @Schema(description = "岗位编码")
+    private String code;
+    
+    @Schema(description = "排序")
+    private Integer sequence;
+    
+    /**
+     * 组织ID
+     */
     @Schema(description = "组织ID")
+    @NotNull(message = "组织不能为空")
     private Long orgId;
-
-    @Schema(description = "类型")
-    private Integer type;
-
+    /**
+     * 状态
+     */
     @Schema(description = "状态")
     private Boolean status;
+    /**
+     * 描述
+     */
+    @Schema(description = "描述")
+    @Length(max = 255, message = "描述长度不能超过 {max}")
+    private String description;
     
 }

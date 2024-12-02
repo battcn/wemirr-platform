@@ -58,7 +58,7 @@ public class UserSaveReq {
     private Long orgId;
 
     @Schema(description = "岗位ID")
-    private Long stationId;
+    private Long positionId;
 
     @Schema(description = "邮箱")
     @Length(max = 255, message = "邮箱长度不能超过 {max}")

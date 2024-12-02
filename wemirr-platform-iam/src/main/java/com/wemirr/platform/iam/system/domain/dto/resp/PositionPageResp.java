@@ -1,6 +1,5 @@
 package com.wemirr.platform.iam.system.domain.dto.resp;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -10,13 +9,13 @@ import java.time.Instant;
  * @author Levin
  */
 @Data
-public class StationPageResp {
+public class PositionPageResp {
 
     @Schema(description = "ID")
     private Long id;
 
     @Schema(description = "名称")
-    private String name;
+    private String title;
 
     @Schema(description = "岗位编码")
     private String code;
@@ -28,7 +27,6 @@ public class StationPageResp {
     private Long orgId;
 
     @Schema(description = "状态")
-    @TableField("`status`")
     private Boolean status;
 
     @Schema(description = "描述")

@@ -19,10 +19,13 @@
 
 package com.wemirr.platform.iam.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.config.SaTokenConfig;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.security.configuration.server.support.AuthenticationPrincipal;
@@ -34,6 +37,8 @@ import com.wemirr.platform.iam.system.domain.dto.req.LoginReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.LoginResp;
 import com.wemirr.platform.iam.system.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -122,6 +127,24 @@ public class TokenController {
     @Operation(summary = "退出登录")
     public void logout() {
         StpUtil.logout();
+    }
+
+    @Operation(summary = "分页查询列表", description = "分页查询列表")
+    @SaCheckPermission("token:online:list")
+    @GetMapping
+    public IPage<Object> onlineAccountPage() {
+        return userService.onlineAccountPage();
+    }
+
+    @Operation(summary = "强退用户", description = "强退在线用户")
+    @Parameter(name = "token", description = "令牌", example = "123", in = ParameterIn.PATH)
+    @SaCheckPermission("token:online:logout")
+    @DeleteMapping("/{token}")
+    public void forceLogout(@PathVariable String token) {
+        if (StrUtil.equals(token, StpUtil.getTokenValue())) {
+            throw CheckedException.badRequest("不能强退自己");
+        }
+        StpUtil.kickoutByTokenValue(token);
     }
 
 }

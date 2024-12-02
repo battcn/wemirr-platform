@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.iam.system.repository.SysPositionMapper">
+
+
+    <select id="findStationPage" resultType="com.wemirr.platform.iam.system.domain.dto.resp.PositionPageResp">
+        SELECT
+        *
+        FROM sys_position s ${ew.customSqlSegment}
+    </select>
+
+</mapper>

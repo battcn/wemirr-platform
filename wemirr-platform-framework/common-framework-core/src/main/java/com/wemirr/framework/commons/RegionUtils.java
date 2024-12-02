@@ -34,12 +34,12 @@ import java.io.IOException;
  */
 @Slf4j
 public final class RegionUtils {
-    
+
     /**
      * IP 查询器，启动加载到内存中
      */
     private static Searcher SEARCHER;
-    
+
     static {
         try {
             long now = System.currentTimeMillis();
@@ -50,7 +50,7 @@ public final class RegionUtils {
             log.error("启动加载 RegionUtils 失败", e);
         }
     }
-    
+
     /**
      * 解析IP
      *
@@ -68,11 +68,12 @@ public final class RegionUtils {
             long endTime = System.currentTimeMillis();
             log.debug("region use time[{}] result[{}]", endTime - startTime, result);
             return result;
-            
         } catch (Exception e) {
             log.error("error - {}", e.getLocalizedMessage());
+            return DEFAULT_REGION;
         }
-        return StrUtil.EMPTY;
     }
-    
+
+    private static final String DEFAULT_REGION = "内网";
+
 }

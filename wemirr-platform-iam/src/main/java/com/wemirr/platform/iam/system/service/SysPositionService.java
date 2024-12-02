@@ -19,31 +19,28 @@
 
 package com.wemirr.platform.iam.system.service;
 
-import cn.hutool.captcha.CircleCaptcha;
-import com.wemirr.framework.commons.entity.Result;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.db.mybatisplus.ext.SuperService;
+import com.wemirr.platform.iam.system.domain.dto.req.PositionPageReq;
+import com.wemirr.platform.iam.system.domain.dto.resp.PositionPageResp;
+import com.wemirr.platform.iam.system.domain.entity.Position;
 
 /**
+ * <p>
+ * 业务接口
+ * 岗位
+ * </p>
+ *
  * @author Levin
+ * @since 2019-07-22
  */
-public interface VerificationService {
+public interface SysPositionService extends SuperService<Position> {
     
     /**
-     * 创建验证码
+     * 按权限查询岗位的分页信息
      *
-     * @param key    key
-     * @param width  宽度
-     * @param height 高度
-     * @return 验证码结果
+     * @param req   req
+     * @return Station
      */
-    CircleCaptcha create(String key, Integer width, Integer height);
-    
-    /**
-     * 验证图形验证码
-     *
-     * @param key   key
-     * @param value val
-     * @return 验证结果
-     */
-    Result<Boolean> valid(String key, String value);
-    
+    IPage<PositionPageResp> pageList(PositionPageReq req);
 }
