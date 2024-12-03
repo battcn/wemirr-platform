@@ -4,6 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.platform.iam.base.service.MessageTemplateService;
+import com.wemirr.platform.iam.system.domain.dto.req.MessageNotifyReq;
 import com.wemirr.platform.iam.system.domain.dto.req.MessageTemplatePageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.MessageTemplateSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.MessageTemplatePageResp;
@@ -35,6 +36,14 @@ public class MessageTemplateController {
     @SaCheckPermission(value = {"message:templates:page"})
     public IPage<MessageTemplatePageResp> pageList(MessageTemplatePageReq req) {
         return messageTemplateService.pageList(req);
+    }
+
+    @PostMapping("/notify")
+    @AccessLog(description = "消息通知")
+    @Operation(summary = "消息通知")
+//    @SaCheckPermission(value = {"message:templates:add"})
+    public void notify(@Validated @RequestBody MessageNotifyReq req) {
+        messageTemplateService.notify(req);
     }
 
     @PostMapping("/create")

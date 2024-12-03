@@ -22,6 +22,7 @@ package com.wemirr.platform.iam.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.MapHelper;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.entity.Entity;
@@ -108,6 +109,12 @@ public class UserController {
     @SaCheckPermission(value = {"sys:user:remove"})
     public void del(@PathVariable Long id) {
         this.userService.deleteById(id);
+    }
+
+    @PostMapping("/ids")
+    @Operation(summary = "ID批量查询")
+    public List<UserResp> idList(@RequestBody Set<Long> ids) {
+        return BeanUtilPlus.toBeans(this.userService.listByIds(ids), UserResp.class);
     }
 
     @PostMapping("/batch_ids")
