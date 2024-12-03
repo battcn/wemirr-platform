@@ -21,6 +21,7 @@ package com.wemirr.framework.boot.security;
 
 import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.stp.StpUtil;
+import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.commons.security.DataPermission;
 import com.wemirr.framework.commons.threadlocal.ThreadLocalHolder;
@@ -49,7 +50,8 @@ public class AuthenticationContextConfiguration {
             @Override
             public UserInfoDetails getContext() {
                 String key = String.format(properties.getServer().getInfoKeyPrefix(), StpUtil.getTokenValue());
-                return (UserInfoDetails) ThreadLocalHolder.get(USER_INFO, () -> saTokenDao.getObject(key));
+                return (UserInfoDetails) ThreadLocalHolder.get(USER_INFO
+                        , () -> JSONObject.parseObject((String) saTokenDao.getObject(key), UserInfoDetails.class));
             }
 
             @Override

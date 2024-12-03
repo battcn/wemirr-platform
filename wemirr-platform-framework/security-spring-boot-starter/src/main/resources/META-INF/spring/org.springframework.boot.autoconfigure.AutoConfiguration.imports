@@ -1,3 +1,2 @@
 com.wemirr.framework.security.configuration.OAuth2AutoConfiguration
 com.wemirr.framework.security.configuration.OAuth2ExceptionHandler
-com.wemirr.framework.security.endpoint.OAuth2Endpoint

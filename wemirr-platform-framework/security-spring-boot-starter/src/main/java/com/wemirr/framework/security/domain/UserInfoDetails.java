@@ -32,6 +32,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * @author Levin
@@ -77,7 +78,7 @@ public class UserInfoDetails implements Serializable {
     private Long orgId;
 
     @Schema(description = "登录日志")
-    private Object loginLog;
+    private Map<String, Object> loginLog;
     /**
      * 功能权限（资源码）
      */

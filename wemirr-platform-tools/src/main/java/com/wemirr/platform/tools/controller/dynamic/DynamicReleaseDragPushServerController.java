@@ -73,7 +73,7 @@ public class DynamicReleaseDragPushServerController {
                 .locked(req.getLocked()).method(req.getMethod()).secret(req.getSecret())
                 .url(req.getUrl()).opt(CollectionUtil.join(req.getOpt(), ","))
                 .build();
-        dragextend.setId(id);
+        dragExtend.setId(id);
         dynamicReleaseDragPushServerService.updateById(dragExtend);
     }
     

@@ -8,6 +8,7 @@ import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
+import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.commons.RegionUtils;
 import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.domain.UserInfoDetails;
@@ -66,7 +67,7 @@ public class WpTokenListener implements SaTokenListener {
                 .loginType(principalType)
                 .createdBy(userId).createdTime(Instant.now()).createdName(info.getNickName())
                 .build();
-        info.setLoginLog(loginLog);
+        info.setLoginLog(JSONObject.from(loginLog));
         this.saTokenDao.setObject(buildCacheKey(tokenValue), info, loginModel.getTimeout());
         // 记录登录日志
         this.loginLogMapper.insert(loginLog);
