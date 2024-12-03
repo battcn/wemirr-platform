@@ -58,7 +58,7 @@ public class SiteNotifyController {
     
     @GetMapping("/page")
     @Operation(summary = "分页查询")
-    @SaCheckPermission(value = {"sys:site_notify:page"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:site_notify:page"})
     public IPage<SiteMessageResp> publishList(SiteMessagePageReq req) {
         return siteNotifyService.page(req.buildPage(), Wraps.<SiteNotify>lbQ()
                 .eq(SiteNotify::getTitle, req.getTitle()).eq(SiteNotify::getLevel, req.getLevel())
@@ -75,7 +75,7 @@ public class SiteNotifyController {
     @PostMapping
     @AccessLog(description = "添加通知")
     @Operation(summary = "添加通知")
-    @SaCheckPermission(value = {"sys:site_notify:add"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:site_notify:add"})
     public void add(@Validated @RequestBody SiteMessageSaveReq req) {
         final SiteNotify bean = BeanUtil.toBean(req, SiteNotify.class);
         bean.setReceiver(StringUtils.join(req.getReceiver(), ","));
@@ -85,7 +85,7 @@ public class SiteNotifyController {
     @PutMapping("/{id}")
     @AccessLog(description = "编辑通知")
     @Operation(summary = "编辑通知")
-    @SaCheckPermission(value = {"sys:site_notify:edit"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:site_notify:edit"})
     public void edit(@PathVariable Long id, @Validated @RequestBody SiteMessageSaveReq req) {
         final SiteNotify bean = BeanUtil.toBean(req, SiteNotify.class);
         bean.setReceiver(StringUtils.join(req.getReceiver(), ","));
@@ -96,7 +96,7 @@ public class SiteNotifyController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除通知")
     @Operation(summary = "删除通知")
-    @SaCheckPermission(value = {"sys:site_notify:remove"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:site_notify:remove"})
     public void del(@PathVariable Long id) {
         siteNotifyService.removeById(id);
     }
@@ -104,7 +104,7 @@ public class SiteNotifyController {
     @PatchMapping("/{id}/publish")
     @AccessLog(description = "发布通知")
     @Operation(summary = "发布通知")
-    @SaCheckPermission(value = {"sys:site_notify:publish"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:site_notify:publish"})
     public void publish(@PathVariable Long id) {
         siteNotifyService.publish(id);
     }

@@ -70,7 +70,7 @@ public class PositionController {
     @PostMapping
     @AccessLog(description = "添加岗位")
     @Operation(summary = "添加岗位")
-    @SaCheckPermission(value = {"sys:station:add"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:station:add"})
     public void add(@Validated @RequestBody PositionSaveReq dto) {
         sysPositionService.save(BeanUtil.toBean(dto, Position.class));
     }
@@ -78,7 +78,7 @@ public class PositionController {
     @PutMapping("/{id}")
     @AccessLog(description = "编辑岗位")
     @Operation(summary = "编辑岗位")
-    @SaCheckPermission(value = {"sys:station:edit"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:station:edit"})
     public void edit(@PathVariable Long id, @Validated @RequestBody PositionSaveReq dto) {
         sysPositionService.updateById(BeanUtilPlus.toBean(id, dto, Position.class));
     }
@@ -86,7 +86,7 @@ public class PositionController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除岗位")
     @Operation(summary = "删除岗位")
-    @SaCheckPermission(value = {"sys:station:remove"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:station:remove"})
     public void del(@PathVariable Long id) {
         sysPositionService.removeById(id);
     }

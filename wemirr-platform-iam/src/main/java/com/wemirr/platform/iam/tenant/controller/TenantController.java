@@ -62,7 +62,7 @@ public class TenantController {
 
     @PostMapping("/page")
     @Operation(summary = "租户列表 - [Levin] - [DONE]")
-    @SaCheckPermission(value = {"tenant:page"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"tenant:page"})
     public IPage<TenantPageResp> pageList(@RequestBody TenantPageReq req) {
         return tenantService.page(req.buildPage(), Wraps.<Tenant>lbQ()
                 .like(Tenant::getName, req.getName())
@@ -83,7 +83,7 @@ public class TenantController {
     @PostMapping
     @AccessLog(description = "添加租户")
     @Operation(summary = "添加租户")
-    @SaCheckPermission(value = {"tenant:add"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"tenant:add"})
     public void create(@Validated @RequestBody TenantSaveReq req) {
         tenantService.create(req);
     }
@@ -91,7 +91,7 @@ public class TenantController {
     @PutMapping("/{id}")
     @AccessLog(description = "编辑租户")
     @Operation(summary = "编辑租户")
-    @SaCheckPermission(value = {"tenant:edit"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"tenant:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody TenantModifyReq req) {
         tenantService.modify(id, req);
     }
@@ -99,7 +99,7 @@ public class TenantController {
     @PutMapping("/{id}/config")
     @AccessLog(description = "配置租户")
     @Operation(summary = "配置租户")
-    @SaCheckPermission(value = {"tenant:config"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"tenant:config"})
     public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq req) {
         tenantService.tenantConfig(id, req);
     }
@@ -115,7 +115,7 @@ public class TenantController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除租户")
     @Operation(summary = "删除租户")
-    @SaCheckPermission(value = {"tenant:remove"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"tenant:remove"})
     public void del(@PathVariable Long id) {
         tenantService.removeById(id);
     }

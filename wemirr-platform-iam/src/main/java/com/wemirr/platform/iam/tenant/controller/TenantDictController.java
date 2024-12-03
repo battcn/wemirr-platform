@@ -65,7 +65,7 @@ public class TenantDictController {
     @PostMapping("/refresh")
     @AccessLog(description = "刷新字典")
     @Operation(summary = "刷新字典 - [DONE] - [Levin]", description = "刷新字典缓存数据 - [DONE] - [Levin]")
-    @SaCheckPermission(value = {"tenant:dict:refresh"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"tenant:dict:refresh"})
     public void refresh() {
         this.tenantDictService.refresh();
     }
@@ -73,7 +73,7 @@ public class TenantDictController {
     @PostMapping("/create")
     @AccessLog(description = "字典新增")
     @Operation(summary = "新增字典 - [DONE] - [Levin]", description = "新增字典 - [DONE] - [Levin]")
-    @SaCheckPermission(value = {"tenant:dict:add"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"tenant:dict:add"})
     public void create(@Validated @RequestBody TenantDictSaveReq req) {
         this.tenantDictService.create(req);
     }
@@ -81,7 +81,7 @@ public class TenantDictController {
     @PutMapping("/{id}")
     @AccessLog(description = "字典编辑")
     @Operation(summary = "编辑字典 - [DONE] - [Levin]", description = "编辑字典 - [DONE] - [Levin]")
-    @SaCheckPermission(value = {"tenant:dict:edit"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"tenant:dict:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody TenantDictSaveReq req) {
         this.tenantDictService.modify(id, req);
     }
@@ -89,7 +89,7 @@ public class TenantDictController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除指定字典项")
     @Operation(summary = "删除字典 - [DONE] - [Levin]", description = "删除字典 - [DONE] - [Levin]")
-    @SaCheckPermission(value = {"tenant:dict:remove"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"tenant:dict:remove"})
     public void del(@PathVariable Long id) {
         this.tenantDictService.deleteById(id);
     }

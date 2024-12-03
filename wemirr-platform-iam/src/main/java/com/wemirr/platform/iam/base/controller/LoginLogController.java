@@ -53,7 +53,7 @@ public class LoginLogController {
 
     @GetMapping
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
-    @SaCheckPermission(value = {"log:login:page"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"log:login:page"})
     public Page<LoginLog> page(LoginLogPageReq req) {
         return DataPermissionUtils.executeDefaultDataPermissionRule(() -> loginLogService.page(req.buildPage(), Wraps.<LoginLog>lbQ()
                 .like(LoginLog::getCreatedBy, req.getNickName())

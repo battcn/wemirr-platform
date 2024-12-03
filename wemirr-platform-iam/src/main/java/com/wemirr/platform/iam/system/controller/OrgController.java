@@ -78,7 +78,7 @@ public class OrgController {
     @PostMapping
     @AccessLog(description = "保存组织架构")
     @Operation(summary = "保存编辑组织架构")
-    @SaCheckPermission(value = {"sys:org:add"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:org:add"})
     public void save(@Validated @RequestBody OrgSaveReq req) {
         orgService.addOrg(req);
     }
@@ -86,7 +86,7 @@ public class OrgController {
     @PutMapping("/{id}")
     @AccessLog(description = "编辑组织架构")
     @Operation(summary = "编辑编辑组织架构")
-    @SaCheckPermission(value = {"sys:org:edit"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:org:edit"})
     public void edit(@PathVariable Long id, @Validated @RequestBody OrgSaveReq req) {
         orgService.updateById(BeanUtilPlus.toBean(id, req, Org.class));
     }
@@ -94,7 +94,7 @@ public class OrgController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除组织架构")
     @Operation(summary = "删除组织架构")
-    @SaCheckPermission(value = {"sys:org:remove"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:org:remove"})
     public void del(@PathVariable Long id) {
         orgService.remove(id);
     }

@@ -59,7 +59,7 @@ public class OptLogController {
 
     @GetMapping
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
-    @SaCheckPermission(value = {"log:opt:page"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"log:opt:page"})
     public Page<OptLog> page(OptLogPageReq req) {
         return this.optLogService.page(req.buildPage(), Wraps.<OptLog>lbQ()
                 .eq(OptLog::getHttpMethod, req.getHttpMethod())

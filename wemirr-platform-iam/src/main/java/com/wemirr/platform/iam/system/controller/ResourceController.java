@@ -114,7 +114,7 @@ public class ResourceController {
     @PostMapping
     @AccessLog(description = "添加资源")
     @Operation(summary = "添加资源")
-    @SaCheckPermission(value = {"sys:menu:add"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:menu:add"})
     public void save(@Validated @RequestBody ResourceSaveReq req) {
         resourceService.add(req);
     }
@@ -122,7 +122,7 @@ public class ResourceController {
     @PutMapping("/{id}")
     @AccessLog(description = "修改资源")
     @Operation(summary = "修改资源")
-    @SaCheckPermission(value = {"sys:menu:edit"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:menu:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody ResourceSaveReq req) {
         resourceService.modify(id, req);
     }
@@ -130,7 +130,7 @@ public class ResourceController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除资源")
     @Operation(summary = "删除资源")
-    @SaCheckPermission(value = {"sys:menu:remove"}, mode = SaMode.OR)
+    @SaCheckPermission(value = {"sys:menu:remove"})
     public void del(@PathVariable Long id) {
         this.resourceService.delete(id);
     }
