@@ -24,7 +24,7 @@ package com.wemirr.framework.commons;
  */
 public class FeignConstants {
     
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-authority";
+    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
     public static final String TOOLS_FEIGN_NAME = "wemirr-platform-tools";
     
 }

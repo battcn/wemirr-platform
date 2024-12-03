@@ -10,7 +10,7 @@
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-iam-api</artifactId>
     <version>3.0.0-SNAPSHOT</version>
-    <name>wemirr-platform-authority-api</name>
+    <name>wemirr-platform-iam-api</name>
     <description>Feign API</description>
     <packaging>jar</packaging>
 
