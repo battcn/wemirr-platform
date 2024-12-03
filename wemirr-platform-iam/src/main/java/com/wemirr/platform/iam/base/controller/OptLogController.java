@@ -20,7 +20,6 @@
 package com.wemirr.platform.iam.base.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.annotation.SaMode;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.boot.log.AccessLogInfo;
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
