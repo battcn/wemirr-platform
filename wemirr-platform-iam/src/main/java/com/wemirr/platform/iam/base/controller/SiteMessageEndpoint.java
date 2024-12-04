@@ -29,8 +29,8 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.framework.websocket.BaseWebSocketEndpoint;
-import com.wemirr.platform.iam.base.domain.entity.SiteMessage;
-import com.wemirr.platform.iam.base.service.SiteMessageService;
+import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
+import com.wemirr.platform.iam.base.service.MessageNotifyService;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
 import com.wemirr.platform.iam.tenant.repository.TenantMapper;
 import jakarta.websocket.*;
@@ -56,9 +56,9 @@ public class SiteMessageEndpoint extends BaseWebSocketEndpoint {
     @OnOpen
     public void openSession(@PathParam("tenantCode") String tenantCode, @PathParam(IDENTIFIER) String userId, Session session) {
         connect(userId, session);
-        List<SiteMessage> messages = null;
+        List<MessageNotify> messages = null;
         final DatabaseProperties properties = SpringUtil.getBean(DatabaseProperties.class);
-        final SiteMessageService service = SpringUtil.getBean(SiteMessageService.class);
+        final MessageNotifyService service = SpringUtil.getBean(MessageNotifyService.class);
         if (properties.getMultiTenant().getType() == MultiTenantType.DATASOURCE) {
             log.info("WebSocket 租户编码 - {}", tenantCode);
             final DataSource dataSource = SpringUtil.getBean(DataSource.class);
@@ -72,14 +72,14 @@ public class SiteMessageEndpoint extends BaseWebSocketEndpoint {
                 final String dsKey = dataSourceProcess.buildDb(tenantCode);
                 log.debug("设置当前线程数据源 - {}", dsKey);
                 DynamicDataSourceContextHolder.push(dsKey);
-                messages = service.list(Wraps.<SiteMessage>lbQ().eq(SiteMessage::getMark, false)
-                        .eq(SiteMessage::getReceiveId, userId).orderByAsc(SiteMessage::getId));
+//                messages = service.list(Wraps.<MessageNotify>lbQ().eq(MessageNotify::getMark, false)
+//                        .eq(MessageNotify::getReceiveId, userId).orderByAsc(MessageNotify::getId));
                 DynamicDataSourceContextHolder.poll();
                 log.debug("清空当前线程数据源...");
             }
         } else {
-            messages = service.list(Wraps.<SiteMessage>lbQ().eq(SiteMessage::getMark, false)
-                    .eq(SiteMessage::getReceiveId, userId).orderByAsc(SiteMessage::getId));
+//            messages = service.list(Wraps.<MessageNotify>lbQ().eq(MessageNotify::getMark, false)
+//                    .eq(MessageNotify::getReceiveId, userId).orderByAsc(MessageNotify::getId));
         }
         if (CollectionUtil.isEmpty(messages)) {
             return;

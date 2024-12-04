@@ -17,22 +17,14 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.base.service.impl;
+package com.wemirr.platform.iam.base.service;
 
-import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
-import com.wemirr.platform.iam.base.domain.entity.SiteMessage;
-import com.wemirr.platform.iam.base.repository.SiteMessageMapper;
-import com.wemirr.platform.iam.base.service.SiteMessageService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import com.wemirr.framework.db.mybatisplus.ext.SuperService;
+import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
 
 /**
  * @author Levin
  */
-@Slf4j
-@Service
-@RequiredArgsConstructor
-public class StationMessageServiceImpl extends SuperServiceImpl<SiteMessageMapper, SiteMessage> implements SiteMessageService {
+public interface MessageNotifyService extends SuperService<MessageNotify> {
     
 }

@@ -1,6 +1,7 @@
 package com.wemirr.platform.iam;
 
 import cn.dev33.satoken.secure.BCrypt;
+import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.security.utils.PasswordEncoderHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -28,5 +29,12 @@ public class PasswordEncoderHelperTest {
         System.out.println(PasswordEncoderHelper.matches(rawPassword, oldPassword));
         System.out.println(PasswordEncoderHelper.matches(rawPassword, "{noop}123456"));
         System.out.println(PasswordEncoderHelper.matches(rawPassword, "{noop}1234567"));
+    }
+
+
+    @Test
+    public void test2() {
+        String path = "/sys/message/publish";
+        System.out.println(StrUtil.subBefore(path, "/", true));
     }
 }

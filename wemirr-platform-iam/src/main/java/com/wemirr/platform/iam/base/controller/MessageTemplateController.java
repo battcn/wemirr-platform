@@ -4,10 +4,11 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.platform.iam.base.service.MessageTemplateService;
-import com.wemirr.platform.iam.system.domain.dto.req.MessageNotifyReq;
-import com.wemirr.platform.iam.system.domain.dto.req.MessageTemplatePageReq;
-import com.wemirr.platform.iam.system.domain.dto.req.MessageTemplateSaveReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.MessageTemplatePageResp;
+import com.wemirr.platform.iam.base.domain.dto.req.MessageNotifyReq;
+import com.wemirr.platform.iam.base.domain.dto.req.MessageTemplatePageReq;
+import com.wemirr.platform.iam.base.domain.dto.req.MessageTemplateSaveReq;
+import com.wemirr.platform.iam.base.domain.dto.resp.MessageTemplateDetailResp;
+import com.wemirr.platform.iam.base.domain.dto.resp.MessageTemplatePageResp;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/message_templates")
+@RequestMapping("/message-template")
 @Tag(name = "消息模板", description = "消息模板")
 public class MessageTemplateController {
 
@@ -36,6 +37,13 @@ public class MessageTemplateController {
     @SaCheckPermission(value = {"message:templates:page"})
     public IPage<MessageTemplatePageResp> pageList(MessageTemplatePageReq req) {
         return messageTemplateService.pageList(req);
+    }
+
+
+    @GetMapping("/{id}/detail")
+    @Operation(summary = "模板详情")
+    public MessageTemplateDetailResp detail(@PathVariable Long id) {
+        return messageTemplateService.detail(id);
     }
 
     @PostMapping("/notify")

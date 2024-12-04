@@ -2,10 +2,11 @@ package com.wemirr.platform.iam.base.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wemirr.platform.iam.system.domain.dto.req.MessageNotifyReq;
-import com.wemirr.platform.iam.system.domain.dto.req.MessageTemplatePageReq;
-import com.wemirr.platform.iam.system.domain.dto.req.MessageTemplateSaveReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.MessageTemplatePageResp;
+import com.wemirr.platform.iam.base.domain.dto.req.MessageNotifyReq;
+import com.wemirr.platform.iam.base.domain.dto.req.MessageTemplatePageReq;
+import com.wemirr.platform.iam.base.domain.dto.req.MessageTemplateSaveReq;
+import com.wemirr.platform.iam.base.domain.dto.resp.MessageTemplateDetailResp;
+import com.wemirr.platform.iam.base.domain.dto.resp.MessageTemplatePageResp;
 import com.wemirr.platform.iam.system.domain.entity.MessageTemplate;
 
 /**
@@ -38,4 +39,6 @@ public interface MessageTemplateService extends IService<MessageTemplate> {
     void modify(Long id, MessageTemplateSaveReq req);
 
     void notify(MessageNotifyReq req);
+
+    MessageTemplateDetailResp detail(Long id);
 }

@@ -20,14 +20,15 @@
 package com.wemirr.platform.iam.base.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.iam.base.domain.entity.SiteMessage;
-import com.wemirr.platform.iam.base.service.SiteMessageService;
-import com.wemirr.platform.iam.system.domain.dto.req.SiteMessagePageReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.SiteMessagePageResp;
+import com.wemirr.platform.iam.base.domain.dto.resp.MessageNotifyPageResp;
+import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
+import com.wemirr.platform.iam.base.service.MessageNotifyService;
+import com.wemirr.platform.iam.system.domain.dto.req.MessageNotifyPageReq;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -46,37 +47,40 @@ import java.util.List;
 @Tag(name = "站内消息")
 @RequiredArgsConstructor
 @TenantDS
-@RequestMapping("/site_messages")
-public class SiteMessageController {
+@RequestMapping("/message-notify")
+public class MessageNotifyController {
 
     private final AuthenticationContext context;
-    private final SiteMessageService siteMessageService;
+    private final MessageNotifyService messageNotifyService;
 
     @GetMapping("/page")
-    @Operation(summary = "消息列表")
-    public IPage<SiteMessagePageResp> pageList(SiteMessagePageReq req) {
-        return siteMessageService.page(req.buildPage(), Wraps.<SiteMessage>lbQ()
-                .like(SiteMessage::getTitle, req.getTitle()).eq(SiteMessage::getLevel, req.getTitle())
-                .eq(SiteMessage::getMark, req.getMark())
-                .eq(SiteMessage::getReceiveId, context.userId())).convert(x -> BeanUtil.toBean(x, SiteMessagePageResp.class));
+    @Operation(summary = "消息列表 - [全部]")
+    public IPage<MessageNotifyPageResp> pageList(MessageNotifyPageReq req) {
+        return messageNotifyService.page(req.buildPage(), Wraps.<MessageNotify>lbQ()
+                        .eq(MessageNotify::getType, req.getType())
+                        .and(StrUtil.isNotBlank(req.getKeyword()),
+                                lb -> lb.likeRight(MessageNotify::getTitle, req.getKeyword())
+                                        .or().likeRight(MessageNotify::getContent, req.getKeyword())))
+                .convert(x -> BeanUtil.toBean(x, MessageNotifyPageResp.class));
     }
 
-    @PatchMapping("/{id}/mark")
-    @Operation(summary = "标记已读")
-    public void mark(@PathVariable("id") Long id) {
-        this.siteMessageService.updateById(SiteMessage.builder().mark(true).id(id).build());
+    @GetMapping("/subscribe-list")
+    @Operation(summary = "消息列表 - [订阅]")
+    public IPage<MessageNotifyPageResp> subscribe(MessageNotifyPageReq req) {
+        req.setUserId(context.userId());
+        return pageList(req);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "删除消息")
     public void del(@PathVariable("id") Long id) {
-        this.siteMessageService.removeById(id);
+        this.messageNotifyService.removeById(id);
     }
 
     @DeleteMapping("/batch_remove")
     @Operation(summary = "批量删除")
     public void batchDel(@RequestBody List<Long> ids) {
-        this.siteMessageService.removeByIds(ids);
+        this.messageNotifyService.removeByIds(ids);
     }
 
 }

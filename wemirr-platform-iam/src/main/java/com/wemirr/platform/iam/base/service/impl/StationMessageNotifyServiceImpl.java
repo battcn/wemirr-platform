@@ -17,33 +17,22 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.base.service;
+package com.wemirr.platform.iam.base.service.impl;
 
-import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.iam.base.domain.dto.resp.CommonDataResp;
-import com.wemirr.platform.iam.base.domain.entity.SiteNotify;
-import com.wemirr.platform.iam.system.domain.enums.ReceiverType;
-
-import java.util.List;
+import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
+import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
+import com.wemirr.platform.iam.base.repository.MessageNotifyMapper;
+import com.wemirr.platform.iam.base.service.MessageNotifyService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
- * @author levin
+ * @author Levin
  */
-public interface SiteNotifyService extends SuperService<SiteNotify> {
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class StationMessageNotifyServiceImpl extends SuperServiceImpl<MessageNotifyMapper, MessageNotify> implements MessageNotifyService {
     
-    /**
-     * 根据类型和条件查询
-     *
-     * @param type   类型
-     * @param search 条件
-     * @return 查询结果
-     */
-    List<CommonDataResp> queryReceiverByType(ReceiverType type, String search);
-    
-    /**
-     * 发布消息
-     *
-     * @param id id
-     */
-    void publish(Long id);
 }

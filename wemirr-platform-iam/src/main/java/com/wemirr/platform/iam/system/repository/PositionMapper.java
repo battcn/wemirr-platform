@@ -17,15 +17,34 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.base.repository;
+package com.wemirr.platform.iam.system.repository;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.platform.iam.base.domain.entity.SiteNotify;
+import com.wemirr.platform.iam.system.domain.dto.resp.PositionPageResp;
+import com.wemirr.platform.iam.system.domain.entity.Position;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
+ * 岗位
+ *
  * @author Levin
  */
+@TenantDS
 @Repository
-public interface SiteMessagePublishMapper extends SuperMapper<SiteNotify> {
+public interface PositionMapper extends SuperMapper<Position> {
+
+    /**
+     * 分页查询岗位信息（含角色）
+     *
+     * @param page    page
+     * @param wrapper wrapper
+     * @return 查询结果
+     */
+    IPage<PositionPageResp> findStationPage(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<Position> wrapper);
+
 }

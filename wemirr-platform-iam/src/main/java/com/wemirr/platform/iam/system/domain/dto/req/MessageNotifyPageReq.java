@@ -10,16 +10,16 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Schema(name = "MessageTemplatePageReq")
-public class MessageTemplatePageReq extends PageRequest {
+@Schema(name = "MessageNotifyPageReq")
+public class MessageNotifyPageReq extends PageRequest {
 
-    @Schema(description = "模板名称")
-    private String name;
+    @Schema(description = "关键字")
+    private String keyword;
 
-    @Schema(description = "类型")
+    @Schema(description = "消息类型")
     private String type;
 
-    @Schema(description = "消息标题（如邮件标题）")
-    private String subject;
+    @Schema(description = "用户ID")
+    private Long userId;
 
 }

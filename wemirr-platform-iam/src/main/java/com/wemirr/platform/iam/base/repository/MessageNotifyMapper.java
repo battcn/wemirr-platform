@@ -17,14 +17,16 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.base.service;
+package com.wemirr.platform.iam.base.repository;
 
-import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.iam.base.domain.entity.SiteMessage;
+import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
+import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author Levin
  */
-public interface SiteMessageService extends SuperService<SiteMessage> {
+@Repository
+public interface MessageNotifyMapper extends SuperMapper<MessageNotify> {
     
 }

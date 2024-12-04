@@ -57,9 +57,6 @@ public class MenuConverts {
                     extra.put("component", route.getComponent());
                 }
             }
-            if (route.getVisible() != null) {
-                extra.put("hideInMenu", route.getVisible());
-            }
             extra.put("icon", route.getIcon());
             extra.put("permission", route.getPermission());
             extra.put("meta", buildRouteMeta(route));
@@ -69,6 +66,10 @@ public class MenuConverts {
 
         private static Map<String, Object> buildRouteMeta(VueRouter route) {
             Map<String, Object> meta = Maps.newHashMap();
+            if (route.getVisible() != null && !route.getVisible()) {
+                meta.put("hideInMenu", true);
+                meta.put("activePath", StrUtil.subBefore(route.getPath(), "/", true));
+            }
             meta.put("icon", route.getIcon());
             meta.put("title", route.getTitle());
             if (route.getKeepAlive() != null) {

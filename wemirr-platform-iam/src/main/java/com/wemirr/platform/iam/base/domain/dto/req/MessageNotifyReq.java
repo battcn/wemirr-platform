@@ -1,4 +1,4 @@
-package com.wemirr.platform.iam.system.domain.dto.req;
+package com.wemirr.platform.iam.base.domain.dto.req;
 
 import com.alibaba.fastjson2.JSONObject;
 import io.swagger.v3.oas.annotations.media.Schema;

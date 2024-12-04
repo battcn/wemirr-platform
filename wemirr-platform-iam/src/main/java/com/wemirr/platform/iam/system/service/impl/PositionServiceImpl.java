@@ -27,7 +27,7 @@ import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.platform.iam.system.domain.dto.req.PositionPageReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.PositionPageResp;
 import com.wemirr.platform.iam.system.domain.entity.Position;
-import com.wemirr.platform.iam.system.repository.SysPositionMapper;
+import com.wemirr.platform.iam.system.repository.PositionMapper;
 import com.wemirr.platform.iam.system.service.OrgService;
 import com.wemirr.platform.iam.system.service.SysPositionService;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +46,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class PositionServiceImpl extends SuperServiceImpl<SysPositionMapper, Position> implements SysPositionService {
+public class PositionServiceImpl extends SuperServiceImpl<PositionMapper, Position> implements SysPositionService {
 
     private final OrgService orgService;
 

@@ -1,4 +1,4 @@
-package com.wemirr.platform.iam.system.domain.dto.resp;
+package com.wemirr.platform.iam.base.domain.dto.resp;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.time.Instant;
  * @author Levin
  */
 @Data
-public class SiteMessagePageResp {
+public class MessageNotifyPageResp {
 
     @Schema(description = "ID")
     private Long id;
@@ -17,20 +17,23 @@ public class SiteMessagePageResp {
     @Schema(description = "标题")
     private String title;
 
-    @Schema(description = "等级")
-    private String level;
+    @Schema(description = "消息类型")
+    private String type;
 
-    @Schema(description = "描述")
-    private String description;
+    @Schema(description = "消息模板ID")
+    private Long templateId;
+
+    @Schema(description = "消息变量")
+    private String variables;
 
     @Schema(description = "内容")
     private String content;
 
-    @Schema(description = "标记")
-    private Boolean mark;
+    @Schema(description = "接收用户ID")
+    private Long userId;
 
-    @Schema(description = "接收人")
-    private Long receiveId;
+    @Schema(description = "订阅人")
+    private String nickname;
 
     @Schema(description = "创建人")
     private String createdName;

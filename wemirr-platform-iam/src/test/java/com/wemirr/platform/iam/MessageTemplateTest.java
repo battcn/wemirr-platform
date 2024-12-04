@@ -1,6 +1,7 @@
 package com.wemirr.platform.iam;
 
 import cn.hutool.core.util.StrUtil;
+import com.wemirr.framework.commons.MvelHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.PropertyPlaceholderHelper;
 
@@ -24,6 +25,23 @@ public class MessageTemplateTest {
         PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}");
         // 替换占位符
         System.out.println(helper.replacePlaceholders(template, params::get)); // 输出: 欢迎 李四 来到 WP 系统
+    }
+
+    @Test
+    public void test2() {
+        // 模板字符串
+        String template = "欢迎 ${context.username} 来到 ${os} 系统,${user.nickName},${xs.test},${xs.xx}";
+
+        // 层级变量
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("context", Map.of("username", "张三"));
+        variables.put("os", "WP");
+//        variables.put("xs.test", "os-xxxx");
+//        variables.put("xs", "osadsadx");
+        variables.put("user", Map.of("nickName", "小三"));
+        System.out.println(MvelHelper.getVariables(template));
+        // 输出结果
+        System.out.println(MvelHelper.format(template, MvelHelper.transNestedMap(variables)));
     }
 
 }
