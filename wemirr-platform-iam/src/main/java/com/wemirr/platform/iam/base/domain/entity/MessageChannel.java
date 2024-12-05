@@ -36,31 +36,25 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "b_message_notify")
-public class MessageNotify extends SuperEntity<Long> {
+@TableName(value = "b_message_channel")
+public class MessageChannel extends SuperEntity<Long> {
 
     @Schema(description = "标题")
     private String title;
 
-    @Schema(description = "消息类型")
+    @Schema(description = "类型")
     private String type;
 
-    @Schema(description = "消息模板ID")
-    private Long templateId;
+    @Schema(description = "状态(0=禁用;1=启用)")
+    private Boolean status;
 
-    @Schema(description = "消息变量")
-    private String variables;
-
-    @Schema(description = "内容")
-    private String content;
-
-    @Schema(description = "接收用户ID")
-    private Long userId;
-
-    @Schema(description = "用户昵称")
-    private String nickname;
+    @Schema(description = "设置")
+    private String setting;
 
     @Schema(description = "租户ID")
     private Long tenantId;
+
+    @Schema(description = "描述信息")
+    private String description;
 
 }

@@ -7,7 +7,7 @@ import com.wemirr.platform.iam.base.domain.dto.req.MessageTemplatePageReq;
 import com.wemirr.platform.iam.base.domain.dto.req.MessageTemplateSaveReq;
 import com.wemirr.platform.iam.base.domain.dto.resp.MessageTemplateDetailResp;
 import com.wemirr.platform.iam.base.domain.dto.resp.MessageTemplatePageResp;
-import com.wemirr.platform.iam.system.domain.entity.MessageTemplate;
+import com.wemirr.platform.iam.base.domain.entity.MessageTemplate;
 
 /**
  * @author Levin

@@ -224,11 +224,11 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             if (StpUtil.stpLogic.getTokenActiveTimeoutByToken(token) < -1) {
                 continue;
             }
-            UserInfoDetails info = (UserInfoDetails) saTokenDao.getObject("wp-token:userinfo:" + token);
+            UserInfoDetails info = JSONObject.parseObject((String) saTokenDao.getObject("wp-token:userinfo:" + token), UserInfoDetails.class);
             if (info == null || info.getLoginLog() == null) {
                 continue;
             }
-            LoginLog loginLog = (LoginLog) info.getLoginLog();
+            LoginLog loginLog = JSONObject.from(info.getLoginLog()).toJavaObject(LoginLog.class);
             if (StrUtil.isNotBlank(req.getClientId()) && !StrUtil.equals(req.getClientId(), loginLog.getClientId())) {
                 continue;
             }

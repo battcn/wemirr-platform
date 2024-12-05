@@ -1,4 +1,4 @@
-package com.wemirr.platform.iam.system.domain.entity;
+package com.wemirr.platform.iam.base.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
@@ -18,7 +18,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_message_template")
+@TableName("b_message_template")
 @EqualsAndHashCode(callSuper = true)
 @Schema(name = "MessageTemplate", description = "消息模板")
 public class MessageTemplate extends SuperEntity<Long> {

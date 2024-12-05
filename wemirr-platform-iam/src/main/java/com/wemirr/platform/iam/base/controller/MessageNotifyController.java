@@ -23,7 +23,6 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.security.AuthenticationContext;
-import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.base.domain.dto.resp.MessageNotifyPageResp;
 import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
@@ -46,7 +45,6 @@ import java.util.List;
 @RestController
 @Tag(name = "站内消息")
 @RequiredArgsConstructor
-@TenantDS
 @RequestMapping("/message-notify")
 public class MessageNotifyController {
 
