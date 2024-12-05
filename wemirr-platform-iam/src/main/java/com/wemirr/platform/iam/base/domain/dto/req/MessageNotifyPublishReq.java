@@ -11,13 +11,13 @@ import java.util.List;
  * @author Levin
  */
 @Data
-public class MessageNotifyReq {
+public class MessageNotifyPublishReq {
 
-    @Schema(description = "模板编码")
-    private String code;
+    @Schema(description = "模板ID")
+    private Long templateId;
 
     @Schema(description = "类型")
-    private Integer type;
+    private Integer subscriberType;
 
     @NotEmpty(message = "订阅者不能为空")
     @Schema(description = "订阅人")

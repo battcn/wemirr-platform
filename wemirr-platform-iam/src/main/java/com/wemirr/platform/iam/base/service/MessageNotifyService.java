@@ -20,11 +20,21 @@
 package com.wemirr.platform.iam.base.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
+import com.wemirr.platform.iam.base.domain.dto.req.MessageNotifyPublishReq;
 import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
 
 /**
  * @author Levin
  */
 public interface MessageNotifyService extends SuperService<MessageNotify> {
-    
+
+
+    /**
+     * 消息通知
+     *
+     * @param req req
+     */
+    void publish(MessageNotifyPublishReq req);
+
+
 }

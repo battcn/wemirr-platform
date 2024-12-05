@@ -3,7 +3,6 @@ package com.wemirr.platform.iam.base.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
-import com.wemirr.platform.iam.base.domain.dto.req.MessageNotifyReq;
 import com.wemirr.platform.iam.base.domain.dto.req.MessageTemplatePageReq;
 import com.wemirr.platform.iam.base.domain.dto.req.MessageTemplateSaveReq;
 import com.wemirr.platform.iam.base.domain.dto.resp.MessageTemplateDetailResp;
@@ -44,14 +43,6 @@ public class MessageTemplateController {
     @Operation(summary = "模板详情")
     public MessageTemplateDetailResp detail(@PathVariable Long id) {
         return messageTemplateService.detail(id);
-    }
-
-    @PostMapping("/notify")
-    @AccessLog(description = "消息通知")
-    @Operation(summary = "消息通知")
-//    @SaCheckPermission(value = {"message:templates:add"})
-    public void notify(@Validated @RequestBody MessageNotifyReq req) {
-        messageTemplateService.notify(req);
     }
 
     @PostMapping("/create")

@@ -22,8 +22,10 @@ package com.wemirr.platform.iam.base.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.platform.iam.base.domain.dto.req.MessageNotifyPublishReq;
 import com.wemirr.platform.iam.base.domain.dto.resp.MessageNotifyPageResp;
 import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
 import com.wemirr.platform.iam.base.service.MessageNotifyService;
@@ -61,6 +63,14 @@ public class MessageNotifyController {
                                 lb -> lb.likeRight(MessageNotify::getTitle, req.getKeyword())
                                         .or().likeRight(MessageNotify::getContent, req.getKeyword())))
                 .convert(x -> BeanUtil.toBean(x, MessageNotifyPageResp.class));
+    }
+
+    @PostMapping("/publish")
+    @AccessLog(description = "消息通知")
+    @Operation(summary = "消息通知")
+//    @SaCheckPermission(value = {"message:templates:add"})
+    public void notify(@Validated @RequestBody MessageNotifyPublishReq req) {
+        messageNotifyService.publish(req);
     }
 
     @GetMapping("/subscribe-list")

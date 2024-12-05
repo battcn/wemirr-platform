@@ -1,110 +1,101 @@
-///*
-// * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
-// *
-// * Licensed to the Apache Software Foundation (ASF) under one or more
-// * contributor license agreements.  See the NOTICE file distributed with
-// * this work for additional information regarding copyright ownership.
-// * The ASF licenses this file to You under the Apache License, Version 2.0
-// * (the "License"); you may not use this file except in compliance with
-// * the License.  You may obtain a copy of the License at
-// *
-// *     http://www.apache.org/licenses/LICENSE-2.0
-// *
-// * Unless required by applicable law or agreed to in writing, software
-// * distributed under the License is distributed on an "AS IS" BASIS,
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// * See the License for the specific language governing permissions and
-// * limitations under the License.
-// */
-//
-//package com.wemirr.platform.iam.base.service.impl;
-//
-//import cn.hutool.core.collection.CollectionUtil;
-//import com.alibaba.fastjson2.JSON;
-//import com.baomidou.dynamic.datasource.annotation.DSTransactional;
-//import com.wemirr.framework.commons.exception.CheckedException;
-//import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
-//import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-//import com.wemirr.framework.websocket.WebSocketManager;
-//import com.wemirr.platform.iam.base.domain.dto.resp.CommonDataResp;
-//import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
-//import com.wemirr.platform.iam.base.repository.MessageNotifyMapper;
-//import com.wemirr.platform.iam.base.service.SiteNotifyService;
-//import com.wemirr.platform.iam.system.domain.entity.Role;
-//import com.wemirr.platform.iam.system.domain.entity.User;
-//import com.wemirr.platform.iam.system.domain.entity.UserRole;
-//import com.wemirr.platform.iam.system.domain.enums.ReceiverType;
-//import com.wemirr.platform.iam.system.repository.RoleMapper;
-//import com.wemirr.platform.iam.system.repository.UserMapper;
-//import com.wemirr.platform.iam.system.repository.UserRoleMapper;
-//import lombok.RequiredArgsConstructor;
-//import org.apache.commons.lang3.StringUtils;
-//import org.springframework.stereotype.Service;
-//
-//import java.time.Instant;
-//import java.util.Arrays;
-//import java.util.List;
-//import java.util.Optional;
-//import java.util.stream.Collectors;
-//
-//import static java.util.stream.Collectors.toList;
-//
-///**
-// * @author Levin
-// */
-//@Service
-//@RequiredArgsConstructor
-//public class MessageNotifyServiceImpl extends SuperServiceImpl<SiteNotifyMapper, SiteNotify> implements SiteNotifyService {
-//
-//    private final UserMapper userMapper;
-//    private final RoleMapper roleMapper;
-//    private final MessageNotifyMapper messageNotifyMapper;
-//    private final UserRoleMapper userRoleMapper;
-//    private final WebSocketManager webSocketManager;
-//
-//    @Override
-//    public List<CommonDataResp> queryReceiverByType(ReceiverType type, String search) {
-//        if (type == null) {
-//            throw CheckedException.notFound("类型不能为空");
-//        }
-//        if (type == ReceiverType.USER) {
-//            final List<User> users = userMapper.selectList(Wraps.<User>lbQ().eq(User::getStatus, 1)
-//                    .and(StringUtils.isNotBlank(search), wrapper -> wrapper.like(User::getNickName, search).or().like(User::getUsername, search)));
-//            if (CollectionUtil.isEmpty(users)) {
-//                return null;
-//            }
-//            return users.stream().map(user -> CommonDataResp.builder().id(user.getId()).name(user.getNickName()).build()).collect(toList());
-//        }
-//        final List<Role> roles = roleMapper.selectList(Wraps.<Role>lbQ().eq(Role::getStatus, true)
-//                .like(Role::getName, search).or().like(Role::getCode, search));
-//        if (CollectionUtil.isEmpty(roles)) {
-//            return null;
-//        }
-//        return roles.stream().map(role -> CommonDataResp.builder().id(role.getId()).name(role.getName()).build()).collect(toList());
-//    }
-//
-//    @Override
-//    @DSTransactional
-//    public void publish(Long id) {
-//        final SiteNotify messagePublish = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("需要发布的消息不存在"));
-//        final List<Long> receiver = Optional.of(Arrays.stream(messagePublish.getReceiver().split(",")).mapToLong(Long::parseLong).boxed().collect(toList()))
-//                .orElseThrow(() -> CheckedException.badRequest("接受者不能为空"));
-//        SiteNotify record = new SiteNotify();
-//        record.setId(id);
-//        record.setStatus(true);
-//        this.baseMapper.updateById(record);
-//        final ReceiverType type = messagePublish.getType();
-//        if (ReceiverType.USER.eq(type)) {
-//            publish(messagePublish, receiver);
-//        } else if (ReceiverType.ROLE.eq(type)) {
-//            final List<UserRole> userRoles = this.userRoleMapper.selectList(Wraps.<UserRole>lbQ().in(UserRole::getRoleId, receiver));
-//            if (CollectionUtil.isEmpty(userRoles)) {
-//                return;
-//            }
-//            publish(messagePublish, userRoles.stream().mapToLong(UserRole::getUserId).boxed().collect(Collectors.toList()));
-//        }
-//    }
-//
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.wemirr.platform.iam.base.service.impl;
+
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.wemirr.framework.commons.MvelHelper;
+import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.commons.security.AuthenticationContext;
+import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
+import com.wemirr.platform.iam.base.domain.dto.req.MessageNotifyPublishReq;
+import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
+import com.wemirr.platform.iam.base.domain.entity.MessageTemplate;
+import com.wemirr.platform.iam.base.repository.MessageNotifyMapper;
+import com.wemirr.platform.iam.base.service.MessageNotifyService;
+import com.wemirr.platform.iam.base.service.strategy.MessageNotifyEvent;
+import com.wemirr.platform.iam.system.domain.entity.User;
+import com.wemirr.platform.iam.system.repository.MessageTemplateMapper;
+import com.wemirr.platform.iam.system.repository.UserMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+/**
+ * @author Levin
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class MessageNotifyServiceImpl extends SuperServiceImpl<MessageNotifyMapper, MessageNotify> implements MessageNotifyService {
+
+    private final AuthenticationContext context;
+    private final UserMapper userMapper;
+    private final MessageTemplateMapper messageTemplateMapper;
+    private final MessageNotifyMapper messageNotifyMapper;
+
+
+    @Override
+    @DSTransactional(rollbackFor = Exception.class)
+    public void publish(MessageNotifyPublishReq req) {
+        MessageTemplate template = Optional.ofNullable(this.messageTemplateMapper.selectById(req.getTemplateId()))
+                .orElseThrow(() -> CheckedException.notFound("消息模板不存在"));
+        JSONObject variables = Optional.ofNullable(req.getVariables()).orElse(new JSONObject());
+        List<User> userList = this.userMapper.selectByIds(req.getSubscriberIdList());
+        if (CollUtil.isEmpty(userList)) {
+            log.warn("订阅信息不存在");
+            return;
+        }
+        log.warn("========== [ 如果服务器资源充足,消息推送较大的情况,请将消息丢到 Redis 或者 MQ 中进行异步推送] ==========");
+        String content = MvelHelper.format(template.getContent(), variables);
+        List<MessageNotify> list = userList.stream()
+                .map(user -> {
+                    List<String> typeList = StrUtil.split(template.getType(), ",");
+                    return typeList.stream().map(type -> MessageNotify.builder().userId(user.getId())
+                            .templateId(template.getId()).variables(JSON.toJSONString(variables))
+                            .title(template.getSubject()).type(type)
+                            .content(content).nickname(user.getNickName())
+                            .tenantId(context.tenantId())
+                            .subscribe(user.getEmail())
+                            .deleted(false).createdBy(context.userId())
+                            .createdName(context.nickName()).createdTime(Instant.now())
+                            .build()).toList();
+                }).flatMap(Collection::stream).collect(Collectors.toList());
+        CollUtil.split(list, 600).forEach(messageNotifyMapper::insertBatchSomeColumn);
+        // 鉴于大部分系统对性能要求没那么极致,采用 spring event 一样可以解耦提高性能
+        // 如果消息负载压力过高可以采用 MQ 异步投递解耦
+        SpringUtil.publishEvent(new MessageNotifyEvent(template, list));
+    }
+
+    //    private final WebSocketManager webSocketManager;
+
 //    void publish(SiteNotify messagePublish, List<Long> userIdList) {
 //        for (Long userId : userIdList) {
 //            MessageNotify message = new MessageNotify();
@@ -119,4 +110,6 @@
 //            this.webSocketManager.sendMessage(String.valueOf(userId), JSON.toJSONString(message));
 //        }
 //    }
-//}
+
+
+}

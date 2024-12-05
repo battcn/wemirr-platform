@@ -2,7 +2,6 @@ package com.wemirr.platform.iam.base.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wemirr.platform.iam.base.domain.dto.req.MessageNotifyReq;
 import com.wemirr.platform.iam.base.domain.dto.req.MessageTemplatePageReq;
 import com.wemirr.platform.iam.base.domain.dto.req.MessageTemplateSaveReq;
 import com.wemirr.platform.iam.base.domain.dto.resp.MessageTemplateDetailResp;
@@ -38,7 +37,11 @@ public interface MessageTemplateService extends IService<MessageTemplate> {
      */
     void modify(Long id, MessageTemplateSaveReq req);
 
-    void notify(MessageNotifyReq req);
-
+    /**
+     * 模板详情
+     *
+     * @param id id
+     * @return 查询结果
+     */
     MessageTemplateDetailResp detail(Long id);
 }
