@@ -19,6 +19,7 @@
 
 package com.wemirr.platform.iam;
 
+import cn.hutool.core.thread.ThreadUtil;
 import com.wemirr.framework.boot.log.event.AccessLogListener;
 import com.wemirr.framework.log.diff.core.annotation.EnableDiffLog;
 import com.wemirr.framework.security.configuration.server.annotation.EnableOAuth2Server;
@@ -38,6 +39,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 
 import java.net.InetAddress;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 鉴权服务启动类.
@@ -54,6 +56,11 @@ import java.net.InetAddress;
 @EnableOAuth2Server
 @EnableDiffLog(serviceName = "基础服务")
 public class IamApplication {
+
+    @Bean
+    public ThreadPoolExecutor threadPoolExecutor() {
+        return ThreadUtil.newExecutor(5, 50, 100000);
+    }
 
     /**
      * 操作日志监听回调.

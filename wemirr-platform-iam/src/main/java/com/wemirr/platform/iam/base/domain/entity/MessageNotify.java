@@ -54,6 +54,9 @@ public class MessageNotify extends SuperEntity<Long> {
     @Schema(description = "内容")
     private String content;
 
+    @Schema(description = "订阅人 比如 邮箱,手机号,钉钉ID等")
+    private String subscribe;
+
     @Schema(description = "接收用户ID")
     private Long userId;
 
