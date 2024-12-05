@@ -75,6 +75,7 @@ public class MessageTemplateServiceImpl extends ServiceImpl<MessageTemplateMappe
 
     @Override
     public void notify(MessageNotifyReq req) {
+        log.warn("========== [ 如果服务器资源充足,消息推送较大的情况,请将消息丢到 Redis 或者 MQ 中进行异步推送] ==========");
         MessageTemplate template = this.baseMapper.selectOne(Wraps.<MessageTemplate>lbQ()
                 .eq(MessageTemplate::getCode, req.getCode()).last("limit 1"));
         JSONObject variables = Optional.ofNullable(req.getVariables()).orElse(new JSONObject());

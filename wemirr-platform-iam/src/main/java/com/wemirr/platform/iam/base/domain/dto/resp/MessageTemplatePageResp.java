@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * @author levin
@@ -21,7 +22,7 @@ public class MessageTemplatePageResp {
     private String name;
 
     @Schema(description = "类型")
-    private String type;
+    private List<String> type;
 
     @Schema(description = "消息标题（如邮件标题）")
     private String subject;

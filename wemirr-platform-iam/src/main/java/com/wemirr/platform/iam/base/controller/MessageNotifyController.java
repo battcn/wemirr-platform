@@ -58,6 +58,7 @@ public class MessageNotifyController {
     public IPage<MessageNotifyPageResp> pageList(MessageNotifyPageReq req) {
         return messageNotifyService.page(req.buildPage(), Wraps.<MessageNotify>lbQ()
                         .eq(MessageNotify::getType, req.getType())
+                        .eq(MessageNotify::getUserId, req.getUserId())
                         .and(StrUtil.isNotBlank(req.getKeyword()),
                                 lb -> lb.likeRight(MessageNotify::getTitle, req.getKeyword())
                                         .or().likeRight(MessageNotify::getContent, req.getKeyword())))
