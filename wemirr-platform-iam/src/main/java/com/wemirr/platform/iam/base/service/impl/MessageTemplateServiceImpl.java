@@ -24,7 +24,6 @@ import com.wemirr.platform.iam.base.domain.entity.MessageTemplate;
 import com.wemirr.platform.iam.base.repository.MessageNotifyMapper;
 import com.wemirr.platform.iam.base.service.MessageTemplateService;
 import com.wemirr.platform.iam.base.service.strategy.MessageNotifyEvent;
-import com.wemirr.platform.iam.base.service.strategy.MessageNotifyEventListener;
 import com.wemirr.platform.iam.system.domain.entity.User;
 import com.wemirr.platform.iam.system.repository.MessageTemplateMapper;
 import com.wemirr.platform.iam.system.repository.UserMapper;
@@ -83,8 +82,6 @@ public class MessageTemplateServiceImpl extends ServiceImpl<MessageTemplateMappe
         this.baseMapper.updateById(bean);
     }
 
-    private final MessageNotifyEventListener messageNotifyEventListener;
-
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void notify(MessageNotifyReq req) {
@@ -112,6 +109,8 @@ public class MessageTemplateServiceImpl extends ServiceImpl<MessageTemplateMappe
                             .build()).toList();
                 }).flatMap(Collection::stream).collect(Collectors.toList());
         CollUtil.split(list, 600).forEach(messageNotifyMapper::insertBatchSomeColumn);
+        // 鉴于大部分系统对性能要求没那么极致,采用 spring event 一样可以解耦提高性能
+        // 如果消息负载压力过高可以采用 MQ 异步投递解耦
         SpringUtil.publishEvent(new MessageNotifyEvent(template, list));
     }
 
