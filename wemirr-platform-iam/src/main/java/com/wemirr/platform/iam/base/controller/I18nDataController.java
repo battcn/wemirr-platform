@@ -43,17 +43,16 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "I18N国际化", description = "I18N国际化维护")
 @RequiredArgsConstructor
 public class I18nDataController {
-    
+
     private final I18nDataService i18nDataService;
-    
+
     @GetMapping
-    @AccessLog(description = "国际化查询")
     @Operation(summary = "查询国际化 - [DONE] - [Levin]", description = "查询国际化 - [DONE] - [Levin]")
     @SaCheckPermission(value = {"sys:i18n:page"})
     public IPage<I18nDataPageResp> page(I18nPageReq req) {
         return this.i18nDataService.pageList(req);
     }
-    
+
     @PostMapping
     @AccessLog(description = "国际化新增")
     @Operation(summary = "新增国际化 - [DONE] - [Levin]", description = "新增国际化 - [DONE] - [Levin]")
@@ -61,7 +60,7 @@ public class I18nDataController {
     public void save(@Validated @RequestBody I18nDataSaveReq req) {
         this.i18nDataService.add(req);
     }
-    
+
     @PutMapping("/{id}")
     @AccessLog(description = "国际化编辑")
     @Operation(summary = "编辑国际化 - [DONE] - [Levin]", description = "编辑国际化 - [DONE] - [Levin]")
@@ -69,7 +68,7 @@ public class I18nDataController {
     public void edit(@PathVariable Long id, @Validated @RequestBody I18nDataSaveReq req) {
         this.i18nDataService.edit(id, req);
     }
-    
+
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除指定国际化项")
     @Operation(summary = "删除国际化 - [DONE] - [Levin]", description = "删除国际化 - [DONE] - [Levin]")
@@ -77,5 +76,5 @@ public class I18nDataController {
     public void del(@PathVariable Long id) {
         this.i18nDataService.removeById(id);
     }
-    
+
 }

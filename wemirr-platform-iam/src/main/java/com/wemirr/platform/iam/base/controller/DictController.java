@@ -57,7 +57,7 @@ public class DictController {
 
     @GetMapping("/list")
     @Operation(summary = "字典列表 - [DONE] - [Levin]", description = "查询字典列表 - [DONE] - [Levin]")
-    @SaCheckPermission(value = {"sys:dict:page"})
+//    @SaCheckPermission(value = {"sys:dict:page"})
     public List<SysDictResp> list() {
         List<SysDict> list = this.dictService.list(Wraps.<SysDict>lbQ().eq(SysDict::getStatus, true));
         return BeanUtilPlus.toBeans(list, SysDictResp.class);
