@@ -27,14 +27,21 @@ import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
  * @author levin
  */
 public interface RegisteredClientService extends SuperService<RegisteredClient> {
-    
+
     /**
-     * 注册安全终端
+     * 创建安全终端
      *
      * @param req req
      */
-    void registeredClient(RegisteredClientReq req);
-    
+    void create(RegisteredClientReq req);
+
+    /**
+     * 修改安全终端
+     *
+     * @param req req
+     */
+    void modify(Long id, RegisteredClientReq req);
+
     /**
      * 根据ID删除
      *

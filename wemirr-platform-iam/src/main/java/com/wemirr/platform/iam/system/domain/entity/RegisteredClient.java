@@ -45,7 +45,7 @@ public class RegisteredClient extends SuperEntity<String> {
     private String clientSecret;
     private Instant clientSecretExpiresAt;
     private String clientName;
-    private String authorizationGrantTypes;
+    private String grantTypes;
     private String redirectUris;
     private String postLogoutRedirectUris;
     private String scopes;

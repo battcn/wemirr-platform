@@ -45,7 +45,7 @@ public class RegisteredClientResp {
     @Schema(description = "秘钥失效时间")
     private Instant clientSecretExpiresAt;
     @Schema(description = "授权类型")
-    private List<String> authorizationGrantTypes;
+    private List<String> grantTypes;
     @Schema(description = "重定向地址")
     private String redirectUris;
     @Schema(description = "退出后重定向地址")

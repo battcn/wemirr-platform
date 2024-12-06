@@ -19,7 +19,12 @@
 
 package com.wemirr.platform.iam.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.commons.BeanUtilPlus;
+import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientReq;
 import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
 import com.wemirr.platform.iam.system.repository.RegisteredClientRefMapper;
@@ -27,40 +32,48 @@ import com.wemirr.platform.iam.system.service.RegisteredClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 /**
  * @author Levin
  */
 @Service
 @RequiredArgsConstructor
 public class RegisteredClientServiceImpl extends SuperServiceImpl<RegisteredClientRefMapper, RegisteredClient> implements RegisteredClientService {
-
-//    private final RegisteredClientRepository registeredClientRepository;
+    @Override
+    public void create(RegisteredClientReq req) {
+        baseMapper.existsCallback(RegisteredClient::getClientId, req.getClientId(), () -> CheckedException.badRequest("终端已存在,注册失败"));
+        var bean = BeanUtilPlus.toBean(req, RegisteredClient.class);
+        if (CollUtil.isNotEmpty(req.getGrantTypes())) {
+            bean.setGrantTypes(CollUtil.join(req.getGrantTypes(), ","));
+        }
+        if (Objects.nonNull(req.getClientSettings())) {
+            bean.setClientSettings(JSON.toJSONString(req.getClientSettings()));
+        }
+        if (Objects.nonNull(req.getTokenSettings())) {
+            bean.setTokenSettings(JSON.toJSONString(req.getTokenSettings()));
+        }
+        this.baseMapper.insert(bean);
+    }
 
     @Override
-    public void registeredClient(RegisteredClientReq req) {
-        final RegisteredClientReq.TokenSettingsReq token = req.getTokenSettings();
-//        final RegisteredClient registeredClient = RegisteredClient.withId(req.getClientId()).clientName(req.getClientName())
-//                .clientId(req.getClientId()).clientIdIssuedAt(req.getClientIdIssuedAt())
-//                .clientSecret(req.getClientSecret()).clientSecretExpiresAt(req.getClientSecretExpiresAt())
-//                .authorizationGrantTypes(grantTypes -> {
-//                    if (CollUtil.isNotEmpty(req.getAuthorizationGrantTypes())) {
-//                        final List<AuthorizationGrantType> list = req.getAuthorizationGrantTypes().stream().map(AuthorizationGrantType::new).toList();
-//                        grantTypes.addAll(list);
-//                    }
-//                })
-//                .redirectUri(req.getRedirectUris())
-//                .postLogoutRedirectUri(req.getRedirectUris())
-//                .scopes(x -> x.addAll(req.getScopes()))
-//                .tokenSettings(TokenSettings.builder()
-//                        .accessTokenTimeToLive(Duration.ofMinutes(token.getAccessTokenTimeToLive()))
-//                        .refreshTokenTimeToLive(Duration.ofMinutes(token.getRefreshTokenTimeToLive()))
-//                        // .authorizationCodeTimeToLive(Duration.ofMinutes(ObjUtil.defaultIfNull(token.getAuthorizationCodeTimeToLive(), 0L)))
-//                        // .deviceCodeTimeToLive(Duration.ofMinutes(ObjUtil.defaultIfNull(token.getDeviceCodeTimeToLive(), 0L)))
-//                        .build())
-//                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-//                .build();
-//        registeredClientRepository.save(registeredClient);
-
+    public void modify(Long id, RegisteredClientReq req) {
+        Long count = baseMapper.selectCount(Wraps.<RegisteredClient>lbQ()
+                .ne(RegisteredClient::getId, id).eq(RegisteredClient::getClientId, req.getClientId()));
+        if (count != null && count > 0) {
+            throw CheckedException.badRequest("终端已存在,修改失败");
+        }
+        var bean = BeanUtilPlus.toBean(id, req, RegisteredClient.class);
+        if (CollUtil.isNotEmpty(req.getGrantTypes())) {
+            bean.setGrantTypes(CollUtil.join(req.getGrantTypes(), ","));
+        }
+        if (Objects.nonNull(req.getClientSettings())) {
+            bean.setClientSettings(JSON.toJSONString(req.getClientSettings()));
+        }
+        if (Objects.nonNull(req.getTokenSettings())) {
+            bean.setTokenSettings(JSON.toJSONString(req.getTokenSettings()));
+        }
+        this.baseMapper.updateById(bean);
     }
 
     @Override

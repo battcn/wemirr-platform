@@ -43,11 +43,9 @@ public class RegisteredClientReq {
     @Schema(description = "秘钥失效时间")
     private Instant clientSecretExpiresAt;
     @Schema(description = "授权类型")
-    private Set<String> authorizationGrantTypes;
+    private Set<String> grantTypes;
     @Schema(description = "重定向地址")
     private String redirectUris;
-    @Schema(description = "退出后重定向地址")
-    private String postLogoutRedirectUris;
     @Schema(description = "授权范围")
     private Set<String> scopes;
     @Schema(description = "令牌配置")
@@ -66,12 +64,9 @@ public class RegisteredClientReq {
         
         @Schema(description = "accessToken 有效时长(2小时) ", example = "120")
         private Long accessTokenTimeToLive;
+
         @Schema(description = "refreshToken 有效时长(7天)", example = "10080")
         private Long refreshTokenTimeToLive;
-        @Schema(description = "授权码 有效时长（5分钟）", example = "5")
-        private Long authorizationCodeTimeToLive;
-        @Schema(description = "设备码 有效时长（分钟）", example = "5")
-        private Long deviceCodeTimeToLive;
         
     }
 }

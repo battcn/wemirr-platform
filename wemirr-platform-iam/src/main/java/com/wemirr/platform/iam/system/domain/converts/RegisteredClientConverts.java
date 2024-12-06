@@ -20,6 +20,8 @@
 package com.wemirr.platform.iam.system.domain.converts;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.db.mybatisplus.page.BasePageConverts;
 import com.wemirr.platform.iam.system.domain.dto.resp.RegisteredClientResp;
 import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
@@ -29,11 +31,11 @@ import lombok.SneakyThrows;
  * @author Levin
  */
 public class RegisteredClientConverts {
-    
+
     public static final RegisteredClientConverts.RegisteredClientRef2RespConverts REGISTERED_CLIENT_REF_2_RESP_CONVERTS = new RegisteredClientConverts.RegisteredClientRef2RespConverts();
-    
+
     public static class RegisteredClientRef2RespConverts implements BasePageConverts<RegisteredClient, RegisteredClientResp> {
-        
+
         @SneakyThrows
         @Override
         public RegisteredClientResp convert(RegisteredClient source) {
@@ -47,27 +49,18 @@ public class RegisteredClientConverts {
             target.setClientIdIssuedAt(source.getClientIdIssuedAt());
             target.setClientName(source.getClientName());
             target.setClientSecretExpiresAt(source.getClientSecretExpiresAt());
-            target.setAuthorizationGrantTypes(StrUtil.split(source.getAuthorizationGrantTypes(), ','));
+            target.setGrantTypes(StrUtil.split(source.getGrantTypes(), ','));
             target.setRedirectUris(source.getRedirectUris());
             target.setPostLogoutRedirectUris(source.getPostLogoutRedirectUris());
             target.setScopes(StrUtil.split(source.getScopes(), ','));
             final String tokenSettings = source.getTokenSettings();
-//            if (StrUtil.isNotBlank(tokenSettings)) {
-//                ObjectMapper objectMapper = new ObjectMapper();
-//                ClassLoader classLoader = JdbcRegisteredClientRepository.class.getClassLoader();
-//                List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
-//                objectMapper.registerModules(securityModules);
-//                objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
-//                final Map<String, Object> readValue = objectMapper.readValue(tokenSettings, new TypeReference<>() {
-//                });
-//                final TokenSettings settings = TokenSettings.withSettings(readValue).build();
-//                target.setAccessTokenTimeToLive(settings.getAccessTokenTimeToLive().toMinutes());
-//                target.setRefreshTokenTimeToLive(settings.getRefreshTokenTimeToLive().toMinutes());
-//                target.setAuthorizationCodeTimeToLive(settings.getAuthorizationCodeTimeToLive().toMinutes());
-//                target.setDeviceCodeTimeToLive(settings.getDeviceCodeTimeToLive().toMinutes());
-//            }
+            if (StrUtil.isNotBlank(tokenSettings)) {
+                JSONObject settings = JSON.parseObject(tokenSettings);
+                target.setAccessTokenTimeToLive(settings.getLong("accessTokenTimeToLive"));
+                target.setRefreshTokenTimeToLive(settings.getLong("refreshTokenTimeToLive"));
+            }
             return target;
         }
     }
-    
+
 }

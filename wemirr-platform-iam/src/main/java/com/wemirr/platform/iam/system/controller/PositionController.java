@@ -54,7 +54,8 @@ public class PositionController {
     @GetMapping("/list")
     @Operation(summary = "岗位列表 - [Levin] - [DONE]")
     public List<PositionPageResp> list(Long orgId) {
-        List<Position> list = sysPositionService.list(Wraps.<Position>lbQ().eq(Position::getOrgId, orgId));
+        List<Position> list = sysPositionService.list(Wraps.<Position>lbQ().eq(Position::getOrgId, orgId)
+                .orderByAsc(Position::getSequence));
         return BeanUtilPlus.toBeans(list, PositionPageResp.class);
     }
 

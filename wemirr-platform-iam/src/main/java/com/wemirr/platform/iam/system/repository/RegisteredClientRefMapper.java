@@ -36,6 +36,6 @@ public interface RegisteredClientRefMapper extends SuperMapper<RegisteredClient>
      *
      * @param id id
      */
-    @Delete("delete from oauth2_registered_client where id = #{id}")
+    @Delete("delete from sys_registered_client where id = #{id}")
     void removeById(@Param("id") String id);
 }
