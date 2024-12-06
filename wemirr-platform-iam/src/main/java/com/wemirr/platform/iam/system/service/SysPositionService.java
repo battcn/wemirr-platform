@@ -22,6 +22,7 @@ package com.wemirr.platform.iam.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.iam.system.domain.dto.req.PositionPageReq;
+import com.wemirr.platform.iam.system.domain.dto.req.PositionSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.PositionPageResp;
 import com.wemirr.platform.iam.system.domain.entity.Position;
 
@@ -35,12 +36,28 @@ import com.wemirr.platform.iam.system.domain.entity.Position;
  * @since 2019-07-22
  */
 public interface SysPositionService extends SuperService<Position> {
-    
+
     /**
      * 按权限查询岗位的分页信息
      *
-     * @param req   req
+     * @param req req
      * @return Station
      */
     IPage<PositionPageResp> pageList(PositionPageReq req);
+
+    /**
+     * 添加岗位
+     *
+     * @param req req
+     */
+    void create(PositionSaveReq req);
+
+    /**
+     * 修改岗位数据
+     *
+     * @param id  id
+     * @param req req
+     */
+    void modify(Long id, PositionSaveReq req);
+
 }

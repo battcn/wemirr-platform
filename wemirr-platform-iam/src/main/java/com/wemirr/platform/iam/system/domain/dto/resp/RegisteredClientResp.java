@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Data
 @Schema(name = "RegisteredClientRefResp")
-public class RegisteredClientRefResp {
+public class RegisteredClientResp {
     
     @Schema(description = "客户端ID")
     private String id;

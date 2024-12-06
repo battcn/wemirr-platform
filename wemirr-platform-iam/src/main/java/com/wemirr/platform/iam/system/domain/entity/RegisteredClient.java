@@ -30,19 +30,16 @@ import lombok.experimental.SuperBuilder;
 import java.time.Instant;
 
 /**
- * 主要是为了更好的管理 oauth2_registered_client 数据
- *
  * @author Levin
- * @see org.springframework.security.oauth2.server.authorization.client.RegisteredClient
  */
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName("oauth2_registered_client")
-public class RegisteredClientRef extends SuperEntity<String> {
-    
+@TableName("sys_registered_client")
+public class RegisteredClient extends SuperEntity<String> {
+
     private String clientId;
     private Instant clientIdIssuedAt;
     private String clientSecret;
@@ -54,5 +51,5 @@ public class RegisteredClientRef extends SuperEntity<String> {
     private String scopes;
     private String clientSettings;
     private String tokenSettings;
-    
+
 }

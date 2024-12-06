@@ -30,7 +30,7 @@ import java.util.Set;
  */
 @Data
 @Schema(name = "RegisteredClientRefReq")
-public class RegisteredClientRefReq {
+public class RegisteredClientReq {
     
     @Schema(description = "客户端名称")
     private String clientName;

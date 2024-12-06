@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.iam.system.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
@@ -52,12 +51,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Tag(name = "组织架构", description = "组织架构")
 public class OrgController {
-    
+
     private final OrgService orgService;
-    
+
     @GetMapping("/trees")
     @Operation(summary = "查询系统所有的组织树", description = "查询系统所有的组织树")
-    public List<Tree<Long>> tree(String name, Boolean status) {
+    public List<Tree<Long>> trees(String name, Boolean status) {
         List<Org> list = this.orgService.list(Wraps.<Org>lbQ().like(Org::getLabel, name).eq(Org::getStatus, status).orderByAsc(Org::getSequence));
         final List<TreeNode<Long>> nodes = list.stream().map(org -> {
             final TreeNode<Long> treeNode = new TreeNode<>(org.getId(), org.getParentId(), org.getLabel(), org.getSequence());
@@ -73,29 +72,29 @@ public class OrgController {
         }).collect(Collectors.toList());
         return TreeUtil.build(nodes, 0L);
     }
-    
-    @PostMapping
-    @AccessLog(description = "保存组织架构")
-    @Operation(summary = "保存编辑组织架构")
-    @SaCheckPermission(value = {"sys:org:add"})
-    public void save(@Validated @RequestBody OrgSaveReq req) {
-        orgService.addOrg(req);
+
+    @PostMapping("/create")
+    @AccessLog(description = "创建组织架构")
+    @Operation(summary = "创建组织架构")
+    //@SaCheckPermission(value = {"sys:org:add"})
+    public void create(@Validated @RequestBody OrgSaveReq req) {
+        orgService.create(req);
     }
-    
-    @PutMapping("/{id}")
+
+    @PutMapping("/{id}/modify")
     @AccessLog(description = "编辑组织架构")
-    @Operation(summary = "编辑编辑组织架构")
-    @SaCheckPermission(value = {"sys:org:edit"})
-    public void edit(@PathVariable Long id, @Validated @RequestBody OrgSaveReq req) {
+    @Operation(summary = "编辑组织架构")
+    //@SaCheckPermission(value = {"sys:org:edit"})
+    public void modify(@PathVariable Long id, @Validated @RequestBody OrgSaveReq req) {
         orgService.updateById(BeanUtilPlus.toBean(id, req, Org.class));
     }
-    
+
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除组织架构")
     @Operation(summary = "删除组织架构")
-    @SaCheckPermission(value = {"sys:org:remove"})
+    //@SaCheckPermission(value = {"sys:org:remove"})
     public void del(@PathVariable Long id) {
         orgService.remove(id);
     }
-    
+
 }

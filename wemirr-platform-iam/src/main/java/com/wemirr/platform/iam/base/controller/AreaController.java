@@ -90,8 +90,8 @@ public class AreaController {
     @PostMapping
     @Parameter(name = "id", description = "国标码", in = ParameterIn.PATH)
     @Operation(summary = "保存地址 - [DONE] - [Levin]", description = "保存地址 - [DONE] - [Levin]")
-    public void save(@Validated @RequestBody AreaReq dto) {
-        this.areaService.saveOrUpdateArea(AREA_DTO_2_PO_CONVERTS.convert(dto));
+    public void save(@Validated @RequestBody AreaReq req) {
+        this.areaService.saveOrUpdateArea(AREA_DTO_2_PO_CONVERTS.convert(req));
         
     }
     

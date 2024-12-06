@@ -55,6 +55,7 @@ public class MessageNotifyController {
 
     @GetMapping("/page")
     @Operation(summary = "消息列表 - [全部]")
+    //@SaCheckPermission(value = {"message:list"})
     public IPage<MessageNotifyPageResp> pageList(MessageNotifyPageReq req) {
         return messageNotifyService.page(req.buildPage(), Wraps.<MessageNotify>lbQ()
                         .eq(MessageNotify::getType, req.getType())
@@ -68,13 +69,14 @@ public class MessageNotifyController {
     @PostMapping("/publish")
     @AccessLog(description = "消息通知")
     @Operation(summary = "消息通知")
-//    @SaCheckPermission(value = {"message:templates:add"})
+    //@SaCheckPermission(value = {"message:templates:add"})
     public void notify(@Validated @RequestBody MessageNotifyPublishReq req) {
         messageNotifyService.publish(req);
     }
 
     @GetMapping("/subscribe-list")
     @Operation(summary = "消息列表 - [订阅]")
+    //@SaCheckPermission(value = {"message:subscribe-list"})
     public IPage<MessageNotifyPageResp> subscribe(MessageNotifyPageReq req) {
         req.setUserId(context.userId());
         return pageList(req);

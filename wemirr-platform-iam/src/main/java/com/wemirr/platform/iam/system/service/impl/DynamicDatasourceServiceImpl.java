@@ -19,6 +19,7 @@
 
 package com.wemirr.platform.iam.system.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
@@ -35,7 +36,6 @@ import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.platform.iam.base.repository.DynamicDatasourceMapper;
 import com.wemirr.platform.iam.system.domain.dto.req.DynamicDatasourceReq;
-import com.wemirr.platform.iam.tenant.domain.converts.TenantDatasourceConverts;
 import com.wemirr.platform.iam.tenant.domain.dto.resp.TenantDatasourceResp;
 import com.wemirr.platform.iam.tenant.domain.entity.DynamicDatasource;
 import com.wemirr.platform.iam.tenant.repository.TenantConfigMapper;
@@ -57,21 +57,21 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDatasourceMapper, DynamicDatasource> implements TenantDatasourceService {
-    
+
     private final TenantConfigMapper tenantConfigMapper;
     private final DatabaseProperties databaseProperties;
     private final ApplicationContext applicationContext;
-    
+
     @Override
     public List<TenantDatasourceResp> selectTenantDynamicDatasource() {
         return this.tenantConfigMapper.selectTenantDbById(null);
     }
-    
+
     @Override
     public void ping(Long id) {
         log.debug("查询结果 - {}", JSON.toJSONString(""));
     }
-    
+
     @PostConstruct
     public void init() {
         final List<TenantDatasourceResp> dataSourceList = this.tenantConfigMapper.selectTenantDbById(null);
@@ -86,7 +86,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
             publishEvent(true, EventAction.ADD, dynamicDatasource);
         }
     }
-    
+
     @Override
     @DSTransactional
     public void created(DynamicDatasourceReq req) {
@@ -97,7 +97,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
         DynamicDatasource bean = BeanUtilPlus.toBean(req, DynamicDatasource.class);
         this.baseMapper.insert(bean);
     }
-    
+
     @Override
     @DSTransactional
     public void edit(Long id, DynamicDatasourceReq req) {
@@ -110,7 +110,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
         DynamicDatasource bean = BeanUtilPlus.toBean(id, req, DynamicDatasource.class);
         this.baseMapper.updateById(bean);
     }
-    
+
     @Override
     @DSTransactional
     public void delete(Long id) {
@@ -121,13 +121,13 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
             publishEvent(false, EventAction.DEL, tenantDynamicDatasource);
         }
     }
-    
+
     @Override
     public void publishEvent(EventAction action, Long tenantId) {
         final TenantDatasourceResp dynamicDatasource = this.tenantConfigMapper.getTenantDynamicDatasourceByTenantId(tenantId);
         publishEvent(false, action, dynamicDatasource);
     }
-    
+
     private void publishEvent(boolean init, EventAction action, TenantDatasourceResp dynamicDatasource) {
         if (Objects.isNull(dynamicDatasource)) {
             throw CheckedException.notFound("租户未关联数据源信息");
@@ -136,7 +136,7 @@ public class DynamicDatasourceServiceImpl extends SuperServiceImpl<DynamicDataso
             throw CheckedException.notFound("未满足数据源隔离策略");
         }
         final DynamicDatasourceEventPublish eventPublisher = SpringUtil.getBean(DynamicDatasourceEventPublish.class);
-        final TenantDynamicDatasource datasource = TenantDatasourceConverts.TENANT_DYNAMIC_DATASOURCE_VO_2_TENANT_DYNAMIC_DATASOURCE_CONVERTS.convert(dynamicDatasource);
+        final TenantDynamicDatasource datasource = BeanUtil.toBean(dynamicDatasource, TenantDynamicDatasource.class);
         datasource.setAction(action.getType());
         if (init) {
             applicationContext.publishEvent(new DynamicDatasourceEvent(action, datasource));

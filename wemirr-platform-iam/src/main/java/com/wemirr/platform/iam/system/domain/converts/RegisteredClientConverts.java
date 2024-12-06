@@ -21,26 +21,26 @@ package com.wemirr.platform.iam.system.domain.converts;
 
 import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.db.mybatisplus.page.BasePageConverts;
-import com.wemirr.platform.iam.system.domain.dto.resp.RegisteredClientRefResp;
-import com.wemirr.platform.iam.system.domain.entity.RegisteredClientRef;
+import com.wemirr.platform.iam.system.domain.dto.resp.RegisteredClientResp;
+import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
 import lombok.SneakyThrows;
 
 /**
  * @author Levin
  */
-public class RegisteredClientRefConverts {
+public class RegisteredClientConverts {
     
-    public static final RegisteredClientRefConverts.RegisteredClientRef2RespConverts REGISTERED_CLIENT_REF_2_RESP_CONVERTS = new RegisteredClientRefConverts.RegisteredClientRef2RespConverts();
+    public static final RegisteredClientConverts.RegisteredClientRef2RespConverts REGISTERED_CLIENT_REF_2_RESP_CONVERTS = new RegisteredClientConverts.RegisteredClientRef2RespConverts();
     
-    public static class RegisteredClientRef2RespConverts implements BasePageConverts<RegisteredClientRef, RegisteredClientRefResp> {
+    public static class RegisteredClientRef2RespConverts implements BasePageConverts<RegisteredClient, RegisteredClientResp> {
         
         @SneakyThrows
         @Override
-        public RegisteredClientRefResp convert(RegisteredClientRef source) {
+        public RegisteredClientResp convert(RegisteredClient source) {
             if (source == null) {
                 return null;
             }
-            RegisteredClientRefResp target = new RegisteredClientRefResp();
+            RegisteredClientResp target = new RegisteredClientResp();
             target.setId(source.getId());
             target.setClientName(source.getClientName());
             target.setClientId(source.getClientId());

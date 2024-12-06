@@ -111,11 +111,11 @@ public class TokenController {
 
     @PutMapping("/change_password")
     @Operation(summary = "修改密码")
-    public void changePassword(@Validated @RequestBody ChangePasswordReq dto) {
-        if (!StringUtils.equals(dto.getNewPassword(), dto.getConfirmPassword())) {
+    public void changePassword(@Validated @RequestBody ChangePasswordReq req) {
+        if (!StringUtils.equals(req.getNewPassword(), req.getConfirmPassword())) {
             throw CheckedException.badRequest("新密码与确认密码不一致");
         }
-        this.userService.changePassword(StpUtil.getLoginIdAsLong(), dto.getCurrentPassword(), dto.getNewPassword());
+        this.userService.changePassword(StpUtil.getLoginIdAsLong(), req.getCurrentPassword(), req.getNewPassword());
     }
 
     @PutMapping("/change_info")
@@ -131,7 +131,7 @@ public class TokenController {
     }
 
     @Operation(summary = "在线用户", description = "分页查询在线用户列表")
-    @SaCheckPermission("token:online:list")
+    @SaCheckPermission("monitor:online:token-list")
     @GetMapping("/online")
     public IPage<Object> userOnlinePage(UserOnlinePageReq req) {
         return userService.userOnlineList(req);

@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.iam.tenant.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.entity.Dict;
@@ -47,7 +46,7 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/tenant_dict")
+@RequestMapping("/tenant-dict")
 @Tag(name = "业务字典", description = "业务字典")
 @RequiredArgsConstructor
 public class TenantDictController {
@@ -56,6 +55,7 @@ public class TenantDictController {
 
     @GetMapping("/list")
     @Operation(summary = "字典列表 - [DONE] - [Levin]", description = "查询字典列表 - [DONE] - [Levin]")
+    //@SaCheckPermission(value = {"tenant:dict:list"})
     public List<TenantDictResp> list() {
         List<TenantDict> list = this.tenantDictService.list(Wraps.<TenantDict>lbQ().eq(TenantDict::getStatus, true));
         return BeanUtilPlus.toBeans(list, TenantDictResp.class);
@@ -64,7 +64,7 @@ public class TenantDictController {
     @PostMapping("/refresh")
     @AccessLog(description = "刷新字典")
     @Operation(summary = "刷新字典 - [DONE] - [Levin]", description = "刷新字典缓存数据 - [DONE] - [Levin]")
-    @SaCheckPermission(value = {"tenant:dict:refresh"})
+    //@SaCheckPermission(value = {"tenant:dict:refresh"})
     public void refresh() {
         this.tenantDictService.refresh();
     }
@@ -72,15 +72,15 @@ public class TenantDictController {
     @PostMapping("/create")
     @AccessLog(description = "字典新增")
     @Operation(summary = "新增字典 - [DONE] - [Levin]", description = "新增字典 - [DONE] - [Levin]")
-    @SaCheckPermission(value = {"tenant:dict:add"})
+    //@SaCheckPermission(value = {"tenant:dict:add"})
     public void create(@Validated @RequestBody TenantDictSaveReq req) {
         this.tenantDictService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(description = "字典编辑")
     @Operation(summary = "编辑字典 - [DONE] - [Levin]", description = "编辑字典 - [DONE] - [Levin]")
-    @SaCheckPermission(value = {"tenant:dict:edit"})
+    //@SaCheckPermission(value = {"tenant:dict:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody TenantDictSaveReq req) {
         this.tenantDictService.modify(id, req);
     }
@@ -88,7 +88,7 @@ public class TenantDictController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除指定字典项")
     @Operation(summary = "删除字典 - [DONE] - [Levin]", description = "删除字典 - [DONE] - [Levin]")
-    @SaCheckPermission(value = {"tenant:dict:remove"})
+    //@SaCheckPermission(value = {"tenant:dict:remove"})
     public void del(@PathVariable Long id) {
         this.tenantDictService.deleteById(id);
     }

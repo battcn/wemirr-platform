@@ -20,41 +20,28 @@
 package com.wemirr.platform.iam.system.domain.dto.resp;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
 
 /**
- * <p>
- * 实体类
- * 角色的资源
- * </p>
- *
  * @author Levin
- * @since 2019-07-27
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
-@Schema(name = "RoleResVO", description = "角色的资源")
+@Schema(name = "RoleResResp", description = "角色的资源")
 public class RoleResResp implements Serializable {
-    
-    /**
-     * 菜单ID
-     */
+
     @Schema(description = "菜单ID")
     private List<Long> menuIdList;
-    
-    /**
-     * 资源id
-     */
+
     @Schema(description = "资源ID")
     private List<Long> resourceIdList;
-    
+
 }

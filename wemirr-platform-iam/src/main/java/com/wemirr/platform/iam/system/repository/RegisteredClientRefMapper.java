@@ -20,7 +20,7 @@
 package com.wemirr.platform.iam.system.repository;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.platform.iam.system.domain.entity.RegisteredClientRef;
+import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Repository;
  * @author Levin
  */
 @Repository
-public interface RegisteredClientRefMapper extends SuperMapper<RegisteredClientRef> {
+public interface RegisteredClientRefMapper extends SuperMapper<RegisteredClient> {
     
     /**
      * 根据ID 删除

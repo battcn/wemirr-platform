@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.iam.system.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
@@ -88,7 +87,6 @@ public class ResourceController {
                 || type == ResourceType.LINK;
     }
 
-    @GetMapping
     @Parameters({
             @Parameter(description = "父ID", name = "parentId", in = ParameterIn.QUERY),
             @Parameter(description = "资源类型", name = "type", in = ParameterIn.QUERY),
@@ -96,6 +94,7 @@ public class ResourceController {
             @Parameter(description = "类型", name = "type", in = ParameterIn.QUERY),
     })
     @Operation(summary = "资源列表 - [Levin] - [DONE]")
+    @GetMapping("/page")
     public IPage<ResourcePageResp> pageList(ResourcePageReq req) {
         return resourceService.page(req.buildPage(), Wraps.<Resource>lbQ()
                 .eq(Resource::getParentId, req.getParentId())
@@ -110,18 +109,18 @@ public class ResourceController {
         return routers.stream().map(VueRouter::getPermission).filter(StrUtil::isNotBlank).distinct().collect(toList());
     }
 
-    @PostMapping
+    @PostMapping("/create")
     @AccessLog(description = "添加资源")
     @Operation(summary = "添加资源")
-    @SaCheckPermission(value = {"sys:menu:add"})
-    public void save(@Validated @RequestBody ResourceSaveReq req) {
-        resourceService.add(req);
+    //@SaCheckPermission(value = {"sys:menu:add"})
+    public void create(@Validated @RequestBody ResourceSaveReq req) {
+        resourceService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(description = "修改资源")
     @Operation(summary = "修改资源")
-    @SaCheckPermission(value = {"sys:menu:edit"})
+    //@SaCheckPermission(value = {"sys:menu:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody ResourceSaveReq req) {
         resourceService.modify(id, req);
     }
@@ -129,7 +128,7 @@ public class ResourceController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除资源")
     @Operation(summary = "删除资源")
-    @SaCheckPermission(value = {"sys:menu:remove"})
+    //@SaCheckPermission(value = {"sys:menu:remove"})
     public void del(@PathVariable Long id) {
         this.resourceService.delete(id);
     }

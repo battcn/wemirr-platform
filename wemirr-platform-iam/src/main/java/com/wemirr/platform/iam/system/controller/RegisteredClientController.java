@@ -23,10 +23,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientRefReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.RegisteredClientRefResp;
-import com.wemirr.platform.iam.system.domain.entity.RegisteredClientRef;
-import com.wemirr.platform.iam.system.service.RegisteredClientRefService;
+import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientReq;
+import com.wemirr.platform.iam.system.domain.dto.resp.RegisteredClientResp;
+import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
+import com.wemirr.platform.iam.system.service.RegisteredClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static com.wemirr.platform.iam.system.domain.converts.RegisteredClientRefConverts.REGISTERED_CLIENT_REF_2_RESP_CONVERTS;
+import static com.wemirr.platform.iam.system.domain.converts.RegisteredClientConverts.REGISTERED_CLIENT_REF_2_RESP_CONVERTS;
 
 /**
  * 应用管理
@@ -47,39 +47,40 @@ import static com.wemirr.platform.iam.system.domain.converts.RegisteredClientRef
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/registered_client_refs")
+@RequestMapping("/registered-client")
 @Tag(name = "终端管理", description = "终端管理")
-public class RegisteredClientRefController {
-    
-    private final RegisteredClientRefService registeredClientRefService;
-    
+@Deprecated
+public class RegisteredClientController {
+
+    private final RegisteredClientService registeredClientService;
+
     @GetMapping
     @Parameters({
             @Parameter(description = "clientId", name = "clientId", in = ParameterIn.QUERY),
             @Parameter(description = "clientName", name = "clientName", in = ParameterIn.QUERY)
     })
     @Operation(summary = "应用列表 - [Levin] - [DONE]")
-    public IPage<RegisteredClientRefResp> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
-                                                @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
-                                                String clientId, String clientName) {
-        return this.registeredClientRefService.page(new Page<>(current, size),
-                Wraps.<RegisteredClientRef>lbQ().like(RegisteredClientRef::getClientId, clientId)
-                        .like(RegisteredClientRef::getClientName, clientName))
+    public IPage<RegisteredClientResp> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
+                                             @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
+                                             String clientId, String clientName) {
+        return this.registeredClientService.page(new Page<>(current, size),
+                        Wraps.<RegisteredClient>lbQ().like(RegisteredClient::getClientId, clientId)
+                                .like(RegisteredClient::getClientName, clientName))
                 .convert(REGISTERED_CLIENT_REF_2_RESP_CONVERTS::convert);
     }
-    
+
     @PostMapping
     @AccessLog(description = "保存应用")
     @Operation(summary = "保存应用")
-    public void save(@Validated @RequestBody RegisteredClientRefReq dto) {
-        this.registeredClientRefService.registeredClient(dto);
+    public void create(@Validated @RequestBody RegisteredClientReq req) {
+        this.registeredClientService.registeredClient(req);
     }
-    
+
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除应用")
     @Operation(summary = "删除应用")
     public void del(@PathVariable String id) {
-        this.registeredClientRefService.deleteById(id);
+        this.registeredClientService.deleteById(id);
     }
-    
+
 }

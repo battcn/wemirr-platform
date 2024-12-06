@@ -33,6 +33,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.plugins.IgnoreStrategy;
 import com.baomidou.mybatisplus.core.plugins.InterceptorIgnoreHelper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.remote.RemoteResult;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
@@ -71,8 +72,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.wemirr.platform.iam.system.domain.converts.UserConverts.USER_DTO_2_PO_CONVERTS;
-
 /**
  * @author Levin
  */
@@ -108,7 +107,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             fail = "更新用户信息异常 {{#id}} 需要更新的数据 {{#req}}")
     public void modify(Long id, UserUpdateReq req) {
         User oldVal = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
-        User newVal = USER_DTO_2_PO_CONVERTS.convert(req, id);
+        User newVal = BeanUtilPlus.toBean(id, req, User.class);
         DiffLogContext.putDiffItem(oldVal, newVal);
         this.baseMapper.updateById(newVal);
     }
@@ -224,6 +223,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             if (StpUtil.stpLogic.getTokenActiveTimeoutByToken(token) < -1) {
                 continue;
             }
+            // TODO 需要优化,不应该暴露 token key 给开发
             UserInfoDetails info = JSONObject.parseObject((String) saTokenDao.getObject("wp-token:userinfo:" + token), UserInfoDetails.class);
             if (info == null || info.getLoginLog() == null) {
                 continue;

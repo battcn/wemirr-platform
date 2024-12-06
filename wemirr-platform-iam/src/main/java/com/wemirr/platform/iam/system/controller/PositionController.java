@@ -19,8 +19,6 @@
 
 package com.wemirr.platform.iam.system.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
@@ -62,30 +60,31 @@ public class PositionController {
 
     @GetMapping("/page")
     @Operation(summary = "分页查询 - [Levin] - [DONE]")
+    //@SaCheckPermission(value = {"sys:position:page"})
     public IPage<PositionPageResp> pageList(PositionPageReq req) {
         return sysPositionService.pageList(req);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     @AccessLog(description = "添加岗位")
     @Operation(summary = "添加岗位")
-    @SaCheckPermission(value = {"sys:station:add"})
-    public void add(@Validated @RequestBody PositionSaveReq dto) {
-        sysPositionService.save(BeanUtil.toBean(dto, Position.class));
+    //@SaCheckPermission(value = {"sys:position:add"})
+    public void create(@Validated @RequestBody PositionSaveReq req) {
+        sysPositionService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(description = "编辑岗位")
     @Operation(summary = "编辑岗位")
-    @SaCheckPermission(value = {"sys:station:edit"})
-    public void edit(@PathVariable Long id, @Validated @RequestBody PositionSaveReq dto) {
-        sysPositionService.updateById(BeanUtilPlus.toBean(id, dto, Position.class));
+    //@SaCheckPermission(value = {"sys:position:edit"})
+    public void modify(@PathVariable Long id, @Validated @RequestBody PositionSaveReq req) {
+        sysPositionService.modify(id, req);
     }
 
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除岗位")
     @Operation(summary = "删除岗位")
-    @SaCheckPermission(value = {"sys:station:remove"})
+    //@SaCheckPermission(value = {"sys:position:remove"})
     public void del(@PathVariable Long id) {
         sysPositionService.removeById(id);
     }

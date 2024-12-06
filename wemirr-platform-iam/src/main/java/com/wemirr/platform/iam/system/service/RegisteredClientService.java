@@ -20,20 +20,20 @@
 package com.wemirr.platform.iam.system.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientRefReq;
-import com.wemirr.platform.iam.system.domain.entity.RegisteredClientRef;
+import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientReq;
+import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
 
 /**
  * @author levin
  */
-public interface RegisteredClientRefService extends SuperService<RegisteredClientRef> {
+public interface RegisteredClientService extends SuperService<RegisteredClient> {
     
     /**
      * 注册安全终端
      *
      * @param req req
      */
-    void registeredClient(RegisteredClientRefReq req);
+    void registeredClient(RegisteredClientReq req);
     
     /**
      * 根据ID删除

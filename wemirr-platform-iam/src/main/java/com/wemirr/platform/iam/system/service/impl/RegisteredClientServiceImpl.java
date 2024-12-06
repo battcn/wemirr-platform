@@ -20,10 +20,10 @@
 package com.wemirr.platform.iam.system.service.impl;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
-import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientRefReq;
-import com.wemirr.platform.iam.system.domain.entity.RegisteredClientRef;
+import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientReq;
+import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
 import com.wemirr.platform.iam.system.repository.RegisteredClientRefMapper;
-import com.wemirr.platform.iam.system.service.RegisteredClientRefService;
+import com.wemirr.platform.iam.system.service.RegisteredClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +32,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class RegisteredClientRefServiceImpl extends SuperServiceImpl<RegisteredClientRefMapper, RegisteredClientRef> implements RegisteredClientRefService {
+public class RegisteredClientServiceImpl extends SuperServiceImpl<RegisteredClientRefMapper, RegisteredClient> implements RegisteredClientService {
 
 //    private final RegisteredClientRepository registeredClientRepository;
 
     @Override
-    public void registeredClient(RegisteredClientRefReq req) {
-        final RegisteredClientRefReq.TokenSettingsReq token = req.getTokenSettings();
+    public void registeredClient(RegisteredClientReq req) {
+        final RegisteredClientReq.TokenSettingsReq token = req.getTokenSettings();
 //        final RegisteredClient registeredClient = RegisteredClient.withId(req.getClientId()).clientName(req.getClientName())
 //                .clientId(req.getClientId()).clientIdIssuedAt(req.getClientIdIssuedAt())
 //                .clientSecret(req.getClientSecret()).clientSecretExpiresAt(req.getClientSecretExpiresAt())

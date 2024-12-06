@@ -59,7 +59,7 @@ public interface ResourceService extends SuperService<Resource> {
      *
      * @param req 资源
      */
-    void add(ResourceSaveReq req);
+    void create(ResourceSaveReq req);
 
     /**
      * 修改资源

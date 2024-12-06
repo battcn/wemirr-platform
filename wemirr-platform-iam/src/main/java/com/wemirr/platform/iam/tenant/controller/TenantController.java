@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.iam.tenant.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
@@ -61,7 +60,7 @@ public class TenantController {
 
     @PostMapping("/page")
     @Operation(summary = "租户列表 - [Levin] - [DONE]")
-    @SaCheckPermission(value = {"tenant:page"})
+    //@SaCheckPermission(value = {"tenant:list"})
     public IPage<TenantPageResp> pageList(@RequestBody TenantPageReq req) {
         return tenantService.page(req.buildPage(), Wraps.<Tenant>lbQ()
                 .like(Tenant::getName, req.getName())
@@ -79,18 +78,18 @@ public class TenantController {
         return this.dynamicDatasourceService.selectTenantDynamicDatasource();
     }
 
-    @PostMapping
+    @PostMapping("/create")
     @AccessLog(description = "添加租户")
     @Operation(summary = "添加租户")
-    @SaCheckPermission(value = {"tenant:add"})
+    //@SaCheckPermission(value = {"tenant:add"})
     public void create(@Validated @RequestBody TenantSaveReq req) {
         tenantService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(description = "编辑租户")
     @Operation(summary = "编辑租户")
-    @SaCheckPermission(value = {"tenant:edit"})
+    //@SaCheckPermission(value = {"tenant:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody TenantModifyReq req) {
         tenantService.modify(id, req);
     }
@@ -98,7 +97,7 @@ public class TenantController {
     @PutMapping("/{id}/config")
     @AccessLog(description = "配置租户")
     @Operation(summary = "配置租户")
-    @SaCheckPermission(value = {"tenant:config"})
+    //@SaCheckPermission(value = {"tenant:config"})
     public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq req) {
         tenantService.tenantConfig(id, req);
     }
@@ -114,7 +113,7 @@ public class TenantController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除租户")
     @Operation(summary = "删除租户")
-    @SaCheckPermission(value = {"tenant:remove"})
+    //@SaCheckPermission(value = {"tenant:remove"})
     public void del(@PathVariable Long id) {
         tenantService.removeById(id);
     }

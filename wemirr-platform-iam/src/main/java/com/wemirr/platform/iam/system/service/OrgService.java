@@ -48,7 +48,7 @@ public interface OrgService extends SuperService<Org> {
      *
      * @param req req
      */
-    void addOrg(OrgSaveReq req);
+    void create(OrgSaveReq req);
     
     /**
      * 获取当前机构本级及子级的ID

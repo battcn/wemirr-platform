@@ -106,7 +106,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
 
     @Override
     @DSTransactional(rollbackFor = Exception.class)
-    public void add(ResourceSaveReq req) {
+    public void create(ResourceSaveReq req) {
         final Resource resource = BeanUtil.toBean(req, Resource.class);
         if (ResourceType.MENU == resource.getType()) {
             if (!StringUtils.startsWith(resource.getPath(), SPEL)) {

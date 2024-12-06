@@ -51,7 +51,7 @@ import java.util.List;
 @Slf4j
 @Component
 @ServerEndpoint(value = "/message/{tenantCode}/{identifier}")
-public class SiteMessageEndpoint extends BaseWebSocketEndpoint {
+public class WebSocketMessageEndpoint extends BaseWebSocketEndpoint {
     
     @OnOpen
     public void openSession(@PathParam("tenantCode") String tenantCode, @PathParam(IDENTIFIER) String userId, Session session) {

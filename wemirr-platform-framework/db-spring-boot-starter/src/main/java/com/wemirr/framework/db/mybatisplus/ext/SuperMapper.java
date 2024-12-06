@@ -28,6 +28,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * 基于MP的 BaseMapper 新增了2个方法： insertBatchSomeColumn、updateAllById
@@ -96,6 +97,18 @@ public interface SuperMapper<T> extends BaseMapper<T> {
      */
     default Long selectCount(SFunction<T, ?> field, Object value) {
         return selectCount(Wraps.<T>lbQ().eq(field, value));
+    }
+
+    default void existsCallback(SFunction<T, ?> field, Object value, Supplier<?> func) {
+        Long count = selectCount(Wraps.<T>lbQ().eq(field, value));
+        if (count != null && count > 0) {
+            func.get();
+        }
+    }
+
+    default boolean exists(SFunction<T, ?> field, Object value) {
+        Long count = selectCount(Wraps.<T>lbQ().eq(field, value));
+        return count != null && count > 0;
     }
 
     /**

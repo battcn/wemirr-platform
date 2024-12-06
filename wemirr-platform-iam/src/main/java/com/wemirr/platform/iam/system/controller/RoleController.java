@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.iam.system.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
@@ -71,7 +70,7 @@ public class RoleController {
             @Parameter(description = "名称", name = "name", in = ParameterIn.QUERY),
     })
     @Operation(summary = "角色列表 - [Levin] - [DONE]")
-    @SaCheckPermission(value = {"sys:role:page"})
+    //@SaCheckPermission(value = {"sys:role:page"})
     public IPage<RolePageResp> pageList(@RequestBody RolePageReq req) {
         return this.roleService.page(req.buildPage(), Wraps.<Role>lbQ().like(Role::getName, req.getName())
                         .eq(Role::getStatus, req.getStatus()).eq(Role::getScopeType, req.getScopeType()))
@@ -91,7 +90,7 @@ public class RoleController {
     @PostMapping("/create")
     @AccessLog(description = "添加角色")
     @Operation(summary = "添加角色")
-    @SaCheckPermission(value = {"sys:role:add"})
+    //@SaCheckPermission(value = {"sys:role:add"})
     public void add(@Validated @RequestBody RoleReq data) {
         roleService.saveRole(context.userId(), data);
     }
@@ -99,7 +98,7 @@ public class RoleController {
     @PutMapping("/{id}")
     @AccessLog(description = "编辑角色")
     @Operation(summary = "编辑角色")
-    @SaCheckPermission(value = {"sys:role:edit"})
+    //@SaCheckPermission(value = {"sys:role:edit"})
     public void edit(@PathVariable Long id, @Validated @RequestBody RoleReq data) {
         roleService.updateRole(id, context.userId(), data);
     }
@@ -107,7 +106,7 @@ public class RoleController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除角色")
     @Operation(summary = "删除角色")
-    @SaCheckPermission(value = {"sys:role:remove"})
+    //@SaCheckPermission(value = {"sys:role:remove"})
     public void del(@PathVariable Long id) {
         this.roleService.removeByRoleId(id);
     }
@@ -132,17 +131,17 @@ public class RoleController {
 
     @Operation(summary = "角色分配操作资源")
     @PostMapping("/{roleId}/authority")
-    @SaCheckPermission(value = {"sys:role:distribution:res"})
-    public void distributionAuthority(@PathVariable Long roleId, @RequestBody RoleResSaveReq dto) {
-        this.roleResService.saveRoleAuthority(dto);
+    //@SaCheckPermission(value = {"sys:role:distribution:res"})
+    public void distributionAuthority(@PathVariable Long roleId, @RequestBody RoleResSaveReq req) {
+        this.roleResService.saveRoleAuthority(req);
 
     }
 
     @Operation(summary = "角色分配用户")
     @PostMapping("/{roleId}/users")
-    @SaCheckPermission(value = {"sys:role:distribution:user"})
-    public void distributionUser(@PathVariable Long roleId, @RequestBody RoleUserReq dto) {
-        this.roleService.saveUserRole(roleId, dto.getUserIdList());
+    //@SaCheckPermission(value = {"sys:role:distribution:user"})
+    public void distributionUser(@PathVariable Long roleId, @RequestBody RoleUserReq req) {
+        this.roleService.saveUserRole(roleId, req.getUserIdList());
     }
 
 }

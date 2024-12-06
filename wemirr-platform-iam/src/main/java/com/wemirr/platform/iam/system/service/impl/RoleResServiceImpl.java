@@ -81,10 +81,10 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
     
     @Override
     @DSTransactional
-    public void saveRoleAuthority(RoleResSaveReq dto) {
+    public void saveRoleAuthority(RoleResSaveReq req) {
         // 删除角色和资源的关联
-        super.remove(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, dto.getRoleId()));
-        resHandler(dto, dto.getRoleId());
+        super.remove(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, req.getRoleId()));
+        resHandler(req, req.getRoleId());
     }
     
     private void resHandler(RoleResSaveReq data, Long roleId) {

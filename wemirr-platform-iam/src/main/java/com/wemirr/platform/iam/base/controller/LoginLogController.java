@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.iam.base.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.db.mybatisplus.datascope.util.DataPermissionUtils;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -52,7 +51,7 @@ public class LoginLogController {
 
     @GetMapping
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
-    @SaCheckPermission(value = {"log:login:page"})
+    //@SaCheckPermission(value = {"monitor:log:login"})
     public Page<LoginLog> page(LoginLogPageReq req) {
         return DataPermissionUtils.executeDefaultDataPermissionRule(() -> loginLogService.page(req.buildPage(), Wraps.<LoginLog>lbQ()
                 .like(LoginLog::getCreatedBy, req.getNickName())

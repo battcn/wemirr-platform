@@ -58,7 +58,7 @@ public class OrgServiceImpl extends SuperServiceImpl<OrgMapper, Org> implements 
     }
 
     @Override
-    public void addOrg(OrgSaveReq req) {
+    public void create(OrgSaveReq req) {
         final Org bean = BeanUtil.toBean(req, Org.class);
         bean.setTreePath(buildNewTreePath(req.getParentId()));
         this.baseMapper.insert(bean);
