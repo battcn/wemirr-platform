@@ -19,6 +19,7 @@
 
 package com.wemirr.platform.iam.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
@@ -61,7 +62,7 @@ public class PositionController {
 
     @GetMapping("/page")
     @Operation(summary = "分页查询 - [Levin] - [DONE]")
-    //@SaCheckPermission(value = {"sys:position:page"})
+    @SaCheckPermission(value = {"sys:position:page"})
     public IPage<PositionPageResp> pageList(PositionPageReq req) {
         return sysPositionService.pageList(req);
     }
@@ -69,7 +70,7 @@ public class PositionController {
     @PostMapping("/create")
     @AccessLog(description = "添加岗位")
     @Operation(summary = "添加岗位")
-    //@SaCheckPermission(value = {"sys:position:add"})
+    @SaCheckPermission(value = {"sys:position:add"})
     public void create(@Validated @RequestBody PositionSaveReq req) {
         sysPositionService.create(req);
     }
@@ -77,7 +78,7 @@ public class PositionController {
     @PutMapping("/{id}/modify")
     @AccessLog(description = "编辑岗位")
     @Operation(summary = "编辑岗位")
-    //@SaCheckPermission(value = {"sys:position:edit"})
+    @SaCheckPermission(value = {"sys:position:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody PositionSaveReq req) {
         sysPositionService.modify(id, req);
     }
@@ -85,8 +86,8 @@ public class PositionController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除岗位")
     @Operation(summary = "删除岗位")
-    //@SaCheckPermission(value = {"sys:position:remove"})
-    public void del(@PathVariable Long id) {
+    @SaCheckPermission(value = {"sys:position:remove"})
+    public void remove(@PathVariable Long id) {
         sysPositionService.removeById(id);
     }
 
