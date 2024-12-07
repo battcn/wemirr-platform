@@ -56,8 +56,7 @@
 
 > 技术交流Q群： 789517089
 
-Vue、Spring Cloud Alibaba 2023、Spring Cloud 2023、Nacos、Sentinel、
-Mybatis-Plus、多租户、灰度、Sa-Token、Spring Security、Redis、Mysql、
+Vue、Spring Cloud Alibaba 2023、Spring Cloud 2023、Nacos、Sentinel、 Mybatis-Plus、多租户、灰度、Sa-Token、Redis、Mysql、
 
 
 ### 特点
@@ -69,12 +68,11 @@ Mybatis-Plus、多租户、灰度、Sa-Token、Spring Security、Redis、Mysql�
 - 动态网关：支持页面配置(`Redis`)与 `Nacos` 两种推送方式、动态开启关闭网关路由
 - 网关管理：支持流量控制、拉黑名单等
 - 消息总线：使用 `RabbitMq` 做总线用于支持`动态数据`源消息广播
-- 插拔组件：除去必要工程，可选的都在 `options` 按需使用
+- 插拔组件：除去必要工程，可选的都在 `wemirr-platform-plugin` 按需使用
 - 大道至简：代码优雅、简短、不管是开发前端还是后端,快就完事了，下面给出一个简单的示例
 - 性能高效：集成链路追踪在2M网络环境下接口最慢不超过 `300毫秒` 普遍 `10-150 毫秒` 之间
 - 标准文档：集成标准的 `SpringDoc => Swagger V3` 功能更强大,UI更优美
-- 分布式任务：整合 `xxl-job` 提供分布式调度任务功能
-- 工作流：集成 `camunda-bpm` 工作流（暂未实现UI nepxion 已提供工作流案例）
+- 分布式任务：整合 `snail-job` 替换 `xxl-job` 提供分布式调度任务功能
 
 > Vue 开发只需要几行简短的代码即可完成单表的CRUD，大大提升开发效率
 
@@ -128,12 +126,6 @@ Mybatis-Plus、多租户、灰度、Sa-Token、Spring Security、Redis、Mysql�
 ### 拓展阅读
 
 [Oauth2.0](https://www.ruanyifeng.com/blog/2019/04/github-oauth.html) OAuth2.0 知识点
-
-
-`wemirr-platform-bury` 是一个用 `shardingsphere` 做分表分库收集日志的，常见埋点日志手段(存在不完善的地方,一般也用不上)
-- **`记录日志文件,EFK/ELK采集日志`**
-- **`日志量小的话可以写到库`**
-- **`日志量大可以分表分库记录埋点日志，定期清理`**
 
 ### 注意事项
 
