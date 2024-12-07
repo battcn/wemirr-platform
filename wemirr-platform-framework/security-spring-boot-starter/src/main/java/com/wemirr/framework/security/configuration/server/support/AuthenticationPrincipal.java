@@ -23,6 +23,7 @@ import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,12 +37,15 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthenticationPrincipal {
 
+    @NotBlank(message = "登录类型不能为空")
     @Schema(description = "登录类型", requiredMode = Schema.RequiredMode.REQUIRED)
     private String loginType;
 
+    @NotBlank(message = "登录账号不能为空")
     @Schema(description = "登录账号", requiredMode = Schema.RequiredMode.REQUIRED)
     private String username;
 
+    @NotBlank(message = "登录密码不能为空")
     @Schema(description = "登录密码", requiredMode = Schema.RequiredMode.REQUIRED)
     private String password;
 

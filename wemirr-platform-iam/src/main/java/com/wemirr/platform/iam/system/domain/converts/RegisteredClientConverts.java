@@ -53,6 +53,7 @@ public class RegisteredClientConverts {
             target.setRedirectUris(source.getRedirectUris());
             target.setPostLogoutRedirectUris(source.getPostLogoutRedirectUris());
             target.setScopes(StrUtil.split(source.getScopes(), ','));
+            target.setStatus(source.getStatus());
             final String tokenSettings = source.getTokenSettings();
             if (StrUtil.isNotBlank(tokenSettings)) {
                 JSONObject settings = JSON.parseObject(tokenSettings);

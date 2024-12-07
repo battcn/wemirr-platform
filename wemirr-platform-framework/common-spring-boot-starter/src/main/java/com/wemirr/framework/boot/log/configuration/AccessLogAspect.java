@@ -20,6 +20,7 @@
 package com.wemirr.framework.boot.log.configuration;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.extra.spring.SpringUtil;
@@ -233,7 +234,10 @@ public class AccessLogAspect {
 
     private String getArgs(AccessLog annotation, Object[] args, HttpServletRequest request) {
         String strArgs = "";
-        if (!annotation.request() || request.getContentType().contains(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+        if (!annotation.request()) {
+            return strArgs;
+        }
+        if (StrUtil.contains(request.getContentType(), MediaType.MULTIPART_FORM_DATA_VALUE)) {
             return strArgs;
         }
         try {

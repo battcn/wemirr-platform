@@ -27,7 +27,7 @@ import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientReq;
 import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
-import com.wemirr.platform.iam.system.repository.RegisteredClientRefMapper;
+import com.wemirr.platform.iam.system.repository.RegisteredClientMapper;
 import com.wemirr.platform.iam.system.service.RegisteredClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ import java.util.Objects;
  */
 @Service
 @RequiredArgsConstructor
-public class RegisteredClientServiceImpl extends SuperServiceImpl<RegisteredClientRefMapper, RegisteredClient> implements RegisteredClientService {
+public class RegisteredClientServiceImpl extends SuperServiceImpl<RegisteredClientMapper, RegisteredClient> implements RegisteredClientService {
     @Override
     public void create(RegisteredClientReq req) {
         baseMapper.existsCallback(RegisteredClient::getClientId, req.getClientId(), () -> CheckedException.badRequest("终端已存在,注册失败"));

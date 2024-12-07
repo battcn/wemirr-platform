@@ -29,7 +29,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.security.configuration.server.support.AuthenticationPrincipal;
-import com.wemirr.framework.security.configuration.server.support.AuthenticatorStrategy;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangePasswordReq;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangeUserInfoReq;
@@ -37,6 +36,7 @@ import com.wemirr.platform.iam.system.domain.dto.req.LoginReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserOnlinePageReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.LoginResp;
 import com.wemirr.platform.iam.system.service.UserService;
+import com.wemirr.platform.iam.system.strategy.AuthenticatorStrategyTemplate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -63,37 +63,26 @@ public class TokenController {
     private final SaTokenConfig tokenConfig;
     private final AuthenticationContext context;
     private final UserService userService;
-    private final List<AuthenticatorStrategy> authenticatorStrategies;
+    private final AuthenticatorStrategyTemplate strategyTemplate;
 
     @SaIgnore
     @PostMapping("/login")
     @Operation(summary = "用户登录", description = "用户登录")
     public LoginResp login(HttpServletRequest request, @Validated @RequestBody LoginReq req) {
-        for (AuthenticatorStrategy strategy : authenticatorStrategies) {
-            if (!strategy.support(req.getLoginType())) {
-                continue;
-            }
-            AuthenticationPrincipal principal = AuthenticationPrincipal.builder()
-                    .loginType(req.getLoginType()).tenantCode(req.getTenantCode())
-                    .clientId(req.getClientId()).clientSecret(req.getClientSecret())
-                    .username(req.getUsername()).password(req.getPassword())
-                    .request(request)
-                    .build();
-            // 前置处理器
-            strategy.prepare(principal);
-            // 登录
-            strategy.authenticate(principal);
-            // 后置处理器
-            strategy.complete(principal);
-            SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
-            return LoginResp.builder()
-                    .accessToken(tokenInfo.getTokenValue())
-                    .expiresIn(tokenInfo.getTokenTimeout())
-                    .clientId(req.getClientId())
-                    .tokenType(tokenConfig.getTokenPrefix())
-                    .build();
-        }
-        throw CheckedException.notFound("未检测到有效的策略");
+        AuthenticationPrincipal principal = AuthenticationPrincipal.builder()
+                .loginType(req.getLoginType()).tenantCode(req.getTenantCode())
+                .clientId(req.getClientId()).clientSecret(req.getClientSecret())
+                .username(req.getUsername()).password(req.getPassword())
+                .request(request)
+                .build();
+        strategyTemplate.prepare(principal);
+        strategyTemplate.authenticate(principal);
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        return LoginResp.builder()
+                .accessToken(tokenInfo.getTokenValue())
+                .expiresIn(tokenInfo.getTokenTimeout())
+                .clientId(principal.getClientId())
+                .tokenType(tokenConfig.getTokenPrefix()).build();
     }
 
 

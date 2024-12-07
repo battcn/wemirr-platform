@@ -29,7 +29,7 @@ import org.springframework.stereotype.Repository;
  * @author Levin
  */
 @Repository
-public interface RegisteredClientRefMapper extends SuperMapper<RegisteredClient> {
+public interface RegisteredClientMapper extends SuperMapper<RegisteredClient> {
     
     /**
      * 根据ID 删除

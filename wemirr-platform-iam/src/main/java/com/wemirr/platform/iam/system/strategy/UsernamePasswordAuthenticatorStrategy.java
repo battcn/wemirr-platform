@@ -19,24 +19,27 @@
 
 package com.wemirr.platform.iam.system.strategy;
 
-import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.exception.SaTokenException;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.lang.Assert;
 import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.security.configuration.server.support.AuthenticationPrincipal;
 import com.wemirr.framework.security.configuration.server.support.AuthenticatorStrategy;
 import com.wemirr.framework.security.utils.PasswordEncoderHelper;
+import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
 import com.wemirr.platform.iam.system.domain.entity.User;
+import com.wemirr.platform.iam.system.repository.RegisteredClientMapper;
 import com.wemirr.platform.iam.system.repository.UserMapper;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
 import com.wemirr.platform.iam.tenant.repository.TenantMapper;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -47,12 +50,14 @@ import java.util.Optional;
 @Slf4j
 @Primary
 @Component
+@RequiredArgsConstructor
 public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrategy {
 
     @Resource
     private UserMapper userMapper;
     @Resource
     private TenantMapper tenantMapper;
+
 
     @Override
     public int getOrder() {
@@ -61,15 +66,7 @@ public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrat
 
     @Override
     public void prepare(final AuthenticationPrincipal principal) {
-        log.info("[用户密码登陆] - [{}]", JSON.toJSONString(principal));
-        String username = principal.getUsername();
-        String tenantCode = principal.getTenantCode();
-        if (StringUtils.isBlank(username)) {
-            throw new SaTokenException("用户名不能为空");
-        }
-        if (StringUtils.isBlank(tenantCode)) {
-            throw new SaTokenException("租户编码不能为空");
-        }
+        // todo 验证码校验
     }
 
     @Override
@@ -87,9 +84,6 @@ public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrat
         if (!PasswordEncoderHelper.matches(password, user.getPassword())) {
             throw CheckedException.badRequest("用户名或密码错误");
         }
-        SaHolder.getStorage()
-                .set("principal", principal.getUsername())
-                .set("principalType", principal.getLoginType());
         StpUtil.login(user.getId(), principal.getClientId());
     }
 }

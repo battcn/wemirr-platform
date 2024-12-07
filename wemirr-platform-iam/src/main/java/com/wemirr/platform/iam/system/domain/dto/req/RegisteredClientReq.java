@@ -48,6 +48,10 @@ public class RegisteredClientReq {
     private String redirectUris;
     @Schema(description = "授权范围")
     private Set<String> scopes;
+
+    @Schema(description = "状态")
+    private Boolean status;
+
     @Schema(description = "令牌配置")
     private TokenSettingsReq tokenSettings;
     
