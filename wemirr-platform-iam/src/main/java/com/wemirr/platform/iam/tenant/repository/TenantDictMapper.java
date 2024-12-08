@@ -25,15 +25,12 @@ import com.wemirr.platform.iam.tenant.domain.entity.TenantDict;
 import org.springframework.stereotype.Repository;
 
 /**
- * <p>
- * Mapper 接口
- * 字典类型
- * </p>
+ * 租户业务字典Mapper
  *
  * @author Levin
  */
 @TenantDS
 @Repository
 public interface TenantDictMapper extends SuperMapper<TenantDict> {
-    
+
 }

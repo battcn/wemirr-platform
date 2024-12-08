@@ -38,10 +38,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 /**
- * <p>
  * 业务实现类
- * 字典项
- * </p>
  *
  * @author Levin
  */
@@ -55,8 +52,9 @@ public class TenantDictItemServiceImpl extends SuperServiceImpl<TenantDictItemMa
 
 
     @Override
-    public void create(Long dictId, DictItemSaveReq req) {
-        final TenantDict dict = Optional.ofNullable(this.tenantDictMapper.selectById(dictId)).orElseThrow(() -> CheckedException.notFound("字典不存在"));
+    public void create(DictItemSaveReq req) {
+        final TenantDict dict = Optional.ofNullable(this.tenantDictMapper.selectOne(TenantDict::getCode, req.getDictCode()))
+                .orElseThrow(() -> CheckedException.notFound("字典不存在"));
         final long count = this.baseMapper.selectCount(Wraps.<TenantDictItem>lbQ().eq(TenantDictItem::getValue, req.getValue())
                 .eq(TenantDictItem::getDictCode, dict.getCode()));
         if (count > 0) {
@@ -66,18 +64,39 @@ public class TenantDictItemServiceImpl extends SuperServiceImpl<TenantDictItemMa
         item.setDictId(dict.getId());
         item.setDictCode(dict.getCode());
         item.setTenantId(context.tenantId());
+        item.setReadonly(false);
         this.baseMapper.insert(item);
     }
 
     @Override
-    public void modify(Long dictId, Long itemId, DictItemSaveReq req) {
-        final TenantDict dict = Optional.ofNullable(this.tenantDictMapper.selectById(dictId)).orElseThrow(() -> CheckedException.notFound("字典不存在"));
-        final long count = this.baseMapper.selectCount(Wraps.<TenantDictItem>lbQ().ne(TenantDictItem::getId, itemId)
-                .eq(TenantDictItem::getValue, req.getValue()).eq(TenantDictItem::getDictCode, dict.getCode()));
-        if (count > 0) {
-            throw CheckedException.badRequest("编码已存在");
+    public void modify(Long id, DictItemSaveReq req) {
+        TenantDictItem dictItem = this.baseMapper.selectById(id);
+        if (dictItem == null) {
+            throw CheckedException.notFound("字典信息不存在");
         }
-        TenantDictItem item = BeanUtilPlus.toBean(itemId, req, TenantDictItem.class);
+        if (dictItem.getReadonly()) {
+            throw CheckedException.notFound("禁止修改只读数据");
+        }
+        Long count = this.baseMapper.selectCount(Wraps.<TenantDictItem>lbQ()
+                .ne(TenantDictItem::getId, id)
+                .eq(TenantDictItem::getValue, req.getValue())
+                .eq(TenantDictItem::getDictCode, req.getDictCode()));
+        if (count != null && count > 0) {
+            throw CheckedException.badRequest("子项编码已存在");
+        }
+        TenantDictItem item = BeanUtilPlus.toBean(id, req, TenantDictItem.class);
         this.baseMapper.updateById(item);
+    }
+
+    @Override
+    public void delete(Long id) {
+        TenantDictItem dictItem = this.baseMapper.selectById(id);
+        if (dictItem == null) {
+            throw CheckedException.notFound("字典信息不存在");
+        }
+        if (dictItem.getReadonly()) {
+            throw CheckedException.notFound("禁止删除只读数据");
+        }
+        this.baseMapper.deleteById(id);
     }
 }

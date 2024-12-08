@@ -45,43 +45,44 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "业务字典", description = "业务字典")
-@RequestMapping("/tenant-dict/{dict_id}/items")
+@RequestMapping("/tenant-dict-items")
 public class TenantDictItemController {
 
     private final TenantDictItemService tenantDictItemService;
 
-    @GetMapping
+    @GetMapping("/page")
     @Operation(summary = "查询字典子项", description = "查询字典子项 - [DONE] - [Levin]")
     @Parameters({
-            @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH),
+            @Parameter(name = "dict_code", description = "字典编码", in = ParameterIn.PATH),
             @Parameter(name = "label", description = "名称", in = ParameterIn.QUERY)
     })
-    public Page<TenantDictItem> pageList(@PathVariable("dict_id") Long dictId, DictItemPageReq req) {
-        return this.tenantDictItemService.page(req.buildPage(), Wraps.<TenantDictItem>lbQ().eq(TenantDictItem::getDictId, dictId)
-                .eq(TenantDictItem::getStatus, req.getStatus()).like(TenantDictItem::getLabel, req.getLabel()));
+    public Page<TenantDictItem> pageList(DictItemPageReq req) {
+        return this.tenantDictItemService.page(req.buildPage(), Wraps.<TenantDictItem>lbQ()
+                .eq(TenantDictItem::getDictCode, req.getDictCode())
+                .eq(TenantDictItem::getStatus, req.getStatus())
+                .like(TenantDictItem::getLabel, req.getLabel()));
     }
 
-    @PostMapping
+    @PostMapping("/create")
     @Operation(summary = "添加字典子项", description = "添加字典子项 - [DONE] - [Levin]")
-    @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH)
-    public void create(@PathVariable("dict_id") Long dictId, @Validated @RequestBody DictItemSaveReq req) {
-        this.tenantDictItemService.create(dictId, req);
+    @Parameter(name = "dict_code", description = "字典编码", in = ParameterIn.PATH)
+    public void create(@Validated @RequestBody DictItemSaveReq req) {
+        this.tenantDictItemService.create(req);
 
     }
 
-    @PutMapping("/{item_id}")
+    @PutMapping("/{id}/modify")
     @Operation(summary = "编辑字典子项 - [DONE] - [Levin]", description = "编辑字典子项 - [DONE] - [Levin]")
-    @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH)
-    public void modify(@PathVariable("dict_id") Long dictId, @PathVariable("item_id") Long itemId, @Validated @RequestBody DictItemSaveReq req) {
-        this.tenantDictItemService.modify(dictId, itemId, req);
+    @Parameter(name = "dict_code", description = "字典编码", in = ParameterIn.PATH)
+    public void modify(@PathVariable("id") Long id, @Validated @RequestBody DictItemSaveReq req) {
+        this.tenantDictItemService.modify(id, req);
 
     }
 
-    @DeleteMapping("/{item_id}")
+    @DeleteMapping("/{id}")
     @Operation(summary = "删除字典子项 - [DONE] - [Levin]", description = "删除字典子项 - [DONE] - [Levin]")
-    @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH)
-    public void del(@PathVariable("dict_id") Long dictId, @PathVariable("item_id") Long itemId) {
-        this.tenantDictItemService.removeById(itemId);
+    public void remove(@PathVariable("id") Long id) {
+        this.tenantDictItemService.delete(id);
     }
 
 }

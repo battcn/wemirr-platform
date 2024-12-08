@@ -27,10 +27,7 @@ import com.wemirr.platform.iam.tenant.domain.entity.TenantDict;
 import java.util.List;
 
 /**
- * <p>
- * 业务接口
- * 字典类型
- * </p>
+ * 租户业务字典
  *
  * @author Levin
  */
@@ -70,4 +67,9 @@ public interface TenantDictService extends SuperService<TenantDict> {
      * @return 查询结果
      */
     List<Dict<String>> findItemByCode(String code);
+
+    /**
+     * 增量同步租户字典
+     */
+    void incrSyncTenantDict(Long tenantId);
 }

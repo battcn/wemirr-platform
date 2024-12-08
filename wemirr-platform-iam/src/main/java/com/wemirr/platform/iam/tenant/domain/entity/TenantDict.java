@@ -31,9 +31,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
- * <p>
  * 租户字典
- * </p>
  *
  * @author Levin
  */
@@ -55,6 +53,9 @@ public class TenantDict extends SuperEntity<Long> {
     @TableField(value = TENANT_ID_COLUMN, fill = FieldFill.INSERT)
     @Schema(description = "租户ID")
     private Long tenantId;
+
+    @Schema(description = "是否只读")
+    private Boolean readonly;
 
     @Schema(description = "描述")
     private String description;

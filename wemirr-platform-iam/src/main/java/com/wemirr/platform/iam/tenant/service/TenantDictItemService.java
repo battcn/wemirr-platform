@@ -37,17 +37,22 @@ public interface TenantDictItemService extends SuperService<TenantDictItem> {
     /**
      * 添加字典项
      *
-     * @param dictId 字典ID
-     * @param req    req
+     * @param req req
      */
-    void create(Long dictId, DictItemSaveReq req);
+    void create(DictItemSaveReq req);
 
     /**
      * 修改字典项
      *
-     * @param dictId 字典ID
      * @param itemId 字典项ID
      * @param req    req
      */
-    void modify(Long dictId, Long itemId, DictItemSaveReq req);
+    void modify(Long itemId, DictItemSaveReq req);
+
+    /**
+     * 删除字典
+     *
+     * @param id id
+     */
+    void delete(Long id);
 }

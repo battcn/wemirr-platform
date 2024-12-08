@@ -52,6 +52,9 @@ public class SysDict extends SuperEntity<Long> {
     @Schema(description = "编码")
     private String code;
 
+    @Schema(description = "字典类型 0=平台字典;1=租户字典")
+    private Integer type;
+
     @Schema(description = "排序")
     private Integer sequence;
 

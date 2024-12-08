@@ -31,7 +31,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Schema(name = "DictionaryItemPageReq")
 public class DictItemPageReq extends PageRequest {
-    
+
+
+    @Schema(description = "字典编码")
+    private String dictCode;
+
     @Schema(description = "标签")
     private String label;
     

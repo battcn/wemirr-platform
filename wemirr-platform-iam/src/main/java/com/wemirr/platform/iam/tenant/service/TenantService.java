@@ -60,4 +60,12 @@ public interface TenantService extends SuperService<Tenant> {
      * @param id id
      */
     void initSqlScript(Long id);
+
+
+    /**
+     * 字典刷新
+     *
+     * @param id id
+     */
+    void refreshTenantDict(Long id);
 }

@@ -46,6 +46,7 @@ public class RegisteredClientConverts {
             target.setId(source.getId());
             target.setClientName(source.getClientName());
             target.setClientId(source.getClientId());
+            target.setClientSecret(source.getClientSecret());
             target.setClientIdIssuedAt(source.getClientIdIssuedAt());
             target.setClientName(source.getClientName());
             target.setClientSecretExpiresAt(source.getClientSecretExpiresAt());

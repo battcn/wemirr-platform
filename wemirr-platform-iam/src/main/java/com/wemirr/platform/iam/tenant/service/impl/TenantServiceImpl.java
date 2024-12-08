@@ -24,7 +24,9 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.dynamic.TenantDynamicDataSourceHandler;
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
@@ -32,7 +34,11 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.platform.iam.base.domain.entity.AreaEntity;
+import com.wemirr.platform.iam.base.domain.entity.SysDict;
+import com.wemirr.platform.iam.base.domain.entity.SysDictItem;
 import com.wemirr.platform.iam.base.repository.AreaMapper;
+import com.wemirr.platform.iam.base.repository.SysDictItemMapper;
+import com.wemirr.platform.iam.base.repository.SysDictMapper;
 import com.wemirr.platform.iam.system.domain.entity.Org;
 import com.wemirr.platform.iam.system.domain.entity.Role;
 import com.wemirr.platform.iam.system.domain.entity.User;
@@ -46,7 +52,11 @@ import com.wemirr.platform.iam.tenant.domain.dto.req.TenantModifyReq;
 import com.wemirr.platform.iam.tenant.domain.dto.req.TenantSaveReq;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
 import com.wemirr.platform.iam.tenant.domain.entity.TenantConfig;
+import com.wemirr.platform.iam.tenant.domain.entity.TenantDict;
+import com.wemirr.platform.iam.tenant.domain.entity.TenantDictItem;
 import com.wemirr.platform.iam.tenant.repository.TenantConfigMapper;
+import com.wemirr.platform.iam.tenant.repository.TenantDictItemMapper;
+import com.wemirr.platform.iam.tenant.repository.TenantDictMapper;
 import com.wemirr.platform.iam.tenant.repository.TenantMapper;
 import com.wemirr.platform.iam.tenant.service.TenantDatasourceService;
 import com.wemirr.platform.iam.tenant.service.TenantService;
@@ -55,6 +65,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -69,6 +80,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> implements TenantService {
 
+    private final AuthenticationContext context;
     private final AreaMapper areaMapper;
     private final RoleMapper roleMapper;
     private final UserRoleMapper userRoleMapper;
@@ -210,5 +222,51 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             TenantDynamicDataSourceHandler tenantDynamicDataSourceHandler = SpringUtil.getBean(TenantDynamicDataSourceHandler.class);
             tenantDynamicDataSourceHandler.initSqlScript(tenant.getCode(), Map.of("tenant_id", tenant.getId() + "", "tenant_name", tenant.getName()));
         }
+    }
+
+    private final SysDictMapper dictMapper;
+    private final SysDictItemMapper dictItemMapper;
+    private final TenantDictMapper tenantDictMapper;
+    private final TenantDictItemMapper tenantDictItemMapper;
+
+    @Override
+    @DSTransactional(rollbackFor = Exception.class)
+    public void refreshTenantDict(Long id) {
+        // 查询超管 所有字典数据
+        // TODO 默认查询租户ID = 1 的 , 后续改造成配置文件读取的 超管租户ID
+        List<SysDict> dictList = dictMapper.selectList(SysDict::getType, 1);
+        if (CollUtil.isEmpty(dictList)) {
+            log.warn("未查询到有效的数据字典");
+            return;
+        }
+        List<TenantDict> dictTypeList = dictMapper.selectList(SysDict::getType, 1)
+                .stream()
+                .map(x -> {
+                    TenantDict dict = BeanUtil.toBean(x, TenantDict.class);
+                    dict.setId(null);
+                    dict.setLastModifiedTime(Instant.now());
+                    dict.setLastModifiedBy(context.userId());
+                    dict.setLastModifiedName(context.nickName());
+                    return dict;
+                }).toList();
+        List<Long> dictIdList = dictList.stream().map(Entity::getId).toList();
+        List<TenantDictItem> dictDataList = dictItemMapper.selectList(Wraps.<SysDictItem>lbQ().in(SysDictItem::getDictId, dictIdList))
+                .stream()
+                .map(x -> {
+                    TenantDictItem item = BeanUtil.toBean(x, TenantDictItem.class);
+                    item.setId(null);
+                    item.setTenantId(id);
+                    item.setLastModifiedTime(Instant.now());
+                    item.setLastModifiedBy(context.userId());
+                    item.setLastModifiedName(context.nickName());
+                    return item;
+                }).toList();
+        // TODO 暂未实现动态数据源刷新 => 如果是动态数据源需要手动切换一下DB
+        // 理论上如果是管理员刷新租户字典那么需要给租户的数据给删除然后重新添加
+        this.tenantDictMapper.delete(Wraps.<TenantDict>lbQ().eq(TenantDict::getTenantId, id));
+        this.tenantDictItemMapper.delete(Wraps.<TenantDictItem>lbQ().eq(TenantDictItem::getTenantId, id));
+        // 将新数据写入到租户字典表中
+        this.tenantDictMapper.insertBatchSomeColumn(dictTypeList);
+        this.tenantDictItemMapper.insertBatchSomeColumn(dictDataList);
     }
 }

@@ -29,6 +29,10 @@ import org.hibernate.validator.constraints.Length;
  */
 @Data
 public class DictItemSaveReq {
+
+    @NotBlank(message = "字典编码不能为空")
+    @Schema(description = "字典编码")
+    private String dictCode;
     
     @Schema(description = "名称")
     @NotBlank(message = "名称不能为空")
