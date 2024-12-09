@@ -66,7 +66,6 @@ public class DictItemController {
     @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH)
     public void save(@PathVariable("dict_id") Long dictId, @Validated @RequestBody DictItemSaveReq req) {
         this.dictItemService.create(dictId, req);
-
     }
 
     @PutMapping("/{item_id}")
