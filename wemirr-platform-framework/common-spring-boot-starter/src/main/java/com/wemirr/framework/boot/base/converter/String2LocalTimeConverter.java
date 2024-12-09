@@ -35,18 +35,18 @@ import static com.wemirr.framework.commons.times.TimeConstants.DEFAULT_TIME_FORM
  * @since 2019-04-30
  */
 public class String2LocalTimeConverter extends BaseDateConverter<LocalTime> implements Converter<String, LocalTime> {
-    
+
     private static final Map<String, String> FORMAT = Maps.newLinkedHashMap();
-    
+
     static {
         FORMAT.put(DEFAULT_TIME_FORMAT, "^\\d{1,2}:\\d{1,2}:\\d{1,2}$");
     }
-    
+
     @Override
     protected Map<String, String> getFormat() {
         return FORMAT;
     }
-    
+
     @Override
     public LocalTime convert(String source) {
         return super.convert(source, (key) -> LocalTime.parse(source, DateTimeFormatter.ofPattern(key)));

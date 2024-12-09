@@ -38,17 +38,17 @@ import java.time.Instant;
 @AllArgsConstructor
 @TableName("gen_dynamic_release_drag_push_server_model")
 public class DynamicReleaseDragPushServerModel {
-    
+
     @TableId
     private Long pushId;
-    
+
     private Long dragId;
-    
+
     /**
      * 创建时间（依托数据库功能）
      */
     @TableField(value = "created_time")
     @Parameter(description = "创建时间")
     private Instant createdTime;
-    
+
 }

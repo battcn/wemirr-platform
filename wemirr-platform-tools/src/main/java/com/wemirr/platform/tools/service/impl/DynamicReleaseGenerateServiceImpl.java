@@ -36,10 +36,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DynamicReleaseGenerateServiceImpl implements DynamicReleaseGenerateService {
-    
+
     private final DynamicReleaseDragMapper dynamicReleaseDragMapper;
     private final StringRedisTemplate stringRedisTemplate;
-    
+
     @Override
     public void add(DynamicReleaseDragSetting req) {
         final DynamicReleaseDrag drag = this.dynamicReleaseDragMapper.selectById(req.getDragId());

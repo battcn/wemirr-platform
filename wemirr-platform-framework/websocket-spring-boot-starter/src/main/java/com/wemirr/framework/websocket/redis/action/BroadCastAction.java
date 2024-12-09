@@ -33,7 +33,7 @@ import com.wemirr.framework.websocket.utils.WebSocketUtil;
  * @author Levin
  */
 public class BroadCastAction implements Action {
-    
+
     @Override
     public void doMessage(WebSocketManager manager, JSONObject object) {
         if (!object.containsKey(MESSAGE)) {

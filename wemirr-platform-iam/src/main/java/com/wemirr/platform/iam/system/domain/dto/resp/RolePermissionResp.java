@@ -34,8 +34,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RolePermissionResp {
-    
+
     private List<Long> resIdList;
     private List<VueRouter> buttons;
-    
+
 }

@@ -45,10 +45,10 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class AutoRefreshTokenInterceptor implements RequestInterceptor {
-    
+
     private final AutoRefreshTokenProperties properties;
     private final Cache<String, String> tokenCache;
-    
+
     @SneakyThrows
     @Override
     public void apply(RequestTemplate template) {
@@ -63,7 +63,7 @@ public class AutoRefreshTokenInterceptor implements RequestInterceptor {
         }
         template.header(tokenHeader, tokenCache.get(tokenHeader, this::loadCache));
     }
-    
+
     @SneakyThrows
     private String loadCache() {
         final AutoRefreshTokenProperties.OAuth auth = properties.getOAuth();

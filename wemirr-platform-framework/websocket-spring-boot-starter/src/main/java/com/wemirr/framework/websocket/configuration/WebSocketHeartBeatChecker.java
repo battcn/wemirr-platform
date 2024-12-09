@@ -34,7 +34,7 @@ import java.util.Map;
  */
 @Slf4j
 public class WebSocketHeartBeatChecker {
-    
+
     /**
      * 定时检测 WebSocket 的心跳时间跟现在的间隔，超过设定的值说明失去了心跳，就去除他，并更新数据库
      * 基于每次 WebSocket 的心跳都更新其心跳时间
@@ -60,7 +60,7 @@ public class WebSocketHeartBeatChecker {
                 toRemoves.add(webSocket);
             }
         });
-        
+
         if (toRemoves.size() > 0) {
             for (WebSocket webSocket : toRemoves) {
                 // 内存删了

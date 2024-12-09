@@ -43,7 +43,6 @@
 - 修复异常提示
 - 修复启动异常情况
 
-
 # 2.0.1-release
 
 - 升级JDK17
@@ -77,7 +76,7 @@
 - 从 d_pass_v1.0 迁移部分代码
 - 实现`RBAC` 权限
 - 统一的认证授权中心服务(`authority`)
-- 升级Swagger V2 => SpringDoc 
+- 升级Swagger V2 => SpringDoc
 - 升级Spring Cloud 2020.3、Spring Cloud Alibaba 2021
 - `Spring Cloud Gateway` 网关二次开发支持 `动态网关`、`黑名单`、`全局动态限流`
 - 支持多种云存储

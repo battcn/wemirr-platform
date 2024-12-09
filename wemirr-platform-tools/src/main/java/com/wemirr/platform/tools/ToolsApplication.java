@@ -43,7 +43,7 @@ import java.net.InetAddress;
 @EnableFeignClients("com.wemirr")
 @MapperScan(value = "com.wemirr.**.repository", annotationClass = Repository.class)
 public class ToolsApplication {
-    
+
     @SneakyThrows
     public static void main(String[] args) {
         final ConfigurableApplicationContext applicationContext = SpringApplication.run(ToolsApplication.class, args);
@@ -52,11 +52,11 @@ public class ToolsApplication {
         String host = InetAddress.getLocalHost().getHostAddress();
         String port = env.getProperty("server.port");
         log.info("""
-                
-                ----------------------------------------------------------
-                \tApplication '{}' is running! Access URLs:
-                \tDoc: \thttp://{}:{}/doc.html
-                ----------------------------------------------------------""",
+                                        
+                        ----------------------------------------------------------
+                        \tApplication '{}' is running! Access URLs:
+                        \tDoc: \thttp://{}:{}/doc.html
+                        ----------------------------------------------------------""",
                 appName, host, port);
     }
 }

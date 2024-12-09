@@ -62,9 +62,11 @@ import java.util.TimeZone;
 @Configuration
 public class InitBaseConfiguration implements WebMvcConfigurer {
 
+    private static final String PROFILE_DEMO = "demo";
     @Value("${spring.profiles.active:local}")
     private String profile;
-    private static final String PROFILE_DEMO = "demo";
+    @Value("${spring.jackson.date-format:yyyy-MM-dd HH:mm:ss}")
+    private String pattern;
 
     /**
      * 枚举类的转换器工厂 addConverterFactory
@@ -84,9 +86,6 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
         }
     }
 
-    @Value("${spring.jackson.date-format:yyyy-MM-dd HH:mm:ss}")
-    private String pattern;
-
     /**
      * serializerByType 解决json中返回的 LocalDateTime 格式问题
      * deserializerByType 解决string类型入参转为 LocalDateTime 格式问题
@@ -101,24 +100,6 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
             builder.serializerByType(Long.TYPE, ToStringSerializer.instance);
             builder.modules(new LocalJavaTimeModule(), new JavaTimeModule());
         };
-    }
-
-    static class LocalJavaTimeModule extends SimpleModule {
-
-        private static final String NORM_DATE_PATTERN = "yyyy-MM-dd";
-        private static final String NORM_TIME_PATTERN = "HH:mm:ss";
-        private static final String NORM_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
-
-        LocalJavaTimeModule() {
-            super(PackageVersion.VERSION);
-            this.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN)));
-            this.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(NORM_DATE_PATTERN)));
-            this.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(NORM_TIME_PATTERN)));
-            this.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN)));
-            this.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(NORM_DATE_PATTERN)));
-            this.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(NORM_TIME_PATTERN)));
-        }
-
     }
 
     /**
@@ -152,6 +133,24 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
     @Bean
     public Converter<String, LocalDateTime> localDateTimeConverter() {
         return new String2LocalDateTimeConverter();
+    }
+
+    static class LocalJavaTimeModule extends SimpleModule {
+
+        private static final String NORM_DATE_PATTERN = "yyyy-MM-dd";
+        private static final String NORM_TIME_PATTERN = "HH:mm:ss";
+        private static final String NORM_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
+        LocalJavaTimeModule() {
+            super(PackageVersion.VERSION);
+            this.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN)));
+            this.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(NORM_DATE_PATTERN)));
+            this.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(NORM_TIME_PATTERN)));
+            this.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN)));
+            this.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(NORM_DATE_PATTERN)));
+            this.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(NORM_TIME_PATTERN)));
+        }
+
     }
 
 }

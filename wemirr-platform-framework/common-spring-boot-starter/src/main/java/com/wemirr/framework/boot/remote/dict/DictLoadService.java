@@ -22,9 +22,9 @@ import static java.util.stream.Collectors.toMap;
 @RequiredArgsConstructor
 public class DictLoadService implements LoadService<Object> {
 
+    private static final String PLAT_DICT_HASH_KEY = "dict:platform";
     private final RedisTemplate<String, Object> redisTemplate;
     private final I18nMessageProvider i18nMessageProvider;
-    private static final String PLAT_DICT_HASH_KEY = "dict:platform";
 
     @Override
     public Map<Object, Object> findByIds(Set<Object> ids) {

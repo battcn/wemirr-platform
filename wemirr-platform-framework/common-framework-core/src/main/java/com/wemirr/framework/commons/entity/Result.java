@@ -183,13 +183,17 @@ public class Result<T> implements Serializable {
         return new Builder<T>(code, System.currentTimeMillis(), successful).message(message).data(data).build();
     }
 
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 
     public static class Builder<T> {
 
         private final int code;
-        private String message;
         private final long timestamp;
         private final boolean successful;
+        private String message;
         private T data;
 
         public Builder(int code, long timestamp, boolean successful) {
@@ -211,10 +215,5 @@ public class Result<T> implements Serializable {
         public Result<T> build() {
             return new Result<>(this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
     }
 }

@@ -76,27 +76,6 @@ public class StorageRequest implements java.io.Serializable {
 
     private Object userId;
 
-    public enum PrefixRule {
-        /**
-         * 无规则 默认提取 prefix 否则自动生成前缀
-         */
-        none,
-        /**
-         * 当前日期+月份
-         */
-        now_date_mouth,
-
-        /**
-         * 当前年月日
-         */
-        now_date_mouth_day,
-
-        /**
-         * 租户当前日期策略
-         */
-        tenant_now_date_mouth_day
-    }
-
     /**
      * 获取目标名字
      *
@@ -127,5 +106,26 @@ public class StorageRequest implements java.io.Serializable {
             }
         }
         return FileUtils.targetName(this.isRandomName(), prefix, this.getOriginName());
+    }
+
+    public enum PrefixRule {
+        /**
+         * 无规则 默认提取 prefix 否则自动生成前缀
+         */
+        none,
+        /**
+         * 当前日期+月份
+         */
+        now_date_mouth,
+
+        /**
+         * 当前年月日
+         */
+        now_date_mouth_day,
+
+        /**
+         * 租户当前日期策略
+         */
+        tenant_now_date_mouth_day
     }
 }

@@ -33,12 +33,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @TableName("gen_dynamic_release_grid")
 public class DynamicReleaseGrid extends SuperEntity<Long> {
-    
+
     private Long datasourceId;
-    
+
     @TableField("`model`")
     private String model;
-    
+
     /**
      * 表名
      */
@@ -46,5 +46,5 @@ public class DynamicReleaseGrid extends SuperEntity<Long> {
     private Long templateId;
     private Boolean locked;
     private String description;
-    
+
 }

@@ -31,7 +31,7 @@ import java.util.List;
 @Data
 @Schema(name = "RegisteredClientRefResp")
 public class RegisteredClientResp {
-    
+
     @Schema(description = "客户端ID")
     private String id;
     @Schema(description = "客户端名称")
@@ -64,5 +64,5 @@ public class RegisteredClientResp {
     private Long authorizationCodeTimeToLive;
     @Schema(description = "设备码 有效时长（分钟）", example = "5")
     private Long deviceCodeTimeToLive;
-    
+
 }

@@ -49,9 +49,8 @@ import java.util.Objects;
 @EnableConfigurationProperties(SecurityExtProperties.class)
 public class SecurityInnerServiceAspect implements Ordered {
 
-    private final SecurityExtProperties properties;
-
     private static final String SEPARATOR = ",";
+    private final SecurityExtProperties properties;
 
     @Around("@annotation(authorize)")
     public Object around(ProceedingJoinPoint point, IgnoreAuthorize authorize) throws Throwable {

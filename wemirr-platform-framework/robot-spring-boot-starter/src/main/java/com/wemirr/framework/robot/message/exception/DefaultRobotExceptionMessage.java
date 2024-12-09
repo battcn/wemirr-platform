@@ -36,13 +36,13 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 public class DefaultRobotExceptionMessage implements IRobotExceptionMessage {
-    
+
     /**
      * 允许多端发送
      */
     private List<RobotMessageHandler> robotMessageTemplateList;
     private IErrorMessageHandler iErrorMessageHandler;
-    
+
     @Override
     public boolean notify(JoinPoint joinPoint, Exception e) {
         try {
@@ -56,7 +56,7 @@ public class DefaultRobotExceptionMessage implements IRobotExceptionMessage {
             return false;
         }
     }
-    
+
     @Override
     public boolean notify(Exception e) {
         try {
@@ -69,7 +69,7 @@ public class DefaultRobotExceptionMessage implements IRobotExceptionMessage {
             return false;
         }
     }
-    
+
     @Override
     public boolean notify(String msg) {
         try {

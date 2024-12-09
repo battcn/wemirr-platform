@@ -34,7 +34,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DynamicReleaseDragExtendReq {
-    
+
     @NotBlank(message = "请求方法不能为空")
     private String method;
     @NotBlank(message = "请求地址不能为空")
@@ -43,5 +43,5 @@ public class DynamicReleaseDragExtendReq {
     private String secret;
     private List<String> opt;
     private Boolean locked;
-    
+
 }

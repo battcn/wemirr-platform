@@ -43,9 +43,9 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class DataScopePermissionHandler implements MultiDataPermissionHandler {
-    
+
     private final AuthenticationContext context;
-    
+
     @SneakyThrows
     @Override
     public Expression getSqlSegment(final Table table, Expression where, String mappedStatementId) {
@@ -64,7 +64,7 @@ public class DataScopePermissionHandler implements MultiDataPermissionHandler {
         }
         return buildAnnotationExpression(table, rule);
     }
-    
+
     private Expression buildAnnotationExpression(Table table, DataPermissionRule rule) {
         if (rule == null) {
             return null;

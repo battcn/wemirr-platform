@@ -29,7 +29,7 @@ import java.util.List;
  * @author Levin
  */
 public interface DynamicReleaseColumnService extends SuperService<DynamicReleaseColumn> {
-    
+
     /**
      * 编辑动态发布字段
      *
@@ -37,7 +37,7 @@ public interface DynamicReleaseColumnService extends SuperService<DynamicRelease
      * @param req    修改内容
      */
     void edit(Long gridId, DynamicReleaseGridColumnReq req);
-    
+
     /**
      * 根据表格ID查询
      *

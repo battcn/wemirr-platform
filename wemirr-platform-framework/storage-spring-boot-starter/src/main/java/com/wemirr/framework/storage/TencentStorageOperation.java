@@ -50,15 +50,15 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 public class TencentStorageOperation implements StorageOperation {
-    
+
     private final COSClient client;
     private final TencentStorageProperties properties;
-    
+
     @Override
     public DownloadResponse download(String fileName) {
         return download(properties.getBucket(), fileName);
     }
-    
+
     @Override
     public DownloadResponse download(String bucketName, String fileName) {
         final String path = StringUtils.defaultIfBlank(this.properties.getTmpDir(), this.getClass().getResource("/").getPath());
@@ -68,38 +68,38 @@ public class TencentStorageOperation implements StorageOperation {
         return DownloadResponse.builder().inputStream(FileUtil.getInputStream(file))
                 .file(file).localFilePath(file.getPath()).build();
     }
-    
+
     @Override
     public void download(String bucketName, String fileName, File file) {
         final String bucket = StrUtil.blankToDefault(bucketName, properties.getBucket());
         this.client.getObject(new GetObjectRequest(bucket, fileName), file);
     }
-    
+
     @Override
     public void download(String fileName, File file) {
         download(properties.getBucket(), fileName, file);
     }
-    
+
     @Override
     public List<StorageItem> list() {
         return null;
     }
-    
+
     @Override
     public void rename(String oldName, String newName) {
-        
+
     }
-    
+
     @Override
     public void rename(String bucketName, String oldName, String newName) {
-        
+
     }
-    
+
     @Override
     public StorageResponse upload(String fileName, byte[] content) {
         return upload(properties.getBucket(), fileName, content);
     }
-    
+
     @Override
     public StorageResponse upload(String bucketName, String fileName, InputStream content) {
         // 腾讯云必需要以"/"开头
@@ -121,7 +121,7 @@ public class TencentStorageOperation implements StorageOperation {
             throw new StorageException(BaseStorageProperties.StorageType.TENCENT, "文件上传失败," + e.getLocalizedMessage());
         }
     }
-    
+
     @Override
     public StorageResponse upload(String bucketName, String fileName, byte[] content) {
         // 腾讯云必需要以"/"开头
@@ -140,24 +140,24 @@ public class TencentStorageOperation implements StorageOperation {
         return StorageResponse.builder().originName(fileName).targetName(fileName)
                 .size(objectMetadata.getContentLength()).fullUrl(properties.getMappingPath() + fileName).build();
     }
-    
+
     @Override
     public StorageResponse upload(StorageRequest request) {
         return null;
     }
-    
+
     @Override
     public void remove(String fileName) {
-        
+
     }
-    
+
     @Override
     public void remove(String bucketName, String fileName) {
-        
+
     }
-    
+
     @Override
     public void remove(String bucketName, Path path) {
-        
+
     }
 }

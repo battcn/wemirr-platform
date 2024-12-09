@@ -36,7 +36,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @Schema(name = "OrgSaveReq", description = "组织")
 public class OrgSaveReq {
-    
+
     /**
      * 名称
      */
@@ -50,7 +50,7 @@ public class OrgSaveReq {
     @Schema(description = "简称")
     @Length(max = 255, message = "简称长度不能超过 {max}")
     private String abbreviation;
-    
+
     @Schema(description = "部门电话")
     private String tel;
     /**
@@ -58,7 +58,7 @@ public class OrgSaveReq {
      */
     @Schema(description = "父ID")
     private Long parentId;
-    
+
     /**
      * 排序
      */
@@ -75,5 +75,5 @@ public class OrgSaveReq {
     @Schema(description = "描述")
     @Length(max = 255, message = "描述长度不能超过 {max}")
     private String description;
-    
+
 }

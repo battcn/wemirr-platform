@@ -37,7 +37,7 @@ import org.springframework.stereotype.Repository;
 @TenantDS
 @Repository
 public interface LoginLogMapper extends SuperMapper<LoginLog> {
-    
+
     /**
      * 统计 IP 数据
      *
@@ -45,5 +45,5 @@ public interface LoginLogMapper extends SuperMapper<LoginLog> {
      */
     @Select("SELECT count(DISTINCT ( ip )) FROM c_login_log")
     long countDistinctLoginIp();
-    
+
 }

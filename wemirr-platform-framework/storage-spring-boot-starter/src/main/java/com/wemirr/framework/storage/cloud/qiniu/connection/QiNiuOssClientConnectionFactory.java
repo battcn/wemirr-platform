@@ -37,14 +37,14 @@ import java.util.Map;
  */
 @AllArgsConstructor
 public class QiNiuOssClientConnectionFactory implements QiNiuConnectionFactory {
-    
+
     private final QiNiuStorageProperties qiNiuStorageProperties;
-    
+
     @Override
     public Auth getAuth() {
         return Auth.create(qiNiuStorageProperties.getAccessKey(), qiNiuStorageProperties.getSecretKey());
     }
-    
+
     private Configuration configuration() {
         Region region;
         switch (qiNiuStorageProperties.getRegion()) {
@@ -60,17 +60,17 @@ public class QiNiuOssClientConnectionFactory implements QiNiuConnectionFactory {
         }
         return new Configuration(region);
     }
-    
+
     @Override
     public BucketManager getBucketManager() {
         return new BucketManager(getAuth(), configuration());
     }
-    
+
     @Override
     public UploadManager getUploadManager() {
         return new UploadManager(configuration());
     }
-    
+
     @Override
     public String getUploadToken(String bucket, String key, QiNiuScope scope) {
         Map<String, QiNiuStorageProperties.QiNiuStrategy> strategies = qiNiuStorageProperties.getStrategies();
@@ -89,13 +89,13 @@ public class QiNiuOssClientConnectionFactory implements QiNiuConnectionFactory {
         // 生成上传凭证
         return getAuth().uploadToken(bucket, key, expires, policy, strict);
     }
-    
+
     @Override
     public String getUploadToken(String bucket, String key) {
         // 提供一个默认简单的上传凭证
         return getUploadToken(bucket, key, QiNiuScope.DEFAULT);
     }
-    
+
     /**
      * // 指定上传的目标资源空间 Bucket 和资源键 Key（最大为 750 字节）。有三种格式：
      * // <bucket>，表示允许用户上传文件到指定的bucket。
@@ -123,7 +123,7 @@ public class QiNiuOssClientConnectionFactory implements QiNiuConnectionFactory {
             policy.put("scope", bucket);
         }
     }
-    
+
     private StringMap createPolicy(QiNiuStorageProperties.QiNiuStrategy strategy) {
         // 针对不同的bucket提供不同的上传策略配置来覆盖默认配置
         StringMap policy = new StringMap();
@@ -186,14 +186,14 @@ public class QiNiuOssClientConnectionFactory implements QiNiuConnectionFactory {
         }
         return policy;
     }
-    
+
     @Override
     public String getDomain(String bucket) {
         Map<String, QiNiuStorageProperties.QiNiuStrategy> strategies = qiNiuStorageProperties.getStrategies();
         // 获取配置中七牛空间的默认域名或者是绑定的自定义域名
         return strategies.get(bucket).getDomain();
     }
-    
+
     @Override
     public CdnManager getCdnManager() {
         return new CdnManager(getAuth());

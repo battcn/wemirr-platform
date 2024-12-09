@@ -27,12 +27,11 @@ import reactor.core.publisher.Mono;
 @Component
 public class PlatformGatewayStrategyRouteFilter implements GlobalFilter {
 
+    private static final String TRACE_ID = "n-d-trace-id";
     @Resource
     private BlacklistHelper blacklistHelper;
     @Resource
     private LimitHelper limitHelper;
-
-    private static final String TRACE_ID = "n-d-trace-id";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

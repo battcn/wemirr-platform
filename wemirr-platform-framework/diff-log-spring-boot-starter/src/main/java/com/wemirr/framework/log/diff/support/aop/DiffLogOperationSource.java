@@ -25,31 +25,6 @@ public class DiffLogOperationSource {
      */
     private static final Map<Method, Method> INTERFACE_METHOD_CACHE = new ConcurrentReferenceHashMap<>(256);
 
-    public Collection<DiffLogOps> computeDiffLogOperations(Method method, Class<?> targetClass) {
-        // Don't allow no-public methods as required.
-        if (!Modifier.isPublic(method.getModifiers())) {
-            return Collections.emptyList();
-        }
-
-        // The method may be on an interface, but we need attributes from the target class.
-        // If the target class is null, the method will be unchanged.
-        Method specificMethod = ClassUtils.getMostSpecificMethod(method, targetClass);
-        // If we are dealing with method with generic parameters, find the original method.
-        specificMethod = BridgeMethodResolver.findBridgedMethod(specificMethod);
-
-        // First try is the method in the target class.
-        Collection<DiffLogOps> diffLogOps = parseDiffLogAnnotations(specificMethod);
-        Collection<DiffLogOps> diffLogsOps = parseDiffLogsAnnotations(specificMethod);
-        Collection<DiffLogOps> abstractDiffLogOps = parseDiffLogAnnotations(getInterfaceMethodIfPossible(method));
-        Collection<DiffLogOps> abstractDiffLogsOps = parseDiffLogsAnnotations(getInterfaceMethodIfPossible(method));
-        HashSet<DiffLogOps> result = new HashSet<>();
-        result.addAll(diffLogOps);
-        result.addAll(abstractDiffLogOps);
-        result.addAll(diffLogsOps);
-        result.addAll(abstractDiffLogsOps);
-        return result;
-    }
-
     /**
      * Determine a corresponding interface method for the given method handle, if possible.
      * <p>This is particularly useful for arriving at a public exported type on Jigsaw
@@ -77,6 +52,31 @@ public class DiffLogOperationSource {
             }
             return key;
         });
+    }
+
+    public Collection<DiffLogOps> computeDiffLogOperations(Method method, Class<?> targetClass) {
+        // Don't allow no-public methods as required.
+        if (!Modifier.isPublic(method.getModifiers())) {
+            return Collections.emptyList();
+        }
+
+        // The method may be on an interface, but we need attributes from the target class.
+        // If the target class is null, the method will be unchanged.
+        Method specificMethod = ClassUtils.getMostSpecificMethod(method, targetClass);
+        // If we are dealing with method with generic parameters, find the original method.
+        specificMethod = BridgeMethodResolver.findBridgedMethod(specificMethod);
+
+        // First try is the method in the target class.
+        Collection<DiffLogOps> diffLogOps = parseDiffLogAnnotations(specificMethod);
+        Collection<DiffLogOps> diffLogsOps = parseDiffLogsAnnotations(specificMethod);
+        Collection<DiffLogOps> abstractDiffLogOps = parseDiffLogAnnotations(getInterfaceMethodIfPossible(method));
+        Collection<DiffLogOps> abstractDiffLogsOps = parseDiffLogsAnnotations(getInterfaceMethodIfPossible(method));
+        HashSet<DiffLogOps> result = new HashSet<>();
+        result.addAll(diffLogOps);
+        result.addAll(abstractDiffLogOps);
+        result.addAll(diffLogsOps);
+        result.addAll(abstractDiffLogsOps);
+        return result;
     }
 
     private Collection<DiffLogOps> parseDiffLogsAnnotations(AnnotatedElement ae) {

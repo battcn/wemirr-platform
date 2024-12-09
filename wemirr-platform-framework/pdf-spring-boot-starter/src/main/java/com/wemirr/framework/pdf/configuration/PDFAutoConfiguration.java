@@ -12,6 +12,6 @@ import org.springframework.context.annotation.Configuration;
 public class PDFAutoConfiguration {
     @Bean(initMethod = "init")
     public PDFTemplate pdfTemplate() {
-       return new PDFTemplate();
+        return new PDFTemplate();
     }
 }

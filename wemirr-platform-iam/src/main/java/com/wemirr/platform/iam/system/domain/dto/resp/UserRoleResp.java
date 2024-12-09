@@ -34,20 +34,20 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRoleResp {
-    
+
     private List<UserRoleDetail> userRoleDetails;
     private List<Long> originTargetKeys;
-    
+
     @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UserRoleDetail {
-        
+
         private Long id;
         private String nickName;
         private String username;
-        
+
     }
-    
+
 }

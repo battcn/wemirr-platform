@@ -37,7 +37,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @TableName("gen_dynamic_release_drag")
 public class DynamicReleaseDrag extends SuperEntity<Long> {
-    
+
     @TableField("`model`")
     private String model;
     @TableField("`label`")
@@ -49,5 +49,5 @@ public class DynamicReleaseDrag extends SuperEntity<Long> {
     private String setting;
     @TableField("`table_name`")
     private String tableName;
-    
+
 }

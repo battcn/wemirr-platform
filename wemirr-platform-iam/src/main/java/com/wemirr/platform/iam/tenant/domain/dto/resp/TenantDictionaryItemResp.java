@@ -33,11 +33,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TenantDictionaryItemResp {
-    
+
     @Schema(description = "字典名")
     private String label;
-    
+
     @Schema(description = "字典值")
     private String value;
-    
+
 }

@@ -25,11 +25,11 @@ import lombok.Data;
  */
 @Data
 public class DynamicReleaseDragPushServerMapperResp {
-    
+
     private String model;
     private String method;
     private Long pushId;
     private Long dragId;
     private String url;
-    
+
 }

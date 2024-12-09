@@ -35,7 +35,7 @@ import com.wemirr.framework.websocket.utils.WebSocketUtil;
  * @author Levin
  */
 public class SendMessageAction implements Action {
-    
+
     @Override
     public void doMessage(WebSocketManager manager, JSONObject object) {
         if (!object.containsKey(IDENTIFIER)) {
@@ -44,9 +44,9 @@ public class SendMessageAction implements Action {
         if (!object.containsKey(MESSAGE)) {
             return;
         }
-        
+
         String identifier = object.getString(IDENTIFIER);
-        
+
         WebSocket webSocket = manager.get(identifier);
         if (null == webSocket) {
             return;

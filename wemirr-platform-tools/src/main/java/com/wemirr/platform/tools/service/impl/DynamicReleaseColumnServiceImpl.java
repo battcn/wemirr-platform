@@ -52,9 +52,9 @@ import static com.wemirr.platform.tools.domain.converts.DynamicReleaseGridColumn
 @Service
 @RequiredArgsConstructor
 public class DynamicReleaseColumnServiceImpl extends SuperServiceImpl<DynamicReleaseColumnMapper, DynamicReleaseColumn> implements DynamicReleaseColumnService {
-    
+
     private final DynamicReleaseGridMapper dynamicReleaseGridMapper;
-    
+
     @Override
     public void edit(Long gridId, DynamicReleaseGridColumnReq req) {
         final Wrapper<DynamicReleaseColumn> wrapper = Wraps.<DynamicReleaseColumn>lbQ()
@@ -69,7 +69,7 @@ public class DynamicReleaseColumnServiceImpl extends SuperServiceImpl<DynamicRel
             this.baseMapper.update(column, wrapper);
         }
     }
-    
+
     @Override
     @DSTransactional
     public List<DynamicReleaseGridColumnResp> listByGridId(Long gridId) {

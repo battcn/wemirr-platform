@@ -60,25 +60,25 @@ import java.util.function.Predicate;
  */
 public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         implements
-            Query<LbqWrapper<T>, T, SFunction<T, ?>> {
-    
+        Query<LbqWrapper<T>, T, SFunction<T, ?>> {
+
     /**
      * 查询字段
      */
     private SharedString sqlSelect = new SharedString();
-    
+
     /**
      * 是否跳过空值（Levin项目扩展）
      */
     private boolean skipEmpty = true;
-    
+
     /**
      * 不建议直接 new 该实例，使用 Wrappers.lambdaQuery(entity)
      */
     public LbqWrapper() {
         this((T) null);
     }
-    
+
     /**
      * 不建议直接 new 该实例，使用 Wrappers.lambdaQuery(entity)
      */
@@ -90,7 +90,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
             super.setEntity(Wraps.replace(BeanUtil.toBean(entity, getEntityClass())));
         }
     }
-    
+
     /**
      * 不建议直接 new 该实例，使用 Wraps.lbQ(entity)
      */
@@ -98,7 +98,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         super.setEntityClass(entityClass);
         super.initNeed();
     }
-    
+
     /**
      * 不建议直接 new 该实例，使用 Wrappers.lambdaQuery(...)
      */
@@ -115,7 +115,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         this.sqlComment = sqlComment;
         this.sqlFirst = sqlFirst;
     }
-    
+
     /**
      * SELECT 部分 SQL 设置
      *
@@ -129,7 +129,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         }
         return this.typedThis;
     }
-    
+
     @Override
     public LbqWrapper<T> select(boolean condition, List<SFunction<T, ?>> columns) {
         if (Objects.nonNull(columns)) {
@@ -137,7 +137,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         }
         return this.typedThis;
     }
-    
+
     /**
      * 过滤查询的字段信息(主键除外!)
      * <p>例1: 只要 java 字段名以 "test" 开头的             -> select(i -&gt; i.getProperty().startsWith("test"))</p>
@@ -155,12 +155,12 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         this.sqlSelect.setStringValue(TableInfoHelper.getTableInfo(getEntityClass()).chooseSelect(predicate));
         return this.typedThis;
     }
-    
+
     @Override
     public String getSqlSelect() {
         return this.sqlSelect.getStringValue();
     }
-    
+
     /**
      * 用于生成嵌套 sql
      * <p>故 sqlSelect 不向下传递</p>
@@ -170,45 +170,45 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         return new LbqWrapper<>(getEntity(), getEntityClass(), null, paramNameSeq, paramNameValuePairs,
                 new MergeSegments(), SharedString.emptyString(), SharedString.emptyString(), SharedString.emptyString());
     }
-    
+
     @Override
     public void clear() {
         super.clear();
         sqlSelect.toNull();
     }
-    
+
     @Override
     public LbqWrapper<T> nested(Consumer<LbqWrapper<T>> consumer) {
         return super.nested(consumer);
     }
-    
+
     @Override
     public LbqWrapper<T> eq(SFunction<T, ?> column, Object val) {
         return super.eq(this.checkCondition(val), column, val);
     }
-    
+
     @Override
     public LbqWrapper<T> ne(SFunction<T, ?> column, Object val) {
         return super.ne(this.checkCondition(val), column, val);
     }
-    
+
     @Override
     public LbqWrapper<T> gt(SFunction<T, ?> column, Object val) {
         return super.gt(this.checkCondition(val), column, val);
     }
-    
+
     @Override
     public LbqWrapper<T> ge(SFunction<T, ?> column, Object val) {
         return super.ge(this.checkCondition(val), column, val);
     }
-    
+
     public LbqWrapper<T> geHeader(SFunction<T, ?> column, LocalDateTime val) {
         if (val != null) {
             val = LocalDateTime.of(val.toLocalDate(), LocalTime.MIN);
         }
         return super.ge(this.checkCondition(val), column, val);
     }
-    
+
     public LbqWrapper<T> geHeader(SFunction<T, ?> column, LocalDate val) {
         LocalDateTime dateTime = null;
         if (val != null) {
@@ -216,24 +216,24 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         }
         return super.ge(this.checkCondition(val), column, dateTime);
     }
-    
+
     @Override
     public LbqWrapper<T> lt(SFunction<T, ?> column, Object val) {
         return super.lt(this.checkCondition(val), column, val);
     }
-    
+
     @Override
     public LbqWrapper<T> le(SFunction<T, ?> column, Object val) {
         return super.le(this.checkCondition(val), column, val);
     }
-    
+
     public LbqWrapper<T> leFooter(SFunction<T, ?> column, LocalDateTime val) {
         if (val != null) {
             val = LocalDateTime.of(val.toLocalDate(), LocalTime.MAX);
         }
         return super.le(this.checkCondition(val), column, val);
     }
-    
+
     public LbqWrapper<T> leFooter(SFunction<T, ?> column, LocalDate val) {
         LocalDateTime dateTime = null;
         if (val != null) {
@@ -241,32 +241,32 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         }
         return super.le(this.checkCondition(val), column, dateTime);
     }
-    
+
     @Override
     public LbqWrapper<T> in(SFunction<T, ?> column, Collection<?> coll) {
         return super.in(coll != null && !coll.isEmpty(), column, coll);
     }
-    
+
     @Override
     public LbqWrapper<T> in(SFunction<T, ?> column, Object... values) {
         return super.in(values != null && values.length > 0, column, values);
     }
-    
+
     @Override
     public LbqWrapper<T> like(SFunction<T, ?> column, Object val) {
         return super.like(this.checkCondition(val), column, val);
     }
-    
+
     @Override
     public LbqWrapper<T> likeLeft(SFunction<T, ?> column, Object val) {
         return super.likeLeft(this.checkCondition(val), column, val);
     }
-    
+
     @Override
     public LbqWrapper<T> likeRight(SFunction<T, ?> column, Object val) {
         return super.likeRight(this.checkCondition(val), column, val);
     }
-    
+
     /**
      * 忽略实体中的某些字段，实体中的字段默认是会除了null以外的全部进行等值匹配
      * 再次可以进行忽略
@@ -275,14 +275,14 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
      * @param val    val
      * @return LbqWrapper
      */
-    
+
     @Override
     public LbqWrapper<T> notLike(SFunction<T, ?> column, Object val) {
         return super.notLike(this.checkCondition(val), column, val);
     }
-    
+
     // ----------------以下为自定义方法---------
-    
+
     /**
      * 取消跳过空的字符串  不允许跳过空的字符串
      *
@@ -292,7 +292,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         this.skipEmpty = false;
         return this;
     }
-    
+
     /**
      * 空值校验
      * 传入空字符串("")时， 视为： 字段名 = ""
@@ -311,7 +311,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         }
         return Objects.nonNull(val);
     }
-    
+
     /**
      * 忽略实体(entity)中的某些字段，实体中的字段默认是会除了null以外的全部进行等值匹配
      * 再次可以进行忽略
@@ -324,5 +324,5 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         setColumn.apply(this.getEntity(), null);
         return this;
     }
-    
+
 }

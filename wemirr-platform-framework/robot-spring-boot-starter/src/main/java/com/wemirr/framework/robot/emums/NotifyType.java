@@ -39,7 +39,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "枚举")
 @JsonFormat
 public enum NotifyType {
-    
+
     /**
      * 钉钉
      */
@@ -54,10 +54,10 @@ public enum NotifyType {
     @EnumValue
     @JsonValue
     private String type;
-    
+
     @Schema(description = "描述")
     private String desc;
-    
+
     @JsonCreator
     public static NotifyType of(String type) {
         if (type == null) {
@@ -70,9 +70,10 @@ public enum NotifyType {
         }
         return null;
     }
+
     @Override
     public String toString() {
         return String.valueOf(type);
     }
-    
+
 }

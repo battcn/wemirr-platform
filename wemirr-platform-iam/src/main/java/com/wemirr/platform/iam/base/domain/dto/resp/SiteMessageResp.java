@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Data
 public class SiteMessageResp {
-    
+
     @Schema(description = "ID")
     private Long id;
     @Schema(description = "标题")
@@ -50,5 +50,5 @@ public class SiteMessageResp {
     private String createdName;
     @Schema(description = "创建时间")
     private Instant createdTime;
-    
+
 }

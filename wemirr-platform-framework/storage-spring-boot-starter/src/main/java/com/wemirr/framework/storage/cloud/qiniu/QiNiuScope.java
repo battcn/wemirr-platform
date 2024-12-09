@@ -34,7 +34,7 @@ package com.wemirr.framework.storage.cloud.qiniu;
  * @author Levin
  */
 public enum QiNiuScope {
-    
+
     /**
      * 默认
      */

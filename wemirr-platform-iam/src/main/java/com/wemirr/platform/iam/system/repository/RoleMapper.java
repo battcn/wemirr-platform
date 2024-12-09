@@ -37,7 +37,7 @@ import java.util.List;
 @TenantDS
 @Repository
 public interface RoleMapper extends SuperMapper<Role> {
-    
+
     /**
      * 根据用户ID查询角色
      *
@@ -46,7 +46,7 @@ public interface RoleMapper extends SuperMapper<Role> {
      */
     @InterceptorIgnore(tenantLine = "true")
     List<Role> findRoleByUserId(Long userId);
-    
+
     /**
      * 根据范围查询角色
      *
@@ -54,7 +54,7 @@ public interface RoleMapper extends SuperMapper<Role> {
      */
     @DataScope(columns = @DataColumn)
     List<Role> list();
-    
+
     /**
      * 根据租户ID删除
      *

@@ -30,5 +30,5 @@ import org.springframework.stereotype.Repository;
 @TenantDS
 @Repository
 public interface DataPermissionResourceMapper extends SuperMapper<DataPermissionResource> {
-    
+
 }

@@ -44,13 +44,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Constraint(validatedBy = {LocalDateTimeValidator.class})
 public @interface LocalDateTime {
-    
+
     String message() default "格式错误";
-    
+
     String format() default "yyyy-MM-dd HH:mm:ss";
-    
+
     Class<?>[] groups() default {};
-    
+
     Class<? extends Payload>[] payload() default {};
-    
+
 }

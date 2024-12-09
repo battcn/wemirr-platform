@@ -27,7 +27,7 @@ import java.util.List;
  * @author battcn
  */
 public interface SuperService<T> extends IService<T> {
-    
+
     /**
      * 默认一次处理 500 条,有特殊需要自己for处理去
      * mysql rewriteBatchedStatements=true 可以优化批量SQL，然后使用 IService.saveBatch
@@ -38,7 +38,7 @@ public interface SuperService<T> extends IService<T> {
      * @return 成功与否
      */
     boolean insertBatch(List<T> list);
-    
+
     /**
      * 默认一次处理 500 条,有特殊需要自己for处理去
      * mysql rewriteBatchedStatements=true 可以优化批量SQL，然后使用 IService.saveBatch
@@ -49,5 +49,5 @@ public interface SuperService<T> extends IService<T> {
      * @return 成功与否
      */
     boolean updateBatch(List<T> list);
-    
+
 }

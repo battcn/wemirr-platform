@@ -34,9 +34,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DynamicReleaseDragServiceImpl extends SuperServiceImpl<DynamicReleaseDragMapper, DynamicReleaseDrag> implements DynamicReleaseDragService {
-    
+
     private final AuthenticationContext authenticationContext;
-    
+
     @Override
     public void add(DynamicReleaseDragReq req) {
         final String model = req.getModel();
@@ -48,7 +48,7 @@ public class DynamicReleaseDragServiceImpl extends SuperServiceImpl<DynamicRelea
                 .tenantId(authenticationContext.tenantId())
                 .build());
     }
-    
+
     @Override
     public void edit(Long id, DynamicReleaseDragReq req) {
         DynamicReleaseDrag drag = new DynamicReleaseDrag();
@@ -59,5 +59,5 @@ public class DynamicReleaseDragServiceImpl extends SuperServiceImpl<DynamicRelea
         drag.setLabel(req.getLabel());
         this.baseMapper.updateById(drag);
     }
-    
+
 }

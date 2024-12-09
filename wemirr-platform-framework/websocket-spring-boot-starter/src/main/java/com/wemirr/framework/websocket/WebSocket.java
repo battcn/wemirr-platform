@@ -35,12 +35,12 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WebSocket implements java.io.Serializable {
-    
+
     /**
      * 代表一个连接
      */
     private Session session;
-    
+
     /**
      * 唯一标识
      */
@@ -49,5 +49,5 @@ public class WebSocket implements java.io.Serializable {
      * 最后心跳时间
      */
     private Date lastHeart;
-    
+
 }

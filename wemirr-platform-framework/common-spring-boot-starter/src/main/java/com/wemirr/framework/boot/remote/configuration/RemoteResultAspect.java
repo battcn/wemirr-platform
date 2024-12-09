@@ -37,13 +37,13 @@ import org.aspectj.lang.annotation.Pointcut;
 @Slf4j
 @AllArgsConstructor
 public class RemoteResultAspect {
-    
+
     private final RemoteService remoteService;
-    
+
     @Pointcut("@annotation(com.wemirr.framework.commons.annotation.remote.RemoteResult)")
     public void methodPointcut() {
     }
-    
+
     @Around("methodPointcut() && @annotation(rr)")
     public Object interceptor(ProceedingJoinPoint pjp, RemoteResult rr) throws Throwable {
         Object proceed = pjp.proceed();

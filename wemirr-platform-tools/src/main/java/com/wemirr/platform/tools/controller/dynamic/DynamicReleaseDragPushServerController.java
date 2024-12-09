@@ -48,15 +48,15 @@ import static com.wemirr.platform.tools.domain.converts.DynamicReleaseDragPushSe
 @Tag(name = "数据推送", description = "数据推送")
 @Validated
 public class DynamicReleaseDragPushServerController {
-    
+
     private final DynamicReleaseDragPushServerService dynamicReleaseDragPushServerService;
-    
+
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping
     public IPage<DynamicReleaseDragPushServerResp> page(PageRequest pageRequest) {
         return dynamicReleaseDragPushServerService.page(pageRequest.buildPage()).convert(DYNAMIC_RELEASE_DRAG_PUSH_SERVER_PO_2_RESP::convert);
     }
-    
+
     @Operation(summary = "添加数据推送")
     @PostMapping
     public void add(@Validated @RequestBody DynamicReleaseDragExtendReq req) {
@@ -65,7 +65,7 @@ public class DynamicReleaseDragPushServerController {
                 .url(req.getUrl()).opt(CollectionUtil.join(req.getOpt(), ",")).build();
         dynamicReleaseDragPushServerService.save(dragExtend);
     }
-    
+
     @Operation(summary = "编辑数据推送")
     @PutMapping("/{id}")
     public void edit(@PathVariable Long id, @Validated @RequestBody DynamicReleaseDragExtendReq req) {
@@ -76,23 +76,23 @@ public class DynamicReleaseDragPushServerController {
         dragExtend.setId(id);
         dynamicReleaseDragPushServerService.updateById(dragExtend);
     }
-    
+
     @Operation(summary = "分配模板")
     @GetMapping("/{id}/drag_models_and_check_ids")
     public DynamicReleaseDragPushServerModelResp modelRespResult(@PathVariable Long id) {
         return this.dynamicReleaseDragPushServerService.queryModelByPushId(id);
     }
-    
+
     @Operation(summary = "绑定模板")
     @PutMapping("/{id}/binding")
     public void binding(@PathVariable Long id, @RequestBody BatchKey<Long> ids) {
         this.dynamicReleaseDragPushServerService.binding(id, ids);
     }
-    
+
     @Operation(summary = "删除数据推送")
     @DeleteMapping("/{id}")
     public void remove(@PathVariable Long id) {
         dynamicReleaseDragPushServerService.removeById(id);
     }
-    
+
 }

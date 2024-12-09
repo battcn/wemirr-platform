@@ -43,28 +43,28 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 @Import(ActionConfig.class)
 @EnableConfigurationProperties(WebSocketProperties.class)
 public class RedisWebSocketConfiguration {
-    
+
     @Bean
     public ServerEndpointExporter serverEndpointExporter() {
         return new ServerEndpointExporter();
     }
-    
+
     @Bean(WebSocketManager.WEBSOCKET_MANAGER_NAME)
     @ConditionalOnMissingBean(name = WebSocketManager.WEBSOCKET_MANAGER_NAME)
     public WebSocketManager webSocketManager() {
         return new RedisWebSocketManager();
     }
-    
+
     @Bean(RedisReceiver.REDIS_RECEIVER_NAME)
     public RedisReceiver redisReceiver(ApplicationContext applicationContext) {
         return new DefaultRedisReceiver(applicationContext);
     }
-    
+
     @Bean
     public MessageListenerAdapter listenerAdapter(@Qualifier(RedisReceiver.REDIS_RECEIVER_NAME) RedisReceiver redisReceiver) {
         return new MessageListenerAdapter(redisReceiver, RedisReceiver.RECEIVER_METHOD_NAME);
     }
-    
+
     // @Bean("redisMessageListenerContainer")
     // public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory,
     // MessageListenerAdapter listenerAdapter) {
@@ -74,7 +74,7 @@ public class RedisWebSocketConfiguration {
     // container.addMessageListener(listenerAdapter, new PatternTopic(RedisWebSocketManager.CHANNEL));
     // return container;
     // }
-    
+
     @Bean
     @ConditionalOnMissingBean
     public WebSocketHeartBeatChecker webSocketHeartBeatChecker() {

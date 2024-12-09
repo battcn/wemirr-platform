@@ -21,7 +21,7 @@ public class DiffLogConfigureSelector extends AdviceModeImportSelector<EnableDif
             case PROXY:
                 return new String[]{AutoProxyRegistrar.class.getName(), DiffLogProxyAutoConfiguration.class.getName()};
             case ASPECTJ:
-                return new String[] {DiffLogProxyAutoConfiguration.class.getName()};
+                return new String[]{DiffLogProxyAutoConfiguration.class.getName()};
             default:
                 return null;
         }

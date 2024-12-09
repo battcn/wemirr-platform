@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.wemirr.framework</groupId>
@@ -10,7 +11,7 @@
     <packaging>jar</packaging>
     <name>redis-plus-spring-boot-starter</name>
     <description>redis 增强实现</description>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -20,7 +21,7 @@
         <!-- 打包跳过单元测试 -->
         <skipTests>true</skipTests>
     </properties>
-    
+
     <dependencies>
         <!--<dependency>
             <groupId>com.alicp.jetcache</groupId>

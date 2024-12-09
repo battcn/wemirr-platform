@@ -27,6 +27,7 @@ import java.util.Map;
 @Slf4j
 public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
 
+    private static final String UNABLE_ERROR = "Unable to find instance for";
     private final BlacklistHelper blacklistHelper;
 
     public JsonExceptionHandler(ErrorAttributes errorAttributes, BlacklistHelper blacklistHelper,
@@ -37,7 +38,22 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         this.blacklistHelper = blacklistHelper;
     }
 
-    private static final String UNABLE_ERROR = "Unable to find instance for";
+    /**
+     * 构建返回的JSON数据格式
+     *
+     * @param status       状态码
+     * @param errorMessage 异常信息
+     * @return 返回结果
+     */
+    private static Map<String, Object> response(int status, String errorMessage) {
+        Map<String, Object> map = Maps.newLinkedHashMap();
+        map.put("code", status);
+        map.put("timestamp", System.currentTimeMillis());
+        map.put("message", errorMessage);
+        map.put("successful", false);
+        log.warn("[响应结果] - [{}]", map);
+        return map;
+    }
 
     /**
      * 获取异常属性
@@ -104,23 +120,6 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
             message.append(ex.getMessage());
         }
         return message.toString();
-    }
-
-    /**
-     * 构建返回的JSON数据格式
-     *
-     * @param status       状态码
-     * @param errorMessage 异常信息
-     * @return 返回结果
-     */
-    private static Map<String, Object> response(int status, String errorMessage) {
-        Map<String, Object> map = Maps.newLinkedHashMap();
-        map.put("code", status);
-        map.put("timestamp", System.currentTimeMillis());
-        map.put("message", errorMessage);
-        map.put("successful", false);
-        log.warn("[响应结果] - [{}]", map);
-        return map;
     }
 
 }

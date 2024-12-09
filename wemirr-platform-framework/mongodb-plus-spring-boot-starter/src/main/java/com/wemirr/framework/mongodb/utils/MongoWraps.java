@@ -38,6 +38,24 @@ public final class MongoWraps {
         return new MongoWraps();
     }
 
+    public static Update toUpdate(Object object) {
+        final Field[] fields = ReflectUtil.getFields(object.getClass());
+        Update update = new Update();
+        for (Field field : fields) {
+            final String name = field.getName();
+            final MongoId annotation = field.getAnnotation(MongoId.class);
+            if (annotation != null) {
+                continue;
+            }
+            final Object value = ReflectUtil.getFieldValue(object, field);
+            if (ObjectUtils.isEmpty(value)) {
+                continue;
+            }
+            update.set(name, value);
+        }
+        return update;
+    }
+
     public MongoWraps eq(boolean condition, String key, Object value) {
         if (condition) {
             criteriaList.add(Criteria.where(key).is(value));
@@ -80,7 +98,6 @@ public final class MongoWraps {
         return this;
     }
 
-
     public MongoWraps in(String key, Collection<?> values) {
         if (ObjUtil.isNotEmpty(values)) {
             criteriaList.add(Criteria.where(key).in(values));
@@ -113,7 +130,6 @@ public final class MongoWraps {
         return this;
     }
 
-
     public MongoWraps between(String gteKey, String ltKey, Object getTime, Object ltTime) {
         if (ObjUtil.isAllNotEmpty(gteKey, ltKey, getTime, ltTime)) {
             criteriaList.add(Criteria.where(gteKey).gte(getTime).and(ltKey).lt(ltTime));
@@ -139,7 +155,6 @@ public final class MongoWraps {
         criteriaList.add(criteria);
         return this;
     }
-
 
     public MongoWraps page(boolean condition, PageRequest request) {
         this.request = request;
@@ -170,23 +185,6 @@ public final class MongoWraps {
         return new MongoPageResult<>(v2List, count);
     }
 
-    @Data
-    @AllArgsConstructor
-    public static class MongoPageResult<T> {
-
-        /**
-         * 响应结果
-         */
-        private List<T> records;
-
-        /**
-         * 总数
-         */
-        private long total;
-
-    }
-
-
     public Query build() {
         Query query = new Query();
         if (CollUtil.isEmpty(criteriaList)) {
@@ -212,23 +210,20 @@ public final class MongoWraps {
         return new Criteria().andOperator(criteriaList);
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class MongoPageResult<T> {
 
-    public static Update toUpdate(Object object) {
-        final Field[] fields = ReflectUtil.getFields(object.getClass());
-        Update update = new Update();
-        for (Field field : fields) {
-            final String name = field.getName();
-            final MongoId annotation = field.getAnnotation(MongoId.class);
-            if (annotation != null) {
-                continue;
-            }
-            final Object value = ReflectUtil.getFieldValue(object, field);
-            if (ObjectUtils.isEmpty(value)) {
-                continue;
-            }
-            update.set(name, value);
-        }
-        return update;
+        /**
+         * 响应结果
+         */
+        private List<T> records;
+
+        /**
+         * 总数
+         */
+        private long total;
+
     }
 }
 

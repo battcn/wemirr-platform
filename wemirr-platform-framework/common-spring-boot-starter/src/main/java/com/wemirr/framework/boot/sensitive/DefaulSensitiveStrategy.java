@@ -28,7 +28,7 @@ import cn.hutool.core.util.StrUtil;
  * @author Levin
  */
 public class DefaulSensitiveStrategy implements SensitiveStrategy {
-    
+
     @Override
     public String serialize(String original) {
         return StrUtil.hide(original, 0, RandomUtil.randomInt(0, original.length()));

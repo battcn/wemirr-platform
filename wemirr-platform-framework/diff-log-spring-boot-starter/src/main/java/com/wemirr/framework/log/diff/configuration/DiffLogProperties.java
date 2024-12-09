@@ -15,25 +15,6 @@ import java.util.List;
 public class DiffLogProperties {
 
     public static final String PREFIX = "extend.boot.log.diff";
-
-    /**
-     * 是否检查
-     */
-    private boolean checkAnnotation = true;
-
-
-    /**
-     * 格式化输出 DIFF 差异结果树
-     */
-    private boolean prettyValuePrinter = true;
-
-
-    /**
-     * 全局忽略(默认情况下如果没给表单独配置则取全局忽略)
-     */
-    private List<String> ignoreGlobalFields = Lists.newArrayList("deleted", "createdTime", "createdBy", "createdName", "lastModifiedTime", "lastModifiedBy", "lastModifiedName");
-
-
     /**
      * 字段名称的替换变量
      */
@@ -54,7 +35,18 @@ public class DiffLogProperties {
      * 列表删除项的替换变量
      */
     private final String LIST_DEL_VALUE_PLACEHOLDER = "__delValues";
-
+    /**
+     * 是否检查
+     */
+    private boolean checkAnnotation = true;
+    /**
+     * 格式化输出 DIFF 差异结果树
+     */
+    private boolean prettyValuePrinter = true;
+    /**
+     * 全局忽略(默认情况下如果没给表单独配置则取全局忽略)
+     */
+    private List<String> ignoreGlobalFields = Lists.newArrayList("deleted", "createdTime", "createdBy", "createdName", "lastModifiedTime", "lastModifiedBy", "lastModifiedName");
     /**
      * 字段从空改为有值的时候的日志内容模板
      */

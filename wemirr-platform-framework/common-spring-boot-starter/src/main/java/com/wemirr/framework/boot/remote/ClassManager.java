@@ -38,9 +38,9 @@ import java.util.Map;
  */
 @Slf4j
 public class ClassManager implements Serializable {
-    
+
     private static final Map<String, List<Field>> CACHE = new HashMap<>();
-    
+
     public static List<Field> getFields(Class<?> clazz) {
         if (CACHE.containsKey(clazz.getName())) {
             return CACHE.get(clazz.getName());

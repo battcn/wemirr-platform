@@ -68,6 +68,25 @@ public class TenantDynamicDataSourceHandler {
     @Resource
     private ResourceLoader resourceLoader;
 
+    @NotNull
+    private static DataSourceProperty getDataSourceProperty(TenantDynamicDatasource db, String database, boolean lazy) {
+        DataSourceProperty dataSourceProperty = new DataSourceProperty();
+        dataSourceProperty.setPoolName(String.format(TENANT_DATASOURCE_POOL, db.getTenantCode()));
+        dataSourceProperty.setDriverClassName(db.getDriverClassName());
+        if (lazy) {
+            String url =
+                    "jdbc:mysql://" + db.getHost() + "/" + database + "?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true";
+            dataSourceProperty.setUrl(url);
+        } else {
+            String url = "jdbc:mysql://" + db.getHost();
+            dataSourceProperty.setUrl(url);
+        }
+        dataSourceProperty.setUsername(db.getUsername());
+        dataSourceProperty.setPassword(db.getPassword());
+        dataSourceProperty.setLazy(lazy);
+        return dataSourceProperty;
+    }
+
     public void handler(EventAction action, TenantDynamicDatasource db) {
         if (Objects.isNull(db)) {
             log.warn("event dynamicDatasource is null....");
@@ -107,25 +126,6 @@ public class TenantDynamicDataSourceHandler {
         log.info("数据源添加成功 - {}", database);
         final Set<String> dsSets = ds.getDataSources().keySet();
         log.debug("连接池信息 - {}", dsSets);
-    }
-
-    @NotNull
-    private static DataSourceProperty getDataSourceProperty(TenantDynamicDatasource db, String database, boolean lazy) {
-        DataSourceProperty dataSourceProperty = new DataSourceProperty();
-        dataSourceProperty.setPoolName(String.format(TENANT_DATASOURCE_POOL, db.getTenantCode()));
-        dataSourceProperty.setDriverClassName(db.getDriverClassName());
-        if (lazy) {
-            String url =
-                    "jdbc:mysql://" + db.getHost() + "/" + database + "?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true";
-            dataSourceProperty.setUrl(url);
-        } else {
-            String url = "jdbc:mysql://" + db.getHost();
-            dataSourceProperty.setUrl(url);
-        }
-        dataSourceProperty.setUsername(db.getUsername());
-        dataSourceProperty.setPassword(db.getPassword());
-        dataSourceProperty.setLazy(lazy);
-        return dataSourceProperty;
     }
 
     public String buildDb(String tenantCode) {

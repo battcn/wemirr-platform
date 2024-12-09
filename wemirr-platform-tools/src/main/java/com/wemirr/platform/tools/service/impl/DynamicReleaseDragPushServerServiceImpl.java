@@ -43,10 +43,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class DynamicReleaseDragPushServerServiceImpl extends SuperServiceImpl<DynamicReleaseDragPushServerMapper, DynamicReleaseDragPushServer> implements DynamicReleaseDragPushServerService {
-    
+
     private final DynamicReleaseDragPushServerModelMapper dynamicReleaseDragPushServerModelMapper;
     private final DynamicReleaseDragMapper dynamicReleaseDragMapper;
-    
+
     @Override
     public DynamicReleaseDragPushServerModelResp queryModelByPushId(Long pushId) {
         final DynamicReleaseDragPushServerModelResp.DynamicReleaseDragPushServerModelRespBuilder builder = DynamicReleaseDragPushServerModelResp.builder();
@@ -62,7 +62,7 @@ public class DynamicReleaseDragPushServerServiceImpl extends SuperServiceImpl<Dy
         }
         return builder.build();
     }
-    
+
     @Override
     @DSTransactional
     public void binding(Long id, BatchKey<Long> ids) {

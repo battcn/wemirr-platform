@@ -28,11 +28,11 @@ import com.wemirr.framework.websocket.WebSocketManager;
  * @author Levin
  */
 public interface Action {
-    
+
     String IDENTIFIER = "identifier";
     String MESSAGE = "message";
     String ACTION = "action";
-    
+
     /**
      * 根据消息做自己的事情
      *

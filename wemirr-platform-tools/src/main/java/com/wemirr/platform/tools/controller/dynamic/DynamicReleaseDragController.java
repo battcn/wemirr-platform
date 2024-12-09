@@ -58,52 +58,52 @@ public class DynamicReleaseDragController {
 
     private final DynamicReleaseDragService dynamicReleaseDragService;
     private final DynamicReleaseService<Long> dynamicReleaseService;
-    
+
     @PostMapping("/{model}/pages")
     public IPage<?> pages(@PathVariable String model, @RequestBody DynamicReleaseQueryDrag params) {
         log.debug("[查询条件] - {}", params);
         return this.dynamicReleaseService.pages(model, params);
     }
-    
+
     @GetMapping("/{model}/curd_options")
     public DynamicReleaseCurdOptionResp curdOptions(@PathVariable String model) {
         return this.dynamicReleaseService.curdOptions(model);
     }
-    
+
     @Operation(summary = "修改数据记录")
     @PutMapping("/{model}/{id}")
     public void modify(@PathVariable String model, @PathVariable Long id, @RequestBody Map<String, Object> body) {
         this.dynamicReleaseService.updateById(model, id, body);
     }
-    
+
     @Operation(summary = "添加数据记录")
     @PostMapping("/{model}")
     public void save(@PathVariable String model, @RequestBody Map<String, Object> body) {
         this.dynamicReleaseService.save(model, body);
     }
-    
+
     @Operation(summary = "获取推送日志")
     @GetMapping("/{model}/{id}/log_tracks")
     public List<DynamicReleaseLogTrackResp<Long>> logTrack(@PathVariable String model, @PathVariable Long id) {
         return this.dynamicReleaseService.logTrack(model, id);
     }
-    
+
     @Operation(summary = "推送数据")
     @PatchMapping("/{model}/{id}/push_tracks")
     public void pushLogTrack(@PathVariable String model, @PathVariable Long id) {
         this.dynamicReleaseService.pushTrack(model, id);
     }
-    
+
     @DeleteMapping("/{model}/{id}")
     public void delModel(@PathVariable String model, @PathVariable Long id) {
         this.dynamicReleaseService.deleteById(model, id);
     }
-    
+
     @DeleteMapping("/{model}/batch_delete")
     public void batchDel(@PathVariable String model, @RequestBody BatchKey<Long> batchKey) {
         this.dynamicReleaseService.batchDeleteByKeys(model, batchKey.getIds());
     }
-    
+
     @SneakyThrows
     @PatchMapping(value = "/{model}/export", produces = "application/octet-stream")
     public void export(@PathVariable String model, @RequestBody ExportExcelReq req, HttpServletResponse response) {
@@ -120,25 +120,25 @@ public class DynamicReleaseDragController {
         log.info("Excel导出 - 结束时间 - {}", System.currentTimeMillis() - millis);
     }
 
-    
+
     @Operation(summary = "添加模板列表")
     @PostMapping
     public void add(@Validated @RequestBody DynamicReleaseDragReq req) {
         this.dynamicReleaseDragService.add(req);
     }
-    
+
     @Operation(summary = "修改模板列表")
     @PutMapping("/{id}")
     public void edit(@PathVariable Long id, @Validated @RequestBody DynamicReleaseDragReq req) {
         this.dynamicReleaseDragService.edit(id, req);
     }
-    
+
     @Operation(summary = "查询模板列表")
     @GetMapping
     public Page<DynamicReleaseDrag> list(PageRequest request) {
         return dynamicReleaseDragService.page(request.buildPage());
     }
-    
+
     @Operation(summary = "删除模板列表")
     @DeleteMapping("/{id}")
     public void del(@PathVariable Long id) {

@@ -33,7 +33,7 @@ import static com.wemirr.framework.storage.StorageOperation.OSS_CONFIG_PREFIX_TE
 @EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = OSS_CONFIG_PREFIX_TENCENT)
 public class TencentStorageProperties extends BaseStorageProperties {
-    
+
     /**
      * AppId
      */
@@ -42,15 +42,15 @@ public class TencentStorageProperties extends BaseStorageProperties {
      * 前缀
      */
     private String prefix;
-    
+
     /**
      * 绑定的域名
      */
     private String domain;
-    
+
     /**
      * 所属地区
      */
     private String region;
-    
+
 }

@@ -34,7 +34,7 @@ import com.wemirr.platform.iam.system.domain.entity.UserRole;
  * @since 2019-07-03
  */
 public interface UserRoleService extends SuperService<UserRole> {
-    
+
     /**
      * 根据劫色查询用户
      *
@@ -42,5 +42,5 @@ public interface UserRoleService extends SuperService<UserRole> {
      * @return 查询结果
      */
     UserRoleResp findUserByRoleId(Long roleId);
-    
+
 }

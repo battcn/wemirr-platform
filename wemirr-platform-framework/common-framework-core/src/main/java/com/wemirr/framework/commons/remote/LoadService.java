@@ -48,7 +48,7 @@ public interface LoadService<VALUE> {
     /**
      * 根据id查询待回显参数.
      *
-     * @param tag  tag
+     * @param tag tag
      * @return Map
      */
     default Map<Object, VALUE> findByIds(String tag) {

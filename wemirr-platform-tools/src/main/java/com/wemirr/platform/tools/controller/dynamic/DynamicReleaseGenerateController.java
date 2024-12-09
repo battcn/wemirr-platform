@@ -40,14 +40,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "代码生成", description = "代码生成")
 @Validated
 public class DynamicReleaseGenerateController {
-    
+
     private final DynamicReleaseGenerateService dynamicReleaseGenerateService;
-    
+
     @Operation(summary = "添加代码生成")
     @PostMapping
     public void add(@Validated @RequestBody DynamicReleaseDragSetting req) {
         this.dynamicReleaseGenerateService.add(req);
-        
+
     }
-    
+
 }

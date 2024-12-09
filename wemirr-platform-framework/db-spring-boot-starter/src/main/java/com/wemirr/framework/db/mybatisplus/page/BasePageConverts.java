@@ -33,7 +33,7 @@ import com.wemirr.framework.commons.entity.BaseConverts;
  * @since 2019-03-19
  */
 public interface BasePageConverts<S, T> extends BaseConverts<S, T> {
-    
+
     /**
      * 将PO分页对象转换成VO分页对象
      *
@@ -46,5 +46,5 @@ public interface BasePageConverts<S, T> extends BaseConverts<S, T> {
         }
         return source.convert(this::convert);
     }
-    
+
 }

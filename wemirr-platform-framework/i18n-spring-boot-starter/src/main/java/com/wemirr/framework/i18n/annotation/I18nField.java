@@ -30,14 +30,14 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface I18nField {
-    
+
     /**
      * i18n 关键字
      *
      * @return String
      */
     String code() default "";
-    
+
     /**
      * 映射的字段
      * 比如 type 映射到 typeLabel

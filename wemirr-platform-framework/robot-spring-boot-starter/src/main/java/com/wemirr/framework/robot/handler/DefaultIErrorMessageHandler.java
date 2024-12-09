@@ -38,12 +38,12 @@ import java.util.Objects;
  * @author Levin
  */
 public class DefaultIErrorMessageHandler implements IErrorMessageHandler {
-    
+
     /**
      * 换行
      */
     private final String LINE_BREAK = "\n";
-    
+
     @Override
     public String message(JoinPoint joinPoint, Exception e) {
         StringBuilder error = new StringBuilder();
@@ -57,7 +57,7 @@ public class DefaultIErrorMessageHandler implements IErrorMessageHandler {
         error.append(LINE_BREAK).append("Exception: ").append(ExceptionUtil.stacktraceToString(e));
         return error.toString();
     }
-    
+
     @Override
     public String message(Exception e) {
         return "Time: " + Instant.now() +

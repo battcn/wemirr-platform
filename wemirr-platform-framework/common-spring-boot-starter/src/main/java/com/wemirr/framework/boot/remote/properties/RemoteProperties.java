@@ -30,27 +30,28 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(RemoteProperties.PREFIX)
 public class RemoteProperties {
-    
+
     public static final String PREFIX = "extend.boot.remote";
     /**
      * 是否启用远程查询
      */
     private Boolean enabled = true;
-    
+
     /**
      * 递归最大深度
      */
     private Integer maxDepth = 3;
-    
+
     /**
      * 本地缓存配置信息
      */
     private LocalCache localCache = new LocalCache();
-    
+
     @Data
     public static class LocalCache {
-        
-        /**Remote
+
+        /**
+         * Remote
          * 是否启用本地缓存
          * <p>
          * 注意：本地缓存开启后，会存在短暂的数据不一致情况(由localCacheRefreshWriteTime决定)， 所以对数据正确性有要求的项目建议禁用，然后在@Remote.method 方法上执行添加redis等缓存！

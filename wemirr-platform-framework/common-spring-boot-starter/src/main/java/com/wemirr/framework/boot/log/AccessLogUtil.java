@@ -34,7 +34,7 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 public class AccessLogUtil {
-    
+
     /***
      * 获取操作信息
      */
@@ -45,14 +45,14 @@ public class AccessLogUtil {
         }
         return annotation.description();
     }
-    
+
     public static String getDescription(AccessLog annotation) {
         if (annotation == null) {
             return "";
         }
         return annotation.description();
     }
-    
+
     /**
      * 优先从子类获取 @AccessLog：
      * 1，若子类重写了该方法，有标记就记录日志，没标记就忽略日志
@@ -73,5 +73,5 @@ public class AccessLogUtil {
             return null;
         }
     }
-    
+
 }

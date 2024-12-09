@@ -32,7 +32,7 @@ import java.util.List;
  */
 @Data
 public class DynamicReleaseDragSetting implements java.io.Serializable {
-    
+
     private Long dragId;
     private Boolean disabled;
     private List<DynamicReleaseGenerateField> fields;
@@ -46,10 +46,10 @@ public class DynamicReleaseDragSetting implements java.io.Serializable {
     private Integer labelWidth;
     private Integer span;
     private DynamicReleaseGenerateFieldStyle style;
-    
+
     @Data
     public static class DynamicReleaseGenerateField {
-        
+
         private Boolean clearable;
         private Boolean disabled;
         private String placeholder;
@@ -57,26 +57,26 @@ public class DynamicReleaseDragSetting implements java.io.Serializable {
         private Boolean readonly;
         private Integer labelWidth;
         private Integer span;
-        
+
         @JsonProperty("is-range")
         @JSONField(name = "is-range")
         private Boolean range;
         @JsonProperty("range-separator")
         @JSONField(name = "range-separator")
         private String rangeSeparator;
-        
+
         @JsonProperty("start-placeholder")
         @JSONField(name = "start-placeholder")
         private String startPlaceholder;
         @JsonProperty("end-placeholder")
         @JSONField(name = "end-placeholder")
         private String endPlaceholder;
-        
+
         private String format;
         @JsonProperty("value-format")
         @JSONField(name = "value-format")
         private String valueFormat;
-        
+
         @JsonProperty("prefix-icon")
         @JSONField(name = "prefix-icon")
         private String prefixIcon;
@@ -97,13 +97,13 @@ public class DynamicReleaseDragSetting implements java.io.Serializable {
         @JSONField(name = "__slot__")
         private DynamicReleaseGenerateFieldSlot slot;
     }
-    
+
     @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class DynamicReleaseGenerateFieldConfig {
-        
+
         private Integer span;
         private Boolean required;
         private Boolean changeTag;
@@ -113,7 +113,7 @@ public class DynamicReleaseDragSetting implements java.io.Serializable {
         private Integer formId;
         private String renderKey;
         private Boolean showLabel;
-        
+
         /**
          * "colFormItem"
          */
@@ -131,29 +131,29 @@ public class DynamicReleaseDragSetting implements java.io.Serializable {
          * default
          */
         private String optionType;
-        
+
         private List<String> regList;
-        
+
     }
-    
+
     @Data
     public static class DynamicReleaseGenerateFieldSlot {
-        
+
         private String prepend;
         private String append;
         private List<DynamicReleaseGenerateFieldSlotOption> options;
     }
-    
+
     @Data
     public static class DynamicReleaseGenerateFieldSlotOption {
-        
+
         private String label;
         private String value;
     }
-    
+
     @Data
     public static class DynamicReleaseGenerateFieldStyle {
-        
+
         private String width;
     }
 }

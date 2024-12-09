@@ -38,11 +38,11 @@ import java.util.List;
  */
 @Slf4j
 public class DemoProfileInterceptor implements HandlerInterceptor {
-    
+
     private static final long MAX_ID = 10000000;
     private static final List<String> REJECT_POST = Lists.newArrayList("resources", "dictionaries");
     private static final List<String> REJECT_OPTION = Lists.newArrayList("users", "roles", "stations", "tenants", "databases", "applications", "change_password", "resources", "dictionaries");
-    
+
     @Override
     public boolean preHandle(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable Object handler) {
         if (request == null) {
@@ -77,5 +77,5 @@ public class DemoProfileInterceptor implements HandlerInterceptor {
         log.debug("method - {},uri - {} - id - {}", method, uri, strId);
         return true;
     }
-    
+
 }

@@ -28,5 +28,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface MessageNotifyMapper extends SuperMapper<MessageNotify> {
-    
+
 }

@@ -33,20 +33,20 @@ public class DictItemSaveReq {
     @NotBlank(message = "字典编码不能为空")
     @Schema(description = "字典编码")
     private String dictCode;
-    
+
     @Schema(description = "名称")
     @NotBlank(message = "名称不能为空")
     @Length(max = 64, message = "名称长度不能超过{max}")
     private String label;
-    
+
     @Schema(description = "值")
     @NotBlank(message = "值不能为空")
     @Length(max = 64, message = "值的长度不能超过{max}")
     private String value;
-    
+
     @Schema(description = "状态")
     private Boolean status;
-    
+
     @Schema(description = "描述")
     @Length(max = 100, message = "值的长度不能超过{max}")
     private String description;

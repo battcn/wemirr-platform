@@ -28,7 +28,7 @@ import java.util.List;
  * @author Levin
  */
 public interface DynamicReleaseDatasourceService extends SuperService<DynamicReleaseDatasource> {
-    
+
     /**
      * ping 数据库连接
      *
@@ -36,7 +36,7 @@ public interface DynamicReleaseDatasourceService extends SuperService<DynamicRel
      * @return Ping 结果
      */
     HikariDataSource ping(Long id);
-    
+
     /**
      * 根据连接池ID信息获取 表
      *

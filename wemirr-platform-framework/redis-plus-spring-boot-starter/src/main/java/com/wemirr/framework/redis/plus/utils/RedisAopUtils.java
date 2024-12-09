@@ -38,7 +38,7 @@ import java.util.Objects;
  * @author Levin
  */
 public class RedisAopUtils {
-    
+
     /**
      * parser 解析器
      */
@@ -48,7 +48,7 @@ public class RedisAopUtils {
      * 用于内省参数名称（基于 -parameters 编译器标志）
      */
     private static final StandardReflectionParameterNameDiscoverer discoverer = new StandardReflectionParameterNameDiscoverer();
-    
+
     /**
      * 解析spring EL表达式,无参数方法
      *
@@ -75,7 +75,7 @@ public class RedisAopUtils {
             return parseDefaultKey(key, true, method, point);
         }
     }
-    
+
     /**
      * 生成key的分三部分，类名+方法名，参数,key
      * 不满足指定SPEL表达式并且有适配参数时，
@@ -105,5 +105,5 @@ public class RedisAopUtils {
         // 使用MD5生成位移key
         return MD5.create().digestHex(JSONObject.toJSONString(keyMap) + key).toUpperCase();
     }
-    
+
 }

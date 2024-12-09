@@ -26,7 +26,7 @@ import java.util.List;
  */
 @FunctionalInterface
 public interface TodoAtRemoved {
-    
+
     /**
      * 在删除的时候额外要干什么
      *

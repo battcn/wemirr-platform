@@ -61,9 +61,9 @@ import static com.baomidou.mybatisplus.generator.config.rules.DateType.TIME_PACK
 @Service
 @RequiredArgsConstructor
 public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, GenerateEntity> implements GenerateService {
-    
+
     private final DataSource dataSource;
-    
+
     @SneakyThrows
     @Override
     @DSTransactional
@@ -72,7 +72,7 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
         customMap.put("apiUrlPrefix", request.getApiUrlPrefix());
         customMap.put("platformId", request.getPlatformId());
         customMap.put("now", DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-        
+
         Map<String, String> customFiles = Maps.newHashMap();
         customFiles.put("/crud.ts", "/templates/front/crud.ts.ftl");
         customFiles.put("/index.vue", "/templates/front/index.vue.ftl");
@@ -121,7 +121,7 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
         log.info("{}生成完成:{}", request.getTableName(), rootDir);
         return rootDir;
     }
-    
+
     @Override
     public List<GenerateTableResp> loadTables() {
         final List<String> tables = this.baseMapper.loadTables();
@@ -132,5 +132,5 @@ public class GenerateServiceImpl extends SuperServiceImpl<GenerateMapper, Genera
                 .map(table -> GenerateTableResp.builder().label(table).value(table).build())
                 .collect(Collectors.toList());
     }
-    
+
 }

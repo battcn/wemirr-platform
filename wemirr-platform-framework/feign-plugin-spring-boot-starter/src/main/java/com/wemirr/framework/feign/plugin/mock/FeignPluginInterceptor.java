@@ -41,14 +41,13 @@ import java.util.Enumeration;
 @RequiredArgsConstructor
 public class FeignPluginInterceptor implements RequestInterceptor {
 
-    public final String X_MOCK_APPLICATION = "x-mock-application";
-    public final String IGNORE_HEADER = "ignore-header";
-    private final FeignPluginProperties properties;
-
     /**
      * 需要排除的头部字段
      */
     public static final String[] EXCLUDED_DEFAULT_HEADERS = {HttpHeaders.CONTENT_LENGTH, HttpHeaders.COOKIE};
+    public final String X_MOCK_APPLICATION = "x-mock-application";
+    public final String IGNORE_HEADER = "ignore-header";
+    private final FeignPluginProperties properties;
 
     private boolean isExcluded(String headerKey) {
         for (String header : EXCLUDED_DEFAULT_HEADERS) {

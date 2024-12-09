@@ -33,15 +33,15 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @ConfigurationProperties(prefix = "extend.redis")
 public class RedisPlusProperties {
-    
+
     private boolean enabled = true;
     private RedisSwitch lock;
     private RedisSwitch limit;
     private RedisCacheSwitch cache;
-    
+
     @Data
     public static class RedisSwitch {
-        
+
         /**
          * 是否启用
          */
@@ -55,10 +55,10 @@ public class RedisPlusProperties {
          */
         private boolean interceptor = true;
     }
-    
+
     @Data
     public static class RedisCacheSwitch {
-        
+
         /**
          * 是否启用
          */
@@ -67,15 +67,15 @@ public class RedisPlusProperties {
          * 前缀
          */
         private String prefix = "redis_plus_cache_";
-        
+
         /**
          * 全局缓存时长,默认24小时
          */
         private long timeout = 60 * 60 * 24;
-        
+
         private List<RedisCacheItem> items;
     }
-    
+
     /**
      * 单项缓存配置信息
      *
@@ -84,21 +84,21 @@ public class RedisPlusProperties {
     @Data
     @EqualsAndHashCode(callSuper = false)
     public static class RedisCacheItem implements Serializable {
-        
+
         /**
          * 单项缓存名称
          */
         private String name;
-        
+
         /**
          * 单项缓存存活时间
          */
         private long timeout;
-        
+
         /**
          * 单项缓存是否开启
          */
         private boolean enabled;
     }
-    
+
 }

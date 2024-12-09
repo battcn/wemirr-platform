@@ -54,16 +54,16 @@ import java.util.stream.Collectors;
 @Configuration
 public class PasswordDecoderFilter extends AbstractGatewayFilterFactory<PasswordDecoderFilter.Config> {
 
-    @Override
-    public String name() {
-        return "PasswordDecoderFilter";
-    }
+    private static final String REFRESH_TOKEN = "refresh_token";
 
     public PasswordDecoderFilter() {
         super(Config.class);
     }
 
-    private static final String REFRESH_TOKEN = "refresh_token";
+    @Override
+    public String name() {
+        return "PasswordDecoderFilter";
+    }
 
     @Override
     public GatewayFilter apply(Config config) {

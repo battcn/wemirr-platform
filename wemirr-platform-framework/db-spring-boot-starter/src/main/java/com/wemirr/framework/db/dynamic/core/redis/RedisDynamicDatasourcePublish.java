@@ -30,13 +30,13 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  */
 @RequiredArgsConstructor
 public class RedisDynamicDatasourcePublish implements DynamicDatasourceEventPublish {
-    
+
     private final StringRedisTemplate redisTemplate;
-    
+
     @Override
     public void publish(TenantDynamicDatasource message) {
         log.info("redis publish - {}", message);
         redisTemplate.convertAndSend(DEFAULT_EVENT_TOPIC, JSON.toJSONString(message));
     }
-    
+
 }

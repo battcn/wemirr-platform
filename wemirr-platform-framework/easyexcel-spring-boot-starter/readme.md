@@ -22,7 +22,6 @@ public ExcelWriteFile exportList(@RequestBody UserPageReq req) {
 }
 ```
 
-
 ### 导出用法二
 
 **注解导出，省时省力，缺点就是不能根据条件动态去设置文件和Sheet**
@@ -36,9 +35,7 @@ public List<User> exportList() {
 }
 ```
 
-
 ### 导入用法一（ExcelReadFile）
-
 
 **根据实际业务需要,自己设置的文件和Sheet 内容,方便动态赋值（如：密码、SheetNo、SheetName）**
 
@@ -51,7 +48,6 @@ public ValidateAnalysisEventListener<?> import1(@RequestParam MultipartFile file
     return ExcelReadResolver.read(ExcelReadFile.builder().inputStream(file.getInputStream()).build());
 }
 ```
-
 
 ### 导入用法二
 

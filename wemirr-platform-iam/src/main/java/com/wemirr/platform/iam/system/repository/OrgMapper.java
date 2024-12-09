@@ -33,7 +33,7 @@ import org.springframework.stereotype.Repository;
 @TenantDS
 @Repository
 public interface OrgMapper extends SuperMapper<Org> {
-    
+
     /**
      * 根据租户ID删除组织机构数据
      *

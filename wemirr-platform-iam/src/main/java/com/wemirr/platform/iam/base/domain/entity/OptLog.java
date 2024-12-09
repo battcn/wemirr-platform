@@ -34,9 +34,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @TableName("c_opt_log")
 public class OptLog extends AccessLogInfo {
-    
+
     @TableId(type = IdType.ASSIGN_ID)
     @OrderBy
     private Long id;
-    
+
 }

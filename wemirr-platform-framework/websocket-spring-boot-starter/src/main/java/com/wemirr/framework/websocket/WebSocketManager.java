@@ -28,12 +28,12 @@ import java.util.Map;
  * @author Levin
  */
 public interface WebSocketManager {
-    
+
     /**
      * 在容器中的名字
      */
     String WEBSOCKET_MANAGER_NAME = "webSocketManager";
-    
+
     /**
      * 根据标识获取websocket session
      *
@@ -41,7 +41,7 @@ public interface WebSocketManager {
      * @return WebSocket
      */
     WebSocket get(String identifier);
-    
+
     /**
      * 放入一个 websocket session
      *
@@ -49,21 +49,21 @@ public interface WebSocketManager {
      * @param webSocket  websocket
      */
     void put(String identifier, WebSocket webSocket);
-    
+
     /**
      * 删除
      *
      * @param identifier 标识
      */
     void remove(String identifier);
-    
+
     /**
      * 获取当前机器上的保存的WebSocket
      *
      * @return WebSocket Map
      */
     Map<String, WebSocket> localWebSocketMap();
-    
+
     /**
      * 统计所有在线人数
      *
@@ -72,7 +72,7 @@ public interface WebSocketManager {
     default int size() {
         return localWebSocketMap().size();
     }
-    
+
     /**
      * 给某人发送消息
      *
@@ -80,14 +80,14 @@ public interface WebSocketManager {
      * @param message    消息
      */
     void sendMessage(String identifier, String message);
-    
+
     /**
      * 广播
      *
      * @param message 消息
      */
     void broadcast(String message);
-    
+
     /**
      * WebSocket接收到消息的函数调用
      *
@@ -95,7 +95,7 @@ public interface WebSocketManager {
      * @param message    消息内容
      */
     void onMessage(String identifier, String message);
-    
+
     /**
      * 在OnMessage中判断是否是心跳,
      * 从客户端的消息判断是否是ping消息
@@ -107,7 +107,7 @@ public interface WebSocketManager {
     default boolean isPing(String identifier, String message) {
         return "ping".equalsIgnoreCase(message);
     }
-    
+
     /**
      * 返回心跳信息
      *

@@ -29,7 +29,7 @@ import org.springframework.context.ApplicationEvent;
  * @since 2019-07-01 15:13
  */
 public class AccessLogEvent extends ApplicationEvent {
-    
+
     public AccessLogEvent(AccessLogInfo source) {
         super(source);
     }

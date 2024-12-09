@@ -27,7 +27,7 @@ import org.aspectj.lang.JoinPoint;
  * @author Levin
  */
 public interface IRobotExceptionMessage {
-    
+
     /**
      * 发送异常内容
      *
@@ -36,7 +36,7 @@ public interface IRobotExceptionMessage {
      * @return true 发送成功  false 发送失败
      */
     boolean notify(JoinPoint joinPoint, Exception e);
-    
+
     /**
      * 发送异常内容
      *
@@ -44,7 +44,7 @@ public interface IRobotExceptionMessage {
      * @return true 发送成功  false 发送失败
      */
     boolean notify(Exception e);
-    
+
     /**
      * 发送异常内容
      *

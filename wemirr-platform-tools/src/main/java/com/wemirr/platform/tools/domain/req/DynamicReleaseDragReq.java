@@ -25,10 +25,10 @@ import lombok.Data;
  */
 @Data
 public class DynamicReleaseDragReq implements java.io.Serializable {
-    
+
     private String model;
     private String label;
     private Boolean locked;
     private String description;
-    
+
 }

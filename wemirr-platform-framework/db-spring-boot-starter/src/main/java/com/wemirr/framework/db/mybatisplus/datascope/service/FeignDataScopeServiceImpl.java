@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @ConditionalOnProperty(prefix = DatabaseProperties.INTERCEPT_DATA_PERMISSION_PREFIX, name = "remote")
 @FeignClient(name = FeignConstants.AUTH_FEIGN_NAME, dismiss404 = true)
 public interface FeignDataScopeServiceImpl extends DataScopeService {
-    
+
     /**
      * 获取用户的数据权限
      *
@@ -45,5 +45,5 @@ public interface FeignDataScopeServiceImpl extends DataScopeService {
     @Override
     @GetMapping("/{user_id}/data_permission")
     DataPermission getDataScopeById(@PathVariable("user_id") Long userId);
-    
+
 }

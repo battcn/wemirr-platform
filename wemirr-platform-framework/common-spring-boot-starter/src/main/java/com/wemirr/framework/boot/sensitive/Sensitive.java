@@ -35,21 +35,21 @@ import java.lang.annotation.Target;
 @JacksonAnnotationsInside
 @JsonSerialize(using = SensitiveSerialize.class)
 public @interface Sensitive {
-    
+
     /**
      * 脱敏规则
      */
     Type type();
-    
+
     int startInclude() default 0;
-    
+
     int endInclude() default 0;
-    
+
     /**
      * 脱敏策略（有策略的情况下）
      */
     Class<? extends SensitiveStrategy> strategy() default DefaulSensitiveStrategy.class;
-    
+
     enum Type {
         /**
          * 策略模式
@@ -108,5 +108,5 @@ public @interface Sensitive {
          */
         FIRST_MASK
     }
-    
+
 }

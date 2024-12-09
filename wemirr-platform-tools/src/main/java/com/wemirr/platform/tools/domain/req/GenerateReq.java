@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GenerateReq {
-    
+
     /**
      * 开发人员
      */
@@ -58,6 +58,6 @@ public class GenerateReq {
      * 逻辑删除属性名称
      */
     private String logicDeleteField;
-    
+
     private String rootDir;
 }

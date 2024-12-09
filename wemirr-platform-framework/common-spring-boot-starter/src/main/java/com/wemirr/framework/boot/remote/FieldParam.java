@@ -35,7 +35,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class FieldParam {
-    
+
     /**
      * 当前字段上的注解
      */
@@ -48,11 +48,11 @@ public class FieldParam {
      * 当前字段的具体值
      */
     private Object originalValue;
-    
+
     /**
      * 当前 字段名
      */
     private String fieldName;
-    
+
     private LoadKey loadKey;
 }

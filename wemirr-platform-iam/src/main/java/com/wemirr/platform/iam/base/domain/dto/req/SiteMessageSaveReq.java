@@ -33,22 +33,22 @@ import java.util.List;
  */
 @Data
 public class SiteMessageSaveReq {
-    
+
     @NotBlank(message = "标题不能为空")
     @Schema(description = "标题")
     private String title;
-    
+
     @NotBlank(message = "类型不能为空")
     @Schema(description = "类型")
     private String level;
-    
+
     @NotBlank(message = "消息内容不能为空")
     @Schema(description = "消息内容")
     private String content;
-    
+
     @Schema(description = "描述")
     private String description;
-    
+
     @NotNull(message = "接收类型不能为空")
     @Schema(description = "接收类型")
     private ReceiverType type;
@@ -58,5 +58,5 @@ public class SiteMessageSaveReq {
     @NotEmpty(message = "接收者不能为空")
     @Schema(description = "接收人")
     private List<Long> receiver;
-    
+
 }

@@ -29,7 +29,7 @@ import java.time.Instant;
  */
 @Data
 public class TenantPageResp {
-    
+
     private Long id;
     @Schema(description = "编码")
     private String code;
@@ -43,7 +43,7 @@ public class TenantPageResp {
     private String alias;
     @Schema(description = "名称")
     private Boolean locked;
-    
+
     @Schema(description = "LOGO")
     private String logo;
     @Schema(description = "邮箱")
@@ -54,7 +54,7 @@ public class TenantPageResp {
     private String contactPhone;
     @Schema(description = "行业")
     private String industry;
-    
+
     @Schema(description = "省")
     private Long provinceId;
     @Schema(description = "省")
@@ -67,7 +67,7 @@ public class TenantPageResp {
     private Long districtId;
     @Schema(description = "区")
     private String districtName;
-    
+
     private String address;
     @Schema(description = "统一信用代码")
     private String creditCode;
@@ -77,10 +77,10 @@ public class TenantPageResp {
     private String webSite;
     @Schema(description = "描述")
     private String description;
-    
+
     @Schema(description = "创建人")
     private String createdName;
     @Schema(description = "创建时间")
     private Instant createdTime;
-    
+
 }

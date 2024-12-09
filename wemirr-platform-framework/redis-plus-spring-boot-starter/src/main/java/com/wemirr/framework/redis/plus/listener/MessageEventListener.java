@@ -28,14 +28,14 @@ import java.lang.reflect.Type;
  * @author Levin
  */
 public interface MessageEventListener extends MessageListener {
-    
+
     /**
      * 订阅者订阅的话题
      *
      * @return topic
      */
     Topic topic();
-    
+
     /**
      * 序列化类型
      *

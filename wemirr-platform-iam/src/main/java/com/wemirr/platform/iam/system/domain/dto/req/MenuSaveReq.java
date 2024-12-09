@@ -36,7 +36,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @Schema(name = "MenuSaveReq", description = "菜单")
 public class MenuSaveReq {
-    
+
     /**
      * 菜单名称
      */
@@ -89,5 +89,5 @@ public class MenuSaveReq {
      */
     @Schema(description = "父级菜单id")
     private Long parentId;
-    
+
 }

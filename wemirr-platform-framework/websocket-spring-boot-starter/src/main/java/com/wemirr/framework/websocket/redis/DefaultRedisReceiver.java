@@ -34,9 +34,9 @@ import org.springframework.context.ApplicationContext;
 @Slf4j
 @RequiredArgsConstructor
 public class DefaultRedisReceiver implements RedisReceiver {
-    
+
     private final ApplicationContext applicationContext;
-    
+
     /**
      * 此方法会被反射调用
      */
@@ -51,11 +51,11 @@ public class DefaultRedisReceiver implements RedisReceiver {
         Action action = getAction(actionName);
         action.doMessage(getWebSocketManager(), object);
     }
-    
+
     protected Action getAction(String actionName) {
         return applicationContext.getBean(actionName, Action.class);
     }
-    
+
     protected WebSocketManager getWebSocketManager() {
         return applicationContext.getBean(WebSocketManager.WEBSOCKET_MANAGER_NAME, WebSocketManager.class);
     }

@@ -38,6 +38,26 @@ public class MenuConverts {
 
     public static class VueRouter2TreeNodeConverts implements BaseConverts<VueRouter, TreeNode<Long>> {
 
+        private static Map<String, Object> buildRouteMeta(VueRouter route) {
+            Map<String, Object> meta = Maps.newHashMap();
+            if (route.getVisible() != null && !route.getVisible()) {
+                meta.put("hideInMenu", true);
+                meta.put("activePath", StrUtil.subBefore(route.getPath(), "/", true));
+            }
+            meta.put("icon", route.getIcon());
+            meta.put("title", route.getTitle());
+            if (route.getKeepAlive() != null) {
+                meta.put("keepAlive", route.getKeepAlive());
+            }
+            if (route.getType() == ResourceType.LINK) {
+                meta.put("link", route.getComponent());
+            }
+            if (route.getType() == ResourceType.IFRAME) {
+                meta.put("iframeSrc", route.getComponent());
+            }
+            return meta;
+        }
+
         @Override
         public TreeNode<Long> convert(VueRouter route) {
             TreeNode<Long> node = new TreeNode<>(route.getId(), route.getParentId(), route.getTitle(), route.getSequence());
@@ -62,26 +82,6 @@ public class MenuConverts {
             extra.put("meta", buildRouteMeta(route));
             node.setExtra(extra);
             return node;
-        }
-
-        private static Map<String, Object> buildRouteMeta(VueRouter route) {
-            Map<String, Object> meta = Maps.newHashMap();
-            if (route.getVisible() != null && !route.getVisible()) {
-                meta.put("hideInMenu", true);
-                meta.put("activePath", StrUtil.subBefore(route.getPath(), "/", true));
-            }
-            meta.put("icon", route.getIcon());
-            meta.put("title", route.getTitle());
-            if (route.getKeepAlive() != null) {
-                meta.put("keepAlive", route.getKeepAlive());
-            }
-            if (route.getType() == ResourceType.LINK) {
-                meta.put("link", route.getComponent());
-            }
-            if (route.getType() == ResourceType.IFRAME) {
-                meta.put("iframeSrc", route.getComponent());
-            }
-            return meta;
         }
     }
 

@@ -32,11 +32,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class DynamicReleaseQuery {
-    
+
     private String column;
     private Object value;
     private Expression expression;
-    
+
     public String toCondition() {
         if (expression == Expression.LIKE) {
             return "`" + column + "` " + expression.value + "'%" + value + "%'";

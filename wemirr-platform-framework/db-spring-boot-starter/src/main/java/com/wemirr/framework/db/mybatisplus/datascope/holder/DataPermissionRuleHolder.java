@@ -35,16 +35,16 @@ import java.util.Deque;
  * @author Levin
  */
 public final class DataPermissionRuleHolder {
-    
-    private DataPermissionRuleHolder() {
-    }
-    
+
     /**
      * 使用栈存储 DataPermissionRule，便于在方法嵌套调用时使用不同的数据权限控制。
      */
     private static final TransmittableThreadLocal<Deque<DataPermissionRule>> DATA_PERMISSION_RULES = TransmittableThreadLocal
             .withInitial(ArrayDeque::new);
-    
+
+    private DataPermissionRuleHolder() {
+    }
+
     /**
      * 获取当前的 DataPermissionRule
      *
@@ -54,7 +54,7 @@ public final class DataPermissionRuleHolder {
         Deque<DataPermissionRule> deque = DATA_PERMISSION_RULES.get();
         return deque == null ? null : deque.peek();
     }
-    
+
     /**
      * 入栈一个 DataPermissionRule
      *
@@ -68,7 +68,7 @@ public final class DataPermissionRuleHolder {
         deque.push(dataPermissionRule);
         return dataPermissionRule;
     }
-    
+
     /**
      * 弹出最顶部 DataPermissionRule
      */
@@ -80,12 +80,12 @@ public final class DataPermissionRuleHolder {
             clear();
         }
     }
-    
+
     /**
      * 清除 TreadLocal
      */
     public static void clear() {
         DATA_PERMISSION_RULES.remove();
     }
-    
+
 }

@@ -36,13 +36,13 @@ import java.io.IOException;
  */
 @JsonComponent
 public class GlobalJsonDeserializer {
-    
+
     /**
      * 字符串反序列化器
      * 过滤特殊字符，解决 XSS 攻击
      */
     public static class StringDeserializer extends JsonDeserializer<String> {
-        
+
         @Override
         public String deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
             final String value = jsonParser.getValueAsString();

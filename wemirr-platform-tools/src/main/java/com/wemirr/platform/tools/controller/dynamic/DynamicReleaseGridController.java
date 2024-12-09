@@ -42,9 +42,9 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Tag(name = "数据源管理", description = "数据源管理")
 public class DynamicReleaseGridController {
-    
+
     private final DynamicReleaseGridService dynamicReleaseGridService;
-    
+
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping
     public Page<DynamicReleaseGrid> page(PageRequest pageRequest, String model, String tableName) {
@@ -54,27 +54,27 @@ public class DynamicReleaseGridController {
                         .like(DynamicReleaseGrid::getModel, model));
         return page;
     }
-    
+
     @Operation(summary = "添加数据源")
     @PostMapping
     public void add(@Validated @RequestBody DynamicReleaseGridReq req) {
         dynamicReleaseGridService.save(BeanUtil.toBean(req, DynamicReleaseGrid.class));
-        
+
     }
-    
+
     @Operation(summary = "编辑数据源")
     @PutMapping("/{id}")
     public void edit(@PathVariable Long id, @Validated @RequestBody DynamicReleaseGridReq req) {
         final DynamicReleaseGrid request = BeanUtil.toBean(req, DynamicReleaseGrid.class);
         request.setId(id);
         dynamicReleaseGridService.updateById(request);
-        
+
     }
-    
+
     @Operation(summary = "删除数据源")
     @DeleteMapping("/{id}")
     public void remove(@PathVariable Long id) {
         dynamicReleaseGridService.removeById(id);
-        
+
     }
 }

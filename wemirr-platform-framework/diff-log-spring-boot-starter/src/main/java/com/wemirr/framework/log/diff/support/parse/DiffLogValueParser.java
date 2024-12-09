@@ -21,8 +21,8 @@ import java.util.regex.Pattern;
  */
 public class DiffLogValueParser implements BeanFactoryAware {
 
-    private static final Pattern PATTERN = Pattern.compile("\\{\\s*(\\w*)\\s*\\{(.*?)}}");
     public static final String COMMA = ",";
+    private static final Pattern PATTERN = Pattern.compile("\\{\\s*(\\w*)\\s*\\{(.*?)}}");
     private final DiffLogExpressionEvaluator expressionEvaluator = new DiffLogExpressionEvaluator();
     protected BeanFactory beanFactory;
     protected boolean diffLog;

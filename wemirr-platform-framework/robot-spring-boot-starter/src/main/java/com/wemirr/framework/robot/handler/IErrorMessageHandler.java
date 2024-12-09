@@ -28,7 +28,7 @@ import org.aspectj.lang.JoinPoint;
  * @author Levin
  */
 public interface IErrorMessageHandler {
-    
+
     /**
      * 异常消息内容
      *
@@ -37,7 +37,7 @@ public interface IErrorMessageHandler {
      * @return 异常消息内容
      */
     String message(JoinPoint joinPoint, Exception e);
-    
+
     /**
      * 异常消息内容
      *

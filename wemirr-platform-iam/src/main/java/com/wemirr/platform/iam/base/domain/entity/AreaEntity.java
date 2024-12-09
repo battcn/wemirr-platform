@@ -46,32 +46,32 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = true)
 @TableName("c_area")
 public class AreaEntity extends SuperEntity<Long> {
-    
+
     /**
      * 名称
      */
     @Schema(description = "名称")
     private String name;
-    
+
     @TableField("`level`")
     @Schema(description = "层级")
     private Integer level;
-    
+
     @Schema(description = "父ID")
     private Long parentId;
-    
+
     @Schema(description = "经度")
     private BigDecimal longitude;
-    
+
     @Schema(description = "纬度")
     private BigDecimal latitude;
-    
+
     @TableField("`sequence`")
     @Schema(description = "排序")
     private Integer sequence;
-    
+
     @Schema(description = "来源")
     @TableField("`source`")
     private String source;
-    
+
 }

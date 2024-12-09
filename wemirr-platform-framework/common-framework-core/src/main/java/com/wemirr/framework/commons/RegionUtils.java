@@ -35,6 +35,7 @@ import java.io.IOException;
 @Slf4j
 public final class RegionUtils {
 
+    private static final String DEFAULT_REGION = "内网";
     /**
      * IP 查询器，启动加载到内存中
      */
@@ -73,7 +74,5 @@ public final class RegionUtils {
             return DEFAULT_REGION;
         }
     }
-
-    private static final String DEFAULT_REGION = "内网";
 
 }

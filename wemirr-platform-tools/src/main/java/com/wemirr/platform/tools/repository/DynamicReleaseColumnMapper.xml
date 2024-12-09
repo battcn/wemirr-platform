@@ -3,10 +3,8 @@
 <mapper namespace="com.wemirr.platform.tools.repository.DynamicReleaseColumnMapper">
 
     <select id="findFieldByTableName" parameterType="java.lang.String" resultType="java.lang.String">
-        SELECT
-            `column_name`
-        FROM
-            information_schema.COLUMNS
+        SELECT `column_name`
+        FROM information_schema.COLUMNS
         WHERE `TABLE_NAME` = #{tableName};
     </select>
 </mapper>

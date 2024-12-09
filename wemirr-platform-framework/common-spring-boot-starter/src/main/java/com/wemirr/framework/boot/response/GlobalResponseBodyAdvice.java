@@ -46,11 +46,11 @@ import java.util.List;
 @Configuration
 @RestControllerAdvice(annotations = {RestController.class})
 public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
-    
-    private static final String REWRITE = "1";
+
     public static final String RESPONSE_DATA_REWRITE = "rewrite";
+    private static final String REWRITE = "1";
     private static final List<String> IGNORE_URLS = Lists.newArrayList("/v3/api-docs", "/v3/api-docs/swagger-config");
-    
+
     @SneakyThrows
     @Override
     public Object beforeBodyWrite(Object body, @NonNull MethodParameter methodParameter, @NonNull MediaType mediaType,
@@ -84,7 +84,7 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             return body;
         }
     }
-    
+
     @Override
     public boolean supports(@NonNull MethodParameter methodParameter, @NonNull Class<? extends HttpMessageConverter<?>> aClass) {
         return true;

@@ -48,31 +48,31 @@ import java.util.List;
 @AllArgsConstructor
 @EnableConfigurationProperties({RobotProperties.class})
 public class RobotAutoConfiguration {
-    
+
     @Bean
     @ConditionalOnMissingBean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-    
+
     @Bean
     @ConditionalOnMissingBean
     public IErrorMessageHandler errorMessageHandler() {
         return new DefaultIErrorMessageHandler();
     }
-    
+
     @Bean
     @ConditionalOnMissingBean
     public DefaultRobotExceptionMessage robotSendException(List<RobotMessageHandler> robotMessageTemplateList, IErrorMessageHandler IErrorMessageHandler) {
         return new DefaultRobotExceptionMessage(robotMessageTemplateList, IErrorMessageHandler);
     }
-    
+
     @Bean
     @ConditionalOnProperty(prefix = RobotProperties.PREFIX, name = "enabled", havingValue = "true")
     public RobotExceptionNotifyAspect exceptionAspect(IRobotExceptionMessage sendException) {
         return new RobotExceptionNotifyAspect(sendException);
     }
-    
+
     /**
      * 钉钉
      */
@@ -82,7 +82,7 @@ public class RobotAutoConfiguration {
     public RobotMessageHandler dingTalkRobotMessageHandler(RobotProperties robotProperties) {
         return new DingTalkRobotMessageHandler(robotProperties);
     }
-    
+
     /**
      * 企业微信
      */
@@ -92,7 +92,7 @@ public class RobotAutoConfiguration {
     public RobotMessageHandler weChatRobotMessageHandler(RobotProperties robotProperties) {
         return new WeChatRobotMessageHandler(robotProperties);
     }
-    
+
     /**
      * 飞书
      */

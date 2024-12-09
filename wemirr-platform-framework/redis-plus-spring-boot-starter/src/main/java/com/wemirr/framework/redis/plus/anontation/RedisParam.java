@@ -31,7 +31,7 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface RedisParam {
-    
+
     /**
      * 字段名称
      *

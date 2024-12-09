@@ -44,10 +44,10 @@ import org.springframework.context.annotation.Primary;
 @ConditionalOnProperty(name = "spring.datasource.hikari.extend.encrypt", havingValue = "true")
 @EnableConfigurationProperties({DataSourceProperties.class, HikariDataSourceExtProperties.class})
 public class EncryptHikariDataSourceConfiguration {
-    
+
     private static final String DEFAULT_PUB_KEY = "wemirr_pub";
     private static final String DATA_SOURCE = "dataSource";
-    
+
     @Primary
     @Bean(DATA_SOURCE)
     public HikariDataSource dataSource(DataSourceProperties properties,
@@ -68,5 +68,5 @@ public class EncryptHikariDataSourceConfiguration {
         }
         return dataSource;
     }
-    
+
 }

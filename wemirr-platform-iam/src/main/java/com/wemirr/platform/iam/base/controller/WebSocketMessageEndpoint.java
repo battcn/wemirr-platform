@@ -52,7 +52,7 @@ import java.util.List;
 @Component
 @ServerEndpoint(value = "/message/{tenantCode}/{identifier}")
 public class WebSocketMessageEndpoint extends BaseWebSocketEndpoint {
-    
+
     @OnOpen
     public void openSession(@PathParam("tenantCode") String tenantCode, @PathParam(IDENTIFIER) String userId, Session session) {
         connect(userId, session);
@@ -86,22 +86,22 @@ public class WebSocketMessageEndpoint extends BaseWebSocketEndpoint {
         }
         messages.forEach(message -> senderMessage(userId, JSON.toJSONString(message)));
     }
-    
+
     @OnMessage
     public void onMessage(@PathParam(IDENTIFIER) String userId, Session session, String message) {
         log.info("接收到的消息" + message);
     }
-    
+
     @OnClose
     public void onClose(@PathParam(IDENTIFIER) String userId, Session session) {
         disconnect(userId);
     }
-    
+
     @OnError
     public void onError(@PathParam(IDENTIFIER) String userId, Session session, Throwable throwable) {
         log.info("发生异常：, identifier {} ", userId);
         log.error(throwable.getMessage(), throwable);
         disconnect(userId);
     }
-    
+
 }

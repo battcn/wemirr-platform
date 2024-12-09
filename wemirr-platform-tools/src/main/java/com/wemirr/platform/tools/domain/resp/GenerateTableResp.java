@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GenerateTableResp {
-    
+
     private String value;
     private String label;
 }

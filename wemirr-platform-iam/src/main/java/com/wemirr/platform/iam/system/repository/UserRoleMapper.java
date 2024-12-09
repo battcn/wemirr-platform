@@ -37,5 +37,5 @@ import org.springframework.stereotype.Repository;
 @TenantDS
 @Repository
 public interface UserRoleMapper extends SuperMapper<UserRole> {
-    
+
 }

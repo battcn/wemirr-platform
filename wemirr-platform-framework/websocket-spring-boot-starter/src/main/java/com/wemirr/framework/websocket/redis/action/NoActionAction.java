@@ -28,7 +28,7 @@ import com.wemirr.framework.websocket.WebSocketManager;
  * @author Levin
  */
 public class NoActionAction implements Action {
-    
+
     @Override
     public void doMessage(WebSocketManager manager, JSONObject object) {
         // do no thing

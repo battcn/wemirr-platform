@@ -47,7 +47,7 @@ import static com.baomidou.mybatisplus.annotation.FieldStrategy.ALWAYS;
 @Accessors(chain = true)
 @TableName("t_tenant")
 public class Tenant extends SuperEntity<Long> {
-    
+
     @Schema(description = "编码")
     private String code;
     @Schema(description = "名称")
@@ -60,7 +60,7 @@ public class Tenant extends SuperEntity<Long> {
     private String alias;
     @Schema(description = "名称")
     private Boolean locked;
-    
+
     @Schema(description = "LOGO")
     private String logo;
     @Schema(description = "邮箱")
@@ -71,7 +71,7 @@ public class Tenant extends SuperEntity<Long> {
     private String contactPhone;
     @Schema(description = "行业")
     private String industry;
-    
+
     @Schema(description = "省")
     @TableField(updateStrategy = ALWAYS)
     private Long provinceId;
@@ -90,7 +90,7 @@ public class Tenant extends SuperEntity<Long> {
     @Schema(description = "区")
     @TableField(updateStrategy = ALWAYS)
     private String districtName;
-    
+
     private String address;
     @Schema(description = "统一信用代码")
     private String creditCode;
@@ -100,5 +100,5 @@ public class Tenant extends SuperEntity<Long> {
     private String webSite;
     @Schema(description = "描述")
     private String description;
-    
+
 }

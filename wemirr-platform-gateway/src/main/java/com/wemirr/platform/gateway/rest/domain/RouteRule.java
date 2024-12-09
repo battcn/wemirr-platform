@@ -37,11 +37,12 @@ public class RouteRule {
         @NotBlank(message = "名称不能为空")
         private String name;
         private List<FilterArg> args;
+
         @Data
         @Builder
         @NoArgsConstructor
         @AllArgsConstructor
-        public static class FilterArg{
+        public static class FilterArg {
             private String key;
             private String value;
         }

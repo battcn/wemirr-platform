@@ -30,12 +30,12 @@ import java.util.stream.Collectors;
  * @author Levin
  */
 public class DynamicReleaseDragPushServerConverts {
-    
+
     public static final DynamicReleaseDragPushServerConverts.DynamicReleaseDragPushServerPo2Resp DYNAMIC_RELEASE_DRAG_PUSH_SERVER_PO_2_RESP =
             new DynamicReleaseDragPushServerConverts.DynamicReleaseDragPushServerPo2Resp();
-    
+
     public static class DynamicReleaseDragPushServerPo2Resp implements BasePageConverts<DynamicReleaseDragPushServer, DynamicReleaseDragPushServerResp> {
-        
+
         @Override
         public DynamicReleaseDragPushServerResp convert(DynamicReleaseDragPushServer source) {
             if (source == null) {
@@ -51,5 +51,5 @@ public class DynamicReleaseDragPushServerConverts {
             return resp;
         }
     }
-    
+
 }

@@ -35,7 +35,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AreaNodeResp {
-    
+
     @Schema(description = "节点值")
     private Long value;
     @Schema(description = "节点名")
@@ -55,5 +55,5 @@ public class AreaNodeResp {
      */
     @Schema(description = "纬度")
     private BigDecimal latitude;
-    
+
 }

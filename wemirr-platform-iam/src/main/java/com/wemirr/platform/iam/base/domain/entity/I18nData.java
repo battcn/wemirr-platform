@@ -39,14 +39,14 @@ import lombok.experimental.SuperBuilder;
 @TableName("c_i18n_data")
 @Schema(name = "I18nData", description = "I18N数据")
 public class I18nData extends SuperEntity<Long> {
-    
+
     @Schema(description = "编码")
     private String code;
-    
+
     @Schema(description = "备注")
     private String remark;
-    
+
     @Schema(description = "租户ID")
     private Long tenantId;
-    
+
 }

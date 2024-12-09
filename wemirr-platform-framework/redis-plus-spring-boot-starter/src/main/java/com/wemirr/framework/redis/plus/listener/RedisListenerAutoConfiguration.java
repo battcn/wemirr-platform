@@ -55,7 +55,7 @@ public class RedisListenerAutoConfiguration {
 //            if (listener.topic() instanceof PatternTopic) {
 //                container.addMessageListener(new MessageListenerAdapter(listener), listener.topic());
 //            } else {
-                container.addMessageListener(listener, listener.topic());
+            container.addMessageListener(listener, listener.topic());
 //            }
         }
         return container;

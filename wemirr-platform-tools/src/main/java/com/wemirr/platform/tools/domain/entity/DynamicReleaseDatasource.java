@@ -33,7 +33,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @TableName("gen_dynamic_release_datasource")
 public class DynamicReleaseDatasource extends SuperEntity<Long> {
-    
+
     @TableField("`database`")
     private String database;
     @TableField("`username`")
@@ -48,5 +48,5 @@ public class DynamicReleaseDatasource extends SuperEntity<Long> {
     private String description;
     @TableField("`locked`")
     private Boolean locked;
-    
+
 }

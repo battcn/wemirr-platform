@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Repository
 public interface GenerateMapper extends SuperMapper<GenerateEntity> {
-    
+
     /**
      * 显示所有表
      *

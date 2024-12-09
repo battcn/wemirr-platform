@@ -38,10 +38,10 @@ import java.io.InputStream;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DownloadResponse {
-    
+
     @Deprecated
     private BufferedReader bufferedReader;
-    
+
     private InputStream inputStream;
     /**
      * 上下文类型

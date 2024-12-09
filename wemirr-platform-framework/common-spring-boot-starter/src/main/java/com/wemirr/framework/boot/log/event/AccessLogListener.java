@@ -36,9 +36,9 @@ import java.util.function.Consumer;
 @Slf4j
 @AllArgsConstructor
 public class AccessLogListener {
-    
+
     private final Consumer<AccessLogInfo> consumer;
-    
+
     @Async
     @Order
     @EventListener(AccessLogEvent.class)
@@ -50,5 +50,5 @@ public class AccessLogListener {
         }
         consumer.accept(info);
     }
-    
+
 }

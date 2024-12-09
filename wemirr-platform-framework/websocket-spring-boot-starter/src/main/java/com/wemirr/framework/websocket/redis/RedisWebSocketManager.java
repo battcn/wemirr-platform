@@ -42,17 +42,17 @@ import org.springframework.data.redis.core.ValueOperations;
  * @see RedisWebSocketManager#sendMessage
  */
 public class RedisWebSocketManager extends MemWebSocketManager {
-    
+
     public static final String CHANNEL = "websocket";
     private static final String COUNT_KEY = "websocket:connection:count";
-    
+
     @Override
     public void put(String identifier, WebSocket webSocket) {
         super.put(identifier, webSocket);
         // 在线数量加1
         countChange(1);
     }
-    
+
     @Override
     public void remove(String identifier) {
         final StringRedisTemplate redisTemplate = SpringUtil.getBean(StringRedisTemplate.class);
@@ -69,12 +69,12 @@ public class RedisWebSocketManager extends MemWebSocketManager {
         // 在线数量减1
         countChange(-1);
     }
-    
+
     @Override
     public int size() {
         return getCount();
     }
-    
+
     @Override
     public void sendMessage(String identifier, String message) {
         WebSocket webSocket = get(identifier);
@@ -91,7 +91,7 @@ public class RedisWebSocketManager extends MemWebSocketManager {
         // 在websocket频道上发布发送消息的消息
         redisTemplate.convertAndSend(getChannel(), map.toJSONString());
     }
-    
+
     @Override
     public void broadcast(String message) {
         JSONObject map = new JSONObject();
@@ -101,28 +101,28 @@ public class RedisWebSocketManager extends MemWebSocketManager {
         // 在websocket频道上发布广播的消息
         redisTemplate.convertAndSend(getChannel(), map.toJSONString());
     }
-    
+
     protected String getChannel() {
         return CHANNEL;
     }
-    
+
     /**
      * 增减在线数量
      */
     private void countChange(int delta) {
         final StringRedisTemplate redisTemplate = SpringUtil.getBean(StringRedisTemplate.class);
         ValueOperations<String, String> value = redisTemplate.opsForValue();
-        
+
         // 获取在线当前数量
         int count = getCount(value);
-        
+
         count = count + delta;
         count = Math.max(count, 0);
-        
+
         // 设置新的数量
         value.set(COUNT_KEY, "" + count);
     }
-    
+
     /**
      * 获取当前在线数量
      */
@@ -131,7 +131,7 @@ public class RedisWebSocketManager extends MemWebSocketManager {
         ValueOperations<String, String> value = redisTemplate.opsForValue();
         return getCount(value);
     }
-    
+
     private int getCount(ValueOperations<String, String> value) {
         String countStr = value.get(COUNT_KEY);
         int count = 0;

@@ -18,6 +18,7 @@ public class DiffParseFunction {
     public static final String NEW_OBJECT = "_newObj";
 
     private IDiffItemsToLogContentService diffItemsToLogContentService;
+
     public String functionName() {
         return DIFF_FUNCTION_NAME;
     }

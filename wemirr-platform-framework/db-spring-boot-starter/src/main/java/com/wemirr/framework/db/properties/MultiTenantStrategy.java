@@ -31,7 +31,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum MultiTenantStrategy {
-    
+
     /**
      * 本地服务
      */

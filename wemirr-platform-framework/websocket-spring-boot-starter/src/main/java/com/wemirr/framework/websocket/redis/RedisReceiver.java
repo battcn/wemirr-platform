@@ -25,10 +25,10 @@ package com.wemirr.framework.websocket.redis;
  * @author Levin
  */
 public interface RedisReceiver {
-    
+
     String RECEIVER_METHOD_NAME = "receiveMessage";
     String REDIS_RECEIVER_NAME = "redisReceiver";
-    
+
     /**
      * 回调方法
      *

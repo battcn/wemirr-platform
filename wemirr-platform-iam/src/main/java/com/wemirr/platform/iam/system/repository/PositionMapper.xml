@@ -4,8 +4,7 @@
 
 
     <select id="findStationPage" resultType="com.wemirr.platform.iam.system.domain.dto.resp.PositionPageResp">
-        SELECT
-        *
+        SELECT *
         FROM sys_position s ${ew.customSqlSegment}
     </select>
 

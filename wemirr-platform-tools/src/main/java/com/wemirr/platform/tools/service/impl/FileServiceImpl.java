@@ -43,9 +43,9 @@ import static org.apache.http.protocol.HTTP.USER_AGENT;
 @Service
 @RequiredArgsConstructor
 public class FileServiceImpl extends SuperServiceImpl<FileMapper, FileEntity> implements FileService {
-    
+
     private final StorageOperation storageOperation;
-    
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public StorageResponse upload(StorageRequest storage, HttpServletRequest request) {
@@ -64,5 +64,5 @@ public class FileServiceImpl extends SuperServiceImpl<FileMapper, FileEntity> im
         response.setFileId(entity.getId());
         return response;
     }
-    
+
 }

@@ -38,30 +38,7 @@ import static java.util.stream.Collectors.toList;
  */
 public interface DictEnum<T extends Serializable> extends IEnum<T> {
 
-    /**
-     * 描述信息
-     *
-     * @return 描述
-     */
-    String getDesc();
-
-    /**
-     * 语言
-     *
-     * @return 语言
-     */
-    default String getLanguage() {
-        return null;
-    }
-
-    /**
-     * 获取枚举编码
-     *
-     * @return 编码
-     */
-    default T getCode() {
-        return this.getValue();
-    }
+    char SEPARATOR = ',';
 
     /**
      * 枚举数组转集合
@@ -94,9 +71,6 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
         }
         return null;
     }
-
-
-    char SEPARATOR = ',';
 
     /**
      * 转换成字符串
@@ -131,6 +105,31 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
         return split.stream().filter(Objects::nonNull)
                 .map(type -> of(enumClass, type))
                 .collect(toList());
+    }
+
+    /**
+     * 描述信息
+     *
+     * @return 描述
+     */
+    String getDesc();
+
+    /**
+     * 语言
+     *
+     * @return 语言
+     */
+    default String getLanguage() {
+        return null;
+    }
+
+    /**
+     * 获取枚举编码
+     *
+     * @return 编码
+     */
+    default T getCode() {
+        return this.getValue();
     }
 
 }

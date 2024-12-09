@@ -38,8 +38,8 @@ public class DictItemPageReq extends PageRequest {
 
     @Schema(description = "标签")
     private String label;
-    
+
     @Schema(description = "状态")
     private Boolean status;
-    
+
 }

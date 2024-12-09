@@ -29,11 +29,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 @RequiredArgsConstructor
 public class MessageNotifyEventListener {
 
+    private static final Map<String, MessageNotifyStrategy> NOTIFY_STRATEGY_MAP = Maps.newConcurrentMap();
     private final ThreadPoolExecutor poolExecutor;
     private final MessageChannelMapper messageChannelMapper;
-
-
-    private static final Map<String, MessageNotifyStrategy> NOTIFY_STRATEGY_MAP = Maps.newConcurrentMap();
 
     @PostConstruct
     public void init() {

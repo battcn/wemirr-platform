@@ -25,11 +25,7 @@ package com.wemirr.framework.i18n.domain;
  * @author Levin
  */
 public final class I18nRedisKeyConstants {
-    
-    private I18nRedisKeyConstants() {
-        
-    }
-    
+
     /**
      * i18nData 的数据存储缓存 key
      * <ul>
@@ -38,10 +34,13 @@ public final class I18nRedisKeyConstants {
      * <ul/>
      */
     public static final String I18N_DATA_PREFIX = "i18n-data";
-    
     /**
      * 删除 i18n data 消息的 channel 名
      */
     public static final String CHANNEL_I18N_DATA_UPDATED = "channel:i18n-data-updated";
-    
+
+    private I18nRedisKeyConstants() {
+
+    }
+
 }

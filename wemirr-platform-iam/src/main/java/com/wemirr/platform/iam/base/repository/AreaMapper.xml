@@ -4,8 +4,10 @@
 
 
     <select id="listArea" resultType="com.wemirr.platform.iam.base.domain.entity.AreaEntity">
-        SELECT t1.*  FROM c_area t1
-        where  t1.parent_id = #{parentId} order by `sequence`
+        SELECT t1.*
+        FROM c_area t1
+        where t1.parent_id = #{parentId}
+        order by `sequence`
     </select>
 
 

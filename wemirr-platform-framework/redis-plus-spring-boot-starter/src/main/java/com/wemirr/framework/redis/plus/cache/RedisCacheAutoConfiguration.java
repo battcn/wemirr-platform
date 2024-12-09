@@ -61,9 +61,9 @@ import java.util.stream.Collectors;
 @EnableConfigurationProperties(RedisPlusProperties.class)
 @ConditionalOnProperty(prefix = "extend.redis.cache", name = "enabled", havingValue = "true")
 public class RedisCacheAutoConfiguration implements CachingConfigurer {
-    
+
     private final RedisPlusProperties redisPlusProperties;
-    
+
     /**
      * 自定义SpringCache缓存key
      */
@@ -90,7 +90,7 @@ public class RedisCacheAutoConfiguration implements CachingConfigurer {
             return MD5.create().digestHex(jsonText);
         };
     }
-    
+
     /**
      * 自定义缓存SimpleCacheManager
      */
@@ -118,5 +118,5 @@ public class RedisCacheAutoConfiguration implements CachingConfigurer {
         simple.setCaches(caches);
         return simple;
     }
-    
+
 }

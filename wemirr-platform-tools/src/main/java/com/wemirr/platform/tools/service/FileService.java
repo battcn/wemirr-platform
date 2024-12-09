@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * @author Levin
  */
 public interface FileService extends SuperService<FileEntity> {
-    
+
     /**
      * 文件上传
      *
@@ -37,5 +37,5 @@ public interface FileService extends SuperService<FileEntity> {
      * @return 上传结果
      */
     StorageResponse upload(StorageRequest storage, HttpServletRequest request);
-    
+
 }

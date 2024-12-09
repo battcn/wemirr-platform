@@ -36,5 +36,5 @@ import java.lang.annotation.*;
 @Inherited
 @Import({AuthorizationServerConfiguration.class})
 public @interface EnableOAuth2Server {
-    
+
 }

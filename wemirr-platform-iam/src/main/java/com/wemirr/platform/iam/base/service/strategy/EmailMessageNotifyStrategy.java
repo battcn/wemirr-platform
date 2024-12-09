@@ -24,32 +24,6 @@ public class EmailMessageNotifyStrategy implements MessageNotifyStrategy {
 
     private static final Map<Long, MailSendFactory> SENDER_QUEUE = MapUtil.newConcurrentHashMap();
 
-    @Data
-    @Builder
-    public static class MailSendFactory {
-
-        private ChannelSetting setting;
-
-        private JavaMailSenderImpl sender;
-    }
-
-    @Data
-    @EqualsAndHashCode
-    public static class ChannelSetting {
-        private Integer port;
-        private String host;
-        private String username;
-        private String password;
-        private String protocol;
-        private Smtp smtp;
-
-        @Data
-        public static class Smtp {
-            private Boolean auth;
-            private Boolean ssl;
-        }
-    }
-
     @Override
     public String channelType() {
         // 定义枚举
@@ -93,5 +67,31 @@ public class EmailMessageNotifyStrategy implements MessageNotifyStrategy {
         message.setSubject(notify.getTitle());
         message.setText(notify.getContent());
         mailSender.send(message);
+    }
+
+    @Data
+    @Builder
+    public static class MailSendFactory {
+
+        private ChannelSetting setting;
+
+        private JavaMailSenderImpl sender;
+    }
+
+    @Data
+    @EqualsAndHashCode
+    public static class ChannelSetting {
+        private Integer port;
+        private String host;
+        private String username;
+        private String password;
+        private String protocol;
+        private Smtp smtp;
+
+        @Data
+        public static class Smtp {
+            private Boolean auth;
+            private Boolean ssl;
+        }
     }
 }

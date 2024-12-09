@@ -35,11 +35,11 @@ import java.util.Locale;
  */
 @RequiredArgsConstructor
 public class I18nMessageResource {
-    
+
     public static final String PATTERN = "\\{(.+?)\\}";
-    
+
     private final MessageSource messageSource;
-    
+
     public String getMessage(String code, Object... args) {
         final Locale locale = LocaleContextHolder.getLocale();
         final String message = messageSource.getMessage(code, args, code, locale);
@@ -50,9 +50,9 @@ public class I18nMessageResource {
         }
         return StrUtil.replace(message, PATTERN, (param -> messageSource.getMessage(param.group(1), args, param.group(), locale)));
     }
-    
+
     public List<String> resolveMessage(String message) {
         return ReUtil.findAll(PATTERN, message, 0, new ArrayList<>());
     }
-    
+
 }

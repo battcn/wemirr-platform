@@ -27,7 +27,7 @@ import com.wemirr.platform.tools.domain.resp.DynamicReleaseDragPushServerModelRe
  * @author Levin
  */
 public interface DynamicReleaseDragPushServerService extends SuperService<DynamicReleaseDragPushServer> {
-    
+
     /**
      * 根据 pushId 查询动态发布模型
      *
@@ -35,7 +35,7 @@ public interface DynamicReleaseDragPushServerService extends SuperService<Dynami
      * @return 查询结果
      */
     DynamicReleaseDragPushServerModelResp queryModelByPushId(Long pushId);
-    
+
     /**
      * 绑定
      *

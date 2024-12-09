@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 /**
  * <p>
  * TenantType
@@ -38,7 +39,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonFormat
 public enum EventAction {
-    
+
     /**
      * 初始化
      */
@@ -55,9 +56,9 @@ public enum EventAction {
     @EnumValue
     @JsonValue
     private Integer type;
-    
+
     private String desc;
-    
+
     public static EventAction of(Integer type) {
         if (type == null) {
             return null;
@@ -69,10 +70,10 @@ public enum EventAction {
         }
         return null;
     }
-    
+
     @Override
     public String toString() {
         return String.valueOf(type);
     }
-    
+
 }

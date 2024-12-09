@@ -41,31 +41,31 @@ import java.sql.SQLException;
 @MappedTypes(value = {Long[].class})
 @MappedJdbcTypes(value = JdbcType.VARCHAR)
 public class LongArrayTypeHandler extends BaseTypeHandler<Long[]> {
-    
+
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, Long[] parameter, JdbcType jdbcType) throws SQLException {
         ps.setString(i, ArrayUtil.join(parameter, StrUtil.COMMA));
     }
-    
+
     @Override
     @SneakyThrows
     public Long[] getNullableResult(ResultSet rs, String columnName) {
         String reString = rs.getString(columnName);
         return Convert.toLongArray(reString);
     }
-    
+
     @Override
     @SneakyThrows
     public Long[] getNullableResult(ResultSet rs, int columnIndex) {
         String reString = rs.getString(columnIndex);
         return Convert.toLongArray(reString);
     }
-    
+
     @Override
     @SneakyThrows
     public Long[] getNullableResult(CallableStatement cs, int columnIndex) {
         String reString = cs.getString(columnIndex);
         return Convert.toLongArray(reString);
     }
-    
+
 }

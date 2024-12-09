@@ -22,7 +22,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(DynamicRouteProperties.class)
-@ConditionalOnProperty(prefix = "spring.cloud.gateway", name = "enabled", havingValue = "true",matchIfMissing = true)
+@ConditionalOnProperty(prefix = "spring.cloud.gateway", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class DynamicRouteAutoConfiguration {
 
     private final ApplicationEventPublisher publisher;

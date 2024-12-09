@@ -37,7 +37,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @TableName("gen_dynamic_release_drag_push_server")
 public class DynamicReleaseDragPushServer extends SuperEntity<Long> {
-    
+
     @TableField("`method`")
     private String method;
     @TableField("`url`")

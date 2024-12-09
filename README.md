@@ -6,9 +6,11 @@
 
 ![Total visits](https://visitor-badge.laobi.icu/badge?page_id=wemirr-platform&title=total%20visits)  [![Total lines](https://tokei.rs/b1/github/battcn/wemirr-platform?category=lines)](https://tokei.rs/b1/github/battcn/wemirr-platform?category=lines)  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?label=license)](https://www.codacy.com/gh/battcn/wemirr-platform/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=battcn/wemirr-platform&amp;utm_campaign=Badge_Grade)  [![Stars](https://img.shields.io/github/stars/battcn/wemirr-platform.svg?label=Stars&tyle=flat&logo=GitHub)](https://github.com/battcn/wemirr-platform/stargazers)  [![Stars](https://gitee.com/battcn/wemirr-platform/badge/star.svg?theme=gvp)](https://gitee.com/battcn/wemirr-platform/stargazers)
 
-[![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-dependencies.svg?label=Spring%20Boot&logo=Spring)](https://search.maven.org/artifact/org.springframework.boot/spring-boot-dependencies)  [![Spring Cloud](https://img.shields.io/maven-central/v/org.springframework.cloud/spring-cloud-dependencies.svg?label=Spring%20Cloud&logo=Spring)](https://search.maven.org/artifact/org.springframework.cloud/spring-cloud-dependencies)  [![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.alibaba.cloud/spring-cloud-alibaba-dependencies.svg?label=Spring%20Cloud%20Alibaba&logo=Spring)](https://search.maven.org/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies) 
+[![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-dependencies.svg?label=Spring%20Boot&logo=Spring)](https://search.maven.org/artifact/org.springframework.boot/spring-boot-dependencies)  [![Spring Cloud](https://img.shields.io/maven-central/v/org.springframework.cloud/spring-cloud-dependencies.svg?label=Spring%20Cloud&logo=Spring)](https://search.maven.org/artifact/org.springframework.cloud/spring-cloud-dependencies)  [![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.alibaba.cloud/spring-cloud-alibaba-dependencies.svg?label=Spring%20Cloud%20Alibaba&logo=Spring)](https://search.maven.org/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies)
 
-**WP的使命：打破假开源，做全网最优秀、最简单、最漂亮的开源SAAS、多租户云平台架构。从开源中来,到开源中去,让大家有更多时间`摸鱼`、`学习`、`陪伴家人`、`锻炼身体`、`找对象`**
+*
+*WP的使命：打破假开源，做全网最优秀、最简单、最漂亮的开源SAAS、多租户云平台架构。从开源中来,到开源中去,让大家有更多时间`摸鱼`、`学习`、`陪伴家人`、`锻炼身体`、`找对象`
+**
 
 ## 版本管理
 
@@ -16,7 +18,8 @@
 
 **v2 -> v3 是破坏性升级,不推荐已稳定运行的系统升级,工程量比较大**
 
-**经过多方调研和反馈,国内大部分都是伪 OAuth2.x 用户,V3版登录未采用登录 OAuth2.x 协议,但权限框架是 `sa-token` 可以很方便就配置 `sso-server` 和 `oauth2-server`**
+**经过多方调研和反馈,国内大部分都是伪 OAuth2.x 用户,V3版登录未采用登录 OAuth2.x 协议,但权限框架是 `sa-token` 可以很方便就配置 `sso-server`
+和 `oauth2-server`**
 
 | 版本     | 描述                                                             |
 |--------|----------------------------------------------------------------|
@@ -45,19 +48,17 @@
 
 ## 演示地址
 
-[演示地址](https://cloud.battcn.com/) 
+[演示地址](https://cloud.battcn.com/)
 
 > 平台账号 0000 账号 admin 密码 123456
 
 > 租户账号 8888 账号 admin 密码 123456
-
 
 ## 软件架构
 
 > 技术交流Q群： 789517089
 
 Vue、Spring Cloud Alibaba 2023、Spring Cloud 2023、Nacos、Sentinel、 Mybatis-Plus、多租户、灰度、Sa-Token、Redis、Mysql、
-
 
 ### 特点
 
@@ -81,7 +82,6 @@ Vue、Spring Cloud Alibaba 2023、Spring Cloud 2023、Nacos、Sentinel、 Mybati
   <fs-crud ref="crudRef" v-bind="crudBinding"/>
 </template>
 ```
-
 
 ## 效果图
 
@@ -117,7 +117,7 @@ Vue、Spring Cloud Alibaba 2023、Spring Cloud 2023、Nacos、Sentinel、 Mybati
 
 开源里面UI最好、最容易上手的、中台 、SAAS 、 多租户功能、最最少的代码实现功能
 
-[配套前端](https://gitee.com/battcn/wemirr-platform-ui) 配套的 UI 
+[配套前端](https://gitee.com/battcn/wemirr-platform-ui) 配套的 UI
 
 [Nepxion-Discovery](https://github.com/battcn/wemirr-platform) 蓝绿、灰度、流量保护
 
@@ -135,11 +135,11 @@ Vue、Spring Cloud Alibaba 2023、Spring Cloud 2023、Nacos、Sentinel、 Mybati
 
 ### 环境安装
 
-提供 `docker-compose.yml` 安装（文件在`附件/docker/docker-compose.yml`） 
+提供 `docker-compose.yml` 安装（文件在`附件/docker/docker-compose.yml`）
 
 一般安装 `latest` 版本即可，也可以自行指定版本 `docker search` 或者自己上 `docker hub` 看版本
 
-如果 `docker` 运行开发环境，建议先创建一个网络 `docker network create wemirr` 后面容器都走统一网络 
+如果 `docker` 运行开发环境，建议先创建一个网络 `docker network create wemirr` 后面容器都走统一网络
 
 > 具体用法: **`docker run --net wemirr --name xxx`**
 

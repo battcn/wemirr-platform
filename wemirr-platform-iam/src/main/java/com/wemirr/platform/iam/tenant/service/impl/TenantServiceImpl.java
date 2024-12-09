@@ -90,6 +90,10 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     private final UserMapper userMapper;
     private final OrgMapper orgMapper;
 //    private PasswordEncoder passwordEncoder;
+    private final SysDictMapper dictMapper;
+    private final SysDictItemMapper dictItemMapper;
+    private final TenantDictMapper tenantDictMapper;
+    private final TenantDictItemMapper tenantDictItemMapper;
 
     private String getNameById(Long id) {
         if (Objects.isNull(id)) {
@@ -223,11 +227,6 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             tenantDynamicDataSourceHandler.initSqlScript(tenant.getCode(), Map.of("tenant_id", tenant.getId() + "", "tenant_name", tenant.getName()));
         }
     }
-
-    private final SysDictMapper dictMapper;
-    private final SysDictItemMapper dictItemMapper;
-    private final TenantDictMapper tenantDictMapper;
-    private final TenantDictItemMapper tenantDictItemMapper;
 
     @Override
     @DSTransactional(rollbackFor = Exception.class)

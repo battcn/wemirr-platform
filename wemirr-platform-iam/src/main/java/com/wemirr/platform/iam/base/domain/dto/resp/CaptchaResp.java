@@ -36,24 +36,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CaptchaResp {
-    
+
     /**
      * 验证码id
      */
     @Schema(description = "验证码ID")
     private String captchaId;
-    
+
     /**
      * 验证码的值
      */
     @JsonIgnore
     @Schema(description = "验证码")
     private String code;
-    
+
     /**
      * 图片验证码的base64值
      */
     @Schema(description = "验证码BASE64")
     private String imageData;
-    
+
 }

@@ -41,8 +41,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthenticationContextConfiguration {
 
-    private final SaTokenDao saTokenDao;
     private static final String USER_INFO = "USER_INFO_KEY";
+    private final SaTokenDao saTokenDao;
 
     @Bean
     public AuthenticationContext authenticationContext(SecurityExtProperties properties) {

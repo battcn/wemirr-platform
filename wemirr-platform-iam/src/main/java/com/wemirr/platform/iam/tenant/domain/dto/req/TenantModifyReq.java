@@ -31,50 +31,50 @@ import org.hibernate.validator.constraints.Length;
  */
 @Data
 public class TenantModifyReq {
-    
+
     @NotBlank(message = "租户名称不能为空")
     @Length(min = 2, max = 30, message = "租户名称长度 {min} - {max} 之间")
     @Schema(description = "租户名称")
     private String name;
-    
+
     @NotNull(message = "租户类型不能为空")
     @Schema(description = "租户类型")
     private Integer type;
-    
+
     @NotNull(message = "认证状态不能为空")
     @Schema(description = "认证状态")
     private Integer status;
-    
+
     @Length(min = 2, max = 8, message = "租户简称长度 {min} - {max} 之间")
     @Schema(description = "租户简称")
     private String alias;
-    
+
     @Schema(description = "使用状态")
     @NotNull(message = "使用状态不能为空")
     private Boolean locked;
-    
+
     @Length(min = 2, max = 256, message = "租户LOGO长度 {min} - {max} 之间")
     @Schema(description = "LOGO")
     private String logo;
-    
+
     @Length(min = 2, max = 30, message = "租户邮箱长度 {min} - {max} 之间")
     private String email;
-    
+
     @Length(min = 2, max = 30, message = "联系人长度 {min} - {max} 之间")
     @Schema(description = "联系人")
     private String contactPerson;
-    
+
     @Length(min = 2, max = 30, message = "联系方式长度 {min} - {max} 之间")
     @Schema(description = "联系方式")
     private String contactPhone;
-    
+
     @Schema(description = "行业")
     private String industry;
-    
+
     private Long provinceId;
     private Long cityId;
     private Long districtId;
-    
+
     @Schema(description = "地址")
     @Length(min = 2, max = 100, message = "地址长度 {min} - {max} 之间")
     private String address;

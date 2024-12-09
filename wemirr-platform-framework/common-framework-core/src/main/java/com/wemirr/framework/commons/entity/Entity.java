@@ -44,9 +44,6 @@ import java.time.Instant;
 @NoArgsConstructor
 @ToString(callSuper = true)
 public class Entity<T> implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-
     public static final String TENANT_ID_COLUMN = "tenant_id";
     public static final String TENANT_ID = "tenantId";
     public static final String FIELD_ID = "id";
@@ -55,9 +52,9 @@ public class Entity<T> implements Serializable {
     public static final String CREATE_USER = "createdBy";
     public static final String CREATE_USER_NAME = "createdName";
     public static final String CREATE_USER_NAME_COLUMN = "created_name";
-
     public static final String CREATE_USER_COLUMN = "created_by";
-
+    @Serial
+    private static final long serialVersionUID = 1L;
     @Schema(description = "ID")
     @TableId(value = FIELD_ID, type = IdType.ASSIGN_ID)
     @OrderBy

@@ -6,7 +6,6 @@ import org.springframework.aop.support.AbstractBeanFactoryPointcutAdvisor;
 
 
 /**
- *
  * @author mzt.
  */
 public class BeanFactoryDiffLogAdvisor extends AbstractBeanFactoryPointcutAdvisor {

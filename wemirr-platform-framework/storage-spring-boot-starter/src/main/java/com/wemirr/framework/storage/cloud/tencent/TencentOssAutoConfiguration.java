@@ -44,7 +44,7 @@ import static com.wemirr.framework.storage.StorageOperation.TENCENT_STORAGE_OPER
 @EnableConfigurationProperties({TencentStorageProperties.class})
 @ConditionalOnProperty(prefix = OSS_CONFIG_PREFIX_TENCENT, name = "enabled", havingValue = "true")
 public class TencentOssAutoConfiguration {
-    
+
     @Bean
     public COSClient cosClient(TencentStorageProperties properties) {
         COSCredentials credentials = new BasicCOSCredentials(properties.getAccessKey(), properties.getSecretKey());
@@ -52,10 +52,10 @@ public class TencentOssAutoConfiguration {
         ClientConfig clientConfig = new ClientConfig(new Region(properties.getRegion()));
         return new COSClient(credentials, clientConfig);
     }
-    
+
     @Bean(TENCENT_STORAGE_OPERATION)
     public TencentStorageOperation tencentStorageOperation(COSClient cosClient, TencentStorageProperties properties) {
         return new TencentStorageOperation(cosClient, properties);
     }
-    
+
 }

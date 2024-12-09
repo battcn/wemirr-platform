@@ -60,6 +60,14 @@ public class DatabaseProperties {
      * 拦截器
      */
     private Intercept intercept = new Intercept();
+    /**
+     * 审计拦截器
+     */
+    private Audit audit = new Audit();
+    /**
+     * 是否启用数据权限
+     */
+    private DataPermission dataPermission = new DataPermission();
 
     @Data
     public static class Encryptor {
@@ -67,16 +75,6 @@ public class DatabaseProperties {
         private String password;
 
     }
-
-    /**
-     * 审计拦截器
-     */
-    private Audit audit = new Audit();
-
-    /**
-     * 是否启用数据权限
-     */
-    private DataPermission dataPermission = new DataPermission();
 
     @Data
     public static class Intercept {
@@ -123,6 +121,13 @@ public class DatabaseProperties {
     public static class Pagination {
 
         /**
+         * 生成 countSql 优化掉 join
+         * 现在只支持 left join
+         *
+         * @since 3.4.2
+         */
+        protected boolean optimizeJoin = true;
+        /**
          * 单页分页条数限制(默认无限制,参见 插件#handlerLimit 方法)
          * 如果设置了最大分页数量,那么则最多只能查询出指定条数
          */
@@ -131,24 +136,14 @@ public class DatabaseProperties {
          * 溢出总页数后是否进行处理
          */
         private boolean overflow;
-
         /**
          * 数据库类型
          */
         private DbType dbType;
-
         /**
          * 方言
          */
         private IDialect dialect;
-
-        /**
-         * 生成 countSql 优化掉 join
-         * 现在只支持 left join
-         *
-         * @since 3.4.2
-         */
-        protected boolean optimizeJoin = true;
     }
 
     @Data

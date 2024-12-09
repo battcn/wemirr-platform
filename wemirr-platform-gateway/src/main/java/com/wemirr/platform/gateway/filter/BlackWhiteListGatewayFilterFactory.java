@@ -34,15 +34,14 @@ public class BlackWhiteListGatewayFilterFactory extends AbstractGatewayFilterFac
 
     private static final String DEFAULT_FILTER_NAME = "BlackWhiteList";
 
-    @Override
-    public String name() {
-        return DEFAULT_FILTER_NAME;
-    }
-
     public BlackWhiteListGatewayFilterFactory() {
         super(Config.class);
     }
 
+    @Override
+    public String name() {
+        return DEFAULT_FILTER_NAME;
+    }
 
     @Override
     public GatewayFilter apply(Config config) {
@@ -86,15 +85,6 @@ public class BlackWhiteListGatewayFilterFactory extends AbstractGatewayFilterFac
         return response.writeWith(Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(result))));
     }
 
-    @Data
-    public static class Config {
-
-        private Integer maxTrustedIndex = 1;
-        private BlackWhiteListType type;
-        private boolean ignoreIntranet;
-        private List<String> ipList;
-    }
-
     @AllArgsConstructor
     public enum BlackWhiteListType {
         /**
@@ -106,6 +96,15 @@ public class BlackWhiteListGatewayFilterFactory extends AbstractGatewayFilterFac
          */
         WHITE_LIST;
 
+    }
+
+    @Data
+    public static class Config {
+
+        private Integer maxTrustedIndex = 1;
+        private BlackWhiteListType type;
+        private boolean ignoreIntranet;
+        private List<String> ipList;
     }
 
 }

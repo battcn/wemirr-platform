@@ -40,7 +40,7 @@ import java.util.List;
 @AllArgsConstructor
 @TableName("c_generate")
 public class GenerateEntity extends SuperEntity<Long> {
-    
+
     /**
      * 开发人员
      */
@@ -63,7 +63,7 @@ public class GenerateEntity extends SuperEntity<Long> {
     @TableField(exist = false)
     private List<IFill> fillList;
     private Long platformId;
-    
+
     public GenerateEntity addFill(String fieldName, FieldFill fieldFill) {
         if (fillList == null) {
             fillList = new ArrayList<>();

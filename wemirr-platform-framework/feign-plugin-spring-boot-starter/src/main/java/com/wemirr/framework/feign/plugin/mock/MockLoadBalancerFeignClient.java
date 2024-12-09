@@ -46,19 +46,21 @@ import java.util.*;
  */
 @Slf4j
 public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient {
-    
+
+    private static final String REQUEST_ORIGIN_KEY = "request-origion";
+    private static final String REQUEST_ORIGIN_VALUE = "SwaggerBootstrapUi";
     private final MockProperties mockProperties;
-    
+
     public MockLoadBalancerFeignClient(Default delegate, LoadBalancerClient loadBalancerClient,
                                        LoadBalancerClientFactory loadBalancerClientFactory,
                                        List<LoadBalancerFeignRequestTransformer> transformers,
                                        MockProperties mockProperties) {
-        
+
         super(delegate, loadBalancerClient, loadBalancerClientFactory, transformers);
         this.mockProperties = mockProperties;
         log.info("mock feign 负载均衡器初始化");
     }
-    
+
     /**
      * 2. 请求的服务在mock服务列表中,则请求走mock服务器
      */
@@ -83,10 +85,7 @@ public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient
         }
         return super.execute(request, options);
     }
-    
-    private static final String REQUEST_ORIGIN_KEY = "request-origion";
-    private static final String REQUEST_ORIGIN_VALUE = "SwaggerBootstrapUi";
-    
+
     /**
      * 请求响应
      */
@@ -112,5 +111,5 @@ public class MockLoadBalancerFeignClient extends FeignBlockingLoadBalancerClient
                 .headers(request.headers())
                 .status(exchange.getStatusCode().value()).build();
     }
-    
+
 }

@@ -35,13 +35,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(WebSocketProperties.class)
 public class MemoryWebSocketConfiguration {
-    
+
     @Bean(WebSocketManager.WEBSOCKET_MANAGER_NAME)
     @ConditionalOnMissingBean(name = WebSocketManager.WEBSOCKET_MANAGER_NAME)
     public WebSocketManager webSocketManager() {
         return new MemWebSocketManager();
     }
-    
+
     @Bean
     @ConditionalOnMissingBean
     public WebSocketHeartBeatChecker webSocketHeartBeatChecker() {

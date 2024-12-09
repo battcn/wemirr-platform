@@ -37,18 +37,18 @@ import java.util.function.Predicate;
  */
 @Slf4j
 public class UpdateBatchSomeColumn extends AbstractMethod {
-    
+
     private static final String UPDATE_BATCH_SOME_COLUMN_BY_ID = "updateBatchSomeColumnById";
-    
+
     @Setter
     @Accessors(chain = true)
     private Predicate<TableFieldInfo> predicate;
-    
+
     public UpdateBatchSomeColumn(Predicate<TableFieldInfo> predicate) {
         super(UPDATE_BATCH_SOME_COLUMN_BY_ID);
         this.predicate = predicate;
     }
-    
+
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         String sql = "<script>\n<foreach collection=\"list\" item=\"item\" separator=\";\">\nupdate %s %s where %s=#{%s} %s\n</foreach>\n</script>";
@@ -58,6 +58,6 @@ public class UpdateBatchSomeColumn extends AbstractMethod {
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, sqlResult, modelClass);
         // 第三个参数必须和Mapper的自定义方法名一致
         return addUpdateMappedStatement(mapperClass, modelClass, methodName, sqlSource);
-        
+
     }
 }

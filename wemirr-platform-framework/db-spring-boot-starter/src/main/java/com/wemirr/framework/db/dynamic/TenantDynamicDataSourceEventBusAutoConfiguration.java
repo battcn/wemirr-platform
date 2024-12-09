@@ -59,6 +59,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @EnableConfigurationProperties(DatabaseProperties.class)
 public class TenantDynamicDataSourceEventBusAutoConfiguration {
 
+    private static final String UNDEFINED = "undefined";
+
     @Bean
     public TenantDynamicDataSourceHandler tenantDynamicDataSourceProcess() {
         return new TenantDynamicDataSourceHandler();
@@ -134,8 +136,6 @@ public class TenantDynamicDataSourceEventBusAutoConfiguration {
         sessionProcessor.setNextProcessor(expressionProcessor);
         return contentProcessor;
     }
-
-    private static final String UNDEFINED = "undefined";
 
     private String getTenantDb(HttpServletRequest request, DatabaseProperties.MultiTenant multiTenant, String tenantCode) {
         if (StringUtils.isBlank(tenantCode) || StringUtils.equals(tenantCode, UNDEFINED)) {

@@ -44,11 +44,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 @ConditionalOnProperty(prefix = "spring.websocket.heart-check", name = "enabled", havingValue = "true")
 @EnableConfigurationProperties(WebSocketProperties.class)
 public class WebSocketSchedulingConfiguration {
-    
+
     private final WebSocketProperties properties;
     private final WebSocketManager webSocketManager;
     private final WebSocketHeartBeatChecker webSocketHeartBeatChecker;
-    
+
     /**
      * 定时检测 WebSocket 的心跳
      */

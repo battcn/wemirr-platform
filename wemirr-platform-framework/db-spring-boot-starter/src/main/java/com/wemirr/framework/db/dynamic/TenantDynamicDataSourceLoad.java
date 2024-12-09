@@ -34,10 +34,10 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class TenantDynamicDataSourceLoad {
-    
+
     private final TenantDynamicDataSourceHandler tenantDynamicDataSourceHandler;
     private final TenantFeignClient tenantFeignClient;
-    
+
     public void init() {
         log.debug("extend.mybatis-plus.multi-tenant.strategy eq feign , pull dynamic begin...");
         final List<TenantDynamicDatasource> result = tenantFeignClient.selectAll();
@@ -48,5 +48,5 @@ public class TenantDynamicDataSourceLoad {
         result.forEach(tenantDynamicDataSource -> tenantDynamicDataSourceHandler.handler(EventAction.ADD, tenantDynamicDataSource));
         log.debug("extend.mybatis-plus.multi-tenant.strategy eq feign , pull dynamic end...");
     }
-    
+
 }

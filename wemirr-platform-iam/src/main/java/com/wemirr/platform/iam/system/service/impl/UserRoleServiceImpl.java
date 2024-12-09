@@ -49,9 +49,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserRoleServiceImpl extends SuperServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
-    
+
     private final UserMapper userMapper;
-    
+
     @Override
     public UserRoleResp findUserByRoleId(Long roleId) {
         final List<Long> userIdList = super.list(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId))

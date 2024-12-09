@@ -35,7 +35,7 @@ import java.util.Map;
  * @author Levin
  */
 public class RemoveAction implements Action {
-    
+
     @Override
     public void doMessage(WebSocketManager manager, JSONObject object) {
         if (!object.containsKey(IDENTIFIER)) {

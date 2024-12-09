@@ -3,11 +3,10 @@
 <mapper namespace="com.wemirr.platform.iam.system.repository.RoleResMapper">
 
     <select id="selectRoleResByRoleId" resultType="com.wemirr.platform.iam.system.domain.dto.resp.RoleResMenuMapperResp">
-        SELECT t1.id,t2.role_id,t1.type
-        FROM
-            sys_resource t1
-            JOIN sys_role_res t2 ON t1.id = t2.res_id
-            JOIN sys_role t3 ON t2.role_id = t3.id
+        SELECT t1.id, t2.role_id, t1.type
+        FROM sys_resource t1
+                 JOIN sys_role_res t2 ON t1.id = t2.res_id
+                 JOIN sys_role t3 ON t2.role_id = t3.id
         where t3.id = #{roleId}
     </select>
 </mapper>

@@ -41,11 +41,11 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class CaptchaServiceImpl implements CaptchaService {
-    
+
     private static final String CAPTCHA_KEY_PREFIX = "captcha:prefix:%s";
-    
+
     private final StringRedisTemplate stringRedisTemplate;
-    
+
     @SneakyThrows
     @Override
     public CircleCaptcha create(String key, Integer width, Integer height) {
@@ -58,7 +58,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         log.debug("验证码结果 - {}", captcha.getCode());
         return captcha;
     }
-    
+
     @Override
     public Result<Boolean> valid(String key, String value) {
         if (StringUtils.isBlank(value)) {
@@ -74,7 +74,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         stringRedisTemplate.delete(geyKey(key));
         return Result.success();
     }
-    
+
     private String geyKey(String key) {
         return String.format(CAPTCHA_KEY_PREFIX, key);
     }

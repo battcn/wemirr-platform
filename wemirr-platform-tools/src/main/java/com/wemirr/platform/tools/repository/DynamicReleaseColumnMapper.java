@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Repository
 public interface DynamicReleaseColumnMapper extends SuperMapper<DynamicReleaseColumn> {
-    
+
     /**
      * 根据表名查询字段名称
      *
@@ -38,5 +38,5 @@ public interface DynamicReleaseColumnMapper extends SuperMapper<DynamicReleaseCo
      * @return 查询结果
      */
     List<String> findFieldByTableName(@Param("tableName") String tableName);
-    
+
 }

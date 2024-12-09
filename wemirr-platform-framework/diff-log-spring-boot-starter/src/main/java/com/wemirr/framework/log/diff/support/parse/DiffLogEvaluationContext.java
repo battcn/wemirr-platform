@@ -8,7 +8,6 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
- *
  * @author mzt.
  */
 public class DiffLogEvaluationContext extends MethodBasedEvaluationContext {

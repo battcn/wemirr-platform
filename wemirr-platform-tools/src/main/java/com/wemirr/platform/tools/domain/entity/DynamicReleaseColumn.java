@@ -37,7 +37,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @TableName("gen_dynamic_release_column")
 public class DynamicReleaseColumn extends SuperEntity<Long> {
-    
+
     private Long gridId;
     @TableField("`title`")
     private String title;
@@ -61,5 +61,5 @@ public class DynamicReleaseColumn extends SuperEntity<Long> {
     @TableField("`simple`")
     private Boolean simple;
     private String columnJson;
-    
+
 }

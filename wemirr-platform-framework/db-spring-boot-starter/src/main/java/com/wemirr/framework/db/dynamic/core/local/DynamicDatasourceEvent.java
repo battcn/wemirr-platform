@@ -31,10 +31,10 @@ import org.springframework.context.ApplicationEvent;
 @Getter
 @Setter
 public class DynamicDatasourceEvent extends ApplicationEvent {
-    
+
     private EventAction action;
     private TenantDynamicDatasource datasource;
-    
+
     public DynamicDatasourceEvent(EventAction action, TenantDynamicDatasource datasource) {
         super(datasource);
         this.datasource = datasource;

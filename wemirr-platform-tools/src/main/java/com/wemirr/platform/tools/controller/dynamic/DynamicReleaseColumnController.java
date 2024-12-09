@@ -46,9 +46,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "字段管理", description = "字段管理")
 public class DynamicReleaseColumnController {
-    
+
     private final DynamicReleaseColumnService dynamicReleaseColumnService;
-    
+
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping
     public IPage<DynamicReleaseGridColumnResp> list(PageRequest pageRequest, @PathVariable("grid_id") Long gridId) {
@@ -57,19 +57,19 @@ public class DynamicReleaseColumnController {
         page.setRecords(columns);
         return page;
     }
-    
+
     @PutMapping
     public void edit(@PathVariable("grid_id") Long gridId, @RequestBody DynamicReleaseGridColumnReq req) {
         log.info("[请求参数] - {}", JSON.toJSONString(req));
         this.dynamicReleaseColumnService.edit(gridId, req);
-        
+
     }
-    
+
     @DeleteMapping("/{key}")
     public void del(@PathVariable("grid_id") Long gridId, @PathVariable String key) {
         this.dynamicReleaseColumnService.remove(Wraps.<DynamicReleaseColumn>lbQ()
                 .eq(DynamicReleaseColumn::getKey, key)
                 .eq(DynamicReleaseColumn::getGridId, gridId));
     }
-    
+
 }

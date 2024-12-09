@@ -34,29 +34,29 @@ import lombok.EqualsAndHashCode;
 @TableName("sys_role")
 @EqualsAndHashCode(callSuper = true)
 public class Role extends Entity<Long> {
-    
+
     @Schema(description = "租户ID")
     private Long tenantId;
-    
+
     @Schema(description = "角色名称")
     private String name;
-    
+
     @Schema(description = "角色编码")
     private String code;
-    
+
     @Schema(description = "超级角色")
     @TableField("`super`")
     private Boolean superRole;
-    
+
     @Schema(description = "租户描述")
     private String description;
-    
+
     @Schema(description = "是否只读")
     private Boolean readonly;
-    
+
     @Schema(description = "状态(true=启用;false=禁用)")
     private Boolean status;
-    
+
     @Schema(description = "权限类型")
     private DataScopeType scopeType;
 }

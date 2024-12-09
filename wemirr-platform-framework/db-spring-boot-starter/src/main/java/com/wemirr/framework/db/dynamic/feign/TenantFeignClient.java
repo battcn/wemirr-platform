@@ -32,7 +32,7 @@ import java.util.List;
  */
 @FeignClient(name = "wemirr-platform-authority", dismiss404 = true, fallback = TenantFeignClient.TenantFeignClientFallback.class)
 public interface TenantFeignClient {
-    
+
     /**
      * 查询所有租户数据源
      *
@@ -40,11 +40,11 @@ public interface TenantFeignClient {
      */
     @GetMapping(value = "/tenants/databases/active", headers = {"X-Auto-Token=true"})
     List<TenantDynamicDatasource> selectAll();
-    
+
     @Component
     @RequiredArgsConstructor
     class TenantFeignClientFallback implements TenantFeignClient {
-        
+
         @Override
         public List<TenantDynamicDatasource> selectAll() {
             return null;

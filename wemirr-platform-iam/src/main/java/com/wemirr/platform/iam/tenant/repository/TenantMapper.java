@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Repository
 public interface TenantMapper extends SuperMapper<Tenant> {
-    
+
     /**
      * 测试数据源获取数据
      *

@@ -40,12 +40,12 @@ import java.util.Date;
  */
 @Slf4j
 public abstract class BaseWebSocketEndpoint {
-    
+
     /**
      * 路径标识：目前使用token来代表
      */
     public static final String IDENTIFIER = "identifier";
-    
+
     public void connect(String identifier, Session session) {
         try {
             if (null == identifier || identifier.isEmpty()) {
@@ -63,17 +63,17 @@ public abstract class BaseWebSocketEndpoint {
             log.error(e.getMessage(), e);
         }
     }
-    
+
     public void disconnect(String identifier) {
         getWebSocketManager().remove(identifier);
         log.info("session close");
     }
-    
+
     public void senderMessage(String identifier, String message) {
         WebSocketManager webSocketManager = getWebSocketManager();
         webSocketManager.sendMessage(identifier, message);
     }
-    
+
     public void receiveMessage(String identifier, String message, Session session) {
         WebSocketManager webSocketManager = getWebSocketManager();
         // 心跳监测
@@ -90,7 +90,7 @@ public abstract class BaseWebSocketEndpoint {
         // 收到其他消息的时候
         webSocketManager.onMessage(identifier, message);
     }
-    
+
     protected WebSocketManager getWebSocketManager() {
         return SpringUtil.getBean(WebSocketManager.WEBSOCKET_MANAGER_NAME, WebSocketManager.class);
     }

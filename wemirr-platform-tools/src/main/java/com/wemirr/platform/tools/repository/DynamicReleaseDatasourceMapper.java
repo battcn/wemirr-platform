@@ -27,5 +27,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DynamicReleaseDatasourceMapper extends SuperMapper<DynamicReleaseDatasource> {
-    
+
 }

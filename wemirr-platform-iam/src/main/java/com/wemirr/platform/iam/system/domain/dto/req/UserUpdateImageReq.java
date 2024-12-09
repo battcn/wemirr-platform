@@ -37,16 +37,16 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @Schema(name = "UserUpdateImageReq", description = "用户")
 public class UserUpdateImageReq {
-    
+
     @Schema(description = "主键")
     @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
     private Long id;
-    
+
     /**
      * 头像
      */
     @Schema(description = "头像")
     @Length(max = 255, message = "头像长度不能超过 {max}")
     private String image;
-    
+
 }

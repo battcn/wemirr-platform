@@ -56,6 +56,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public final class DataPermissionUtils {
 
+    /**
+     * 数据权限本地缓存,减少解析耗时 越用越流畅 遥遥领先
+     */
+    private static final Map<String, DataPermissionRule> DATA_SCOPE_CACHE = Maps.newConcurrentMap();
+
     private DataPermissionUtils() {
 
     }
@@ -85,11 +90,6 @@ public final class DataPermissionUtils {
             DataPermissionRuleHolder.poll();
         }
     }
-
-    /**
-     * 数据权限本地缓存,减少解析耗时 越用越流畅 遥遥领先
-     */
-    private static final Map<String, DataPermissionRule> DATA_SCOPE_CACHE = Maps.newConcurrentMap();
 
     @SneakyThrows
     public static DataPermissionRule getDataPermissionRuleByMappedStatementId(String mappedStatementId) {

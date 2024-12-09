@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @Repository
 public interface DynamicReleaseMapper {
-    
+
     /**
      * 分页查询
      *
@@ -40,7 +40,7 @@ public interface DynamicReleaseMapper {
      * @return 查询结果
      */
     IPage<Map<String, Object>> pageList(IPage<?> page, @Param("tableName") String tableName, @Param("map") Map<String, Object> params);
-    
+
     /**
      * 动态分页列表
      *
@@ -49,7 +49,7 @@ public interface DynamicReleaseMapper {
      * @return 查询结果
      */
     IPage<Map<String, Object>> dynamicPageList(IPage<?> page, @Param("sql") String sql);
-    
+
     /**
      * 根据ID和表名删除
      *
@@ -58,7 +58,7 @@ public interface DynamicReleaseMapper {
      */
     @Delete("delete from ${tableName} where id = #{id}")
     void deleteById(@Param("tableName") String tableName, @Param("id") Long id);
-    
+
     /**
      * 插入 map 数据
      *
@@ -66,7 +66,7 @@ public interface DynamicReleaseMapper {
      * @param map       map数据
      */
     void insertMap(@Param("tableName") String tableName, @Param("map") Map<String, Object> map);
-    
+
     /**
      * 动态修改
      *

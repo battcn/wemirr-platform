@@ -42,26 +42,26 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Tag(name = "动态发布", description = "动态发布")
 public class DynamicReleaseController {
-    
+
     @Qualifier("mySqlDynamicReleaseServiceImpl")
     private final DynamicReleaseService<Long> dynamicReleaseService;
-    
+
     @GetMapping("/pages")
     public IPage<?> pages(@PathVariable String model, PageRequest request, @RequestParam Map<String, Object> params) {
         return this.dynamicReleaseService.pages(model, request, params);
     }
-    
+
     @GetMapping("/curd_options")
     public DynamicReleaseCurdOptionResp curdOptions(@PathVariable String model) {
         final DynamicReleaseCurdOptionResp curdOptions = dynamicReleaseService.curdOptions(model);
         return curdOptions;
     }
-    
+
     @PostMapping
     public void add(@PathVariable String model, @RequestBody Map<String, Object> map) {
         this.dynamicReleaseService.save(model, map);
     }
-    
+
     @PutMapping("/{id}")
     public void edit(@PathVariable String model, @PathVariable Long id, @RequestBody Map<String, Object> map) {
         if (MapUtil.isNotEmpty(map)) {
@@ -70,10 +70,10 @@ public class DynamicReleaseController {
             this.dynamicReleaseService.updateById(model, id, map);
         }
     }
-    
+
     @DeleteMapping("/{id}")
     public void del(@PathVariable String model, @PathVariable Long id) {
         this.dynamicReleaseService.deleteById(model, id);
     }
-    
+
 }

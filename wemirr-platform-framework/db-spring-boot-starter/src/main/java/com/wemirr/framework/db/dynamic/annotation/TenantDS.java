@@ -36,5 +36,5 @@ import java.lang.annotation.*;
 @Documented
 @DS("#custom.Tenant-Code")
 public @interface TenantDS {
-    
+
 }

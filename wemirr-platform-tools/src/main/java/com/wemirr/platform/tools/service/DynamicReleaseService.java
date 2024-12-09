@@ -30,11 +30,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * @param <T> 泛型
  * @author Levin
- * @param <T>  泛型
  */
 public interface DynamicReleaseService<T> {
-    
+
     /**
      * 获取 curdOptions
      *
@@ -42,7 +42,7 @@ public interface DynamicReleaseService<T> {
      * @return 查询结果
      */
     DynamicReleaseCurdOptionResp curdOptions(String model);
-    
+
     /**
      * 保存
      *
@@ -50,7 +50,7 @@ public interface DynamicReleaseService<T> {
      * @param map   map
      */
     void save(String model, Map<String, Object> map);
-    
+
     /**
      * 日志跟踪
      *
@@ -59,7 +59,7 @@ public interface DynamicReleaseService<T> {
      * @return 查询结果
      */
     List<DynamicReleaseLogTrackResp<T>> logTrack(String model, T id);
-    
+
     /**
      * 推送信息
      *
@@ -67,7 +67,7 @@ public interface DynamicReleaseService<T> {
      * @param id    id
      */
     void pushTrack(String model, T id);
-    
+
     /**
      * 根据ID删除
      *
@@ -75,7 +75,7 @@ public interface DynamicReleaseService<T> {
      * @param id    id
      */
     void deleteById(String model, T id);
-    
+
     /**
      * 根据ID修改
      *
@@ -84,7 +84,7 @@ public interface DynamicReleaseService<T> {
      * @param map   map
      */
     void updateById(String model, T id, Map<String, Object> map);
-    
+
     /**
      * 带条件分页查询
      *
@@ -94,7 +94,7 @@ public interface DynamicReleaseService<T> {
      * @return 查询结果
      */
     IPage<?> pages(String model, PageRequest request, Map<String, Object> params);
-    
+
     /**
      * 带条件分页查询
      *
@@ -103,7 +103,7 @@ public interface DynamicReleaseService<T> {
      * @return 查询结果
      */
     IPage<?> pages(String model, DynamicReleaseQueryDrag drag);
-    
+
     /**
      * 根据 model 获取表名
      *
@@ -113,7 +113,7 @@ public interface DynamicReleaseService<T> {
     default String tableName(String model) {
         return model;
     }
-    
+
     /**
      * 批量删除 keys
      *
@@ -121,7 +121,7 @@ public interface DynamicReleaseService<T> {
      * @param ids   ids
      */
     void batchDeleteByKeys(String model, List<T> ids);
-    
+
     /**
      * 导出 excel
      *
@@ -130,5 +130,5 @@ public interface DynamicReleaseService<T> {
      * @param response 响应结果
      */
     void exportExcel(String model, ExportExcelReq req, HttpServletResponse response);
-    
+
 }

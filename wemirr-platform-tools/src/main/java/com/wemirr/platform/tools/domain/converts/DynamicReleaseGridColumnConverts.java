@@ -30,13 +30,13 @@ import org.apache.commons.lang3.StringUtils;
  * @author Levin
  */
 public class DynamicReleaseGridColumnConverts {
-    
+
     public static final DynamicReleaseGridColumnReq2Po DYNAMIC_RELEASE_GRID_COLUMN_REQ_2_PO = new DynamicReleaseGridColumnReq2Po();
-    
+
     public static final DynamicReleaseGridColumnPo2Resp DYNAMIC_RELEASE_GRID_COLUMN_PO_2_RESP = new DynamicReleaseGridColumnPo2Resp();
-    
+
     public static class DynamicReleaseGridColumnPo2Resp implements BaseConverts<DynamicReleaseColumn, DynamicReleaseGridColumnResp> {
-        
+
         @Override
         public DynamicReleaseGridColumnResp convert(DynamicReleaseColumn source) {
             if (source == null) {
@@ -45,7 +45,7 @@ public class DynamicReleaseGridColumnConverts {
             DynamicReleaseGridColumnResp resp = DynamicReleaseGridColumnResp.builder()
                     .key(source.getKey()).title(source.getTitle()).type(source.getType())
                     .disabled(source.getDisabled()).build();
-            
+
             if (StringUtils.isNotBlank(source.getForm())) {
                 resp.setForm(JSONUtil.toBean(source.getForm(), DynamicReleaseGridColumnResp.DynamicReleaseGridColumnForm.class));
             }
@@ -58,9 +58,9 @@ public class DynamicReleaseGridColumnConverts {
             return resp;
         }
     }
-    
+
     public static class DynamicReleaseGridColumnReq2Po implements BaseConverts<DynamicReleaseGridColumnReq, DynamicReleaseColumn> {
-        
+
         @Override
         public DynamicReleaseColumn convert(DynamicReleaseGridColumnReq source) {
             if (source == null) {
@@ -82,5 +82,5 @@ public class DynamicReleaseGridColumnConverts {
             return releaseColumn;
         }
     }
-    
+
 }

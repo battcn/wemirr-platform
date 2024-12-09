@@ -31,7 +31,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum MultiTenantType {
-    
+
     /**
      * 非租户模式
      */
@@ -41,7 +41,7 @@ public enum MultiTenantType {
      * 在sql中拼接 tenant_code 字段
      */
     COLUMN("字段模式"),
-    
+
     /**
      * 暂时没想到这种模式有啥好处
      * schema 模式
@@ -49,7 +49,7 @@ public enum MultiTenantType {
      */
     @Deprecated
     SCHEMA("schema模式"),
-    
+
     /**
      * 数据量大客户多可以考虑独立数据源
      * <p>
@@ -58,5 +58,5 @@ public enum MultiTenantType {
     DATASOURCE("独立数据源模式"),
     ;
     private final String description;
-    
+
 }

@@ -67,6 +67,7 @@ public class SecurityExtProperties {
      * 客户端配置
      */
     private Client client = new Client();
+    private InnerService innerService = new InnerService();
 
     @Data
     public static class Server {
@@ -89,9 +90,6 @@ public class SecurityExtProperties {
 
         private List<String> resourceUrls = new ArrayList<>();
     }
-
-
-    private InnerService innerService = new InnerService();
 
     @Data
     public static class InnerService {

@@ -41,31 +41,31 @@ import java.sql.SQLException;
 @MappedTypes(value = {String[].class})
 @MappedJdbcTypes(value = JdbcType.VARCHAR)
 public class StringArrayTypeHandler extends BaseTypeHandler<String[]> {
-    
+
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, String[] parameter, JdbcType jdbcType) throws SQLException {
         ps.setString(i, ArrayUtil.join(parameter, StrUtil.COMMA));
     }
-    
+
     @Override
     @SneakyThrows
     public String[] getNullableResult(ResultSet rs, String columnName) {
         String reString = rs.getString(columnName);
         return Convert.toStrArray(reString);
     }
-    
+
     @Override
     @SneakyThrows
     public String[] getNullableResult(ResultSet rs, int columnIndex) {
         String reString = rs.getString(columnIndex);
         return Convert.toStrArray(reString);
     }
-    
+
     @Override
     @SneakyThrows
     public String[] getNullableResult(CallableStatement cs, int columnIndex) {
         String reString = cs.getString(columnIndex);
         return Convert.toStrArray(reString);
     }
-    
+
 }

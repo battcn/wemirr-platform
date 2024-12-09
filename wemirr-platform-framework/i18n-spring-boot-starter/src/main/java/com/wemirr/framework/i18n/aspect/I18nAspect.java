@@ -41,9 +41,9 @@ import java.util.Collection;
 @Aspect
 @RequiredArgsConstructor
 public class I18nAspect {
-    
+
     private final I18nMessageResource messageSource;
-    
+
     /***
      * 定义controller切入点拦截规则：拦截标记AccessLog注解和指定包下的方法
      * execution(public * com.wemirr.base.controller.*.*(..)) 解释：
@@ -55,9 +55,9 @@ public class I18nAspect {
      */
     @Pointcut("execution(public * com.wemirr..*.*(..)) && @annotation(com.wemirr.framework.i18n.annotation.I18nMethod)")
     public void i18nAspect() {
-        
+
     }
-    
+
     /**
      * 返回通知
      *
@@ -68,11 +68,11 @@ public class I18nAspect {
     public void doAfterReturning(JoinPoint joinPoint, Object obj) {
         parse(obj);
     }
-    
+
     private void parseList(Collection<?> list) {
         list.forEach(this::parse);
     }
-    
+
     /**
      * 遍历字段，解析出那些字段上标记了指定注解的字段
      *

@@ -37,14 +37,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @Schema(description = "资源查询")
 public class ResourceQueryReq {
-    
+
     @Schema(description = "资源类型")
     private Integer type;
-    
+
     @Schema(description = "父资源ID,用于查询按钮")
     private Long parentId;
-    
+
     @Schema(description = "指定用户ID，前端不传则自动获取")
     private Long userId;
-    
+
 }

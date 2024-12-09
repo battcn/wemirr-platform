@@ -36,10 +36,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DefaultDiffItemsToLogContentService implements IDiffItemsToLogContentService, BeanFactoryAware, SmartInitializingSingleton {
 
-    private IFunctionService functionService;
-    private BeanFactory beanFactory;
     private final Javers javers;
     private final DiffLogProperties diffLogProperties;
+    private IFunctionService functionService;
+    private BeanFactory beanFactory;
 
     @Override
     public String toLogContent(final Object source, final Object target) {

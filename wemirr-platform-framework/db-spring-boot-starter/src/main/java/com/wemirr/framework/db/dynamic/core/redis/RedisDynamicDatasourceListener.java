@@ -39,9 +39,9 @@ import static com.wemirr.framework.db.dynamic.core.DynamicDatasourceEventPublish
 @Slf4j
 @RequiredArgsConstructor
 public class RedisDynamicDatasourceListener implements AbstractMessageEventListener<TenantDynamicDatasource> {
-    
+
     private final TenantDynamicDataSourceHandler tenantDynamicDataSourceHandler;
-    
+
     @Override
     public void handleMessage(TenantDynamicDatasource message) {
         if (Objects.isNull(message)) {
@@ -51,12 +51,12 @@ public class RedisDynamicDatasourceListener implements AbstractMessageEventListe
         log.info("接收租户事件消息: - {}", message);
         tenantDynamicDataSourceHandler.handler(EventAction.of(message.getAction()), message);
     }
-    
+
     @Override
     public Topic topic() {
         return new ChannelTopic(DEFAULT_EVENT_TOPIC);
     }
-    
+
     @Override
     public Type type() {
         return TenantDynamicDatasource.class;

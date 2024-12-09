@@ -42,9 +42,9 @@ import java.util.concurrent.Executor;
 @EnableConfigurationProperties(AsyncProperties.class)
 @RequiredArgsConstructor
 public class AsyncConfiguration implements AsyncConfigurer {
-    
+
     private final AsyncProperties properties;
-    
+
     @Override
     public Executor getAsyncExecutor() {
         // 具体可以自己写成 properties 的方式
@@ -58,12 +58,12 @@ public class AsyncConfiguration implements AsyncConfigurer {
         executor.initialize();
         return executor;
     }
-    
+
     /**
      * 异步线程池的时候 request 上下文复制
      */
     private static class RequestAttributesTaskDecorator implements TaskDecorator {
-        
+
         @Override
         @Nonnull
         public Runnable decorate(@Nonnull Runnable runnable) {

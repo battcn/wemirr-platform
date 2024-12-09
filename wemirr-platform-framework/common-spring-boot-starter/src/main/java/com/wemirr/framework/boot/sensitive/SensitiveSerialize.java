@@ -42,13 +42,13 @@ import java.util.Objects;
 @Slf4j
 @NoArgsConstructor
 public class SensitiveSerialize extends JsonSerializer<String> implements ContextualSerializer {
-    
+
     private Sensitive sensitive;
-    
+
     public SensitiveSerialize(final Sensitive sensitive) {
         this.sensitive = sensitive;
     }
-    
+
     @SneakyThrows
     private String handler(Sensitive sensitive, String original) {
         if (sensitive == null) {
@@ -106,12 +106,12 @@ public class SensitiveSerialize extends JsonSerializer<String> implements Contex
         }
         return original;
     }
-    
+
     @Override
     public void serialize(String value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeString(handler(sensitive, value));
     }
-    
+
     @Override
     public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property) throws JsonMappingException {
         Sensitive annotation = property.getAnnotation(Sensitive.class);

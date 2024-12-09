@@ -57,22 +57,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableDiffLog(serviceName = "基础服务")
 public class IamApplication {
 
-    @Bean
-    public ThreadPoolExecutor threadPoolExecutor() {
-        return ThreadUtil.newExecutor(5, 50, 100000);
-    }
-
-    /**
-     * 操作日志监听回调.
-     *
-     * @param optLogService 操作日志存储服务
-     * @return AccessLogListener
-     */
-    @Bean
-    public AccessLogListener accessLogListener(final OptLogService optLogService) {
-        return new AccessLogListener(optLogService::listener);
-    }
-
     /**
      * 启动类.
      *
@@ -92,6 +76,22 @@ public class IamApplication {
                         \tDoc: \thttp://{}:{}/doc.html
                         ----------------------------------------------------------""",
                 appName, host, port);
+    }
+
+    @Bean
+    public ThreadPoolExecutor threadPoolExecutor() {
+        return ThreadUtil.newExecutor(5, 50, 100000);
+    }
+
+    /**
+     * 操作日志监听回调.
+     *
+     * @param optLogService 操作日志存储服务
+     * @return AccessLogListener
+     */
+    @Bean
+    public AccessLogListener accessLogListener(final OptLogService optLogService) {
+        return new AccessLogListener(optLogService::listener);
     }
 
 }

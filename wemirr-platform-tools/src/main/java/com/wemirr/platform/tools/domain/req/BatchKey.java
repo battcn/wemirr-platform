@@ -28,7 +28,7 @@ import java.util.List;
  */
 @Data
 public class BatchKey<T> {
-    
+
     private List<T> ids;
-    
+
 }

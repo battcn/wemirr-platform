@@ -33,7 +33,7 @@ import java.util.List;
 @TenantDS
 @Repository
 public interface AreaMapper extends SuperMapper<AreaEntity> {
-    
+
     /**
      * 根据 parentId 查询数据集
      *

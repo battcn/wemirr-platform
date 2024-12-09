@@ -38,12 +38,12 @@ import lombok.Getter;
 @JsonFormat
 @AllArgsConstructor
 public enum DataScopeType implements IEnum<Integer> {
-    
+
     /**
      * ALL=5全部
      */
     ALL(50, "全部"),
-    
+
     /**
      * THIS_LEVEL_CHILDREN=3本级以及子级
      */
@@ -52,7 +52,7 @@ public enum DataScopeType implements IEnum<Integer> {
      * THIS_LEVEL=4本级
      */
     THIS_LEVEL(30, "本级"),
-    
+
     /**
      * CUSTOMIZE=2自定义
      */
@@ -61,14 +61,15 @@ public enum DataScopeType implements IEnum<Integer> {
      * SELF=1个人
      */
     SELF(10, "个人"),
-    
-    IGNORE(0, "跟随系统上下文"),;
-    
+
+    IGNORE(0, "跟随系统上下文"),
+    ;
+
     @EnumValue
     @JsonValue
     private final Integer type;
     private final String desc;
-    
+
     @JsonCreator
     public static DataScopeType of(Integer type) {
         if (type == null) {
@@ -81,7 +82,7 @@ public enum DataScopeType implements IEnum<Integer> {
         }
         return null;
     }
-    
+
     @Override
     public Integer getValue() {
         return type;

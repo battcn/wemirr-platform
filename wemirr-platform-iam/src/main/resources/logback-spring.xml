@@ -4,7 +4,7 @@
     <!-- 应用名称-->
     <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="iam.log"/>
 
-    <property name="MAX_HISTORY" value="30" />
+    <property name="MAX_HISTORY" value="30"/>
 
     <!-- 普通日志信息：看看SQL、LOG之类的 -->
     <property name="ORDINARY_LOG_FILE_NAME_PATTERN" value="logs/${appName}/ordinary.%d{yyyy-MM-dd}.log.gz"/>

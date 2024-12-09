@@ -39,7 +39,7 @@ import java.util.Map;
 
 @Slf4j
 class CodeGeneratorTests {
-    
+
     @Test
     void sys() {
         final GenerateEntity request = new GenerateEntity();
@@ -49,13 +49,13 @@ class CodeGeneratorTests {
         request.setParentPackage("com.wemirr.platform.tools.gen");
         generate(request);
     }
-    
+
     public String generate(GenerateEntity request) {
         Map<String, Object> customMap = Maps.newHashMap();
         customMap.put("apiUrlPrefix", request.getApiUrlPrefix());
         customMap.put("platformId", request.getPlatformId());
         customMap.put("now", DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-        
+
         Map<String, String> customFiles = Maps.newHashMap();
         String rootDir = "/Users/battcn/Development/opensource/wemirr-platform/wemirr-platform-tools/src/main/java/";
         FastAutoGenerator

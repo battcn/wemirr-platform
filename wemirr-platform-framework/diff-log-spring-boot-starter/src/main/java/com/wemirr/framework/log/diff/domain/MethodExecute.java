@@ -10,19 +10,13 @@ import java.lang.reflect.Method;
 @Getter
 public class MethodExecute {
 
-    private boolean success;
-
-    private Throwable throwable;
-
-    private String errorMsg;
-
-    private Object result;
-
     private final Method method;
-
     private final Object[] args;
-
     private final Class<?> targetClass;
+    private boolean success;
+    private Throwable throwable;
+    private String errorMsg;
+    private Object result;
 
     public MethodExecute(Method method, Object[] args, Class<?> targetClass) {
         this.method = method;

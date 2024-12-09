@@ -33,16 +33,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DynamicReleaseDragPushServerModelResp {
-    
+
     private List<DynamicReleaseDragModel> modelList;
     private List<Long> checkedModels;
-    
+
     @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class DynamicReleaseDragModel {
-        
+
         private Long id;
         private String label;
     }

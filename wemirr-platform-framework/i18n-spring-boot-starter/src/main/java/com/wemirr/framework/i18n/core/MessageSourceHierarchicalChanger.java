@@ -31,13 +31,13 @@ import org.springframework.context.support.AbstractApplicationContext;
  * @author Levin
  */
 public class MessageSourceHierarchicalChanger {
-    
+
     @Resource(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME)
     private MessageSource messageSource;
-    
+
     @Resource
     private DynamicMessageSource dynamicMessageSource;
-    
+
     @PostConstruct
     public void changeMessageSourceParent() {
         // 优先走 messageSource，从资源文件中查找
@@ -49,5 +49,5 @@ public class MessageSourceHierarchicalChanger {
             dynamicMessageSource.setParentMessageSource(messageSource);
         }
     }
-    
+
 }

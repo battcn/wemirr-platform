@@ -28,9 +28,9 @@ import net.sf.jsqlparser.schema.Table;
  * @author Levin
  */
 public class MyBatisUtils {
-    
+
     private static final String MYSQL_ESCAPE_CHARACTER = "`";
-    
+
     /**
      * 获得 Table 对应的表名
      * <p>
@@ -46,7 +46,7 @@ public class MyBatisUtils {
         }
         return tableName;
     }
-    
+
     /**
      * 构建 Column 对象
      *
@@ -61,7 +61,7 @@ public class MyBatisUtils {
         }
         return new Column(String.join("", tableName, StringPool.DOT, column));
     }
-    
+
     public static Column buildColumn(Table table, String column) {
         return buildColumn(table.getName(), table.getAlias(), column);
     }

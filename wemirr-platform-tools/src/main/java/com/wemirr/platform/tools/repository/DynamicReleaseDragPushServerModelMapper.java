@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Repository
 public interface DynamicReleaseDragPushServerModelMapper extends SuperMapper<DynamicReleaseDragPushServerModel> {
-    
+
     /**
      * 根据 mobile 查询
      *
@@ -38,5 +38,5 @@ public interface DynamicReleaseDragPushServerModelMapper extends SuperMapper<Dyn
      * @return 查询结果
      */
     List<DynamicReleaseDragPushServerMapperResp> queryDragPushServerByModel(String model);
-    
+
 }

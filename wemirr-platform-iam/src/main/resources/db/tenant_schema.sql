@@ -1,36 +1,53 @@
 DROP TABLE IF EXISTS `sys_dict`;
-CREATE TABLE `sys_dict` (
- `id` bigint NOT NULL AUTO_INCREMENT,
- `code` varchar(64) NOT NULL COMMENT '编码',
- `name` varchar(64) NOT NULL COMMENT '名称',
- `description` varchar(200) DEFAULT NULL COMMENT '描述',
- `status` bit(1) DEFAULT b'1' COMMENT '状态',
- `readonly` bit(1) DEFAULT b'0' COMMENT '内置角色',
- `sequence` tinyint DEFAULT NULL COMMENT '排序',
- `deleted` bit(1) DEFAULT b'0',
- `created_by` bigint DEFAULT '0' COMMENT '创建人id',
- `created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
- `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
- `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
- `last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
- `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
- PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11  COMMENT='字典类型';
+CREATE TABLE `sys_dict`
+(
+    `id`                 bigint      NOT NULL AUTO_INCREMENT,
+    `code`               varchar(64) NOT NULL COMMENT '编码',
+    `name`               varchar(64) NOT NULL COMMENT '名称',
+    `description`        varchar(200) DEFAULT NULL COMMENT '描述',
+    `status`             bit(1)       DEFAULT b'1' COMMENT '状态',
+    `readonly`           bit(1)       DEFAULT b'0' COMMENT '内置角色',
+    `sequence`           tinyint      DEFAULT NULL COMMENT '排序',
+    `deleted`            bit(1)       DEFAULT b'0',
+    `created_by`         bigint       DEFAULT '0' COMMENT '创建人id',
+    `created_name`       varchar(50)  DEFAULT NULL COMMENT '创建人名称',
+    `created_time`       datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modified_by`   bigint       DEFAULT '0' COMMENT '更新人id',
+    `last_modified_name` varchar(50)  DEFAULT NULL COMMENT '更新人名称',
+    `last_modified_time` datetime     DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 11 COMMENT ='字典类型';
 
 -- ----------------------------
 -- Records of sys_dict
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_dict` VALUES (1, 'NATION', '民族', '123', b'1', b'1', 0, b'0', 0, '系统管理员', '2019-06-01 09:42:50', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` VALUES (2, 'POSITION_STATUS', '在职状态', '11', b'1', b'1', 1, b'0', 0, '系统管理员', '2019-06-04 11:37:15', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` VALUES (3, 'EDUCATION', '学历', '', b'1', b'1', 2, b'0', 0, '系统管理员', '2019-06-04 11:33:52', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` VALUES (4, 'AREA_LEVEL', '行政区级', '', b'1', b'1', 3, b'0', 0, '系统管理员', '2020-01-20 15:12:05', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` VALUES (5, 'ORG_TYPE', '机构类型', '', b'1', b'1', 4, b'0', 0, '系统管理员', '2020-08-19 15:02:57', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` VALUES (6, 'SEX', '性别', '性别', b'1', b'1', 5, b'0', 0, '系统管理员', '2020-11-18 07:24:43', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` VALUES (7, 'NOTICE', '消息类型', '消息类型', b'1', b'1', 6, b'0', 0, '系统管理员', '2020-11-19 02:57:22', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` VALUES (8, 'STATION_TYPE', '岗位类型', NULL, b'1', b'1', 7, b'0', 0, '系统管理员', '2021-07-16 03:34:04', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` VALUES (9, 'COLOR', '颜色', NULL, b'1', b'1', 8, b'0', 0, '系统管理员', '2021-07-16 04:12:21', 0, '系统管理员', '2021-07-31 08:11:09');
-INSERT INTO `sys_dict` VALUES (10, 'INDUSTRY', '行业类型', '行业类型', b'1', b'1', 9, b'0', 0, '系统管理员', '2021-07-31 08:10:07', 0, '系统管理员', '2021-07-31 08:20:24');
+INSERT INTO `sys_dict`
+VALUES (1, 'NATION', '民族', '123', b'1', b'1', 0, b'0', 0, '系统管理员', '2019-06-01 09:42:50', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict`
+VALUES (2, 'POSITION_STATUS', '在职状态', '11', b'1', b'1', 1, b'0', 0, '系统管理员', '2019-06-04 11:37:15', 0, '系统管理员',
+        '2021-07-31 08:11:09');
+INSERT INTO `sys_dict`
+VALUES (3, 'EDUCATION', '学历', '', b'1', b'1', 2, b'0', 0, '系统管理员', '2019-06-04 11:33:52', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict`
+VALUES (4, 'AREA_LEVEL', '行政区级', '', b'1', b'1', 3, b'0', 0, '系统管理员', '2020-01-20 15:12:05', 0, '系统管理员',
+        '2021-07-31 08:11:09');
+INSERT INTO `sys_dict`
+VALUES (5, 'ORG_TYPE', '机构类型', '', b'1', b'1', 4, b'0', 0, '系统管理员', '2020-08-19 15:02:57', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict`
+VALUES (6, 'SEX', '性别', '性别', b'1', b'1', 5, b'0', 0, '系统管理员', '2020-11-18 07:24:43', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict`
+VALUES (7, 'NOTICE', '消息类型', '消息类型', b'1', b'1', 6, b'0', 0, '系统管理员', '2020-11-19 02:57:22', 0, '系统管理员',
+        '2021-07-31 08:11:09');
+INSERT INTO `sys_dict`
+VALUES (8, 'STATION_TYPE', '岗位类型', NULL, b'1', b'1', 7, b'0', 0, '系统管理员', '2021-07-16 03:34:04', 0, '系统管理员',
+        '2021-07-31 08:11:09');
+INSERT INTO `sys_dict`
+VALUES (9, 'COLOR', '颜色', NULL, b'1', b'1', 8, b'0', 0, '系统管理员', '2021-07-16 04:12:21', 0, '系统管理员', '2021-07-31 08:11:09');
+INSERT INTO `sys_dict`
+VALUES (10, 'INDUSTRY', '行业类型', '行业类型', b'1', b'1', 9, b'0', 0, '系统管理员', '2021-07-31 08:10:07', 0, '系统管理员',
+        '2021-07-31 08:20:24');
 COMMIT;
 
 
@@ -39,246 +56,447 @@ COMMIT;
 -- Table structure for sys_dict_item
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict_item`;
-CREATE TABLE `sys_dict_item` (
-      `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-      `dict_id` bigint NOT NULL COMMENT '类型ID',
-      `dict_code` varchar(64) NOT NULL COMMENT '类型',
-      `value` varchar(64) NOT NULL DEFAULT '' COMMENT '编码',
-      `label` varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
-      `status` bit(1) DEFAULT b'1' COMMENT '状态',
-      `color` varchar(255) DEFAULT NULL COMMENT '颜色',
-      `description` varchar(255) DEFAULT '' COMMENT '描述',
-      `sequence` int DEFAULT '1' COMMENT '排序',
-      `deleted` bit(1) DEFAULT b'0',
-      `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-      `created_name` varchar(255) DEFAULT NULL,
-      `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-      `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-      `last_modified_name` varchar(255) DEFAULT NULL,
-      `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-      PRIMARY KEY (`id`) USING BTREE,
-      KEY `dict_code_item_code_uniq` (`dict_code`,`value`) USING BTREE COMMENT '字典编码与字典项目编码联合唯一'
-) ENGINE=InnoDB AUTO_INCREMENT=125  COMMENT='字典项';
+CREATE TABLE `sys_dict_item`
+(
+    `id`                 bigint      NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `dict_id`            bigint      NOT NULL COMMENT '类型ID',
+    `dict_code`          varchar(64) NOT NULL COMMENT '类型',
+    `value`              varchar(64) NOT NULL DEFAULT '' COMMENT '编码',
+    `label`              varchar(64) NOT NULL DEFAULT '' COMMENT '名称',
+    `status`             bit(1)               DEFAULT b'1' COMMENT '状态',
+    `color`              varchar(255)         DEFAULT NULL COMMENT '颜色',
+    `description`        varchar(255)         DEFAULT '' COMMENT '描述',
+    `sequence`           int                  DEFAULT '1' COMMENT '排序',
+    `deleted`            bit(1)               DEFAULT b'0',
+    `created_by`         bigint               DEFAULT '0' COMMENT '创建人id',
+    `created_name`       varchar(255)         DEFAULT NULL,
+    `created_time`       datetime             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modified_by`   bigint               DEFAULT '0' COMMENT '更新人id',
+    `last_modified_name` varchar(255)         DEFAULT NULL,
+    `last_modified_time` datetime             DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    KEY `dict_code_item_code_uniq` (`dict_code`, `value`) USING BTREE COMMENT '字典编码与字典项目编码联合唯一'
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 125 COMMENT ='字典项';
 
 -- ----------------------------
 -- Records of sys_dict_item
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_dict_item` VALUES (1, 4, 'AREA_LEVEL', 'COUNTRY', '国家', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-01-20 15:12:57', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (2, 4, 'AREA_LEVEL', 'PROVINCE', '省份', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2020-01-20 15:13:45', 1, '长风一梦', '2021-07-31 08:18:51');
-INSERT INTO `sys_dict_item` VALUES (3, 4, 'AREA_LEVEL', 'CITY', '地市', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2020-01-20 15:14:16', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (4, 4, 'AREA_LEVEL', 'COUNTY', '区县', b'1', 'warning', '', 4, b'0', 0, '系统管理员', '2020-01-20 15:14:54', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (5, 5, 'ORG_TYPE', '01', '单位', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-08-19 15:03:40', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (6, 5, 'ORG_TYPE', '02', '部门', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-08-19 15:03:59', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (38, 3, 'EDUCATION', 'ZHUANKE', '专科', b'1', 'warning', '', 4, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (39, 3, 'EDUCATION', 'COLLEGE', '本科', b'1', 'warning', '', 5, b'0', 0, '系统管理员', '2019-06-04 11:36:19', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (40, 3, 'EDUCATION', 'SUOSHI', '硕士', b'1', 'warning', '', 6, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (41, 3, 'EDUCATION', 'BOSHI', '博士', b'1', 'warning', '', 7, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (42, 3, 'EDUCATION', 'BOSHIHOU', '博士后', b'1', 'warning', '', 8, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (43, 1, 'NATION', 'mz_hanz', '汉族', b'1', 'warning', '', 0, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (44, 1, 'NATION', 'mz_zz', '壮族', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (45, 1, 'NATION', 'mz_mz', '满族', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (46, 1, 'NATION', 'mz_hz', '回族', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (47, 1, 'NATION', 'mz_miaoz', '苗族', b'1', 'warning', '', 4, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (48, 1, 'NATION', 'mz_wwez', '维吾尔族', b'1', 'warning', '', 5, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (49, 1, 'NATION', 'mz_tjz', '土家族', b'1', 'warning', '', 6, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (50, 1, 'NATION', 'mz_yz', '彝族', b'1', 'warning', '', 7, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (51, 1, 'NATION', 'mz_mgz', '蒙古族', b'1', 'warning', '', 8, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (52, 1, 'NATION', 'mz_zhangz', '藏族', b'1', 'warning', '', 9, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (53, 1, 'NATION', 'mz_byz', '布依族', b'1', 'warning', '', 10, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (54, 1, 'NATION', 'mz_dz', '侗族', b'1', 'warning', '', 11, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (55, 1, 'NATION', 'mz_yaoz', '瑶族', b'1', 'warning', '', 12, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (56, 1, 'NATION', 'mz_cxz', '朝鲜族', b'1', 'warning', '', 13, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (57, 1, 'NATION', 'mz_bz', '白族', b'1', 'warning', '', 14, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (58, 1, 'NATION', 'mz_hnz', '哈尼族', b'1', 'warning', '', 15, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (59, 1, 'NATION', 'mz_hskz', '哈萨克族', b'1', 'warning', '', 16, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (60, 1, 'NATION', 'mz_lz', '黎族', b'1', 'warning', '', 17, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (61, 1, 'NATION', 'mz_daiz', '傣族', b'1', 'warning', '', 18, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (62, 1, 'NATION', 'mz_sz', '畲族', b'1', 'warning', '', 19, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (63, 1, 'NATION', 'mz_llz', '傈僳族', b'1', 'warning', '', 20, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (64, 1, 'NATION', 'mz_glz', '仡佬族', b'1', 'warning', '', 21, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (65, 1, 'NATION', 'mz_dxz', '东乡族', b'1', 'warning', '', 22, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (66, 1, 'NATION', 'mz_gsz', '高山族', b'1', 'warning', '', 23, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (67, 1, 'NATION', 'mz_lhz', '拉祜族', b'1', 'warning', '', 24, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (68, 1, 'NATION', 'mz_shuiz', '水族', b'1', 'warning', '', 25, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (69, 1, 'NATION', 'mz_wz', '佤族', b'1', 'warning', '', 26, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (70, 1, 'NATION', 'mz_nxz', '纳西族', b'1', 'warning', '', 27, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (71, 1, 'NATION', 'mz_qz', '羌族', b'1', 'warning', '', 28, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (72, 1, 'NATION', 'mz_tz', '土族', b'1', 'warning', '', 29, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (73, 1, 'NATION', 'mz_zlz', '仫佬族', b'1', 'warning', '', 30, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (74, 1, 'NATION', 'mz_xbz', '锡伯族', b'1', 'warning', '', 31, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (75, 1, 'NATION', 'mz_kehzz', '柯尔克孜族', b'1', 'warning', '', 32, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (76, 1, 'NATION', 'mz_dwz', '达斡尔族', b'1', 'warning', '', 33, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (77, 1, 'NATION', 'mz_jpz', '景颇族', b'1', 'warning', '', 34, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (78, 1, 'NATION', 'mz_mlz', '毛南族', b'1', 'warning', '', 35, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (79, 1, 'NATION', 'mz_slz', '撒拉族', b'1', 'warning', '', 36, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (80, 1, 'NATION', 'mz_tjkz', '塔吉克族', b'1', 'warning', '', 37, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (81, 1, 'NATION', 'mz_acz', '阿昌族', b'1', 'warning', '', 38, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (82, 1, 'NATION', 'mz_pmz', '普米族', b'1', 'warning', '', 39, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (83, 1, 'NATION', 'mz_ewkz', '鄂温克族', b'1', 'warning', '', 40, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (84, 1, 'NATION', 'mz_nz', '怒族', b'1', 'warning', '', 41, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (85, 1, 'NATION', 'mz_jz', '京族', b'1', 'warning', '', 42, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (86, 1, 'NATION', 'mz_jnz', '基诺族', b'1', 'warning', '', 43, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (87, 1, 'NATION', 'mz_daz', '德昂族', b'1', 'warning', '', 44, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (88, 1, 'NATION', 'mz_baz', '保安族', b'1', 'warning', '', 45, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (89, 1, 'NATION', 'mz_elsz', '俄罗斯族', b'1', 'warning', '', 46, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (90, 1, 'NATION', 'mz_ygz', '裕固族', b'1', 'warning', '', 47, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (91, 1, 'NATION', 'mz_wzbkz', '乌兹别克族', b'1', 'warning', '', 48, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (92, 1, 'NATION', 'mz_mbz', '门巴族', b'1', 'warning', '', 49, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (93, 1, 'NATION', 'mz_elcz', '鄂伦春族', b'1', 'warning', '', 50, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (94, 1, 'NATION', 'mz_dlz', '独龙族', b'1', 'warning', '', 51, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (95, 1, 'NATION', 'mz_tkez', '塔塔尔族', b'1', 'warning', '', 52, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (96, 1, 'NATION', 'mz_hzz', '赫哲族', b'1', 'warning', '', 53, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (97, 1, 'NATION', 'mz_lbz', '珞巴族', b'1', 'warning', '', 54, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (98, 1, 'NATION', 'mz_blz', '布朗族', b'1', 'warning', '', 55, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (99, 2, 'POSITION_STATUS', 'WORKING', '在职', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2019-06-04 11:38:16', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (100, 2, 'POSITION_STATUS', 'QUIT', '离职', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2019-06-04 11:38:50', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (101, 4, 'AREA_LEVEL', 'TOWNS', '乡镇', b'1', 'warning', '', 5, b'0', 0, '系统管理员', '2020-03-09 23:33:46', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (102, 3, 'EDUCATION', 'XIAOXUE', '小学', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-03-09 23:34:13', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (103, 3, 'EDUCATION', 'ZHONGXUE', '中学', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2020-03-09 23:34:32', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (104, 3, 'EDUCATION', 'GAOZHONG', '高中', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2020-03-09 23:34:40', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (105, 3, 'EDUCATION', 'QITA', '其他', b'1', 'warning', '', 20, b'0', 0, '系统管理员', '2020-03-09 23:34:54', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (106, 1, 'NATION', 'mz_qt', '其他', b'1', 'warning', '', 100, b'0', 0, '系统管理员', '2020-03-09 23:38:29', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (107, 2, 'POSITION_STATUS', 'LEAVE', '请假', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2020-03-09 23:39:30', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (108, 6, 'SEX', '1', '男', b'1', 'success', '男', 1, b'0', 0, '系统管理员', '2020-11-18 07:24:58', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (109, 6, 'SEX', '2', '女', b'1', 'error', '女', 1, b'0', 0, '系统管理员', '2020-11-18 07:25:07', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (110, 7, 'NOTICE', '0', '通知', b'1', 'success', '通知', 1, b'0', 0, '系统管理员', '2020-11-19 02:58:37', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (111, 7, 'NOTICE', '1', '消息', b'1', 'success', '消息', 1, b'0', 0, '系统管理员', '2020-11-19 02:58:55', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (112, 7, 'NOTICE', '2', '待办', b'1', 'error', '待办', 1, b'0', 0, '系统管理员', '2020-11-19 02:59:05', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (113, 8, 'STATION_TYPE', '0', '基层', b'1', 'success', '1111', 1, b'0', 0, '系统管理员', '2021-07-16 04:06:54', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (114, 9, 'COLOR', 'success', '成功', b'1', 'success', '成功', 1, b'0', 0, '系统管理员', '2021-07-16 04:12:47', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (115, 9, 'COLOR', 'warning', '警告', b'1', 'warning', '警告', 1, b'0', 0, '系统管理员', '2021-07-16 04:15:06', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (116, 9, 'COLOR', 'error', '错误', b'1', 'error', '红色', 1, b'0', 0, '系统管理员', '2021-07-16 04:16:55', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (118, 8, 'STATION_TYPE', '1', '中层', b'1', 'success', '中层', 1, b'0', 0, '系统管理员', '2021-07-16 04:59:51', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (119, 8, 'STATION_TYPE', '2', '高层', b'1', 'warning', '高层', 1, b'0', 0, '系统管理员', '2021-07-16 05:00:07', 0, '系统管理员', '2021-07-31 08:11:24');
-INSERT INTO `sys_dict_item` VALUES (120, 10, 'INDUSTRY', '1', '医疗', b'1', 'success', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:08', NULL, NULL, '2021-07-31 08:20:13');
-INSERT INTO `sys_dict_item` VALUES (121, 10, 'INDUSTRY', '2', '教育', b'1', 'success', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:17', NULL, NULL, '2021-07-31 08:20:14');
-INSERT INTO `sys_dict_item` VALUES (122, 10, 'INDUSTRY', '3', '金融', b'1', 'success', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:28', NULL, NULL, '2021-07-31 08:20:17');
-INSERT INTO `sys_dict_item` VALUES (123, 10, 'INDUSTRY', '4', '互联网', b'1', 'warning', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:40', 1, '长风一梦', '2021-07-31 08:20:17');
-INSERT INTO `sys_dict_item` VALUES (124, 10, 'INDUSTRY', '5', '电商', b'1', 'warning', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:58', 1, '长风一梦', '2021-07-31 08:20:18');
+INSERT INTO `sys_dict_item`
+VALUES (1, 4, 'AREA_LEVEL', 'COUNTRY', '国家', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-01-20 15:12:57', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (2, 4, 'AREA_LEVEL', 'PROVINCE', '省份', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2020-01-20 15:13:45', 1, '长风一梦',
+        '2021-07-31 08:18:51');
+INSERT INTO `sys_dict_item`
+VALUES (3, 4, 'AREA_LEVEL', 'CITY', '地市', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2020-01-20 15:14:16', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (4, 4, 'AREA_LEVEL', 'COUNTY', '区县', b'1', 'warning', '', 4, b'0', 0, '系统管理员', '2020-01-20 15:14:54', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (5, 5, 'ORG_TYPE', '01', '单位', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-08-19 15:03:40', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (6, 5, 'ORG_TYPE', '02', '部门', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-08-19 15:03:59', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (38, 3, 'EDUCATION', 'ZHUANKE', '专科', b'1', 'warning', '', 4, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (39, 3, 'EDUCATION', 'COLLEGE', '本科', b'1', 'warning', '', 5, b'0', 0, '系统管理员', '2019-06-04 11:36:19', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (40, 3, 'EDUCATION', 'SUOSHI', '硕士', b'1', 'warning', '', 6, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (41, 3, 'EDUCATION', 'BOSHI', '博士', b'1', 'warning', '', 7, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (42, 3, 'EDUCATION', 'BOSHIHOU', '博士后', b'1', 'warning', '', 8, b'0', 0, '系统管理员', '2019-06-04 11:36:29', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (43, 1, 'NATION', 'mz_hanz', '汉族', b'1', 'warning', '', 0, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (44, 1, 'NATION', 'mz_zz', '壮族', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (45, 1, 'NATION', 'mz_mz', '满族', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (46, 1, 'NATION', 'mz_hz', '回族', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (47, 1, 'NATION', 'mz_miaoz', '苗族', b'1', 'warning', '', 4, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (48, 1, 'NATION', 'mz_wwez', '维吾尔族', b'1', 'warning', '', 5, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (49, 1, 'NATION', 'mz_tjz', '土家族', b'1', 'warning', '', 6, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (50, 1, 'NATION', 'mz_yz', '彝族', b'1', 'warning', '', 7, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (51, 1, 'NATION', 'mz_mgz', '蒙古族', b'1', 'warning', '', 8, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (52, 1, 'NATION', 'mz_zhangz', '藏族', b'1', 'warning', '', 9, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (53, 1, 'NATION', 'mz_byz', '布依族', b'1', 'warning', '', 10, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (54, 1, 'NATION', 'mz_dz', '侗族', b'1', 'warning', '', 11, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (55, 1, 'NATION', 'mz_yaoz', '瑶族', b'1', 'warning', '', 12, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (56, 1, 'NATION', 'mz_cxz', '朝鲜族', b'1', 'warning', '', 13, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (57, 1, 'NATION', 'mz_bz', '白族', b'1', 'warning', '', 14, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (58, 1, 'NATION', 'mz_hnz', '哈尼族', b'1', 'warning', '', 15, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (59, 1, 'NATION', 'mz_hskz', '哈萨克族', b'1', 'warning', '', 16, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (60, 1, 'NATION', 'mz_lz', '黎族', b'1', 'warning', '', 17, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (61, 1, 'NATION', 'mz_daiz', '傣族', b'1', 'warning', '', 18, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (62, 1, 'NATION', 'mz_sz', '畲族', b'1', 'warning', '', 19, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (63, 1, 'NATION', 'mz_llz', '傈僳族', b'1', 'warning', '', 20, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (64, 1, 'NATION', 'mz_glz', '仡佬族', b'1', 'warning', '', 21, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (65, 1, 'NATION', 'mz_dxz', '东乡族', b'1', 'warning', '', 22, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (66, 1, 'NATION', 'mz_gsz', '高山族', b'1', 'warning', '', 23, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (67, 1, 'NATION', 'mz_lhz', '拉祜族', b'1', 'warning', '', 24, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (68, 1, 'NATION', 'mz_shuiz', '水族', b'1', 'warning', '', 25, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (69, 1, 'NATION', 'mz_wz', '佤族', b'1', 'warning', '', 26, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (70, 1, 'NATION', 'mz_nxz', '纳西族', b'1', 'warning', '', 27, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (71, 1, 'NATION', 'mz_qz', '羌族', b'1', 'warning', '', 28, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (72, 1, 'NATION', 'mz_tz', '土族', b'1', 'warning', '', 29, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (73, 1, 'NATION', 'mz_zlz', '仫佬族', b'1', 'warning', '', 30, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (74, 1, 'NATION', 'mz_xbz', '锡伯族', b'1', 'warning', '', 31, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (75, 1, 'NATION', 'mz_kehzz', '柯尔克孜族', b'1', 'warning', '', 32, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (76, 1, 'NATION', 'mz_dwz', '达斡尔族', b'1', 'warning', '', 33, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (77, 1, 'NATION', 'mz_jpz', '景颇族', b'1', 'warning', '', 34, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (78, 1, 'NATION', 'mz_mlz', '毛南族', b'1', 'warning', '', 35, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (79, 1, 'NATION', 'mz_slz', '撒拉族', b'1', 'warning', '', 36, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (80, 1, 'NATION', 'mz_tjkz', '塔吉克族', b'1', 'warning', '', 37, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (81, 1, 'NATION', 'mz_acz', '阿昌族', b'1', 'warning', '', 38, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (82, 1, 'NATION', 'mz_pmz', '普米族', b'1', 'warning', '', 39, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (83, 1, 'NATION', 'mz_ewkz', '鄂温克族', b'1', 'warning', '', 40, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (84, 1, 'NATION', 'mz_nz', '怒族', b'1', 'warning', '', 41, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (85, 1, 'NATION', 'mz_jz', '京族', b'1', 'warning', '', 42, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (86, 1, 'NATION', 'mz_jnz', '基诺族', b'1', 'warning', '', 43, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (87, 1, 'NATION', 'mz_daz', '德昂族', b'1', 'warning', '', 44, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (88, 1, 'NATION', 'mz_baz', '保安族', b'1', 'warning', '', 45, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (89, 1, 'NATION', 'mz_elsz', '俄罗斯族', b'1', 'warning', '', 46, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (90, 1, 'NATION', 'mz_ygz', '裕固族', b'1', 'warning', '', 47, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (91, 1, 'NATION', 'mz_wzbkz', '乌兹别克族', b'1', 'warning', '', 48, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (92, 1, 'NATION', 'mz_mbz', '门巴族', b'1', 'warning', '', 49, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (93, 1, 'NATION', 'mz_elcz', '鄂伦春族', b'1', 'warning', '', 50, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (94, 1, 'NATION', 'mz_dlz', '独龙族', b'1', 'warning', '', 51, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (95, 1, 'NATION', 'mz_tkez', '塔塔尔族', b'1', 'warning', '', 52, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (96, 1, 'NATION', 'mz_hzz', '赫哲族', b'1', 'warning', '', 53, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (97, 1, 'NATION', 'mz_lbz', '珞巴族', b'1', 'warning', '', 54, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (98, 1, 'NATION', 'mz_blz', '布朗族', b'1', 'warning', '', 55, b'0', 0, '系统管理员', '2018-03-15 20:11:01', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (99, 2, 'POSITION_STATUS', 'WORKING', '在职', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2019-06-04 11:38:16', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (100, 2, 'POSITION_STATUS', 'QUIT', '离职', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2019-06-04 11:38:50', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (101, 4, 'AREA_LEVEL', 'TOWNS', '乡镇', b'1', 'warning', '', 5, b'0', 0, '系统管理员', '2020-03-09 23:33:46', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (102, 3, 'EDUCATION', 'XIAOXUE', '小学', b'1', 'warning', '', 1, b'0', 0, '系统管理员', '2020-03-09 23:34:13', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (103, 3, 'EDUCATION', 'ZHONGXUE', '中学', b'1', 'warning', '', 2, b'0', 0, '系统管理员', '2020-03-09 23:34:32', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (104, 3, 'EDUCATION', 'GAOZHONG', '高中', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2020-03-09 23:34:40', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (105, 3, 'EDUCATION', 'QITA', '其他', b'1', 'warning', '', 20, b'0', 0, '系统管理员', '2020-03-09 23:34:54', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (106, 1, 'NATION', 'mz_qt', '其他', b'1', 'warning', '', 100, b'0', 0, '系统管理员', '2020-03-09 23:38:29', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (107, 2, 'POSITION_STATUS', 'LEAVE', '请假', b'1', 'warning', '', 3, b'0', 0, '系统管理员', '2020-03-09 23:39:30', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (108, 6, 'SEX', '1', '男', b'1', 'success', '男', 1, b'0', 0, '系统管理员', '2020-11-18 07:24:58', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (109, 6, 'SEX', '2', '女', b'1', 'error', '女', 1, b'0', 0, '系统管理员', '2020-11-18 07:25:07', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (110, 7, 'NOTICE', '0', '通知', b'1', 'success', '通知', 1, b'0', 0, '系统管理员', '2020-11-19 02:58:37', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (111, 7, 'NOTICE', '1', '消息', b'1', 'success', '消息', 1, b'0', 0, '系统管理员', '2020-11-19 02:58:55', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (112, 7, 'NOTICE', '2', '待办', b'1', 'error', '待办', 1, b'0', 0, '系统管理员', '2020-11-19 02:59:05', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (113, 8, 'STATION_TYPE', '0', '基层', b'1', 'success', '1111', 1, b'0', 0, '系统管理员', '2021-07-16 04:06:54', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (114, 9, 'COLOR', 'success', '成功', b'1', 'success', '成功', 1, b'0', 0, '系统管理员', '2021-07-16 04:12:47', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (115, 9, 'COLOR', 'warning', '警告', b'1', 'warning', '警告', 1, b'0', 0, '系统管理员', '2021-07-16 04:15:06', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (116, 9, 'COLOR', 'error', '错误', b'1', 'error', '红色', 1, b'0', 0, '系统管理员', '2021-07-16 04:16:55', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (118, 8, 'STATION_TYPE', '1', '中层', b'1', 'success', '中层', 1, b'0', 0, '系统管理员', '2021-07-16 04:59:51', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (119, 8, 'STATION_TYPE', '2', '高层', b'1', 'warning', '高层', 1, b'0', 0, '系统管理员', '2021-07-16 05:00:07', 0, '系统管理员',
+        '2021-07-31 08:11:24');
+INSERT INTO `sys_dict_item`
+VALUES (120, 10, 'INDUSTRY', '1', '医疗', b'1', 'success', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:08', NULL, NULL,
+        '2021-07-31 08:20:13');
+INSERT INTO `sys_dict_item`
+VALUES (121, 10, 'INDUSTRY', '2', '教育', b'1', 'success', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:17', NULL, NULL,
+        '2021-07-31 08:20:14');
+INSERT INTO `sys_dict_item`
+VALUES (122, 10, 'INDUSTRY', '3', '金融', b'1', 'success', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:28', NULL, NULL,
+        '2021-07-31 08:20:17');
+INSERT INTO `sys_dict_item`
+VALUES (123, 10, 'INDUSTRY', '4', '互联网', b'1', 'warning', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:40', 1, '长风一梦',
+        '2021-07-31 08:20:17');
+INSERT INTO `sys_dict_item`
+VALUES (124, 10, 'INDUSTRY', '5', '电商', b'1', 'warning', '', 1, b'0', 1, '长风一梦', '2021-07-31 08:17:58', 1, '长风一梦',
+        '2021-07-31 08:20:18');
 COMMIT;
 
 DROP TABLE IF EXISTS `c_login_log`;
-CREATE TABLE `c_login_log` (
-`id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-`user_id` bigint DEFAULT NULL COMMENT '登录人ID',
-`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-`ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录IP',
-`location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录地点',
-`client_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人客户端ID',
-`name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人姓名',
-`principal` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人账号',
-`platform` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '平台',
-`engine` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '引擎类型',
-`browser` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器名称',
-`os` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作系统',
-`created_by` bigint DEFAULT NULL,
-`created_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='登录日志';
+CREATE TABLE `c_login_log`
+(
+    `id`           bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `user_id`      bigint                                                 DEFAULT NULL COMMENT '登录人ID',
+    `tenant_id`    bigint                                                 DEFAULT NULL COMMENT '租户ID',
+    `ip`           varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '登录IP',
+    `location`     varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '登录地点',
+    `client_id`    varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '登录人客户端ID',
+    `name`         varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '登录人姓名',
+    `principal`    varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '登录人账号',
+    `platform`     varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '平台',
+    `engine`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '引擎类型',
+    `browser`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器名称',
+    `os`           varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作系统',
+    `created_by`   bigint                                                 DEFAULT NULL,
+    `created_name` varchar(255) COLLATE utf8mb4_general_ci                DEFAULT NULL,
+    `created_time` datetime                                               DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='登录日志';
 
 
 DROP TABLE IF EXISTS `c_opt_log`;
-CREATE TABLE `c_opt_log` (
-`id` bigint NOT NULL AUTO_INCREMENT,
-`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-`ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作IP',
-`location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '地址',
-`trace` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '日志链路追踪id日志标志',
-`description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作描述',
-`action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '类路径',
-`uri` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '请求地址',
-`http_method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'GET' COMMENT '请求类型\n#HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}',
-`request` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '请求参数',
-`response` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '返回值',
-`message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '异常详情信息',
-`status` bit null COMMENT '日志状态（true=正常;false=异常）',
-`start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
-`finish_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
-`consuming_time` bigint DEFAULT '0' COMMENT '消耗时间',
-`browser` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
-`os` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
-`engine` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
-`platform` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
-`created_by` bigint DEFAULT '0' COMMENT '创建人id',
-`created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作人',
-PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统日志';
+CREATE TABLE `c_opt_log`
+(
+    `id`             bigint    NOT NULL AUTO_INCREMENT,
+    `tenant_id`      bigint                                                        DEFAULT NULL COMMENT '租户ID',
+    `ip`             varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  DEFAULT NULL COMMENT '操作IP',
+    `location`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '地址',
+    `trace`          varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '日志链路追踪id日志标志',
+    `description`    varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作描述',
+    `action`         varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '类路径',
+    `uri`            varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '请求地址',
+    `http_method`    varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  DEFAULT 'GET' COMMENT '请求类型\n#HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}',
+    `request`        longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '请求参数',
+    `response`       longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '返回值',
+    `message`        longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '异常详情信息',
+    `status`         bit       null COMMENT '日志状态（true=正常;false=异常）',
+    `start_time`     timestamp NULL                                                DEFAULT NULL COMMENT '开始时间',
+    `finish_time`    timestamp NULL                                                DEFAULT NULL COMMENT '完成时间',
+    `consuming_time` bigint                                                        DEFAULT '0' COMMENT '消耗时间',
+    `browser`        varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
+    `os`             varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
+    `engine`         varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
+    `platform`       varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
+    `created_by`     bigint                                                        DEFAULT '0' COMMENT '创建人id',
+    `created_name`   varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  DEFAULT NULL COMMENT '操作人',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT ='系统日志';
 
 
 -- ----------------------------
 -- Table structure for sys_org
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_org`;
-CREATE TABLE `sys_org` (
-`id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-`label` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
-`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-`alias` varchar(255) DEFAULT '' COMMENT '简称',
-`tel` varchar(255) DEFAULT NULL COMMENT '联系方式',
-`tree_path` varchar(255) DEFAULT ',' COMMENT '所有父级ID',
-`parent_id` bigint DEFAULT '0' COMMENT '父ID',
-`sequence` int DEFAULT '1' COMMENT '排序',
-`status` bit(1) DEFAULT b'1' COMMENT '状态',
-`description` varchar(255) DEFAULT '' COMMENT '描述',
-`deleted` bit(1) DEFAULT b'0',
-`created_by` bigint DEFAULT '0' COMMENT '创建人id',
-`created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-`last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1  COMMENT='组织';
+CREATE TABLE `sys_org`
+(
+    `id`                 bigint       NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `label`              varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+    `tenant_id`          bigint                DEFAULT NULL COMMENT '租户ID',
+    `alias`              varchar(255)          DEFAULT '' COMMENT '简称',
+    `tel`                varchar(255)          DEFAULT NULL COMMENT '联系方式',
+    `tree_path`          varchar(255)          DEFAULT ',' COMMENT '所有父级ID',
+    `parent_id`          bigint                DEFAULT '0' COMMENT '父ID',
+    `sequence`           int                   DEFAULT '1' COMMENT '排序',
+    `status`             bit(1)                DEFAULT b'1' COMMENT '状态',
+    `description`        varchar(255)          DEFAULT '' COMMENT '描述',
+    `deleted`            bit(1)                DEFAULT b'0',
+    `created_by`         bigint                DEFAULT '0' COMMENT '创建人id',
+    `created_name`       varchar(50)           DEFAULT NULL COMMENT '创建人名称',
+    `created_time`       datetime              DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modified_by`   bigint                DEFAULT '0' COMMENT '更新人id',
+    `last_modified_name` varchar(50)           DEFAULT NULL COMMENT '更新人名称',
+    `last_modified_time` datetime              DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1 COMMENT ='组织';
 
 -- ----------------------------
 -- Records of sys_org
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_org` (`label`, `tenant_id`, `alias`, `tel`, `tree_path`, `parent_id`, `sequence`, `status`, `deleted`, `description`) VALUES ('${tenant_name}', ${tenant_id}, '${tenant_name}', '', ',', 0, 1, b'1', b'0', '初始化数据');
+INSERT INTO `sys_org` (`label`, `tenant_id`, `alias`, `tel`, `tree_path`, `parent_id`, `sequence`, `status`, `deleted`, `description`)
+VALUES ('${tenant_name}', ${tenant_id}, '${tenant_name}', '', ',', 0, 1, b'1', b'0', '初始化数据');
 COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_role
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
-CREATE TABLE `sys_role` (
-`id` bigint NOT NULL AUTO_INCREMENT,
-`tenant_id` bigint DEFAULT NULL COMMENT '租户编码',
-`code` varchar(30) DEFAULT NULL COMMENT '角色编码',
-`name` varchar(30) NOT NULL DEFAULT '' COMMENT '名称',
-`description` varchar(255) DEFAULT NULL COMMENT '描述信息',
-`scope_type` tinyint DEFAULT NULL COMMENT '数据权限范围，值越大，权限越大',
-`status` tinyint(1) DEFAULT '0' COMMENT '1=正常 0=禁用',
-`super` tinyint(1) DEFAULT '0' COMMENT '0=非 1=管理员',
-`readonly` tinyint(1) DEFAULT '0' COMMENT '是否内置角色',
-`deleted` bit(1) DEFAULT b'0',
-`created_by` bigint DEFAULT '0' COMMENT '创建人id',
-`created_name` varchar(255) DEFAULT NULL,
-`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-`last_modified_name` varchar(255) DEFAULT NULL,
-`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3  ROW_FORMAT=DYNAMIC COMMENT='角色';
+CREATE TABLE `sys_role`
+(
+    `id`                 bigint      NOT NULL AUTO_INCREMENT,
+    `tenant_id`          bigint               DEFAULT NULL COMMENT '租户编码',
+    `code`               varchar(30)          DEFAULT NULL COMMENT '角色编码',
+    `name`               varchar(30) NOT NULL DEFAULT '' COMMENT '名称',
+    `description`        varchar(255)         DEFAULT NULL COMMENT '描述信息',
+    `scope_type`         tinyint              DEFAULT NULL COMMENT '数据权限范围，值越大，权限越大',
+    `status`             tinyint(1)           DEFAULT '0' COMMENT '1=正常 0=禁用',
+    `super`              tinyint(1)           DEFAULT '0' COMMENT '0=非 1=管理员',
+    `readonly`           tinyint(1)           DEFAULT '0' COMMENT '是否内置角色',
+    `deleted`            bit(1)               DEFAULT b'0',
+    `created_by`         bigint               DEFAULT '0' COMMENT '创建人id',
+    `created_name`       varchar(255)         DEFAULT NULL,
+    `created_time`       datetime             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modified_by`   bigint               DEFAULT '0' COMMENT '更新人id',
+    `last_modified_name` varchar(255)         DEFAULT NULL,
+    `last_modified_time` datetime             DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 3
+  ROW_FORMAT = DYNAMIC COMMENT ='角色';
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` VALUES (1, ${tenant_id}, 'TENANT_ADMIN', '租户管理员', '租户管理员，拥有所有数据可视权', 50, 1, 1, 1, NULL, 0, '租户管理员', now(), 57, NULL, now());
+INSERT INTO `sys_role`
+VALUES (1, ${tenant_id}, 'TENANT_ADMIN', '租户管理员', '租户管理员，拥有所有数据可视权', 50, 1, 1, 1, NULL, 0, '租户管理员', now(), 57, NULL,
+        now());
 COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_role_org
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_org`;
-CREATE TABLE `sys_role_org` (
-`role_id` bigint NOT NULL COMMENT '角色ID',
-`org_id` bigint NOT NULL COMMENT '组织ID',
-UNIQUE KEY `role_id` (`role_id`,`org_id`) USING BTREE
-) ENGINE=InnoDB  COMMENT='用户角色表';
+CREATE TABLE `sys_role_org`
+(
+    `role_id` bigint NOT NULL COMMENT '角色ID',
+    `org_id`  bigint NOT NULL COMMENT '组织ID',
+    UNIQUE KEY `role_id` (`role_id`, `org_id`) USING BTREE
+) ENGINE = InnoDB COMMENT ='用户角色表';
 
 -- ----------------------------
 -- Records of sys_role_org
@@ -290,49 +508,83 @@ COMMIT;
 -- Table structure for sys_role_res
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_res`;
-CREATE TABLE `sys_role_res` (
-`role_id` bigint NOT NULL COMMENT '角色ID',
-`res_id` bigint NOT NULL COMMENT '菜单ID',
-`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-UNIQUE KEY `idx_role_res` (`role_id`,`res_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='角色权限表';
+CREATE TABLE `sys_role_res`
+(
+    `role_id`      bigint NOT NULL COMMENT '角色ID',
+    `res_id`       bigint NOT NULL COMMENT '菜单ID',
+    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    UNIQUE KEY `idx_role_res` (`role_id`, `res_id`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb3 COMMENT ='角色权限表';
 
 -- ----------------------------
 -- Records of sys_role_res
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_res` VALUES (1, 1, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 20, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 30, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 101, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 102, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 103, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 120, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 2001, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 3001, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 3002, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 10101, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 10102, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 10103, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 10202, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 10301, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 10302, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 12001, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 12002, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1010101, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1010102, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1010104, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1010301, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1010302, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1010303, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1020201, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1020202, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1020203, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1020204, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1020205, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1030101, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1030102, '2021-08-10 03:20:31');
-INSERT INTO `sys_role_res` VALUES (1, 1030103, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 20, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 30, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 101, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 102, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 103, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 120, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 2001, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 3001, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 3002, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 10101, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 10102, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 10103, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 10202, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 10301, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 10302, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 12001, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 12002, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1010101, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1010102, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1010104, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1010301, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1010302, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1010303, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1020201, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1020202, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1020203, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1020204, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1020205, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1030101, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1030102, '2021-08-10 03:20:31');
+INSERT INTO `sys_role_res`
+VALUES (1, 1030103, '2021-08-10 03:20:31');
 COMMIT;
 
 
@@ -340,121 +592,134 @@ COMMIT;
 -- Table structure for sys_station
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_station`;
-CREATE TABLE `sys_station` (
-`id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-`name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
-`code` varchar(255) DEFAULT NULL COMMENT '编码',
-`type` tinyint DEFAULT NULL COMMENT '类型',
-`sequence` tinyint DEFAULT NULL COMMENT '排序',
-`org_id` bigint DEFAULT '0' COMMENT '组织ID',
-`status` bit(1) DEFAULT b'1' COMMENT '状态',
-`description` varchar(255) DEFAULT '' COMMENT '描述',
-`deleted` bit(1) DEFAULT b'0',
-`created_time` datetime DEFAULT CURRENT_TIMESTAMP,
-`created_name` varchar(255) DEFAULT NULL,
-`created_by` bigint DEFAULT NULL,
-`last_modified_by` bigint DEFAULT NULL,
-`last_modified_name` varchar(255) DEFAULT NULL,
-`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10129  COMMENT='岗位';
+CREATE TABLE `sys_station`
+(
+    `id`                 bigint       NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `tenant_id`          bigint                DEFAULT NULL COMMENT '租户ID',
+    `name`               varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+    `code`               varchar(255)          DEFAULT NULL COMMENT '编码',
+    `type`               tinyint               DEFAULT NULL COMMENT '类型',
+    `sequence`           tinyint               DEFAULT NULL COMMENT '排序',
+    `org_id`             bigint                DEFAULT '0' COMMENT '组织ID',
+    `status`             bit(1)                DEFAULT b'1' COMMENT '状态',
+    `description`        varchar(255)          DEFAULT '' COMMENT '描述',
+    `deleted`            bit(1)                DEFAULT b'0',
+    `created_time`       datetime              DEFAULT CURRENT_TIMESTAMP,
+    `created_name`       varchar(255)          DEFAULT NULL,
+    `created_by`         bigint                DEFAULT NULL,
+    `last_modified_by`   bigint                DEFAULT NULL,
+    `last_modified_name` varchar(255)          DEFAULT NULL,
+    `last_modified_time` datetime              DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 10129 COMMENT ='岗位';
 
 -- ----------------------------
 -- Table structure for sys_site_message
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_site_message`;
-CREATE TABLE `sys_site_message` (
-`id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-`level` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息级别',
-`title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
-`content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-`description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
-`mark` bit(1) DEFAULT b'0' COMMENT '状态（0=未读 1=已读）',
-`receive_id` bigint DEFAULT NULL COMMENT '接收人ID',
-`deleted` bit(1) DEFAULT b'0',
-`created_by` bigint DEFAULT '0' COMMENT '创建人id',
-`created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-`last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='站内消息';
+CREATE TABLE `sys_site_message`
+(
+    `id`                 bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `level`              varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '消息级别',
+    `title`              varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '名称',
+    `content`            varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+    `description`        varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '描述',
+    `mark`               bit(1)                                                  DEFAULT b'0' COMMENT '状态（0=未读 1=已读）',
+    `receive_id`         bigint                                                  DEFAULT NULL COMMENT '接收人ID',
+    `deleted`            bit(1)                                                  DEFAULT b'0',
+    `created_by`         bigint                                                  DEFAULT '0' COMMENT '创建人id',
+    `created_name`       varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '创建人名称',
+    `created_time`       datetime                                                DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modified_by`   bigint                                                  DEFAULT '0' COMMENT '更新人id',
+    `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '更新人名称',
+    `last_modified_time` datetime                                                DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin COMMENT ='站内消息';
 
 
 -- ----------------------------
 -- Table structure for sys_site_notify
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_site_notify`;
-CREATE TABLE `sys_site_notify` (
-`id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-`level` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息级别',
-`status` tinyint(1) DEFAULT NULL COMMENT '0=为发布;1=已发布',
-`type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '编码',
-`title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
-`receiver` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '接受者ID',
-`content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-`description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
-`deleted` bit(1) DEFAULT b'0',
-`created_by` bigint DEFAULT '0' COMMENT '创建人id',
-`created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-`last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='站内消息';
+CREATE TABLE `sys_site_notify`
+(
+    `id`                 bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `tenant_id`          bigint                                                  DEFAULT NULL COMMENT '租户ID',
+    `level`              varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '消息级别',
+    `status`             tinyint(1)                                              DEFAULT NULL COMMENT '0=为发布;1=已发布',
+    `type`               varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '编码',
+    `title`              varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '名称',
+    `receiver`           varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '接受者ID',
+    `content`            varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+    `description`        varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '描述',
+    `deleted`            bit(1)                                                  DEFAULT b'0',
+    `created_by`         bigint                                                  DEFAULT '0' COMMENT '创建人id',
+    `created_name`       varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '创建人名称',
+    `created_time`       datetime                                                DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modified_by`   bigint                                                  DEFAULT '0' COMMENT '更新人id',
+    `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '更新人名称',
+    `last_modified_time` datetime                                                DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 5
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin COMMENT ='站内消息';
 
 
 -- ----------------------------
 -- Table structure for sys_user_role
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_role`;
-CREATE TABLE `sys_user_role` (
-`user_id` bigint NOT NULL COMMENT '用户ID',
-`role_id` bigint NOT NULL COMMENT '角色ID',
-UNIQUE KEY `role_id` (`user_id`,`role_id`) USING BTREE
-) ENGINE=InnoDB  COMMENT='用户角色表';
+CREATE TABLE `sys_user_role`
+(
+    `user_id` bigint NOT NULL COMMENT '用户ID',
+    `role_id` bigint NOT NULL COMMENT '角色ID',
+    UNIQUE KEY `role_id` (`user_id`, `role_id`) USING BTREE
+) ENGINE = InnoDB COMMENT ='用户角色表';
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user_role` VALUES (1, 1);
+INSERT INTO `sys_user_role`
+VALUES (1, 1);
 COMMIT;
 
 -- ----------------------------
 -- Table structure for t_file
 -- ----------------------------
 DROP TABLE IF EXISTS `t_file`;
-CREATE TABLE `t_file` (
-`id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-`content_type` varchar(100) DEFAULT NULL COMMENT '文件类型',
-`size` bigint DEFAULT NULL COMMENT '文件大小',
-`location` varchar(50) DEFAULT NULL COMMENT '登录地点',
-`ip` varchar(50) DEFAULT NULL COMMENT 'IP',
-`engine` varchar(255) DEFAULT NULL COMMENT '引擎类型',
-`engine_version` varchar(255) DEFAULT NULL COMMENT '引擎版本',
-`os` varchar(255) DEFAULT NULL COMMENT '操作系统',
-`bucket` varchar(255) DEFAULT NULL COMMENT '操作系统',
-`origin_name` varchar(255) DEFAULT NULL COMMENT '原始名称',
-`target_name` varchar(255) DEFAULT NULL COMMENT '目标名称',
-`mapping_path` varchar(255) DEFAULT NULL COMMENT '映射地址',
-`full_url` varchar(255) DEFAULT NULL COMMENT '完整地址',
-`extend` varchar(255) DEFAULT NULL COMMENT '拓展字段',
-`deleted` bit(1) DEFAULT b'0',
-`created_by` bigint DEFAULT '0' COMMENT '创建人id',
-`created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-`last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-PRIMARY KEY (`id`) USING BTREE,
-UNIQUE KEY `UN_TARGET_NAME` (`target_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19  COMMENT='文件';
+CREATE TABLE `t_file`
+(
+    `id`                 bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `tenant_id`          bigint       DEFAULT NULL COMMENT '租户ID',
+    `content_type`       varchar(100) DEFAULT NULL COMMENT '文件类型',
+    `size`               bigint       DEFAULT NULL COMMENT '文件大小',
+    `location`           varchar(50)  DEFAULT NULL COMMENT '登录地点',
+    `ip`                 varchar(50)  DEFAULT NULL COMMENT 'IP',
+    `engine`             varchar(255) DEFAULT NULL COMMENT '引擎类型',
+    `engine_version`     varchar(255) DEFAULT NULL COMMENT '引擎版本',
+    `os`                 varchar(255) DEFAULT NULL COMMENT '操作系统',
+    `bucket`             varchar(255) DEFAULT NULL COMMENT '操作系统',
+    `origin_name`        varchar(255) DEFAULT NULL COMMENT '原始名称',
+    `target_name`        varchar(255) DEFAULT NULL COMMENT '目标名称',
+    `mapping_path`       varchar(255) DEFAULT NULL COMMENT '映射地址',
+    `full_url`           varchar(255) DEFAULT NULL COMMENT '完整地址',
+    `extend`             varchar(255) DEFAULT NULL COMMENT '拓展字段',
+    `deleted`            bit(1)       DEFAULT b'0',
+    `created_by`         bigint       DEFAULT '0' COMMENT '创建人id',
+    `created_name`       varchar(50)  DEFAULT NULL COMMENT '创建人名称',
+    `created_time`       datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modified_by`   bigint       DEFAULT '0' COMMENT '更新人id',
+    `last_modified_name` varchar(50)  DEFAULT NULL COMMENT '更新人名称',
+    `last_modified_time` datetime     DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `UN_TARGET_NAME` (`target_name`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 19 COMMENT ='文件';
 
 -- ----------------------------
 -- Records of t_file
@@ -466,45 +731,48 @@ COMMIT;
 -- Table structure for t_user
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
-CREATE TABLE `t_user` (
-`id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-`tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-`username` varchar(30) NOT NULL COMMENT '账号',
-`password` varchar(200) DEFAULT NULL COMMENT '密码',
-`nick_name` varchar(50) DEFAULT NULL COMMENT '昵称',
-`org_id` bigint DEFAULT NULL COMMENT '组织ID',
-`station_id` bigint DEFAULT NULL COMMENT '岗位ID',
-`readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否内置',
-`email` varchar(50) DEFAULT NULL COMMENT '邮箱',
-`mobile` varchar(20) DEFAULT NULL COMMENT '手机',
-`id_card` varchar(50) DEFAULT NULL COMMENT '身份证',
-`sex` tinyint DEFAULT '1' COMMENT '性别（1=男;2=女）',
-`status` bit(1) DEFAULT b'0' COMMENT '状态 1启用 0禁用',
-`avatar` varchar(255) DEFAULT NULL COMMENT '头像',
-`description` varchar(255) DEFAULT NULL COMMENT '描述',
-`nation` varchar(20) DEFAULT NULL COMMENT '民族',
-`education` varchar(20) DEFAULT NULL COMMENT '学历',
-`position_status` varchar(20) DEFAULT NULL COMMENT '职位状态',
-`birthday` date DEFAULT NULL COMMENT '生日',
-`deleted` bit(1) DEFAULT b'0',
-`created_by` bigint DEFAULT '0' COMMENT '创建人id',
-`created_name` varchar(50) DEFAULT NULL COMMENT '创建人名称',
-`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-`last_modified_name` varchar(50) DEFAULT NULL COMMENT '更新人名称',
-`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-PRIMARY KEY (`id`) USING BTREE,
-UNIQUE KEY `UN_ACCOUNT` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10  COMMENT='用户';
+CREATE TABLE `t_user`
+(
+    `id`                 bigint      NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `tenant_id`          bigint               DEFAULT NULL COMMENT '租户ID',
+    `username`           varchar(30) NOT NULL COMMENT '账号',
+    `password`           varchar(200)         DEFAULT NULL COMMENT '密码',
+    `nick_name`          varchar(50)          DEFAULT NULL COMMENT '昵称',
+    `org_id`             bigint               DEFAULT NULL COMMENT '组织ID',
+    `station_id`         bigint               DEFAULT NULL COMMENT '岗位ID',
+    `readonly`           bit(1)      NOT NULL DEFAULT b'0' COMMENT '是否内置',
+    `email`              varchar(50)          DEFAULT NULL COMMENT '邮箱',
+    `mobile`             varchar(20)          DEFAULT NULL COMMENT '手机',
+    `id_card`            varchar(50)          DEFAULT NULL COMMENT '身份证',
+    `sex`                tinyint              DEFAULT '1' COMMENT '性别（1=男;2=女）',
+    `status`             bit(1)               DEFAULT b'0' COMMENT '状态 1启用 0禁用',
+    `avatar`             varchar(255)         DEFAULT NULL COMMENT '头像',
+    `description`        varchar(255)         DEFAULT NULL COMMENT '描述',
+    `nation`             varchar(20)          DEFAULT NULL COMMENT '民族',
+    `education`          varchar(20)          DEFAULT NULL COMMENT '学历',
+    `position_status`    varchar(20)          DEFAULT NULL COMMENT '职位状态',
+    `birthday`           date                 DEFAULT NULL COMMENT '生日',
+    `deleted`            bit(1)               DEFAULT b'0',
+    `created_by`         bigint               DEFAULT '0' COMMENT '创建人id',
+    `created_name`       varchar(50)          DEFAULT NULL COMMENT '创建人名称',
+    `created_time`       datetime             DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modified_by`   bigint               DEFAULT '0' COMMENT '更新人id',
+    `last_modified_name` varchar(50)          DEFAULT NULL COMMENT '更新人名称',
+    `last_modified_time` datetime             DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `UN_ACCOUNT` (`username`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 10 COMMENT ='用户';
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_user` VALUES (1, ${tenant_id}, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '系统管理员', 1, null, b'0', null, null, '111111111', 1, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '12323', 'mz_daiz', 'SUOSHI', 'WORKING', '2020-11-05', b'0', 0, NULL, now(), 1, '系统管理员', now());
+INSERT INTO `t_user`
+VALUES (1, ${tenant_id}, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '系统管理员', 1, null, b'0', null,
+        null, '111111111', 1, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '12323',
+        'mz_daiz', 'SUOSHI', 'WORKING', '2020-11-05', b'0', 0, NULL, now(), 1, '系统管理员', now());
 COMMIT;
-
-
 
 
 
@@ -512,85 +780,182 @@ COMMIT;
 -- Table structure for t_tenant_dict
 -- ----------------------------
 DROP TABLE IF EXISTS `t_tenant_dict`;
-CREATE TABLE `t_tenant_dict` (
-   `id` bigint NOT NULL COMMENT '雪花算法ID',
-   `tenant_id` bigint NOT NULL COMMENT '租户ID t_tenant.id',
-   `code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编码',
-   `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-   `description` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
-   `status` bit(1) DEFAULT NULL COMMENT '状态',
-   `sequence` tinyint DEFAULT NULL COMMENT '排序',
-   `deleted` bit(1) DEFAULT b'0',
-   `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
-   `created_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人名称',
-   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人ID',
-   `last_modified_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人名称',
-   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
-   PRIMARY KEY (`id`) USING BTREE,
-   UNIQUE KEY `_index_code_tenant_id` (`tenant_id`,`code`) USING BTREE COMMENT '组合键：tenant_id、code'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+CREATE TABLE `t_tenant_dict`
+(
+    `id`                 bigint                                                 NOT NULL COMMENT '雪花算法ID',
+    `tenant_id`          bigint                                                 NOT NULL COMMENT '租户ID t_tenant.id',
+    `code`               varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编码',
+    `name`               varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+    `description`        varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
+    `status`             bit(1)                                                  DEFAULT NULL COMMENT '状态',
+    `sequence`           tinyint                                                 DEFAULT NULL COMMENT '排序',
+    `deleted`            bit(1)                                                  DEFAULT b'0',
+    `created_by`         bigint                                                  DEFAULT NULL COMMENT '创建人ID',
+    `created_name`       varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci  DEFAULT NULL COMMENT '创建人名称',
+    `created_time`       datetime                                                DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modified_by`   bigint                                                  DEFAULT NULL COMMENT '更新人ID',
+    `last_modified_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci  DEFAULT NULL COMMENT '更新人名称',
+    `last_modified_time` datetime                                                DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `_index_code_tenant_id` (`tenant_id`, `code`) USING BTREE COMMENT '组合键：tenant_id、code'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb3;
 
 -- ----------------------------
 -- Records of t_tenant_dict
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686979951801745410, ${tenant_id}, 'CONTRACT_SEAL_TYPE', '用印类型', NULL, b'1', 0, b'0', 1, '长风一梦8888', '2023-08-03 05:58:57', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698634189967577089, ${tenant_id}, 'PAYMENT_METHOD', '付款方法', NULL, b'1', 0, b'0', 1, '长风一梦8888', '2023-09-04 09:48:44', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698634230920761345, ${tenant_id}, 'PAYMENT_TYPE', '付款类型', NULL, b'1', b'0', 0, 1, '长风一梦8888', '2023-09-04 09:48:54', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699341989447098369, ${tenant_id}, 'TMS_PLATE_COLOR', 'TMS车牌颜色', 'TMS车牌颜色', b'1', 0, b'0', 1, '长风一梦8888', '2023-09-06 08:41:17', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699343995867914241, ${tenant_id}, 'TMS_ENERGY_TYPE', 'TMS能源类型', NULL, b'1',  0, b'0', 1, '长风一梦8888', '2023-09-06 08:49:15', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070256599982081, ${tenant_id}, 'TMS_EXPENSE_ITEM', 'TMS费用项目', NULL, b'1',  0, b'0', 1, '长风一梦8888', '2023-09-08 08:55:09', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1727250191221800961, ${tenant_id}, 'STATION_TYPE', '岗位类型', '12312', b'1', 0, b'0', 1, '长风一梦0000', '2023-11-22 16:58:31', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`,
+                             `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`)
+VALUES (1686979951801745410, ${tenant_id}, 'CONTRACT_SEAL_TYPE', '用印类型', NULL, b'1', 0, b'0', 1, '长风一梦8888', '2023-08-03 05:58:57',
+        NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`,
+                             `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`)
+VALUES (1698634189967577089, ${tenant_id}, 'PAYMENT_METHOD', '付款方法', NULL, b'1', 0, b'0', 1, '长风一梦8888', '2023-09-04 09:48:44',
+        NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`,
+                             `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`)
+VALUES (1698634230920761345, ${tenant_id}, 'PAYMENT_TYPE', '付款类型', NULL, b'1', b'0', 0, 1, '长风一梦8888', '2023-09-04 09:48:54', NULL,
+        NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`,
+                             `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`)
+VALUES (1699341989447098369, ${tenant_id}, 'TMS_PLATE_COLOR', 'TMS车牌颜色', 'TMS车牌颜色', b'1', 0, b'0', 1, '长风一梦8888',
+        '2023-09-06 08:41:17', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`,
+                             `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`)
+VALUES (1699343995867914241, ${tenant_id}, 'TMS_ENERGY_TYPE', 'TMS能源类型', NULL, b'1', 0, b'0', 1, '长风一梦8888', '2023-09-06 08:49:15',
+        NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`,
+                             `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`)
+VALUES (1700070256599982081, ${tenant_id}, 'TMS_EXPENSE_ITEM', 'TMS费用项目', NULL, b'1', 0, b'0', 1, '长风一梦8888', '2023-09-08 08:55:09',
+        NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `tenant_id`, `code`, `name`, `description`, `status`, `sequence`, `deleted`, `created_by`,
+                             `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`)
+VALUES (1727250191221800961, ${tenant_id}, 'STATION_TYPE', '岗位类型', '12312', b'1', 0, b'0', 1, '长风一梦0000', '2023-11-22 16:58:31',
+        NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
 -- Table structure for t_tenant_dict_item
 -- ----------------------------
 DROP TABLE IF EXISTS `t_tenant_dict_item`;
-CREATE TABLE `t_tenant_dict_item` (
-`id` bigint NOT NULL COMMENT '雪花算法id',
-`tenant_id` bigint NOT NULL COMMENT '租户id，t_tenant.id',
-`dict_id` bigint NOT NULL COMMENT '类型ID',
-`dict_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '类型',
-`value` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编码',
-`label` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-`status` bit(1) DEFAULT b'1' COMMENT '状态',
-`color` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '颜色',
-`deleted` bit(1) DEFAULT b'0',
-`description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '描述',
-`sequence` int DEFAULT '1' COMMENT '排序',
-`created_by` bigint DEFAULT '0' COMMENT '创建人id',
-`created_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人名称',
-`created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-`last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-`last_modified_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人名称',
-`last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+CREATE TABLE `t_tenant_dict_item`
+(
+    `id`                 bigint                                                 NOT NULL COMMENT '雪花算法id',
+    `tenant_id`          bigint                                                 NOT NULL COMMENT '租户id，t_tenant.id',
+    `dict_id`            bigint                                                 NOT NULL COMMENT '类型ID',
+    `dict_code`          varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '类型',
+    `value`              varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编码',
+    `label`              varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
+    `status`             bit(1)                                                  DEFAULT b'1' COMMENT '状态',
+    `color`              varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '颜色',
+    `deleted`            bit(1)                                                  DEFAULT b'0',
+    `description`        varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '描述',
+    `sequence`           int                                                     DEFAULT '1' COMMENT '排序',
+    `created_by`         bigint                                                  DEFAULT '0' COMMENT '创建人id',
+    `created_name`       varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人名称',
+    `created_time`       datetime                                                DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modified_by`   bigint                                                  DEFAULT '0' COMMENT '更新人id',
+    `last_modified_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人名称',
+    `last_modified_time` datetime                                                DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb3;
 
 -- ----------------------------
 -- Records of t_tenant_dict_item
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686980638975541249, ${tenant_id}, 1686979951801745410, 'CONTRACT_SEAL_TYPE', 'contractSeal', '合同章', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-08-03 06:01:41', 1, '长风一梦8888', '2023-08-03 06:02:47');
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1686980976612818945, ${tenant_id}, 1686979951801745410, 'CONTRACT_SEAL_TYPE', 'officialSeal', '公章', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-08-03 06:03:02', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636487254986754, ${tenant_id}, 1698634230920761345, 'PAYMENT_TYPE', 'L0104', '退质保金-供应商', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:57:52', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636601793040386, ${tenant_id}, 1698634230920761345, 'PAYMENT_TYPE', 'L010', '预付款', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:58:19', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636716859576322, ${tenant_id}, 1698634230920761345, 'PAYMENT_TYPE', 'L0106', '退供应商履约保证金', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:58:47', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636805413916673, ${tenant_id}, 1698634189967577089, 'PAYMENT_METHOD', '1', '电汇', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:59:08', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1698636835654848514, ${tenant_id}, 1698634189967577089, 'PAYMENT_METHOD', '2', '支票', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-04 09:59:15', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342168325775361, ${tenant_id}, 1699341989447098369, 'TMS_PLATE_COLOR', 'RED', '红色', b'1', 'warning', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:41:59', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342201385279489, ${tenant_id}, 1699341989447098369, 'TMS_PLATE_COLOR', 'BLUE', '蓝色', b'1', 'success', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:42:07', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699342322571304961, ${tenant_id}, 1699341989447098369, 'TMS_PLATE_COLOR', 'YELLOW', '黄色', b'1', 'warning', b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:42:36', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699344187669241858, ${tenant_id}, 1699343995867914241, 'TMS_ENERGY_TYPE', '0', '汽油', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:50:01', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699344223807365121, ${tenant_id}, 1699343995867914241, 'TMS_ENERGY_TYPE', '1', '柴油', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-06 08:50:10', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070437932326913, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'annually_inspect', '年检', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:55:52', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070499823476737, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'annually_review', '年审', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:07', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070552264859650, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'strong_insurance', '强险', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:20', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070643922984961, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'commercial_insurance', '商业险', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:41', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070708079058946, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'gps_fee', 'GPS费用', b'1', NULL, b'0', '', 1, 1, '长风一梦8888', '2023-09-08 08:56:57', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`, `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1727250680726450178, ${tenant_id}, 1727250191221800961, 'STATION_TYPE', 'YB', '外包', b'1', 'success', b'0', '', 1, 1, '长风一梦0000', '2023-11-22 17:00:28', 0, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1686980638975541249, ${tenant_id}, 1686979951801745410, 'CONTRACT_SEAL_TYPE', 'contractSeal', '合同章', b'1', 'success', b'0', '',
+        1, 1, '长风一梦8888', '2023-08-03 06:01:41', 1, '长风一梦8888', '2023-08-03 06:02:47');
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1686980976612818945, ${tenant_id}, 1686979951801745410, 'CONTRACT_SEAL_TYPE', 'officialSeal', '公章', b'1', 'success', b'0', '', 1,
+        1, '长风一梦8888', '2023-08-03 06:03:02', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1698636487254986754, ${tenant_id}, 1698634230920761345, 'PAYMENT_TYPE', 'L0104', '退质保金-供应商', b'1', 'success', b'0', '', 1, 1,
+        '长风一梦8888', '2023-09-04 09:57:52', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1698636601793040386, ${tenant_id}, 1698634230920761345, 'PAYMENT_TYPE', 'L010', '预付款', b'1', 'success', b'0', '', 1, 1,
+        '长风一梦8888', '2023-09-04 09:58:19', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1698636716859576322, ${tenant_id}, 1698634230920761345, 'PAYMENT_TYPE', 'L0106', '退供应商履约保证金', b'1', 'success', b'0', '', 1,
+        1, '长风一梦8888', '2023-09-04 09:58:47', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1698636805413916673, ${tenant_id}, 1698634189967577089, 'PAYMENT_METHOD', '1', '电汇', b'1', 'success', b'0', '', 1, 1,
+        '长风一梦8888', '2023-09-04 09:59:08', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1698636835654848514, ${tenant_id}, 1698634189967577089, 'PAYMENT_METHOD', '2', '支票', b'1', 'success', b'0', '', 1, 1,
+        '长风一梦8888', '2023-09-04 09:59:15', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1699342168325775361, ${tenant_id}, 1699341989447098369, 'TMS_PLATE_COLOR', 'RED', '红色', b'1', 'warning', b'0', '', 1, 1,
+        '长风一梦8888', '2023-09-06 08:41:59', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1699342201385279489, ${tenant_id}, 1699341989447098369, 'TMS_PLATE_COLOR', 'BLUE', '蓝色', b'1', 'success', b'0', '', 1, 1,
+        '长风一梦8888', '2023-09-06 08:42:07', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1699342322571304961, ${tenant_id}, 1699341989447098369, 'TMS_PLATE_COLOR', 'YELLOW', '黄色', b'1', 'warning', b'0', '', 1, 1,
+        '长风一梦8888', '2023-09-06 08:42:36', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1699344187669241858, ${tenant_id}, 1699343995867914241, 'TMS_ENERGY_TYPE', '0', '汽油', b'1', NULL, b'0', '', 1, 1, '长风一梦8888',
+        '2023-09-06 08:50:01', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1699344223807365121, ${tenant_id}, 1699343995867914241, 'TMS_ENERGY_TYPE', '1', '柴油', b'1', NULL, b'0', '', 1, 1, '长风一梦8888',
+        '2023-09-06 08:50:10', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1700070437932326913, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'annually_inspect', '年检', b'1', NULL, b'0', '', 1, 1,
+        '长风一梦8888', '2023-09-08 08:55:52', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1700070499823476737, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'annually_review', '年审', b'1', NULL, b'0', '', 1, 1,
+        '长风一梦8888', '2023-09-08 08:56:07', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1700070552264859650, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'strong_insurance', '强险', b'1', NULL, b'0', '', 1, 1,
+        '长风一梦8888', '2023-09-08 08:56:20', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1700070643922984961, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'commercial_insurance', '商业险', b'1', NULL, b'0', '',
+        1, 1, '长风一梦8888', '2023-09-08 08:56:41', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1700070708079058946, ${tenant_id}, 1700070256599982081, 'TMS_EXPENSE_ITEM', 'gps_fee', 'GPS费用', b'1', NULL, b'0', '', 1, 1,
+        '长风一梦8888', '2023-09-08 08:56:57', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict_item` (`id`, `tenant_id`, `dict_id`, `dict_code`, `value`, `label`, `status`, `color`, `deleted`, `description`,
+                                  `sequence`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`,
+                                  `last_modified_time`)
+VALUES (1727250680726450178, ${tenant_id}, 1727250191221800961, 'STATION_TYPE', 'YB', '外包', b'1', 'success', b'0', '', 1, 1,
+        '长风一梦0000', '2023-11-22 17:00:28', 0, NULL, NULL);
 COMMIT;
 
 
@@ -598,14 +963,17 @@ COMMIT;
 -- Table structure for sys_data_permission_resource
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_data_permission_resource`;
-CREATE TABLE `sys_data_permission_resource` (
-    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `owner_id` bigint NOT NULL COMMENT '拥有者',
-    `owner_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '拥有类型（角色，用户）',
-    `data_id` bigint NOT NULL COMMENT '数据ID',
-    `data_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '数据类型（机构、角色、租户等等）',
-    `created_by` bigint DEFAULT NULL COMMENT '创建人id',
+CREATE TABLE `sys_data_permission_resource`
+(
+    `id`           bigint                                                 NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `owner_id`     bigint                                                 NOT NULL COMMENT '拥有者',
+    `owner_type`   varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin  NOT NULL COMMENT '拥有类型（角色，用户）',
+    `data_id`      bigint                                                 NOT NULL COMMENT '数据ID',
+    `data_type`    varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '数据类型（机构、角色、租户等等）',
+    `created_by`   bigint                                                 DEFAULT NULL COMMENT '创建人id',
     `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `created_time` datetime                                               DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='数据权限资源表';
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_bin COMMENT ='数据权限资源表';

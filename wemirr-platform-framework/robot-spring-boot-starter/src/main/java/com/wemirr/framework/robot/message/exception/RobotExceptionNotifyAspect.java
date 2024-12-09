@@ -36,16 +36,16 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 @RequiredArgsConstructor
 public class RobotExceptionNotifyAspect {
-    
+
     private final IRobotExceptionMessage sendException;
-    
+
     /**
      * 切入点配置
      */
     @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
     public void pointcut() {
     }
-    
+
     /**
      * 切点方法执行异常调用
      *

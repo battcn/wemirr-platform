@@ -74,6 +74,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public Result<ResponseEntity<Void>> handlerException(MultipartException e) {
         return Result.fail(i18nMessageResource.getMessage("global.exception.file-too-large"));
     }
+
     @ResponseBody
     @ExceptionHandler(value = CheckedException.class)
     public Result<ResponseEntity<Void>> handlerException(CheckedException e) {

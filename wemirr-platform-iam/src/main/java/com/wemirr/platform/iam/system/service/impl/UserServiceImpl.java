@@ -86,6 +86,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     private final RoleMapper roleMapper;
     private final TenantMapper tenantMapper;
     private final DataScopeService dataScopeService;
+    private final SaTokenDao saTokenDao;
 
     @Override
     public void create(UserSaveReq req) {
@@ -98,7 +99,6 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         bean.setTenantId(context.tenantId());
         this.baseMapper.insert(bean);
     }
-
 
     @Override
     @DiffLog(group = "用户管理", tag = "编辑用户", businessKey = "{{#id}}",
@@ -208,9 +208,6 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         info.setDataPermission(dataScopeService.getDataScopeById(user.getId()));
         return info;
     }
-
-
-    private final SaTokenDao saTokenDao;
 
     @Override
     public IPage<Object> userOnlineList(UserOnlinePageReq req) {

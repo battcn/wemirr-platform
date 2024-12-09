@@ -35,7 +35,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DynamicReleaseDragPushServerResp {
-    
+
     private Long id;
     private String method;
     private String url;
@@ -44,5 +44,5 @@ public class DynamicReleaseDragPushServerResp {
     private Boolean locked;
     @Schema(description = "创建时间")
     private Instant createdTime;
-    
+
 }

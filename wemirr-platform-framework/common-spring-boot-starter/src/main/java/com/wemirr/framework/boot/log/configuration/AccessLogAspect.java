@@ -76,13 +76,13 @@ public class AccessLogAspect {
     private static final int MAX_LENGTH = 65535;
     private static final TransmittableThreadLocal<AccessLogInfo> THREAD_LOCAL = new TransmittableThreadLocal<>();
     private static final String USER_AGENT = "User-Agent";
+    private static final int WARNING_LENGTH = 65535;
     @Resource
     private ApplicationContext applicationContext;
     @Resource
     private DatabaseProperties databaseProperties;
     @Resource
     private AbstractLogHandler abstractLogHandler;
-
     @Resource
     private AccessLogProperties accessLogProperties;
 
@@ -183,8 +183,6 @@ public class AccessLogAspect {
         }
         return val;
     }
-
-    private static final int WARNING_LENGTH = 65535;
 
     @Before(value = "accessLogAspect()")
     public void recordLog(JoinPoint joinPoint) {

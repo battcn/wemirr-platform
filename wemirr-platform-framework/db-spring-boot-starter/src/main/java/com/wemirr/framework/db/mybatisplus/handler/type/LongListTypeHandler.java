@@ -39,31 +39,31 @@ import java.util.List;
  */
 @MappedTypes(value = {List.class})
 public class LongListTypeHandler extends BaseTypeHandler<List<?>> {
-    
+
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, List<?> parameter, JdbcType jdbcType) throws SQLException {
         ps.setString(i, StrUtil.join(StrUtil.COMMA, parameter));
     }
-    
+
     @Override
     @SneakyThrows
     public List<?> getNullableResult(ResultSet rs, String columnName) {
         String reString = rs.getString(columnName);
         return Convert.toList(Object.class, reString);
     }
-    
+
     @Override
     @SneakyThrows
     public List<?> getNullableResult(ResultSet rs, int columnIndex) {
         String reString = rs.getString(columnIndex);
         return Convert.toList(Object.class, reString);
     }
-    
+
     @Override
     @SneakyThrows
     public List<?> getNullableResult(CallableStatement cs, int columnIndex) {
         String reString = cs.getString(columnIndex);
         return Convert.toList(Object.class, reString);
     }
-    
+
 }

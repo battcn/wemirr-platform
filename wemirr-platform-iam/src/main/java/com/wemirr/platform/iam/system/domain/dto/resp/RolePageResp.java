@@ -57,8 +57,8 @@ public class RolePageResp {
 
     @Schema(description = "权限范围")
     private DataScopeType scopeType;
-    
+
     @Schema(description = "创建时间")
     private Instant createdTime;
-    
+
 }

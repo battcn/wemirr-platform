@@ -25,8 +25,8 @@ import lombok.Data;
  */
 @Data
 public class SchemaTableColumn {
-    
+
     private String columnName;
     private String columnType;
-    
+
 }

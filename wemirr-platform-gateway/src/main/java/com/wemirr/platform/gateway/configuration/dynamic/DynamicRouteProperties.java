@@ -15,12 +15,6 @@ public class DynamicRouteProperties {
 
     private DynamicRoute dynamicRoute;
 
-    @Data
-    public static class DynamicRoute {
-        private Boolean enabled = false;
-        private DataType type = DataType.redis;
-    }
-
     @AllArgsConstructor
     @NoArgsConstructor
     @Getter
@@ -35,6 +29,12 @@ public class DynamicRouteProperties {
         nacos;
         private String desc;
 
+    }
+
+    @Data
+    public static class DynamicRoute {
+        private Boolean enabled = false;
+        private DataType type = DataType.redis;
     }
 
 

@@ -43,17 +43,17 @@ import static com.wemirr.framework.storage.StorageOperation.OSS_CONFIG_PREFIX_AL
 @EnableConfigurationProperties(AliYunStorageProperties.class)
 @ConditionalOnProperty(prefix = OSS_CONFIG_PREFIX_ALIYUN, name = "enabled", havingValue = "true")
 public class AliYunOssAutoConfiguration {
-    
+
     @Bean(destroyMethod = "shutdown")
     public OSS ossClient(AliYunStorageProperties properties) {
         return new OSSClientBuilder().build(properties.getEndpoint(), properties.getAccessKey(), properties.getSecretKey());
     }
-    
+
     @Bean(ALI_YUN_STORAGE_OPERATION)
     public AliYunStorageOperation aliYunStorageOperation(OSS ossClient, AliYunStorageProperties properties) {
         return new AliYunStorageOperation(ossClient, properties);
     }
-    
+
     @Bean
     public OssEndpoint aliYunOssEndpoint() {
         return new OssEndpoint();

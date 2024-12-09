@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-dependencies</artifactId>
@@ -7,7 +8,7 @@
     <packaging>pom</packaging>
     <name>wemirr-platform-dependencies</name>
     <description>wemirr 平台包版本管理</description>
-    
+
     <properties>
         <!-- 打包跳过单元测试 -->
         <skipTests>true</skipTests>
@@ -23,7 +24,7 @@
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-checkstyle-plugin.version>3.2.1</maven-checkstyle-plugin.version>
         <spotless-maven-plugin.version>2.22.1</spotless-maven-plugin.version>
-        
+
         <!-- Spring Boot 相关 版本-->
         <spring-boot-admin.version>3.3.6</spring-boot-admin.version>
         <spring-boot.version>3.3.6</spring-boot.version>
@@ -52,7 +53,7 @@
         <wemirr-framework.version>3.0.0-SNAPSHOT</wemirr-framework.version>
         <jakarta-validation.version>3.1.0</jakarta-validation.version>
     </properties>
-    
+
     <dependencyManagement>
         <dependencies>
             <!-- 暂时未集成,存在BUG -->
@@ -110,7 +111,7 @@
                 <version>${qiniu-java-sdk.version}</version>
             </dependency>
             <!-- 七牛云存储结束 -->
-            
+
             <!-- 腾讯云存储开始 -->
             <dependency>
                 <groupId>com.qcloud</groupId>
@@ -303,7 +304,7 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-    
+
     <!-- 资源文件拷贝插件 -->
     <build>
         <resources>
@@ -319,7 +320,7 @@
                 </includes>
             </resource>
         </resources>
-        
+
         <plugins>
             <!-- 资源文件拷贝插件 -->
             <plugin>
@@ -355,7 +356,7 @@
                     <parameters>true</parameters>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
@@ -407,5 +408,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>

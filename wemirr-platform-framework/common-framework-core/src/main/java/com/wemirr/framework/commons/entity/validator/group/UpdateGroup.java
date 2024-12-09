@@ -26,5 +26,5 @@ package com.wemirr.framework.commons.entity.validator.group;
  */
 
 public interface UpdateGroup {
-    
+
 }

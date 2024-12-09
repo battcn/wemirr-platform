@@ -32,9 +32,9 @@ import java.util.Map;
  */
 @SuppressWarnings("all")
 public class IntegerCodeToEnumConverterFactory implements ConverterFactory<Integer, DictEnum> {
-    
+
     private static final Map<Class, Converter> CONVERTERS = Maps.newHashMap();
-    
+
     /**
      * 获取一个从 Integer 转化为 T 的转换器，T 是一个泛型，有多个实现
      *
@@ -50,18 +50,18 @@ public class IntegerCodeToEnumConverterFactory implements ConverterFactory<Integ
         }
         return converter;
     }
-    
+
     public static class IntegerToEnumConverter<T extends DictEnum> implements Converter<Integer, T> {
-        
+
         private Map<Integer, T> enumMap = Maps.newHashMap();
-        
+
         public IntegerToEnumConverter(Class<T> enumType) {
             T[] enums = enumType.getEnumConstants();
             for (T e : enums) {
                 enumMap.put((Integer) e.getValue(), e);
             }
         }
-        
+
         @Override
         public T convert(Integer source) {
             T t = enumMap.get(source);
@@ -71,5 +71,5 @@ public class IntegerCodeToEnumConverterFactory implements ConverterFactory<Integ
             return t;
         }
     }
-    
+
 }

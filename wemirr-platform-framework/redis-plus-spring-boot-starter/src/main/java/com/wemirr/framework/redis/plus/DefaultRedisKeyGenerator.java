@@ -38,7 +38,7 @@ import java.lang.reflect.Parameter;
  * @author Levin
  */
 public class DefaultRedisKeyGenerator implements RedisKeyGenerator {
-    
+
     @Override
     public String generate(String prefix, String delimiter, ProceedingJoinPoint pjp) {
         MethodSignature signature = (MethodSignature) pjp.getSignature();

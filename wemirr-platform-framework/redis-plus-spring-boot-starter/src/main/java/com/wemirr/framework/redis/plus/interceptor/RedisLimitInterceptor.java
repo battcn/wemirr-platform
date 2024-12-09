@@ -42,13 +42,13 @@ import java.lang.reflect.Method;
 @Aspect
 @RequiredArgsConstructor
 public class RedisLimitInterceptor {
-    
+
     private final RedisLimitHelper redisLimitHelper;
-    
+
     @Pointcut("@annotation(com.wemirr.framework.redis.plus.anontation.RedisLimit)")
     public void redissonRateAspectPointcut() {
     }
-    
+
     /**
      * 切面处理redisson限流器
      *
@@ -76,5 +76,5 @@ public class RedisLimitInterceptor {
         }
         return null;
     }
-    
+
 }

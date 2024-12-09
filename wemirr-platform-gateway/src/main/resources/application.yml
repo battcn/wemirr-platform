@@ -62,11 +62,11 @@ spring:
                 loginUrl: '/oauth2/token'
                 # 要 16 位
                 encodeKey: 'we-wemirr-groups'
-#            - name: BlackWhiteList
-#              args:
-#                type: BLACK_LIST
-#                ip-list: 127.0.0.1,0:0:0:0:0:0:0:1
-#                ignore-intranet: true
+            #            - name: BlackWhiteList
+            #              args:
+            #                type: BLACK_LIST
+            #                ip-list: 127.0.0.1,0:0:0:0:0:0:0:1
+            #                ignore-intranet: true
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter.replenishRate: 100   # 允许用户每秒处理多少个请求

@@ -32,13 +32,13 @@ import java.util.concurrent.TimeUnit;
  */
 @RequiredArgsConstructor
 public class RedisLimitHelper {
-    
+
     private final RedissonClient redissonClient;
-    
+
     public boolean tryAcquire(String rateKey, long permits, long timeout, RateType type) {
         return tryAcquire(rateKey, permits, timeout, TimeUnit.SECONDS, type, 0);
     }
-    
+
     /**
      * 直接使用redisson限流器
      * 参考:https://github.com/redisson/redisson/wiki
@@ -79,5 +79,5 @@ public class RedisLimitHelper {
                 return rateLimiter.tryAcquire(1, retryTimes, TimeUnit.SECONDS);
         }
     }
-    
+
 }
