@@ -92,7 +92,7 @@ public class AuthenticationContextConfiguration {
             @Override
             public boolean anonymous() {
                 try {
-                    return StpUtil.isLogin();
+                    return !StpUtil.isLogin();
                 } catch (Exception e) {
                     return true;
                 }
