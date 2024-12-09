@@ -46,18 +46,11 @@ public class QiNiuOssClientConnectionFactory implements QiNiuConnectionFactory {
     }
 
     private Configuration configuration() {
-        Region region;
-        switch (qiNiuStorageProperties.getRegion()) {
-            case region1:
-                region = Region.region1();
-                break;
-            case region2:
-                region = Region.region2();
-                break;
-            default:
-                region = Region.region0();
-                break;
-        }
+        Region region = switch (qiNiuStorageProperties.getRegion()) {
+            case region1 -> Region.region1();
+            case region2 -> Region.region2();
+            default -> Region.region0();
+        };
         return new Configuration(region);
     }
 

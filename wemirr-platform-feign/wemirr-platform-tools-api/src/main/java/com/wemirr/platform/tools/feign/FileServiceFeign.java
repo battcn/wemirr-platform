@@ -1,4 +1,4 @@
-package com.wemirr.platform.iam.feign;
+package com.wemirr.platform.tools.feign;
 
 import com.wemirr.framework.commons.FeignConstants;
 import com.wemirr.framework.commons.entity.Result;

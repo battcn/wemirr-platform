@@ -17,13 +17,10 @@ public class DiffLogConfigureSelector extends AdviceModeImportSelector<EnableDif
     @Override
     @Nullable
     public String[] selectImports(AdviceMode adviceMode) {
-        switch (adviceMode) {
-            case PROXY:
-                return new String[]{AutoProxyRegistrar.class.getName(), DiffLogProxyAutoConfiguration.class.getName()};
-            case ASPECTJ:
-                return new String[]{DiffLogProxyAutoConfiguration.class.getName()};
-            default:
-                return null;
-        }
+        return switch (adviceMode) {
+            case PROXY -> new String[]{AutoProxyRegistrar.class.getName(), DiffLogProxyAutoConfiguration.class.getName()};
+            case ASPECTJ -> new String[]{DiffLogProxyAutoConfiguration.class.getName()};
+            default -> null;
+        };
     }
 }

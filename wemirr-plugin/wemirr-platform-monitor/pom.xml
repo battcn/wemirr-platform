@@ -7,7 +7,6 @@
         <artifactId>wemirr-platform-dependencies</artifactId>
         <version>3.0.0-SNAPSHOT</version>
     </parent>
-    <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-monitor</artifactId>
     <version>3.0.0-SNAPSHOT</version>
     <name>wemirr-platform-monitor</name>
@@ -68,15 +67,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                            <goal>build-info</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <mainClass>com.wemirr.platform.monitor.MonitorApplication</mainClass>
                 </configuration>

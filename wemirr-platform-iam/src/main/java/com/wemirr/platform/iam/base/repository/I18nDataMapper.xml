@@ -13,17 +13,6 @@
         </collection>
     </resultMap>
 
-
-    <select id="pageList" resultMap="i18nResultMap">
-        SELECT code,
-               remark,
-               created_name,
-               created_time,
-               locale,
-               message
-        FROM c_i18n_data
-    </select>
-
     <select id="loadI18nMessage" resultType="com.wemirr.framework.i18n.domain.I18nMessage">
         SELECT t1.code,
                t1.tenant_id,

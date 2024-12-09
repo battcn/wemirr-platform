@@ -18,16 +18,17 @@ public class DefaultHandlerAbstract extends AbstractLogHandler {
     @Override
     public AccessLogInfo handler(AccessLogInfo info) {
         if (info.getStatus()) {
-            log.info("\n----------------------------全局日志开始----------------------------\n\t" +
-                            "租户ID - {} - 用户ID - {} - 用户名称 - {}\n\t" +
-                            "令牌 - {} \n\t" +
-                            "方法 - {} - 地址 - {} \n\t" +
-                            "参数 - {} \n\t" +
-                            "返回 - {} \n\t" +
-                            "异常 - {} \n\t" +
-                            "耗时 - {} \n" +
-                            "----------------------------全局日志结束----------------------------",
-                    info.getTrace(),
+            log.info("""
+
+                            ----------------------------全局日志开始----------------------------
+                            \t租户ID - {} - 用户ID - {} - 用户名称 - {}
+                            \t令牌 - {}\s
+                            \t方法 - {} - 地址 - {}\s
+                            \t参数 - {}\s
+                            \t返回 - {}\s
+                            \t异常 - {}\s
+                            \t耗时 - {}\s
+                            ----------------------------全局日志结束----------------------------""",
                     info.getTenantId(), info.getCreatedBy(), info.getCreatedName(),
                     info.getToken(),
                     info.getAction(), info.getUri(),
@@ -36,16 +37,17 @@ public class DefaultHandlerAbstract extends AbstractLogHandler {
                     info.getMessage(),
                     info.getConsumingTime());
         } else {
-            log.error("\n----------------------------全局日志开始----------------------------\n\t" +
-                            "租户ID - {} - 用户ID - {} - 用户名称 - {}\n\t" +
-                            "令牌 - {} \n\t" +
-                            "方法 - {} - 地址 - {} \n\t" +
-                            "参数 - {} \n\t" +
-                            "返回 - {} \n\t" +
-                            "异常 - {} \n\t" +
-                            "耗时 - {} \n" +
-                            "----------------------------全局日志结束----------------------------",
-                    info.getTrace(),
+            log.error("""
+
+                            ----------------------------全局日志开始----------------------------
+                            \t租户ID - {} - 用户ID - {} - 用户名称 - {}
+                            \t令牌 - {}\s
+                            \t方法 - {} - 地址 - {}\s
+                            \t参数 - {}\s
+                            \t返回 - {}\s
+                            \t异常 - {}\s
+                            \t耗时 - {}\s
+                            ----------------------------全局日志结束----------------------------""",
                     info.getTenantId(), info.getCreatedBy(), info.getCreatedName(),
                     info.getToken(),
                     info.getAction(), info.getUri(),

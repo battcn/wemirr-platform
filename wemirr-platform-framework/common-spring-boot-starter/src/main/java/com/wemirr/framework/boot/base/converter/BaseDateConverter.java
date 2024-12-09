@@ -46,7 +46,7 @@ public abstract class BaseDateConverter<T> {
     }
 
     /**
-     * 获取子类 具体的格式化表达式
+     * 格式化表达式
      *
      * @return Map<String, String>
      */
