@@ -23,13 +23,14 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.commons.security.DataResourceType;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceQueryReq;
-import com.wemirr.platform.iam.system.domain.dto.req.RoleReq;
+import com.wemirr.platform.iam.system.domain.dto.req.RoleSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.RolePermissionResp;
 import com.wemirr.platform.iam.system.domain.dto.resp.VueRouter;
 import com.wemirr.platform.iam.system.domain.entity.DataPermissionResource;
@@ -73,7 +74,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     }
 
     @Override
-    @DSTransactional
+    @DSTransactional(rollbackFor = Exception.class)
     public void removeByRoleId(Long roleId) {
         final Role role = Optional.ofNullable(baseMapper.selectById(roleId)).orElseThrow(() -> CheckedException.notFound("角色不存在"));
         if (role.getReadonly()) {
@@ -91,42 +92,47 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     }
 
     @Override
-    public void saveRole(Long userId, RoleReq req) {
+    @DSTransactional(rollbackFor = Exception.class)
+    public void create(RoleSaveReq req) {
         Role role = BeanUtil.toBean(req, Role.class);
         role.setReadonly(false);
         super.save(role);
-        saveRoleOrgDataPermission(role.getId(), req.getOrgList());
+        addDataPermission(role.getId(), req.getOrgList());
     }
 
     @Override
     @DSTransactional(rollbackFor = Exception.class)
-    public void updateRole(Long roleId, Long userId, RoleReq req) {
-        Role role = BeanUtil.toBean(req, Role.class);
+    public void modify(Long roleId, RoleSaveReq req) {
+        Role role = Optional.ofNullable(this.baseMapper.selectById(roleId)).orElseThrow(() -> CheckedException.notFound("角色不存在"));
         if (role.getReadonly() != null && role.getReadonly()) {
             throw CheckedException.badRequest("内置角色无法编辑");
         }
         if (role.getSuperRole() != null && role.getSuperRole()) {
             throw CheckedException.badRequest("超级角色无法编辑");
         }
-        role.setId(roleId);
-        this.baseMapper.updateById(role);
-        saveRoleOrgDataPermission(role.getId(), req.getOrgList());
+        final long count = this.baseMapper.selectCount(Wraps.<Role>lbQ().ne(Role::getId, roleId).eq(Role::getCode, req.getCode()));
+        if (count > 0) {
+            throw CheckedException.badRequest("角色编码已存在");
+        }
+        var bean = BeanUtilPlus.toBean(roleId, req, Role.class);
+        this.baseMapper.updateById(bean);
+        addDataPermission(role.getId(), req.getOrgList());
     }
 
     @Override
-    @DSTransactional
-    public void saveUserRole(Long roleId, List<Long> userIdList) {
+    @DSTransactional(rollbackFor = Exception.class)
+    public void assignUser(Long roleId, List<Long> userIdList) {
         this.userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId));
         if (CollUtil.isEmpty(userIdList)) {
             return;
         }
-        final List<UserRole> userRoles = userIdList.stream().map(userId -> UserRole.builder()
-                        .roleId(roleId).userId(userId).build())
+        final List<UserRole> userRoles = userIdList.stream()
+                .map(userId -> UserRole.builder().roleId(roleId).userId(userId).build())
                 .toList();
         this.userRoleMapper.insertBatchSomeColumn(userRoles);
     }
 
-    private void saveRoleOrgDataPermission(Long roleId, List<Long> orgList) {
+    private void addDataPermission(Long roleId, List<Long> orgList) {
         dataPermissionResourceMapper.delete(Wraps.<DataPermissionResource>lbQ()
                 .eq(DataPermissionResource::getOwnerId, roleId)
                 .eq(DataPermissionResource::getOwnerType, DataResourceType.ROLE)

@@ -34,7 +34,6 @@ import com.wemirr.platform.iam.tenant.domain.dto.resp.TenantDatasourceResp;
 import com.wemirr.platform.iam.tenant.domain.dto.resp.TenantPageResp;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
 import com.wemirr.platform.iam.tenant.service.TenantDatasourceService;
-import com.wemirr.platform.iam.tenant.service.TenantDictService;
 import com.wemirr.platform.iam.tenant.service.TenantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -99,7 +98,7 @@ public class TenantController {
     @PutMapping("/{id}/config")
     @AccessLog(description = "配置租户")
     @Operation(summary = "配置租户")
-    @SaCheckPermission(value = {"tenant:config"})
+    @SaCheckPermission(value = {"tenant:db-config"})
     public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq req) {
         tenantService.tenantConfig(id, req);
     }
@@ -107,7 +106,7 @@ public class TenantController {
     @PutMapping("/{id}/init_sql_script")
     @AccessLog(description = "加载初始数据")
     @Operation(summary = "加载初始数据")
-    @RedisLock(prefix = "tenants:init_sql_script")
+    @RedisLock(prefix = "tenant:init-script")
     public void initSqlScript(@RedisParam(name = "id") @PathVariable Long id) {
         tenantService.initSqlScript(id);
     }
@@ -123,7 +122,7 @@ public class TenantController {
     @PutMapping("/{id}/refresh-dict")
     @AccessLog(description = "字典刷新")
     @Operation(summary = "字典刷新")
-//    @SaCheckPermission(value = {"tenant:refresh-dict"})
+    @SaCheckPermission(value = {"tenant:refresh-dict"})
     public void refreshTenantDict(@PathVariable Long id) {
         tenantService.refreshTenantDict(id);
     }

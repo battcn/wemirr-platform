@@ -33,7 +33,7 @@ import java.io.Serializable;
  * @author Levin
  */
 @Data
-@Schema(name = "UserUpdateReq", description = "用户")
+@Schema(name = "UserUpdateReq", description = "用户编辑DTO")
 public class UserUpdateReq implements Serializable {
 
     @Schema(description = "姓名")

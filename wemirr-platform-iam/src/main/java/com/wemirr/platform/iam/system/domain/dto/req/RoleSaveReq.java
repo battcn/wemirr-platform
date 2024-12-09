@@ -19,39 +19,49 @@
 
 package com.wemirr.platform.iam.system.domain.dto.req;
 
+import com.wemirr.framework.commons.security.DataScopeType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
 /**
- * <p>
- * 实体类
- * 角色的资源
- * </p>
+ * 保存角色对象
  *
  * @author Levin
- * @since 2019-07-27
  */
 @Data
-@Schema(name = "RoleUserReq", description = "角色的资源")
-public class RoleUserReq {
-    
-    /**
-     * 用户ID
-     */
-    @Schema(description = "用户ID")
-    @NotEmpty(message = "分配用户不能为空")
-    @Size(min = 1, message = "至少勾选 {min} 条数据")
-    private List<Long> userIdList;
-    /**
-     * 角色id
-     */
-    @Schema(description = "角色id")
-    @NotNull(message = "角色id不能为空")
-    private Long roleId;
-    
+@Schema(name = "RoleSaveReq")
+public class RoleSaveReq {
+
+
+    @Schema(description = "角色名称")
+    @NotEmpty(message = "角色名称不能为空")
+    @Length(max = 30, message = "角色名称长度不能超过30")
+    private String name;
+
+    @Schema(description = "角色编码")
+    @Length(max = 20, message = "角色编码长度不能超过20")
+    private String code;
+
+    @Schema(description = "描述")
+    @Length(max = 100, message = "描述长度不能超过100")
+    private String description;
+
+    @NotNull(message = "角色状态不能为空")
+    @Schema(description = "状态")
+    private Boolean status;
+
+    @Schema(description = "内置角色")
+    private Boolean readonly;
+
+    @Schema(description = "数据权限类型")
+    @NotNull(message = "数据权限类型不能为空")
+    private DataScopeType scopeType;
+
+    @Schema(description = "关联的组织id")
+    private List<Long> orgList;
 }

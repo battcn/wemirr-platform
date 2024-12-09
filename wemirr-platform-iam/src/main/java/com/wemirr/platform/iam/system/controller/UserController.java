@@ -91,8 +91,8 @@ public class UserController {
     @AccessLog(description = "添加用户")
     @Operation(summary = "添加用户")
     @SaCheckPermission(value = {"sys:user:add"})
-    public void save(@Validated @RequestBody UserSaveReq req) {
-        this.userService.addUser(req);
+    public void create(@Validated @RequestBody UserSaveReq req) {
+        this.userService.create(req);
     }
 
     @PutMapping("/{id}")

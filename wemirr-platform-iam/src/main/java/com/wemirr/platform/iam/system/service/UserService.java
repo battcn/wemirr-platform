@@ -46,7 +46,7 @@ public interface UserService extends SuperService<User> {
      *
      * @param req 用户信息
      */
-    void addUser(UserSaveReq req);
+    void create(UserSaveReq req);
 
 
     /**

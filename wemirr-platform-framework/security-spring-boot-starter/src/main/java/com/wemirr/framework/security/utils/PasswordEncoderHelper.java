@@ -33,6 +33,9 @@ public final class PasswordEncoderHelper {
     public static boolean matches(String rawPassword, String encodedPassword) {
         String encodingId = StrUtil.subBetween(encodedPassword, DEFAULT_ID_PREFIX, DEFAULT_ID_SUFFIX);
         String actualPassword = StrUtil.removePrefix(encodedPassword, DEFAULT_ID_PREFIX + encodingId + DEFAULT_ID_SUFFIX);
+        if (encodingId == null) {
+            return rawPassword.equals(actualPassword);
+        }
         return switch (encodingId) {
             case "bcrypt" -> BCrypt.checkpw(rawPassword, actualPassword);
             case "md5" -> SaSecureUtil.md5(rawPassword).equals(actualPassword);

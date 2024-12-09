@@ -19,6 +19,7 @@
 
 package com.wemirr.platform.iam.base.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.entity.Dict;
@@ -56,7 +57,7 @@ public class DictController {
 
     @GetMapping("/list")
     @Operation(summary = "字典列表 - [DONE] - [Levin]", description = "查询字典列表 - [DONE] - [Levin]")
-    //@SaCheckPermission(value = {"dict:list"})
+    @SaCheckPermission(value = {"dict:list"})
     public List<SysDictResp> list() {
         List<SysDict> list = this.dictService.list(Wraps.<SysDict>lbQ().eq(SysDict::getStatus, true));
         return BeanUtilPlus.toBeans(list, SysDictResp.class);
@@ -65,7 +66,7 @@ public class DictController {
     @PostMapping("/refresh")
     @AccessLog(description = "刷新字典")
     @Operation(summary = "刷新字典 - [DONE] - [Levin]", description = "刷新字典缓存数据 - [DONE] - [Levin]")
-    //@SaCheckPermission(value = {"dict:refresh"})
+    @SaCheckPermission(value = {"dict:refresh"})
     public void refresh() {
         this.dictService.refresh();
     }
@@ -73,7 +74,7 @@ public class DictController {
     @PostMapping("/create")
     @AccessLog(description = "字典新增")
     @Operation(summary = "新增字典 - [DONE] - [Levin]", description = "新增字典 - [DONE] - [Levin]")
-    //@SaCheckPermission(value = {"dict:add"})
+    @SaCheckPermission(value = {"dict:add"})
     public void create(@Validated @RequestBody DictSaveReq req) {
         this.dictService.create(req);
     }
@@ -81,7 +82,7 @@ public class DictController {
     @PutMapping("/{id}")
     @AccessLog(description = "字典编辑")
     @Operation(summary = "编辑字典 - [DONE] - [Levin]", description = "编辑字典 - [DONE] - [Levin]")
-    //@SaCheckPermission(value = {"dict:edit"})
+    @SaCheckPermission(value = {"dict:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody DictSaveReq req) {
         this.dictService.modify(id, req);
     }
@@ -89,8 +90,8 @@ public class DictController {
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除指定字典项")
     @Operation(summary = "删除字典 - [DONE] - [Levin]", description = "删除字典 - [DONE] - [Levin]")
-    //@SaCheckPermission(value = {"dict:remove"})
-    public void del(@PathVariable Long id) {
+    @SaCheckPermission(value = {"dict:remove"})
+    public void remove(@PathVariable Long id) {
         this.dictService.deleteById(id);
     }
 

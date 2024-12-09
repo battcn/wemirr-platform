@@ -64,14 +64,14 @@ public class DictItemController {
     @PostMapping
     @Operation(summary = "添加字典子项", description = "添加字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH)
-    public void save(@PathVariable("dict_id") Long dictId, @Validated @RequestBody DictItemSaveReq req) {
+    public void create(@PathVariable("dict_id") Long dictId, @Validated @RequestBody DictItemSaveReq req) {
         this.dictItemService.create(dictId, req);
     }
 
     @PutMapping("/{item_id}")
     @Operation(summary = "编辑字典子项 - [DONE] - [Levin]", description = "编辑字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH)
-    public void edit(@PathVariable("dict_id") Long dictId, @PathVariable("item_id") Long itemId, @Validated @RequestBody DictItemSaveReq req) {
+    public void modify(@PathVariable("dict_id") Long dictId, @PathVariable("item_id") Long itemId, @Validated @RequestBody DictItemSaveReq req) {
         this.dictItemService.modify(dictId, itemId, req);
 
     }

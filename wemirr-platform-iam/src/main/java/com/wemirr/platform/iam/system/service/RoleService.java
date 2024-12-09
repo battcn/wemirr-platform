@@ -20,7 +20,7 @@
 package com.wemirr.platform.iam.system.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.iam.system.domain.dto.req.RoleReq;
+import com.wemirr.platform.iam.system.domain.dto.req.RoleSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.RolePermissionResp;
 import com.wemirr.platform.iam.system.domain.entity.Role;
 
@@ -36,47 +36,44 @@ import java.util.List;
  * @since 2019-07-03
  */
 public interface RoleService extends SuperService<Role> {
-    
+
     /**
      * 根据 scope 查询角色
      *
      * @return 查询结果
      */
     List<Role> list();
-    
+
     /**
      * 根据角色ID移除
      *
      * @param roleId roleId
      */
     void removeByRoleId(Long roleId);
-    
+
     /**
      * 1，保存角色
-     * 2，保存 与组织的关系
      *
-     * @param req    req
-     * @param userId 用户id
+     * @param req req
      */
-    void saveRole(Long userId, RoleReq req);
-    
+    void create(RoleSaveReq req);
+
     /**
      * 修改角色
      *
-     * @param req    req
-     * @param userId userId
      * @param roleId 角色ID
+     * @param req    req
      */
-    void updateRole(Long roleId, Long userId, RoleReq req);
-    
+    void modify(Long roleId, RoleSaveReq req);
+
     /**
      * 给角色分配用户
      *
      * @param roleId     roleId
      * @param userIdList userIdList
      */
-    void saveUserRole(Long roleId, List<Long> userIdList);
-    
+    void assignUser(Long roleId, List<Long> userIdList);
+
     /**
      * 根据角色ID查询资源码
      *

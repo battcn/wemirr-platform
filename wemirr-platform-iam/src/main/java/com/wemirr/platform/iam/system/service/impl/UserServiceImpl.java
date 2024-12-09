@@ -20,7 +20,6 @@
 package com.wemirr.platform.iam.system.service.impl;
 
 import cn.dev33.satoken.dao.SaTokenDao;
-import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
@@ -89,15 +88,15 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     private final DataScopeService dataScopeService;
 
     @Override
-    public void addUser(UserSaveReq req) {
+    public void create(UserSaveReq req) {
         final long count = super.count(Wraps.<User>lbQ().eq(User::getUsername, req.getUsername()));
         if (count > 0) {
             throw CheckedException.badRequest("账号已存在");
         }
-        final User user = BeanUtil.toBean(req, User.class);
-        user.setPassword(PasswordEncoderHelper.encode(req.getPassword()));
-        user.setTenantId(context.tenantId());
-        super.save(user);
+        var bean = BeanUtil.toBean(req, User.class);
+        bean.setPassword(PasswordEncoderHelper.encode(req.getPassword()));
+        bean.setTenantId(context.tenantId());
+        this.baseMapper.insert(bean);
     }
 
 
@@ -174,7 +173,8 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         String prefix = RandomUtil.randomString(4);
         String suffix = RandomUtil.randomNumbers(6);
         String password = prefix + suffix;
-        String encodePassword = SaSecureUtil.md5(password);
+        String encodePassword = PasswordEncoderHelper.encode(password);
+        user.setPassword(encodePassword);
         log.info("随机生成的新密码 - {} - {}", password, encodePassword);
         this.baseMapper.updateById(User.builder().id(id).password(encodePassword).build());
     }

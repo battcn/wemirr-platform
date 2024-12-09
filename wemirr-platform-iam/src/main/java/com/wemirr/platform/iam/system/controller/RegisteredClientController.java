@@ -49,7 +49,6 @@ import static com.wemirr.platform.iam.system.domain.converts.RegisteredClientCon
 @RequiredArgsConstructor
 @RequestMapping("/registered-client")
 @Tag(name = "终端管理", description = "终端管理")
-@Deprecated
 public class RegisteredClientController {
 
     private final RegisteredClientService registeredClientService;

@@ -20,16 +20,11 @@
 package com.wemirr.platform.iam.system.strategy;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.core.lang.Assert;
-import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.security.configuration.server.support.AuthenticationPrincipal;
 import com.wemirr.framework.security.configuration.server.support.AuthenticatorStrategy;
 import com.wemirr.framework.security.utils.PasswordEncoderHelper;
-import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
 import com.wemirr.platform.iam.system.domain.entity.User;
-import com.wemirr.platform.iam.system.repository.RegisteredClientMapper;
 import com.wemirr.platform.iam.system.repository.UserMapper;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
 import com.wemirr.platform.iam.tenant.repository.TenantMapper;
@@ -39,7 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.util.Optional;
 
 /**

@@ -19,6 +19,7 @@
 
 package com.wemirr.platform.iam.base.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.boot.log.AccessLogInfo;
 import com.wemirr.framework.db.dynamic.annotation.TenantDS;
@@ -57,7 +58,7 @@ public class OptLogController {
 
     @GetMapping
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
-    //@SaCheckPermission(value = {"monitor:log:opt"})
+    @SaCheckPermission(value = {"monitor:log:opt"})
     public Page<OptLog> page(OptLogPageReq req) {
         return this.optLogService.page(req.buildPage(), Wraps.<OptLog>lbQ()
                 .eq(OptLog::getHttpMethod, req.getHttpMethod())

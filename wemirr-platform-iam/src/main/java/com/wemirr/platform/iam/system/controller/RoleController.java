@@ -24,12 +24,11 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
-import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.system.domain.dto.req.RolePageReq;
-import com.wemirr.platform.iam.system.domain.dto.req.RoleReq;
 import com.wemirr.platform.iam.system.domain.dto.req.RoleResSaveReq;
-import com.wemirr.platform.iam.system.domain.dto.req.RoleUserReq;
+import com.wemirr.platform.iam.system.domain.dto.req.RoleSaveReq;
+import com.wemirr.platform.iam.system.domain.dto.req.RoleUserSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.*;
 import com.wemirr.platform.iam.system.domain.entity.Role;
 import com.wemirr.platform.iam.system.domain.entity.RoleRes;
@@ -61,7 +60,6 @@ import java.util.List;
 @Tag(name = "角色管理", description = "角色管理")
 public class RoleController {
 
-    private final AuthenticationContext context;
     private final RoleService roleService;
     private final RoleResService roleResService;
     private final UserRoleService userRoleService;
@@ -92,16 +90,16 @@ public class RoleController {
     @AccessLog(description = "添加角色")
     @Operation(summary = "添加角色")
     @SaCheckPermission(value = {"sys:role:add"})
-    public void add(@Validated @RequestBody RoleReq data) {
-        roleService.saveRole(context.userId(), data);
+    public void create(@Validated @RequestBody RoleSaveReq req) {
+        roleService.create(req);
     }
 
     @PutMapping("/{id}")
     @AccessLog(description = "编辑角色")
     @Operation(summary = "编辑角色")
     @SaCheckPermission(value = {"sys:role:edit"})
-    public void edit(@PathVariable Long id, @Validated @RequestBody RoleReq data) {
-        roleService.updateRole(id, context.userId(), data);
+    public void modify(@PathVariable Long id, @Validated @RequestBody RoleSaveReq req) {
+        roleService.modify(id, req);
     }
 
     @DeleteMapping("/{id}")
@@ -130,19 +128,19 @@ public class RoleController {
         return roleResService.list(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, roleId));
     }
 
-    @Operation(summary = "角色分配操作资源")
-    @PostMapping("/{roleId}/authority")
-    @SaCheckPermission(value = {"sys:role:distribution:res"})
-    public void distributionAuthority(@PathVariable Long roleId, @RequestBody RoleResSaveReq req) {
-        this.roleResService.saveRoleAuthority(req);
+    @Operation(summary = "分配资源")
+    @PutMapping("/{roleId}/assign-resources")
+    @SaCheckPermission(value = {"sys:role:assign-resource"})
+    public void assignResource(@PathVariable Long roleId, @RequestBody RoleResSaveReq req) {
+        this.roleResService.assignResource(req);
 
     }
 
-    @Operation(summary = "角色分配用户")
-    @PostMapping("/{roleId}/users")
-    @SaCheckPermission(value = {"sys:role:distribution:user"})
-    public void distributionUser(@PathVariable Long roleId, @RequestBody RoleUserReq req) {
-        this.roleService.saveUserRole(roleId, req.getUserIdList());
+    @Operation(summary = "分配用户")
+    @PutMapping("/{roleId}/assign-users")
+    @SaCheckPermission(value = {"sys:role:assign-users"})
+    public void assignUser(@PathVariable Long roleId, @RequestBody RoleUserSaveReq req) {
+        this.roleService.assignUser(roleId, req.getUserIdList());
     }
 
 }

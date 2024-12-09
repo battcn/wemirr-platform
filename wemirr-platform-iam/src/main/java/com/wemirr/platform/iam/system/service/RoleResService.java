@@ -42,14 +42,14 @@ public interface RoleResService extends SuperService<RoleRes> {
      * @param req req
      * @return 保存结果
      */
-    boolean saveUserRole(UserRoleSaveReq req);
+    boolean assignUser(UserRoleSaveReq req);
     
     /**
      * 给角色重新分配 权限（资源/菜单）
      *
      * @param req req
      */
-    void saveRoleAuthority(RoleResSaveReq req);
+    void assignResource(RoleResSaveReq req);
     
     /**
      * 根据角色id查询资源

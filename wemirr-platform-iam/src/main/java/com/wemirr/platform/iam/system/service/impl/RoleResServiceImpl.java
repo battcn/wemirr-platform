@@ -71,7 +71,7 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
     }
     
     @Override
-    public boolean saveUserRole(UserRoleSaveReq req) {
+    public boolean assignUser(UserRoleSaveReq req) {
         userRoleService.remove(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, req.getRoleId()));
         List<UserRole> list = req.getUserIdList().stream()
                 .map(userId -> UserRole.builder().userId(userId).roleId(req.getRoleId()).build()).toList();
@@ -81,7 +81,7 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
     
     @Override
     @DSTransactional
-    public void saveRoleAuthority(RoleResSaveReq req) {
+    public void assignResource(RoleResSaveReq req) {
         // 删除角色和资源的关联
         super.remove(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, req.getRoleId()));
         resHandler(req, req.getRoleId());
