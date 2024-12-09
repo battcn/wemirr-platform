@@ -39,3 +39,4 @@ HELP.md
 rebel.xml
 /bak/**
 /.idea/
+/.vscode/settings.json

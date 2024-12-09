@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@TypeName("Employee")
 @Builder
+@TypeName("Employee")
 @AllArgsConstructor
 public class Employee {
 
@@ -31,6 +31,8 @@ public class Employee {
     private String desc;
 
     private Employee boss;
+
+    @Builder.Default
     @PropertyName("员工")
     private List<Employee> subordinates = new ArrayList<>();
 
