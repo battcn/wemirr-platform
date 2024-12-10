@@ -7,7 +7,7 @@
         SELECT t1.*
         FROM c_area t1
         where t1.parent_id = #{parentId}
-        order by `sequence`
+        order by sequence
     </select>
 
 

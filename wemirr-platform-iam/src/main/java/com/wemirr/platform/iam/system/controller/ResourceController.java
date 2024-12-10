@@ -34,7 +34,7 @@ import com.wemirr.platform.iam.system.domain.dto.req.ResourcePageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceQueryReq;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.ResourcePageResp;
-import com.wemirr.platform.iam.system.domain.dto.resp.VueRouter;
+import com.wemirr.platform.iam.system.domain.dto.resp.VisibleResourceResp;
 import com.wemirr.platform.iam.system.domain.entity.Resource;
 import com.wemirr.platform.iam.system.domain.enums.ResourceType;
 import com.wemirr.platform.iam.system.service.ResourceService;
@@ -73,14 +73,14 @@ public class ResourceController {
     @GetMapping("/router")
     @Operation(summary = "菜单路由", description = "只能看到自身权限")
     public List<Tree<Long>> router(@RequestParam(required = false, defaultValue = "false") Boolean all) {
-        List<VueRouter> routers = resourceService.findVisibleResource(ResourceQueryReq.builder().userId(context.userId()).build());
+        List<VisibleResourceResp> routers = resourceService.findVisibleResource(ResourceQueryReq.builder().userId(context.userId()).build());
         List<TreeNode<Long>> list = routers.stream()
                 .filter(router -> all || isValidRouterType(router))
                 .map(VUE_ROUTER_2_TREE_NODE_CONVERTS::convert).collect(toList());
         return TreeUtil.build(list, 0L);
     }
 
-    private boolean isValidRouterType(VueRouter router) {
+    private boolean isValidRouterType(VisibleResourceResp router) {
         ResourceType type = router.getType();
         return type == ResourceType.MENU
                 || type == ResourceType.DIRECTORY
@@ -106,9 +106,9 @@ public class ResourceController {
     @GetMapping("/permissions")
     @Operation(summary = "资源码", description = "只能看到自身资源码")
     public List<String> permissions() {
-        final List<VueRouter> routers = Optional.ofNullable(resourceService.findVisibleResource(ResourceQueryReq.builder()
+        final List<VisibleResourceResp> routers = Optional.ofNullable(resourceService.findVisibleResource(ResourceQueryReq.builder()
                 .userId(context.userId()).build())).orElseGet(Lists::newArrayList);
-        return routers.stream().map(VueRouter::getPermission).filter(StrUtil::isNotBlank).distinct().collect(toList());
+        return routers.stream().map(VisibleResourceResp::getPermission).filter(StrUtil::isNotBlank).distinct().collect(toList());
     }
 
     @PostMapping("/create")

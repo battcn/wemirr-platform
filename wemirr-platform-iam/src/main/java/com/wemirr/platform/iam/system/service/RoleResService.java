@@ -22,7 +22,6 @@ package com.wemirr.platform.iam.system.service;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.iam.system.domain.dto.req.RoleResSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserRoleSaveReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.RoleResResp;
 import com.wemirr.platform.iam.system.domain.entity.RoleRes;
 
 /**
@@ -50,12 +49,4 @@ public interface RoleResService extends SuperService<RoleRes> {
      * @param req req
      */
     void assignResource(RoleResSaveReq req);
-
-    /**
-     * 根据角色id查询资源
-     *
-     * @param id id
-     * @return 查询结果
-     */
-    RoleResResp findAuthorityIdByRoleId(Long id);
 }

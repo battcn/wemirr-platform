@@ -22,7 +22,7 @@ package com.wemirr.platform.iam.system.repository;
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceQueryReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.VueRouter;
+import com.wemirr.platform.iam.system.domain.dto.resp.VisibleResourceResp;
 import com.wemirr.platform.iam.system.domain.entity.Resource;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -47,7 +47,7 @@ public interface ResourceMapper extends SuperMapper<Resource> {
      * @param req 资源对象
      * @return 查询结果
      */
-    List<VueRouter> findVisibleResource(@Param("req") ResourceQueryReq req);
+    List<VisibleResourceResp> findVisibleResource(@Param("req") ResourceQueryReq req);
 
     /**
      * 查询指定用户资源权限

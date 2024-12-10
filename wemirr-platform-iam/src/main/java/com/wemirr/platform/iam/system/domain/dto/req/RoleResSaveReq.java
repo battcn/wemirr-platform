@@ -40,7 +40,7 @@ public class RoleResSaveReq implements Serializable {
 
     @NotEmpty(message = "资源不能为空")
     @Size(min = 1, message = "至少勾选 {min} 条数据")
-    private Set<Long> resIds;
+    private Set<Long> resIdList;
 
     /**
      * 角色id

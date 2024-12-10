@@ -32,7 +32,7 @@ import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceQueryReq;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceSaveReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.VueRouter;
+import com.wemirr.platform.iam.system.domain.dto.resp.VisibleResourceResp;
 import com.wemirr.platform.iam.system.domain.entity.Resource;
 import com.wemirr.platform.iam.system.domain.entity.Role;
 import com.wemirr.platform.iam.system.domain.entity.RoleRes;
@@ -74,7 +74,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
     private final RoleResMapper roleResMapper;
 
     @Override
-    public List<VueRouter> findVisibleResource(ResourceQueryReq req) {
+    public List<VisibleResourceResp> findVisibleResource(ResourceQueryReq req) {
         // 查询租户数据源
         List<Long> resIdList = this.userMapper.selectResByUserId(req.getUserId());
         DynamicDataSourceContextHolder.poll();
@@ -84,7 +84,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
                 .and(lb -> lb.eq(Resource::getGlobal, true).or(CollUtil.isNotEmpty(resIdList), xx -> xx.in(Resource::getId, resIdList)))
                 .eq(Resource::getParentId, req.getParentId()).eq(Resource::getType, req.getType()));
         DynamicDataSourceContextHolder.poll();
-        return BeanUtilPlus.toBeans(list, VueRouter.class);
+        return BeanUtilPlus.toBeans(list, VisibleResourceResp.class);
     }
 
     @Override

@@ -19,19 +19,17 @@
 
 package com.wemirr.platform.iam.system.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.system.domain.dto.req.RoleResSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserRoleSaveReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.RoleResMenuMapperResp;
-import com.wemirr.platform.iam.system.domain.dto.resp.RoleResResp;
 import com.wemirr.platform.iam.system.domain.entity.RoleRes;
 import com.wemirr.platform.iam.system.domain.entity.UserRole;
 import com.wemirr.platform.iam.system.repository.RoleResMapper;
+import com.wemirr.platform.iam.system.repository.UserRoleMapper;
 import com.wemirr.platform.iam.system.service.RoleResService;
-import com.wemirr.platform.iam.system.service.UserRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,43 +37,25 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
- * <p>
- * 业务实现类
- * 角色的资源
- * </p>
+ * 角色资源
  *
  * @author Levin
- * @since 2019-07-03
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes> implements RoleResService {
 
-    private final UserRoleService userRoleService;
-
-    @Override
-    public RoleResResp findAuthorityIdByRoleId(Long roleId) {
-        final List<RoleResMenuMapperResp> list = this.baseMapper.selectRoleResByRoleId(roleId);
-        List<Long> menuIdList = list.stream().filter(xx -> xx.getType() == 1 || xx.getType() == 5)
-                .mapToLong(RoleResMenuMapperResp::getId).boxed().distinct().collect(Collectors.toList());
-        List<Long> resourceIdList = list.stream().filter(xx -> xx.getType() == 2)
-                .mapToLong(RoleResMenuMapperResp::getId).boxed().distinct().collect(Collectors.toList());
-        return RoleResResp.builder()
-                .menuIdList(menuIdList)
-                .resourceIdList(resourceIdList)
-                .build();
-    }
+    private final UserRoleMapper userRoleMapper;
 
     @Override
     public boolean assignUser(UserRoleSaveReq req) {
-        userRoleService.remove(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, req.getRoleId()));
+        userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, req.getRoleId()));
         List<UserRole> list = req.getUserIdList().stream()
                 .map(userId -> UserRole.builder().userId(userId).roleId(req.getRoleId()).build()).toList();
-        userRoleService.saveBatch(list);
+        userRoleMapper.insertBatchSomeColumn(list);
         return true;
     }
 
@@ -88,13 +68,14 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
     }
 
     private void resHandler(RoleResSaveReq data, Long roleId) {
-        final Set<Long> set = data.getResIds();
-        if (CollectionUtil.isEmpty(set)) {
+        final Set<Long> resIdList = data.getResIdList();
+        if (CollUtil.isEmpty(resIdList)) {
             return;
         }
-        final List<RoleRes> roleRes = set.stream().filter(Objects::nonNull)
+        final List<RoleRes> list = resIdList.stream()
+                .filter(Objects::nonNull)
                 .map(resId -> RoleRes.builder().resId(resId).roleId(roleId).build())
                 .toList();
-        super.insertBatch(roleRes);
+        this.baseMapper.insertBatchSomeColumn(list);
     }
 }

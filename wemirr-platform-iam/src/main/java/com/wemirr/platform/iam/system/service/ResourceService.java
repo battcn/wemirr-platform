@@ -22,7 +22,7 @@ package com.wemirr.platform.iam.system.service;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceQueryReq;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceSaveReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.VueRouter;
+import com.wemirr.platform.iam.system.domain.dto.resp.VisibleResourceResp;
 import com.wemirr.platform.iam.system.domain.entity.Resource;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public interface ResourceService extends SuperService<Resource> {
      * @param req req
      * @return 查询结果
      */
-    List<VueRouter> findVisibleResource(ResourceQueryReq req);
+    List<VisibleResourceResp> findVisibleResource(ResourceQueryReq req);
 
     /**
      * 根据用户ID查询资源权限

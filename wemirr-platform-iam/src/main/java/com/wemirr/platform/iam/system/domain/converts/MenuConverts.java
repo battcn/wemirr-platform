@@ -23,7 +23,7 @@ import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.entity.BaseConverts;
-import com.wemirr.platform.iam.system.domain.dto.resp.VueRouter;
+import com.wemirr.platform.iam.system.domain.dto.resp.VisibleResourceResp;
 import com.wemirr.platform.iam.system.domain.enums.ResourceType;
 
 import java.util.Map;
@@ -36,9 +36,9 @@ public class MenuConverts {
 
     public static final VueRouter2TreeNodeConverts VUE_ROUTER_2_TREE_NODE_CONVERTS = new VueRouter2TreeNodeConverts();
 
-    public static class VueRouter2TreeNodeConverts implements BaseConverts<VueRouter, TreeNode<Long>> {
+    public static class VueRouter2TreeNodeConverts implements BaseConverts<VisibleResourceResp, TreeNode<Long>> {
 
-        private static Map<String, Object> buildRouteMeta(VueRouter route) {
+        private static Map<String, Object> buildRouteMeta(VisibleResourceResp route) {
             Map<String, Object> meta = Maps.newHashMap();
             if (route.getVisible() != null && !route.getVisible()) {
                 meta.put("hideInMenu", true);
@@ -59,7 +59,7 @@ public class MenuConverts {
         }
 
         @Override
-        public TreeNode<Long> convert(VueRouter route) {
+        public TreeNode<Long> convert(VisibleResourceResp route) {
             TreeNode<Long> node = new TreeNode<>(route.getId(), route.getParentId(), route.getTitle(), route.getSequence());
             Map<String, Object> extra = Maps.newHashMap();
             extra.put("path", route.getPath());

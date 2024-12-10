@@ -29,7 +29,7 @@ import lombok.Data;
  * @author Levin
  */
 @Data
-public class VueRouter {
+public class VisibleResourceResp {
 
     @Schema(description = "ID")
     private Long id;
@@ -53,7 +53,7 @@ public class VueRouter {
     private Boolean visible;
     @Schema(description = "排序")
     private Integer sequence;
-    @Schema(description = "类型（1=菜单;2=按钮;3=路由;5=一键发布模板）")
+    @Schema(description = "类型（directory=目录;menu=菜单;iframe=内嵌;link=外链;button=按钮）")
     private ResourceType type;
     @Schema(description = "状态")
     private Boolean status;

@@ -29,7 +29,6 @@ import lombok.NoArgsConstructor;
  * 资源 查询DTO
  *
  * @author Levin
- * @since 2019/06/05
  */
 @Data
 @NoArgsConstructor
@@ -43,6 +42,12 @@ public class ResourceQueryReq {
 
     @Schema(description = "父资源ID,用于查询按钮")
     private Long parentId;
+
+    @Schema(description = "角色ID,查询指定角色可见的")
+    private Long roleId;
+
+    @Schema(description = "true=启用;false=禁用")
+    private Boolean status;
 
     @Schema(description = "指定用户ID，前端不传则自动获取")
     private Long userId;

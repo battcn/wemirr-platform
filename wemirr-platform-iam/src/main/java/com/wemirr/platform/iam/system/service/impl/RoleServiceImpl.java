@@ -32,11 +32,12 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceQueryReq;
 import com.wemirr.platform.iam.system.domain.dto.req.RoleSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.RolePermissionResp;
-import com.wemirr.platform.iam.system.domain.dto.resp.VueRouter;
+import com.wemirr.platform.iam.system.domain.dto.resp.VisibleResourceResp;
 import com.wemirr.platform.iam.system.domain.entity.DataPermissionResource;
 import com.wemirr.platform.iam.system.domain.entity.Role;
 import com.wemirr.platform.iam.system.domain.entity.RoleRes;
 import com.wemirr.platform.iam.system.domain.entity.UserRole;
+import com.wemirr.platform.iam.system.domain.enums.ResourceType;
 import com.wemirr.platform.iam.system.repository.*;
 import com.wemirr.platform.iam.system.service.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -152,10 +153,19 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
 
     @Override
     public RolePermissionResp findRolePermissionById(Long roleId) {
-        final List<VueRouter> buttons = resourceMapper.findVisibleResource(ResourceQueryReq.builder()
-                .userId(context.userId()).build());
-        final List<Long> roleRes = Optional.of(this.roleResMapper.selectList(RoleRes::getRoleId, roleId))
-                .orElseGet(List::of).stream().map(RoleRes::getResId).toList();
-        return RolePermissionResp.builder().resIdList(roleRes).buttons(buttons).build();
+        final List<VisibleResourceResp> resourceList = resourceMapper.findVisibleResource(ResourceQueryReq.builder()
+                .roleId(roleId).userId(context.userId()).build());
+        if (CollUtil.isEmpty(resourceList)) {
+            return null;
+        }
+        List<Long> buttonIdList = resourceList.stream()
+                .filter(x -> x.getType() == ResourceType.BUTTON)
+                .map(VisibleResourceResp::getId)
+                .toList();
+        List<Long> menuIdList = resourceList.stream()
+                .filter(x -> x.getType() != ResourceType.BUTTON)
+                .map(VisibleResourceResp::getId)
+                .toList();
+        return RolePermissionResp.builder().menuIdList(menuIdList).buttonIdList(buttonIdList).build();
     }
 }

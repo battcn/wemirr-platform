@@ -19,6 +19,7 @@
 
 package com.wemirr.platform.iam.system.domain.dto.resp;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,7 +36,10 @@ import java.util.List;
 @AllArgsConstructor
 public class RolePermissionResp {
 
-    private List<Long> resIdList;
-    private List<VueRouter> buttons;
+    @Schema(description = "菜单ID")
+    private List<Long> menuIdList;
+
+    @Schema(description = "按钮ID")
+    private List<Long> buttonIdList;
 
 }

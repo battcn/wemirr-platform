@@ -29,7 +29,10 @@ import com.wemirr.platform.iam.system.domain.dto.req.RolePageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.RoleResSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.req.RoleSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.req.RoleUserSaveReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.*;
+import com.wemirr.platform.iam.system.domain.dto.resp.RoleDetailResp;
+import com.wemirr.platform.iam.system.domain.dto.resp.RolePageResp;
+import com.wemirr.platform.iam.system.domain.dto.resp.RolePermissionResp;
+import com.wemirr.platform.iam.system.domain.dto.resp.UserRoleResp;
 import com.wemirr.platform.iam.system.domain.entity.Role;
 import com.wemirr.platform.iam.system.domain.entity.RoleRes;
 import com.wemirr.platform.iam.system.service.RoleResService;
@@ -80,10 +83,7 @@ public class RoleController {
     @Operation(summary = "角色详情")
     public RoleDetailResp details(@PathVariable Long id) {
         Role role = roleService.getById(id);
-        RoleDetailResp detail = BeanUtilPlus.toBean(role, RoleDetailResp.class);
-        final RoleResResp authority = this.roleResService.findAuthorityIdByRoleId(id);
-        detail.setAuthority(authority);
-        return detail;
+        return BeanUtilPlus.toBean(role, RoleDetailResp.class);
     }
 
     @PostMapping("/create")
