@@ -47,15 +47,11 @@ public class TenantSaveReq {
 
     @NotNull(message = "认证状态不能为空")
     @Schema(description = "认证状态")
-    private Integer status;
+    private Boolean status;
 
     @Length(min = 2, max = 8, message = "租户简称长度 {min} - {max} 之间")
     @Schema(description = "租户简称")
     private String alias;
-
-    @Schema(description = "使用状态")
-    @NotNull(message = "使用状态不能为空")
-    private Boolean locked;
 
     @Length(min = 2, max = 256, message = "租户LOGO长度 {min} - {max} 之间")
     @Schema(description = "LOGO")

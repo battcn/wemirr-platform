@@ -54,12 +54,10 @@ public class Tenant extends SuperEntity<Long> {
     private String name;
     @Schema(description = "类型")
     private Integer type;
-    @Schema(description = "状态")
-    private Integer status;
+    @Schema(description = "状态;0=未启用;1=启用")
+    private Boolean status;
     @Schema(description = "别名")
     private String alias;
-    @Schema(description = "名称")
-    private Boolean locked;
 
     @Schema(description = "LOGO")
     private String logo;

@@ -70,7 +70,7 @@ public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrat
         String tenantCode = principal.getTenantCode();
         final Tenant tenant = Optional.ofNullable(tenantMapper.selectOne(Tenant::getCode, tenantCode))
                 .orElseThrow(() -> CheckedException.notFound("{0}租户不存在", tenantCode));
-        if (tenant.getLocked()) {
+        if (!tenant.getStatus()) {
             throw CheckedException.badRequest("租户已被禁用,请联系管理员");
         }
         final User user = Optional.ofNullable(userMapper.selectUserByTenantId(username, tenant.getId()))

@@ -89,7 +89,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     private final DatabaseProperties properties;
     private final UserMapper userMapper;
     private final OrgMapper orgMapper;
-//    private PasswordEncoder passwordEncoder;
+    //    private PasswordEncoder passwordEncoder;
     private final SysDictMapper dictMapper;
     private final SysDictItemMapper dictItemMapper;
     private final TenantDictMapper tenantDictMapper;
@@ -158,8 +158,8 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     public void tenantConfig(Long tenantId, TenantConfigReq req) {
         final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantId))
                 .orElseThrow(() -> CheckedException.notFound("租户不存在"));
-        if (tenant.getLocked()) {
-            throw CheckedException.badRequest("租户已被禁用");
+        if (!tenant.getStatus()) {
+            throw CheckedException.badRequest("租户未启用");
         }
         if (StringUtils.equals(tenant.getCode(), properties.getMultiTenant().getSuperTenantCode())) {
             throw CheckedException.badRequest("超级租户,禁止操作");
@@ -181,8 +181,8 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     @DSTransactional(rollbackFor = Exception.class)
     public void initSqlScript(Long id) {
         final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("租户信息不存在"));
-        if (tenant.getLocked()) {
-            throw CheckedException.badRequest("租户已被禁用");
+        if (!tenant.getStatus()) {
+            throw CheckedException.badRequest("租户未启用");
         }
         final DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
         if (StringUtils.equals(tenant.getCode(), multiTenant.getSuperTenantCode())) {

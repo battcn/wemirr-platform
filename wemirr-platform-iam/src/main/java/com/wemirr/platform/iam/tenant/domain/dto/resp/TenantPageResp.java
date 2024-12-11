@@ -38,11 +38,9 @@ public class TenantPageResp {
     @Schema(description = "类型")
     private Integer type;
     @Schema(description = "状态")
-    private Integer status;
+    private Boolean status;
     @Schema(description = "别名")
     private String alias;
-    @Schema(description = "名称")
-    private Boolean locked;
 
     @Schema(description = "LOGO")
     private String logo;
