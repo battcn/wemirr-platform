@@ -34,7 +34,7 @@ import com.wemirr.framework.commons.entity.SuperEntity;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
-import com.wemirr.platform.suite.file.domain.dto.resp.GenerateTableResp;
+import com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTableResp;
 import com.wemirr.platform.suite.gen.domain.entity.GenerateEntity;
 import com.wemirr.platform.suite.gen.repository.GenerateMapper;
 import com.wemirr.platform.suite.gen.service.GenerateService;

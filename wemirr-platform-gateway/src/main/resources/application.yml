@@ -85,7 +85,7 @@ spring:
                   factor: 1
                   basedOnPreviousValue: false
                   exceptions: TimeoutException
-        - id: wemirr-platform-iam-websocket
+        - id: wemirr-platform-iam-ws
           uri: lb:ws://wemirr-platform-iam
           predicates:
             - Path=/iam/**

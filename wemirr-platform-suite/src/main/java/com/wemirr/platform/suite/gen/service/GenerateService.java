@@ -19,7 +19,7 @@
 package com.wemirr.platform.suite.gen.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.suite.file.domain.dto.resp.GenerateTableResp;
+import com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTableResp;
 import com.wemirr.platform.suite.gen.domain.entity.GenerateEntity;
 
 import java.util.List;
