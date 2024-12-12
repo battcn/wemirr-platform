@@ -41,7 +41,7 @@ CREATE TABLE `b_message_notify` (
                                     `variables` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息变量',
                                     `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
                                     `user_id` bigint DEFAULT NULL COMMENT '接收用户ID',
-                                    `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                    `nick_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
                                     `subscribe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '订阅人 比如 邮箱,手机号,钉钉ID等',
                                     `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
                                     `deleted` bit(1) DEFAULT b'0',
