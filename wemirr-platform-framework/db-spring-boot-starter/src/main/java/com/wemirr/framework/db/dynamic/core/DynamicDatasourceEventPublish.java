@@ -36,6 +36,6 @@ public interface DynamicDatasourceEventPublish {
      *
      * @param message 数据源
      */
-    void publish(TenantDynamicDatasource message);
+    void publish(DynamicDatasourceEvent message);
 
 }

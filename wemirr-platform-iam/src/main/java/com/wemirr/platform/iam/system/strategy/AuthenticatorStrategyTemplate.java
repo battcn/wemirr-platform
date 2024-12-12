@@ -35,6 +35,7 @@ public class AuthenticatorStrategyTemplate {
         Assert.notBlank(principal.getPassword(), () -> CheckedException.badRequest("密码不能为空"));
         Assert.notBlank(principal.getClientId(), () -> CheckedException.badRequest("客户端ID不能为空"));
         Assert.notBlank(principal.getClientSecret(), () -> CheckedException.badRequest("客户端秘钥不能为空"));
+
         RegisteredClient registeredClient = Optional.ofNullable(this.registeredClientMapper.selectOne(Wraps.<RegisteredClient>lbQ()
                         .eq(RegisteredClient::getClientId, principal.getClientId())
                         .eq(RegisteredClient::getClientSecret, principal.getClientSecret())))

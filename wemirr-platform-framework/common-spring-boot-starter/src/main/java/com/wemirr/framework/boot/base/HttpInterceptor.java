@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.boot.base;
 
+import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.commons.threadlocal.ThreadLocalHolder;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;

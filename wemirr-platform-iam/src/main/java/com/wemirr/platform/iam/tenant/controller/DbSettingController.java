@@ -22,9 +22,9 @@ package com.wemirr.platform.iam.tenant.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.iam.system.domain.dto.req.DynamicDatasourceReq;
-import com.wemirr.platform.iam.tenant.domain.entity.DynamicDatasource;
-import com.wemirr.platform.iam.tenant.service.TenantDatasourceService;
+import com.wemirr.platform.iam.tenant.domain.dto.req.DbSettingSaveReq;
+import com.wemirr.platform.iam.tenant.domain.entity.DbSetting;
+import com.wemirr.platform.iam.tenant.service.DbSettingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -39,52 +39,52 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/databases")
+@RequestMapping("/db-setting")
 @RequiredArgsConstructor
 @Tag(name = "数据源管理", description = "数据源管理")
 @Validated
-public class DynamicDatasourceController {
+public class DbSettingController {
 
-    private final TenantDatasourceService tenantDatasourceService;
+    private final DbSettingService dbSettingService;
 
     @Operation(summary = "分页查询", description = "分页查询")
-    @GetMapping
-    public Page<DynamicDatasource> page(PageRequest pageRequest, String dbType, Boolean locked) {
-        return tenantDatasourceService.page(pageRequest.buildPage(),
-                Wraps.<DynamicDatasource>lbQ().eq(DynamicDatasource::getDbType, dbType).eq(DynamicDatasource::getLocked, locked));
+    @GetMapping("/page")
+    public Page<DbSetting> page(PageRequest pageRequest, String dbType, Boolean locked) {
+        return dbSettingService.page(pageRequest.buildPage(),
+                Wraps.<DbSetting>lbQ().eq(DbSetting::getDbType, dbType).eq(DbSetting::getLocked, locked));
     }
 
     @Operation(summary = "查询可用", description = "查询可用数据源")
     @GetMapping("/active")
-    public List<DynamicDatasource> queryActive() {
-        return this.tenantDatasourceService.list(Wraps.<DynamicDatasource>lbQ().eq(DynamicDatasource::getLocked, false));
+    public List<DbSetting> queryActive() {
+        return this.dbSettingService.list(Wraps.<DbSetting>lbQ().eq(DbSetting::getLocked, false));
     }
 
     @Operation(summary = "Ping数据库")
     @GetMapping("/{id}/ping")
     public void ping(@PathVariable Long id) {
-        this.tenantDatasourceService.ping(id);
+        this.dbSettingService.ping(id);
 
     }
 
     @Operation(summary = "添加数据源")
     @PostMapping("/create")
-    public void create(@Validated @RequestBody DynamicDatasourceReq req) {
-        tenantDatasourceService.created(req);
+    public void create(@Validated @RequestBody DbSettingSaveReq req) {
+        dbSettingService.created(req);
 
     }
 
     @Operation(summary = "编辑数据源")
     @PutMapping("/{id}/modify")
-    public void modify(@PathVariable Long id, @Validated @RequestBody DynamicDatasourceReq req) {
-        tenantDatasourceService.edit(id, req);
+    public void modify(@PathVariable Long id, @Validated @RequestBody DbSettingSaveReq req) {
+        dbSettingService.edit(id, req);
 
     }
 
     @Operation(summary = "删除数据源")
     @DeleteMapping("/{id}")
     public void remove(@PathVariable Long id) {
-        tenantDatasourceService.delete(id);
+        dbSettingService.delete(id);
 
     }
 }

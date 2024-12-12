@@ -30,6 +30,7 @@ import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
+import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceQueryReq;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.VisibleResourceResp;
@@ -75,15 +76,13 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
 
     @Override
     public List<VisibleResourceResp> findVisibleResource(ResourceQueryReq req) {
-        // 查询租户数据源
+        // TODO 查询租户数据源
+//        DynamicDataSourceContextHolder.poll();
         List<Long> resIdList = this.userMapper.selectResByUserId(req.getUserId());
-        DynamicDataSourceContextHolder.poll();
         // 解决租户越权行为,菜单数据直接从主库查询,减少数据分发次数
-        DynamicDataSourceContextHolder.push(databaseProperties.getMultiTenant().getDefaultDsName());
-        List<Resource> list = this.baseMapper.selectList(Wraps.<Resource>lbQ()
+        List<Resource> list = TenantHelper.executeWithMaster(() -> this.baseMapper.selectList(Wraps.<Resource>lbQ()
                 .and(lb -> lb.eq(Resource::getGlobal, true).or(CollUtil.isNotEmpty(resIdList), xx -> xx.in(Resource::getId, resIdList)))
-                .eq(Resource::getParentId, req.getParentId()).eq(Resource::getType, req.getType()));
-        DynamicDataSourceContextHolder.poll();
+                .eq(Resource::getParentId, req.getParentId()).eq(Resource::getType, req.getType())));
         return BeanUtilPlus.toBeans(list, VisibleResourceResp.class);
     }
 

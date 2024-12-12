@@ -39,5 +39,8 @@ public class TenantSetting extends SuperEntity<Long> {
     @Schema(description = "站点LOGO")
     private String siteLogo;
 
+    @Schema(description = "DB-ID")
+    private Long dbId;
+
 
 }

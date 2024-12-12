@@ -72,10 +72,11 @@ public class ResourceController {
 
     @GetMapping("/router")
     @Operation(summary = "菜单路由", description = "只能看到自身权限")
-    public List<Tree<Long>> router(@RequestParam(required = false, defaultValue = "false") Boolean all) {
-        List<VisibleResourceResp> routers = resourceService.findVisibleResource(ResourceQueryReq.builder().userId(context.userId()).build());
+    public List<Tree<Long>> router(Boolean status) {
+        List<VisibleResourceResp> routers = resourceService.findVisibleResource(ResourceQueryReq.builder()
+                .status(status).userId(context.userId()).build());
         List<TreeNode<Long>> list = routers.stream()
-                .filter(router -> all || isValidRouterType(router))
+                .filter(this::isValidRouterType)
                 .map(VUE_ROUTER_2_TREE_NODE_CONVERTS::convert).collect(toList());
         return TreeUtil.build(list, 0L);
     }

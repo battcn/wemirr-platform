@@ -19,7 +19,7 @@
 
 package com.wemirr.framework.db.dynamic.feign;
 
-import com.wemirr.framework.db.dynamic.core.TenantDynamicDatasource;
+import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -39,14 +39,14 @@ public interface TenantFeignClient {
      * @return 查询结果
      */
     @GetMapping(value = "/tenants/databases/active", headers = {"X-Auto-Token=true"})
-    List<TenantDynamicDatasource> selectAll();
+    List<DynamicDatasourceEvent> selectAll();
 
     @Component
     @RequiredArgsConstructor
     class TenantFeignClientFallback implements TenantFeignClient {
 
         @Override
-        public List<TenantDynamicDatasource> selectAll() {
+        public List<DynamicDatasourceEvent> selectAll() {
             return null;
         }
     }

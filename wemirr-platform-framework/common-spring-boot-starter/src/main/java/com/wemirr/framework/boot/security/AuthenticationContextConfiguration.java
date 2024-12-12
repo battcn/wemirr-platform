@@ -50,8 +50,9 @@ public class AuthenticationContextConfiguration {
             @Override
             public UserInfoDetails getContext() {
                 String key = String.format(properties.getServer().getInfoKeyPrefix(), StpUtil.getTokenValue());
-                return (UserInfoDetails) ThreadLocalHolder.get(USER_INFO,
+                UserInfoDetails details = (UserInfoDetails) ThreadLocalHolder.get(USER_INFO,
                         () -> JSONObject.parseObject((String) saTokenDao.getObject(key), UserInfoDetails.class));
+                return details;
             }
 
             @Override

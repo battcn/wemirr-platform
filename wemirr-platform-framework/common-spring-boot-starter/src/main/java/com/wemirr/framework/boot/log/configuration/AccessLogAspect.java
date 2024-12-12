@@ -50,7 +50,6 @@ import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -78,7 +77,7 @@ public class AccessLogAspect {
     private static final String USER_AGENT = "User-Agent";
     private static final int WARNING_LENGTH = 65535;
     @Resource
-    private ApplicationContext applicationContext;
+    private AuthenticationContext context;
     @Resource
     private DatabaseProperties databaseProperties;
     @Resource
@@ -142,7 +141,7 @@ public class AccessLogAspect {
         log.setFinishTime(Instant.now());
         log.setConsumingTime(log.getStartTime().until(log.getFinishTime(), ChronoUnit.MILLIS));
         abstractLogHandler.handler(log);
-        applicationContext.publishEvent(new AccessLogEvent(log));
+        SpringUtil.publishEvent(new AccessLogEvent(log));
         THREAD_LOCAL.remove();
     }
 
@@ -192,7 +191,6 @@ public class AccessLogAspect {
                 return;
             }
             AccessLogInfo log = get();
-            final AuthenticationContext context = SpringUtil.getBean(AuthenticationContext.class);
             if (context != null) {
                 log.setTenantId(context.tenantId());
                 log.setCreatedBy(context.userId());
@@ -208,7 +206,7 @@ public class AccessLogAspect {
             log.setToken(getRequestToken(request));
             final DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
             if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
-                String tenantCode = request.getHeader(multiTenant.getTenantCodeColumn());
+                String tenantCode = StrUtil.blankToDefault(context.tenantCode(), request.getHeader(multiTenant.getTenantCodeColumn()));
                 if (StringUtils.equals(multiTenant.getSuperTenantCode(), tenantCode)) {
                     log.setDsKey(multiTenant.getDefaultDsName());
                 } else {

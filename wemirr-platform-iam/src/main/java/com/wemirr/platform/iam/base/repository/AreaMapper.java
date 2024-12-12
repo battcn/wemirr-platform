@@ -19,7 +19,7 @@
 
 package com.wemirr.platform.iam.base.repository;
 
-import com.wemirr.framework.db.dynamic.annotation.TenantDS;
+
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.iam.base.domain.entity.AreaEntity;
 import org.apache.ibatis.annotations.Param;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * @author Levin
  */
-@TenantDS
+
 @Repository
 public interface AreaMapper extends SuperMapper<AreaEntity> {
 

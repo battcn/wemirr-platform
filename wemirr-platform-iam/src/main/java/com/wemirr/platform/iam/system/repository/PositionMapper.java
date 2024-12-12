@@ -22,7 +22,6 @@ package com.wemirr.platform.iam.system.repository;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
-import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.iam.system.domain.dto.resp.PositionPageResp;
 import com.wemirr.platform.iam.system.domain.entity.Position;
@@ -34,7 +33,7 @@ import org.springframework.stereotype.Repository;
  *
  * @author Levin
  */
-@TenantDS
+
 @Repository
 public interface PositionMapper extends SuperMapper<Position> {
 

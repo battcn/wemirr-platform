@@ -19,7 +19,7 @@
 
 package com.wemirr.framework.db.dynamic.core.local;
 
-import com.wemirr.framework.db.dynamic.TenantDynamicDataSourceHandler;
+import com.wemirr.framework.db.dynamic.DynamicDataSourceHandler;
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,11 +35,11 @@ import org.springframework.context.event.EventListener;
 @RequiredArgsConstructor
 public class DynamicDatasourceLocalListener implements ApplicationListener<DynamicDatasourceEvent> {
 
-    private final TenantDynamicDataSourceHandler tenantDynamicDataSourceHandler;
+    private final DynamicDataSourceHandler dynamicDataSourceHandler;
 
     @Override
     @EventListener
     public void onApplicationEvent(@Nonnull DynamicDatasourceEvent event) {
-        tenantDynamicDataSourceHandler.handler(event.getAction(), event.getDatasource());
+        dynamicDataSourceHandler.handler(event.getAction(), event.getDatasource());
     }
 }

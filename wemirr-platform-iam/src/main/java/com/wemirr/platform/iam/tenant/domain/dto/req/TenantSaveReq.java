@@ -71,22 +71,25 @@ public class TenantSaveReq {
     @Schema(description = "行业")
     private String industry;
 
+    @Schema(description = "省")
     private Long provinceId;
+    @Schema(description = "市")
     private Long cityId;
+    @Schema(description = "区")
     private Long districtId;
 
     @Schema(description = "地址")
     @Length(min = 2, max = 100, message = "地址长度 {min} - {max} 之间")
     private String address;
+
     @Schema(description = "统一信用代码")
     @Length(min = 2, max = 100, message = "统一信用代码长度为 {min} - {max} 之间")
     private String creditCode;
+
     @Schema(description = "法人")
     @Length(min = 2, max = 30, message = "法人长度为 {min} - {max} 之间")
     private String legalPersonName;
-    @Schema(description = "站点")
-    @Length(min = 2, max = 100, message = "租户站点长度为 {min} - {max} 之间")
-    private String webSite;
+
     @Schema(description = "描述")
     @Length(min = 2, max = 256, message = "租户描述度为 {min} - {max} 之间")
     private String description;

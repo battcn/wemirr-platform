@@ -20,8 +20,8 @@
 package com.wemirr.framework.db.dynamic.core.redis;
 
 import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
 import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEventPublish;
-import com.wemirr.framework.db.dynamic.core.TenantDynamicDatasource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -34,7 +34,7 @@ public class RedisDynamicDatasourcePublish implements DynamicDatasourceEventPubl
     private final StringRedisTemplate redisTemplate;
 
     @Override
-    public void publish(TenantDynamicDatasource message) {
+    public void publish(DynamicDatasourceEvent message) {
         log.info("redis publish - {}", message);
         redisTemplate.convertAndSend(DEFAULT_EVENT_TOPIC, JSON.toJSONString(message));
     }

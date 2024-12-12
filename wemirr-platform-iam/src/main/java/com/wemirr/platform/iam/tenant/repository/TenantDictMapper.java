@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.iam.tenant.repository;
 
-import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.iam.tenant.domain.entity.TenantDict;
 import org.springframework.stereotype.Repository;
@@ -29,7 +28,6 @@ import org.springframework.stereotype.Repository;
  *
  * @author Levin
  */
-@TenantDS
 @Repository
 public interface TenantDictMapper extends SuperMapper<TenantDict> {
 

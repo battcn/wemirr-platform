@@ -24,7 +24,6 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.wemirr.framework.commons.entity.Entity;
-import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.datascope.annotation.DataColumn;
 import com.wemirr.framework.db.mybatisplus.datascope.annotation.DataScope;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
@@ -40,7 +39,7 @@ import java.util.List;
 /**
  * @author Levin
  */
-@TenantDS
+
 @Repository
 public interface UserMapper extends SuperMapper<User> {
 

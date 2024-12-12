@@ -26,14 +26,14 @@ import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.redis.plus.anontation.RedisLock;
 import com.wemirr.framework.redis.plus.anontation.RedisParam;
-import com.wemirr.platform.iam.tenant.domain.dto.req.TenantConfigReq;
-import com.wemirr.platform.iam.tenant.domain.dto.req.TenantModifyReq;
 import com.wemirr.platform.iam.tenant.domain.dto.req.TenantPageReq;
 import com.wemirr.platform.iam.tenant.domain.dto.req.TenantSaveReq;
-import com.wemirr.platform.iam.tenant.domain.dto.resp.TenantDatasourceResp;
+import com.wemirr.platform.iam.tenant.domain.dto.req.TenantSettingReq;
+import com.wemirr.platform.iam.tenant.domain.dto.resp.DbSettingPageResp;
 import com.wemirr.platform.iam.tenant.domain.dto.resp.TenantPageResp;
+import com.wemirr.platform.iam.tenant.domain.dto.resp.TenantSettingResp;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
-import com.wemirr.platform.iam.tenant.service.TenantDatasourceService;
+import com.wemirr.platform.iam.tenant.service.DbSettingService;
 import com.wemirr.platform.iam.tenant.service.TenantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -57,7 +57,7 @@ import java.util.List;
 public class TenantController {
 
     private final TenantService tenantService;
-    private final TenantDatasourceService dynamicDatasourceService;
+    private final DbSettingService dynamicDatasourceService;
 
     @PostMapping("/page")
     @Operation(summary = "租户列表 - [Levin] - [DONE]")
@@ -75,7 +75,7 @@ public class TenantController {
 
     @Operation(summary = "查询可用", description = "查询可用数据源")
     @GetMapping("/databases/active")
-    public List<TenantDatasourceResp> queryActive() {
+    public List<DbSettingPageResp> queryActive() {
         return this.dynamicDatasourceService.selectTenantDynamicDatasource();
     }
 
@@ -91,17 +91,35 @@ public class TenantController {
     @AccessLog(description = "编辑租户")
     @Operation(summary = "编辑租户")
     @SaCheckPermission(value = {"tenant:edit"})
-    public void modify(@PathVariable Long id, @Validated @RequestBody TenantModifyReq req) {
+    public void modify(@PathVariable Long id, @Validated @RequestBody TenantSaveReq req) {
         tenantService.modify(id, req);
     }
 
-    @PutMapping("/{id}/config")
+
+    @GetMapping("/{id}/setting")
     @AccessLog(description = "配置租户")
     @Operation(summary = "配置租户")
-    @SaCheckPermission(value = {"tenant:db-config"})
-    public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq req) {
-        tenantService.tenantConfig(id, req);
+//    @SaCheckPermission(value = {"tenant:setting"})
+    public TenantSettingResp setting(@PathVariable Long id) {
+        return tenantService.settingInfo(id);
     }
+
+    @PutMapping("/{id}/setting")
+    @AccessLog(description = "配置租户")
+    @Operation(summary = "配置租户")
+//    @SaCheckPermission(value = {"tenant:setting"})
+    public void setting(@PathVariable Long id, @Validated @RequestBody TenantSettingReq req) {
+        tenantService.saveSetting(id, req);
+    }
+
+
+//    @PutMapping("/{id}/config")
+//    @AccessLog(description = "配置租户")
+//    @Operation(summary = "配置租户")
+//    @SaCheckPermission(value = {"tenant:db-config"})
+//    public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq req) {
+//        tenantService.tenantConfig(id, req);
+//    }
 
     @PutMapping("/{id}/init_sql_script")
     @AccessLog(description = "加载初始数据")

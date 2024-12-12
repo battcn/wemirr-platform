@@ -21,6 +21,7 @@ package com.wemirr.platform.iam.system.strategy;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.framework.security.configuration.server.support.AuthenticationPrincipal;
 import com.wemirr.framework.security.configuration.server.support.AuthenticatorStrategy;
 import com.wemirr.framework.security.utils.PasswordEncoderHelper;
@@ -52,15 +53,8 @@ public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrat
     @Resource
     private TenantMapper tenantMapper;
 
-
-    @Override
-    public int getOrder() {
-        return 100;
-    }
-
     @Override
     public void prepare(final AuthenticationPrincipal principal) {
-        // todo 验证码校验
     }
 
     @Override
@@ -68,12 +62,12 @@ public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrat
         String username = principal.getUsername();
         String password = principal.getPassword();
         String tenantCode = principal.getTenantCode();
-        final Tenant tenant = Optional.ofNullable(tenantMapper.selectOne(Tenant::getCode, tenantCode))
+        Tenant tenant = Optional.ofNullable(TenantHelper.executeWithMaster(() -> tenantMapper.selectOne(Tenant::getCode, tenantCode)))
                 .orElseThrow(() -> CheckedException.notFound("{0}租户不存在", tenantCode));
         if (!tenant.getStatus()) {
             throw CheckedException.badRequest("租户已被禁用,请联系管理员");
         }
-        final User user = Optional.ofNullable(userMapper.selectUserByTenantId(username, tenant.getId()))
+        User user = Optional.ofNullable(TenantHelper.executeWithTenantDb(tenantCode, () -> userMapper.selectUserByTenantId(username, tenant.getId())))
                 .orElseThrow(() -> CheckedException.notFound("账户不存在"));
         if (!PasswordEncoderHelper.matches(password, user.getPassword())) {
             throw CheckedException.badRequest("用户名或密码错误");

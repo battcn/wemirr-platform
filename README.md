@@ -9,7 +9,9 @@
 [![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-dependencies.svg?label=Spring%20Boot&logo=Spring)](https://search.maven.org/artifact/org.springframework.boot/spring-boot-dependencies)  [![Spring Cloud](https://img.shields.io/maven-central/v/org.springframework.cloud/spring-cloud-dependencies.svg?label=Spring%20Cloud&logo=Spring)](https://search.maven.org/artifact/org.springframework.cloud/spring-cloud-dependencies)  [![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.alibaba.cloud/spring-cloud-alibaba-dependencies.svg?label=Spring%20Cloud%20Alibaba&logo=Spring)](https://search.maven.org/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies)
 
 *
-*WP的使命：打破假开源，做全网最优秀、最简单、最漂亮的开源SAAS、多租户云平台架构。从开源中来,到开源中去,让大家有更多时间`摸鱼`、`学习`、`陪伴家人`、`锻炼身体`、`找对象`
+
+*
+WP的使命：打破假开源，做全网最优秀、最简单、最漂亮的开源SAAS、多租户云平台架构。从开源中来,到开源中去,让大家有更多时间`摸鱼`、`学习`、`陪伴家人`、`锻炼身体`、`找对象`
 **
 
 ## 版本管理

@@ -20,7 +20,6 @@
 package com.wemirr.platform.iam.system.repository;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.iam.system.domain.entity.Org;
 import org.apache.ibatis.annotations.Delete;
@@ -30,7 +29,7 @@ import org.springframework.stereotype.Repository;
 /**
  * @author Levin
  */
-@TenantDS
+
 @Repository
 public interface OrgMapper extends SuperMapper<Org> {
 

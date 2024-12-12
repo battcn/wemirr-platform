@@ -19,12 +19,10 @@
 
 package com.wemirr.framework.security.configuration.server.support;
 
-import org.springframework.core.Ordered;
-
 /**
  * @author Levin
  **/
-public interface AuthenticatorStrategy extends Ordered {
+public interface AuthenticatorStrategy {
 
     String DEFAULT_AUTH_TYPE = "password";
 

@@ -179,7 +179,7 @@ public class DatabaseProperties {
         private MultiTenantStrategy strategy = MultiTenantStrategy.LOCAL;
 
         /**
-         * 在多租户模式为 数据源 时生效
+         * 默认数据源名称
          */
         private String defaultDsName = "master";
         /**
@@ -204,19 +204,14 @@ public class DatabaseProperties {
          * 租户SQL脚本
          * 请放在 项目 resource/db 目录下
          */
-        private List<String> tenantSqlScripts = Lists.newArrayList("classpath:db/tenant_schema.sql", "classpath:db/tenant_c_area.sql");
-
-        /**
-         * 是否从登陆上下文获取数据库信息
-         */
-        private boolean useAuthContent;
-        /**
-         * 租户数据源切换拦截器（不建议使用）
-         */
-        private boolean dsInterceptor;
+        private List<String> tenantSqlScripts = Lists.newArrayList("classpath:db/tenant_schema.sql");
 
         public boolean isSuperTenant(String tenantCode) {
             return StringUtils.isNotBlank(tenantCode) && StringUtils.equals(tenantCode, superTenantCode);
+        }
+
+        public String buildTenantDataSourceName(String tenantCode) {
+            return dsPrefix + tenantCode;
         }
     }
 

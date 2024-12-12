@@ -20,7 +20,6 @@
 package com.wemirr.platform.iam.system.repository;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.datascope.annotation.DataColumn;
 import com.wemirr.framework.db.mybatisplus.datascope.annotation.DataScope;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
@@ -34,7 +33,7 @@ import java.util.List;
 /**
  * @author Levin
  */
-@TenantDS
+
 @Repository
 public interface RoleMapper extends SuperMapper<Role> {
 

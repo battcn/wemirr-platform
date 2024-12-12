@@ -10,6 +10,7 @@ import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.commons.RegionUtils;
+import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.platform.iam.base.domain.entity.LoginLog;
@@ -70,7 +71,7 @@ public class WpTokenListener implements SaTokenListener {
         info.setLoginLog(JSONObject.from(loginLog));
         this.saTokenDao.setObject(buildCacheKey(tokenValue), info, loginModel.getTimeout());
         // 记录登录日志
-        this.loginLogMapper.insert(loginLog);
+        TenantHelper.executeWithTenantDb(info.getTenantCode(), () -> this.loginLogMapper.insert(loginLog));
         // 刷新登录时间和IP
         this.userService.updateById(User.builder().id(userId).lastLoginIp(ip).lastLoginTime(Instant.now()).build());
     }

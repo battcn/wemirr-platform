@@ -19,9 +19,9 @@
 
 package com.wemirr.framework.db.dynamic.core.redis;
 
-import com.wemirr.framework.db.dynamic.TenantDynamicDataSourceHandler;
+import com.wemirr.framework.db.dynamic.DynamicDataSourceHandler;
+import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
 import com.wemirr.framework.db.dynamic.core.EventAction;
-import com.wemirr.framework.db.dynamic.core.TenantDynamicDatasource;
 import com.wemirr.framework.redis.plus.listener.AbstractMessageEventListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,18 +38,18 @@ import static com.wemirr.framework.db.dynamic.core.DynamicDatasourceEventPublish
  */
 @Slf4j
 @RequiredArgsConstructor
-public class RedisDynamicDatasourceListener implements AbstractMessageEventListener<TenantDynamicDatasource> {
+public class RedisDynamicDatasourceListener implements AbstractMessageEventListener<DynamicDatasourceEvent> {
 
-    private final TenantDynamicDataSourceHandler tenantDynamicDataSourceHandler;
+    private final DynamicDataSourceHandler dynamicDataSourceHandler;
 
     @Override
-    public void handleMessage(TenantDynamicDatasource message) {
+    public void handleMessage(DynamicDatasourceEvent message) {
         if (Objects.isNull(message)) {
             log.warn("event dynamicDatasource is null....");
             return;
         }
         log.info("接收租户事件消息: - {}", message);
-        tenantDynamicDataSourceHandler.handler(EventAction.of(message.getAction()), message);
+        dynamicDataSourceHandler.handler(EventAction.of(message.getAction()), message);
     }
 
     @Override
@@ -59,6 +59,6 @@ public class RedisDynamicDatasourceListener implements AbstractMessageEventListe
 
     @Override
     public Type type() {
-        return TenantDynamicDatasource.class;
+        return DynamicDatasourceEvent.class;
     }
 }

@@ -17,24 +17,32 @@
  * limitations under the License.
  */
 
-package com.wemirr.framework.db.dynamic.annotation;
+package com.wemirr.platform.iam.tenant.domain.dto.req;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
-
-import java.lang.annotation.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 /**
- * 如果租户类型为 字段隔离 请注释
- * spring.datasource.dynamic.aop.enabled=false
- * 自定义动态切换
- * 上下文 -> header -> session -> expression
- *
  * @author Levin
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@DS("#custom.Tenant-Code")
-public @interface TenantDS {
+@Data
+@Schema(name = "TenantSettingReq")
+public class TenantSettingReq {
+
+
+    @Schema(description = "站点地址")
+    private String siteUrl;
+
+    @Schema(description = "站点标题")
+    private String siteTitle;
+
+    @Schema(description = "站点子标题")
+    private String siteSubTitle;
+
+    @Schema(description = "站点LOGO")
+    private String siteLogo;
+
+    @Schema(description = "DB-ID")
+    private Long dbId;
 
 }

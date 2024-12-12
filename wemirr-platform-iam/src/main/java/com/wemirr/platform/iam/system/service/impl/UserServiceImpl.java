@@ -41,6 +41,7 @@ import com.wemirr.framework.db.mybatisplus.datascope.service.DataScopeService;
 import com.wemirr.framework.db.mybatisplus.datascope.util.DataPermissionUtils;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.framework.log.diff.core.annotation.DiffLog;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
 import com.wemirr.framework.security.domain.UserInfoDetails;
@@ -185,7 +186,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         InterceptorIgnoreHelper.handle(IgnoreStrategy.builder().tenantLine(true).build());
         final User user = Optional.ofNullable(this.baseMapper.selectById(userId))
                 .orElseThrow(() -> CheckedException.notFound("用户信息不存在"));
-        Tenant tenant = this.tenantMapper.selectById(user.getTenantId());
+        Tenant tenant = TenantHelper.executeWithMaster(() -> this.tenantMapper.selectById(user.getTenantId()));
         final UserInfoDetails info = new UserInfoDetails();
         info.setTenantCode(tenant.getCode());
         info.setTenantName(tenant.getName());

@@ -22,7 +22,6 @@ package com.wemirr.platform.iam.base.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.boot.log.AccessLogInfo;
-import com.wemirr.framework.db.dynamic.annotation.TenantDS;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.base.domain.dto.req.OptLogPageReq;
 import com.wemirr.platform.iam.base.domain.entity.OptLog;
@@ -50,7 +49,7 @@ import java.time.temporal.ChronoUnit;
 @RestController
 @RequestMapping("/opt_logs")
 @Tag(name = "操作日志", description = "操作日志")
-@TenantDS
+
 @RequiredArgsConstructor
 public class OptLogController {
 

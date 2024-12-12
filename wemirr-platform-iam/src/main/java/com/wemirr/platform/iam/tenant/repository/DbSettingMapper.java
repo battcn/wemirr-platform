@@ -20,20 +20,18 @@
 package com.wemirr.platform.iam.tenant.repository;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.platform.iam.tenant.domain.dto.resp.TenantDatasourceResp;
-import com.wemirr.platform.iam.tenant.domain.entity.TenantConfig;
+import com.wemirr.platform.iam.tenant.domain.dto.resp.DbSettingPageResp;
+import com.wemirr.platform.iam.tenant.domain.entity.DbSetting;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
- * 租户配置.
- *
- * @author Levin
+ * @author levin
  */
 @Repository
-public interface TenantConfigMapper extends SuperMapper<TenantConfig> {
+public interface DbSettingMapper extends SuperMapper<DbSetting> {
 
     /**
      * 查询所有可用的动态数据源.
@@ -41,7 +39,7 @@ public interface TenantConfigMapper extends SuperMapper<TenantConfig> {
      * @param id id
      * @return 查询结果
      */
-    List<TenantDatasourceResp> selectTenantDbById(@Param("id") Long id);
+    List<DbSettingPageResp> selectTenantDbById(@Param("id") Long id);
 
     /**
      * 获取租户动态数据源
@@ -49,6 +47,6 @@ public interface TenantConfigMapper extends SuperMapper<TenantConfig> {
      * @param tenantId tenantId
      * @return 查询结果
      */
-    TenantDatasourceResp getTenantDynamicDatasourceByTenantId(Long tenantId);
+    DbSettingPageResp getTenantDynamicDatasourceByTenantId(Long tenantId);
 
 }

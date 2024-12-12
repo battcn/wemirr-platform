@@ -29,8 +29,8 @@ import com.baomidou.dynamic.datasource.creator.hikaricp.HikariDataSourceCreator;
 import com.baomidou.dynamic.datasource.support.ScriptRunner;
 import com.google.common.collect.Lists;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
 import com.wemirr.framework.db.dynamic.core.EventAction;
-import com.wemirr.framework.db.dynamic.core.TenantDynamicDatasource;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotNull;
@@ -54,7 +54,7 @@ import java.util.Set;
  * @author Levin
  */
 @Slf4j
-public class TenantDynamicDataSourceHandler {
+public class DynamicDataSourceHandler {
 
     public static final String TENANT_DATASOURCE_POOL = "TenantDataSourcePool_%s";
     private static final String CREATE_DATABASE_SCRIPT = "CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
@@ -69,7 +69,7 @@ public class TenantDynamicDataSourceHandler {
     private ResourceLoader resourceLoader;
 
     @NotNull
-    private static DataSourceProperty getDataSourceProperty(TenantDynamicDatasource db, String database, boolean lazy) {
+    private static DataSourceProperty getDataSourceProperty(DynamicDatasourceEvent db, String database, boolean lazy) {
         DataSourceProperty dataSourceProperty = new DataSourceProperty();
         dataSourceProperty.setPoolName(String.format(TENANT_DATASOURCE_POOL, db.getTenantCode()));
         dataSourceProperty.setDriverClassName(db.getDriverClassName());
@@ -87,7 +87,7 @@ public class TenantDynamicDataSourceHandler {
         return dataSourceProperty;
     }
 
-    public void handler(EventAction action, TenantDynamicDatasource db) {
+    public void handler(EventAction action, DynamicDatasourceEvent db) {
         if (Objects.isNull(db)) {
             log.warn("event dynamicDatasource is null....");
             return;

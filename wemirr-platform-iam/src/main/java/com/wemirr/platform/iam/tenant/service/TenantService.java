@@ -21,8 +21,9 @@ package com.wemirr.platform.iam.tenant.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.iam.tenant.domain.dto.req.TenantConfigReq;
-import com.wemirr.platform.iam.tenant.domain.dto.req.TenantModifyReq;
 import com.wemirr.platform.iam.tenant.domain.dto.req.TenantSaveReq;
+import com.wemirr.platform.iam.tenant.domain.dto.req.TenantSettingReq;
+import com.wemirr.platform.iam.tenant.domain.dto.resp.TenantSettingResp;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
 
 /**
@@ -44,7 +45,7 @@ public interface TenantService extends SuperService<Tenant> {
      * @param id  id
      * @param req 租户信息
      */
-    void modify(Long id, TenantModifyReq req);
+    void modify(Long id, TenantSaveReq req);
 
     /**
      * 租户配置
@@ -65,7 +66,24 @@ public interface TenantService extends SuperService<Tenant> {
     /**
      * 字典刷新
      *
-     * @param id id
+     * @param tenantId tenantId
      */
-    void refreshTenantDict(Long id);
+    void refreshTenantDict(Long tenantId);
+
+    /**
+     * 租户设置信息
+     *
+     * @param tenantId 租户ID
+     * @return 查询结果
+     */
+    TenantSettingResp settingInfo(Long tenantId);
+
+    /**
+     * 保存租户设置
+     *
+     * @param tenantId 租户ID
+     * @param req      设置信息
+     */
+    void saveSetting(Long tenantId, TenantSettingReq req);
+
 }

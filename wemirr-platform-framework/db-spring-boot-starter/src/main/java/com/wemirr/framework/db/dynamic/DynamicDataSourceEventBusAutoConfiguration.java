@@ -19,12 +19,10 @@
 
 package com.wemirr.framework.db.dynamic;
 
-import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.processor.DsJakartaHeaderProcessor;
 import com.baomidou.dynamic.datasource.processor.DsJakartaSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
-import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEventPublish;
 import com.wemirr.framework.db.dynamic.core.local.DynamicDatasourceEvent;
 import com.wemirr.framework.db.dynamic.core.local.DynamicDatasourceLocalListener;
@@ -35,7 +33,6 @@ import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.redis.plus.listener.MessageEventListener;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -45,8 +42,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * 如果要实现自定义 database 库名的话 也很容易
@@ -57,24 +52,24 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Configuration
 @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "type", havingValue = "datasource")
 @EnableConfigurationProperties(DatabaseProperties.class)
-public class TenantDynamicDataSourceEventBusAutoConfiguration {
+public class DynamicDataSourceEventBusAutoConfiguration {
 
     private static final String UNDEFINED = "undefined";
 
     @Bean
-    public TenantDynamicDataSourceHandler tenantDynamicDataSourceProcess() {
-        return new TenantDynamicDataSourceHandler();
+    public DynamicDataSourceHandler tenantDynamicDataSourceProcess() {
+        return new DynamicDataSourceHandler();
     }
 
     @Bean(initMethod = "init")
     @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "strategy", havingValue = "feign")
-    public TenantDynamicDataSourceLoad tenantDynamicDataSourceLoad(TenantDynamicDataSourceHandler handler, TenantFeignClient tenantFeignClient) {
-        return new TenantDynamicDataSourceLoad(handler, tenantFeignClient);
+    public DynamicDataSourceLoad tenantDynamicDataSourceLoad(DynamicDataSourceHandler handler, TenantFeignClient tenantFeignClient) {
+        return new DynamicDataSourceLoad(handler, tenantFeignClient);
     }
 
     @Bean
     @Order(value = Integer.MIN_VALUE)
-    public ApplicationListener<DynamicDatasourceEvent> applicationListener(TenantDynamicDataSourceHandler handler) {
+    public ApplicationListener<DynamicDatasourceEvent> applicationListener(DynamicDataSourceHandler handler) {
         return new DynamicDatasourceLocalListener(handler);
     }
 
@@ -87,54 +82,19 @@ public class TenantDynamicDataSourceEventBusAutoConfiguration {
     @Bean
     @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "db-notify", havingValue = "redis")
     @Order(value = Integer.MIN_VALUE)
-    public MessageEventListener redisDynamicDatasourceListener(TenantDynamicDataSourceHandler handler) {
+    public MessageEventListener redisDynamicDatasourceListener(DynamicDataSourceHandler handler) {
         return new RedisDynamicDatasourceListener(handler);
     }
 
     @Bean
     @Primary
-    public DsProcessor dsProcessor(DatabaseProperties properties) {
-        // 重写 DsHeaderProcessor
-        DsProcessor contentProcessor = new DsProcessor() {
-
-            private static final String CUSTOM_PREFIX = "#custom";
-
-            @Override
-            public boolean matches(String key) {
-                return key.startsWith(CUSTOM_PREFIX);
-            }
-
-            @Override
-            public String doDetermineDatasource(MethodInvocation invocation, String key) {
-                ServletRequestAttributes attributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
-                DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
-                if (attributes == null) {
-                    log.debug("Http request is empty,Switch the default datasource => {}", multiTenant.getDefaultDsName());
-                    return multiTenant.getDefaultDsName();
-                }
-                HttpServletRequest request = attributes.getRequest();
-                if (multiTenant.isUseAuthContent()) {
-                    AuthenticationContext context = SpringUtil.getBean(AuthenticationContext.class);
-                    if (context.anonymous()) {
-                        log.debug("匿名用户,切换默认数据源 - {}", multiTenant.getDefaultDsName());
-                        return multiTenant.getDefaultDsName();
-                    }
-                    String tenantCode = context.tenantCode();
-                    return getTenantDb(request, multiTenant, tenantCode);
-                }
-                String name = key.substring(8);
-                String tenantCode = StringUtils.defaultIfBlank(request.getHeader(name), request.getParameter(name));
-                log.debug("determine datasource name => {} , tenantCode => {}", name, tenantCode);
-                return getTenantDb(request, multiTenant, tenantCode);
-            }
-        };
+    public DsProcessor dsProcessor() {
         DsJakartaHeaderProcessor headerProcessor = new DsJakartaHeaderProcessor();
         DsJakartaSessionProcessor sessionProcessor = new DsJakartaSessionProcessor();
         DsSpelExpressionProcessor expressionProcessor = new DsSpelExpressionProcessor();
-        contentProcessor.setNextProcessor(headerProcessor);
         headerProcessor.setNextProcessor(sessionProcessor);
         sessionProcessor.setNextProcessor(expressionProcessor);
-        return contentProcessor;
+        return headerProcessor;
     }
 
     private String getTenantDb(HttpServletRequest request, DatabaseProperties.MultiTenant multiTenant, String tenantCode) {

@@ -71,8 +71,6 @@ public class TenantPageResp {
     private String creditCode;
     @Schema(description = "法人")
     private String legalPersonName;
-    @Schema(description = "WEB站点")
-    private String webSite;
     @Schema(description = "描述")
     private String description;
 

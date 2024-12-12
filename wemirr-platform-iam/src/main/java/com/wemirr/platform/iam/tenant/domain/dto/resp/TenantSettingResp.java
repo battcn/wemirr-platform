@@ -17,16 +17,31 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.base.repository;
+package com.wemirr.platform.iam.tenant.domain.dto.resp;
 
-import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.platform.iam.tenant.domain.entity.DynamicDatasource;
-import org.springframework.stereotype.Repository;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 /**
- * @author levin
+ * @author Levin
  */
-@Repository
-public interface DynamicDatasourceMapper extends SuperMapper<DynamicDatasource> {
+@Data
+@Schema(name = "TenantSettingResp")
+public class TenantSettingResp {
+
+    @Schema(description = "站点地址")
+    private String siteUrl;
+
+    @Schema(description = "站点标题")
+    private String siteTitle;
+
+    @Schema(description = "站点子标题")
+    private String siteSubTitle;
+
+    @Schema(description = "站点LOGO")
+    private String siteLogo;
+
+    @Schema(description = "DB-ID")
+    private Long dbId;
 
 }

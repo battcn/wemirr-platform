@@ -24,10 +24,11 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
-import com.wemirr.framework.db.dynamic.TenantDynamicDataSourceHandler;
+import com.wemirr.framework.db.dynamic.DynamicDataSourceHandler;
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -48,17 +49,18 @@ import com.wemirr.platform.iam.system.repository.RoleMapper;
 import com.wemirr.platform.iam.system.repository.UserMapper;
 import com.wemirr.platform.iam.system.repository.UserRoleMapper;
 import com.wemirr.platform.iam.tenant.domain.dto.req.TenantConfigReq;
-import com.wemirr.platform.iam.tenant.domain.dto.req.TenantModifyReq;
 import com.wemirr.platform.iam.tenant.domain.dto.req.TenantSaveReq;
+import com.wemirr.platform.iam.tenant.domain.dto.req.TenantSettingReq;
+import com.wemirr.platform.iam.tenant.domain.dto.resp.TenantSettingResp;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
-import com.wemirr.platform.iam.tenant.domain.entity.TenantConfig;
 import com.wemirr.platform.iam.tenant.domain.entity.TenantDict;
 import com.wemirr.platform.iam.tenant.domain.entity.TenantDictItem;
-import com.wemirr.platform.iam.tenant.repository.TenantConfigMapper;
+import com.wemirr.platform.iam.tenant.domain.entity.TenantSetting;
 import com.wemirr.platform.iam.tenant.repository.TenantDictItemMapper;
 import com.wemirr.platform.iam.tenant.repository.TenantDictMapper;
 import com.wemirr.platform.iam.tenant.repository.TenantMapper;
-import com.wemirr.platform.iam.tenant.service.TenantDatasourceService;
+import com.wemirr.platform.iam.tenant.repository.TenantSettingMapper;
+import com.wemirr.platform.iam.tenant.service.DbSettingService;
 import com.wemirr.platform.iam.tenant.service.TenantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -81,15 +83,14 @@ import java.util.stream.Collectors;
 public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> implements TenantService {
 
     private final AuthenticationContext context;
+    private final TenantSettingMapper tenantSettingMapper;
     private final AreaMapper areaMapper;
     private final RoleMapper roleMapper;
     private final UserRoleMapper userRoleMapper;
-    private final TenantConfigMapper tenantConfigMapper;
-    private final TenantDatasourceService dynamicDatasourceService;
+    private final DbSettingService dbSettingService;
     private final DatabaseProperties properties;
     private final UserMapper userMapper;
     private final OrgMapper orgMapper;
-    //    private PasswordEncoder passwordEncoder;
     private final SysDictMapper dictMapper;
     private final SysDictItemMapper dictItemMapper;
     private final TenantDictMapper tenantDictMapper;
@@ -119,62 +120,55 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         if (codeCount > 0) {
             throw CheckedException.badRequest("租户编码重复");
         }
-        if (StrUtil.isNotBlank(req.getWebSite())) {
-            Long domainCount = this.baseMapper.selectCount(Tenant::getWebSite, req.getWebSite());
-            if (domainCount > 0) {
-                throw CheckedException.badRequest("域名已被使用");
-            }
-        }
         Tenant tenant = BeanUtil.toBean(req, Tenant.class);
         tenant.setProvinceName(getNameById(tenant.getProvinceId()));
         tenant.setCityName(getNameById(tenant.getCityId()));
         tenant.setDistrictName(getNameById(tenant.getDistrictId()));
-        baseMapper.insert(tenant);
+        this.baseMapper.insert(tenant);
     }
 
     @Override
     @DSTransactional(rollbackFor = Exception.class)
-    public void modify(Long id, TenantModifyReq req) {
+    public void modify(Long id, TenantSaveReq req) {
         final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(id))
                 .orElseThrow(() -> CheckedException.notFound("租户不存在"));
         Long nameCount = this.baseMapper.selectCount(Wraps.<Tenant>lbQ().eq(Tenant::getName, req.getName()).ne(Tenant::getId, id));
         if (nameCount > 0) {
             throw CheckedException.badRequest("租户名称重复");
         }
-        Long domainCount = this.baseMapper.selectCount(Wraps.<Tenant>lbQ().eq(Tenant::getWebSite, req.getWebSite()).ne(Tenant::getId, id));
-        if (domainCount > 0) {
-            throw CheckedException.badRequest("域名已被使用");
+        Long codeCount = this.baseMapper.selectCount(Wraps.<Tenant>lbQ().eq(Tenant::getCode, req.getCode()).ne(Tenant::getId, id));
+        if (codeCount > 0) {
+            throw CheckedException.badRequest("租户编码重复");
         }
-        Tenant bean = BeanUtil.toBean(req, Tenant.class);
-        bean.setId(id);
+        Tenant bean = BeanUtilPlus.toBean(id, req, Tenant.class);
         bean.setProvinceName(getNameById(tenant.getProvinceId()));
         bean.setCityName(getNameById(tenant.getCityId()));
         bean.setDistrictName(getNameById(tenant.getDistrictId()));
-        baseMapper.updateById(bean);
+        this.baseMapper.updateById(bean);
     }
 
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void tenantConfig(Long tenantId, TenantConfigReq req) {
-        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantId))
-                .orElseThrow(() -> CheckedException.notFound("租户不存在"));
-        if (!tenant.getStatus()) {
-            throw CheckedException.badRequest("租户未启用");
-        }
-        if (StringUtils.equals(tenant.getCode(), properties.getMultiTenant().getSuperTenantCode())) {
-            throw CheckedException.badRequest("超级租户,禁止操作");
-        }
-        TenantConfig tenantConfig = this.tenantConfigMapper.selectOne(TenantConfig::getTenantId, tenantId);
-        if (tenantConfig == null) {
-            tenantConfigMapper.insert(TenantConfig.builder().tenantId(tenantId).datasourceId(req.getDatasourceId()).build());
-        } else {
-            tenantConfigMapper.updateById(TenantConfig.builder().id(tenantConfig.getId()).datasourceId(req.getDatasourceId()).build());
-        }
-        // 先创建
-        dynamicDatasourceService.publishEvent(EventAction.INIT, tenant.getId());
-        if (!req.isLazy()) {
+//        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantId))
+//                .orElseThrow(() -> CheckedException.notFound("租户不存在"));
+//        if (!tenant.getStatus()) {
+//            throw CheckedException.badRequest("租户未启用");
+//        }
+//        if (StringUtils.equals(tenant.getCode(), properties.getMultiTenant().getSuperTenantCode())) {
+//            throw CheckedException.badRequest("超级租户,禁止操作");
+//        }
+//        TenantConfig tenantConfig = this.tenantConfigMapper.selectOne(TenantConfig::getTenantId, tenantId);
+//        if (tenantConfig == null) {
+//            tenantConfigMapper.insert(TenantConfig.builder().tenantId(tenantId).datasourceId(req.getDatasourceId()).build());
+//        } else {
+//            tenantConfigMapper.updateById(TenantConfig.builder().id(tenantConfig.getId()).datasourceId(req.getDatasourceId()).build());
+//        }
+//        // 先创建
+//        dynamicDatasourceService.publishEvent(EventAction.INIT, tenant.getId());
+//        if (!req.isLazy()) {
 //            initSqlScript(tenantId);
-        }
+//        }
     }
 
     @Override
@@ -223,14 +217,14 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             this.userRoleMapper.insert(UserRole.builder().userId(record.getId()).roleId(role.getId()).build());
 
         } else if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
-            TenantDynamicDataSourceHandler tenantDynamicDataSourceHandler = SpringUtil.getBean(TenantDynamicDataSourceHandler.class);
-            tenantDynamicDataSourceHandler.initSqlScript(tenant.getCode(), Map.of("tenant_id", tenant.getId() + "", "tenant_name", tenant.getName()));
+            DynamicDataSourceHandler dynamicDataSourceHandler = SpringUtil.getBean(DynamicDataSourceHandler.class);
+            dynamicDataSourceHandler.initSqlScript(tenant.getCode(), Map.of("tenant_id", tenant.getId() + "", "tenant_name", tenant.getName()));
         }
     }
 
     @Override
     @DSTransactional(rollbackFor = Exception.class)
-    public void refreshTenantDict(Long id) {
+    public void refreshTenantDict(Long tenantId) {
         // 查询超管 所有字典数据
         // TODO 默认查询租户ID = 1 的 , 后续改造成配置文件读取的 超管租户ID
         List<SysDict> dictList = dictMapper.selectList(SysDict::getType, 1);
@@ -254,7 +248,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
                 .map(x -> {
                     TenantDictItem item = BeanUtil.toBean(x, TenantDictItem.class);
                     item.setId(null);
-                    item.setTenantId(id);
+                    item.setTenantId(tenantId);
                     item.setLastModifiedTime(Instant.now());
                     item.setLastModifiedBy(context.userId());
                     item.setLastModifiedName(context.nickName());
@@ -262,10 +256,46 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
                 }).toList();
         // TODO 暂未实现动态数据源刷新 => 如果是动态数据源需要手动切换一下DB
         // 理论上如果是管理员刷新租户字典那么需要给租户的数据给删除然后重新添加
-        this.tenantDictMapper.delete(Wraps.<TenantDict>lbQ().eq(TenantDict::getTenantId, id));
-        this.tenantDictItemMapper.delete(Wraps.<TenantDictItem>lbQ().eq(TenantDictItem::getTenantId, id));
+        this.tenantDictMapper.delete(Wraps.<TenantDict>lbQ().eq(TenantDict::getTenantId, tenantId));
+        this.tenantDictItemMapper.delete(Wraps.<TenantDictItem>lbQ().eq(TenantDictItem::getTenantId, tenantId));
         // 将新数据写入到租户字典表中
         this.tenantDictMapper.insertBatchSomeColumn(dictTypeList);
         this.tenantDictItemMapper.insertBatchSomeColumn(dictDataList);
+    }
+
+    @Override
+    public TenantSettingResp settingInfo(Long tenantId) {
+        TenantSetting setting = this.tenantSettingMapper.selectOne(TenantSetting::getTenantId, tenantId);
+        return BeanUtil.toBean(setting, TenantSettingResp.class);
+    }
+
+    @Override
+    @DSTransactional(rollbackFor = Exception.class)
+    public void saveSetting(Long tenantId, TenantSettingReq req) {
+        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantId)).orElseThrow(() -> CheckedException.notFound("租户不存在"));
+        if (!tenant.getStatus()) {
+            throw CheckedException.badRequest("租户未启用");
+        }
+        if (StringUtils.equals(tenant.getCode(), properties.getMultiTenant().getSuperTenantCode())) {
+            throw CheckedException.badRequest("超级租户,禁止操作");
+        }
+        String siteUrl = req.getSiteUrl();
+        if (StrUtil.isNotBlank(siteUrl)) {
+            Long count = this.tenantSettingMapper.selectCount(Wraps.<TenantSetting>lbQ()
+                    .ne(TenantSetting::getTenantId, tenantId).eq(TenantSetting::getSiteUrl, req.getSiteUrl()));
+            if (count != null && count > 0) {
+                throw CheckedException.badRequest("该租户站点已存在");
+            }
+        }
+        TenantSetting setting = this.tenantSettingMapper.selectOne(TenantSetting::getTenantId, tenantId);
+        var bean = BeanUtil.toBean(req, TenantSetting.class);
+        bean.setTenantId(tenantId);
+        if (setting == null) {
+            this.tenantSettingMapper.insert(bean);
+        } else {
+            bean.setId(setting.getId());
+            this.tenantSettingMapper.updateById(bean);
+        }
+        dbSettingService.publishEvent(EventAction.INIT, tenantId);
     }
 }
