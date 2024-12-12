@@ -22,12 +22,12 @@ package com.wemirr.framework.db.dynamic;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
 import com.baomidou.dynamic.datasource.creator.hikaricp.HikariDataSourceCreator;
 import com.baomidou.dynamic.datasource.support.ScriptRunner;
 import com.google.common.collect.Lists;
+import com.wemirr.framework.commons.MvelHelper;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
 import com.wemirr.framework.db.dynamic.core.EventAction;
@@ -43,8 +43,6 @@ import javax.sql.DataSource;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -57,10 +55,8 @@ import java.util.Set;
 public class DynamicDataSourceHandler {
 
     public static final String TENANT_DATASOURCE_POOL = "TenantDataSourcePool_%s";
-    private static final String CREATE_DATABASE_SCRIPT = "CREATE DATABASE IF NOT EXISTS %s DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
-
     @Resource
-    private DataSource dataSource;
+    private DynamicRoutingDataSource dynamicRoutingDataSource;
     @Resource
     private HikariDataSourceCreator hikariDataSourceCreator;
     @Resource
@@ -97,34 +93,26 @@ public class DynamicDataSourceHandler {
             return;
         }
         log.info("接收租户事件消息: - {} - {}", action, db);
-        DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
         final DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
         final String database = multiTenant.getDsPrefix() + db.getTenantCode();
         if (action == EventAction.DEL) {
-            ds.removeDataSource(database);
+            dynamicRoutingDataSource.removeDataSource(database);
             log.info("数据源移除成功 - {}", database);
             return;
         }
         if (action == EventAction.INIT) {
             // 创建数据库
-            DataSourceProperty dataSourceProperty = getDataSourceProperty(db, database, false);
-            DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
-            log.debug("数据源信息 - {} - {} - {}", dataSourceProperty.getUsername(), dataSourceProperty.getPassword(), database);
-            final String createDatabaseScript = String.format(CREATE_DATABASE_SCRIPT, database);
-            log.debug("数据库创建执行成功 - {}", createDatabaseScript);
-            try (Connection conn = dataSource.getConnection(); Statement stat = conn.createStatement()) {
-                stat.executeUpdate(createDatabaseScript);
-            } catch (Exception e) {
-                log.error("执行创建数据库脚本异常", e);
-                return;
-            }
+            DataSourceProperty property = getDataSourceProperty(db, database, false);
+            DataSource dataSource = hikariDataSourceCreator.createDataSource(property);
+            log.debug("数据源信息 - {} - {} - {}", property.getUsername(), property.getPassword(), database);
+            SchemaUtil.createSchemaIfNotExists(db.getDbType(), database, dataSource);
         }
         DataSourceProperty dataSourceProperty = getDataSourceProperty(db, database, true);
         DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
         log.debug("数据源信息 - {} - {} - {}", dataSourceProperty.getUsername(), dataSourceProperty.getPassword(), database);
-        ds.addDataSource(database, dataSource);
+        dynamicRoutingDataSource.addDataSource(database, dataSource);
         log.info("数据源添加成功 - {}", database);
-        final Set<String> dsSets = ds.getDataSources().keySet();
+        final Set<String> dsSets = dynamicRoutingDataSource.getDataSources().keySet();
         log.debug("连接池信息 - {}", dsSets);
     }
 
@@ -136,20 +124,19 @@ public class DynamicDataSourceHandler {
         return multiTenant.getDsPrefix() + tenantCode;
     }
 
-    public void initSqlScript(String tenantCode, Map<String, String> scriptContext) {
-        runScript(tenantCode, scriptContext);
+    public void initSqlScript(String tenantCode, Map<String, Object> variables) {
+        runScript(tenantCode, variables);
     }
 
     @SneakyThrows
-    private void runScript(String tenantCode, Map<String, String> scriptContext) {
+    private void runScript(String tenantCode, Map<String, Object> variables) {
         log.info("runScript tenantCode - {}", tenantCode);
         if (tenantCode == null) {
             throw CheckedException.badRequest("租户编码不能为空");
         }
         String dsKey = buildDb(tenantCode);
-        DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
         // 从ThreadLocal中获取当前数据源
-        final DataSource dataSource = ds.getDataSource(dsKey);
+        final DataSource dataSource = dynamicRoutingDataSource.getDataSource(dsKey);
         ScriptRunner scriptRunner = new ScriptRunner(false, ";");
         final DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
         final List<String> tenantSqlScripts = multiTenant.getTenantSqlScripts();
@@ -160,17 +147,11 @@ public class DynamicDataSourceHandler {
         for (String scriptPath : tenantSqlScripts) {
             log.info("path - {}", scriptPath);
             final InputStream stream = resourceLoader.getResource(scriptPath).getInputStream();
-            List<String> scriptContent = IoUtil.readUtf8Lines(stream, Lists.newArrayList());
+            List<String> scriptLine = IoUtil.readUtf8Lines(stream, Lists.newArrayList());
             final File tmpFile = FileUtil.createTempFile(new File(Objects.requireNonNull(this.getClass().getResource("/")).getPath()));
             List<String> newSqlScript = Lists.newArrayList();
-            for (String text : scriptContent) {
-                if (scriptContext == null) {
-                    continue;
-                }
-                for (Map.Entry<String, String> entry : scriptContext.entrySet()) {
-                    text = StrUtil.replace(text, "${" + entry.getKey() + "}", entry.getValue());
-                }
-                newSqlScript.add(text);
+            for (String text : scriptLine) {
+                newSqlScript.add(MvelHelper.format(text, variables));
             }
             FileUtil.writeLines(newSqlScript, tmpFile, StandardCharsets.UTF_8);
             scriptRunner.runScript(dataSource, tmpFile.getName());
