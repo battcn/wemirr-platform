@@ -16,15 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.wemirr.platform.suite.file.domain.dto.req;
 
-package com.wemirr.framework.commons;
+import lombok.Data;
 
 /**
  * @author Levin
  */
-public class FeignConstants {
+@Data
+public class DynamicReleaseDragReq implements java.io.Serializable {
 
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
-    public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
+    private String model;
+    private String label;
+    private Boolean locked;
+    private String description;
 
 }

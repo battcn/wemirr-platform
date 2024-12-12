@@ -16,15 +16,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.wemirr.platform.suite.file.domain.dto.req;
 
-package com.wemirr.framework.commons;
+import com.wemirr.framework.db.mybatisplus.page.PageRequest;
+import lombok.*;
+
+import java.util.List;
 
 /**
  * @author Levin
  */
-public class FeignConstants {
+@EqualsAndHashCode(callSuper = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class DynamicReleaseQueryDrag extends PageRequest {
 
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
-    public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
-
+    private List<DynamicReleaseQuery> queries;
 }

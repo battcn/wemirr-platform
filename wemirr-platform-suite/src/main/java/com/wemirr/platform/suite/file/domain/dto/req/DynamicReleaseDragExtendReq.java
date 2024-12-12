@@ -16,15 +16,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.wemirr.platform.suite.file.domain.dto.req;
 
-package com.wemirr.framework.commons;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * @author Levin
  */
-public class FeignConstants {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class DynamicReleaseDragExtendReq {
 
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
-    public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
+    @NotBlank(message = "请求方法不能为空")
+    private String method;
+    @NotBlank(message = "请求地址不能为空")
+    private String url;
+    @NotBlank(message = "秘钥不能为空")
+    private String secret;
+    private List<String> opt;
+    private Boolean locked;
 
 }

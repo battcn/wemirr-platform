@@ -16,15 +16,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.wemirr.platform.suite.gen.service;
 
-package com.wemirr.framework.commons;
+import com.wemirr.framework.db.mybatisplus.ext.SuperService;
+import com.wemirr.platform.suite.file.domain.dto.resp.GenerateTableResp;
+import com.wemirr.platform.suite.gen.domain.entity.GenerateEntity;
+
+import java.util.List;
 
 /**
  * @author Levin
  */
-public class FeignConstants {
+public interface GenerateService extends SuperService<GenerateEntity> {
 
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
-    public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
+    /**
+     * 生成
+     *
+     * @param request request
+     * @return 生成结果
+     */
+    String generate(GenerateEntity request);
 
+    /**
+     * 显示所有表
+     *
+     * @return 表名
+     */
+    List<GenerateTableResp> loadTables();
 }

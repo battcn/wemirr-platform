@@ -16,15 +16,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.wemirr.platform.suite.file.domain.dto.resp;
 
-package com.wemirr.framework.commons;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.Instant;
+import java.util.List;
 
 /**
  * @author Levin
  */
-public class FeignConstants {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class DynamicReleaseDragPushServerResp {
 
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
-    public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
+    private Long id;
+    private String method;
+    private String url;
+    private String secret;
+    private List<String> opt;
+    private Boolean locked;
+    @Schema(description = "创建时间")
+    private Instant createdTime;
 
 }

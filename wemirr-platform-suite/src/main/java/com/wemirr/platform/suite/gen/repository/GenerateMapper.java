@@ -16,15 +16,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.wemirr.platform.suite.gen.repository;
 
-package com.wemirr.framework.commons;
+import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
+import com.wemirr.platform.suite.gen.domain.entity.GenerateEntity;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author Levin
  */
-public class FeignConstants {
+@Repository
+public interface GenerateMapper extends SuperMapper<GenerateEntity> {
 
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
-    public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
-
+    /**
+     * 显示所有表
+     *
+     * @return 表名
+     */
+    @Select("show tables")
+    List<String> loadTables();
 }

@@ -16,15 +16,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.wemirr.platform.suite.file.domain.dto.resp;
 
-package com.wemirr.framework.commons;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
+ * @param <T> T
  * @author Levin
  */
-public class FeignConstants {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class DynamicReleaseLogTrackResp<T> {
 
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
-    public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
+    private T id;
+    private String createdName;
+    private String createdTime;
+    private Integer status;
+    private String result;
 
 }

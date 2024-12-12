@@ -16,15 +16,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.wemirr.platform.suite.file.domain.dto.req.resource;
 
-package com.wemirr.framework.commons;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * @author Levin
  */
-public class FeignConstants {
+@Data
+public class FileSaveReq {
 
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
-    public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
+    @NotBlank(message = "文件名称不能为空")
+    private String fileName;
+
+    @NotBlank(message = "映射地址不能为空")
+    private String mappingPath;
+    /**
+     * 描述
+     */
+    @Schema(description = "描述")
+    @Length(max = 200, message = "描述长度不能超过200")
+    private String description;
 
 }

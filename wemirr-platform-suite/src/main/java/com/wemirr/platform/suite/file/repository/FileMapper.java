@@ -16,15 +16,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.wemirr.platform.suite.file.repository;
 
-package com.wemirr.framework.commons;
+
+import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
+import com.wemirr.platform.suite.file.domain.entity.FileEntity;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author Levin
  */
-public class FeignConstants {
 
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
-    public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
-
+@Repository
+public interface FileMapper extends SuperMapper<FileEntity> {
 }

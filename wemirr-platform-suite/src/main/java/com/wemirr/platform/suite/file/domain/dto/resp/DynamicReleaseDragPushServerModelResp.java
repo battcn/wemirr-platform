@@ -16,15 +16,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.wemirr.platform.suite.file.domain.dto.resp;
 
-package com.wemirr.framework.commons;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * @author Levin
  */
-public class FeignConstants {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class DynamicReleaseDragPushServerModelResp {
 
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
-    public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
+    private List<DynamicReleaseDragModel> modelList;
+    private List<Long> checkedModels;
 
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DynamicReleaseDragModel {
+
+        private Long id;
+        private String label;
+    }
 }

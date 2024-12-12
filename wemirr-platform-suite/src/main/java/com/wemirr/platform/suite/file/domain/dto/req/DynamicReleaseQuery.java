@@ -16,15 +16,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.wemirr.platform.suite.file.domain.dto.req;
 
-package com.wemirr.framework.commons;
+import com.wemirr.platform.suite.file.domain.enums.Expression;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Levin
  */
-public class FeignConstants {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class DynamicReleaseQuery {
 
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
-    public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
+    private String column;
+    private Object value;
+    private Expression expression;
 
+    public String toCondition() {
+        if (expression == Expression.LIKE) {
+            return "`" + column + "` " + expression.value + "'%" + value + "%'";
+        }
+        return "`" + column + "` " + expression.value + "'" + value + "'";
+    }
 }

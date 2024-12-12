@@ -9,9 +9,9 @@ knife4j:
         service-name: wemirr-platform-iam
         order: 2
       - name: 工具服务
-        url: /tools/v3/api-docs?group=default
-        context-path: /tools
-        service-name: wemirr-platform-tools
+        url: /suite/v3/api-docs?group=default
+        context-path: /suite
+        service-name: wemirr-platform-suite
         order: 3
 # 不校验验证码终端
 ignore:
@@ -91,10 +91,10 @@ spring:
             - Path=/iam/**
           filters:
             - StripPrefix=1
-        - id: wemirr-platform-tools
-          uri: lb://wemirr-platform-tools
+        - id: wemirr-platform-suite
+          uri: lb://wemirr-platform-suite
           predicates:
-            - Path=/tools/**
+            - Path=/suite/**
           filters:
             - StripPrefix=1
             - PreserveHostHeader

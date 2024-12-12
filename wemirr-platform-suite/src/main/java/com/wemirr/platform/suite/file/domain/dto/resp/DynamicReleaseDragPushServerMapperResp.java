@@ -16,15 +16,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.wemirr.platform.suite.file.domain.dto.resp;
 
-package com.wemirr.framework.commons;
+import lombok.Data;
 
 /**
  * @author Levin
  */
-public class FeignConstants {
+@Data
+public class DynamicReleaseDragPushServerMapperResp {
 
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
-    public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
+    private String model;
+    private String method;
+    private Long pushId;
+    private Long dragId;
+    private String url;
 
 }

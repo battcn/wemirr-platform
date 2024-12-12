@@ -16,15 +16,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.wemirr.platform.suite.file.service;
 
-package com.wemirr.framework.commons;
+import com.wemirr.framework.db.mybatisplus.ext.SuperService;
+import com.wemirr.framework.storage.domain.StorageRequest;
+import com.wemirr.framework.storage.domain.StorageResponse;
+import com.wemirr.platform.suite.file.domain.entity.FileEntity;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Levin
  */
-public class FeignConstants {
+public interface FileService extends SuperService<FileEntity> {
 
-    public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
-    public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
+    /**
+     * 文件上传
+     *
+     * @param storage storage
+     * @param request request
+     * @return 上传结果
+     */
+    StorageResponse upload(StorageRequest storage, HttpServletRequest request);
 
 }

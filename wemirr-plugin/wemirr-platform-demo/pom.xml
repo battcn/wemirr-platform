@@ -67,7 +67,7 @@
         </dependency>
         <dependency>
             <groupId>com.wemirr</groupId>
-            <artifactId>wemirr-platform-tools-api</artifactId>
+            <artifactId>wemirr-platform-suite-api</artifactId>
             <version>3.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
