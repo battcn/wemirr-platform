@@ -19,10 +19,10 @@ import ${superControllerClassPackage};
 
 
 /**
-* ${table.comment!} 前端控制器
-* @author ${author}
-* @since ${date}
-*/
+ * ${table.comment!} 控制器
+ * @author ${author}
+ * @since ${date}
+ */
 <#if restControllerStyle>
 @RestController
 <#else>
