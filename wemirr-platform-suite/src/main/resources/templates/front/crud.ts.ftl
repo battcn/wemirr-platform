@@ -12,7 +12,7 @@ request: {
 pageRequest: async (query) => await api.pageList(query),
 addRequest: async ({ form }) => await api.create(form),
 editRequest: async ({ form }) => await api.modify(form),
-delRequest: async ({ row }) => await api.delete(row.id),
+delRequest: async ({ row }) => await api.remove(row.id),
 },
 toolbar: {},
 actionbar: {

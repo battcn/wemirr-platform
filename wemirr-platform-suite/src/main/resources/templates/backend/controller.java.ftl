@@ -3,11 +3,10 @@ package ${package.Controller};
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.framework.db.page.PageRequest;
+import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import ${package.Entity}.${entity};
 import ${package.Service}.${table.serviceName};
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
@@ -72,13 +71,14 @@ public class ${table.controllerName} {
     }
 
     /**
-    * 修改${table.comment!}
+    * 修改
     *
-    * @param ${table.entityPath} ${table.comment!}
+    * @param id      id
+    * @param ${table.entityPath} ${table.entityPath}
     */
     @PutMapping("/{id}/modify")
     public void modify(@PathVariable("id") Long id ,@RequestBody ${entity} ${table.entityPath}) {
-    return Result.success(${table.entityPath}Service.updateById(${table.entityPath}));
+        ${table.entityPath}Service.modify(id,${table.entityPath});
     }
 
     /**

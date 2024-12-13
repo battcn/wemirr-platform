@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import java.io.Serial;
 </#if>
 
 /**
@@ -45,6 +46,7 @@ public class ${entity} extends Model<${entity}> {
 public class ${entity} implements Serializable {
 </#if>
 
+    import java.io.Serial;
     <#if entitySerialVersionUID>
 
     </#if>

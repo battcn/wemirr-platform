@@ -13,7 +13,7 @@ export function modify(obj) {
     return defHttp.put(apiPrefix + `/obj.id/modify`,obj);
 }
 
-export function delete(id) {
+export function remove(id) {
     return defHttp.delete(apiPrefix + `/obj.id`);
 }
 
