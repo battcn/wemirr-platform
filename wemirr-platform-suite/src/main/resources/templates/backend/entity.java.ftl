@@ -1,49 +1,49 @@
 package ${package.Entity};
 
 <#list table.importPackages as pkg>
-    import ${pkg};
+import ${pkg};
 </#list>
 <#if swagger2>
-    import io.swagger.v3.oas.annotations.media.Schema;
-    import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 </#if>
 <#if entityLombokModel>
-    import lombok.Data;
-    import lombok.EqualsAndHashCode;
-    import lombok.experimental.Accessors;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 </#if>
 
 /**
 * <p>
-    * ${table.comment!}
-    * </p>
+* ${table.comment!}
+* </p>
 *
 * @author ${author}
 * @since ${date}
 */
 <#if entityLombokModel>
-    @Data
-    <#if superEntityClass??>
-        @EqualsAndHashCode(callSuper = true)
-    <#else>
-        @EqualsAndHashCode(callSuper = false)
-    </#if>
-    @Accessors(chain = true)
+@Data
+<#if superEntityClass??>
+@EqualsAndHashCode(callSuper = true)
+<#else>
+@EqualsAndHashCode(callSuper = false)
+</#if>
+@Accessors(chain = true)
 </#if>
 <#if table.convert>
-    @TableName("${table.name}")
+@TableName("${table.name}")
 </#if>
 <#if swagger2>
-    @ApiModel(value="${entity}对象", description="${table.comment!}")
+@ApiModel(value="${entity}对象", description="${table.comment!}")
 </#if>
 <#if superEntityClass??>
 public class ${entity} extends ${superEntityClass}
 <Long><#if activeRecord><${entity}></#if> {
-    <#elseif activeRecord>
-        public class ${entity} extends Model<${entity}> {
-    <#else>
-        public class ${entity} implements Serializable {
-    </#if>
+<#elseif activeRecord>
+public class ${entity} extends Model<${entity}> {
+<#else>
+public class ${entity} implements Serializable {
+</#if>
 
     <#if entitySerialVersionUID>
 

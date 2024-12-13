@@ -1,35 +1,19 @@
-import { defHttp } from "@/utils/http/axios";
+import { defHttp } from '#/api/request';
 
 const apiPrefix = "<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>manager/${table.entityPath}</#if>";
 
-export function GetList(query) {
-return defHttp.request({
-url: apiPrefix + '/page',
-method: "get",
-params: query,
-});
+export function pageList(query) {
+    return defHttp.get(apiPrefix + '/page', { params: query });
 }
-export function AddObj(obj) {
-return defHttp.request({
-url: apiPrefix,
-method: "post",
-data: obj,
-});
+export function create(obj) {
+    return defHttp.post(apiPrefix + `/create`,obj);
 }
 
-export function UpdateObj(obj) {
-return defHttp.request({
-url: apiPrefix + `/obj.id`,
-method: "put",
-data: obj,
-});
+export function modify(obj) {
+    return defHttp.put(apiPrefix + `/obj.id/modify`,obj);
 }
 
-export function DelObj(id) {
-return defHttp.request({
-url: apiPrefix + `/obj.id`,
-method: "delete",
-data: { id },
-});
+export function delete(id) {
+    return defHttp.delete(apiPrefix + `/obj.id`);
 }
 

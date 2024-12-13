@@ -8,17 +8,11 @@ knife4j:
         context-path: /iam
         service-name: wemirr-platform-iam
         order: 2
-      - name: 工具服务
+      - name: Dev Suite
         url: /suite/v3/api-docs?group=default
         context-path: /suite
         service-name: wemirr-platform-suite
         order: 3
-# 不校验验证码终端
-ignore:
-  clients:
-    - test
-  swagger-providers:
-    - wemirr-platform-gateway
 server:
   port: 9000
 spring:
@@ -121,6 +115,3 @@ spring:
           max-idle-time: 30s
           max-connections: 1000
           acquire-timeout: 180000
-    discovery:
-      reactive:
-        enabled: false

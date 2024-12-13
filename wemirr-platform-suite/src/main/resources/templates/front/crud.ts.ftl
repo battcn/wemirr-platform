@@ -9,10 +9,10 @@ const { fetchReceiver, searchState } = searchRemote;
 return {
 crudOptions: {
 request: {
-pageRequest: async (query) => await api.GetList(query),
-addRequest: async ({ form }) => await api.AddObj(form),
-editRequest: async ({ form }) => await api.UpdateObj(form),
-delRequest: async ({ row }) => await api.DelObj(row.id),
+pageRequest: async (query) => await api.pageList(query),
+addRequest: async ({ form }) => await api.create(form),
+editRequest: async ({ form }) => await api.modify(form),
+delRequest: async ({ row }) => await api.delete(row.id),
 },
 toolbar: {},
 actionbar: {

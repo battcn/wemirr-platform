@@ -10,37 +10,35 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 <#if restControllerStyle>
-    import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestController;
 <#else>
-    import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Controller;
 </#if>
 <#if superControllerClassPackage??>
-    import ${superControllerClassPackage};
+import ${superControllerClassPackage};
 </#if>
 
+
 /**
-* <p>
-    * ${table.comment!} 前端控制器
-    * </p>
-*
+* ${table.comment!} 前端控制器
 * @author ${author}
 * @since ${date}
 */
 <#if restControllerStyle>
-    @RestController
+@RestController
 <#else>
-    @Controller
+@Controller
 </#if>
 @AllArgsConstructor
 @RequestMapping("<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>manager/${table.entityPath}</#if>")
 <#if kotlin>
-    class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
+class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
-    <#if superControllerClass??>
-        public class ${table.controllerName} extends ${superControllerClass} {
-    <#else>
-        public class ${table.controllerName} {
-    </#if>
+<#if superControllerClass??>
+public class ${table.controllerName} extends ${superControllerClass} {
+<#else>
+public class ${table.controllerName} {
+</#if>
 
     private final ${entity}Service ${table.entityPath}Service;
 
@@ -49,7 +47,7 @@ import org.springframework.web.bind.annotation.*;
     */
     @GetMapping
     public Page<${entity}> get${entity}Page(PageRequest pageRequest) {
-    return ${table.entityPath}Service.page(pageRequest.buildPage());
+        return ${table.entityPath}Service.page(pageRequest.buildPage());
     }
 
     /**
@@ -60,7 +58,7 @@ import org.springframework.web.bind.annotation.*;
     */
     @GetMapping("/{id}")
     public ${entity} getById(@PathVariable("id") Long id) {
-    return ${table.entityPath}Service.getById(id);
+        return ${table.entityPath}Service.getById(id);
     }
 
     /**
@@ -69,8 +67,8 @@ import org.springframework.web.bind.annotation.*;
     * @param ${table.entityPath} ${table.comment!}
     */
     @PostMapping
-    public void save(@RequestBody ${entity} ${table.entityPath}) {
-    ${table.entityPath}Service.save(${table.entityPath});
+    public void create(@RequestBody ${entity} ${table.entityPath}) {
+        ${table.entityPath}Service.create(${table.entityPath});
     }
 
     /**
@@ -78,8 +76,8 @@ import org.springframework.web.bind.annotation.*;
     *
     * @param ${table.entityPath} ${table.comment!}
     */
-    @PutMapping("/{id}")
-    public void updateById(@PathVariable("id") Long id ,@RequestBody ${entity} ${table.entityPath}) {
+    @PutMapping("/{id}/modify")
+    public void modify(@PathVariable("id") Long id ,@RequestBody ${entity} ${table.entityPath}) {
     return Result.success(${table.entityPath}Service.updateById(${table.entityPath}));
     }
 
@@ -89,12 +87,10 @@ import org.springframework.web.bind.annotation.*;
     * @param id id
     */
     @DeleteMapping("/{id}")
-    public void removeById(@PathVariable Long id) {
-    ${table.entityPath}Service.removeById(id);
-
+    public void remove(@PathVariable Long id) {
+        ${table.entityPath}Service.removeById(id);
     }
-
-    }
+}
 </#if>
 
 
