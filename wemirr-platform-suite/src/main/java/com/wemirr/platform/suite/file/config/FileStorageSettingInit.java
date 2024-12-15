@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.plugins.IgnoreStrategy;
 import com.baomidou.mybatisplus.core.plugins.InterceptorIgnoreHelper;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
-import com.wemirr.platform.suite.file.domain.entity.ResourceStorageConfig;
-import com.wemirr.platform.suite.file.service.ResourceStorageConfigService;
+import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;
+import com.wemirr.platform.suite.file.service.FileStorageSettingService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,12 +32,12 @@ import static com.wemirr.platform.suite.file.domain.constants.StorageConstants.S
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
-public class ResourceStorageInit {
+public class FileStorageSettingInit {
 
 
     private final FileStorageService fileStorageService;
 
-    private final ResourceStorageConfigService imageStorageConfigService;
+    private final FileStorageSettingService imageStorageConfigService;
 
     private final StringRedisTemplate  redisTemplate;
 
@@ -46,23 +46,23 @@ public class ResourceStorageInit {
     public void init() {
         log.info("- 动态初始化存储策略开始 -");
         InterceptorIgnoreHelper.handle(IgnoreStrategy.builder().tenantLine(true).build());
-        final LbqWrapper<ResourceStorageConfig> wrapper = Wraps.<ResourceStorageConfig>lbQ()
-                .eq(ResourceStorageConfig::getEnableStorage, Boolean.TRUE);
-        List<ResourceStorageConfig> dbConfigList = imageStorageConfigService.list(wrapper);
+        final LbqWrapper<FileStorageSetting> wrapper = Wraps.<FileStorageSetting>lbQ()
+                .eq(FileStorageSetting::getEnableStorage, Boolean.TRUE);
+        List<FileStorageSetting> dbConfigList = imageStorageConfigService.list(wrapper);
         CopyOnWriteArrayList<FileStorage> fileStorageList = fileStorageService.getFileStorageList();
         List<FileStorageProperties.AmazonS3Config> amazonS3ConfigList = new ArrayList<>();
-        for (ResourceStorageConfig resourceStorageConfig : dbConfigList) {
+        for (FileStorageSetting fileStorageSetting : dbConfigList) {
                 FileStorageProperties.AmazonS3Config amazonS3Config = new FileStorageProperties.AmazonS3Config();
-                amazonS3Config.setPlatform(resourceStorageConfig.getPlatform());
-                amazonS3Config.setAccessKey(resourceStorageConfig.getAccessKey());
-                amazonS3Config.setSecretKey(resourceStorageConfig.getSecretKey());
-                amazonS3Config.setRegion(resourceStorageConfig.getRegion());
-                amazonS3Config.setEndPoint(resourceStorageConfig.getEndPoint());
-                amazonS3Config.setBucketName(resourceStorageConfig.getBucketName());
-                amazonS3Config.setDomain(resourceStorageConfig.getDomain());
-                amazonS3Config.setBasePath(resourceStorageConfig.getBasePath());
+                amazonS3Config.setPlatform(fileStorageSetting.getPlatform());
+                amazonS3Config.setAccessKey(fileStorageSetting.getAccessKey());
+                amazonS3Config.setSecretKey(fileStorageSetting.getSecretKey());
+                amazonS3Config.setRegion(fileStorageSetting.getRegion());
+                amazonS3Config.setEndPoint(fileStorageSetting.getEndPoint());
+                amazonS3Config.setBucketName(fileStorageSetting.getBucketName());
+                amazonS3Config.setDomain(fileStorageSetting.getDomain());
+                amazonS3Config.setBasePath(fileStorageSetting.getBasePath());
                 amazonS3ConfigList.add(amazonS3Config);
-                redisTemplate.opsForValue().set(geyKey(resourceStorageConfig.getTenantId()), resourceStorageConfig.getPlatform());
+                redisTemplate.opsForValue().set(geyKey(fileStorageSetting.getTenantId()), fileStorageSetting.getPlatform());
         }
         fileStorageList.addAll(FileStorageServiceBuilder.buildAmazonS3FileStorage(amazonS3ConfigList,null));
         log.info("- 动态初始化存储策略结束 -");

@@ -40,6 +40,8 @@
         <aliyun-sdk-oss.version>3.17.2</aliyun-sdk-oss.version>
         <qiniu-java-sdk.version>7.14.0</qiniu-java-sdk.version>
         <cos_api.version>5.6.191</cos_api.version>
+        <x-file-storage-spring.version>2.2.1</x-file-storage-spring.version>
+        <aws-java-sdk-s3.version>1.12.429</aws-java-sdk-s3.version>
         <!-- 工具包 -->
         <easyexcel.version>4.0.3</easyexcel.version>
         <guava.version>33.3.1-jre</guava.version>
@@ -118,6 +120,19 @@
                 <artifactId>cos_api</artifactId>
                 <version>${cos_api.version}</version>
             </dependency>
+
+            <!--文件上传sdk-->
+            <dependency>
+                <groupId>org.dromara.x-file-storage</groupId>
+                <artifactId>x-file-storage-spring</artifactId>
+                <version>${x-file-storage-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-s3</artifactId>
+                <version>${aws-java-sdk-s3.version}</version>
+            </dependency>
+
             <!-- 腾讯云存储结束 -->
             <dependency>
                 <groupId>com.alibaba</groupId>

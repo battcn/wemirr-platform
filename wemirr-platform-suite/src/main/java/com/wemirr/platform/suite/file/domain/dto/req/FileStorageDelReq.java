@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(name = "FileDelReq", description = "文件删除请求")
-public class ResourceDelReq {
+public class FileStorageDelReq {
     /**
      * 文件id
      */

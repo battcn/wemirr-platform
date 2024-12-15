@@ -20,8 +20,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "t_resource_record")
-public class ResourceInfoRecord extends SuperEntity<Long> {
+@TableName(value = "t_file_storage")
+public class FileStorage extends SuperEntity<Long> {
 
 
 
@@ -62,7 +62,7 @@ public class ResourceInfoRecord extends SuperEntity<Long> {
         /**
          * 存储路径
          */
-        @TableField(value = "`path`")
+        @TableField(value = "path")
         private String path;
 
         /**
@@ -82,6 +82,11 @@ public class ResourceInfoRecord extends SuperEntity<Long> {
          */
         @TableField(value = "platform")
         private String platform;
+        /**
+         * 存储平台V
+         */
+        @TableField(value = "platform_v")
+        private String platformV;
 
         /**
          * 缩略图访问路径

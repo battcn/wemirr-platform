@@ -18,8 +18,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName("t_resource_config")
-public class ResourceStorageConfig extends SuperEntity<Long> {
+@TableName("t_file_storage_setting")
+public class FileStorageSetting extends SuperEntity<Long> {
 
     /**
      * 平台名称 【teantId-平台名称】 唯一值，用于x-file区分平台
