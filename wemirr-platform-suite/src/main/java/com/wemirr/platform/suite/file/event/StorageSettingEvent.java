@@ -1,50 +1,41 @@
 package com.wemirr.platform.suite.file.event;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 /**
- * @author xiao1
- * @date 2024-12
  * 存储策略更新事件
+ *
+ * @author xiao1
+ * @since 2024-12
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class RedisStorageConfigEvent {
+public class StorageSettingEvent {
     /**
      * 租户id
      */
-    private  Long tenantId;
+    private Long tenantId;
+
+    private Boolean status;
     /**
      * 更新类型 1:新增 2：修改 3：删除
      */
-    private  Integer updateType;
-    /**
-     * 是否开启配置
-     */
-
-    private Boolean enableStorage;
+    private Integer updateType;
 
     /**
      * 配置key
      */
-    private  String configKey;
+    private String configKey;
 
     /**
      * 平台名称
      */
     private String platform;
-    /**
-     * 旧平台名称[更新时用]
-     */
-    private String oldPlatform;
     /**
      * 访问key
      */

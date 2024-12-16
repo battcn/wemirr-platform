@@ -1,19 +1,12 @@
 package com.wemirr.platform.suite.file.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
-import com.wemirr.framework.db.mybatisplus.page.PageRequest;
-import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.suite.file.domain.dto.rep.FileStorageSettingPageResp;
 import com.wemirr.platform.suite.file.domain.dto.req.FileStorageSettingPageReq;
 import com.wemirr.platform.suite.file.domain.dto.req.FileStorageSettingSaveReq;
-import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;
 import com.wemirr.platform.suite.file.service.FileStorageSettingService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * @author xiao1
- * @date 2024-12
+ * @since 2024-12
  */
 @Slf4j
 @Validated
@@ -45,7 +38,7 @@ public class FileStorageSettingController {
     @AccessLog(description = "添加存储配置")
     @Operation(summary = "新增存储配置", description = "新增存储配置")
     public void add(@RequestBody FileStorageSettingSaveReq req) {
-        fileStorageSettingService.addStorageConfig(req);
+        fileStorageSettingService.create(req);
     }
 
     @PutMapping("/{id}/modify")
@@ -60,7 +53,7 @@ public class FileStorageSettingController {
     @AccessLog(description = "删除存储配置")
     @Operation(summary = "删除存储配置", description = "删除存储配置")
     public void delete(@PathVariable Long id) {
-        fileStorageSettingService.deleteStorageConfig(id);
+        fileStorageSettingService.delete(id);
     }
 
 

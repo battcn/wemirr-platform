@@ -20,7 +20,6 @@ package com.wemirr.platform.suite.file.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
@@ -93,7 +92,6 @@ public class FileController {
     public IPage<FileEntity> query(@Parameter(description = "当前页") @RequestParam(required = false, defaultValue = "1") Integer current,
                                    @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
                                    String originName, String fileType) {
-        log.debug("context - {}", JSON.toJSONString(context.getContext()));
         return fileService.page(new Page<>(current, size), Wraps.<FileEntity>lbQ()
                 .eq(FileEntity::getContentType, fileType).like(FileEntity::getOriginName, originName));
     }

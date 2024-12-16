@@ -2,6 +2,7 @@ package com.wemirr.platform.suite.file.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,9 +10,10 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
+ * 文件存储配置
+ *
  * @author xiao1
- * @date 2024-12
- * @description 文件存储配置
+ * @since 2024-12
  */
 @Data
 @SuperBuilder
@@ -21,19 +23,17 @@ import lombok.experimental.SuperBuilder;
 @TableName("t_file_storage_setting")
 public class FileStorageSetting extends SuperEntity<Long> {
 
-    /**
-     * 平台名称 【teantId-平台名称】 唯一值，用于x-file区分平台
-     */
+    @Schema(description = "存储类型")
+    private String type;
+
+    @Schema(description = "自动生成;由 type 与 bucket 组成")
     private String platform;
-    /**
-     * 平台名称
-     */
-    private String platformV;
+
     /**
      * 是否启用存储 [true:启用;false:禁用]
      * 同个租户下只能开启一个配置
      */
-    private Boolean enableStorage;
+    private Boolean status;
     /**
      * 访问key
      */
@@ -49,10 +49,10 @@ public class FileStorageSetting extends SuperEntity<Long> {
     /**
      * 访问域名
      */
+    @Schema(description = "访问域名")
     private String domain;
-    /**
-     * 桶名称
-     */
+
+    @Schema(description = "存储桶名称")
     private String bucketName;
     /**
      * 基础路径
@@ -63,18 +63,7 @@ public class FileStorageSetting extends SuperEntity<Long> {
      */
     private String endPoint;
 
+    @Schema(description = "租户ID")
     private Long tenantId;
-
-    //        /**
-//         *       - platform: amazon-s3-1 # 存储平台标识
-//         *         enable-storage: true  # 启用存储
-//         *         access-key: Pk9KwzuidZZ6IyOleiza
-//         *         secret-key: OfwecI2Nf0Q7m4T97gp1TpjuDnhp0j6JgiQJ7c31
-//         *         region: null # 与 end-point 参数至少填一个
-//         *         end-point: http://192.168.241.130:9000 # 与 region 参数至少填一个
-//         *         bucket-name: test
-//         *         domain: http://192.168.241.130:9000/test/ # 访问域名，注意“/”结尾，例如：https://abc.hn-bkt.clouddn.com/
-//         *         base-path: test/ # 基础路径
-//         */
 
 }

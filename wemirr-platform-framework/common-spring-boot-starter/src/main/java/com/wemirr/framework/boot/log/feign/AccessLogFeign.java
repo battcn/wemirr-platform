@@ -34,7 +34,7 @@ import static com.wemirr.framework.boot.log.feign.AccessLogFeign.FEIGN_CLIENT_NA
 @FeignClient(name = FEIGN_CLIENT_NAME, dismiss404 = true)
 public interface AccessLogFeign {
 
-    String FEIGN_CLIENT_NAME = "wemirr-platform-authority";
+    String FEIGN_CLIENT_NAME = "wemirr-platform-iam";
 
     /**
      * 日志监听

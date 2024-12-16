@@ -45,7 +45,7 @@ public class Role extends Entity<Long> {
     private String code;
 
     @Schema(description = "超级角色")
-    @TableField("`super`")
+    @TableField("super")
     private Boolean superRole;
 
     @Schema(description = "租户描述")

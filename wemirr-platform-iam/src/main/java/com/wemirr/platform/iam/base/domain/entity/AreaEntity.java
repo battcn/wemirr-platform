@@ -53,7 +53,7 @@ public class AreaEntity extends SuperEntity<Long> {
     @Schema(description = "名称")
     private String name;
 
-    @TableField("`level`")
+    @TableField("level")
     @Schema(description = "层级")
     private Integer level;
 
@@ -66,12 +66,12 @@ public class AreaEntity extends SuperEntity<Long> {
     @Schema(description = "纬度")
     private BigDecimal latitude;
 
-    @TableField("`sequence`")
+    @TableField("sequence")
     @Schema(description = "排序")
     private Integer sequence;
 
     @Schema(description = "来源")
-    @TableField("`source`")
+    @TableField("source")
     private String source;
 
 }

@@ -42,27 +42,27 @@ public class FileEntity extends SuperEntity<Long> {
 
     private String contentType;
 
-    @TableField("`location`")
+    @TableField("location")
     private String location;
 
-    @TableField("`ip`")
+    @TableField("ip")
     private String ip;
 
-    @TableField("`engine`")
+    @TableField("engine")
     private String engine;
 
     private String engineVersion;
 
     private String os;
 
-    @TableField("`bucket`")
+    @TableField("bucket")
     private String bucket;
 
     private String originName;
 
     private String targetName;
 
-    @TableField("`size`")
+    @TableField("size")
     private Long size;
 
     /**

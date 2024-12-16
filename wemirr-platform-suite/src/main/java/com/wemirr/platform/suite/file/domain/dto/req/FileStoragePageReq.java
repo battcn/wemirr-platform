@@ -6,17 +6,21 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @author xiao1
- * @date 2024-12
+ * @author xiao1, Levin
+ * @since 2024-12
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Schema(name = "FileStorageSettingPageReq")
+@Schema(name = "FileStoragePageReq")
 public class FileStoragePageReq extends PageRequest {
-    private String FileType;
 
+    @Schema(description = "文件类型")
+    private String category;
+
+    @Schema(description = "原始文件名称")
     private String originalFilename;
 
+    @Schema(description = "上传人")
     private String createdName;
 
 

@@ -22,15 +22,14 @@ import java.util.stream.Collectors;
 
 /**
  * @author xiao1
- * @date 2024-12
+ * @since 2024-12
  */
 @Slf4j
 @AllArgsConstructor
 @Component
-public class RedisStorageConfigListener implements AbstractMessageEventListener<RedisStorageConfigEvent> {
+public class RedisStorageSettingListener implements AbstractMessageEventListener<StorageSettingEvent> {
 
     private final StringRedisTemplate redisTemplate;
-
     private final FileStorageService fileStorageService;
 
 
@@ -39,7 +38,7 @@ public class RedisStorageConfigListener implements AbstractMessageEventListener<
      *
      * @param event Redis存储配置事件
      */
-    public void handleMessage(RedisStorageConfigEvent event) {
+    public void handleMessage(StorageSettingEvent event) {
         log.info("- 监听存储配置更新消息 -");
         log.info("租户ID:{}, 更新类型:{}", event.getTenantId(), event.getUpdateType());
         switch (event.getUpdateType()) {
@@ -61,10 +60,7 @@ public class RedisStorageConfigListener implements AbstractMessageEventListener<
      *
      * @param event Redis存储配置事件
      */
-    private void handleNewConfiguration(RedisStorageConfigEvent event) {
-        if (event.getEnableStorage()) {
-            redisTemplate.opsForValue().set(event.getConfigKey(), event.getPlatform());
-        }
+    private void handleNewConfiguration(StorageSettingEvent event) {
         CopyOnWriteArrayList<FileStorage> list = fileStorageService.getFileStorageList();
         log.info("添加新的平台配置");
         FileStorageProperties.AmazonS3Config amazonS3Config = createAmazonS3Config(event);
@@ -76,13 +72,13 @@ public class RedisStorageConfigListener implements AbstractMessageEventListener<
      *
      * @param event Redis存储配置事件
      */
-    private void handleUpdateConfiguration(RedisStorageConfigEvent event) {
+    private void handleUpdateConfiguration(StorageSettingEvent event) {
         log.info("文件配置修改");
-        if (event.getEnableStorage()) {
+        if (event.getStatus()) {
             redisTemplate.opsForValue().set(event.getConfigKey(), event.getPlatform());
             //删除旧平台
             CopyOnWriteArrayList<FileStorage> list = fileStorageService.getFileStorageList();
-            FileStorage fileStorage = fileStorageService.getFileStorage(event.getOldPlatform());
+            FileStorage fileStorage = fileStorageService.getFileStorage(event.getPlatform());
             list.remove(fileStorage);
             FileStorageProperties.AmazonS3Config amazonS3Config = createAmazonS3Config(event);
             list.addAll(FileStorageServiceBuilder.buildAmazonS3FileStorage(Collections.singletonList(amazonS3Config), null));
@@ -95,7 +91,6 @@ public class RedisStorageConfigListener implements AbstractMessageEventListener<
                 log.info("关闭的是非当前开启的其他配置，无需重新加载");
             }
         }
-
     }
 
     /**
@@ -103,7 +98,7 @@ public class RedisStorageConfigListener implements AbstractMessageEventListener<
      * 删除事件无需更新redis，因为开启的配置不应该被删除
      * @param event Redis存储配置事件
      */
-    private void handleDeleteConfiguration(RedisStorageConfigEvent event) {
+    private void handleDeleteConfiguration(StorageSettingEvent event) {
         log.info("删除");
         CopyOnWriteArrayList<FileStorage> list = fileStorageService.getFileStorageList();
         FileStorage fileStorage = fileStorageService.getFileStorage(event.getPlatform());
@@ -117,17 +112,17 @@ public class RedisStorageConfigListener implements AbstractMessageEventListener<
      * @param event Redis存储配置事件
      * @return 配置好的AmazonS3Config对象
      */
-    private FileStorageProperties.AmazonS3Config createAmazonS3Config(RedisStorageConfigEvent event) {
-        FileStorageProperties.AmazonS3Config amazonS3Config = new FileStorageProperties.AmazonS3Config();
-        amazonS3Config.setPlatform(event.getPlatform());
-        amazonS3Config.setAccessKey(event.getAccessKey());
-        amazonS3Config.setSecretKey(event.getSecretKey());
-        amazonS3Config.setRegion(event.getRegion());
-        amazonS3Config.setEndPoint(event.getEndPoint());
-        amazonS3Config.setBucketName(event.getBucketName());
-        amazonS3Config.setDomain(event.getDomain());
-        amazonS3Config.setBasePath(event.getBasePath());
-        return amazonS3Config;
+    private FileStorageProperties.AmazonS3Config createAmazonS3Config(StorageSettingEvent event) {
+        FileStorageProperties.AmazonS3Config s3Config = new FileStorageProperties.AmazonS3Config();
+        s3Config.setPlatform(event.getPlatform());
+        s3Config.setAccessKey(event.getAccessKey());
+        s3Config.setSecretKey(event.getSecretKey());
+        s3Config.setRegion(event.getRegion());
+        s3Config.setEndPoint(event.getEndPoint());
+        s3Config.setBucketName(event.getBucketName());
+        s3Config.setDomain(event.getDomain());
+        s3Config.setBasePath(event.getBasePath());
+        return s3Config;
     }
 
 
@@ -138,7 +133,7 @@ public class RedisStorageConfigListener implements AbstractMessageEventListener<
 
     @Override
     public Type type() {
-        return RedisStorageConfigEvent.class;
+        return StorageSettingEvent.class;
     }
 
 

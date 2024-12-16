@@ -1,15 +1,12 @@
 package com.wemirr.platform.suite.file.domain.dto.rep;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.Instant;
-import java.util.Date;
 
 /**
  * @author xiao1
- * @date 2024-12
+ * @since 2024-12
  */
 @Data
 public class FileStoragePageResp {
@@ -26,7 +23,6 @@ public class FileStoragePageResp {
      * 文件大小，单位字节
      */
     private String formatSize;
-
 
     /**
      * 原始文件名
@@ -52,18 +48,9 @@ public class FileStoragePageResp {
      */
     private String platform;
     /**
-     * 存储平台
-     */
-    private String platformV;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-    /**
      * 文件类型
      */
-    private String fileType;
+    private String category;
     /**
      * 上传者
      */

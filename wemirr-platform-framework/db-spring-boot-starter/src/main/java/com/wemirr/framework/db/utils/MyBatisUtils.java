@@ -29,7 +29,7 @@ import net.sf.jsqlparser.schema.Table;
  */
 public class MyBatisUtils {
 
-    private static final String MYSQL_ESCAPE_CHARACTER = "`";
+    private static final String MYSQL_ESCAPE_CHARACTER = "";
 
     /**
      * 获得 Table 对应的表名

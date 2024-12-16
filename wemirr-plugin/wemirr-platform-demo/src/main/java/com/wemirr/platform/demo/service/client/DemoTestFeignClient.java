@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Levin
  */
-@FeignClient(name = "wemirr-platform-authority", dismiss404 = true)
+@FeignClient(name = "wemirr-platform-iam", dismiss404 = true)
 public interface DemoTestFeignClient {
 
     /**

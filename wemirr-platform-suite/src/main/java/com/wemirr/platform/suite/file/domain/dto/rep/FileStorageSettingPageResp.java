@@ -7,25 +7,25 @@ import java.time.Instant;
 
 /**
  * @author xiao1
- * @date 2024-12
+ * @since 2024-12
  */
 @Data
 public class FileStorageSettingPageResp {
+
+    @Schema(description = "ID")
     private Long id;
 
-
-    @Schema(description = "存储平台")
-    private String platformV;
+    @Schema(description = "存储类型")
+    private String type;
 
     @Schema(description = "是否开启配置")
-    private Boolean enableStorage;
+    private Boolean status;
 
     @Schema(description = "存储平台accessKey")
     private String accessKey;
 
     @Schema(description = "存储平台secretKey")
     private String secretKey;
-
 
     @Schema(description = "访问域名,需要以/结尾")
     private String domain;

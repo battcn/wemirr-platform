@@ -10,28 +10,28 @@ import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;
 
 /**
  * @author xiao1
- * @date 2024-12
+ * @since 2024-12
  */
 public interface FileStorageSettingService extends SuperService<FileStorageSetting> {
 
     /**
-     * 新增存储配置
+     * 获取默认的存储设置
+     *
+     * @return 查询结果
      */
-    void addStorageConfig(FileStorageSettingSaveReq fileStorageSettingSaveReq);
+    FileStorageSetting getDefaultStorageSetting();
 
     /**
-     * 修改配置
+     * 添加存储配置
+     *
+     * @param req 存储配置保存对象，包含要添加的存储配置信息
      */
-//    void editStorageConfig(StorageConfigEditReq configForm);
+    void create(FileStorageSettingSaveReq req);
 
     /**
      * 删除配置
      */
-    void deleteStorageConfig(Long id);
-    /**
-     * 获取配置
-     */
-    FileStorageSetting getStorageConfig();
+    void delete(Long id);
 
     void modify(Long id, FileStorageSettingSaveReq req);
 
