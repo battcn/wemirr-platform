@@ -21,6 +21,7 @@ package com.wemirr.platform.suite;
 import com.wemirr.framework.security.configuration.client.annotation.EnableOAuth2Client;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.x.file.storage.spring.EnableFileStorage;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -42,6 +43,7 @@ import java.net.InetAddress;
 @SpringBootApplication(exclude = MongoAutoConfiguration.class)
 @EnableFeignClients("com.wemirr")
 @MapperScan(value = "com.wemirr.**.repository", annotationClass = Repository.class)
+@EnableFileStorage
 public class SuiteApplication {
 
     @SneakyThrows
