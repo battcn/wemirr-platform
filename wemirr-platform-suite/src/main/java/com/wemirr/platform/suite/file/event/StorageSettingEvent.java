@@ -1,9 +1,6 @@
 package com.wemirr.platform.suite.file.event;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 存储策略更新事件
@@ -12,10 +9,8 @@ import lombok.NoArgsConstructor;
  * @since 2024-12
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class StorageSettingEvent {
+
     /**
      * 租户id
      */
@@ -26,11 +21,6 @@ public class StorageSettingEvent {
      * 更新类型 1:新增 2：修改 3：删除
      */
     private Integer updateType;
-
-    /**
-     * 配置key
-     */
-    private String configKey;
 
     /**
      * 平台名称
@@ -64,6 +54,4 @@ public class StorageSettingEvent {
      * 连接地址
      */
     private String endPoint;
-
-
 }

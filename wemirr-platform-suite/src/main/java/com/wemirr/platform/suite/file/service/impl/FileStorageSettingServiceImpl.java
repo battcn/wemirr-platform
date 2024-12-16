@@ -1,16 +1,16 @@
 package com.wemirr.platform.suite.file.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.plugins.IgnoreStrategy;
+import com.baomidou.mybatisplus.core.plugins.InterceptorIgnoreHelper;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.suite.file.domain.constants.StorageConstants;
 import com.wemirr.platform.suite.file.domain.dto.rep.FileStorageSettingPageResp;
 import com.wemirr.platform.suite.file.domain.dto.req.FileStorageSettingPageReq;
 import com.wemirr.platform.suite.file.domain.dto.req.FileStorageSettingSaveReq;
@@ -18,10 +18,12 @@ import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;
 import com.wemirr.platform.suite.file.event.StorageSettingTemplate;
 import com.wemirr.platform.suite.file.repository.FileStorageSettingMapper;
 import com.wemirr.platform.suite.file.service.FileStorageSettingService;
+import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -29,26 +31,29 @@ import java.util.Optional;
  * @author xiao1
  * @since 2024-12
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class FileStorageSettingServiceImpl extends SuperServiceImpl<FileStorageSettingMapper, FileStorageSetting> implements FileStorageSettingService {
 
-    private final StringRedisTemplate redisTemplate;
     private final AuthenticationContext context;
     private final StorageSettingTemplate storageSettingTemplate;
 
 
-    @Override
-    public FileStorageSetting getDefaultStorageSetting() {
-        String json = (String) redisTemplate.opsForHash().get(StorageConstants.STORAGE_SETTING_DEFAULT_SETTING, context.tenantId().toString());
-        if (StrUtil.isBlank(json)) {
-            FileStorageSetting setting = this.baseMapper.selectOne(Wraps.<FileStorageSetting>lbQ().eq(FileStorageSetting::getStatus, true)
-                    .eq(FileStorageSetting::getTenantId, context.tenantId()));
-            redisTemplate.opsForHash().put(StorageConstants.STORAGE_SETTING_DEFAULT_SETTING, context.tenantId().toString(), JSONObject.toJSONString(setting));
-            return setting;
+    @PostConstruct
+    public void init() {
+        log.info("==================== 存储设置初始化-Begin ====================");
+        InterceptorIgnoreHelper.handle(IgnoreStrategy.builder().tenantLine(true).build());
+        List<FileStorageSetting> storageSettingList = baseMapper.selectList(FileStorageSetting::getStatus, true);
+        if (CollUtil.isEmpty(storageSettingList)) {
+            return;
         }
-        return JSON.parseObject(json, FileStorageSetting.class);
+        for (FileStorageSetting setting : storageSettingList) {
+            this.storageSettingTemplate.publish(setting, 1);
+        }
+        log.info("==================== 存储设置初始化-End ====================");
     }
+
 
     @Override
     public void create(FileStorageSettingSaveReq req) {
@@ -67,22 +72,22 @@ public class FileStorageSettingServiceImpl extends SuperServiceImpl<FileStorageS
         this.baseMapper.insert(setting);
         // 更新存储配置状态
         if (setting.getStatus()) {
-            baseMapper.update(FileStorageSetting.builder().status(false).build(), Wraps.<FileStorageSetting>lbQ()
+            this.baseMapper.update(FileStorageSetting.builder().status(false).build(), Wraps.<FileStorageSetting>lbQ()
                     .ne(FileStorageSetting::getId, setting.getId()).eq(FileStorageSetting::getTenantId, tenantId));
         }
-        storageSettingTemplate.publish(setting, 1);
+        this.storageSettingTemplate.publish(setting, 1);
     }
 
 
     @Override
     public void delete(Long id) {
-        FileStorageSetting setting = Optional.ofNullable(baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("配置不存在"));
+        FileStorageSetting setting = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("配置不存在"));
         if (setting.getStatus()) {
             throw CheckedException.badRequest("该平台名称已启用，无法删除");
         } else {
             this.removeById(id);
         }
-        storageSettingTemplate.publish(setting, 3);
+        this.storageSettingTemplate.publish(setting, 3);
     }
 
     @Override
@@ -105,7 +110,7 @@ public class FileStorageSettingServiceImpl extends SuperServiceImpl<FileStorageS
         }
         // 保存存储配置
         this.baseMapper.updateById(bean);
-        storageSettingTemplate.publish(bean, 2);
+        this.storageSettingTemplate.publish(bean, 2);
     }
 
     @Override

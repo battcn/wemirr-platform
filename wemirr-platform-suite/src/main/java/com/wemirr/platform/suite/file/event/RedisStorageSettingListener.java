@@ -3,13 +3,12 @@ package com.wemirr.platform.suite.file.event;
 
 import com.wemirr.framework.redis.plus.listener.AbstractMessageEventListener;
 import com.wemirr.platform.suite.file.domain.constants.StorageConstants;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.x.file.storage.core.FileStorageProperties;
 import org.dromara.x.file.storage.core.FileStorageService;
 import org.dromara.x.file.storage.core.FileStorageServiceBuilder;
 import org.dromara.x.file.storage.core.platform.FileStorage;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.Topic;
 import org.springframework.stereotype.Component;
@@ -25,21 +24,20 @@ import java.util.stream.Collectors;
  * @since 2024-12
  */
 @Slf4j
-@AllArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class RedisStorageSettingListener implements AbstractMessageEventListener<StorageSettingEvent> {
 
-    private final StringRedisTemplate redisTemplate;
     private final FileStorageService fileStorageService;
 
 
     /**
+     * fil
      * 处理Redis存储配置更新消息
      *
-     * @param event Redis存储配置事件
+     * @param event Redis 存储配置事件
      */
     public void handleMessage(StorageSettingEvent event) {
-        log.info("- 监听存储配置更新消息 -");
         log.info("租户ID:{}, 更新类型:{}", event.getTenantId(), event.getUpdateType());
         switch (event.getUpdateType()) {
             case 1 -> handleNewConfiguration(event);
@@ -52,7 +50,7 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
                 .stream()
                 .map(FileStorage::getPlatform)
                 .collect(Collectors.joining(";"));
-        log.info("- 更新后当前的存储配置平台： -{}",platform);
+        log.info("- 更新后当前的存储配置平台： -{}", platform);
     }
 
     /**
@@ -61,8 +59,8 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
      * @param event Redis存储配置事件
      */
     private void handleNewConfiguration(StorageSettingEvent event) {
+        log.info("新增类型 S3 文件上传 Bean Ref => {}", event.getPlatform());
         CopyOnWriteArrayList<FileStorage> list = fileStorageService.getFileStorageList();
-        log.info("添加新的平台配置");
         FileStorageProperties.AmazonS3Config amazonS3Config = createAmazonS3Config(event);
         list.addAll(FileStorageServiceBuilder.buildAmazonS3FileStorage(Collections.singletonList(amazonS3Config), null));
     }
@@ -73,37 +71,25 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
      * @param event Redis存储配置事件
      */
     private void handleUpdateConfiguration(StorageSettingEvent event) {
-        log.info("文件配置修改");
-        if (event.getStatus()) {
-            redisTemplate.opsForValue().set(event.getConfigKey(), event.getPlatform());
-            //删除旧平台
-            CopyOnWriteArrayList<FileStorage> list = fileStorageService.getFileStorageList();
-            FileStorage fileStorage = fileStorageService.getFileStorage(event.getPlatform());
-            list.remove(fileStorage);
-            FileStorageProperties.AmazonS3Config amazonS3Config = createAmazonS3Config(event);
-            list.addAll(FileStorageServiceBuilder.buildAmazonS3FileStorage(Collections.singletonList(amazonS3Config), null));
-        } else {
-            String cur = redisTemplate.opsForValue().get(event.getConfigKey());
-            if (cur != null && cur.equals(event.getPlatform())) {
-                redisTemplate.delete(event.getConfigKey());
-                log.info("关闭的是当前开启的配置，需要重新加载");
-            } else {
-                log.info("关闭的是非当前开启的其他配置，无需重新加载");
-            }
-        }
+        log.info("修改类型 S3 文件上传 Bean Ref => {}", event.getPlatform());
+        CopyOnWriteArrayList<FileStorage> list = fileStorageService.getFileStorageList();
+        FileStorage fileStorage = fileStorageService.getFileStorage(event.getPlatform());
+        list.remove(fileStorage);
+        FileStorageProperties.AmazonS3Config amazonS3Config = createAmazonS3Config(event);
+        list.addAll(FileStorageServiceBuilder.buildAmazonS3FileStorage(Collections.singletonList(amazonS3Config), null));
     }
 
     /**
      * 处理配置删除
      * 删除事件无需更新redis，因为开启的配置不应该被删除
+     *
      * @param event Redis存储配置事件
      */
     private void handleDeleteConfiguration(StorageSettingEvent event) {
-        log.info("删除");
+        log.info("删除类型 S3 文件上传 Bean Ref => {}", event.getPlatform());
         CopyOnWriteArrayList<FileStorage> list = fileStorageService.getFileStorageList();
         FileStorage fileStorage = fileStorageService.getFileStorage(event.getPlatform());
         list.remove(fileStorage);
-        //fileStorage.close(); // 释放资源
     }
 
     /**

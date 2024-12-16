@@ -7,7 +7,6 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.suite.file.domain.dto.rep.FileStoragePageResp;
@@ -15,9 +14,9 @@ import com.wemirr.platform.suite.file.domain.dto.req.FileStoragePageReq;
 import com.wemirr.platform.suite.file.domain.entity.FileStorage;
 import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;
 import com.wemirr.platform.suite.file.domain.enums.MineType;
+import com.wemirr.platform.suite.file.event.StorageSettingTemplate;
 import com.wemirr.platform.suite.file.repository.FileStorageMapper;
 import com.wemirr.platform.suite.file.service.FileStorageService;
-import com.wemirr.platform.suite.file.service.FileStorageSettingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.x.file.storage.core.FileInfo;
@@ -39,8 +38,7 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
 
 
     private final org.dromara.x.file.storage.core.FileStorageService fileStorageService;
-    private final AuthenticationContext context;
-    private final FileStorageSettingService fileStorageSettingService;
+    private final StorageSettingTemplate storageSettingTemplate;
 
     private static final long KB = 1024;
     private static final long MB = KB * 1024;
@@ -50,7 +48,7 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
 
     @Override
     public FileStorage upload(MultipartFile file) {
-        FileStorageSetting setting = fileStorageSettingService.getDefaultStorageSetting();
+        FileStorageSetting setting = storageSettingTemplate.getDefaultStorageSetting();
         String platform = setting.getPlatform();
         if (fileStorageService.getFileStorage(platform) == null) {
             throw CheckedException.badRequest("未找到对应的存储平台，请检查配置");
