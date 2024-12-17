@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.wms.inbound.mapper.InventoryReceiptItemMapper">
+
+    <select id="selectReceiptQty" resultType="com.wemirr.platform.wms.inbound.domain.dto.ReceiptQtyDTO"
+            parameterType="java.lang.Long">
+        SELECT i.plan_item_id,
+        IFNULL(SUM(CASE WHEN i.STATUS IN (0) THEN receiving_qty ELSE 0 END), 0) AS progress_qty,
+        IFNULL(SUM(CASE WHEN i.STATUS = 30 THEN receiving_qty ELSE 0 END), 0) AS complete_qty
+        FROM (
+        SELECT ir.id, ir_item.plan_item_id as plan_item_id, ir.plan_id, ir_item.receiving_qty AS receiving_qty,
+        ir.status
+        FROM wms_inventory_receipt ir
+        JOIN wms_inventory_receipt_item ir_item ON ir.id = ir_item.receipt_id
+        WHERE ir_item.deleted = 0 AND ir_item.plan_item_id IN
+        <foreach item="planItemId" collection="list" open="(" separator="," close=")">
+            #{planItemId}
+        </foreach>
+        ) AS i
+        GROUP BY i.plan_item_id;
+    </select>
+
+
+    <select id="selectReceiptQtyByPlanId" resultType="com.wemirr.platform.wms.inbound.domain.dto.ReceiptQtyDTO"
+            parameterType="java.lang.Long">
+        SELECT i.plan_item_id,
+               IFNULL(SUM(CASE WHEN i.STATUS IN (0) THEN receiving_qty ELSE 0 END), 0) AS progress_qty,
+               IFNULL(SUM(CASE WHEN i.STATUS = 30 THEN receiving_qty ELSE 0 END), 0)   AS complete_qty
+        FROM (SELECT ir.id,
+                     ir_item.plan_item_id  as plan_item_id,
+                     ir.plan_id,
+                     ir_item.receiving_qty AS receiving_qty,
+                     ir.status
+              FROM wms_inventory_receipt ir
+                       LEFT JOIN wms_inventory_receipt_item ir_item ON ir.id = ir_item.receipt_id
+              WHERE ir.plan_id = #{planId}
+                AND ir_item.deleted = 0) AS i
+        GROUP BY i.plan_item_id;
+    </select>
+</mapper>

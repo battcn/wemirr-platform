@@ -106,6 +106,13 @@ spring:
           filters:
             - StripPrefix=1
             - PreserveHostHeader
+        - id: wemirr-platform-wms
+          uri: lb://wemirr-platform-wms
+          predicates:
+            - Path=/wms/**
+          filters:
+            - StripPrefix=1
+            - PreserveHostHeader
       loadbalancer:
         use404: true
       httpclient:
