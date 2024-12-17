@@ -11,7 +11,7 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 16/12/2024 16:30:01
+ Date: 17/12/2024 14:26:22
 */
 
 SET NAMES utf8mb4;
@@ -71,12 +71,15 @@ CREATE TABLE `b_message_notify` (
   `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='消息通知';
+) ENGINE=InnoDB AUTO_INCREMENT=1868884501967917059 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='消息通知';
 
 -- ----------------------------
 -- Records of b_message_notify
 -- ----------------------------
 BEGIN;
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1868884501955334145, '系统消息', 'email', 1863835249327370241, '{\"username\":\"1\"}', '欢迎 1 来到 WP 系统', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-17 13:02:42', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1868884501963722753, '系统消息', 'ding-talk', 1863835249327370241, '{\"username\":\"1\"}', '欢迎 1 来到 WP 系统', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-17 13:02:42', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1868884501967917058, '系统消息', 'sms', 1863835249327370241, '{\"username\":\"1\"}', '欢迎 1 来到 WP 系统', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-17 13:02:42', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -281,24 +284,27 @@ DROP TABLE IF EXISTS `c_opt_log`;
 CREATE TABLE `c_opt_log` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作IP',
+  `tenant_code` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '租户编码',
+  `module` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '日志模块',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作描述',
+  `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作IP（支持IPv6）',
   `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '地址',
   `trace` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '日志链路追踪id日志标志',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作描述',
   `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '类路径',
   `uri` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '请求地址',
-  `http_method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'GET' COMMENT '请求类型\n#HttpMethod{GET:GET请求;POST:POST请求;PUT:PUT请求;DELETE:DELETE请求;PATCH:PATCH请求;TRACE:TRACE请求;HEAD:HEAD请求;OPTIONS:OPTIONS请求;}',
+  `http_method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'GET' COMMENT '请求类型ENUM(''GET'', ''POST'', ''PUT'', ''DELETE'', ''PATCH'', ''TRACE'', ''HEAD'', ''OPTIONS'')',
   `request` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '请求参数',
   `response` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '返回值',
-  `message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '异常详情信息',
+  `message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '执行消息',
   `status` bit(1) DEFAULT NULL COMMENT '日志状态（true=正常;false=异常）',
   `start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
-  `finish_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
-  `consuming_time` bigint DEFAULT '0' COMMENT '消耗时间',
-  `browser` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
-  `os` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
-  `engine` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
-  `platform` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器',
+  `end_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
+  `duration` bigint DEFAULT '0' COMMENT '消耗时间',
+  `browser` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器名称',
+  `os` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作系统',
+  `engine` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器引擎',
+  `platform` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '平台信息',
+  `token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '请求令牌',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
   `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作人',
   PRIMARY KEY (`id`) USING BTREE
@@ -993,45 +999,6 @@ INSERT INTO `t_db_setting` (`id`, `name`, `username`, `password`, `db_type`, `dr
 COMMIT;
 
 -- ----------------------------
--- Table structure for t_file
--- ----------------------------
-DROP TABLE IF EXISTS `t_file`;
-CREATE TABLE `t_file` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `content_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文件类型',
-  `size` bigint DEFAULT NULL COMMENT '文件大小',
-  `location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '登录地点',
-  `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'IP',
-  `engine` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '引擎类型',
-  `engine_version` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '引擎版本',
-  `os` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作系统',
-  `bucket` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作系统',
-  `origin_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '原始名称',
-  `target_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '目标名称',
-  `mapping_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '映射地址',
-  `full_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '完整地址',
-  `extend` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '拓展字段',
-  `deleted` bit(1) DEFAULT b'0',
-  `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人名称',
-  `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人名称',
-  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_TARGET_NAME` (`target_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='文件';
-
--- ----------------------------
--- Records of t_file
--- ----------------------------
-BEGIN;
-INSERT INTO `t_file` (`id`, `tenant_id`, `content_type`, `size`, `location`, `ip`, `engine`, `engine_version`, `os`, `bucket`, `origin_name`, `target_name`, `mapping_path`, `full_url`, `extend`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (17, 1, 'image/jpeg', 98, '0|0|0|内网IP|内网IP', '127.0.0.1', '537.36', 'Webkit', 'OSX', 'battcn', '动物.jpg', '/20210804/61990178-5aac-4ba7-9f0b-1a52c36d8bed.jpg', 'http://qiniu.battcn.com', 'http://qiniu.battcn.com/20210804/61990178-5aac-4ba7-9f0b-1a52c36d8bed.jpg', NULL, b'0', 2, '不告诉你', '2021-08-04 03:03:20', NULL, NULL, '2024-12-12 12:33:57');
-INSERT INTO `t_file` (`id`, `tenant_id`, `content_type`, `size`, `location`, `ip`, `engine`, `engine_version`, `os`, `bucket`, `origin_name`, `target_name`, `mapping_path`, `full_url`, `extend`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (18, 1, 'image/jpeg', 98, '0|0|0|内网IP|内网IP', '127.0.0.1', '537.36', 'Webkit', 'OSX', 'battcn', '动物.jpg', '/20210804/9178dfa8-6d57-4e01-856e-6952d3977a45.jpg', 'http://qiniu.battcn.com', 'http://qiniu.battcn.com/20210804/9178dfa8-6d57-4e01-856e-6952d3977a45.jpg', NULL, b'0', 2, '不告诉你', '2021-08-04 03:03:38', NULL, NULL, '2024-12-12 12:33:58');
-COMMIT;
-
--- ----------------------------
 -- Table structure for t_file_storage
 -- ----------------------------
 DROP TABLE IF EXISTS `t_file_storage`;
@@ -1071,12 +1038,14 @@ CREATE TABLE `t_file_storage` (
   `last_modified_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `last_modified_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='文件记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=1868879288737353730 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='文件记录表';
 
 -- ----------------------------
 -- Records of t_file_storage
 -- ----------------------------
 BEGIN;
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1868878857646768129, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676100b07090747e073e4234.png', 116918, '114.18 KB', '676100b07090747e073e4234.png', '系统架构图.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-17 12:40:16', NULL, NULL, NULL);
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1868879288737353729, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/67610116e30e4578789e9754.png', 116918, '114.18 KB', '67610116e30e4578789e9754.png', '92947efb109647c3a85ab714dbc9b4d2.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-17 12:41:59', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1104,13 +1073,14 @@ CREATE TABLE `t_file_storage_setting` (
   `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `last_modified_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1868486583054123011 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1868599415401865218 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of t_file_storage_setting
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_file_storage_setting` (`id`, `tenant_id`, `platform`, `type`, `status`, `access_key`, `secret_key`, `region`, `domain`, `bucket_name`, `base_path`, `end_point`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, 1, 'minio-wp-local', 'minio', 1, 'dQAztlq1gMdAaTfR5i7K', 'S6wpCw8Jo2ujqqs2bgYcBGbp4sOLtvzVy2Yvm6zF', NULL, 'http://127.0.0.1:19000/wp-local/', 'wp-local', 'minio/', 'http://127.0.0.1:19000', b'0', '1', '平台管理员', '2024-12-16 10:41:31', '1', '平台管理员', '2024-12-16 11:13:17');
+INSERT INTO `t_file_storage_setting` (`id`, `tenant_id`, `platform`, `type`, `status`, `access_key`, `secret_key`, `region`, `domain`, `bucket_name`, `base_path`, `end_point`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, 1, 'minio-wp-local', 'minio', 0, 'dQAztlq1gMdAaTfR5i7K', 'S6wpCw8Jo2ujqqs2bgYcBGbp4sOLtvzVy2Yvm6zF', NULL, 'http://127.0.0.1:19000/wp-local/', 'wp-local', 'minio/', 'http://127.0.0.1:19000', b'0', '1', '平台管理员', '2024-12-16 10:41:31', '1', '平台管理员', '2024-12-17 11:19:59');
+INSERT INTO `t_file_storage_setting` (`id`, `tenant_id`, `platform`, `type`, `status`, `access_key`, `secret_key`, `region`, `domain`, `bucket_name`, `base_path`, `end_point`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1868599415401865217, 1, 's3-wp-local', 's3', 1, 'dQAztlq1gMdAaTfR5i7K	', 'S6wpCw8Jo2ujqqs2bgYcBGbp4sOLtvzVy2Yvm6zF', NULL, 'http://127.0.0.1:19000/wp-local/', 'wp-local', 'dev/', 'http://127.0.0.1:19000', b'0', '1', '平台管理员', '2024-12-16 18:09:52', '1', '平台管理员', '2024-12-17 11:19:59');
 COMMIT;
 
 -- ----------------------------
