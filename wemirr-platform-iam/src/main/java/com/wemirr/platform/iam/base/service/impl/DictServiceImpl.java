@@ -59,16 +59,16 @@ import static java.util.stream.Collectors.groupingBy;
 @Service
 @RequiredArgsConstructor
 public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> implements DictService {
-
+    
     private final SysDictItemMapper sysDictItemMapper;
     private final DictLoadService dictLoadService;
     private final I18nLocaleMessageMapper i18nLocaleMessageMapper;
-
+    
     @PostConstruct
     public void init() {
         refresh();
     }
-
+    
     @Override
     public void create(DictSaveReq req) {
         if (req == null) {
@@ -80,7 +80,7 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         }
         this.baseMapper.insert(BeanUtil.toBean(req, SysDict.class));
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void modify(Long id, DictSaveReq req) {
@@ -96,7 +96,7 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         this.baseMapper.updateById(bean);
         this.dictLoadService.refreshCache(getPairMap(List.of(req.getCode())));
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void deleteById(Long id) {
@@ -107,8 +107,7 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         this.baseMapper.deleteById(id);
         this.sysDictItemMapper.delete(Wraps.<SysDictItem>lbQ().eq(SysDictItem::getDictCode, dict.getCode()));
     }
-
-
+    
     @Override
     public void refresh() {
         List<SysDict> list = this.baseMapper.selectList(SysDict::getStatus, true);
@@ -118,18 +117,16 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         List<String> codeList = list.stream().map(SysDict::getCode).distinct().toList();
         this.dictLoadService.refreshCache(getPairMap(codeList));
     }
-
-
+    
     private Map<String, List<Pair<String, String>>> getPairMap(List<String> codeList) {
         return this.sysDictItemMapper.selectList(Wraps.<SysDictItem>lbQ()
-                        .eq(SysDictItem::getStatus, true))
+                .eq(SysDictItem::getStatus, true))
                 .stream()
                 .collect(groupingBy(
                         SysDictItem::getDictCode,
-                        Collectors.mapping(item -> Pair.of(item.getValue(), item.getLabel()), Collectors.toList())
-                ));
+                        Collectors.mapping(item -> Pair.of(item.getValue(), item.getLabel()), Collectors.toList())));
     }
-
+    
     @Override
     public List<Dict<String>> findItemByCode(String code) {
         Map<Object, Object> map = this.dictLoadService.findByIds(code);
@@ -142,5 +139,5 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         }
         return dictList;
     }
-
+    
 }

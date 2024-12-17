@@ -52,9 +52,9 @@ import java.time.temporal.ChronoUnit;
 
 @RequiredArgsConstructor
 public class OptLogController {
-
+    
     private final OptLogService optLogService;
-
+    
     @GetMapping
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
     @SaCheckPermission(value = {"monitor:log:opt"})
@@ -64,7 +64,7 @@ public class OptLogController {
                 .eq(OptLog::getStatus, req.getStatus())
                 .eq(OptLog::getPlatform, req.getPlatform()));
     }
-
+    
     @DeleteMapping("/{day}")
     @Parameters({
             @Parameter(name = "day", description = "天数", in = ParameterIn.PATH),
@@ -73,11 +73,11 @@ public class OptLogController {
     public void batchDelete(@PathVariable Integer day) {
         this.optLogService.remove(Wraps.<OptLog>lbQ().le(OptLog::getStartTime, Instant.now().plus(-day, ChronoUnit.DAYS)));
     }
-
+    
     @PostMapping("/listener")
     @Operation(summary = "监听日志 - [DONE] - [Levin]", description = "监听日志 - [DONE] - [Levin]")
     public void listener(@RequestBody AccessLogInfo info) {
         this.optLogService.listener(info);
     }
-
+    
 }

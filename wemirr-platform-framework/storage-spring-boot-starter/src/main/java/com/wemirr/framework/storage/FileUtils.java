@@ -27,9 +27,9 @@ import org.apache.commons.lang3.StringUtils;
  * @author Levin
  */
 public class FileUtils {
-
+    
     private static final String SEPARATOR = "/";
-
+    
     /**
      * 根据旧的名称生成新的名称
      *
@@ -44,11 +44,11 @@ public class FileUtils {
         final String extension = FileUtil.extName(originName);
         return uuid + "." + extension;
     }
-
+    
     public static String targetName(boolean random, String prefix, String originName) {
         return buildTargetName(random, prefix, originName).replaceAll("//", "/");
     }
-
+    
     private static String buildTargetName(boolean random, String prefix, String originName) {
         if (!random) {
             return StringUtils.join(SEPARATOR, originName);
@@ -59,5 +59,5 @@ public class FileUtils {
         }
         return StringUtils.isBlank(prefix) ? name : StringUtils.join(prefix, name);
     }
-
+    
 }

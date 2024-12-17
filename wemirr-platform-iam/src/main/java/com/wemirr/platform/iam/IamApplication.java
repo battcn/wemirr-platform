@@ -56,7 +56,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableOAuth2Server
 @EnableDiffLog(serviceName = "基础服务")
 public class IamApplication {
-
+    
     /**
      * 启动类.
      *
@@ -70,19 +70,19 @@ public class IamApplication {
         String host = InetAddress.getLocalHost().getHostAddress();
         String port = env.getProperty("server.port");
         log.info("""
-                                        
-                        ----------------------------------------------------------
-                        \tApplication '{}' is running! Access URLs:
-                        \tDoc: \thttp://{}:{}/doc.html
-                        ----------------------------------------------------------""",
+                
+                ----------------------------------------------------------
+                \tApplication '{}' is running! Access URLs:
+                \tDoc: \thttp://{}:{}/doc.html
+                ----------------------------------------------------------""",
                 appName, host, port);
     }
-
+    
     @Bean
     public ThreadPoolExecutor threadPoolExecutor() {
         return ThreadUtil.newExecutor(5, 50, 100000);
     }
-
+    
     /**
      * 操作日志监听回调.
      *
@@ -93,5 +93,5 @@ public class IamApplication {
     public AccessLogListener accessLogListener(final OptLogService optLogService) {
         return new AccessLogListener(optLogService::listener);
     }
-
+    
 }

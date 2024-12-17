@@ -37,11 +37,11 @@ import java.util.List;
 @AllArgsConstructor
 @Schema(name = "RoleResResp", description = "角色的资源")
 public class RoleResResp implements Serializable {
-
+    
     @Schema(description = "菜单ID")
     private List<Long> menuIdList;
-
+    
     @Schema(description = "资源ID")
     private List<Long> resourceIdList;
-
+    
 }

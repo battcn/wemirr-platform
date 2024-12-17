@@ -32,15 +32,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Dict<T> {
-
+    
     /**
      * 值
      */
     private T value;
-
+    
     /**
      * 标题
      */
     private String label;
-
+    
 }

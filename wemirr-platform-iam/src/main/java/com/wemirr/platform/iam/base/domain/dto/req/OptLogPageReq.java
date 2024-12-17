@@ -31,14 +31,14 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Schema(name = "OptLogPageReq")
 public class OptLogPageReq extends PageRequest {
-
+    
     @Schema(description = "HTTP 请求方式")
     private String httpMethod;
-
+    
     @Schema(description = "请求平台")
     private String platform;
-
+    
     @Schema(description = "日志状态")
     private Boolean status;
-
+    
 }

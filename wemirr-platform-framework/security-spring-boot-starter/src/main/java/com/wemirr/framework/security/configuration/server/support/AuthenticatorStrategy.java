@@ -23,23 +23,23 @@ package com.wemirr.framework.security.configuration.server.support;
  * @author Levin
  **/
 public interface AuthenticatorStrategy {
-
+    
     String DEFAULT_AUTH_TYPE = "password";
-
+    
     /**
      * 处理集成认证
      *
      * @param principal principal
      */
     void authenticate(AuthenticationPrincipal principal);
-
+    
     /**
      * 进行预处理
      *
      * @param principal principal
      */
     void prepare(AuthenticationPrincipal principal);
-
+    
     /**
      * 判断是否支持集成认证类型
      *
@@ -49,7 +49,7 @@ public interface AuthenticatorStrategy {
     default boolean support(String loginType) {
         return loginType != null && loginType.equalsIgnoreCase(loginType());
     }
-
+    
     /**
      * 登录方式
      *
@@ -58,14 +58,14 @@ public interface AuthenticatorStrategy {
     default String loginType() {
         return DEFAULT_AUTH_TYPE;
     }
-
+    
     /**
      * 认证结束后执行
      *
      * @param principal integrationAuthentication
      */
     default void complete(AuthenticationPrincipal principal) {
-
+        
     }
-
+    
 }

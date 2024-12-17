@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.platform.iam.system.strategy;
 
 import cn.dev33.satoken.context.SaHolder;
@@ -24,10 +43,10 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class AuthenticatorStrategyTemplate {
-
+    
     private final List<AuthenticatorStrategy> authenticatorStrategies;
     private final RegisteredClientMapper registeredClientMapper;
-
+    
     public void prepare(final AuthenticationPrincipal principal) {
         log.info("[登录类型] - [{}], 登录参数 - [{}]", principal.getLoginType(), JSON.toJSONString(principal));
         Assert.notBlank(principal.getTenantCode(), () -> CheckedException.badRequest("租户编码不能为空"));
@@ -35,10 +54,10 @@ public class AuthenticatorStrategyTemplate {
         Assert.notBlank(principal.getPassword(), () -> CheckedException.badRequest("密码不能为空"));
         Assert.notBlank(principal.getClientId(), () -> CheckedException.badRequest("客户端ID不能为空"));
         Assert.notBlank(principal.getClientSecret(), () -> CheckedException.badRequest("客户端秘钥不能为空"));
-
+        
         RegisteredClient registeredClient = Optional.ofNullable(this.registeredClientMapper.selectOne(Wraps.<RegisteredClient>lbQ()
-                        .eq(RegisteredClient::getClientId, principal.getClientId())
-                        .eq(RegisteredClient::getClientSecret, principal.getClientSecret())))
+                .eq(RegisteredClient::getClientId, principal.getClientId())
+                .eq(RegisteredClient::getClientSecret, principal.getClientSecret())))
                 .orElseThrow(() -> CheckedException.notFound("未查询到有效的客户端信息"));
         Assert.isTrue(registeredClient.getStatus(), () -> CheckedException.badRequest("当前客户端提被禁用"));
         Instant issuedAt = registeredClient.getClientIdIssuedAt();
@@ -49,7 +68,7 @@ public class AuthenticatorStrategyTemplate {
                 .set("principal", principal.getUsername())
                 .set("principalType", principal.getLoginType());
     }
-
+    
     public void authenticate(AuthenticationPrincipal principal) {
         AuthenticatorStrategy strategy = authenticatorStrategies.stream()
                 .filter(x -> x.support(principal.getLoginType())).findFirst()
@@ -61,6 +80,5 @@ public class AuthenticatorStrategyTemplate {
         // 后置处理器
         strategy.complete(principal);
     }
-
-
+    
 }

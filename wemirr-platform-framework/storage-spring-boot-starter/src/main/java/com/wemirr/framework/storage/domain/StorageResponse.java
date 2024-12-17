@@ -34,9 +34,9 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 public class StorageResponse implements java.io.Serializable {
-
+    
     private static final String SEPARATOR = "/";
-
+    
     private Object fileId;
     private String etag;
     private String originName;
@@ -46,20 +46,20 @@ public class StorageResponse implements java.io.Serializable {
      * 文件存储的名字
      */
     private String md5;
-
+    
     /**
      * 文件的完整路径
      */
     private String fullUrl;
-
+    
     private String mappingPath;
-
+    
     private String bucket;
     /**
      * 对应存储的扩展字段
      */
     private Map<String, Object> extend;
-
+    
     @Builder
     public StorageResponse(String fileId, String etag, String originName, String targetName, String mappingPath,
                            String bucket,
@@ -79,7 +79,7 @@ public class StorageResponse implements java.io.Serializable {
             this.fullUrl = fullUrl;
         }
     }
-
+    
     public static String buildFullUrl(String mappingPath, String targetName) {
         if (mappingPath.endsWith(SEPARATOR) && targetName.startsWith(SEPARATOR)) {
             mappingPath = mappingPath.substring(0, mappingPath.length() - 1);

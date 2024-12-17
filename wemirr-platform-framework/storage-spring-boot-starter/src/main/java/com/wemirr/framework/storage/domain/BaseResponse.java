@@ -28,8 +28,8 @@ import lombok.Data;
  */
 @Data
 public class BaseResponse implements java.io.Serializable {
-
+    
     private Boolean successful = false;
     private String message;
-
+    
 }

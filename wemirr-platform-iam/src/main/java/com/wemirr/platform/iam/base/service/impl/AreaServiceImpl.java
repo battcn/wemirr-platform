@@ -35,12 +35,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AreaServiceImpl extends SuperServiceImpl<AreaMapper, AreaEntity> implements AreaService {
-
+    
     @Override
     public List<AreaEntity> listArea(Integer parentId) {
         return baseMapper.listArea(parentId);
     }
-
+    
     @Override
     public void saveOrUpdateArea(AreaEntity area) {
         final long count = count(Wraps.<AreaEntity>lbQ().eq(AreaEntity::getId, area.getId()));
@@ -50,5 +50,5 @@ public class AreaServiceImpl extends SuperServiceImpl<AreaMapper, AreaEntity> im
             baseMapper.updateById(area);
         }
     }
-
+    
 }

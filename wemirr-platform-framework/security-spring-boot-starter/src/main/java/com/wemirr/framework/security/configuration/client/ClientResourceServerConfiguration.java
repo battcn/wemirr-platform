@@ -31,8 +31,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @RequiredArgsConstructor
 @EnableConfigurationProperties(SecurityExtProperties.class)
 public class ClientResourceServerConfiguration {
-
+    
     private final SecurityExtProperties properties;
-
-
+    
 }

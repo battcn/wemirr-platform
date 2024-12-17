@@ -37,11 +37,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @TableName("sys_role_res")
 public class RoleRes {
-
+    
     @Schema(description = "资源ID")
     private Long resId;
-
+    
     @Schema(description = "角色ID")
     private Long roleId;
-
+    
 }

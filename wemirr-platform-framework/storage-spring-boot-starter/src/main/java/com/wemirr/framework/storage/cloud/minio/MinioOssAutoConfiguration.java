@@ -39,7 +39,7 @@ import static com.wemirr.framework.storage.StorageOperation.OSS_CONFIG_PREFIX_MI
 @EnableConfigurationProperties(MinioStorageProperties.class)
 @ConditionalOnProperty(prefix = OSS_CONFIG_PREFIX_MINIO, name = "enabled", havingValue = "true")
 public class MinioOssAutoConfiguration {
-
+    
     @SneakyThrows
     @Bean
     public MinioClient minioClient(MinioStorageProperties properties) {
@@ -59,10 +59,10 @@ public class MinioOssAutoConfiguration {
         }
         return minioClient;
     }
-
+    
     @Bean(MINIO_STORAGE_OPERATION)
     public MinioStorageOperation minioStorageOperation(MinioClient minioClient, MinioStorageProperties properties) {
         return new MinioStorageOperation(minioClient, properties);
     }
-
+    
 }

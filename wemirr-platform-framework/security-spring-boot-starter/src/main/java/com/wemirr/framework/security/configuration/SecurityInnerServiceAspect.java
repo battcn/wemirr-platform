@@ -48,10 +48,10 @@ import java.util.Objects;
 @AllArgsConstructor
 @EnableConfigurationProperties(SecurityExtProperties.class)
 public class SecurityInnerServiceAspect implements Ordered {
-
+    
     private static final String SEPARATOR = ",";
     private final SecurityExtProperties properties;
-
+    
     @Around("@annotation(authorize)")
     public Object around(ProceedingJoinPoint point, IgnoreAuthorize authorize) throws Throwable {
         if (authorize.global()) {
@@ -83,10 +83,10 @@ public class SecurityInnerServiceAspect implements Ordered {
         }
         return point.proceed();
     }
-
+    
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE + 1;
     }
-
+    
 }

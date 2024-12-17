@@ -28,7 +28,7 @@ import java.util.List;
  * @author Levin
  */
 public interface AreaService extends SuperService<AreaEntity> {
-
+    
     /**
      * 根据 parentId 查询数据集
      *
@@ -36,12 +36,12 @@ public interface AreaService extends SuperService<AreaEntity> {
      * @return 查询结果
      */
     List<AreaEntity> listArea(Integer parentId);
-
+    
     /**
      * 保存或者修改地区
      *
      * @param area area
      */
     void saveOrUpdateArea(AreaEntity area);
-
+    
 }

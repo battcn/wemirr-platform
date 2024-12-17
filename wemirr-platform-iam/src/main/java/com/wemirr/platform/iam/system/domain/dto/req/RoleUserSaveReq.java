@@ -35,15 +35,14 @@ import java.util.List;
 @Data
 @Schema(name = "RoleUserSaveReq", description = "角色分配用户")
 public class RoleUserSaveReq {
-
-
+    
     @Schema(description = "用户ID")
     @NotEmpty(message = "分配用户不能为空")
     @Size(min = 1, message = "至少勾选 {min} 条数据")
     private List<Long> userIdList;
-
+    
     @Schema(description = "角色id")
     @NotNull(message = "角色id不能为空")
     private Long roleId;
-
+    
 }

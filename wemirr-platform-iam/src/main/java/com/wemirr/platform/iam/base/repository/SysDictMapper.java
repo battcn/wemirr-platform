@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.iam.base.repository;
 
-
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.iam.base.domain.entity.SysDict;
 import org.springframework.stereotype.Repository;
@@ -36,6 +35,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SysDictMapper extends SuperMapper<SysDict> {
-
-
+    
 }

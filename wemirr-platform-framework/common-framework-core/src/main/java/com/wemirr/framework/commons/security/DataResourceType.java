@@ -37,7 +37,7 @@ import lombok.Getter;
 @JsonFormat
 @AllArgsConstructor
 public enum DataResourceType {
-
+    
     /**
      * 用户（比如你可以根据 地区、机构、公司、网点等维度控制权限，只需要指定数据资源类型即可）
      */
@@ -48,12 +48,12 @@ public enum DataResourceType {
     COMPANY("company", "公司维护"),
     AREA("area", "地区维度"),
     ;
-
+    
     @EnumValue
     @JsonValue
     private final String resource;
     private final String desc;
-
+    
     @JsonCreator
     public static DataResourceType of(String resource) {
         if (resource == null) {

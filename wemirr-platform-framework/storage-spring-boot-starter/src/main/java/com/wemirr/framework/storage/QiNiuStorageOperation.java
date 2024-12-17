@@ -52,13 +52,13 @@ import java.util.Objects;
  */
 @Slf4j
 public class QiNiuStorageOperation implements StorageOperation {
-
+    
     private final UploadManager uploadManager;
     private final BucketManager bucketManager;
     private final CdnManager cdnManager;
     private final QiNiuStorageProperties properties;
     private final QiNiuConnectionFactory connectionFactory;
-
+    
     @Autowired
     public QiNiuStorageOperation(QiNiuStorageProperties properties, QiNiuConnectionFactory connectionFactory) {
         this.properties = properties;
@@ -67,12 +67,12 @@ public class QiNiuStorageOperation implements StorageOperation {
         this.bucketManager = this.connectionFactory.getBucketManager();
         this.cdnManager = this.connectionFactory.getCdnManager();
     }
-
+    
     @Override
     public String token(String originName, boolean random) {
         return token(properties.getBucket(), originName, random);
     }
-
+    
     @Override
     public String token(String bucket, String originName, boolean random) {
         String targetName = null;
@@ -81,7 +81,7 @@ public class QiNiuStorageOperation implements StorageOperation {
         }
         return getUploadToken(StringUtils.defaultIfBlank(bucket, properties.getBucket()), targetName);
     }
-
+    
     @Override
     public DownloadResponse download(String fileName) {
         String domainOfBucket = this.connectionFactory.getDomain(properties.getBucket());
@@ -97,12 +97,12 @@ public class QiNiuStorageOperation implements StorageOperation {
         }
         return null;
     }
-
+    
     @Override
     public DownloadResponse download(String bucketName, String fileName) {
         return null;
     }
-
+    
     @Override
     public void download(String bucketName, String fileName, File file) {
         String domainOfBucket = this.connectionFactory.getDomain(bucketName);
@@ -115,32 +115,32 @@ public class QiNiuStorageOperation implements StorageOperation {
             throw downloadError(BaseStorageProperties.StorageType.QINIU, e);
         }
     }
-
+    
     @Override
     public void download(String fileName, File file) {
         download(properties.getBucket(), fileName, file);
     }
-
+    
     @Override
     public List<StorageItem> list() {
         return null;
     }
-
+    
     @Override
     public void rename(String oldName, String newName) {
-
+        
     }
-
+    
     @Override
     public void rename(String bucketName, String oldName, String newName) {
-
+        
     }
-
+    
     @Override
     public StorageResponse upload(String fileName, byte[] content) {
         return upload(properties.getBucket(), fileName, content);
     }
-
+    
     @Override
     public StorageResponse upload(String bucketName, String fileName, InputStream content) {
         try {
@@ -152,7 +152,7 @@ public class QiNiuStorageOperation implements StorageOperation {
             throw uploadError(BaseStorageProperties.StorageType.QINIU, e);
         }
     }
-
+    
     @Override
     public StorageResponse upload(String bucketName, String fileName, byte[] content) {
         try {
@@ -164,7 +164,7 @@ public class QiNiuStorageOperation implements StorageOperation {
             throw uploadError(BaseStorageProperties.StorageType.QINIU, e);
         }
     }
-
+    
     @Override
     public StorageResponse upload(StorageRequest request) {
         if (request.getInputStream() == null && request.getContent() == null) {
@@ -195,7 +195,7 @@ public class QiNiuStorageOperation implements StorageOperation {
             throw uploadError(BaseStorageProperties.StorageType.QINIU, e);
         }
     }
-
+    
     private StorageResponse getStorageResponse(String fileName, Response response) throws QiniuException {
         log.debug("七牛上传响应结果 - {}", response);
         if (!response.isOK()) {
@@ -206,12 +206,12 @@ public class QiNiuStorageOperation implements StorageOperation {
         return StorageResponse.builder().originName(fileName).targetName(fileName).size(response.body().length)
                 .extend(extend).fullUrl(properties.getMappingPath() + fileName).build();
     }
-
+    
     @Override
     public void remove(String fileName) {
         remove(properties.getBucket(), fileName);
     }
-
+    
     @Override
     public void remove(String bucketName, String fileName) {
         try {
@@ -221,12 +221,12 @@ public class QiNiuStorageOperation implements StorageOperation {
             log.error("[文件移除异常]", e);
         }
     }
-
+    
     @Override
     public void remove(String bucketName, Path path) {
         remove(bucketName, path.toString());
     }
-
+    
     private String getUploadToken(String bucket, String key) {
         return this.connectionFactory.getUploadToken(bucket, key, QiNiuScope.DEFAULT);
     }

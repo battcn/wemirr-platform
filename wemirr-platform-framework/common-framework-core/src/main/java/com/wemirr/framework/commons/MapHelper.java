@@ -39,7 +39,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @since 2020/07/29
  */
 public class MapHelper {
-
+    
     /**
      * 增强 guava 的 Maps.uniqueIndex方法
      * <p>
@@ -78,7 +78,7 @@ public class MapHelper {
             throw new IllegalArgumentException(duplicateKeys.getMessage() + ".若要在键下索引多个值，请使用: Multimaps.index.");
         }
     }
-
+    
     /**
      * 增强 guava 的 Maps.uniqueIndex方法
      * <p>
@@ -104,7 +104,7 @@ public class MapHelper {
     public static <K, V, M> Map<K, M> toImmutableMap(Iterable<V> values, Function<? super V, K> keyFunction, Function<? super V, M> valueFunction) {
         return uniqueIndex(values, keyFunction, valueFunction);
     }
-
+    
     /**
      * List 转 HashMap
      * K 需要自己指定， M需要自己指定
@@ -129,7 +129,7 @@ public class MapHelper {
         }
         return map;
     }
-
+    
     /**
      * 转换 Map 的 K 和 V
      *
@@ -146,5 +146,5 @@ public class MapHelper {
         map.forEach(biMap::forcePut);
         return biMap.inverse();
     }
-
+    
 }

@@ -30,15 +30,14 @@ import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
  * @author Levin
  */
 public interface TenantService extends SuperService<Tenant> {
-
+    
     /**
      * 保存租户
      *
      * @param req 租户信息
      */
     void create(TenantSaveReq req);
-
-
+    
     /**
      * 保存租户
      *
@@ -46,7 +45,7 @@ public interface TenantService extends SuperService<Tenant> {
      * @param req 租户信息
      */
     void modify(Long id, TenantSaveReq req);
-
+    
     /**
      * 租户配置
      *
@@ -54,22 +53,21 @@ public interface TenantService extends SuperService<Tenant> {
      * @param req      租户配置
      */
     void tenantConfig(Long tenantId, TenantConfigReq req);
-
+    
     /**
      * 初始化SQL脚本
      *
      * @param id id
      */
     void initSqlScript(Long id);
-
-
+    
     /**
      * 字典刷新
      *
      * @param tenantId tenantId
      */
     void refreshTenantDict(Long tenantId);
-
+    
     /**
      * 租户设置信息
      *
@@ -77,7 +75,7 @@ public interface TenantService extends SuperService<Tenant> {
      * @return 查询结果
      */
     TenantSettingResp settingInfo(Long tenantId);
-
+    
     /**
      * 保存租户设置
      *
@@ -85,5 +83,5 @@ public interface TenantService extends SuperService<Tenant> {
      * @param req      设置信息
      */
     void saveSetting(Long tenantId, TenantSettingReq req);
-
+    
 }

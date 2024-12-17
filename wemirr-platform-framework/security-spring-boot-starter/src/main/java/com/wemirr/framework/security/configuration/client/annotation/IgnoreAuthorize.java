@@ -33,12 +33,12 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface IgnoreAuthorize {
-
+    
     /**
      * 默认全局忽略(如果是 false 那么就是内网忽略,外网保护)
      *
      * @return true | false
      */
     boolean global() default true;
-
+    
 }

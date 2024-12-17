@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.iam.base.repository;
 
-
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.iam.base.domain.entity.AreaEntity;
 import org.apache.ibatis.annotations.Param;
@@ -33,7 +32,7 @@ import java.util.List;
 
 @Repository
 public interface AreaMapper extends SuperMapper<AreaEntity> {
-
+    
     /**
      * 根据 parentId 查询数据集
      *

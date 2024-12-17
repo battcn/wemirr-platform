@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommonDataResp {
-
+    
     @Schema(description = "ID")
     private Long id;
     @Schema(description = "名称")

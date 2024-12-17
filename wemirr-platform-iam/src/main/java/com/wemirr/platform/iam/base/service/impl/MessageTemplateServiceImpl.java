@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.platform.iam.base.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -32,16 +51,16 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MessageTemplateServiceImpl extends ServiceImpl<MessageTemplateMapper, MessageTemplate> implements MessageTemplateService {
-
+    
     @Override
     public IPage<MessageTemplatePageResp> pageList(MessageTemplatePageReq req) {
         return this.baseMapper.selectPage(req.buildPage(), Wraps.<MessageTemplate>lbQ()
-                        .eq(MessageTemplate::getType, req.getType())
-                        .eq(MessageTemplate::getSubject, req.getSubject())
-                        .eq(MessageTemplate::getName, req.getName()))
+                .eq(MessageTemplate::getType, req.getType())
+                .eq(MessageTemplate::getSubject, req.getSubject())
+                .eq(MessageTemplate::getName, req.getName()))
                 .convert(x -> BeanUtil.toBean(x, MessageTemplatePageResp.class));
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void create(MessageTemplateSaveReq req) {
@@ -51,7 +70,7 @@ public class MessageTemplateServiceImpl extends ServiceImpl<MessageTemplateMappe
         }
         this.baseMapper.insert(bean);
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void modify(Long id, MessageTemplateSaveReq req) {
@@ -63,7 +82,7 @@ public class MessageTemplateServiceImpl extends ServiceImpl<MessageTemplateMappe
         }
         this.baseMapper.updateById(bean);
     }
-
+    
     @Override
     public MessageTemplateDetailResp detail(Long id) {
         var template = Optional.ofNullable(baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("模板不存在"));

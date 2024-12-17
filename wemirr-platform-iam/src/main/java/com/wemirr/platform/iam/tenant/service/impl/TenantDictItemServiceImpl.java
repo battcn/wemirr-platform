@@ -46,11 +46,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class TenantDictItemServiceImpl extends SuperServiceImpl<TenantDictItemMapper, TenantDictItem> implements TenantDictItemService {
-
+    
     private final TenantDictMapper tenantDictMapper;
     private final AuthenticationContext context;
-
-
+    
     @Override
     public void create(DictItemSaveReq req) {
         final TenantDict dict = Optional.ofNullable(this.tenantDictMapper.selectOne(TenantDict::getCode, req.getDictCode()))
@@ -67,7 +66,7 @@ public class TenantDictItemServiceImpl extends SuperServiceImpl<TenantDictItemMa
         item.setReadonly(false);
         this.baseMapper.insert(item);
     }
-
+    
     @Override
     public void modify(Long id, DictItemSaveReq req) {
         TenantDictItem dictItem = this.baseMapper.selectById(id);
@@ -87,7 +86,7 @@ public class TenantDictItemServiceImpl extends SuperServiceImpl<TenantDictItemMa
         TenantDictItem item = BeanUtilPlus.toBean(id, req, TenantDictItem.class);
         this.baseMapper.updateById(item);
     }
-
+    
     @Override
     public void delete(Long id) {
         TenantDictItem dictItem = this.baseMapper.selectById(id);

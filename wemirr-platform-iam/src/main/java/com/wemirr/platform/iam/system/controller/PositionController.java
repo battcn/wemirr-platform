@@ -49,9 +49,9 @@ import java.util.List;
 @RequestMapping("/positions")
 @Tag(name = "岗位管理", description = "岗位管理")
 public class PositionController {
-
+    
     private final SysPositionService sysPositionService;
-
+    
     @GetMapping("/list")
     @Operation(summary = "岗位列表 - [Levin] - [DONE]")
     public List<PositionPageResp> list(Long orgId) {
@@ -59,14 +59,14 @@ public class PositionController {
                 .orderByAsc(Position::getSequence));
         return BeanUtilPlus.toBeans(list, PositionPageResp.class);
     }
-
+    
     @GetMapping("/page")
     @Operation(summary = "分页查询 - [Levin] - [DONE]")
     @SaCheckPermission(value = {"sys:position:page"})
     public IPage<PositionPageResp> pageList(PositionPageReq req) {
         return sysPositionService.pageList(req);
     }
-
+    
     @PostMapping("/create")
     @AccessLog(description = "添加岗位")
     @Operation(summary = "添加岗位")
@@ -74,7 +74,7 @@ public class PositionController {
     public void create(@Validated @RequestBody PositionSaveReq req) {
         sysPositionService.create(req);
     }
-
+    
     @PutMapping("/{id}/modify")
     @AccessLog(description = "编辑岗位")
     @Operation(summary = "编辑岗位")
@@ -82,7 +82,7 @@ public class PositionController {
     public void modify(@PathVariable Long id, @Validated @RequestBody PositionSaveReq req) {
         sysPositionService.modify(id, req);
     }
-
+    
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除岗位")
     @Operation(summary = "删除岗位")
@@ -90,5 +90,5 @@ public class PositionController {
     public void remove(@PathVariable Long id) {
         sysPositionService.removeById(id);
     }
-
+    
 }

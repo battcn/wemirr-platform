@@ -37,7 +37,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DataPermission implements java.io.Serializable {
-
+    
     @Serial
     private static final long serialVersionUID = 1L;
     /**
@@ -45,11 +45,11 @@ public class DataPermission implements java.io.Serializable {
      */
     @Builder.Default
     private DataScopeType scopeType = DataScopeType.IGNORE;
-
+    
     /**
      * 多维度数据权限
      */
     @Builder.Default
     private Map<DataResourceType, List<Object>> dataPermissionMap = Maps.newHashMap();
-
+    
 }

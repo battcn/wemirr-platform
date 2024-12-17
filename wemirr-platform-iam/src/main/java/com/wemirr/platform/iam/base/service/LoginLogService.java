@@ -28,6 +28,5 @@ import com.wemirr.platform.iam.base.domain.entity.LoginLog;
  * @author Levin
  */
 public interface LoginLogService extends SuperService<LoginLog> {
-
-
+    
 }

@@ -35,11 +35,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RolePermissionResp {
-
+    
     @Schema(description = "菜单ID")
     private List<Long> menuIdList;
-
+    
     @Schema(description = "按钮ID")
     private List<Long> buttonIdList;
-
+    
 }

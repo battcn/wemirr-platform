@@ -47,9 +47,9 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "业务字典", description = "业务字典")
 @RequestMapping("/tenant-dict-items")
 public class TenantDictItemController {
-
+    
     private final TenantDictItemService tenantDictItemService;
-
+    
     @GetMapping("/page")
     @Operation(summary = "查询字典子项", description = "查询字典子项 - [DONE] - [Levin]")
     @Parameters({
@@ -62,27 +62,27 @@ public class TenantDictItemController {
                 .eq(TenantDictItem::getStatus, req.getStatus())
                 .like(TenantDictItem::getLabel, req.getLabel()));
     }
-
+    
     @PostMapping("/create")
     @Operation(summary = "添加字典子项", description = "添加字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dict_code", description = "字典编码", in = ParameterIn.PATH)
     public void create(@Validated @RequestBody DictItemSaveReq req) {
         this.tenantDictItemService.create(req);
-
+        
     }
-
+    
     @PutMapping("/{id}/modify")
     @Operation(summary = "编辑字典子项 - [DONE] - [Levin]", description = "编辑字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dict_code", description = "字典编码", in = ParameterIn.PATH)
     public void modify(@PathVariable("id") Long id, @Validated @RequestBody DictItemSaveReq req) {
         this.tenantDictItemService.modify(id, req);
-
+        
     }
-
+    
     @DeleteMapping("/{id}")
     @Operation(summary = "删除字典子项 - [DONE] - [Levin]", description = "删除字典子项 - [DONE] - [Levin]")
     public void remove(@PathVariable("id") Long id) {
         this.tenantDictItemService.delete(id);
     }
-
+    
 }

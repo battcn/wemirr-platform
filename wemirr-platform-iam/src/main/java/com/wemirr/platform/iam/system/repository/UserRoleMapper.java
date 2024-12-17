@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.iam.system.repository;
 
-
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.iam.system.domain.entity.UserRole;
 import org.springframework.stereotype.Repository;
@@ -37,5 +36,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRoleMapper extends SuperMapper<UserRole> {
-
+    
 }

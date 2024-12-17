@@ -29,7 +29,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class I18nPageReq extends PageRequest {
-
+    
     private String code;
-
+    
 }

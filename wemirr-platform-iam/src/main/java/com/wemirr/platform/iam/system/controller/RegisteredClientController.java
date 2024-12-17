@@ -50,9 +50,9 @@ import static com.wemirr.platform.iam.system.domain.converts.RegisteredClientCon
 @RequestMapping("/registered-client")
 @Tag(name = "终端管理", description = "终端管理")
 public class RegisteredClientController {
-
+    
     private final RegisteredClientService registeredClientService;
-
+    
     @GetMapping
     @Parameters({
             @Parameter(description = "clientId", name = "clientId", in = ParameterIn.QUERY),
@@ -63,30 +63,30 @@ public class RegisteredClientController {
                                              @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
                                              String clientId, String clientName) {
         return this.registeredClientService.page(new Page<>(current, size),
-                        Wraps.<RegisteredClient>lbQ().like(RegisteredClient::getClientId, clientId)
-                                .like(RegisteredClient::getClientName, clientName))
+                Wraps.<RegisteredClient>lbQ().like(RegisteredClient::getClientId, clientId)
+                        .like(RegisteredClient::getClientName, clientName))
                 .convert(REGISTERED_CLIENT_REF_2_RESP_CONVERTS::convert);
     }
-
+    
     @PostMapping
     @AccessLog(description = "保存应用")
     @Operation(summary = "保存应用")
     public void create(@Validated @RequestBody RegisteredClientReq req) {
         this.registeredClientService.create(req);
     }
-
+    
     @PutMapping("/{id}")
     @AccessLog(description = "修改应用")
     @Operation(summary = "修改应用")
     public void modify(@PathVariable Long id, @Validated @RequestBody RegisteredClientReq req) {
         this.registeredClientService.modify(id, req);
     }
-
+    
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除应用")
     @Operation(summary = "删除应用")
     public void del(@PathVariable String id) {
         this.registeredClientService.deleteById(id);
     }
-
+    
 }

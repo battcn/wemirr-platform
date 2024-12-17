@@ -39,18 +39,18 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Area implements java.io.Serializable {
-
+    
     private Integer id;
     /**
      * 名称
      */
     private String name;
-
+    
     /**
      * 父ID
      */
     private Integer parentId;
-
+    
     /**
      * 经度
      */
@@ -59,9 +59,9 @@ public class Area implements java.io.Serializable {
      * 纬度
      */
     private BigDecimal latitude;
-
+    
     private List<Area> children;
-
+    
     /**
      * 初始化子类
      */
@@ -70,7 +70,7 @@ public class Area implements java.io.Serializable {
             this.setChildren(Lists.newArrayList());
         }
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -86,7 +86,7 @@ public class Area implements java.io.Serializable {
                 && Objects.equals(longitude, area.longitude)
                 && Objects.equals(latitude, area.latitude);
     }
-
+    
     @Override
     public int hashCode() {
         return Objects.hash(id, name, parentId, longitude, latitude);

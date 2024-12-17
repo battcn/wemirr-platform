@@ -55,10 +55,10 @@ import java.util.List;
 @RequestMapping("/tenants")
 @Tag(name = "租户管理", description = "租户管理")
 public class TenantController {
-
+    
     private final TenantService tenantService;
     private final DbSettingService dynamicDatasourceService;
-
+    
     @PostMapping("/page")
     @Operation(summary = "租户列表 - [Levin] - [DONE]")
     @SaCheckPermission(value = {"tenant:list"})
@@ -72,13 +72,13 @@ public class TenantController {
                 .eq(Tenant::getIndustry, req.getIndustry()).eq(Tenant::getStatus, req.getStatus())
                 .eq(Tenant::getType, req.getType())).convert(x -> BeanUtil.toBean(x, TenantPageResp.class));
     }
-
+    
     @Operation(summary = "查询可用", description = "查询可用数据源")
     @GetMapping("/databases/active")
     public List<DbSettingPageResp> queryActive() {
         return this.dynamicDatasourceService.selectTenantDynamicDatasource();
     }
-
+    
     @PostMapping("/create")
     @AccessLog(description = "添加租户")
     @Operation(summary = "添加租户")
@@ -86,7 +86,7 @@ public class TenantController {
     public void create(@Validated @RequestBody TenantSaveReq req) {
         tenantService.create(req);
     }
-
+    
     @PutMapping("/{id}/modify")
     @AccessLog(description = "编辑租户")
     @Operation(summary = "编辑租户")
@@ -94,33 +94,31 @@ public class TenantController {
     public void modify(@PathVariable Long id, @Validated @RequestBody TenantSaveReq req) {
         tenantService.modify(id, req);
     }
-
-
+    
     @GetMapping("/{id}/setting")
     @AccessLog(description = "配置租户")
     @Operation(summary = "配置租户")
-//    @SaCheckPermission(value = {"tenant:setting"})
+    // @SaCheckPermission(value = {"tenant:setting"})
     public TenantSettingResp setting(@PathVariable Long id) {
         return tenantService.settingInfo(id);
     }
-
+    
     @PutMapping("/{id}/setting")
     @AccessLog(description = "配置租户")
     @Operation(summary = "配置租户")
-//    @SaCheckPermission(value = {"tenant:setting"})
+    // @SaCheckPermission(value = {"tenant:setting"})
     public void setting(@PathVariable Long id, @Validated @RequestBody TenantSettingReq req) {
         tenantService.saveSetting(id, req);
     }
-
-
-//    @PutMapping("/{id}/config")
-//    @AccessLog(description = "配置租户")
-//    @Operation(summary = "配置租户")
-//    @SaCheckPermission(value = {"tenant:db-config"})
-//    public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq req) {
-//        tenantService.tenantConfig(id, req);
-//    }
-
+    
+    // @PutMapping("/{id}/config")
+    // @AccessLog(description = "配置租户")
+    // @Operation(summary = "配置租户")
+    // @SaCheckPermission(value = {"tenant:db-config"})
+    // public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq req) {
+    // tenantService.tenantConfig(id, req);
+    // }
+    
     @PutMapping("/{id}/init_sql_script")
     @AccessLog(description = "加载初始数据")
     @Operation(summary = "加载初始数据")
@@ -128,7 +126,7 @@ public class TenantController {
     public void initSqlScript(@RedisParam(name = "id") @PathVariable Long id) {
         tenantService.initSqlScript(id);
     }
-
+    
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除租户")
     @Operation(summary = "删除租户")
@@ -136,7 +134,7 @@ public class TenantController {
     public void remove(@PathVariable Long id) {
         tenantService.removeById(id);
     }
-
+    
     @PutMapping("/{id}/refresh-dict")
     @AccessLog(description = "字典刷新")
     @Operation(summary = "字典刷新")
@@ -144,6 +142,5 @@ public class TenantController {
     public void refreshTenantDict(@PathVariable Long id) {
         tenantService.refreshTenantDict(id);
     }
-
-
+    
 }

@@ -52,10 +52,10 @@ import java.util.List;
 @Tag(name = "业务字典", description = "业务字典")
 @RequiredArgsConstructor
 public class TenantDictController {
-
+    
     private final AuthenticationContext context;
     private final TenantDictService tenantDictService;
-
+    
     @GetMapping("/list")
     @Operation(summary = "字典列表 - [DONE] - [Levin]", description = "查询字典列表 - [DONE] - [Levin]")
     @SaCheckPermission(value = {"tenant:dict:list"})
@@ -63,7 +63,7 @@ public class TenantDictController {
         List<TenantDict> list = this.tenantDictService.list(Wraps.<TenantDict>lbQ().eq(TenantDict::getStatus, true));
         return BeanUtilPlus.toBeans(list, TenantDictResp.class);
     }
-
+    
     @PostMapping("/refresh")
     @AccessLog(description = "刷新字典")
     @Operation(summary = "刷新字典 - [DONE] - [Levin]", description = "刷新字典缓存数据 - [DONE] - [Levin]")
@@ -71,16 +71,15 @@ public class TenantDictController {
     public void refresh() {
         this.tenantDictService.refresh();
     }
-
+    
     @PostMapping("/incr-sync")
     @AccessLog(description = "同步字典")
     @Operation(summary = "同步字典 - [DONE] - [Levin]", description = "同步平台字典到租户字典库中 - [DONE] - [Levin]")
-//    @SaCheckPermission(value = {"tenant:dict:sync-dict"})
+    // @SaCheckPermission(value = {"tenant:dict:sync-dict"})
     public void incrSyncTenantDict() {
         this.tenantDictService.incrSyncTenantDict(context.tenantId());
     }
-
-
+    
     @PostMapping("/create")
     @AccessLog(description = "字典新增")
     @Operation(summary = "新增字典 - [DONE] - [Levin]", description = "新增字典 - [DONE] - [Levin]")
@@ -88,7 +87,7 @@ public class TenantDictController {
     public void create(@Validated @RequestBody TenantDictSaveReq req) {
         this.tenantDictService.create(req);
     }
-
+    
     @PutMapping("/{id}/modify")
     @AccessLog(description = "字典编辑")
     @Operation(summary = "编辑字典 - [DONE] - [Levin]", description = "编辑字典 - [DONE] - [Levin]")
@@ -96,7 +95,7 @@ public class TenantDictController {
     public void modify(@PathVariable Long id, @Validated @RequestBody TenantDictSaveReq req) {
         this.tenantDictService.modify(id, req);
     }
-
+    
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除指定字典项")
     @Operation(summary = "删除字典 - [DONE] - [Levin]", description = "删除字典 - [DONE] - [Levin]")
@@ -104,7 +103,7 @@ public class TenantDictController {
     public void remove(@PathVariable Long id) {
         this.tenantDictService.deleteById(id);
     }
-
+    
     @GetMapping("/{code}/list")
     @Operation(summary = "查询字典子项 - [DONE] - [Levin]", description = "查询字典子项")
     @Parameter(name = "code", description = "编码", in = ParameterIn.PATH)

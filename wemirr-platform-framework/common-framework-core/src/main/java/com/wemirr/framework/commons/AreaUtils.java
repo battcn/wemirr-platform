@@ -40,7 +40,7 @@ import static java.util.stream.Collectors.toMap;
  * @author Levin
  */
 public class AreaUtils {
-
+    
     /**
      * 省
      */
@@ -51,7 +51,7 @@ public class AreaUtils {
      * 市
      */
     public static final String CITY = "市";
-
+    
     /**
      * 区
      */
@@ -60,7 +60,7 @@ public class AreaUtils {
      * 县
      */
     public static final String REGION = "县";
-
+    
     /**
      * 模糊搜索
      *
@@ -73,7 +73,7 @@ public class AreaUtils {
     public static Area likeByName(@NotEmpty Map<String, Area> provinces, @NotEmpty List<Area> nodes, @NotNull Integer parentId, @NotBlank String name) {
         return likeByName(provinces, nodes.stream().collect(toMap(Area::getId, Function.identity())), parentId, name);
     }
-
+    
     /**
      * 模糊搜索
      *
@@ -92,9 +92,9 @@ public class AreaUtils {
                 final String provinceName = province.getKey();
                 return StringUtils.equals(provinceName, name)
                         || StringUtils.containsAny(provinceName, name,
-                        StringUtils.removeEnd(name, PROVINCE),
-                        StringUtils.removeEnd(name, ZZQ),
-                        StringUtils.removeEnd(name, ZZZ));
+                                StringUtils.removeEnd(name, PROVINCE),
+                                StringUtils.removeEnd(name, ZZQ),
+                                StringUtils.removeEnd(name, ZZZ));
             }).findFirst();
             return optional.map(Map.Entry::getValue).orElse(null);
         }
@@ -107,7 +107,7 @@ public class AreaUtils {
             return null;
         }
         final Optional<Area> optional = childrenList.stream().filter(children -> StringUtils.equals(children.getName(), name)
-                        || StringUtils.containsAny(children.getName(), name,
+                || StringUtils.containsAny(children.getName(), name,
                         StringUtils.removeEnd(name, CITY),
                         StringUtils.removeEnd(name, COUNTY),
                         StringUtils.removeEnd(name, ZZQ),
@@ -122,11 +122,11 @@ public class AreaUtils {
                 .filter(xx -> CollectionUtil.isNotEmpty(xx.getChildren()))
                 .flatMap(xx -> xx.getChildren().stream()).filter(children -> StringUtils.equals(children.getName(), name)
                         || StringUtils.containsAny(children.getName(), name,
-                        StringUtils.removeEnd(name, CITY),
-                        StringUtils.removeEnd(name, COUNTY),
-                        StringUtils.removeEnd(name, ZZQ),
-                        StringUtils.removeEnd(name, ZZZ),
-                        StringUtils.removeEnd(name, REGION)))
+                                StringUtils.removeEnd(name, CITY),
+                                StringUtils.removeEnd(name, COUNTY),
+                                StringUtils.removeEnd(name, ZZQ),
+                                StringUtils.removeEnd(name, ZZZ),
+                                StringUtils.removeEnd(name, REGION)))
                 .findFirst();
         return optionalArea.orElse(null);
     }

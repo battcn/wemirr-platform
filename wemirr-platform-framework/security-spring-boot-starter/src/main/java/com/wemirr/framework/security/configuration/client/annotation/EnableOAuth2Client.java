@@ -38,5 +38,5 @@ import java.lang.annotation.*;
 @Configuration
 @Import({ClientResourceServerConfiguration.class})
 public @interface EnableOAuth2Client {
-
+    
 }

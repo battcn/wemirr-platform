@@ -30,7 +30,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RegisteredClientMapper extends SuperMapper<RegisteredClient> {
-
+    
     /**
      * 根据ID 删除
      *

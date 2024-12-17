@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.platform.iam.base.service.strategy;
 
 import cn.hutool.core.map.MapUtil;
@@ -21,15 +40,15 @@ import java.util.Properties;
 @Component
 @RequiredArgsConstructor
 public class EmailMessageNotifyStrategy implements MessageNotifyStrategy {
-
+    
     private static final Map<Long, MailSendFactory> SENDER_QUEUE = MapUtil.newConcurrentHashMap();
-
+    
     @Override
     public String channelType() {
         // 定义枚举
         return "email";
     }
-
+    
     public JavaMailSenderImpl getMailSender(MessageChannel channel) {
         // 要判断配置是否又被覆盖过,如果配置覆盖过应该刷新配置
         ChannelSetting setting = JSON.parseObject(channel.getSetting(), ChannelSetting.class);
@@ -55,7 +74,7 @@ public class EmailMessageNotifyStrategy implements MessageNotifyStrategy {
         SENDER_QUEUE.put(channel.getId(), MailSendFactory.builder().setting(setting).sender(mailSender).build());
         return mailSender;
     }
-
+    
     @Override
     public void handler(MessageChannel channel, MessageNotify notify) {
         JavaMailSenderImpl mailSender = getMailSender(channel);
@@ -68,28 +87,30 @@ public class EmailMessageNotifyStrategy implements MessageNotifyStrategy {
         message.setText(notify.getContent());
         mailSender.send(message);
     }
-
+    
     @Data
     @Builder
     public static class MailSendFactory {
-
+        
         private ChannelSetting setting;
-
+        
         private JavaMailSenderImpl sender;
     }
-
+    
     @Data
     @EqualsAndHashCode
     public static class ChannelSetting {
+        
         private Integer port;
         private String host;
         private String username;
         private String password;
         private String protocol;
         private Smtp smtp;
-
+        
         @Data
         public static class Smtp {
+            
             private Boolean auth;
             private Boolean ssl;
         }

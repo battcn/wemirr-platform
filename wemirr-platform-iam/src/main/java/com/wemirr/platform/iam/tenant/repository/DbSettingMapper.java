@@ -32,7 +32,7 @@ import java.util.List;
  */
 @Repository
 public interface DbSettingMapper extends SuperMapper<DbSetting> {
-
+    
     /**
      * 查询所有可用的动态数据源.
      *
@@ -40,7 +40,7 @@ public interface DbSettingMapper extends SuperMapper<DbSetting> {
      * @return 查询结果
      */
     List<DbSettingPageResp> selectTenantDbById(@Param("id") Long id);
-
+    
     /**
      * 获取租户动态数据源
      *
@@ -48,5 +48,5 @@ public interface DbSettingMapper extends SuperMapper<DbSetting> {
      * @return 查询结果
      */
     DbSettingPageResp getTenantDynamicDatasourceByTenantId(Long tenantId);
-
+    
 }

@@ -26,7 +26,7 @@ import com.wemirr.framework.commons.entity.Result;
  * @author Levin
  */
 public interface CaptchaService {
-
+    
     /**
      * 创建验证码
      *
@@ -36,7 +36,7 @@ public interface CaptchaService {
      * @return 验证码结果
      */
     CircleCaptcha create(String key, Integer width, Integer height);
-
+    
     /**
      * 验证图形验证码
      *
@@ -45,5 +45,5 @@ public interface CaptchaService {
      * @return 验证结果
      */
     Result<Boolean> valid(String key, String value);
-
+    
 }

@@ -32,10 +32,10 @@ import java.util.Map;
  * @since 2.0.2
  */
 public class OssEndpoint {
-
+    
     @Resource
     private AliYunStorageProperties properties;
-
+    
     @ReadOperation
     public Object invoke() {
         Map<String, Object> info = Maps.newLinkedHashMap();

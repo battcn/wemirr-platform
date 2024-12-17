@@ -40,6 +40,7 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class RegisteredClientServiceImpl extends SuperServiceImpl<RegisteredClientMapper, RegisteredClient> implements RegisteredClientService {
+    
     @Override
     public void create(RegisteredClientReq req) {
         baseMapper.existsCallback(RegisteredClient::getClientId, req.getClientId(), () -> CheckedException.badRequest("终端已存在,注册失败"));
@@ -55,7 +56,7 @@ public class RegisteredClientServiceImpl extends SuperServiceImpl<RegisteredClie
         }
         this.baseMapper.insert(bean);
     }
-
+    
     @Override
     public void modify(Long id, RegisteredClientReq req) {
         Long count = baseMapper.selectCount(Wraps.<RegisteredClient>lbQ()
@@ -75,7 +76,7 @@ public class RegisteredClientServiceImpl extends SuperServiceImpl<RegisteredClie
         }
         this.baseMapper.updateById(bean);
     }
-
+    
     @Override
     public void deleteById(String id) {
         this.baseMapper.removeById(id);

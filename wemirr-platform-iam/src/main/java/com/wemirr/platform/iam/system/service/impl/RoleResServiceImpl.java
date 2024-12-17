@@ -47,9 +47,9 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes> implements RoleResService {
-
+    
     private final UserRoleMapper userRoleMapper;
-
+    
     @Override
     public boolean assignUser(UserRoleSaveReq req) {
         userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, req.getRoleId()));
@@ -58,7 +58,7 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
         userRoleMapper.insertBatchSomeColumn(list);
         return true;
     }
-
+    
     @Override
     @DSTransactional
     public void assignResource(RoleResSaveReq req) {
@@ -66,7 +66,7 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
         super.remove(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, req.getRoleId()));
         resHandler(req, req.getRoleId());
     }
-
+    
     private void resHandler(RoleResSaveReq data, Long roleId) {
         final Set<Long> resIdList = data.getResIdList();
         if (CollUtil.isEmpty(resIdList)) {

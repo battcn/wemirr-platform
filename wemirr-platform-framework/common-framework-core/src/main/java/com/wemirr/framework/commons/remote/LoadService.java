@@ -35,7 +35,7 @@ import java.util.Set;
  * @author Levin
  */
 public interface LoadService<VALUE> {
-
+    
     /**
      * 根据id查询待回显参数.
      *
@@ -43,21 +43,20 @@ public interface LoadService<VALUE> {
      * @return Map
      */
     Map<Object, VALUE> findByIds(Set<Object> keys);
-
-
+    
     /**
      * 根据id查询待回显参数.
      *
      * @param tag tag
      * @return Map
+     * @throws RuntimeException 异常
      */
     default Map<Object, VALUE> findByIds(String tag) {
         throw new RuntimeException("暂未实现");
     }
-
-
+    
     default void refreshCache(Map<String, List<Pair<String, String>>> data) {
-
+        
     }
-
+    
 }

@@ -36,12 +36,12 @@ import static com.wemirr.framework.storage.StorageOperation.QI_NIU_STORAGE_OPERA
 @EnableConfigurationProperties({QiNiuStorageProperties.class})
 @ConditionalOnProperty(prefix = OSS_CONFIG_PREFIX_QINIU, name = "enabled", havingValue = "true")
 public class QiNiuOssAutoConfiguration {
-
+    
     @Bean
     public QiNiuConnectionFactory qiNiuConnectionFactory(QiNiuStorageProperties properties) {
         return new QiNiuOssClientConnectionFactory(properties);
     }
-
+    
     @Bean(QI_NIU_STORAGE_OPERATION)
     public QiNiuStorageOperation qiNiuStorageOperation(QiNiuStorageProperties properties, QiNiuConnectionFactory qiNiuConnectionFactory) {
         return new QiNiuStorageOperation(properties, qiNiuConnectionFactory);

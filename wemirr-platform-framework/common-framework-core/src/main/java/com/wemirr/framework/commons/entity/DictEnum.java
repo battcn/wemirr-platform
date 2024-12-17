@@ -33,13 +33,14 @@ import static java.util.stream.Collectors.toList;
 /**
  * 枚举类型基类
  *
+ * @param <T> T 泛型
  * @author Levin
  * @since 2019/07/26
  */
 public interface DictEnum<T extends Serializable> extends IEnum<T> {
-
+    
     char SEPARATOR = ',';
-
+    
     /**
      * 枚举数组转集合
      *
@@ -52,7 +53,7 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
         }
         return Arrays.stream(dictList).map(dictionary -> new Dict<>(dictionary.getCode(), dictionary.getDesc())).collect(toList());
     }
-
+    
     /**
      * 获取指定类型枚举映射
      *
@@ -71,7 +72,7 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
         }
         return null;
     }
-
+    
     /**
      * 转换成字符串
      *
@@ -89,7 +90,7 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
                 .map(String::valueOf)
                 .collect(Collectors.joining(","));
     }
-
+    
     /**
      * 转换成集合枚举
      *
@@ -106,14 +107,14 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
                 .map(type -> of(enumClass, type))
                 .collect(toList());
     }
-
+    
     /**
      * 描述信息
      *
      * @return 描述
      */
     String getDesc();
-
+    
     /**
      * 语言
      *
@@ -122,7 +123,7 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
     default String getLanguage() {
         return null;
     }
-
+    
     /**
      * 获取枚举编码
      *
@@ -131,5 +132,5 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
     default T getCode() {
         return this.getValue();
     }
-
+    
 }

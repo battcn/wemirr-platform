@@ -44,13 +44,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Constraint(validatedBy = {NameValidator.class})
 public @interface Name {
-
+    
     String message() default "不能输入纯数字和特殊字符";
-
+    
     String regexp() default "^(?![0-9]*$)[\\u4e00-\\u9fa50-9A-Za-z-_()（）]*$";
-
+    
     Class<?>[] groups() default {};
-
+    
     Class<? extends Payload>[] payload() default {};
-
+    
 }

@@ -31,7 +31,7 @@ import java.util.List;
 @Data
 @Schema(name = "RegisteredClientRefResp")
 public class RegisteredClientResp {
-
+    
     @Schema(description = "客户端ID")
     private String id;
     @Schema(description = "客户端名称")
@@ -52,10 +52,10 @@ public class RegisteredClientResp {
     private String postLogoutRedirectUris;
     @Schema(description = "授权范围")
     private List<String> scopes;
-
+    
     @Schema(description = "状态")
     private Boolean status;
-
+    
     @Schema(description = "accessToken 有效时长(2小时) ", example = "120")
     private Long accessTokenTimeToLive;
     @Schema(description = "refreshToken 有效时长(7天)", example = "10080")
@@ -64,5 +64,5 @@ public class RegisteredClientResp {
     private Long authorizationCodeTimeToLive;
     @Schema(description = "设备码 有效时长（分钟）", example = "5")
     private Long deviceCodeTimeToLive;
-
+    
 }

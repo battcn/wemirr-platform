@@ -38,9 +38,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OptLogServiceImpl extends SuperServiceImpl<OptLogMapper, OptLog> implements OptLogService {
-
+    
     private final OptLogMapper optLogMapper;
-
+    
     @Override
     public void listener(AccessLogInfo info) {
         DynamicDataSourceContextHolder.push(info.getDsKey());
@@ -48,5 +48,5 @@ public class OptLogServiceImpl extends SuperServiceImpl<OptLogMapper, OptLog> im
         this.optLogMapper.insert(BeanUtil.toBean(info, OptLog.class));
         DynamicDataSourceContextHolder.poll();
     }
-
+    
 }

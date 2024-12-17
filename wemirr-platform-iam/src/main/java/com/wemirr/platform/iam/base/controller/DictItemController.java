@@ -47,9 +47,9 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "系统字典", description = "系统字典")
 @RequestMapping("/dict/{dict_id}/items")
 public class DictItemController {
-
+    
     private final DictItemService dictItemService;
-
+    
     @GetMapping
     @Operation(summary = "查询字典子项", description = "查询字典子项 - [DONE] - [Levin]")
     @Parameters({
@@ -60,27 +60,27 @@ public class DictItemController {
         return this.dictItemService.page(req.buildPage(), Wraps.<SysDictItem>lbQ().eq(SysDictItem::getDictId, dictId)
                 .eq(SysDictItem::getStatus, req.getStatus()).like(SysDictItem::getLabel, req.getLabel()));
     }
-
+    
     @PostMapping
     @Operation(summary = "添加字典子项", description = "添加字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH)
     public void create(@PathVariable("dict_id") Long dictId, @Validated @RequestBody DictItemSaveReq req) {
         this.dictItemService.create(dictId, req);
     }
-
+    
     @PutMapping("/{item_id}")
     @Operation(summary = "编辑字典子项 - [DONE] - [Levin]", description = "编辑字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH)
     public void modify(@PathVariable("dict_id") Long dictId, @PathVariable("item_id") Long itemId, @Validated @RequestBody DictItemSaveReq req) {
         this.dictItemService.modify(dictId, itemId, req);
-
+        
     }
-
+    
     @DeleteMapping("/{item_id}")
     @Operation(summary = "删除字典子项 - [DONE] - [Levin]", description = "删除字典子项 - [DONE] - [Levin]")
     @Parameter(name = "dict_id", description = "字典ID", in = ParameterIn.PATH)
     public void del(@PathVariable("dict_id") Long dictId, @PathVariable("item_id") Long itemId) {
         this.dictItemService.removeById(itemId);
     }
-
+    
 }

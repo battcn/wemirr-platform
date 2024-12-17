@@ -28,12 +28,12 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface IgnoreGlobalResponse {
-
+    
     /**
      * 描述
      *
      * @return {String}
      */
     String description();
-
+    
 }

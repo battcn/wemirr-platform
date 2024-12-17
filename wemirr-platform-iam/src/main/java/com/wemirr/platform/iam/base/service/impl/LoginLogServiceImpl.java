@@ -36,5 +36,5 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
-
+    
 }

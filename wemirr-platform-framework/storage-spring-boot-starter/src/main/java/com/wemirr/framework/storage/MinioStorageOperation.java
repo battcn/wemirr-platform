@@ -48,15 +48,15 @@ import java.util.stream.StreamSupport;
 @Slf4j
 @AllArgsConstructor
 public class MinioStorageOperation implements StorageOperation {
-
+    
     private final MinioClient minioClient;
     private final MinioStorageProperties properties;
-
+    
     @Override
     public DownloadResponse download(String fileName) {
         return download(properties.getBucket(), fileName);
     }
-
+    
     @Override
     public DownloadResponse download(String bucketName, String fileName) {
         try {
@@ -67,7 +67,7 @@ public class MinioStorageOperation implements StorageOperation {
             throw downloadError(BaseStorageProperties.StorageType.MINIO, ex);
         }
     }
-
+    
     @Override
     public void download(String bucketName, String fileName, File file) {
         try {
@@ -78,12 +78,12 @@ public class MinioStorageOperation implements StorageOperation {
             log.error("[文件下载异常]", e);
         }
     }
-
+    
     @Override
     public void download(String fileName, File file) {
         download(properties.getBucket(), fileName, file);
     }
-
+    
     /**
      * 对象转换
      *
@@ -110,39 +110,39 @@ public class MinioStorageOperation implements StorageOperation {
                     }
                 }).collect(Collectors.toList());
     }
-
+    
     @Override
     public List<StorageItem> list() {
         Iterable<Result<Item>> iterable = minioClient.listObjects(ListObjectsArgs.builder().bucket(properties.getBucket()).region(properties.getRegion()).build());
         return getStorageItems(iterable);
     }
-
+    
     @Override
     public void rename(String oldName, String newName) {
         throw new StorageException(BaseStorageProperties.StorageType.MINIO, "方法未实现");
     }
-
+    
     @Override
     public void rename(String bucketName, String oldName, String newName) {
         throw new StorageException(BaseStorageProperties.StorageType.MINIO, "方法未实现");
     }
-
+    
     @Override
     public StorageResponse upload(String fileName, byte[] content) {
         InputStream stream = new ByteArrayInputStream(content);
         return upload(properties.getBucket(), fileName, stream);
     }
-
+    
     @Override
     public StorageResponse upload(String bucketName, String fileName, InputStream content) {
         return upload(StorageRequest.builder().bucket(bucketName).originName(fileName).inputStream(content).build());
     }
-
+    
     @Override
     public StorageResponse upload(String bucketName, String fileName, byte[] content) {
         return upload(bucketName, fileName, new ByteArrayInputStream(content));
     }
-
+    
     @Override
     public StorageResponse upload(StorageRequest request) {
         try {
@@ -160,12 +160,12 @@ public class MinioStorageOperation implements StorageOperation {
             throw new StorageException(BaseStorageProperties.StorageType.MINIO, "文件上传失败," + e.getLocalizedMessage());
         }
     }
-
+    
     @Override
     public void remove(String fileName) {
         remove(properties.getBucket(), fileName);
     }
-
+    
     @Override
     public void remove(String bucketName, String fileName) {
         try {
@@ -174,7 +174,7 @@ public class MinioStorageOperation implements StorageOperation {
             log.error("[文件删除失败]", e);
         }
     }
-
+    
     @Override
     public void remove(String bucketName, Path path) {
         remove(bucketName, path.toString());

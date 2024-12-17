@@ -42,10 +42,10 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Builder
 public class RoleDetailResp implements Serializable {
-
+    
     @Schema(description = "ID")
     private Long id;
-
+    
     /**
      * 角色名称
      */
@@ -56,7 +56,7 @@ public class RoleDetailResp implements Serializable {
      */
     @Schema(description = "角色编码")
     private String code;
-
+    
     /**
      * 是否内置角色
      */

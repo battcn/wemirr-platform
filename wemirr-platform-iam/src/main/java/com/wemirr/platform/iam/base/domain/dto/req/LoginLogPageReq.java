@@ -31,14 +31,14 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Schema(name = "LoginLogPageReq")
 public class LoginLogPageReq extends PageRequest {
-
+    
     @Schema(description = "账号")
     private String principal;
-
+    
     @Schema(description = "名称")
     private String nickName;
-
+    
     @Schema(description = "请求平台")
     private String platform;
-
+    
 }

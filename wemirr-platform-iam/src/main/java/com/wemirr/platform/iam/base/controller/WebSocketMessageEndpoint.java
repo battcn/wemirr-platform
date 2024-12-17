@@ -52,7 +52,7 @@ import java.util.List;
 @Component
 @ServerEndpoint(value = "/message/{tenantCode}/{identifier}")
 public class WebSocketMessageEndpoint extends BaseWebSocketEndpoint {
-
+    
     @OnOpen
     public void openSession(@PathParam("tenantCode") String tenantCode, @PathParam(IDENTIFIER) String userId, Session session) {
         connect(userId, session);
@@ -72,36 +72,36 @@ public class WebSocketMessageEndpoint extends BaseWebSocketEndpoint {
                 final String dsKey = dataSourceProcess.buildDb(tenantCode);
                 log.debug("设置当前线程数据源 - {}", dsKey);
                 DynamicDataSourceContextHolder.push(dsKey);
-//                messages = service.list(Wraps.<MessageNotify>lbQ().eq(MessageNotify::getMark, false)
-//                        .eq(MessageNotify::getReceiveId, userId).orderByAsc(MessageNotify::getId));
+                // messages = service.list(Wraps.<MessageNotify>lbQ().eq(MessageNotify::getMark, false)
+                // .eq(MessageNotify::getReceiveId, userId).orderByAsc(MessageNotify::getId));
                 DynamicDataSourceContextHolder.poll();
                 log.debug("清空当前线程数据源...");
             }
         } else {
-//            messages = service.list(Wraps.<MessageNotify>lbQ().eq(MessageNotify::getMark, false)
-//                    .eq(MessageNotify::getReceiveId, userId).orderByAsc(MessageNotify::getId));
+            // messages = service.list(Wraps.<MessageNotify>lbQ().eq(MessageNotify::getMark, false)
+            // .eq(MessageNotify::getReceiveId, userId).orderByAsc(MessageNotify::getId));
         }
         if (CollectionUtil.isEmpty(messages)) {
             return;
         }
         messages.forEach(message -> senderMessage(userId, JSON.toJSONString(message)));
     }
-
+    
     @OnMessage
     public void onMessage(@PathParam(IDENTIFIER) String userId, Session session, String message) {
         log.info("接收到的消息" + message);
     }
-
+    
     @OnClose
     public void onClose(@PathParam(IDENTIFIER) String userId, Session session) {
         disconnect(userId);
     }
-
+    
     @OnError
     public void onError(@PathParam(IDENTIFIER) String userId, Session session, Throwable throwable) {
         log.info("发生异常：, identifier {} ", userId);
         log.error(throwable.getMessage(), throwable);
         disconnect(userId);
     }
-
+    
 }

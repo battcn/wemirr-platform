@@ -50,15 +50,15 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 public class AliYunStorageOperation implements StorageOperation, DisposableBean {
-
+    
     private final OSS ossClient;
     private final AliYunStorageProperties properties;
-
+    
     @Override
     public DownloadResponse download(String fileName) {
         return download(properties.getBucket(), fileName);
     }
-
+    
     @Override
     public DownloadResponse download(String bucketName, String fileName) {
         // ossObject包含文件所在的存储空间名称、文件名称、文件元信息以及一个输入流。
@@ -66,27 +66,27 @@ public class AliYunStorageOperation implements StorageOperation, DisposableBean 
         // 读取文件内容。
         return DownloadResponse.builder().inputStream(ossObject.getObjectContent()).build();
     }
-
+    
     @Override
     public void download(String fileName, File file) {
         download(properties.getBucket(), fileName, file);
     }
-
+    
     @Override
     public void download(String bucketName, String fileName, File file) {
         ossClient.getObject(new GetObjectRequest(bucketName, fileName), file);
     }
-
+    
     @Override
     public List<StorageItem> list() {
         throw new StorageException(BaseStorageProperties.StorageType.ALIYUN, "方法未实现");
     }
-
+    
     @Override
     public void rename(String oldName, String newName) {
         rename(properties.getBucket(), oldName, newName);
     }
-
+    
     @Override
     public void rename(String bucketName, String oldName, String newName) {
         boolean keyExists = true;
@@ -99,12 +99,12 @@ public class AliYunStorageOperation implements StorageOperation, DisposableBean 
             ossClient.copyObject(bucketName, oldName, bucketName, newName);
         }
     }
-
+    
     @Override
     public StorageResponse upload(String fileName, byte[] content) {
         return upload(properties.getBucket(), fileName, content);
     }
-
+    
     @Override
     public StorageResponse upload(String bucketName, String fileName, InputStream content) {
         try {
@@ -115,7 +115,7 @@ public class AliYunStorageOperation implements StorageOperation, DisposableBean 
             throw uploadError(BaseStorageProperties.StorageType.ALIYUN, ex);
         }
     }
-
+    
     /**
      * 上传文件到指定的 bucket
      *
@@ -123,7 +123,7 @@ public class AliYunStorageOperation implements StorageOperation, DisposableBean 
      * @param fileName   文件名字
      * @param content    文件内容
      */
-
+    
     @Override
     public StorageResponse upload(String bucketName, String fileName, byte[] content) {
         ByteArrayInputStream bis = new ByteArrayInputStream(content);
@@ -143,7 +143,7 @@ public class AliYunStorageOperation implements StorageOperation, DisposableBean 
             throw uploadError(BaseStorageProperties.StorageType.ALIYUN, ex);
         }
     }
-
+    
     @Override
     public StorageResponse upload(StorageRequest request) {
         try {
@@ -159,23 +159,23 @@ public class AliYunStorageOperation implements StorageOperation, DisposableBean 
             throw new StorageException(BaseStorageProperties.StorageType.ALIYUN, "文件上传失败," + e.getLocalizedMessage());
         }
     }
-
+    
     @Override
     public void remove(String fileName) {
         remove(properties.getBucket(), fileName);
     }
-
+    
     @Override
     public void remove(String bucketName, String fileName) {
         ossClient.deleteObject(bucketName, fileName);
         FILE_DELETE_COUNTS.incrementAndGet();
     }
-
+    
     @Override
     public void remove(String bucketName, Path path) {
         remove(bucketName, path.toString());
     }
-
+    
     @Override
     public void destroy() {
         if (ossClient != null) {

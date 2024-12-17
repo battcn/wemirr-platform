@@ -30,21 +30,21 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface AccessLog {
-
+    
     /**
      * 描述
      *
      * @return {String}
      */
     String description();
-
+    
     /**
      * 记录执行参数
      *
      * @return true | false
      */
     boolean request() default true;
-
+    
     /**
      * 记录返回参数
      *

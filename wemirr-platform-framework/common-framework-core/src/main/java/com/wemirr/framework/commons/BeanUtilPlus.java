@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  * @author Levin
  */
 public class BeanUtilPlus extends BeanUtil {
-
+    
     /**
      * 对象或Map转Bean
      *
@@ -50,7 +50,7 @@ public class BeanUtilPlus extends BeanUtil {
         ReflectUtil.setFieldValue(bean, "id", id);
         return bean;
     }
-
+    
     /**
      * 转换 list （如果有枚举类型请勿使用该方法 ）
      *
@@ -69,5 +69,5 @@ public class BeanUtilPlus extends BeanUtil {
                 .map((source) -> toBean(source, destinationClass))
                 .collect(Collectors.toList());
     }
-
+    
 }

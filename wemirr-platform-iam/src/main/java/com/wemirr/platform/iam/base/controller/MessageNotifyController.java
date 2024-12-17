@@ -50,23 +50,23 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/message-notify")
 public class MessageNotifyController {
-
+    
     private final AuthenticationContext context;
     private final MessageNotifyService messageNotifyService;
-
+    
     @GetMapping("/page")
     @Operation(summary = "消息列表 - [全部]")
     @SaCheckPermission(value = {"message:list"})
     public IPage<MessageNotifyPageResp> pageList(MessageNotifyPageReq req) {
         return messageNotifyService.page(req.buildPage(), Wraps.<MessageNotify>lbQ()
-                        .eq(MessageNotify::getType, req.getType())
-                        .eq(MessageNotify::getUserId, req.getUserId())
-                        .and(StrUtil.isNotBlank(req.getKeyword()),
-                                lb -> lb.likeRight(MessageNotify::getTitle, req.getKeyword())
-                                        .or().likeRight(MessageNotify::getContent, req.getKeyword())))
+                .eq(MessageNotify::getType, req.getType())
+                .eq(MessageNotify::getUserId, req.getUserId())
+                .and(StrUtil.isNotBlank(req.getKeyword()),
+                        lb -> lb.likeRight(MessageNotify::getTitle, req.getKeyword())
+                                .or().likeRight(MessageNotify::getContent, req.getKeyword())))
                 .convert(x -> BeanUtil.toBean(x, MessageNotifyPageResp.class));
     }
-
+    
     @PostMapping("/publish")
     @AccessLog(description = "消息通知")
     @Operation(summary = "消息通知")
@@ -74,7 +74,7 @@ public class MessageNotifyController {
     public void notify(@Validated @RequestBody MessageNotifyPublishReq req) {
         messageNotifyService.publish(req);
     }
-
+    
     @GetMapping("/subscribe-list")
     @Operation(summary = "消息列表 - [订阅]")
     @SaCheckPermission(value = {"message:subscribe-list"})
@@ -82,17 +82,17 @@ public class MessageNotifyController {
         req.setUserId(context.userId());
         return pageList(req);
     }
-
+    
     @DeleteMapping("/{id}")
     @Operation(summary = "删除消息")
     public void remove(@PathVariable("id") Long id) {
         this.messageNotifyService.removeById(id);
     }
-
+    
     @DeleteMapping("/batch_remove")
     @Operation(summary = "批量删除")
     public void batchDel(@RequestBody List<Long> ids) {
         this.messageNotifyService.removeByIds(ids);
     }
-
+    
 }

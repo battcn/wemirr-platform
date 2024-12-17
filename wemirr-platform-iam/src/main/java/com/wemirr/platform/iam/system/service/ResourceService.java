@@ -37,7 +37,7 @@ import java.util.List;
  * @since 2020-07-03
  */
 public interface ResourceService extends SuperService<Resource> {
-
+    
     /**
      * 查询 拥有的资源
      *
@@ -45,7 +45,7 @@ public interface ResourceService extends SuperService<Resource> {
      * @return 查询结果
      */
     List<VisibleResourceResp> findVisibleResource(ResourceQueryReq req);
-
+    
     /**
      * 根据用户ID查询资源权限
      *
@@ -53,14 +53,14 @@ public interface ResourceService extends SuperService<Resource> {
      * @return 查询结果
      */
     List<String> selectPermissionByUserId(Long userId);
-
+    
     /**
      * 添加资源
      *
      * @param req 资源
      */
     void create(ResourceSaveReq req);
-
+    
     /**
      * 修改资源
      *
@@ -68,12 +68,12 @@ public interface ResourceService extends SuperService<Resource> {
      * @param req 资源
      */
     void modify(Long id, ResourceSaveReq req);
-
+    
     /**
      * 删除资源
      *
      * @param resourceId resourceId
      */
     void delete(Long resourceId);
-
+    
 }

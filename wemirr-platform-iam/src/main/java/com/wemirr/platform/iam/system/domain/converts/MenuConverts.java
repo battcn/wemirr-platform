@@ -33,11 +33,11 @@ import java.util.Map;
  * @since 2020-03-02
  */
 public class MenuConverts {
-
+    
     public static final VueRouter2TreeNodeConverts VUE_ROUTER_2_TREE_NODE_CONVERTS = new VueRouter2TreeNodeConverts();
-
+    
     public static class VueRouter2TreeNodeConverts implements BaseConverts<VisibleResourceResp, TreeNode<Long>> {
-
+        
         private static Map<String, Object> buildRouteMeta(VisibleResourceResp route) {
             Map<String, Object> meta = Maps.newHashMap();
             if (route.getVisible() != null && !route.getVisible()) {
@@ -57,7 +57,7 @@ public class MenuConverts {
             }
             return meta;
         }
-
+        
         @Override
         public TreeNode<Long> convert(VisibleResourceResp route) {
             TreeNode<Long> node = new TreeNode<>(route.getId(), route.getParentId(), route.getTitle(), route.getSequence());
@@ -84,5 +84,5 @@ public class MenuConverts {
             return node;
         }
     }
-
+    
 }

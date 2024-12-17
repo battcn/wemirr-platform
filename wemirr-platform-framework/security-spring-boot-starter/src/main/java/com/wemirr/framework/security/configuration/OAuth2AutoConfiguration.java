@@ -19,7 +19,6 @@
 
 package com.wemirr.framework.security.configuration;
 
-
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
@@ -33,9 +32,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @EnableConfigurationProperties(SecurityExtProperties.class)
 public class OAuth2AutoConfiguration implements WebMvcConfigurer {
+    
     @Resource
     private SecurityExtProperties extProperties;
-
+    
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 注册 Sa-Token 拦截器，定义详细认证规则

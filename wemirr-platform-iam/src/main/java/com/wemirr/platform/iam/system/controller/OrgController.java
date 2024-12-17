@@ -52,9 +52,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Tag(name = "组织架构", description = "组织架构")
 public class OrgController {
-
+    
     private final OrgService orgService;
-
+    
     @GetMapping("/trees")
     @Operation(summary = "查询系统所有的组织树", description = "查询系统所有的组织树")
     public List<Tree<Long>> trees(String name, Boolean status) {
@@ -73,7 +73,7 @@ public class OrgController {
         }).collect(Collectors.toList());
         return TreeUtil.build(nodes, 0L);
     }
-
+    
     @PostMapping("/create")
     @AccessLog(description = "创建组织架构")
     @Operation(summary = "创建组织架构")
@@ -81,7 +81,7 @@ public class OrgController {
     public void create(@Validated @RequestBody OrgSaveReq req) {
         orgService.create(req);
     }
-
+    
     @PutMapping("/{id}/modify")
     @AccessLog(description = "编辑组织架构")
     @Operation(summary = "编辑组织架构")
@@ -89,7 +89,7 @@ public class OrgController {
     public void modify(@PathVariable Long id, @Validated @RequestBody OrgSaveReq req) {
         orgService.updateById(BeanUtilPlus.toBean(id, req, Org.class));
     }
-
+    
     @DeleteMapping("/{id}")
     @AccessLog(description = "删除组织架构")
     @Operation(summary = "删除组织架构")
@@ -97,5 +97,5 @@ public class OrgController {
     public void del(@PathVariable Long id) {
         orgService.remove(id);
     }
-
+    
 }

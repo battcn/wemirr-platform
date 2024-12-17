@@ -40,7 +40,7 @@ import java.util.List;
  */
 @Repository
 public interface ResourceMapper extends SuperMapper<Resource> {
-
+    
     /**
      * 查询 拥有的资源
      *
@@ -48,7 +48,7 @@ public interface ResourceMapper extends SuperMapper<Resource> {
      * @return 查询结果
      */
     List<VisibleResourceResp> findVisibleResource(@Param("req") ResourceQueryReq req);
-
+    
     /**
      * 查询指定用户资源权限
      *

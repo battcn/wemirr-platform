@@ -30,7 +30,7 @@ import com.wemirr.platform.iam.base.domain.entity.I18nData;
  * @author Levin
  */
 public interface I18nDataService extends SuperService<I18nData> {
-
+    
     /**
      * 分页查询
      *
@@ -38,14 +38,14 @@ public interface I18nDataService extends SuperService<I18nData> {
      * @return 查询结果
      */
     IPage<I18nDataPageResp> pageList(I18nPageReq req);
-
+    
     /**
      * 添加 i18n 数据
      *
      * @param req req
      */
     void add(I18nDataSaveReq req);
-
+    
     /**
      * 编辑I18N数据
      *

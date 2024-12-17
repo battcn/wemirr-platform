@@ -31,7 +31,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Schema(name = "TenantPageReq")
 public class TenantPageReq extends PageRequest {
-
+    
     @Schema(description = "名称")
     private String name;
     @Schema(description = "编码")
@@ -42,7 +42,7 @@ public class TenantPageReq extends PageRequest {
     private Integer status;
     @Schema(description = "行业")
     private Integer industry;
-
+    
     @Schema(description = "省")
     private Long provinceId;
     @Schema(description = "市")

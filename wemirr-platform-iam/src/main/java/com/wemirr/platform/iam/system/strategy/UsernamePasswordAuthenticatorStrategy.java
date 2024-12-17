@@ -47,16 +47,16 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrategy {
-
+    
     @Resource
     private UserMapper userMapper;
     @Resource
     private TenantMapper tenantMapper;
-
+    
     @Override
     public void prepare(final AuthenticationPrincipal principal) {
     }
-
+    
     @Override
     public void authenticate(final AuthenticationPrincipal principal) {
         String username = principal.getUsername();

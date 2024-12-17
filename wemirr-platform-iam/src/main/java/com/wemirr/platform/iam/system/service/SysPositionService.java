@@ -36,7 +36,7 @@ import com.wemirr.platform.iam.system.domain.entity.Position;
  * @since 2019-07-22
  */
 public interface SysPositionService extends SuperService<Position> {
-
+    
     /**
      * 按权限查询岗位的分页信息
      *
@@ -44,14 +44,14 @@ public interface SysPositionService extends SuperService<Position> {
      * @return Station
      */
     IPage<PositionPageResp> pageList(PositionPageReq req);
-
+    
     /**
      * 添加岗位
      *
      * @param req req
      */
     void create(PositionSaveReq req);
-
+    
     /**
      * 修改岗位数据
      *
@@ -59,5 +59,5 @@ public interface SysPositionService extends SuperService<Position> {
      * @param req req
      */
     void modify(Long id, PositionSaveReq req);
-
+    
 }

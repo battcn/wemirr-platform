@@ -34,5 +34,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface SysDictItemMapper extends SuperMapper<SysDictItem> {
-
+    
 }

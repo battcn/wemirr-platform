@@ -30,35 +30,35 @@ import java.time.Instant;
  */
 @Data
 public class RolePageResp {
-
+    
     @Schema(description = "ID")
     private Long id;
-
+    
     @Schema(description = "租户ID")
     private Long tenantId;
-
+    
     @Schema(description = "角色名称")
     private String name;
-
+    
     @Schema(description = "角色编码")
     private String code;
-
+    
     @Schema(description = "超期管理员")
     private Boolean superRole;
-
+    
     @Schema(description = "描述")
     private String description;
-
+    
     @Schema(description = "内置角色")
     private Boolean readonly;
-
+    
     @Schema(description = "角色状态")
     private Boolean status;
-
+    
     @Schema(description = "权限范围")
     private DataScopeType scopeType;
-
+    
     @Schema(description = "创建时间")
     private Instant createdTime;
-
+    
 }

@@ -41,7 +41,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "枚举")
 @JsonFormat
 public enum Sex implements DictEnum<String> {
-
+    
     /**
      * 按钮
      */
@@ -54,14 +54,14 @@ public enum Sex implements DictEnum<String> {
      * 女
      */
     WOMAN("2", "女");
-
+    
     @EnumValue
     @JsonValue
     private String type;
-
+    
     @Schema(description = "描述")
     private String desc;
-
+    
     @JsonCreator
     public static Sex of(String type) {
         if (type == null) {
@@ -74,15 +74,15 @@ public enum Sex implements DictEnum<String> {
         }
         return null;
     }
-
+    
     @Override
     public String getValue() {
         return this.type;
     }
-
+    
     @Override
     public String toString() {
         return String.valueOf(type);
     }
-
+    
 }

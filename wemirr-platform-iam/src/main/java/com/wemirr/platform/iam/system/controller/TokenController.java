@@ -59,12 +59,12 @@ import java.util.List;
 @RequestMapping("/token")
 @Tag(name = "Token管理", description = "Token管理")
 public class TokenController {
-
+    
     private final SaTokenConfig tokenConfig;
     private final AuthenticationContext context;
     private final UserService userService;
     private final AuthenticatorStrategyTemplate strategyTemplate;
-
+    
     @SaIgnore
     @PostMapping("/login")
     @Operation(summary = "用户登录", description = "用户登录")
@@ -84,20 +84,19 @@ public class TokenController {
                 .clientId(principal.getClientId())
                 .tokenType(tokenConfig.getTokenPrefix()).build();
     }
-
-
+    
     @GetMapping("/userinfo")
     @Operation(summary = "用户信息", description = "获取用户信息")
     public UserInfoDetails userinfo() {
         return (UserInfoDetails) context.getContext();
     }
-
+    
     @GetMapping("/func_permissions")
     @Operation(summary = "用户信息", description = "获取用户信息")
     public List<String> funcPermissionList() {
         return context.funcPermissionList();
     }
-
+    
     @PutMapping("/change_password")
     @Operation(summary = "修改密码")
     public void changePassword(@Validated @RequestBody ChangePasswordReq req) {
@@ -106,26 +105,26 @@ public class TokenController {
         }
         this.userService.changePassword(StpUtil.getLoginIdAsLong(), req.getCurrentPassword(), req.getNewPassword());
     }
-
+    
     @PutMapping("/change_info")
     @Operation(summary = "信息修改")
     public void changeInfo(@Validated @RequestBody ChangeUserInfoReq req) {
         this.userService.changeInfo(req);
     }
-
+    
     @DeleteMapping("/logout")
     @Operation(summary = "退出登录")
     public void logout() {
         StpUtil.logout();
     }
-
+    
     @Operation(summary = "在线用户", description = "分页查询在线用户列表")
     @SaCheckPermission("monitor:online:token-list")
     @GetMapping("/online")
     public IPage<Object> userOnlinePage(UserOnlinePageReq req) {
         return userService.userOnlineList(req);
     }
-
+    
     @Operation(summary = "强退用户", description = "强退在线用户")
     @Parameter(name = "token", description = "令牌", example = "123", in = ParameterIn.PATH)
     @SaCheckPermission("token:online:logout")
@@ -136,5 +135,5 @@ public class TokenController {
         }
         StpUtil.kickoutByTokenValue(token);
     }
-
+    
 }

@@ -40,7 +40,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "登录配置类型")
 @JsonFormat
 public enum LoginConfigType implements DictEnum<String> {
-
+    
     /**
      * PLATFORM
      */
@@ -50,14 +50,14 @@ public enum LoginConfigType implements DictEnum<String> {
      */
     SAAS("saas", "SAAS"),
     ;
-
+    
     @EnumValue
     @JsonValue
     private String type;
-
+    
     @Schema(description = "描述")
     private String desc;
-
+    
     @JsonCreator
     public static LoginConfigType of(String type) {
         if (type == null) {
@@ -70,15 +70,15 @@ public enum LoginConfigType implements DictEnum<String> {
         }
         return null;
     }
-
+    
     @Override
     public String getValue() {
         return this.type;
     }
-
+    
     @Override
     public String toString() {
         return String.valueOf(type);
     }
-
+    
 }

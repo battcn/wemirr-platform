@@ -30,7 +30,7 @@ import lombok.Data;
  */
 @Data
 public class VisibleResourceResp {
-
+    
     @Schema(description = "ID")
     private Long id;
     @Schema(description = "父级ID")

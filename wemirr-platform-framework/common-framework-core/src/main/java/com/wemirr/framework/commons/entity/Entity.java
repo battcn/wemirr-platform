@@ -44,6 +44,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @ToString(callSuper = true)
 public class Entity<T> implements Serializable {
+    
     public static final String TENANT_ID_COLUMN = "tenant_id";
     public static final String TENANT_ID = "tenantId";
     public static final String FIELD_ID = "id";
@@ -60,40 +61,40 @@ public class Entity<T> implements Serializable {
     @OrderBy
     @NotNull(message = "id不能为空", groups = Update.class)
     private T id;
-
+    
     /**
      * 创建人ID
      */
     @TableField(value = CREATE_USER_COLUMN, fill = FieldFill.INSERT)
     @Schema(description = "创建人ID")
     private T createdBy;
-
+    
     /**
      * 创建人名称
      */
     @TableField(value = CREATE_USER_NAME_COLUMN, fill = FieldFill.INSERT)
     @Schema(description = "创建人名称")
     private String createdName;
-
+    
     /**
      * 创建时间（依托数据库功能）
      */
     @TableField(value = CREATE_TIME_COLUMN, fill = FieldFill.INSERT)
     @Schema(description = "创建时间")
     private Instant createdTime;
-
+    
     /**
      * 保存和缺省验证组
      */
     public interface Save extends Default {
-
+        
     }
-
+    
     /**
      * 更新和缺省验证组
      */
     public interface Update extends Default {
-
+        
     }
-
+    
 }

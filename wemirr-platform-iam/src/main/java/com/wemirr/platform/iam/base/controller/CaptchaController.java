@@ -40,9 +40,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "验证码", description = "验证码")
 @RequiredArgsConstructor
 public class CaptchaController {
-
+    
     private final CaptchaService captchaService;
-
+    
     @GetMapping("/captcha")
     @Operation(summary = "验证码 - [DONE] - [Levin]", description = "验证码 - [DONE] - [Levin]")
     public CaptchaResp create(@RequestParam(value = "key", required = false) String key,
@@ -52,5 +52,5 @@ public class CaptchaController {
         final CircleCaptcha captcha = captchaService.create(captchaId, width, height);
         return CaptchaResp.builder().captchaId(captchaId).code(captcha.getCode()).imageData(captcha.getImageBase64Data()).build();
     }
-
+    
 }

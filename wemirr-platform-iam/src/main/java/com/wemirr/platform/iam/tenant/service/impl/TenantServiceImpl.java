@@ -81,7 +81,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> implements TenantService {
-
+    
     private final AuthenticationContext context;
     private final TenantSettingMapper tenantSettingMapper;
     private final AreaMapper areaMapper;
@@ -95,7 +95,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     private final SysDictItemMapper dictItemMapper;
     private final TenantDictMapper tenantDictMapper;
     private final TenantDictItemMapper tenantDictItemMapper;
-
+    
     private String getNameById(Long id) {
         if (Objects.isNull(id)) {
             return null;
@@ -106,12 +106,12 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         }
         return areaEntity.getName();
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void create(TenantSaveReq req) {
         // 随机生成租户编码
-//        String tenantCode = RandomUtil.randomNumbers(4);
+        // String tenantCode = RandomUtil.randomNumbers(4);
         Long nameCount = this.baseMapper.selectCount(Tenant::getName, req.getName());
         if (nameCount > 0) {
             throw CheckedException.badRequest("租户名称重复");
@@ -126,7 +126,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         tenant.setDistrictName(getNameById(tenant.getDistrictId()));
         this.baseMapper.insert(tenant);
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void modify(Long id, TenantSaveReq req) {
@@ -146,31 +146,31 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         bean.setDistrictName(getNameById(tenant.getDistrictId()));
         this.baseMapper.updateById(bean);
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void tenantConfig(Long tenantId, TenantConfigReq req) {
-//        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantId))
-//                .orElseThrow(() -> CheckedException.notFound("租户不存在"));
-//        if (!tenant.getStatus()) {
-//            throw CheckedException.badRequest("租户未启用");
-//        }
-//        if (StringUtils.equals(tenant.getCode(), properties.getMultiTenant().getSuperTenantCode())) {
-//            throw CheckedException.badRequest("超级租户,禁止操作");
-//        }
-//        TenantConfig tenantConfig = this.tenantConfigMapper.selectOne(TenantConfig::getTenantId, tenantId);
-//        if (tenantConfig == null) {
-//            tenantConfigMapper.insert(TenantConfig.builder().tenantId(tenantId).datasourceId(req.getDatasourceId()).build());
-//        } else {
-//            tenantConfigMapper.updateById(TenantConfig.builder().id(tenantConfig.getId()).datasourceId(req.getDatasourceId()).build());
-//        }
-//        // 先创建
-//        dynamicDatasourceService.publishEvent(EventAction.INIT, tenant.getId());
-//        if (!req.isLazy()) {
-//            initSqlScript(tenantId);
-//        }
+        // final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantId))
+        // .orElseThrow(() -> CheckedException.notFound("租户不存在"));
+        // if (!tenant.getStatus()) {
+        // throw CheckedException.badRequest("租户未启用");
+        // }
+        // if (StringUtils.equals(tenant.getCode(), properties.getMultiTenant().getSuperTenantCode())) {
+        // throw CheckedException.badRequest("超级租户,禁止操作");
+        // }
+        // TenantConfig tenantConfig = this.tenantConfigMapper.selectOne(TenantConfig::getTenantId, tenantId);
+        // if (tenantConfig == null) {
+        // tenantConfigMapper.insert(TenantConfig.builder().tenantId(tenantId).datasourceId(req.getDatasourceId()).build());
+        // } else {
+        // tenantConfigMapper.updateById(TenantConfig.builder().id(tenantConfig.getId()).datasourceId(req.getDatasourceId()).build());
+        // }
+        // // 先创建
+        // dynamicDatasourceService.publishEvent(EventAction.INIT, tenant.getId());
+        // if (!req.isLazy()) {
+        // initSqlScript(tenantId);
+        // }
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void initSqlScript(Long id) {
@@ -208,20 +208,20 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             this.orgMapper.insert(org);
             User record = new User();
             record.setUsername("admin");
-//            record.setPassword(passwordEncoder.encode("123456"));
+            // record.setPassword(passwordEncoder.encode("123456"));
             record.setTenantId(id);
             record.setNickName(tenant.getContactPerson());
             record.setMobile(tenant.getContactPhone());
             record.setStatus(true);
             this.userMapper.insert(record);
             this.userRoleMapper.insert(UserRole.builder().userId(record.getId()).roleId(role.getId()).build());
-
+            
         } else if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
             DynamicDataSourceHandler dynamicDataSourceHandler = SpringUtil.getBean(DynamicDataSourceHandler.class);
             dynamicDataSourceHandler.initSqlScript(tenant.getCode(), Map.of("tenant_id", tenant.getId() + "", "tenant_name", tenant.getName()));
         }
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void refreshTenantDict(Long tenantId) {
@@ -262,13 +262,13 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         this.tenantDictMapper.insertBatchSomeColumn(dictTypeList);
         this.tenantDictItemMapper.insertBatchSomeColumn(dictDataList);
     }
-
+    
     @Override
     public TenantSettingResp settingInfo(Long tenantId) {
         TenantSetting setting = this.tenantSettingMapper.selectOne(TenantSetting::getTenantId, tenantId);
         return BeanUtil.toBean(setting, TenantSettingResp.class);
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void saveSetting(Long tenantId, TenantSettingReq req) {

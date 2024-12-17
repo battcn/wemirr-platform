@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.framework.commons;
 
 import cn.hutool.core.map.MapUtil;
@@ -16,8 +35,9 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public class MvelHelper {
+    
     private static final Pattern DEFAULT_VARIABLES_PATTERN = Pattern.compile("\\$\\{([^}]+)}");
-
+    
     public static List<String> getVariables(Pattern pattern, String content) {
         Matcher matcher = pattern.matcher(content);
         List<String> variables = new ArrayList<>();
@@ -26,7 +46,7 @@ public class MvelHelper {
         }
         return variables;
     }
-
+    
     public static List<String> getVariables(String content) {
         Matcher matcher = DEFAULT_VARIABLES_PATTERN.matcher(content);
         List<String> variables = new ArrayList<>();
@@ -35,10 +55,11 @@ public class MvelHelper {
         }
         return variables;
     }
-
+    
     /**
      * 格式化忽略异常
      *
+     * @param pattern   pattern
      * @param content   内容
      * @param variables 变量
      * @return 格式化结果
@@ -46,7 +67,7 @@ public class MvelHelper {
     public static String formatIgnoreError(Pattern pattern, String content, Map<String, Object> variables) {
         return format(pattern, content, variables, true, true);
     }
-
+    
     /**
      * 使用默认配置格式化
      *
@@ -57,21 +78,23 @@ public class MvelHelper {
     public static String format(String content, Map<String, Object> variables) {
         return format(DEFAULT_VARIABLES_PATTERN, content, variables, true, true);
     }
-
+    
     /**
      * 使用默认正则格式化
      *
-     * @param content   内容
-     * @param variables 变量
+     * @param content     内容
+     * @param variables   变量
+     * @param ignoreError 忽略异常
      * @return 格式化结果
      */
     public static String format(String content, Map<String, Object> variables, boolean ignoreError) {
         return format(DEFAULT_VARIABLES_PATTERN, content, variables, true, ignoreError);
     }
-
+    
     /**
      * 使用默认正则格式化
      *
+     * @param pattern   表达式
      * @param content   内容
      * @param variables 变量
      * @return 格式化结果
@@ -79,7 +102,7 @@ public class MvelHelper {
     public static String format(Pattern pattern, String content, Map<String, Object> variables) {
         return format(pattern, content, variables, true, true);
     }
-
+    
     /**
      * 使用指定正则格式化
      *
@@ -114,8 +137,7 @@ public class MvelHelper {
         matcher.appendTail(result);
         return result.toString();
     }
-
-
+    
     @SuppressWarnings("unchecked")
     public static Map<String, Object> transNestedMap(Map<String, Object> variables) {
         Map<String, Object> nestedMap = MapUtil.newHashMap();
@@ -132,5 +154,5 @@ public class MvelHelper {
         }
         return nestedMap;
     }
-
+    
 }

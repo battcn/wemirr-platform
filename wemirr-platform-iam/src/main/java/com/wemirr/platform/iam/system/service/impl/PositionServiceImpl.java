@@ -44,9 +44,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PositionServiceImpl extends SuperServiceImpl<PositionMapper, Position> implements SysPositionService {
-
+    
     private final OrgService orgService;
-
+    
     @Override
     public IPage<PositionPageResp> pageList(PositionPageReq req) {
         final LbqWrapper<Position> wrapper = Wraps.<Position>lbQ()
@@ -58,14 +58,14 @@ public class PositionServiceImpl extends SuperServiceImpl<PositionMapper, Positi
         return baseMapper.selectPage(req.buildPage(), wrapper)
                 .convert(x -> BeanUtil.toBean(x, PositionPageResp.class));
     }
-
+    
     @Override
     public void create(PositionSaveReq req) {
         this.baseMapper.existsCallback(Position::getCode, req.getCode(), () -> CheckedException.badRequest("职位编码已存在"));
         var bean = BeanUtil.toBean(req, Position.class);
         this.baseMapper.insert(bean);
     }
-
+    
     @Override
     public void modify(Long id, PositionSaveReq req) {
         Long count = baseMapper.selectCount(Wraps.<Position>lbQ()
@@ -76,5 +76,5 @@ public class PositionServiceImpl extends SuperServiceImpl<PositionMapper, Positi
         var bean = BeanUtilPlus.toBean(id, req, Position.class);
         this.baseMapper.updateById(bean);
     }
-
+    
 }

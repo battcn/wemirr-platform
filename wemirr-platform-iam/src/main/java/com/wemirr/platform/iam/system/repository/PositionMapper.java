@@ -36,7 +36,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PositionMapper extends SuperMapper<Position> {
-
+    
     /**
      * 分页查询岗位信息（含角色）
      *
@@ -45,5 +45,5 @@ public interface PositionMapper extends SuperMapper<Position> {
      * @return 查询结果
      */
     IPage<PositionPageResp> findStationPage(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<Position> wrapper);
-
+    
 }

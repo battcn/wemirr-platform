@@ -32,15 +32,14 @@ import com.wemirr.platform.iam.tenant.domain.entity.TenantDictItem;
  * @author Levin
  */
 public interface TenantDictItemService extends SuperService<TenantDictItem> {
-
-
+    
     /**
      * 添加字典项
      *
      * @param req req
      */
     void create(DictItemSaveReq req);
-
+    
     /**
      * 修改字典项
      *
@@ -48,7 +47,7 @@ public interface TenantDictItemService extends SuperService<TenantDictItem> {
      * @param req    req
      */
     void modify(Long itemId, DictItemSaveReq req);
-
+    
     /**
      * 删除字典
      *

@@ -40,7 +40,7 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_registered_client")
 public class RegisteredClient extends SuperEntity<String> {
-
+    
     @Schema(description = "客户端ID")
     private String clientId;
     @Schema(description = "客户端秘钥")
@@ -63,8 +63,8 @@ public class RegisteredClient extends SuperEntity<String> {
     private String clientSettings;
     @Schema(description = "令牌设置")
     private String tokenSettings;
-
+    
     @Schema(description = "状态")
     private Boolean status;
-
+    
 }

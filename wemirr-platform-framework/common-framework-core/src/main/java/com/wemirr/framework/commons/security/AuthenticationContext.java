@@ -27,7 +27,7 @@ import java.util.List;
  * @author Levin
  */
 public interface AuthenticationContext {
-
+    
     /**
      * 租户编码
      *
@@ -36,54 +36,53 @@ public interface AuthenticationContext {
     default String tenantCode() {
         return null;
     }
-
+    
     default Object getContext() {
         return null;
     }
-
+    
     /**
      * 租户ID
      *
      * @return id
      */
     Long tenantId();
-
+    
     /**
      * 用户ID
      *
      * @return id
      */
     Long userId();
-
+    
     /**
      * 名称
      *
      * @return 名称
      */
     String nickName();
-
+    
     /**
      * 匿名用户
      *
      * @return 是否为匿名
      */
     boolean anonymous();
-
+    
     /**
      * 功能权限
      *
      * @return 功能权限
      */
     List<String> funcPermissionList();
-
-
+    
     /**
      * 角色权限
      *
      * @return 角色权限
      */
     List<String> rolePermissionList();
-
+    
     /**
      * 数据权限
      *

@@ -36,21 +36,21 @@ import java.util.List;
  * @since 2019-07-02
  */
 public interface DictService extends SuperService<SysDict> {
-
+    
     /**
      * 添加字典
      *
      * @param req 字典信息
      */
     void create(DictSaveReq req);
-
+    
     /**
      * 删除字典
      *
      * @param id id
      */
     void deleteById(Long id);
-
+    
     /**
      * 编辑字典
      *
@@ -58,12 +58,12 @@ public interface DictService extends SuperService<SysDict> {
      * @param req 字典信息
      */
     void modify(Long id, DictSaveReq req);
-
+    
     /**
      * 刷新缓存
      */
     void refresh();
-
+    
     /**
      * 根据 code 查询
      *
@@ -71,5 +71,5 @@ public interface DictService extends SuperService<SysDict> {
      * @return 查询结果
      */
     List<Dict<String>> findItemByCode(String code);
-
+    
 }

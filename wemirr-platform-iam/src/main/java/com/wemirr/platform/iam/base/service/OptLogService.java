@@ -27,7 +27,7 @@ import com.wemirr.platform.iam.base.domain.entity.OptLog;
  * @author Levin
  */
 public interface OptLogService extends SuperService<OptLog> {
-
+    
     /**
      * 保存操作日志
      *

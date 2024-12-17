@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.iam.base.repository;
 
-
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.iam.base.domain.entity.LoginLog;
 import org.apache.ibatis.annotations.Select;
@@ -37,7 +36,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LoginLogMapper extends SuperMapper<LoginLog> {
-
+    
     /**
      * 统计 IP 数据
      *
@@ -45,5 +44,5 @@ public interface LoginLogMapper extends SuperMapper<LoginLog> {
      */
     @Select("SELECT count(DISTINCT ( ip )) FROM c_login_log")
     long countDistinctLoginIp();
-
+    
 }

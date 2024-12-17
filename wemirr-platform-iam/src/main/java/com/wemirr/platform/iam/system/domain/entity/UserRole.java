@@ -39,13 +39,13 @@ import lombok.NoArgsConstructor;
 @TableName("sys_user_role")
 @Schema(name = "UserRole", description = "用户与角色绑定")
 public class UserRole {
-
+    
     @Schema(description = "角色ID")
     @TableField("role_id")
     private Long roleId;
-
+    
     @Schema(description = "用户ID")
     @TableField("user_id")
     private Long userId;
-
+    
 }

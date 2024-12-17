@@ -31,11 +31,11 @@ import lombok.SneakyThrows;
  * @author Levin
  */
 public class RegisteredClientConverts {
-
+    
     public static final RegisteredClientConverts.RegisteredClientRef2RespConverts REGISTERED_CLIENT_REF_2_RESP_CONVERTS = new RegisteredClientConverts.RegisteredClientRef2RespConverts();
-
+    
     public static class RegisteredClientRef2RespConverts implements BasePageConverts<RegisteredClient, RegisteredClientResp> {
-
+        
         @SneakyThrows
         @Override
         public RegisteredClientResp convert(RegisteredClient source) {
@@ -64,5 +64,5 @@ public class RegisteredClientConverts {
             return target;
         }
     }
-
+    
 }

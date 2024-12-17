@@ -33,7 +33,7 @@ import com.wemirr.platform.iam.base.domain.entity.SysDictItem;
  * @since 2019-07-02
  */
 public interface DictItemService extends SuperService<SysDictItem> {
-
+    
     /**
      * 添加字典项
      *
@@ -41,7 +41,7 @@ public interface DictItemService extends SuperService<SysDictItem> {
      * @param req    req
      */
     void create(Long dictId, DictItemSaveReq req);
-
+    
     /**
      * 修改字典项
      *

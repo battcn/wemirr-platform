@@ -27,14 +27,12 @@ import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
  * @author Levin
  */
 public interface MessageNotifyService extends SuperService<MessageNotify> {
-
-
+    
     /**
      * 消息通知
      *
      * @param req req
      */
     void publish(MessageNotifyPublishReq req);
-
-
+    
 }

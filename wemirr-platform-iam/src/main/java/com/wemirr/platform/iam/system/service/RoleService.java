@@ -36,28 +36,28 @@ import java.util.List;
  * @since 2019-07-03
  */
 public interface RoleService extends SuperService<Role> {
-
+    
     /**
      * 根据 scope 查询角色
      *
      * @return 查询结果
      */
     List<Role> list();
-
+    
     /**
      * 根据角色ID移除
      *
      * @param roleId roleId
      */
     void removeByRoleId(Long roleId);
-
+    
     /**
      * 1，保存角色
      *
      * @param req req
      */
     void create(RoleSaveReq req);
-
+    
     /**
      * 修改角色
      *
@@ -65,7 +65,7 @@ public interface RoleService extends SuperService<Role> {
      * @param req    req
      */
     void modify(Long roleId, RoleSaveReq req);
-
+    
     /**
      * 给角色分配用户
      *
@@ -73,7 +73,7 @@ public interface RoleService extends SuperService<Role> {
      * @param userIdList userIdList
      */
     void assignUser(Long roleId, List<Long> userIdList);
-
+    
     /**
      * 根据角色ID查询资源码
      *

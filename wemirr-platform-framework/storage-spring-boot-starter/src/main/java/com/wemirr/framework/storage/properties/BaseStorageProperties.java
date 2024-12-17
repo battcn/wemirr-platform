@@ -27,31 +27,31 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @Data
 public class BaseStorageProperties implements java.io.Serializable {
-
+    
     private Boolean enabled = false;
-
+    
     @Value("${spring.application.name:'oss'}")
     private String bucket;
-
+    
     private String mappingPath = "http://minio.battcn.com/";
-
+    
     /**
      * 访问key
      **/
     private String accessKey;
-
+    
     /**
      * 访问秘钥
      **/
     private String secretKey;
-
+    
     /**
      * 本地文件临时目录
      */
     private String tmpDir;
-
+    
     public enum StorageType {
-
+        
         /**
          * MINIO
          */
@@ -60,5 +60,5 @@ public class BaseStorageProperties implements java.io.Serializable {
         TENCENT,
         QINIU
     }
-
+    
 }

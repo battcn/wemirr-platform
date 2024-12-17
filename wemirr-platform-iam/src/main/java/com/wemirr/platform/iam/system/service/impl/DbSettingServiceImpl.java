@@ -55,20 +55,20 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class DbSettingServiceImpl extends SuperServiceImpl<DbSettingMapper, DbSetting> implements DbSettingService {
-
+    
     private final DatabaseProperties databaseProperties;
     private final ApplicationContext applicationContext;
-
+    
     @Override
     public List<DbSettingPageResp> selectTenantDynamicDatasource() {
         return this.baseMapper.selectTenantDbById(null);
     }
-
+    
     @Override
     public void ping(Long id) {
         log.debug("查询结果 - {}", JSON.toJSONString(""));
     }
-
+    
     @PostConstruct
     public void init() {
         final List<DbSettingPageResp> dataSourceList = this.baseMapper.selectTenantDbById(null);
@@ -83,7 +83,7 @@ public class DbSettingServiceImpl extends SuperServiceImpl<DbSettingMapper, DbSe
             publishEvent(true, EventAction.ADD, dynamicDatasource);
         }
     }
-
+    
     @Override
     @DSTransactional
     public void created(DbSettingSaveReq req) {
@@ -94,7 +94,7 @@ public class DbSettingServiceImpl extends SuperServiceImpl<DbSettingMapper, DbSe
         DbSetting bean = BeanUtilPlus.toBean(req, DbSetting.class);
         this.baseMapper.insert(bean);
     }
-
+    
     @Override
     @DSTransactional
     public void edit(Long id, DbSettingSaveReq req) {
@@ -107,7 +107,7 @@ public class DbSettingServiceImpl extends SuperServiceImpl<DbSettingMapper, DbSe
         DbSetting bean = BeanUtilPlus.toBean(id, req, DbSetting.class);
         this.baseMapper.updateById(bean);
     }
-
+    
     @Override
     @DSTransactional
     public void delete(Long id) {
@@ -118,13 +118,13 @@ public class DbSettingServiceImpl extends SuperServiceImpl<DbSettingMapper, DbSe
             publishEvent(false, EventAction.DEL, tenantDynamicDatasource);
         }
     }
-
+    
     @Override
     public void publishEvent(EventAction action, Long tenantId) {
         final DbSettingPageResp dbSetting = this.baseMapper.getTenantDynamicDatasourceByTenantId(tenantId);
         publishEvent(false, action, dbSetting);
     }
-
+    
     private void publishEvent(boolean init, EventAction action, DbSettingPageResp dbSetting) {
         if (Objects.isNull(dbSetting)) {
             throw CheckedException.notFound("租户未关联数据源信息");

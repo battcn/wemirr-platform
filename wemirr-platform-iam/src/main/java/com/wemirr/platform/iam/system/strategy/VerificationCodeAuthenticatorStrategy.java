@@ -33,12 +33,12 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 public class VerificationCodeAuthenticatorStrategy extends UsernamePasswordAuthenticatorStrategy {
-
+    
     private static final String VERIFICATION_CODE_AUTH_TYPE = "vc";
-
+    
     @Resource
     private CaptchaService captchaService;
-
+    
     @Override
     public void prepare(final AuthenticationPrincipal principal) {
         String vcToken = principal.getParameter("vc_token");
@@ -50,7 +50,7 @@ public class VerificationCodeAuthenticatorStrategy extends UsernamePasswordAuthe
         }
         super.prepare(principal);
     }
-
+    
     @Override
     public String loginType() {
         return VERIFICATION_CODE_AUTH_TYPE;
