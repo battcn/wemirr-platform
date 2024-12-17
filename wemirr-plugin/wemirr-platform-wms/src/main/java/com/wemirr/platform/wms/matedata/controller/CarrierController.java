@@ -56,7 +56,7 @@ public class CarrierController {
         carrierService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "承运商管理 - 修改承运商")
     @Operation(summary = "修改承运商 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @Validated @RequestBody CarrierSaveReq req) {

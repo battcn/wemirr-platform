@@ -60,7 +60,7 @@ public class MaterialController {
         materialService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "物料管理 - 修改物料")
     @Operation(summary = "修改物料 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @RequestBody MaterialSaveReq req) {

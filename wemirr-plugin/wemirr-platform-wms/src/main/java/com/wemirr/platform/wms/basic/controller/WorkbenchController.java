@@ -47,7 +47,7 @@ public class WorkbenchController {
         workbenchService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "工作台管理 - 修改工作台")
     @Operation(summary = "修改工作台 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @Validated @RequestBody WorkbenchSaveReq req) {

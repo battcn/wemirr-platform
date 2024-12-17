@@ -72,7 +72,7 @@ public class MaterialCategoryController {
         materialCategoryService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "物料类目管理 - 修改物料类目")
     @Operation(summary = "修改物料类目 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @Validated @RequestBody MaterialCategorySaveReq req) {

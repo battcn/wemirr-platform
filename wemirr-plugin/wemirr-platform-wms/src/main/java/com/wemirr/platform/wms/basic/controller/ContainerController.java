@@ -56,7 +56,7 @@ public class ContainerController {
 
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "容器管理 - 修改容器")
     @Operation(summary = "修改容器 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @Validated @RequestBody ContainerSaveReq req) {

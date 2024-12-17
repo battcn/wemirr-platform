@@ -57,7 +57,7 @@ public class SupplierController {
         supplierService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "供应商管理 - 修改供应商")
     @Operation(summary = "修改供应商 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @Validated @RequestBody SupplierSaveReq req) {

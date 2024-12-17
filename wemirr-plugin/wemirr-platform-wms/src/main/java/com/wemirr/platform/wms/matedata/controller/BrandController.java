@@ -55,7 +55,7 @@ public class BrandController {
         brandService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "品牌管理 - 修改品牌")
     @Operation(summary = "修改品牌 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @Validated @RequestBody BrandSaveReq req) {

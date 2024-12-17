@@ -82,7 +82,7 @@ public class OutboundPlanController {
         outboundPlanService.saveOrUpdateOutboundPlan(null, req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "出库计划管理 - 修改出库计划")
     @Operation(summary = "修改出库计划 - [DONE] - [Levin]")
     public void updateById(@PathVariable("id") Long id, @Validated @RequestBody OutboundPlanSaveReq req) {

@@ -90,7 +90,7 @@ public class ReceivingPlanController {
         receivingPlanService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "收货计划管理 - 修改收货计划")
     @Operation(summary = "修改收货计划 - [DONE] - [Levin]")
     @RedisLock(prefix = "receiving-plans:modify")

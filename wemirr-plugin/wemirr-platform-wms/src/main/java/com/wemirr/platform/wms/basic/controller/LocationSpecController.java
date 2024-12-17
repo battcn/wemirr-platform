@@ -54,7 +54,7 @@ public class LocationSpecController {
         locationSpecService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "储位规格管理 - 修改储位规格")
     @Operation(summary = "修改储位规格 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @RequestBody LocationSpecSaveReq req) {

@@ -54,7 +54,7 @@ public class UnitConvController {
         unitConvService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "基本计量单位转换管理 - 修改基本计量单位")
     @Operation(summary = "修改基本计量单位转换 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id,@Validated @RequestBody UnitConvSaveReq req) {

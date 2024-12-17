@@ -56,7 +56,7 @@ public class InventoryReceiptController {
         return inventoryReceiptService.detail(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "入库单管理 - 修改入库单")
     @Operation(summary = "修改入库单 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @RequestBody InventoryReceiptSubmitReq req) {

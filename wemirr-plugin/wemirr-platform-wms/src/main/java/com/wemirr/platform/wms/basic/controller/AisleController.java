@@ -55,7 +55,7 @@ public class AisleController {
         aisleService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "巷道管理 - 修改巷道")
     @Operation(summary = "修改巷道 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @RequestBody AisleSaveReq req) {

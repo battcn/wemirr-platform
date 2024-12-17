@@ -55,7 +55,7 @@ public class DockController {
         dockService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "容器规格管理 - 修改月台")
     @Operation(summary = "修改月台 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @Validated @RequestBody DockSaveReq req) {

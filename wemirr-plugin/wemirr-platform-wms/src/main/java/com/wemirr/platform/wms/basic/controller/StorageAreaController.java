@@ -57,7 +57,7 @@ public class StorageAreaController {
         storageAreaService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "库区管理 - 修改库区")
     @Operation(summary = "修改库区 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @Validated @RequestBody StorageAreaSaveReq req) {

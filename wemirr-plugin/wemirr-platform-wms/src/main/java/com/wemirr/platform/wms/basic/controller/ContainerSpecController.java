@@ -54,7 +54,7 @@ public class ContainerSpecController {
         containerSpecService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "容器规格管理 - 修改容器规格")
     @Operation(summary = "修改容器规格 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @Validated @RequestBody ContainerSpecSaveReq req) {

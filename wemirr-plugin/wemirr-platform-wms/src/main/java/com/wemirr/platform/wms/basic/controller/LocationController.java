@@ -57,7 +57,7 @@ public class LocationController {
         locationService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "储位管理 - 修改储位")
     @Operation(summary = "修改储位 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @RequestBody LocationSaveReq req) {

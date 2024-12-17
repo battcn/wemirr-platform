@@ -53,7 +53,7 @@ public class UnitController {
         unitService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "基本计量单位管理 - 修改基本计量单位")
     @Operation(summary = "修改基本计量单位 - [DONE] - [Levin]")
     public void modify(@PathVariable("id") Long id, @Validated @RequestBody UnitSaveReq req) {

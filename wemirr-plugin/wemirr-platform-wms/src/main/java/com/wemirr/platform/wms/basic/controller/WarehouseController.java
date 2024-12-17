@@ -58,7 +58,7 @@ public class WarehouseController {
         this.warehouseService.create(req);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/modify")
     @AccessLog(module = "", description = "仓库管理 - 修改仓库")
     @Operation(summary = "修改仓库 - [DONE] - [Levin]")
     public void modify(@PathVariable Long id, @Validated @RequestBody WarehouseSaveReq req) {
