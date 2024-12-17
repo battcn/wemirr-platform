@@ -44,7 +44,7 @@ public class MessageChannelController {
     private final MessageChannelService messageChannelService;
     
     @PostMapping("/setting")
-    @AccessLog(description = "渠道设置")
+    @AccessLog(module = "消息通道", description = "渠道设置")
     @Operation(summary = "渠道设置")
     public void setting(@Validated @RequestBody MessageChannelSaveReq req) {
         messageChannelService.setting(req);

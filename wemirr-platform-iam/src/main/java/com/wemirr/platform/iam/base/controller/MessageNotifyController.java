@@ -46,7 +46,7 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@Tag(name = "站内消息")
+@Tag(name = "消息通知")
 @RequiredArgsConstructor
 @RequestMapping("/message-notify")
 public class MessageNotifyController {
@@ -68,10 +68,10 @@ public class MessageNotifyController {
     }
     
     @PostMapping("/publish")
-    @AccessLog(description = "消息通知")
+    @AccessLog(module = "消息通知", description = "发布消息通知")
     @Operation(summary = "消息通知")
-    @SaCheckPermission(value = {"message:templates:add"})
-    public void notify(@Validated @RequestBody MessageNotifyPublishReq req) {
+    @SaCheckPermission(value = {"message:publish"})
+    public void publish(@Validated @RequestBody MessageNotifyPublishReq req) {
         messageNotifyService.publish(req);
     }
     

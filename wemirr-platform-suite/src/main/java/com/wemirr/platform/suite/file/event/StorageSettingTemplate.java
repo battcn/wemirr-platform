@@ -1,9 +1,12 @@
 package com.wemirr.platform.suite.file.event;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.mybatisplus.core.plugins.IgnoreStrategy;
+import com.baomidou.mybatisplus.core.plugins.InterceptorIgnoreHelper;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.suite.file.domain.constants.StorageConstants;
@@ -11,8 +14,12 @@ import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;
 import com.wemirr.platform.suite.file.repository.FileStorageSettingMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author xiao1
@@ -21,11 +28,25 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class StorageSettingTemplate {
+public class StorageSettingTemplate implements ApplicationRunner {
 
     private final AuthenticationContext context;
     private final FileStorageSettingMapper fileStorageSettingMapper;
     private final RedisTemplate<String, Object> redisTemplate;
+
+    @Override
+    public void run(ApplicationArguments args) {
+        log.info("==================== 存储设置初始化-Begin ====================");
+        InterceptorIgnoreHelper.handle(IgnoreStrategy.builder().tenantLine(true).build());
+        List<FileStorageSetting> storageSettingList = fileStorageSettingMapper.selectList(FileStorageSetting::getStatus, true);
+        if (CollUtil.isEmpty(storageSettingList)) {
+            return;
+        }
+        for (FileStorageSetting setting : storageSettingList) {
+            publish(setting, 1);
+        }
+        log.info("==================== 存储设置初始化-End ====================");
+    }
 
     public void publish(FileStorageSetting setting, int eventType) {
         log.info("redis publish - {},type -> {}", setting, eventType);

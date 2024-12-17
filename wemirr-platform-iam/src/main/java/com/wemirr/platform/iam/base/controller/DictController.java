@@ -64,7 +64,7 @@ public class DictController {
     }
     
     @PostMapping("/refresh")
-    @AccessLog(description = "刷新字典")
+    @AccessLog(module = "系统字典", description = "刷新字典")
     @Operation(summary = "刷新字典 - [DONE] - [Levin]", description = "刷新字典缓存数据 - [DONE] - [Levin]")
     @SaCheckPermission(value = {"dict:refresh"})
     public void refresh() {
@@ -72,7 +72,7 @@ public class DictController {
     }
     
     @PostMapping("/create")
-    @AccessLog(description = "字典新增")
+    @AccessLog(module = "系统字典", description = "字典新增")
     @Operation(summary = "新增字典 - [DONE] - [Levin]", description = "新增字典 - [DONE] - [Levin]")
     @SaCheckPermission(value = {"dict:add"})
     public void create(@Validated @RequestBody DictSaveReq req) {
@@ -80,7 +80,7 @@ public class DictController {
     }
     
     @PutMapping("/{id}")
-    @AccessLog(description = "字典编辑")
+    @AccessLog(module = "系统字典", description = "字典编辑")
     @Operation(summary = "编辑字典 - [DONE] - [Levin]", description = "编辑字典 - [DONE] - [Levin]")
     @SaCheckPermission(value = {"dict:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody DictSaveReq req) {
@@ -88,7 +88,7 @@ public class DictController {
     }
     
     @DeleteMapping("/{id}")
-    @AccessLog(description = "删除指定字典项")
+    @AccessLog(module = "系统字典", description = "删除指定字典项")
     @Operation(summary = "删除字典 - [DONE] - [Levin]", description = "删除字典 - [DONE] - [Levin]")
     @SaCheckPermission(value = {"dict:remove"})
     public void remove(@PathVariable Long id) {

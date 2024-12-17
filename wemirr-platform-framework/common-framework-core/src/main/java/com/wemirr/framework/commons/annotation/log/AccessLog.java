@@ -32,6 +32,13 @@ import java.lang.annotation.*;
 public @interface AccessLog {
     
     /**
+     * 模块
+     *
+     * @return 模块
+     */
+    String module();
+    
+    /**
      * 描述
      *
      * @return {String}

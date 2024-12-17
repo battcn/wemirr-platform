@@ -1,11 +1,8 @@
 package com.wemirr.platform.suite.file.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.plugins.IgnoreStrategy;
-import com.baomidou.mybatisplus.core.plugins.InterceptorIgnoreHelper;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
@@ -18,12 +15,10 @@ import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;
 import com.wemirr.platform.suite.file.event.StorageSettingTemplate;
 import com.wemirr.platform.suite.file.repository.FileStorageSettingMapper;
 import com.wemirr.platform.suite.file.service.FileStorageSettingService;
-import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -38,22 +33,6 @@ public class FileStorageSettingServiceImpl extends SuperServiceImpl<FileStorageS
 
     private final AuthenticationContext context;
     private final StorageSettingTemplate storageSettingTemplate;
-
-
-    @PostConstruct
-    public void init() {
-        log.info("==================== 存储设置初始化-Begin ====================");
-        InterceptorIgnoreHelper.handle(IgnoreStrategy.builder().tenantLine(true).build());
-        List<FileStorageSetting> storageSettingList = baseMapper.selectList(FileStorageSetting::getStatus, true);
-        if (CollUtil.isEmpty(storageSettingList)) {
-            return;
-        }
-        for (FileStorageSetting setting : storageSettingList) {
-            this.storageSettingTemplate.publish(setting, 1);
-        }
-        log.info("==================== 存储设置初始化-End ====================");
-    }
-
 
     @Override
     public void create(FileStorageSettingSaveReq req) {
@@ -103,6 +82,7 @@ public class FileStorageSettingServiceImpl extends SuperServiceImpl<FileStorageS
         }
         FileStorageSetting bean = BeanUtilPlus.toBean(id, req, FileStorageSetting.class);
         bean.setTenantId(tenantId);
+        bean.setPlatform(StrUtil.join("-", req.getType(), req.getBucketName()));
         // 更新存储配置状态
         if (req.getStatus()) {
             baseMapper.update(FileStorageSetting.builder().status(false).build(), Wraps.<FileStorageSetting>lbQ()

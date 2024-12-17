@@ -20,7 +20,6 @@
 package com.wemirr.framework.boot.log;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -38,6 +37,9 @@ public class AccessLogInfo {
     @Schema(description = "租户ID")
     protected Long tenantId;
 
+    @Schema(description = "租户编码")
+    protected String tenantCode;
+
     @Schema(description = "操作IP")
     protected String ip;
 
@@ -46,6 +48,9 @@ public class AccessLogInfo {
 
     @Schema(description = "日志链路追踪id日志标志")
     protected String trace;
+
+    @Schema(description = "操作模块")
+    protected String module;
 
     @Schema(description = "操作描述")
     protected String description;
@@ -74,11 +79,11 @@ public class AccessLogInfo {
     @Schema(description = "开始时间")
     protected Instant startTime;
 
-    @Schema(description = "完成时间")
-    protected Instant finishTime;
+    @Schema(description = "结束时间")
+    protected Instant endTime;
 
     @Schema(description = "消耗时间")
-    protected Long consumingTime;
+    protected Long duration;
 
     @Schema(description = "浏览器信息")
     protected String browser;
@@ -98,13 +103,8 @@ public class AccessLogInfo {
     @Schema(description = "创建者名字")
     protected String createdName;
 
-    @TableField(exist = false)
-    @Schema(description = "请求令牌(只做日志输出,不做具体存储,有需要自行扩充)")
+    @Schema(description = "请求令牌")
     private String token;
-
-    @TableField(exist = false)
-    @Schema(description = "数据源键值")
-    private String dsKey;
 
     public Boolean getStatus() {
         return StrUtil.isBlank(message);

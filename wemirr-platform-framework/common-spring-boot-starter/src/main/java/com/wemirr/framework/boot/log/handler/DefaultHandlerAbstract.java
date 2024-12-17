@@ -35,7 +35,7 @@ public class DefaultHandlerAbstract extends AbstractLogHandler {
                     info.getRequest(),
                     info.getResponse(),
                     info.getMessage(),
-                    info.getConsumingTime());
+                    info.getDuration());
         } else {
             log.error("""
 
@@ -54,7 +54,7 @@ public class DefaultHandlerAbstract extends AbstractLogHandler {
                     info.getRequest(),
                     info.getResponse(),
                     info.getMessage(),
-                    info.getConsumingTime());
+                    info.getDuration());
         }
         return info;
     }

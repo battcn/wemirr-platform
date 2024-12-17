@@ -117,7 +117,7 @@ public class MvelHelper {
         StringBuilder result = new StringBuilder();
         Matcher matcher = pattern.matcher(content);
         if (trans) {
-            variables = transNestedMap(variables);
+            variables.putAll(transNestedMap(variables));
         }
         while (matcher.find()) {
             // 使用 MVEL 解析表达式

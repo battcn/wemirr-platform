@@ -63,7 +63,7 @@ public class MessageTemplateController {
     }
     
     @PostMapping("/create")
-    @AccessLog(description = "添加模板")
+    @AccessLog(module = "消息模板", description = "添加模板")
     @Operation(summary = "添加模板")
     @SaCheckPermission(value = {"message:template:add"})
     public void create(@Validated @RequestBody MessageTemplateSaveReq req) {
@@ -71,7 +71,7 @@ public class MessageTemplateController {
     }
     
     @PutMapping("/{id}/modify")
-    @AccessLog(description = "编辑模板")
+    @AccessLog(module = "消息模板", description = "编辑模板")
     @Operation(summary = "编辑模板")
     @SaCheckPermission(value = {"message:template:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody MessageTemplateSaveReq req) {
@@ -79,7 +79,7 @@ public class MessageTemplateController {
     }
     
     @DeleteMapping("/{id}")
-    @AccessLog(description = "删除模板")
+    @AccessLog(module = "消息模板", description = "删除模板")
     @Operation(summary = "删除模板")
     @SaCheckPermission(value = {"message:template:remove"})
     public void remove(@PathVariable Long id) {

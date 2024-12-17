@@ -53,5 +53,4 @@ public class TenantHelper {
             DataPermissionRuleHolder.poll();
         }
     }
-
 }

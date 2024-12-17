@@ -80,7 +80,7 @@ public class TenantController {
     }
     
     @PostMapping("/create")
-    @AccessLog(description = "添加租户")
+    @AccessLog(module = "租户管理", description = "添加租户")
     @Operation(summary = "添加租户")
     @SaCheckPermission(value = {"tenant:add"})
     public void create(@Validated @RequestBody TenantSaveReq req) {
@@ -88,7 +88,7 @@ public class TenantController {
     }
     
     @PutMapping("/{id}/modify")
-    @AccessLog(description = "编辑租户")
+    @AccessLog(module = "租户管理", description = "编辑租户")
     @Operation(summary = "编辑租户")
     @SaCheckPermission(value = {"tenant:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody TenantSaveReq req) {
@@ -96,7 +96,7 @@ public class TenantController {
     }
     
     @GetMapping("/{id}/setting")
-    @AccessLog(description = "配置租户")
+    @AccessLog(module = "租户管理", description = "配置租户")
     @Operation(summary = "配置租户")
     // @SaCheckPermission(value = {"tenant:setting"})
     public TenantSettingResp setting(@PathVariable Long id) {
@@ -104,7 +104,7 @@ public class TenantController {
     }
     
     @PutMapping("/{id}/setting")
-    @AccessLog(description = "配置租户")
+    @AccessLog(module = "租户管理", description = "配置租户")
     @Operation(summary = "配置租户")
     // @SaCheckPermission(value = {"tenant:setting"})
     public void setting(@PathVariable Long id, @Validated @RequestBody TenantSettingReq req) {
@@ -112,7 +112,7 @@ public class TenantController {
     }
     
     // @PutMapping("/{id}/config")
-    // @AccessLog(description = "配置租户")
+    // @AccessLog(module = "", description = "配置租户")
     // @Operation(summary = "配置租户")
     // @SaCheckPermission(value = {"tenant:db-config"})
     // public void config(@PathVariable Long id, @Validated @RequestBody TenantConfigReq req) {
@@ -120,7 +120,7 @@ public class TenantController {
     // }
     
     @PutMapping("/{id}/init_sql_script")
-    @AccessLog(description = "加载初始数据")
+    @AccessLog(module = "", description = "加载初始数据")
     @Operation(summary = "加载初始数据")
     @RedisLock(prefix = "tenant:init-script")
     public void initSqlScript(@RedisParam(name = "id") @PathVariable Long id) {
@@ -128,7 +128,7 @@ public class TenantController {
     }
     
     @DeleteMapping("/{id}")
-    @AccessLog(description = "删除租户")
+    @AccessLog(module = "租户管理", description = "删除租户")
     @Operation(summary = "删除租户")
     @SaCheckPermission(value = {"tenant:remove"})
     public void remove(@PathVariable Long id) {
@@ -136,7 +136,7 @@ public class TenantController {
     }
     
     @PutMapping("/{id}/refresh-dict")
-    @AccessLog(description = "字典刷新")
+    @AccessLog(module = "租户管理", description = "字典刷新")
     @Operation(summary = "字典刷新")
     @SaCheckPermission(value = {"tenant:refresh-dict"})
     public void refreshTenantDict(@PathVariable Long id) {

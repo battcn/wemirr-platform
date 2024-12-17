@@ -68,7 +68,7 @@ public class PositionController {
     }
     
     @PostMapping("/create")
-    @AccessLog(description = "添加岗位")
+    @AccessLog(module = "岗位管理", description = "添加岗位")
     @Operation(summary = "添加岗位")
     @SaCheckPermission(value = {"sys:position:add"})
     public void create(@Validated @RequestBody PositionSaveReq req) {
@@ -76,7 +76,7 @@ public class PositionController {
     }
     
     @PutMapping("/{id}/modify")
-    @AccessLog(description = "编辑岗位")
+    @AccessLog(module = "岗位管理", description = "编辑岗位")
     @Operation(summary = "编辑岗位")
     @SaCheckPermission(value = {"sys:position:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody PositionSaveReq req) {
@@ -84,7 +84,7 @@ public class PositionController {
     }
     
     @DeleteMapping("/{id}")
-    @AccessLog(description = "删除岗位")
+    @AccessLog(module = "岗位管理", description = "删除岗位")
     @Operation(summary = "删除岗位")
     @SaCheckPermission(value = {"sys:position:remove"})
     public void remove(@PathVariable Long id) {

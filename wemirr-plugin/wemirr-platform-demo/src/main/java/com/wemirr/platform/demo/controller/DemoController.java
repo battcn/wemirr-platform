@@ -40,7 +40,7 @@ public class DemoController {
     private final RedisLockHelper lockHelper;
 
     @IgnoreAuthorize
-    @AccessLog(description = "测试日志回执")
+    @AccessLog(module = "Demo测试", description = "测试日志回执")
     @GetMapping("/ignore")
     @Operation(summary = "忽略权限查询")
     public Result<?> ignore() {
@@ -116,7 +116,7 @@ public class DemoController {
     @SneakyThrows
     @GetMapping("/lock3")
     @IgnoreAuthorize
-    @AccessLog(description = "测试日志回执")
+    @AccessLog(module = "Demo测试", description = "测试日志回执")
     public void lock3() {
         String result = lockHelper.execute("lock3", 0, TimeUnit.SECONDS, () -> {
             for (int i = 0; i < 80; i++) {
@@ -138,7 +138,7 @@ public class DemoController {
 
 
     @IgnoreAuthorize
-    @AccessLog(description = "测试日志回执")
+    @AccessLog(module = "Demo测试", description = "测试日志回执")
     @GetMapping("/demos_test1")
     public JSONObject demoTest1() {
         return demoTestFeignClient.demoTest1();

@@ -86,7 +86,7 @@ public class UserController {
     }
     
     @PostMapping("/create")
-    @AccessLog(description = "添加用户")
+    @AccessLog(module = "用户管理", description = "添加用户")
     @Operation(summary = "添加用户")
     @SaCheckPermission(value = {"sys:user:add"})
     public void create(@Validated @RequestBody UserSaveReq req) {
@@ -94,7 +94,7 @@ public class UserController {
     }
     
     @PutMapping("/{id}")
-    @AccessLog(description = "编辑用户")
+    @AccessLog(module = "用户管理", description = "编辑用户")
     @Operation(summary = "编辑用户")
     @SaCheckPermission(value = {"sys:user:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody UserUpdateReq req) {
@@ -102,7 +102,7 @@ public class UserController {
     }
     
     @DeleteMapping("/{id}")
-    @AccessLog(description = "删除用户")
+    @AccessLog(module = "用户管理", description = "删除用户")
     @Operation(summary = "删除用户")
     @SaCheckPermission(value = {"sys:user:remove"})
     public void del(@PathVariable Long id) {

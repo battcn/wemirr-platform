@@ -25,6 +25,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * @param <T> T
  * @author Levin
  */
 @Data

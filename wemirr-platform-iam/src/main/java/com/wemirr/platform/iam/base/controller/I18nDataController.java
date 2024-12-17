@@ -53,7 +53,7 @@ public class I18nDataController {
     }
     
     @PostMapping
-    @AccessLog(description = "国际化新增")
+    @AccessLog(module = "I18N国际化", description = "国际化新增")
     @Operation(summary = "新增国际化 - [DONE] - [Levin]", description = "新增国际化 - [DONE] - [Levin]")
     // @SaCheckPermission(value = {"i18n:add"})
     public void save(@Validated @RequestBody I18nDataSaveReq req) {
@@ -61,7 +61,7 @@ public class I18nDataController {
     }
     
     @PutMapping("/{id}")
-    @AccessLog(description = "国际化编辑")
+    @AccessLog(module = "I18N国际化", description = "国际化编辑")
     @Operation(summary = "编辑国际化 - [DONE] - [Levin]", description = "编辑国际化 - [DONE] - [Levin]")
     // @SaCheckPermission(value = {"i18n:edit"})
     public void edit(@PathVariable Long id, @Validated @RequestBody I18nDataSaveReq req) {
@@ -69,7 +69,7 @@ public class I18nDataController {
     }
     
     @DeleteMapping("/{id}")
-    @AccessLog(description = "删除指定国际化项")
+    @AccessLog(module = "I18N国际化", description = "删除指定国际化项")
     @Operation(summary = "删除国际化 - [DONE] - [Levin]", description = "删除国际化 - [DONE] - [Levin]")
     // @SaCheckPermission(value = {"i18n:remove"})
     public void del(@PathVariable Long id) {

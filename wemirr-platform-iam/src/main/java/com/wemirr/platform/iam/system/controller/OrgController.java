@@ -75,7 +75,7 @@ public class OrgController {
     }
     
     @PostMapping("/create")
-    @AccessLog(description = "创建组织架构")
+    @AccessLog(module = "组织架构", description = "创建组织架构")
     @Operation(summary = "创建组织架构")
     @SaCheckPermission(value = {"sys:org:add"})
     public void create(@Validated @RequestBody OrgSaveReq req) {
@@ -83,7 +83,7 @@ public class OrgController {
     }
     
     @PutMapping("/{id}/modify")
-    @AccessLog(description = "编辑组织架构")
+    @AccessLog(module = "组织架构", description = "编辑组织架构")
     @Operation(summary = "编辑组织架构")
     @SaCheckPermission(value = {"sys:org:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody OrgSaveReq req) {
@@ -91,7 +91,7 @@ public class OrgController {
     }
     
     @DeleteMapping("/{id}")
-    @AccessLog(description = "删除组织架构")
+    @AccessLog(module = "组织架构", description = "删除组织架构")
     @Operation(summary = "删除组织架构")
     @SaCheckPermission(value = {"sys:org:remove"})
     public void del(@PathVariable Long id) {

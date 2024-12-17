@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/file-storage")
 @RequiredArgsConstructor
-@Tag(name = "资源文件管理", description = "资源文件管理")
+@Tag(name = "文件存储", description = "文件存储")
 public class FileStorageController {
 
     private final FileStorageService fileStorageService;
@@ -31,7 +31,7 @@ public class FileStorageController {
 
     @PostMapping("/upload")
     @Operation(summary = "上传文件", description = "上传文件")
-    @AccessLog(description = "上传文件")
+    @AccessLog(module = "文件存储", description = "上传文件")
     public FileStorage upload(@RequestParam("file") MultipartFile file) {
         return fileStorageService.upload(file);
     }
@@ -45,14 +45,14 @@ public class FileStorageController {
 
     @PostMapping("/{id}")
     @Operation(summary = "删除文件", description = "删除文件")
-    @AccessLog(description = "删除文件")
+    @AccessLog(module = "文件存储", description = "删除文件")
     public void delete(@PathVariable Long id) {
         fileStorageService.delete(id);
     }
 
     @PutMapping("/rename/{id}/{originName}")
     @Operation(summary = "文件重命名", description = "文件重命名")
-    @AccessLog(description = "文件重命名")
+    @AccessLog(module = "文件存储", description = "文件重命名")
     public void rename(@PathVariable Long id, @PathVariable String originName) {
         fileStorageService.rename(id, originName);
     }

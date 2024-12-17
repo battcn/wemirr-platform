@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/file-storage/setting")
 @RequiredArgsConstructor
-@Tag(name = "存储配置管理", description = "存储配置管理")
+@Tag(name = "存储配置", description = "存储配置管理")
 public class FileStorageSettingController {
 
     private final FileStorageSettingService fileStorageSettingService;
@@ -35,14 +35,14 @@ public class FileStorageSettingController {
      * 删除配置
      */
     @PostMapping
-    @AccessLog(description = "添加存储配置")
+    @AccessLog(module = "存储配置", description = "添加存储配置")
     @Operation(summary = "新增存储配置", description = "新增存储配置")
     public void add(@RequestBody FileStorageSettingSaveReq req) {
         fileStorageSettingService.create(req);
     }
 
     @PutMapping("/{id}/modify")
-    @AccessLog(description = "编辑存储配置")
+    @AccessLog(module = "存储配置", description = "编辑存储配置")
     @Operation(summary = "编辑存储配置", description = "编辑存储配置")
     public void edit(@PathVariable Long id, @Validated @RequestBody FileStorageSettingSaveReq req) {
         fileStorageSettingService.modify(id,req);
@@ -50,12 +50,9 @@ public class FileStorageSettingController {
 
 
     @DeleteMapping("/{id}")
-    @AccessLog(description = "删除存储配置")
+    @AccessLog(module = "存储配置", description = "删除存储配置")
     @Operation(summary = "删除存储配置", description = "删除存储配置")
     public void delete(@PathVariable Long id) {
         fileStorageSettingService.delete(id);
     }
-
-
-
 }

@@ -113,7 +113,7 @@ public class ResourceController {
     }
     
     @PostMapping("/create")
-    @AccessLog(description = "添加资源")
+    @AccessLog(module = "菜单资源", description = "添加资源")
     @Operation(summary = "添加资源")
     @SaCheckPermission(value = {"sys:menu:add"})
     public void create(@Validated @RequestBody ResourceSaveReq req) {
@@ -121,7 +121,7 @@ public class ResourceController {
     }
     
     @PutMapping("/{id}/modify")
-    @AccessLog(description = "修改资源")
+    @AccessLog(module = "菜单资源", description = "修改资源")
     @Operation(summary = "修改资源")
     @SaCheckPermission(value = {"sys:menu:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody ResourceSaveReq req) {
@@ -129,7 +129,7 @@ public class ResourceController {
     }
     
     @DeleteMapping("/{id}")
-    @AccessLog(description = "删除资源")
+    @AccessLog(module = "菜单资源", description = "删除资源")
     @Operation(summary = "删除资源")
     @SaCheckPermission(value = {"sys:menu:remove"})
     public void del(@PathVariable Long id) {

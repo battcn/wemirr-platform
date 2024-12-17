@@ -87,7 +87,7 @@ public class RoleController {
     }
     
     @PostMapping("/create")
-    @AccessLog(description = "添加角色")
+    @AccessLog(module = "角色管理", description = "添加角色")
     @Operation(summary = "添加角色")
     @SaCheckPermission(value = {"sys:role:add"})
     public void create(@Validated @RequestBody RoleSaveReq req) {
@@ -95,7 +95,7 @@ public class RoleController {
     }
     
     @PutMapping("/{id}")
-    @AccessLog(description = "编辑角色")
+    @AccessLog(module = "角色管理", description = "编辑角色")
     @Operation(summary = "编辑角色")
     @SaCheckPermission(value = {"sys:role:edit"})
     public void modify(@PathVariable Long id, @Validated @RequestBody RoleSaveReq req) {
@@ -103,7 +103,7 @@ public class RoleController {
     }
     
     @DeleteMapping("/{id}")
-    @AccessLog(description = "删除角色")
+    @AccessLog(module = "角色管理", description = "删除角色")
     @Operation(summary = "删除角色")
     @SaCheckPermission(value = {"sys:role:remove"})
     public void remove(@PathVariable Long id) {

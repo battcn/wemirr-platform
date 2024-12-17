@@ -69,21 +69,21 @@ public class RegisteredClientController {
     }
     
     @PostMapping
-    @AccessLog(description = "保存应用")
+    @AccessLog(module = "终端管理", description = "保存应用")
     @Operation(summary = "保存应用")
     public void create(@Validated @RequestBody RegisteredClientReq req) {
         this.registeredClientService.create(req);
     }
     
     @PutMapping("/{id}")
-    @AccessLog(description = "修改应用")
+    @AccessLog(module = "终端管理", description = "修改应用")
     @Operation(summary = "修改应用")
     public void modify(@PathVariable Long id, @Validated @RequestBody RegisteredClientReq req) {
         this.registeredClientService.modify(id, req);
     }
     
     @DeleteMapping("/{id}")
-    @AccessLog(description = "删除应用")
+    @AccessLog(module = "终端管理", description = "删除应用")
     @Operation(summary = "删除应用")
     public void del(@PathVariable String id) {
         this.registeredClientService.deleteById(id);

@@ -21,9 +21,9 @@ package com.wemirr.platform.iam.base.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson2.JSON;
-import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.wemirr.framework.boot.log.AccessLogInfo;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
+import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.platform.iam.base.domain.entity.OptLog;
 import com.wemirr.platform.iam.base.repository.OptLogMapper;
 import com.wemirr.platform.iam.base.service.OptLogService;
@@ -43,10 +43,10 @@ public class OptLogServiceImpl extends SuperServiceImpl<OptLogMapper, OptLog> im
     
     @Override
     public void listener(AccessLogInfo info) {
-        DynamicDataSourceContextHolder.push(info.getDsKey());
-        log.debug("[日志信息] - {}", JSON.toJSONString(info));
-        this.optLogMapper.insert(BeanUtil.toBean(info, OptLog.class));
-        DynamicDataSourceContextHolder.poll();
+        TenantHelper.executeWithTenantDb(info.getTenantCode(), () -> {
+            log.debug("[日志信息] - {}", JSON.toJSONString(info));
+            return this.optLogMapper.insert(BeanUtil.toBean(info, OptLog.class));
+        });
     }
     
 }
