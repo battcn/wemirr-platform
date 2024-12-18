@@ -8,11 +8,19 @@
 
 [![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-dependencies.svg?label=Spring%20Boot&logo=Spring)](https://search.maven.org/artifact/org.springframework.boot/spring-boot-dependencies)  [![Spring Cloud](https://img.shields.io/maven-central/v/org.springframework.cloud/spring-cloud-dependencies.svg?label=Spring%20Cloud&logo=Spring)](https://search.maven.org/artifact/org.springframework.cloud/spring-cloud-dependencies)  [![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.alibaba.cloud/spring-cloud-alibaba-dependencies.svg?label=Spring%20Cloud%20Alibaba&logo=Spring)](https://search.maven.org/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies)
 
-*
+**WP的使命：打破假开源，做全网最优秀、最简单、最漂亮的开源SAAS、多租户云平台架构。从开源中来,到开源中去,让大家有更多时间`摸鱼`、`学习`、`陪伴家人`、`锻炼身体`、`找对象`**
 
-*
-WP的使命：打破假开源，做全网最优秀、最简单、最漂亮的开源SAAS、多租户云平台架构。从开源中来,到开源中去,让大家有更多时间`摸鱼`、`学习`、`陪伴家人`、`锻炼身体`、`找对象`
-**
+## 谢鸣
+
+**欢迎更多的朋友来添砖加瓦,在大AI时代来领之前留下浓墨一笔**
+
+| 来源  | 作者    | 贡献           |
+|-----|-------|--------------|
+| QQ群 | ddCat | WMS 核心功能     |
+| 微信群 | xJh_  | 文件存储/存储设置    |
+| 微信群 | 千里风   | 提供 PR 环境 服务器 |
+
+
 
 ## 版本管理
 
@@ -85,55 +93,17 @@ Vue、Spring Cloud Alibaba 2023、Spring Cloud 2023、Nacos、Sentinel、 Mybati
 </template>
 ```
 
-## 效果图
-
-![监控-1](./images/skywalking.png)
-
-![监控-2](./images/skywalking-2.png)
-
-![分配用户](./images/binding_user.png)
-
-![分配权限](./images/binding_res.png)
-
-![黑白名单](./images/blacklist.png)
-
-![限流配置](./images/limit.png)
-
-![菜单管理](./images/menu.png)
-
-![监控管理](./images/monitor.png)
-
-![操作日志](./images/opt_log.png)
-
-![发布消息](./images/publish_message.png)
-
-![用户列表](./images/users.png)
-
-![定时任务](./images/xxl-job.png)
-
-![监控配置](./images/skywalking-config.png)
-
-![监控配置](./images/springdoc.png)
-
 ## 介绍
 
 开源里面UI最好、最容易上手的、中台 、SAAS 、 多租户功能、最最少的代码实现功能
 
 [配套前端](https://gitee.com/battcn/wemirr-platform-ui) 配套的 UI
 
-[Nepxion-Discovery](https://github.com/battcn/wemirr-platform) 蓝绿、灰度、流量保护
-
 [OpenAPi3](https://springdoc.org/) Swagger 标准版
-
-### 拓展阅读
-
-[Oauth2.0](https://www.ruanyifeng.com/blog/2019/04/github-oauth.html) OAuth2.0 知识点
 
 ### 注意事项
 
 **下载项目后请先本地 `mvn install wemirr-platform-dependencies` 和 `mvn install wemirr-platform-framework`**
-
-**options 项目是本人用于测试一些中间件的工程、完全可以忽略**
 
 ### 环境安装
 
@@ -194,9 +164,9 @@ docker run --name oap-ui --net wemirr --restart always -p 10086:8080 -d -e TZ=As
 # IDEA 配置
 VmOption -javaagent:/Users/battcn/Desktop/apache-skywalking-apm-bin/agent/skywalking-agent.jar
 Environment variables SW_AGENT_NAME=wemirr-platform-gateway
-Environment variables SW_AGENT_NAME=wemirr-platform-authority
+Environment variables SW_AGENT_NAME=wemirr-platform-iam
 
 # 启动命令
 nohup java -javaagent:/opt/wemirr-platform/skywalking/agent/skywalking-agent.jar -Dskywalking.agent.service_name=wemirr-platform-gateway -Dskywalking.collector.backend_service=127.0.0.1:11800 -jar wemirr-platform-gateway.jar -d > logs/start_gateway.log &
-nohup java -javaagent:/opt/wemirr-platform/skywalking/agent/skywalking-agent.jar -Dskywalking.agent.service_name=wemirr-platform-authority -Dskywalking.collector.backend_service=127.0.0.1:11800 -jar wemirr-platform-authority.jar -d --spring.profiles.active=demo > logs/start_authority.log &
+nohup java -javaagent:/opt/wemirr-platform/skywalking/agent/skywalking-agent.jar -Dskywalking.agent.service_name=wemirr-platform-iam -Dskywalking.collector.backend_service=127.0.0.1:11800 -jar wemirr-platform-iam.jar -d --spring.profiles.active=demo > logs/start_iam.log &
 ```
