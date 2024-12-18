@@ -1,4 +1,4 @@
-package com.wemirr.platform.suite.file.domain.dto.rep;
+package com.wemirr.platform.suite.file.domain.dto.resp;
 
 import lombok.Data;
 

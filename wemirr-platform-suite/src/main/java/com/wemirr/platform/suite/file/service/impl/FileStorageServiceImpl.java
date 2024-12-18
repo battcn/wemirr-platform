@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.suite.file.domain.dto.rep.FileStoragePageResp;
+import com.wemirr.platform.suite.file.domain.dto.resp.FileStoragePageResp;
 import com.wemirr.platform.suite.file.domain.dto.req.FileStoragePageReq;
 import com.wemirr.platform.suite.file.domain.entity.FileStorage;
 import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;

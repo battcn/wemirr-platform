@@ -2,11 +2,13 @@ package com.wemirr.platform.suite.file.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
-import com.wemirr.platform.suite.file.domain.dto.rep.FileStoragePageResp;
 import com.wemirr.platform.suite.file.domain.dto.req.FileStoragePageReq;
+import com.wemirr.platform.suite.file.domain.dto.resp.FileStoragePageResp;
 import com.wemirr.platform.suite.file.domain.entity.FileStorage;
 import com.wemirr.platform.suite.file.service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,58 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileStorageController {
 
     private final FileStorageService fileStorageService;
+
+    @GetMapping("/token")
+    @Parameter(description = "文件名", name = "originName", in = ParameterIn.QUERY)
+    @Operation(summary = "上传Token获取 - [Levin] - [DONE]")
+    public void getToken(String key, @RequestParam(defaultValue = "true") boolean random) {
+//        return Result.ok(storageOperation.token(key, random));
+    }
+
+
+//    @IgnoreAuthorize
+//    @Parameters({@Parameter(name = "id", description = "文件ID", in = ParameterIn.PATH),})
+//    @GetMapping("/{id}/download")
+//    @Operation(summary = "文件下载 - [Levin] - [DONE]")
+//    public void download(@PathVariable String id, HttpServletResponse response) {
+//        final FileEntity file = this.fileService.getById(id);
+//        if (file == null) {
+//            return;
+//        }
+//        final DownloadResponse download = storageOperation.download(file.getTargetName());
+//        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+//        response.setContentType("application/octet-stream");
+//        response.setHeader("Content-Disposition", "attachment; filename=" + file.getOriginName());
+//        try (ServletOutputStream outputStream = response.getOutputStream()) {
+//            outputStream.write(IoUtil.readBytes(download.getInputStream()));
+//        } catch (Exception e) {
+//            log.error("文件预览失败", e);
+//        }
+//    }
+//
+//    @IgnoreAuthorize
+//    @Parameters({@Parameter(name = "id", description = "文件KEY", in = ParameterIn.PATH),})
+//    @GetMapping("/{id}/preview")
+//    @Operation(summary = "文件预览 - [Levin] - [DONE]")
+//    public ResponseEntity<Resource> preview(@PathVariable String id) {
+//        final FileEntity file = this.fileService.getById(id);
+//        if (file == null) {
+//            return ResponseEntity.ok(null);
+//        }
+//        final DownloadResponse download = storageOperation.download(file.getTargetName());
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add(HttpHeaders.CONTENT_TYPE, file.getContentType());
+//        return new ResponseEntity<>(new InputStreamResource(download.getInputStream()), headers, HttpStatus.OK);
+//    }
+
+//    @PostMapping("/ids_query")
+//    @Operation(summary = "通过ID查询文件信息 - [Aaron] - [DONE]")
+//    public List<FileEntity> batchQueryByIds(@RequestBody BatchKey<String> param) {
+//        if (Objects.isNull(param) || CollUtil.isEmpty(param.getIds())) {
+//            return Lists.newArrayList();
+//        }
+//        return fileService.list(Wraps.<FileEntity>lbQ().in(FileEntity::getId, param.getIds()));
+//    }
 
 
     @PostMapping("/upload")

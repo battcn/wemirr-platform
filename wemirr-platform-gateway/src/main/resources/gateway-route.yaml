@@ -1,0 +1,91 @@
+spring:
+  cloud:
+    gateway:
+      # 动态路由
+      dynamic-route:
+        type: redis
+        enabled: true
+      enabled: true
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: wemirr-platform-iam
+          uri: lb://wemirr-platform-iam
+          predicates:
+            - Path=/iam/**
+          filters:
+            # 密码加密过滤器，如果配置了那么在前端传递的 password 请进行 AES 加密
+            - name: PasswordDecoderFilter
+              args:
+                password: 'password'
+                loginUrl: '/oauth2/token'
+                # 要 16 位
+                encodeKey: 'we-wemirr-groups'
+            #            - name: BlackWhiteList
+            #              args:
+            #                type: BLACK_LIST
+            #                ip-list: 127.0.0.1,0:0:0:0:0:0:0:1
+            #                ignore-intranet: true
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 100   # 允许用户每秒处理多少个请求
+                redis-rate-limiter.burstCapacity: 100   # 令牌桶的容量，允许在一秒钟内完成的最大请求数
+                # 使用 IP 限流策略（使用 SpEL 按名称引用 bean）
+                key-resolver: "#{@ipKeyResolver}"
+            - StripPrefix=1
+            - PreserveHostHeader
+            - name: Retry
+              args:
+                retries: 1
+                statuses: BAD_GATEWAY
+                backoff:
+                  firstBackoff: 200ms
+                  maxBackoff: 500ms
+                  factor: 1
+                  basedOnPreviousValue: false
+                  exceptions: TimeoutException
+        - id: wemirr-platform-iam-ws
+          uri: lb:ws://wemirr-platform-iam
+          predicates:
+            - Path=/iam/**
+          filters:
+            - StripPrefix=1
+        - id: wemirr-platform-suite
+          uri: lb://wemirr-platform-suite
+          predicates:
+            - Path=/suite/**
+          filters:
+            - StripPrefix=1
+            - PreserveHostHeader
+        - id: wemirr-platform-monitor
+          uri: lb://wemirr-platform-monitor
+          predicates:
+            - Path=/monitor/**
+          filters:
+            - StripPrefix=1
+            - PreserveHostHeader
+        - id: wemirr-platform-demo
+          uri: lb://wemirr-platform-demo
+          predicates:
+            - Path=/demo/**
+          filters:
+            - StripPrefix=1
+            - PreserveHostHeader
+        - id: wemirr-platform-wms
+          uri: lb://wemirr-platform-wms
+          predicates:
+            - Path=/wms/**
+          filters:
+            - StripPrefix=1
+            - PreserveHostHeader
+      loadbalancer:
+        use404: true
+      httpclient:
+        response-timeout: 300s
+        pool:
+          type: elastic
+          max-idle-time: 30s
+          max-connections: 1000
+          acquire-timeout: 180000

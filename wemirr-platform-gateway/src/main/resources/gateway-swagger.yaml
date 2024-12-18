@@ -1,0 +1,20 @@
+knife4j:
+  gateway:
+    enabled: true
+    strategy: manual
+    routes:
+      - name: IAM Server
+        url: /iam/v3/api-docs?group=default
+        context-path: /iam
+        service-name: wemirr-platform-iam
+        order: 2
+      - name: Dev Suite
+        url: /suite/v3/api-docs?group=default
+        context-path: /suite
+        service-name: wemirr-platform-suite
+        order: 3
+      - name: Wms Suite
+        url: /wms/v3/api-docs?group=default
+        context-path: /wms
+        service-name: wemirr-platform-wms
+        order: 3

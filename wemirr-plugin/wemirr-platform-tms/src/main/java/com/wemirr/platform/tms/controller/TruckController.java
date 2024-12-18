@@ -1,7 +1,7 @@
 package com.wemirr.platform.tms.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.commons.entity.KeyVal;
+import com.wemirr.framework.commons.entity.Dict;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.tms.domain.entity.Truck;
 import com.wemirr.platform.tms.domain.req.TruckApprovalReq;
@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -31,9 +32,9 @@ public class TruckController {
 
     @GetMapping("/dict_list")
     @Operation(summary = "车辆列表 - [Levin] - [DONE]")
-    public List<KeyVal> dictList(Boolean enabled) {
+    public List<Dict<?>> dictList(Boolean enabled) {
         final List<Truck> list = this.truckService.list(Wraps.<Truck>lbQ().eq(Truck::getEnabled, enabled));
-        return list.stream().map(x -> KeyVal.builder().value(x.getId()).label(x.getPlateNo()).build()).toList();
+        return list.stream().map(x -> Dict.builder().value(x.getId()).label(x.getPlateNo()).build()).collect(Collectors.toList());
     }
 
     @PostMapping("/page")

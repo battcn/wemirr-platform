@@ -8,7 +8,7 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.suite.file.domain.dto.rep.FileStorageSettingPageResp;
+import com.wemirr.platform.suite.file.domain.dto.resp.FileStorageSettingPageResp;
 import com.wemirr.platform.suite.file.domain.dto.req.FileStorageSettingPageReq;
 import com.wemirr.platform.suite.file.domain.dto.req.FileStorageSettingSaveReq;
 import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;

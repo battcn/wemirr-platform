@@ -1,6 +1,7 @@
 package com.wemirr.platform.tms.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
@@ -69,7 +70,7 @@ public class DriverServiceImpl extends SuperServiceImpl<DriverMapper, Driver> im
         final Driver driver = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("司机信息不存在"));
         this.baseMapper.updateById(Driver.builder().id(driver.getId())
                 .approvalStatus(req.getApprovalStatus()).approvalDesc(req.getApprovalDesc())
-                .approvalId(context.userId()).approvalName(context.realName()).build());
+                .approvalId(context.userId()).approvalName(context.nickName()).build());
     }
 
     @Override

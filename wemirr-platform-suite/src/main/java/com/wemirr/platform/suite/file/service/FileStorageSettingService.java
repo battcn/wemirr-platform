@@ -2,7 +2,7 @@ package com.wemirr.platform.suite.file.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.suite.file.domain.dto.rep.FileStorageSettingPageResp;
+import com.wemirr.platform.suite.file.domain.dto.resp.FileStorageSettingPageResp;
 import com.wemirr.platform.suite.file.domain.dto.req.FileStorageSettingPageReq;
 import com.wemirr.platform.suite.file.domain.dto.req.FileStorageSettingSaveReq;
 import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;

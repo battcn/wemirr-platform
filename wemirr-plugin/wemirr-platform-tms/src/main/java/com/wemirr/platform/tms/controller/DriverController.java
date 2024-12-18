@@ -1,7 +1,7 @@
 package com.wemirr.platform.tms.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.commons.entity.KeyVal;
+import com.wemirr.framework.commons.entity.Dict;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.tms.domain.entity.Driver;
 import com.wemirr.platform.tms.domain.req.DriverApprovalReq;
@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Levin
@@ -29,9 +30,9 @@ public class DriverController {
 
     @GetMapping("/dict_list")
     @Operation(summary = "司机列表 - [Levin] - [DONE]")
-    public List<KeyVal> dictList(Boolean enabled) {
+    public List<Dict<?>> dictList(Boolean enabled) {
         final List<Driver> list = this.driverService.list(Wraps.<Driver>lbQ().eq(Driver::getEnabled, enabled));
-        return list.stream().map(x -> KeyVal.builder().value(x.getId()).label(x.getRealName()).build()).toList();
+        return list.stream().map(x -> Dict.builder().value(x.getId()).label(x.getRealName()).build()).collect(Collectors.toList());
     }
 
 
