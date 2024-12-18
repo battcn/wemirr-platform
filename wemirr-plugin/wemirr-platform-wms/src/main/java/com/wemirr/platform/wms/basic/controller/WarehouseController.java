@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/basic/warehouses")
+@RequestMapping("/warehouses")
 public class WarehouseController {
 
     private final WarehouseService warehouseService;

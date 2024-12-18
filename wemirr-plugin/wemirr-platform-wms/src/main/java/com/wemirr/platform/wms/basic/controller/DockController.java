@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/basic/docks")
+@RequestMapping("/docks")
 public class DockController {
 
     private final DockService dockService;

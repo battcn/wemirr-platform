@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/basic/container-specs")
+@RequestMapping("/container-specs")
 public class ContainerSpecController {
 
     private final ContainerSpecService containerSpecService;

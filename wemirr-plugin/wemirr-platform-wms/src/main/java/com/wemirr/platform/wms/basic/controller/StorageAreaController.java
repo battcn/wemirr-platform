@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/basic/storage-areas")
+@RequestMapping("/storage-areas")
 public class StorageAreaController {
 
     private final StorageAreaService storageAreaService;

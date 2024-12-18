@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/basic/location-specs")
+@RequestMapping("/location-specs")
 public class LocationSpecController {
 
     private final LocationSpecService locationSpecService;

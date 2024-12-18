@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/basic/containers")
+@RequestMapping("/containers")
 public class ContainerController {
 
     private final ContainerService containerService;
