@@ -11,9 +11,10 @@ spring:
       - optional:nacos:mybatis-plus-default.yaml
   cloud:
     nacos:
+      server-addr: 127.0.0.1:8848
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: ${spring.cloud.nacos.server-addr}
         namespace: v3-dev
       config:
-        server-addr: 127.0.0.1:8848
+        server-addr: ${spring.cloud.nacos.server-addr}
         namespace: v3-dev

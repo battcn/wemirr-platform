@@ -54,7 +54,7 @@ public class TruckServiceImpl extends SuperServiceImpl<TruckMapper, Truck> imple
         final Truck driver = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("司机信息不存在"));
         this.baseMapper.updateById(Truck.builder().id(driver.getId())
                 .approvalStatus(req.getApprovalStatus()).approvalDesc(req.getApprovalDesc())
-                .approvalId(authenticationContext.userId()).approvalName(authenticationContext.realName()).build());
+                .approvalId(authenticationContext.userId()).approvalName(authenticationContext.nickName()).build());
     }
 
     @Override
