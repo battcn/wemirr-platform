@@ -80,6 +80,13 @@ spring:
           filters:
             - StripPrefix=1
             - PreserveHostHeader
+        - id: wemirr-platform-tms
+          uri: lb://wemirr-platform-tms
+          predicates:
+            - Path=/tms/**
+          filters:
+            - StripPrefix=1
+            - PreserveHostHeader
       loadbalancer:
         use404: true
       httpclient:

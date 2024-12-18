@@ -13,8 +13,13 @@ knife4j:
         context-path: /suite
         service-name: wemirr-platform-suite
         order: 3
-      - name: Wms Suite
+      - name: Wms
         url: /wms/v3/api-docs?group=default
         context-path: /wms
         service-name: wemirr-platform-wms
         order: 3
+      - name: Tms
+        url: /tms/v3/api-docs?group=default
+        context-path: /tms
+        service-name: wemirr-platform-tms
+        order: 4
