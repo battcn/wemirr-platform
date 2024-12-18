@@ -11,7 +11,8 @@ import com.wemirr.platform.wms.basic.domain.req.LocationSaveReq;
 import com.wemirr.platform.wms.basic.domain.resp.LocationPageResp;
 import com.wemirr.platform.wms.basic.service.LocationService;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.AllArgsConstructor;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +26,9 @@ import java.util.List;
  * @since 2024-06-17
  */
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/locations")
+@Tag(name = "储位管理", description = "储位管理")
 public class LocationController {
 
     private final LocationService locationService;

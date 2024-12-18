@@ -11,6 +11,7 @@ import com.wemirr.platform.wms.basic.domain.req.AisleSaveReq;
 import com.wemirr.platform.wms.basic.domain.resp.AislePageResp;
 import com.wemirr.platform.wms.basic.service.AisleService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/aisles")
+@Tag(name = "巷道管理", description = "储位管理")
 public class AisleController {
 
     private final AisleService aisleService;

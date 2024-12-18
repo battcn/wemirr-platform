@@ -1,7 +1,7 @@
 package com.wemirr.platform.wms.basic.domain.req;
 
-import com.wemirr.platform.wms.enums.ContainerStatus;
-import com.wemirr.platform.wms.enums.ContainerTaskType;
+import com.wemirr.platform.wms.inbound.domain.enums.ContainerStatus;
+import com.wemirr.platform.wms.inbound.domain.enums.ContainerTaskType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;

@@ -1,6 +1,6 @@
 package com.wemirr.platform.wms.stock.domain.resp;
 
-import com.wemirr.platform.wms.enums.StockLevelStatus;
+import com.wemirr.platform.wms.inbound.domain.enums.StockLevelStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

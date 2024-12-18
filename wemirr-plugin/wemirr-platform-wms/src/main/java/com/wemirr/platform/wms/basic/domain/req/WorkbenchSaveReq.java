@@ -1,6 +1,6 @@
 package com.wemirr.platform.wms.basic.domain.req;
 
-import com.wemirr.platform.wms.enums.WeightMode;
+import com.wemirr.platform.wms.inbound.domain.enums.WeightMode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

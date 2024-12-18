@@ -11,6 +11,7 @@ import com.wemirr.platform.wms.basic.domain.req.LocationSpecSaveReq;
 import com.wemirr.platform.wms.basic.domain.resp.LocationSpecPageResp;
 import com.wemirr.platform.wms.basic.service.LocationSpecService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/location-specs")
+@Tag(name = "储位规格", description = "储位规格")
 public class LocationSpecController {
 
     private final LocationSpecService locationSpecService;

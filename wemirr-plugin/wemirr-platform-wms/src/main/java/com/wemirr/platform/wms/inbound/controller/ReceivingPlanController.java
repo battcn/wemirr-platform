@@ -21,6 +21,7 @@ import com.wemirr.platform.wms.inbound.domain.resp.ReceivingPlanItemPageResp;
 import com.wemirr.platform.wms.inbound.domain.resp.ReceivingPlanPageResp;
 import com.wemirr.platform.wms.inbound.service.ReceivingPlanService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -41,6 +42,7 @@ import java.util.Map;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/inbound/receiving-plans")
+@Tag(name = "收货计划", description = "收货计划")
 public class ReceivingPlanController {
 
     private final ReceivingPlanService receivingPlanService;

@@ -6,7 +6,7 @@ import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.redis.plus.sequence.RedisSequenceHelper;
-import com.wemirr.platform.wms.enums.WmsSequence;
+import com.wemirr.platform.wms.inbound.domain.enums.WmsSequence;
 import com.wemirr.platform.wms.matedata.domain.entity.Supplier;
 import com.wemirr.platform.wms.matedata.domain.req.SupplierSaveReq;
 import com.wemirr.platform.wms.matedata.mapper.SupplierMapper;

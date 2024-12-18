@@ -1,6 +1,6 @@
 package com.wemirr.platform.wms.basic.domain.resp;
 
-import com.wemirr.platform.wms.enums.WeightMode;
+import com.wemirr.platform.wms.inbound.domain.enums.WeightMode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

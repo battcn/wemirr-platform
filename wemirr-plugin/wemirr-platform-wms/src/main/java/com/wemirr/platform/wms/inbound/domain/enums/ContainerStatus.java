@@ -1,44 +1,50 @@
-package com.wemirr.platform.wms.enums;
+package com.wemirr.platform.wms.inbound.domain.enums;
+
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.wemirr.framework.commons.entity.DictEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 到货状态(已到货、延迟、未到货)
+ * ContainerStatus
  *
  * @author ddCat
+ * @since 2024-06-28
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "ArrivalStatus")
-public enum ArrivalStatus implements DictEnum<String> {
+@Schema(description = "ContainerStatus")
+public enum ContainerStatus implements IEnum<Integer> {
 
-    ARRIVED("ARRIVED", "已到货"),
-    DELAY("DELAY", "延迟"),
-    NOT_DELIVERED("NOT_DELIVERED", "未到货"),
+    /**
+     * 状态(占用、释放、异常)
+     */
+    OCCUPY(10, "占用"),
+    RELEASE(20, "释放"),
+    EXCEPTION(-10, "异常")
     ;
+
     @EnumValue
     @JsonValue
-    private String status;
+    private Integer status;
 
     @Schema(description = "描述")
     private String desc;
 
     @JsonCreator
-    public static ArrivalStatus of(String status) {
+    public static ContainerStatus of(Integer status) {
         if (status == null) {
             return null;
         }
-        for (ArrivalStatus info : values()) {
+        for (ContainerStatus info : values()) {
             if (info.status.equals(status)) {
                 return info;
             }
@@ -48,7 +54,7 @@ public enum ArrivalStatus implements DictEnum<String> {
 
 
     @Override
-    public String getValue() {
+    public Integer getValue() {
         return this.status;
     }
 
@@ -56,4 +62,5 @@ public enum ArrivalStatus implements DictEnum<String> {
     public String toString() {
         return String.valueOf(status);
     }
+
 }

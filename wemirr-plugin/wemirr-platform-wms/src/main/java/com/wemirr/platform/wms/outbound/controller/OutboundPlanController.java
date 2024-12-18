@@ -18,6 +18,7 @@ import com.wemirr.platform.wms.outbound.domain.resp.OutboundPlanItemPageResp;
 import com.wemirr.platform.wms.outbound.domain.resp.OutboundPlanPageResp;
 import com.wemirr.platform.wms.outbound.service.OutboundPlanService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -38,6 +39,7 @@ import java.util.Map;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/outbound-plans")
+@Tag(name = "出库计划", description = "出库计划")
 public class OutboundPlanController {
 
     private final OutboundPlanService outboundPlanService;

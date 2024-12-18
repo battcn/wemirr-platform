@@ -1,4 +1,4 @@
-package com.wemirr.platform.wms.enums;
+package com.wemirr.platform.wms.inbound.domain.enums;
 
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -12,37 +12,39 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 容器占用类型
+ * DeliveryMode
+ * 送货方式（自提、送达）
  *
  * @author ddCat
- * @since 2024-06-28
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "ContainerTaskType")
-public enum ContainerTaskType implements IEnum<String> {
+@Schema(description = "DeliveryMode")
+public enum DeliveryMode implements IEnum<String> {
 
-
-    RECEIVING_PLAN("RECEIVING_PLAN", "收货计划"),
-
+    /**
+     * 送货方式（自提、送达）
+     */
+    SELF_PICKUP("SELF_PICKUP", "自提"),
+    DELIVERY("DELIVERY", "送达")
     ;
 
     @EnumValue
     @JsonValue
-    private String code;
+    private String status;
 
     @Schema(description = "描述")
     private String desc;
 
     @JsonCreator
-    public static ContainerTaskType of(String code) {
-        if (code == null) {
+    public static DeliveryMode of(String status) {
+        if (status == null) {
             return null;
         }
-        for (ContainerTaskType info : values()) {
-            if (info.code.equals(code)) {
+        for (DeliveryMode info : values()) {
+            if (info.status.equals(status)) {
                 return info;
             }
         }
@@ -52,12 +54,12 @@ public enum ContainerTaskType implements IEnum<String> {
 
     @Override
     public String getValue() {
-        return this.code;
+        return this.status;
     }
 
     @Override
     public String toString() {
-        return code;
+        return String.valueOf(status);
     }
 
 }

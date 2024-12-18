@@ -1,8 +1,8 @@
 package com.wemirr.platform.wms.matedata.domain.req;
 
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
-import com.wemirr.platform.wms.enums.CarrierType;
-import com.wemirr.platform.wms.enums.ServiceType;
+import com.wemirr.platform.wms.inbound.domain.enums.CarrierType;
+import com.wemirr.platform.wms.inbound.domain.enums.ServiceType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

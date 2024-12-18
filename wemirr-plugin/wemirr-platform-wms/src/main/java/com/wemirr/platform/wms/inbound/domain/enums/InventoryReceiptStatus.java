@@ -1,4 +1,4 @@
-package com.wemirr.platform.wms.enums;
+package com.wemirr.platform.wms.inbound.domain.enums;
 
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -12,35 +12,38 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 采购订单类型
+ * 入库单状态
  *
  * @author ddCat
- * @since 2024-08-02
+ * @since 2024-06-24
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "PurchaseOrderType")
-public enum PurchaseOrderType implements IEnum<String> {
+@Schema(description = "InventoryReceiptStatus")
+public enum InventoryReceiptStatus implements IEnum<Integer> {
 
-    PURCHASE_INVENTORY("PURCHASE_INVENTORY", "采购入库"),
-    RETURN_INVENTORY("RETURN_INVENTORY", "退货入库"),
+    DRAFT(0, "草稿"),
+    WAIT(10, "待执行"),
+    IN_EXECUTION(20, "执行中"),
+    COMPLETED(30, "已完成"),
+    CANCEL(-10, "已取消"),
     ;
 
     @EnumValue
     @JsonValue
-    private String status;
+    private Integer status;
 
     @Schema(description = "描述")
     private String desc;
 
     @JsonCreator
-    public static PurchaseOrderType of(String status) {
+    public static InventoryReceiptStatus of(Integer status) {
         if (status == null) {
             return null;
         }
-        for (PurchaseOrderType info : values()) {
+        for (InventoryReceiptStatus info : values()) {
             if (info.status.equals(status)) {
                 return info;
             }
@@ -50,7 +53,7 @@ public enum PurchaseOrderType implements IEnum<String> {
 
 
     @Override
-    public String getValue() {
+    public Integer getValue() {
         return this.status;
     }
 

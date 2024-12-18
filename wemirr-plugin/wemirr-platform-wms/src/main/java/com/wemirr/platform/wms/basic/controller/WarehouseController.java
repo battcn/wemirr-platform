@@ -11,6 +11,7 @@ import com.wemirr.platform.wms.basic.domain.req.WarehouseSaveReq;
 import com.wemirr.platform.wms.basic.domain.resp.WarehousePageResp;
 import com.wemirr.platform.wms.basic.service.WarehouseService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/warehouses")
+@Tag(name = "仓库管理", description = "仓库管理")
 public class WarehouseController {
 
     private final WarehouseService warehouseService;

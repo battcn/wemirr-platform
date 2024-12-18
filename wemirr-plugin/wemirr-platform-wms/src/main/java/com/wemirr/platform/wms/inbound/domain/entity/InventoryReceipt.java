@@ -2,7 +2,7 @@ package com.wemirr.platform.wms.inbound.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import com.wemirr.platform.wms.enums.InventoryReceiptStatus;
+import com.wemirr.platform.wms.inbound.domain.enums.InventoryReceiptStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;

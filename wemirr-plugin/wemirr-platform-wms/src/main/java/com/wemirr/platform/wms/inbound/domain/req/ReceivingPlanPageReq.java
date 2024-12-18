@@ -1,9 +1,9 @@
 package com.wemirr.platform.wms.inbound.domain.req;
 
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
-import com.wemirr.platform.wms.enums.ArrivalStatus;
-import com.wemirr.platform.wms.enums.ReceivingPlanType;
-import com.wemirr.platform.wms.enums.ReceivingStatus;
+import com.wemirr.platform.wms.inbound.domain.enums.ArrivalStatus;
+import com.wemirr.platform.wms.inbound.domain.enums.ReceivingPlanType;
+import com.wemirr.platform.wms.inbound.domain.enums.ReceivingStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

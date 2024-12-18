@@ -11,6 +11,7 @@ import com.wemirr.platform.wms.matedata.domain.req.BrandSaveReq;
 import com.wemirr.platform.wms.matedata.domain.resp.BrandPageResp;
 import com.wemirr.platform.wms.matedata.service.BrandService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/metadata/brands")
+@Tag(name = "品牌管理", description = "品牌管理")
 public class BrandController {
 
     private final BrandService brandService;

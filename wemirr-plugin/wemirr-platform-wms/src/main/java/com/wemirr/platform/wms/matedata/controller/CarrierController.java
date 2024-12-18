@@ -11,6 +11,7 @@ import com.wemirr.platform.wms.matedata.domain.req.CarrierSaveReq;
 import com.wemirr.platform.wms.matedata.domain.resp.CarrierPageResp;
 import com.wemirr.platform.wms.matedata.service.CarrierService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/metadata/carriers")
+@Tag(name = "承运商管理", description = "承运商管理")
 public class CarrierController {
 
     private final CarrierService carrierService;

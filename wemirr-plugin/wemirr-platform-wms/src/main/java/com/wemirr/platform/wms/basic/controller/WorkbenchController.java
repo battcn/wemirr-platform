@@ -10,6 +10,7 @@ import com.wemirr.platform.wms.basic.domain.req.WorkbenchSaveReq;
 import com.wemirr.platform.wms.basic.domain.resp.WorkbenchPageResp;
 import com.wemirr.platform.wms.basic.service.WorkbenchService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/workbenchs")
+@RequestMapping("/workbench")
+@Tag(name = "工作台管理", description = "工作台管理")
 public class WorkbenchController {
 
     private final WorkbenchService workbenchService;

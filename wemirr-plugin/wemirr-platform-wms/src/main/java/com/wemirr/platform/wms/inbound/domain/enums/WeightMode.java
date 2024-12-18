@@ -1,50 +1,50 @@
-package com.wemirr.platform.wms.enums;
-
+package com.wemirr.platform.wms.inbound.domain.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.wemirr.framework.commons.entity.DictEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 入库单状态
+ * 需求类型[0-出库,1-入库,2-调拨,3-退箱]
  *
- * @author ddCat
- * @since 2024-06-24
+ * @author Levin
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "InventoryReceiptStatus")
-public enum InventoryReceiptStatus implements IEnum<Integer> {
+@Schema(description = "WeightMode")
+public enum WeightMode implements DictEnum<String> {
 
-    DRAFT(0, "草稿"),
-    WAIT(10, "待执行"),
-    IN_EXECUTION(20, "执行中"),
-    COMPLETED(30, "已完成"),
-    CANCEL(-10, "已取消"),
+
+    /**
+     * 禁用、启用、条件
+     */
+    DISABLED("disabled", "不启用"),
+    ENABLED("enabled", "启用"),
+    CONDITIONAL("conditional", "条件启用"),
     ;
 
     @EnumValue
     @JsonValue
-    private Integer status;
+    private String type;
 
     @Schema(description = "描述")
     private String desc;
 
     @JsonCreator
-    public static InventoryReceiptStatus of(Integer status) {
-        if (status == null) {
+    public static WeightMode of(String type) {
+        if (type == null) {
             return null;
         }
-        for (InventoryReceiptStatus info : values()) {
-            if (info.status.equals(status)) {
+        for (WeightMode info : values()) {
+            if (info.type.equals(type)) {
                 return info;
             }
         }
@@ -53,13 +53,13 @@ public enum InventoryReceiptStatus implements IEnum<Integer> {
 
 
     @Override
-    public Integer getValue() {
-        return this.status;
+    public String getValue() {
+        return this.type;
     }
 
     @Override
     public String toString() {
-        return String.valueOf(status);
+        return type;
     }
 
 }

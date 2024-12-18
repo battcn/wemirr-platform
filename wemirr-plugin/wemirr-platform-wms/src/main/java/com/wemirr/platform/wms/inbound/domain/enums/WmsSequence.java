@@ -1,4 +1,4 @@
-package com.wemirr.platform.wms.enums;
+package com.wemirr.platform.wms.inbound.domain.enums;
 
 import com.wemirr.framework.redis.plus.sequence.Sequence;
 import lombok.RequiredArgsConstructor;

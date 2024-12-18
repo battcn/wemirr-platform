@@ -1,4 +1,4 @@
-package com.wemirr.platform.wms.enums;
+package com.wemirr.platform.wms.inbound.domain.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 承运商类型（0=外贸、1=内贸）
+ * 入库计划类型
  *
  * @author ddCat
  */
@@ -19,11 +19,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "CarrierType")
-public enum CarrierType implements DictEnum<String> {
+@Schema(description = "ReceivingPlanType")
+public enum ReceivingPlanType implements DictEnum<String> {
 
-    TRADE_OUT("TRADE_OUT", "外贸"),
-    TRADE_IN("TRADE_IN", "内贸");
+    PURCHASE_INVENTORY("PURCHASE_INVENTORY", "标准采购订单"),
+    RETURN_INVENTORY("RETURN_INVENTORY", "退货入库"),
+    OUTSOURCING_INVENTORY("OUTSOURCING_INVENTORY", "委外加工入库"),
+    REPAIR_INVENTORY("REPAIR_INVENTORY", "维修入库"),
+    ;
 
     @EnumValue
     @JsonValue
@@ -33,11 +36,11 @@ public enum CarrierType implements DictEnum<String> {
     private String desc;
 
     @JsonCreator
-    public static CarrierType of(String type) {
+    public static ReceivingPlanType of(String type) {
         if (type == null) {
             return null;
         }
-        for (CarrierType info : values()) {
+        for (ReceivingPlanType info : values()) {
             if (info.type.equals(type)) {
                 return info;
             }

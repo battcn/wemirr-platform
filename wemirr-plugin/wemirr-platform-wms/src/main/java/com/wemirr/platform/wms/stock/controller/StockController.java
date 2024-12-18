@@ -8,6 +8,7 @@ import com.wemirr.platform.wms.stock.domain.req.StockPageReq;
 import com.wemirr.platform.wms.stock.domain.resp.StockPageResp;
 import com.wemirr.platform.wms.stock.service.StockService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/stock/stocks")
+@Tag(name = "库存余额", description = "库存余额")
 public class StockController {
 
     private final StockService stockService;

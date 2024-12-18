@@ -12,6 +12,7 @@ import com.wemirr.platform.wms.inbound.domain.resp.InventoryReceiptDetailResp;
 import com.wemirr.platform.wms.inbound.domain.resp.InventoryReceiptPageResp;
 import com.wemirr.platform.wms.inbound.service.InventoryReceiptService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/inbound/inventory-receipts")
+@Tag(name = "入库单", description = "入库单")
 public class InventoryReceiptController {
 
     private final InventoryReceiptService inventoryReceiptService;

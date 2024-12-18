@@ -1,4 +1,4 @@
-package com.wemirr.platform.wms.enums;
+package com.wemirr.platform.wms.inbound.domain.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -11,38 +11,33 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 租赁类型（0=买卖;1=趟租）
+ * 承运商类型（0=外贸、1=内贸）
  *
- * @author Levin
+ * @author ddCat
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "AssetsRentType")
-public enum AssetsRentType implements DictEnum<Integer> {
+@Schema(description = "CarrierType")
+public enum CarrierType implements DictEnum<String> {
 
-
-    /**
-     * 租赁类型（0=买卖;1=趟租）
-     */
-    BUY(0, "买卖"),
-    TZ(1, "趟租"),
-    ;
+    TRADE_OUT("TRADE_OUT", "外贸"),
+    TRADE_IN("TRADE_IN", "内贸");
 
     @EnumValue
     @JsonValue
-    private Integer type;
+    private String type;
 
     @Schema(description = "描述")
     private String desc;
 
     @JsonCreator
-    public static AssetsRentType of(Integer type) {
+    public static CarrierType of(String type) {
         if (type == null) {
             return null;
         }
-        for (AssetsRentType info : values()) {
+        for (CarrierType info : values()) {
             if (info.type.equals(type)) {
                 return info;
             }
@@ -52,7 +47,7 @@ public enum AssetsRentType implements DictEnum<Integer> {
 
 
     @Override
-    public Integer getValue() {
+    public String getValue() {
         return this.type;
     }
 

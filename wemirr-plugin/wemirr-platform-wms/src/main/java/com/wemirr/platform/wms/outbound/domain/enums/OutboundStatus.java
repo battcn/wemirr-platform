@@ -1,31 +1,36 @@
-package com.wemirr.platform.wms.enums;
+package com.wemirr.platform.wms.outbound.domain.enums;
+
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.wemirr.framework.commons.entity.DictEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * InventoryTaskStatus
+ * 出库单状态
  *
- * @author Levin
+ * @author ddCat
+ * @since 2024-08-06
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "InventoryTaskStatus")
-public enum InventoryTaskStatus implements DictEnum<Integer> {
+@Schema(description = "OutboundStatus")
+public enum OutboundStatus implements IEnum<Integer> {
 
-    CREATED(0, "创建"),
-    IN_PROGRESS(1, "进行中"),
-    FINISH(10, "已完成"),
-    CANCEL(-1, "取消");
+    DRAFT(10, "草稿"),
+    PACKING(20, "配货中"),
+    COMPLETE(30, "完成"),
+    CANCEL(-10, "取消"),
+    CLOSE(-20, "关闭"),
+    ;
+
     @EnumValue
     @JsonValue
     private Integer status;
@@ -34,11 +39,11 @@ public enum InventoryTaskStatus implements DictEnum<Integer> {
     private String desc;
 
     @JsonCreator
-    public static InventoryTaskStatus of(Integer status) {
+    public static OutboundStatus of(Integer status) {
         if (status == null) {
             return null;
         }
-        for (InventoryTaskStatus info : values()) {
+        for (OutboundStatus info : values()) {
             if (info.status.equals(status)) {
                 return info;
             }
@@ -56,4 +61,5 @@ public enum InventoryTaskStatus implements DictEnum<Integer> {
     public String toString() {
         return String.valueOf(status);
     }
+
 }

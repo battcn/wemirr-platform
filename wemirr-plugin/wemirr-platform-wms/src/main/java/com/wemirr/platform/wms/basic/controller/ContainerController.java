@@ -11,6 +11,7 @@ import com.wemirr.platform.wms.basic.domain.req.ContainerSaveReq;
 import com.wemirr.platform.wms.basic.domain.resp.ContainerPageResp;
 import com.wemirr.platform.wms.basic.service.ContainerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/containers")
+@Tag(name = "容器管理", description = "容器管理")
 public class ContainerController {
 
     private final ContainerService containerService;

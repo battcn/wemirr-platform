@@ -15,8 +15,8 @@ import com.wemirr.platform.wms.basic.domain.req.ContainerSaveReq;
 import com.wemirr.platform.wms.basic.mapper.ContainerLogMapper;
 import com.wemirr.platform.wms.basic.mapper.ContainerMapper;
 import com.wemirr.platform.wms.basic.service.ContainerService;
-import com.wemirr.platform.wms.enums.ContainerStatus;
-import com.wemirr.platform.wms.enums.WmsSequence;
+import com.wemirr.platform.wms.inbound.domain.enums.ContainerStatus;
+import com.wemirr.platform.wms.inbound.domain.enums.WmsSequence;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

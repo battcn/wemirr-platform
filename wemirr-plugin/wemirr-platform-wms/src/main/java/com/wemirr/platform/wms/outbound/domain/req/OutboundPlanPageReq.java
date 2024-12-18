@@ -1,9 +1,9 @@
 package com.wemirr.platform.wms.outbound.domain.req;
 
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
-import com.wemirr.platform.wms.enums.DeliveryMode;
-import com.wemirr.platform.wms.enums.OutboundStatus;
-import com.wemirr.platform.wms.enums.OutboundType;
+import com.wemirr.platform.wms.inbound.domain.enums.DeliveryMode;
+import com.wemirr.platform.wms.outbound.domain.enums.OutboundStatus;
+import com.wemirr.platform.wms.outbound.domain.enums.OutboundType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

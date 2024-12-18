@@ -1,8 +1,8 @@
 package com.wemirr.platform.wms.inbound.domain.req;
 
 import com.wemirr.framework.redis.plus.anontation.RedisParam;
-import com.wemirr.platform.wms.enums.ArrivalStatus;
-import com.wemirr.platform.wms.enums.ReceivingPlanType;
+import com.wemirr.platform.wms.inbound.domain.enums.ArrivalStatus;
+import com.wemirr.platform.wms.inbound.domain.enums.ReceivingPlanType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.wemirr.platform.wms.enums;
+package com.wemirr.platform.wms.inbound.domain.enums;
 
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -12,25 +12,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 收货计划状态
+ * StockLevelStatus
+ * 库存等级
  *
  * @author ddCat
- * @since 2024-06-24
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "ReceivingStatus")
-public enum ReceivingStatus implements IEnum<Integer> {
+@Schema(description = "StockLevelStatus")
+public enum StockLevelStatus implements IEnum<Integer> {
 
-    DRAFT(0, "草稿"),
-    WAIT(10, "待执行"),
-    IN_EXECUTION(20, "执行中"),
-    COMPLETED(30, "已完成"),
-    CANCEL(-10, "已取消"),
-    // 部分收货后将收货计划关闭
-    CLOSE(-20, "关闭"),
+    /**
+     * 物料存货等级(良品、待检品、不良品、返工品、报废品、退货品)
+     */
+    GOODS(0, "良品"),
+    WAIT(10, "待检品"),
+    BAD(20, "不良品"),
+    REWORK(30, "返工品"),
+    SCRAP(40, "报废品"),
+    RETURN(50, "退货品"),
     ;
 
     @EnumValue
@@ -41,11 +43,11 @@ public enum ReceivingStatus implements IEnum<Integer> {
     private String desc;
 
     @JsonCreator
-    public static ReceivingStatus of(Integer status) {
+    public static StockLevelStatus of(Integer status) {
         if (status == null) {
             return null;
         }
-        for (ReceivingStatus info : values()) {
+        for (StockLevelStatus info : values()) {
             if (info.status.equals(status)) {
                 return info;
             }

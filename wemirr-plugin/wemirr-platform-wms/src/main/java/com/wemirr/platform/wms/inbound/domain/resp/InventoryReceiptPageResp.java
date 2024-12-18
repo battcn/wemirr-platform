@@ -1,6 +1,6 @@
 package com.wemirr.platform.wms.inbound.domain.resp;
 
-import com.wemirr.platform.wms.enums.InventoryReceiptStatus;
+import com.wemirr.platform.wms.inbound.domain.enums.InventoryReceiptStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

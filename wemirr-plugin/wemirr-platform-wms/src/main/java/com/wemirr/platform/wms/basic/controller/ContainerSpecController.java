@@ -11,6 +11,7 @@ import com.wemirr.platform.wms.basic.domain.req.ContainerSpecSaveReq;
 import com.wemirr.platform.wms.basic.domain.resp.ContainerSpecPageResp;
 import com.wemirr.platform.wms.basic.service.ContainerSpecService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/container-specs")
+@Tag(name = "容器规格", description = "容器规格")
 public class ContainerSpecController {
 
     private final ContainerSpecService containerSpecService;

@@ -1,4 +1,4 @@
-package com.wemirr.platform.wms.enums;
+package com.wemirr.platform.wms.outbound.domain.enums;
 
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 出库单状态
+ * 出库单类型
  *
  * @author ddCat
  * @since 2024-08-06
@@ -21,14 +21,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "OutboundStatus")
-public enum OutboundStatus implements IEnum<Integer> {
+@Schema(description = "OutboundType")
+public enum OutboundType implements IEnum<Integer> {
 
-    DRAFT(10, "草稿"),
-    PACKING(20, "配货中"),
-    COMPLETE(30, "完成"),
-    CANCEL(-10, "取消"),
-    CLOSE(-20, "关闭"),
+    SALES(10, "销售出库"),
+    TRANSFER(20, "调拨出库"),
+    RETURN(30, "退货出库"),
+    EXCHANGE(40, "换货出库"),
+    REPAIR(50, "维修出库"),
+    DESTROY(60, "销毁出库"),
     ;
 
     @EnumValue
@@ -39,11 +40,11 @@ public enum OutboundStatus implements IEnum<Integer> {
     private String desc;
 
     @JsonCreator
-    public static OutboundStatus of(Integer status) {
+    public static OutboundType of(Integer status) {
         if (status == null) {
             return null;
         }
-        for (OutboundStatus info : values()) {
+        for (OutboundType info : values()) {
             if (info.status.equals(status)) {
                 return info;
             }

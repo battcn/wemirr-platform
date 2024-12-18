@@ -11,6 +11,7 @@ import com.wemirr.platform.wms.basic.domain.req.StorageAreaSaveReq;
 import com.wemirr.platform.wms.basic.domain.resp.StorageAreaPageResp;
 import com.wemirr.platform.wms.basic.service.StorageAreaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/storage-areas")
+@Tag(name = "库区管理", description = "库区管理")
 public class StorageAreaController {
 
     private final StorageAreaService storageAreaService;

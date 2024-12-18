@@ -1,4 +1,4 @@
-package com.wemirr.platform.wms.enums;
+package com.wemirr.platform.wms.inbound.domain.enums;
 
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -12,24 +12,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * AppointmentStatus
+ * 收货计划状态
  *
- * @author Levin
+ * @author ddCat
+ * @since 2024-06-24
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "AppointmentStatus")
-public enum AppointmentStatus implements IEnum<Integer> {
+@Schema(description = "ReceivingStatus")
+public enum ReceivingStatus implements IEnum<Integer> {
 
-    /**
-     * 待处理
-     */
-    WAIT(0, "待处理"),
-    ACCEPTED(10, "已处理"),
+    DRAFT(0, "草稿"),
+    WAIT(10, "待执行"),
+    IN_EXECUTION(20, "执行中"),
+    COMPLETED(30, "已完成"),
     CANCEL(-10, "已取消"),
-    REJECT(-20, "已拒绝"),
+    // 部分收货后将收货计划关闭
+    CLOSE(-20, "关闭"),
     ;
 
     @EnumValue
@@ -40,11 +41,11 @@ public enum AppointmentStatus implements IEnum<Integer> {
     private String desc;
 
     @JsonCreator
-    public static AppointmentStatus of(Integer status) {
+    public static ReceivingStatus of(Integer status) {
         if (status == null) {
             return null;
         }
-        for (AppointmentStatus info : values()) {
+        for (ReceivingStatus info : values()) {
             if (info.status.equals(status)) {
                 return info;
             }

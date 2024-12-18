@@ -12,6 +12,7 @@ import com.wemirr.platform.wms.matedata.domain.req.MaterialCategorySaveReq;
 import com.wemirr.platform.wms.matedata.domain.resp.MaterialCategoryPageResp;
 import com.wemirr.platform.wms.matedata.service.MaterialCategoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/metadata/material-categories")
+@Tag(name = "物料类目", description = "物料类目")
 public class MaterialCategoryController {
 
     private final MaterialCategoryService materialCategoryService;

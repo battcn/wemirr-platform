@@ -1,4 +1,4 @@
-package com.wemirr.platform.wms.enums;
+package com.wemirr.platform.wms.inbound.domain.enums;
 
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -12,24 +12,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * ContainerStatus
+ * StockChangeType
+ * 库存变动类型
  *
  * @author ddCat
- * @since 2024-06-28
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "ContainerStatus")
-public enum ContainerStatus implements IEnum<Integer> {
+@Schema(description = "StockChangeType")
+public enum StockChangeType implements IEnum<Integer> {
 
     /**
-     * 状态(占用、释放、异常)
+     * 库存变动类型(入库、出库、盘盈入库、盘亏出库、调整入库、调整出库、报废出库、加工入库、加工出库、移库)
      */
-    OCCUPY(10, "占用"),
-    RELEASE(20, "释放"),
-    EXCEPTION(-10, "异常")
+    IN(0, "入库"),
+    OUT(1, "出库"),
+    INVENTORY_IN(2, "盘盈入库"),
+    INVENTORY_OUT(3, "盘亏出库"),
+    ADJUST_IN(4, "调整入库"),
+    ADJUST_OUT(5, "调整出库"),
+    SCRAP_OUT(6, "报废出库"),
+    PROCESS_IN(7, "加工入库"),
+    PROCESS_OUT(8, "加工出库"),
+    MOVE_IN(9, "移库");
     ;
 
     @EnumValue
@@ -40,11 +47,11 @@ public enum ContainerStatus implements IEnum<Integer> {
     private String desc;
 
     @JsonCreator
-    public static ContainerStatus of(Integer status) {
+    public static StockChangeType of(Integer status) {
         if (status == null) {
             return null;
         }
-        for (ContainerStatus info : values()) {
+        for (StockChangeType info : values()) {
             if (info.status.equals(status)) {
                 return info;
             }

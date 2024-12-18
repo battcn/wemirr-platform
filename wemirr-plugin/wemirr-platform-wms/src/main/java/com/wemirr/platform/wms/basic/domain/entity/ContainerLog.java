@@ -2,8 +2,8 @@ package com.wemirr.platform.wms.basic.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import com.wemirr.platform.wms.enums.ContainerStatus;
-import com.wemirr.platform.wms.enums.ContainerTaskType;
+import com.wemirr.platform.wms.inbound.domain.enums.ContainerStatus;
+import com.wemirr.platform.wms.inbound.domain.enums.ContainerTaskType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;

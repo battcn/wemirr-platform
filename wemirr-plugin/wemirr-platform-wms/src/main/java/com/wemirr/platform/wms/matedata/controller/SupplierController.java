@@ -11,6 +11,7 @@ import com.wemirr.platform.wms.matedata.domain.req.SupplierSaveReq;
 import com.wemirr.platform.wms.matedata.domain.resp.SupplierPageResp;
 import com.wemirr.platform.wms.matedata.service.SupplierService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/metadata/suppliers")
+@Tag(name = "供应商", description = "供应商")
 public class SupplierController {
 
     private final SupplierService supplierService;

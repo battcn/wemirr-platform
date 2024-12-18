@@ -1,4 +1,4 @@
-package com.wemirr.platform.wms.enums;
+package com.wemirr.platform.wms.inbound.domain.enums;
 
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -12,27 +12,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * StockLevelStatus
- * 库存等级
+ * AppointmentStatus
  *
- * @author ddCat
+ * @author Levin
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "StockLevelStatus")
-public enum StockLevelStatus implements IEnum<Integer> {
+@Schema(description = "AppointmentStatus")
+public enum AppointmentStatus implements IEnum<Integer> {
 
     /**
-     * 物料存货等级(良品、待检品、不良品、返工品、报废品、退货品)
+     * 待处理
      */
-    GOODS(0, "良品"),
-    WAIT(10, "待检品"),
-    BAD(20, "不良品"),
-    REWORK(30, "返工品"),
-    SCRAP(40, "报废品"),
-    RETURN(50, "退货品"),
+    WAIT(0, "待处理"),
+    ACCEPTED(10, "已处理"),
+    CANCEL(-10, "已取消"),
+    REJECT(-20, "已拒绝"),
     ;
 
     @EnumValue
@@ -43,11 +40,11 @@ public enum StockLevelStatus implements IEnum<Integer> {
     private String desc;
 
     @JsonCreator
-    public static StockLevelStatus of(Integer status) {
+    public static AppointmentStatus of(Integer status) {
         if (status == null) {
             return null;
         }
-        for (StockLevelStatus info : values()) {
+        for (AppointmentStatus info : values()) {
             if (info.status.equals(status)) {
                 return info;
             }

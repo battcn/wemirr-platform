@@ -1,4 +1,4 @@
-package com.wemirr.platform.wms.enums;
+package com.wemirr.platform.wms.inbound.domain.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 需求类型[0-出库,1-入库,2-调拨,3-退箱]
+ * InventoryTaskStatus
  *
  * @author Levin
  */
@@ -19,33 +19,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "DemandType")
-public enum DemandType implements DictEnum<Integer> {
+@Schema(description = "InventoryTaskStatus")
+public enum InventoryTaskStatus implements DictEnum<Integer> {
 
-
-    /**
-     * 需求类型[0-出库,1-入库,2-调拨,5-退货]
-     */
-    OUT(0, "出库"),
-    IN(1, "入库"),
-    DISPATCH(2, "调拨"),
-    RETURN(5, "退货"),
-    ;
-
+    CREATED(0, "创建"),
+    IN_PROGRESS(1, "进行中"),
+    FINISH(10, "已完成"),
+    CANCEL(-1, "取消");
     @EnumValue
     @JsonValue
-    private Integer type;
+    private Integer status;
 
     @Schema(description = "描述")
     private String desc;
 
     @JsonCreator
-    public static DemandType of(Integer type) {
-        if (type == null) {
+    public static InventoryTaskStatus of(Integer status) {
+        if (status == null) {
             return null;
         }
-        for (DemandType info : values()) {
-            if (info.type.equals(type)) {
+        for (InventoryTaskStatus info : values()) {
+            if (info.status.equals(status)) {
                 return info;
             }
         }
@@ -55,12 +49,11 @@ public enum DemandType implements DictEnum<Integer> {
 
     @Override
     public Integer getValue() {
-        return this.type;
+        return this.status;
     }
 
     @Override
     public String toString() {
-        return String.valueOf(type);
+        return String.valueOf(status);
     }
-
 }

@@ -2,9 +2,9 @@ package com.wemirr.platform.wms.inbound.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import com.wemirr.platform.wms.enums.ArrivalStatus;
-import com.wemirr.platform.wms.enums.ReceivingPlanType;
-import com.wemirr.platform.wms.enums.ReceivingStatus;
+import com.wemirr.platform.wms.inbound.domain.enums.ArrivalStatus;
+import com.wemirr.platform.wms.inbound.domain.enums.ReceivingPlanType;
+import com.wemirr.platform.wms.inbound.domain.enums.ReceivingStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;

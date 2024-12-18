@@ -11,6 +11,7 @@ import com.wemirr.platform.wms.basic.domain.req.DockSaveReq;
 import com.wemirr.platform.wms.basic.domain.resp.DockPageResp;
 import com.wemirr.platform.wms.basic.service.DockService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/docks")
+@Tag(name = "月台管理", description = "月台管理")
 public class DockController {
 
     private final DockService dockService;

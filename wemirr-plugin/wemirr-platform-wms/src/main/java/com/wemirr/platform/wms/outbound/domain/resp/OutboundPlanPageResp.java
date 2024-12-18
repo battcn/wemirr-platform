@@ -1,8 +1,8 @@
 package com.wemirr.platform.wms.outbound.domain.resp;
 
-import com.wemirr.platform.wms.enums.DeliveryMode;
-import com.wemirr.platform.wms.enums.OutboundStatus;
-import com.wemirr.platform.wms.enums.OutboundType;
+import com.wemirr.platform.wms.inbound.domain.enums.DeliveryMode;
+import com.wemirr.platform.wms.outbound.domain.enums.OutboundStatus;
+import com.wemirr.platform.wms.outbound.domain.enums.OutboundType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

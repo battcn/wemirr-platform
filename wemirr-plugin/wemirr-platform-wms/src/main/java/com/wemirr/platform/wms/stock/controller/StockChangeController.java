@@ -9,6 +9,7 @@ import com.wemirr.platform.wms.stock.domain.req.StockChangePageReq;
 import com.wemirr.platform.wms.stock.domain.resp.StockChangePageResp;
 import com.wemirr.platform.wms.stock.service.StockChangeService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/stock/stock-changes")
+@Tag(name = "库存调整", description = "库存余额变动")
 public class StockChangeController {
 
     private final StockChangeService stockChangeService;

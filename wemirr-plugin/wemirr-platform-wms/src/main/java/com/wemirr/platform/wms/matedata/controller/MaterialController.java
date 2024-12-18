@@ -11,6 +11,7 @@ import com.wemirr.platform.wms.matedata.domain.req.MaterialSaveReq;
 import com.wemirr.platform.wms.matedata.domain.resp.MaterialPageResp;
 import com.wemirr.platform.wms.matedata.service.MaterialService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/metadata/materials")
+@Tag(name = "物料管理", description = "物料管理")
 public class MaterialController {
 
     private final MaterialService materialService;

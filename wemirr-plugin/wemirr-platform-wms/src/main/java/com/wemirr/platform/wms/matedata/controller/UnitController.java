@@ -11,6 +11,7 @@ import com.wemirr.platform.wms.matedata.domain.req.UnitSaveReq;
 import com.wemirr.platform.wms.matedata.domain.resp.UnitPageResp;
 import com.wemirr.platform.wms.matedata.service.UnitService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/metadata/units")
+@Tag(name = "计量单位", description = "计量单位")
 public class UnitController {
 
     private final UnitService unitService;

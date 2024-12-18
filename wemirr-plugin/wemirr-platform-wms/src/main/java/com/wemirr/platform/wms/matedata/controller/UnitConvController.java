@@ -11,6 +11,7 @@ import com.wemirr.platform.wms.matedata.domain.req.UnitConvSaveReq;
 import com.wemirr.platform.wms.matedata.domain.resp.UnitConvPageResp;
 import com.wemirr.platform.wms.matedata.service.UnitConvService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/metadata/unit-conv")
+@Tag(name = "计量单位转换", description = "计量单位转换")
 public class UnitConvController {
 
     private final UnitConvService unitConvService;

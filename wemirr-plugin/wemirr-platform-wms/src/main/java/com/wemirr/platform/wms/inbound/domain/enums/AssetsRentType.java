@@ -1,51 +1,49 @@
-package com.wemirr.platform.wms.enums;
-
+package com.wemirr.platform.wms.inbound.domain.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.wemirr.framework.commons.entity.DictEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 出库单类型
+ * 租赁类型（0=买卖;1=趟租）
  *
- * @author ddCat
- * @since 2024-08-06
+ * @author Levin
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "OutboundType")
-public enum OutboundType implements IEnum<Integer> {
+@Schema(description = "AssetsRentType")
+public enum AssetsRentType implements DictEnum<Integer> {
 
-    SALES(10, "销售出库"),
-    TRANSFER(20, "调拨出库"),
-    RETURN(30, "退货出库"),
-    EXCHANGE(40, "换货出库"),
-    REPAIR(50, "维修出库"),
-    DESTROY(60, "销毁出库"),
+
+    /**
+     * 租赁类型（0=买卖;1=趟租）
+     */
+    BUY(0, "买卖"),
+    TZ(1, "趟租"),
     ;
 
     @EnumValue
     @JsonValue
-    private Integer status;
+    private Integer type;
 
     @Schema(description = "描述")
     private String desc;
 
     @JsonCreator
-    public static OutboundType of(Integer status) {
-        if (status == null) {
+    public static AssetsRentType of(Integer type) {
+        if (type == null) {
             return null;
         }
-        for (OutboundType info : values()) {
-            if (info.status.equals(status)) {
+        for (AssetsRentType info : values()) {
+            if (info.type.equals(type)) {
                 return info;
             }
         }
@@ -55,12 +53,12 @@ public enum OutboundType implements IEnum<Integer> {
 
     @Override
     public Integer getValue() {
-        return this.status;
+        return this.type;
     }
 
     @Override
     public String toString() {
-        return String.valueOf(status);
+        return String.valueOf(type);
     }
 
 }

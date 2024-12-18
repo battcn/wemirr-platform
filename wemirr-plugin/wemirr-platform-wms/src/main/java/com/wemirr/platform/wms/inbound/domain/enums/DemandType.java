@@ -1,50 +1,51 @@
-package com.wemirr.platform.wms.enums;
-
+package com.wemirr.platform.wms.inbound.domain.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.wemirr.framework.commons.entity.DictEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * DeliveryMode
- * 送货方式（自提、送达）
+ * 需求类型[0-出库,1-入库,2-调拨,3-退箱]
  *
- * @author ddCat
+ * @author Levin
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonFormat
-@Schema(description = "DeliveryMode")
-public enum DeliveryMode implements IEnum<String> {
+@Schema(description = "DemandType")
+public enum DemandType implements DictEnum<Integer> {
+
 
     /**
-     * 送货方式（自提、送达）
+     * 需求类型[0-出库,1-入库,2-调拨,5-退货]
      */
-    SELF_PICKUP("SELF_PICKUP", "自提"),
-    DELIVERY("DELIVERY", "送达")
+    OUT(0, "出库"),
+    IN(1, "入库"),
+    DISPATCH(2, "调拨"),
+    RETURN(5, "退货"),
     ;
 
     @EnumValue
     @JsonValue
-    private String status;
+    private Integer type;
 
     @Schema(description = "描述")
     private String desc;
 
     @JsonCreator
-    public static DeliveryMode of(String status) {
-        if (status == null) {
+    public static DemandType of(Integer type) {
+        if (type == null) {
             return null;
         }
-        for (DeliveryMode info : values()) {
-            if (info.status.equals(status)) {
+        for (DemandType info : values()) {
+            if (info.type.equals(type)) {
                 return info;
             }
         }
@@ -53,13 +54,13 @@ public enum DeliveryMode implements IEnum<String> {
 
 
     @Override
-    public String getValue() {
-        return this.status;
+    public Integer getValue() {
+        return this.type;
     }
 
     @Override
     public String toString() {
-        return String.valueOf(status);
+        return String.valueOf(type);
     }
 
 }

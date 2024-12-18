@@ -1,7 +1,7 @@
 package com.wemirr.platform.wms.stock.domain.req;
 
-import com.wemirr.platform.wms.enums.StockChangeType;
-import com.wemirr.platform.wms.enums.StockLevelStatus;
+import com.wemirr.platform.wms.inbound.domain.enums.StockChangeType;
+import com.wemirr.platform.wms.inbound.domain.enums.StockLevelStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
