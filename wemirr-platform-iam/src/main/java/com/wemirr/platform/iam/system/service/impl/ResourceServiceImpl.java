@@ -64,16 +64,16 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resource> implements ResourceService {
-    
+
     public static final String DEFAULT_PATH = "/system/development/release/tenant_%s";
     public static final String DEFAULT_COMPONENT = "/system/development/build/standard";
-    
+
     private static final String SPEL = "/";
     private final DatabaseProperties databaseProperties;
     private final RoleMapper roleMapper;
     private final UserMapper userMapper;
     private final RoleResMapper roleResMapper;
-    
+
     @Override
     public List<VisibleResourceResp> findVisibleResource(ResourceQueryReq req) {
         // TODO 查询租户数据源
@@ -81,11 +81,12 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
         List<Long> resIdList = this.userMapper.selectResByUserId(req.getUserId());
         // 解决租户越权行为,菜单数据直接从主库查询,减少数据分发次数
         List<Resource> list = TenantHelper.executeWithMaster(() -> this.baseMapper.selectList(Wraps.<Resource>lbQ()
+                .eq(Resource::getStatus, req.getStatus())
                 .and(lb -> lb.eq(Resource::getGlobal, true).or(CollUtil.isNotEmpty(resIdList), xx -> xx.in(Resource::getId, resIdList)))
                 .eq(Resource::getParentId, req.getParentId()).eq(Resource::getType, req.getType())));
         return BeanUtilPlus.toBeans(list, VisibleResourceResp.class);
     }
-    
+
     @Override
     public List<String> selectPermissionByUserId(Long userId) {
         DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
@@ -102,7 +103,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
         DynamicDataSourceContextHolder.poll();
         return list.stream().filter(Objects::nonNull).map(Resource::getPermission).filter(StrUtil::isNotBlank).toList();
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void create(ResourceSaveReq req) {
@@ -124,13 +125,13 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
                 .toList();
         roleResMapper.insertBatchSomeColumn(roleResList);
     }
-    
+
     @Override
     public void modify(Long id, ResourceSaveReq req) {
         final Resource resource = BeanUtilPlus.toBean(id, req, Resource.class);
         this.baseMapper.updateById(resource);
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void delete(Long id) {
