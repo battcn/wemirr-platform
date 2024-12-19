@@ -13,12 +13,17 @@ knife4j:
         context-path: /suite
         service-name: wemirr-platform-suite
         order: 3
-      - name: Wms
+      - name: Wms 存储管理
         url: /wms/v3/api-docs?group=default
         context-path: /wms
         service-name: wemirr-platform-wms
         order: 3
-      - name: Tms
+      - name: Tms 运输管理
+        url: /tms/v3/api-docs?group=default
+        context-path: /tms
+        service-name: wemirr-platform-tms
+        order: 4
+      - name: BPM 审批中心
         url: /tms/v3/api-docs?group=default
         context-path: /tms
         service-name: wemirr-platform-tms

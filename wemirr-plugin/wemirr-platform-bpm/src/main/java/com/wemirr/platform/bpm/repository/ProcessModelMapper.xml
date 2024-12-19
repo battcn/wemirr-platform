@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.bpm.repository.ProcessModelMapper">
+
+    <!--通过实体作为筛选条件分页查询-->
+    <select id="pageList"
+            resultType="com.wemirr.platform.bpm.domain.resp.ProcessModelPageResp">
+        SELECT
+        t1.*,t2.code as 'process_category_code',t2.name as 'process_category_name'
+        FROM wp_process_model t1
+        LEFT JOIN wp_process_category t2 ON t1.category_id = t2.id
+        where t1.deleted = 0
+        <if test="req.diagramName != null and req.diagramName != ''">
+            AND t1.diagram_name LIKE CONCAT(#{req.diagramName, jdbcType=VARCHAR},'%')
+        </if>
+        <if test="req.processCategoryCode != null and req.processCategoryCode != ''">
+            AND t2.code = #{req.processCategoryCode, jdbcType=VARCHAR}
+        </if>
+        <if test="req.state != null">
+            AND t1.state = #{req.state, jdbcType=INTEGER}
+        </if>
+        <if test="req.deployed != null and req.deployed">
+            AND t1.state > 0
+        </if>
+        ORDER BY t1.created_time DESC
+    </select>
+
+
+    <!-- 获取某个模型数量，排除指定模型id的数量 -->
+    <select id="getModelNum" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM wp_process_model
+        WHERE deleted =0
+        <if test="id != null and id != ''">
+            AND id != #{id, jdbcType=VARCHAR}
+        </if>
+        <if test="key != null and key != ''">
+            AND LOCATE(#{key, jdbcType=VARCHAR}, process_definition_keys) &gt; 0
+        </if>
+    </select>
+
+
+    <!-- 通过模型id物理删除 -->
+    <delete id="physicalDeleteById">
+        DELETE
+        FROM wp_process_model
+        WHERE id = #{id, jdbcType=VARCHAR}
+    </delete>
+
+
+    <!-- 通过字典id物理批量删除 -->
+    <delete id="physicalDeleteBatchIds">
+        DELETE
+        FROM wp_process_model
+        WHERE id IN
+        <foreach collection="coll" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

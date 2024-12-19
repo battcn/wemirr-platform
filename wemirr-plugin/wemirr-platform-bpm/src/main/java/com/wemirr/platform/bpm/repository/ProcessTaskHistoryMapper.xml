@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.bpm.repository.ProcessTaskHistoryMapper">
+
+    <!--通过实体作为筛选条件分页查询-->
+    <select id="pageList"
+            resultType="com.wemirr.platform.bpm.domain.resp.ProcessTaskHistoryResp">
+        SELECT
+        t1.proc_inst_id,t1.proc_task_id,t1.proc_task_name,t1.proc_task_status,t1.remark,t1.description,
+        t1.created_name as approverName,
+        t1.created_time as taskInstStartTime,t2.created_time as taskInstEndTime,
+        t2.proc_inst_status,t2.created_by as initiator_id,t2.created_name as initiator_name,
+        t2.proc_inst_version,t2.proc_inst_category_name,t2.proc_def_name,t2.proc_inst_name
+        FROM wp_process_task_his t1
+        LEFT JOIN wp_process_instance_ext t2 ON t1.proc_inst_id = t2.proc_inst_id
+        <where>
+            <if test="req.approverId != null">
+                AND t1.created_by  = #{req.approverId}
+            </if>
+            <if test="req.procDefName != null and req.procDefName != ''">
+                AND t2.proc_def_name LIKE CONCAT(#{req.procDefName, jdbcType=VARCHAR},'%')
+            </if>
+            <if test="req.procTaskName != null and req.procTaskName != ''">
+                AND t1.proc_task_name LIKE CONCAT(#{req.procTaskName, jdbcType=VARCHAR},'%')
+            </if>
+            <if test="req.procInstName != null and req.procInstName != ''">
+                AND t2.proc_inst_name LIKE CONCAT(#{req.procInstName, jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        ORDER BY t1.id DESC
+    </select>
+
+</mapper>
