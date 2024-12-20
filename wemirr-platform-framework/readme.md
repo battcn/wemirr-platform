@@ -18,10 +18,6 @@ oauth2.1 增强实现
 
 基于 Redis 实现的分布式组件
 
-## storage-spring-boot-starter
-
-文件存储，支持常规OSS
-
 ## websocket-spring-boot-starter
 
 基于 redis 的 分布式websocket实现
