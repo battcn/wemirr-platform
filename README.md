@@ -143,11 +143,6 @@ docker run -d  -p 5671:5671 -p 5672:5672  -p 15672:15672 -p 15671:15671  -p 2567
 docker pull bladex/sentinel-dashboard
 docker run -i -t -d -p 8858:8858 -p 8719:8719  bladex/sentinel-dashboard
 
-## 非必须 =>  如果你没有过多的定时任务也没有对任务进行管理的要求， xxl-job 也是非必须品
-安装 XXL-JOB-ADMIN(如果数据库也是docker 运行需要配置统一网络 例如： docker network create wemirr )
-docker pull xuxueli/xxl-job-admin:2.3.0
-docker run -e PARAMS="--spring.datasource.username=root --spring.datasource.password=123456 --spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver --spring.datasource.url=jdbc:mysql://127.0.0.1:3306/wemirr-platform?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true" -p 9999:8080 -v /Users/battcn/Development:/data/applogs --name xxl-job-admin  -d xuxueli/xxl-job-admin:2.3.0
-
 ##非必须 => 安装 skywalking（如果你公司没运维，那你大概率用不上 skywalking 如不需要使用那后面的命令都可以不用看了 ）
 # 8.7.0 启动有问题
 
