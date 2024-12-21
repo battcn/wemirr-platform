@@ -110,7 +110,6 @@ public abstract class BaseMybatisConfiguration {
     public PaginationInnerInterceptor paginationInnerInterceptor(final DatabaseProperties.Pagination pagination) {
         // 新增MYSQL分页拦截器,一定要先设置租户判断后才进行分页拦截设置
         PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(pagination.getDbType());
-        paginationInnerInterceptor.setMaxLimit(pagination.getMaxLimit());
         paginationInnerInterceptor.setOverflow(pagination.isOverflow());
         paginationInnerInterceptor.setDialect(pagination.getDialect());
         return paginationInnerInterceptor;
