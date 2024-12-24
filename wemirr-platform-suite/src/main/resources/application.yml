@@ -1,6 +1,10 @@
 server:
   port: 5001
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
   application:
     name: wemirr-platform-suite
   config:

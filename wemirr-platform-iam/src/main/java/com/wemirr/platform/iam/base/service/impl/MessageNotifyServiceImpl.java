@@ -78,7 +78,7 @@ public class MessageNotifyServiceImpl extends SuperServiceImpl<MessageNotifyMapp
                 .map(user -> {
                     List<String> typeList = StrUtil.split(template.getType(), ",");
                     return typeList.stream().map(type -> MessageNotify.builder().userId(user.getId())
-                            .templateId(template.getId()).variables(JSON.toJSONString(variables))
+                            .templateId(template.getId()).variables(variables.toJSONString())
                             .title(template.getSubject()).type(type)
                             .content(content).nickname(user.getNickName())
                             .tenantId(context.tenantId())
