@@ -7,8 +7,10 @@ spring:
     allow-bean-definition-overriding: true
   cloud:
     nacos:
+      server-addr: 127.0.0.1:8848
       discovery:
-        server-addr: localhost:8848
+        server-addr: ${spring.cloud.nacos.server-addr}
+        namespace: v3-dev
   security:
     user:
       name: "admin"
@@ -30,11 +32,3 @@ management:
   endpoint:
     health:
       show-details: ALWAYS  #显示详细信息
-
----
-spring:
-  profiles:
-    active: prod
-  boot:
-    admin:
-      context-path: /monitor
