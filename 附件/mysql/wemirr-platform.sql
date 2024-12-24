@@ -11,7 +11,7 @@
  Target Server Version : 80029 (8.0.29)
  File Encoding         : 65001
 
- Date: 18/12/2024 16:57:03
+ Date: 24/12/2024 14:37:47
 */
 
 SET NAMES utf8mb4;
@@ -45,7 +45,7 @@ CREATE TABLE `b_message_channel` (
 BEGIN;
 INSERT INTO `b_message_channel` (`id`, `title`, `type`, `status`, `setting`, `tenant_id`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1864537666578714625, '系统内置', 'system', b'1', NULL, 1, '系统内置 webstock 消息', b'0', NULL, NULL, '2024-12-05 13:09:56', NULL, NULL, '2024-12-05 14:17:23');
 INSERT INTO `b_message_channel` (`id`, `title`, `type`, `status`, `setting`, `tenant_id`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1864543691579056130, '213123', NULL, b'1', NULL, 1, '12312', b'0', NULL, NULL, '2024-12-05 13:33:52', NULL, NULL, '2024-12-05 05:58:16');
-INSERT INTO `b_message_channel` (`id`, `title`, `type`, `status`, `setting`, `tenant_id`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1864548132428439554, '腾讯邮箱', 'email', b'1', '{\"id\": \"1864548132428439554\", \"host\": \"smtp.qq.com\", \"port\": \"465\", \"smtp\": {\"ssl\": true, \"auth\": true}, \"type\": \"email\", \"title\": \"腾讯邮箱\", \"status\": true, \"password\": \"1234\", \"protocol\": \"smtp\", \"tenantId\": \"1\", \"username\": \"1234@qq.com\", \"description\": \"描述\"}', 1, '描述', b'0', NULL, NULL, '2024-12-05 13:51:31', NULL, NULL, '2024-12-05 06:31:14');
+INSERT INTO `b_message_channel` (`id`, `title`, `type`, `status`, `setting`, `tenant_id`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1864548132428439554, '腾讯邮箱', 'email', b'1', '{\"id\": \"1864548132428439554\", \"host\": \"smtp.qq.com\", \"port\": \"465\", \"smtp\": {\"ssl\": true, \"auth\": true}, \"type\": \"email\", \"title\": \"腾讯邮箱\", \"status\": true, \"password\": \"123\", \"protocol\": \"smtp\", \"tenantId\": \"1\", \"username\": \"123@qq.com\", \"description\": \"描述\"}', 1, '描述', b'0', NULL, NULL, '2024-12-05 13:51:31', NULL, NULL, '2024-12-05 06:31:14');
 COMMIT;
 
 -- ----------------------------
@@ -71,8 +71,28 @@ CREATE TABLE `b_message_notify` (
   `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1868884501967917059 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='消息通知';
+) ENGINE=InnoDB AUTO_INCREMENT=1871423081856249858 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='消息通知';
 
+-- ----------------------------
+-- Records of b_message_notify
+-- ----------------------------
+BEGIN;
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1868884501955334145, '系统消息', 'email', 1863835249327370241, '{\"username\":\"1\"}', '欢迎 1 来到 WP 系统', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-17 13:02:42', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1868884501963722753, '系统消息', 'ding-talk', 1863835249327370241, '{\"username\":\"1\"}', '欢迎 1 来到 WP 系统', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-17 13:02:42', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1868884501967917058, '系统消息', 'sms', 1863835249327370241, '{\"username\":\"1\"}', '欢迎 1 来到 WP 系统', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-17 13:02:42', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871391176511336450, '系统消息', 'email', 1863835249327370241, '{\"username\":\"1\"}', '欢迎 1 来到 WP 系统', 24, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 11:03:20', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871391176616194050, '系统消息', 'ding-talk', 1863835249327370241, '{\"username\":\"1\"}', '欢迎 1 来到 WP 系统', 24, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 11:03:20', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871391176721051650, '系统消息', 'sms', 1863835249327370241, '{\"username\":\"1\"}', '欢迎 1 来到 WP 系统', 24, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 11:03:20', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871391823688249346, '系统消息', 'email', 1863835249327370241, '{\"username\":\"\"}', '欢迎  来到 WP 系统', 1863475850498969601, '2323', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 11:05:54', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871391823797301250, '系统消息', 'ding-talk', 1863835249327370241, '{\"username\":\"\"}', '欢迎  来到 WP 系统', 1863475850498969601, '2323', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 11:05:54', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871391823910547458, '系统消息', 'sms', 1863835249327370241, '{\"username\":\"\"}', '欢迎  来到 WP 系统', 1863475850498969601, '2323', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 11:05:54', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871422439070773250, '系统消息', 'email', 1863835249327370241, '{\"username\":\"2133\",\"key_1\":\"123123\"}', '欢迎 2133 来到 WP 系统', 1863475850498969601, '2323', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 13:07:33', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871422439179825153, '系统消息', 'ding-talk', 1863835249327370241, '{\"username\":\"2133\",\"key_1\":\"123123\"}', '欢迎 2133 来到 WP 系统', 1863475850498969601, '2323', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 13:07:33', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871422439293071361, '系统消息', 'sms', 1863835249327370241, '{\"username\":\"2133\",\"key_1\":\"123123\"}', '欢迎 2133 来到 WP 系统', 1863475850498969601, '2323', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 13:07:33', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871423081650728961, '系统消息', 'email', 1863835249327370241, '{\"username\":\"测试一下\"}', '欢迎 测试一下 来到 WP 系统', 24, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 13:10:07', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871423081759780865, '系统消息', 'ding-talk', 1863835249327370241, '{\"username\":\"测试一下\"}', '欢迎 测试一下 来到 WP 系统', 24, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 13:10:07', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871423081856249857, '系统消息', 'sms', 1863835249327370241, '{\"username\":\"测试一下\"}', '欢迎 测试一下 来到 WP 系统', 24, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 13:10:07', NULL, NULL, NULL);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for b_message_template
@@ -796,11 +816,16 @@ CREATE TABLE `sys_resource` (
 BEGIN;
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, '平台管理', NULL, 0, '/plat', 'BasicLayout', 1, 'clarity-thin-client-line', 'directory', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (3, '系统管理', NULL, 0, '/sys', 'BasicLayout', 3, 'ant-design:dashboard-filled', 'directory', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (11, '审批管理', NULL, 0, '/bpm', 'BasicLayout', 11, 'ant-design:appstore-twotone', 'directory', b'1', NULL, b'0', b'0', b'1', '', b'0', NULL, NULL, '2022-09-09 14:55:58', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (15, '运输管理', NULL, 0, '/tms/management', 'BasicLayout', 10, 'ant-design:dropbox-outlined', 'directory', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 04:57:58', 1, '长风一梦8888', NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (16, '仓储管理', NULL, 0, '/wms', 'BasicLayout', 16, 'ant-design:home-twotone', 'directory', b'1', NULL, b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 04:57:58', 1, '长风一梦8888', '2024-05-28 16:59:43');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (50, '开发平台', NULL, 0, '/dev', 'BasicLayout', 50, 'ant-design:appstore-add-outlined', 'directory', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (104, '租户管理', NULL, 1, '/plat/tenant', NULL, 104, 'ant-design:code-sandbox-outlined', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (105, '产品管理', NULL, 1, '/plat/product', NULL, 105, 'icon-park-outline:ad-product', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', NULL, NULL, '2023-09-23 06:54:15', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (107, '数据配置', NULL, 1, '/plat/setting', NULL, 107, 'file-icons:config-coffeescript', 'menu', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (151, '运输资源', NULL, 15, '/tms/resource', NULL, 0, 'ant-design:control-filled', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 05:03:59', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (152, '车辆维保', NULL, 15, '/tms/maintenance', NULL, 1, 'ant-design:mail-twotone', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-07 10:08:49', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (153, '订单管理', NULL, 15, '/tms/order', NULL, 1, 'material-symbols:order-approve-sharp', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-10-07 14:33:32', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (160, '基础管理', NULL, 16, '/wms/basic', NULL, 160, 'ant-design:mac-command-outlined', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 05:03:59', 1, '长风一梦8888', '2024-05-28 16:59:53');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (161, '数据管理', NULL, 16, '/wms/metadata', NULL, 161, 'ant-design:calendar-twotone', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2024-06-20 23:03:10', 1, '长风一梦8888', '2024-06-20 23:15:15');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (162, '入库管理', NULL, 16, '/wms/inbound', NULL, 162, 'uiw:login', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2024-06-20 23:03:10', 1, '长风一梦8888', '2024-07-25 15:47:09');
@@ -816,6 +841,8 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (310, '运维监控', NULL, 3, '/sys/monitor', NULL, 310, 'lucide:monitor-cog', 'menu', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (320, '存储管理', NULL, 3, '/sys/oss', NULL, 320, 'carbon:ibm-cloud-vpc-file-storage', 'menu', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (350, '安全中心', NULL, 1, '/plat/security', NULL, 350, 'carbon-application', 'menu', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1101, '流程设置', NULL, 11, '/bpm/setting', 'Layout', 11, 'ant-design:delivered-procedure-outlined', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', NULL, NULL, '2022-09-09 14:55:58', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1102, '审批办公', NULL, 11, '/bpm/approval', 'Layout', 11, 'ant-design:appstore-add-outlined', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', NULL, NULL, '2022-10-20 07:42:59', 1, '长风一梦8888', NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (5003, '在线开发', NULL, 50, '/dev/online', '', 5003, 'material-symbols:home-work-outline-rounded', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', NULL, NULL, '2024-12-12 13:11:50', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (5005, '网关管理', NULL, 50, '/dev/gateway', NULL, 5005, 'ant-design:gateway-outlined', 'menu', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (5008, '代码生成', NULL, 50, '/dev/gen', '/wemirr/development/generate/code/index', 5008, 'streamline:ai-generate-variation-spark-solid', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', NULL, NULL, '2024-12-12 13:11:50', NULL, NULL, NULL);
@@ -827,6 +854,17 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (10503, '产品订阅', 'plat:product:subscribe', 105, '/platform/product/subscribe', '/wemirr/platform/product/subscribe/index', 3, 'material-symbols:package-2-sharp', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', NULL, NULL, '2023-09-23 06:59:39', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (10706, '数据字典', 'dict:list', 107, '/plat/setting/dict', '/wemirr/platform/basic/dict/index', 10706, 'bx-bxs-data', 'menu', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (10707, '地区信息', NULL, 107, '/plat/setting/area', '/wemirr/platform/basic/area/index', 10707, 'ant-design:area-chart-outlined', 'menu', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (15101, '司机管理', NULL, 151, '/tms/resource/driver', '/wemirr/tms/resource/driver/index', 0, 'ant-design:dribbble-outlined', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 05:05:43', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (15102, '车辆管理', NULL, 151, '/tms/resource/truck', '/wemirr/tms/resource/truck/index', 0, 'ant-design:car-twotone', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 05:05:43', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (15103, '车队管理', NULL, 151, '/tms/resource/fleet', '/wemirr/tms/resource/fleet/index', 0, 'ant-design:safety-certificate-twotone', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 05:05:43', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (15201, '配件采购', NULL, 152, '/tms/maintenance/purchase', '/wemirr/tms/maintenance/purchase/index', 0, 'ant-design:delivered-procedure-outlined', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 05:05:43', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (15202, '车辆维修', NULL, 152, '/tms/maintenance/repair', '/wemirr/tms/maintenance/repair/index', 0, 'ant-design:dribbble-square-filled', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 05:05:43', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (15203, '车辆保养', NULL, 152, '/tms/maintenance/maintenance', '/wemirr/tms/maintenance/maintenance/index', 0, 'ant-design:mail-outlined', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 05:05:43', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (15204, '车辆违章', NULL, 152, '/tms/maintenance/peccancy', '/wemirr/tms/maintenance/peccancy/index', 0, 'ant-design:snippets-filled', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 05:05:43', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (15205, '车辆规费', NULL, 152, '/tms/maintenance/expense', '/wemirr/tms/maintenance/expense/index', 0, 'ant-design:experiment-twotone', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 05:05:43', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (15206, '车辆事故', NULL, 152, '/tms/maintenance/accident', '/wemirr/tms/maintenance/accident/index', 0, 'ant-design:warning-twotone', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 05:05:43', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (15207, '配件库存', NULL, 152, '/tms/maintenance/inventory', '/wemirr/tms/maintenance/inventory/index', 0, 'ant-design:compass-filled', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 05:05:43', 1, '长风一梦8888', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (15301, '订单中心', NULL, 153, '/tms/order/list', '/wemirr/tms/order/index', 0, 'icon-park-outline:transaction-order', 'menu', b'1', b'1', b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2023-09-05 05:05:43', 1, '长风一梦8888', NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (16101, '计量单位', NULL, 161, '/wms/metadata/unit', '/wemirr/wms/metadata/unit/index', 16101, 'ant-design:border-inner-outlined', 'menu', b'0', NULL, b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2024-06-24 14:40:46', 1, '长风一梦8888', '2024-06-25 16:36:06');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (16102, '单位转换', NULL, 161, '/wms/metadata/unit-conv', '/wemirr/wms/metadata/unit/conv/index', 16102, 'ant-design:block-outlined', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2024-06-24 14:41:17', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (16103, '供应商管理', NULL, 161, '/wms/metadata/supplier', '/wemirr/wms/metadata/supplier/index', 16103, 'ant-design:aliwangwang-filled', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', 1, '长风一梦8888', '2024-07-02 10:51:27', 1, '长风一梦8888', '2024-07-25 15:46:54');
@@ -853,9 +891,16 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (31003, '在线用户', 'monitor:online:token-list', 310, '/sys/monitor/online', '/wemirr/system/monitor/online/index', 31003, 'mdi:account-online-outline', 'menu', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (31005, '登录日志', 'monitor:log:login', 310, '/sys/monitor/login-log', '/wemirr/system/log/login-log', 31005, 'mdi:account-security-outline', 'menu', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (31006, '操作日志', 'monitor:log:opt', 310, '/sys/monitor/opt-log', '/wemirr/system/log/opt-log', 31006, 'carbon-operation', 'menu', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (32002, '文件管理', '', 320, '/sys/oss/file', '/wemirr/system/storage/file/index', 32002, 'hugeicons:folder-attachment', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-15 22:40:52');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (32003, '配置管理', '', 320, '/sys/oss/setting', '/wemirr/system/storage/setting/index', 32003, 'ep:setting', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-15 22:40:43');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (32002, '文件管理', '', 320, '/sys/storage/file', '/wemirr/system/storage/file/index', 32002, 'hugeicons:folder-attachment', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-15 22:40:52');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (32003, '配置管理', '', 320, '/sys/storage/setting', '/wemirr/system/storage/setting/index', 32003, 'ep:setting', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-15 22:40:43');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (35005, '应用管理', 'plat:app:page', 350, '/plat/security/app', '/wemirr/platform/security/app/index', 35005, 'streamline:application-add-solid', 'menu', b'1', NULL, b'0', b'0', b'1', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (110101, '模型管理', NULL, 1101, '/bpm/process/model', '/wemirr/bpm/process/model/index', 0, 'ant-design:align-center-outlined', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', 1603373363570712578, '不会说话的人', '2023-02-23 05:42:40', 1603373363570712578, '不会说话的人', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (110102, '流程类别', NULL, 1101, '/bpm/process/category', '/wemirr/bpm/process/category/index', 0, 'ant-design:ant-design-outlined', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', 1603373363570712578, '不会说话的人', '2023-02-23 06:26:07', 1603373363570712578, '不会说话的人', NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (110107, '创建模型', 'process:design:add', 1101, '/bpm/process/design', '/wemirr/bpm/process/model/workflow', 110107, 'arcticons:efa-publish', 'menu', b'1', NULL, b'0', b'0', b'0', NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (110201, '创建流程', NULL, 1102, '/bpm/process/create', '/wemirr/bpm/process/create/index', 0, 'gridicons:create', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', 1603373363570712578, '不会说话的人', '2023-02-23 07:16:04', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (110202, '任务列表', NULL, 1102, '/bpm/task/list', '/wemirr/bpm/task/list/index', 20, 'ant-design:ant-design-outlined', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', 1603373363570712578, '不会说话的人', '2023-02-23 07:18:42', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (110203, '历史任务', NULL, 1102, '/bpm/task/history', '/wemirr/bpm/task/history/index', 30, 'ant-design:appstore-add-outlined', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', 1603373363570712578, '不会说话的人', '2023-02-23 07:42:27', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (110204, '流程列表', NULL, 1102, '/bpm/process/list', '/wemirr/bpm/process/list/index', 10, 'ant-design:shake-outlined', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', 1603373363570712578, '不会说话的人', '2023-02-23 07:16:04', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (160001, '巷道管理', 'wms:aisle:view', 160, '/wms/basis/aisle', '/wemirr/wms/basic/aisle/index', 160001, 'ant-design:borderless-table-outlined', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', NULL, NULL, '2024-04-10 13:21:33', 1, '长风一梦8888', '2024-06-20 22:49:34');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (160002, '容器管理', 'wms:container:view', 160, '/wms/basis/container', '/wemirr/wms/basic/container/index', 160002, 'ant-design:code-sandbox-outlined', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', NULL, NULL, '2024-04-10 13:21:33', 1, '长风一梦8888', '2024-06-20 22:50:47');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `description`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (160005, '月台管理', 'wms:dock:view', 160, '/wms/basis/dock', '/wemirr/wms/basic/dock/index', 160005, 'ant-design:car-filled', 'menu', b'1', NULL, b'0', b'0', b'1', '', b'0', NULL, NULL, '2024-04-10 13:21:33', 1, '长风一梦8888', '2024-06-20 23:02:30');
@@ -954,117 +999,142 @@ CREATE TABLE `sys_role_res` (
 -- Records of sys_role_res
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 50, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 104, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 105, '2024-12-18 08:26:16');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 107, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 161, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 162, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 163, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 164, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 165, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 166, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 301, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 302, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 303, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 306, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 310, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 320, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 350, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1601, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 5003, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 5005, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 5008, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 5050, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10401, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10402, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10501, '2024-12-18 08:26:20');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10502, '2024-12-18 08:26:22');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10503, '2024-12-18 08:26:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10706, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10707, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16101, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16102, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16103, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16108, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16201, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16408, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16601, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16608, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30101, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30102, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30103, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30201, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30202, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30301, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30303, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30604, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30605, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30606, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30607, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30608, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 31003, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 31005, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 31006, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 32002, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 32003, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 35005, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160001, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160002, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160005, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160006, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160010, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160011, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160012, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 161001, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 161002, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 161003, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 162002, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 163001, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 163002, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 164001, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 165001, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 165002, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 500301, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 500501, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 500502, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 500503, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1040101, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1040102, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1040103, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1040105, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1040106, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1040107, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1070601, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1070602, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1070603, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1070605, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010101, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010102, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010103, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010104, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010201, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010202, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010203, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010301, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010302, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010303, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020101, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020102, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020103, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020201, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020202, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020203, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020207, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020208, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3060501, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3060502, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3060503, '2024-12-17 13:07:24');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3060504, '2024-12-17 13:07:24');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 11, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 15, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 50, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 104, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 105, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 107, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 151, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 152, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 153, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 161, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 162, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 163, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 164, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 165, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 166, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 168, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 301, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 302, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 303, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 306, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 310, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 320, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 350, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1101, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1102, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 5003, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 5005, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 5008, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 5050, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10401, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10402, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10501, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10502, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10503, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10706, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 10707, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 15101, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 15102, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 15103, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 15201, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 15202, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 15203, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 15204, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 15205, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 15206, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 15207, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 15301, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16101, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16102, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16103, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16108, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16201, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16401, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16408, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16501, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16502, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16601, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 16608, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30101, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30102, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30103, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30201, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30202, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30301, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30303, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30604, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30605, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30606, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30607, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 30608, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 31003, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 31005, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 31006, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 32002, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 32003, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 35005, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 110101, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 110102, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 110107, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 110201, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 110202, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 110203, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 110204, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160001, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160002, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160005, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160006, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160010, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160011, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 160012, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 161001, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 161002, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 161003, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 162002, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 163001, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 163002, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 500301, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 500501, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 500502, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 500503, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1040101, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1040102, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1040103, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1040105, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1040106, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1040107, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1070601, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1070602, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1070603, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 1070605, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010101, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010102, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010103, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010104, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010201, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010202, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010203, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010301, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010302, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3010303, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020101, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020102, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020103, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020201, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020202, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020203, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020207, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3020208, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3060501, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3060502, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3060503, '2024-12-19 15:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `created_time`) VALUES (1, 3060504, '2024-12-19 15:57:09');
 COMMIT;
 
 -- ----------------------------
@@ -1206,7 +1276,7 @@ CREATE TABLE `t_file_storage` (
   `last_modified_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
   `last_modified_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1868879288737353730 DEFAULT CHARSET=utf8mb3 COMMENT='文件记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=1871433068846501891 DEFAULT CHARSET=utf8mb3 COMMENT='文件记录表';
 
 -- ----------------------------
 -- Records of t_file_storage
@@ -1214,6 +1284,15 @@ CREATE TABLE `t_file_storage` (
 BEGIN;
 INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1868878857646768129, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676100b07090747e073e4234.png', 116918, '114.18 KB', '676100b07090747e073e4234.png', '系统架构图.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-17 12:40:16', NULL, NULL, NULL);
 INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1868879288737353729, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/67610116e30e4578789e9754.png', 116918, '114.18 KB', '67610116e30e4578789e9754.png', '92947efb109647c3a85ab714dbc9b4d2.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-17 12:41:59', NULL, NULL, NULL);
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870306052155793409, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676631ddd59052dfcedc752c.png', 119015, '116.23 KB', '676631ddd59052dfcedc752c.png', 'c34a57b14bdc4a0b876918d7d5f0de1c.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-21 11:11:26', NULL, NULL, NULL);
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870307007752462338, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676632c1d59052dfcedc752d.png', 119015, '116.23 KB', '676632c1d59052dfcedc752d.png', '92947efb109647c3a85ab714dbc9b4d2 (2).png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-21 11:15:14', NULL, NULL, NULL);
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870307381972459521, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/6766331bd59052dfcedc752e.png', 119015, '116.23 KB', '6766331bd59052dfcedc752e.png', '92947efb109647c3a85ab714dbc9b4d2 (1).png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-21 11:16:43', NULL, NULL, NULL);
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870307630417862657, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/67663356d59052dfcedc752f.png', 119015, '116.23 KB', '67663356d59052dfcedc752f.png', 'c34a57b14bdc4a0b876918d7d5f0de1c.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-21 11:17:42', NULL, NULL, NULL);
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870307909485879297, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/67663398d59052dfcedc7530.png', 119015, '116.23 KB', '67663398d59052dfcedc7530.png', '系统架构图.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-21 11:18:49', NULL, NULL, NULL);
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870308798833516546, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/6766346cd59052dfcedc7531.png', 119015, '116.23 KB', '6766346cd59052dfcedc7531.png', '系统架构图.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'1', '1', '平台管理员', '2024-12-21 11:22:21', '1', '平台管理员', '2024-12-23 11:17:43');
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870308881964621825, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/67663480d59052dfcedc7532.png', 212103, '207.13 KB', '67663480d59052dfcedc7532.png', '数据串联.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-21 11:22:41', NULL, NULL, NULL);
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871432483258683394, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676a4af0ca327d0083c8536e.txt', 15114, '14.76 KB', '676a4af0ca327d0083c8536e.txt', '生产环境异常.txt', 'dev/', '', 'txt', 'text/plain', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'OTHER', 1, b'0', '1', '平台管理员', '2024-12-24 13:47:28', NULL, NULL, NULL);
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871433068846501890, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676a4b7bca3270ea84f73f41.pdf', 1100369, '1.05 MB', '676a4b7bca3270ea84f73f41.pdf', '海信VPN客户端安装使用手册.pdf', 'dev/', '', 'pdf', 'application/pdf', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'DOCUMENT', 1, b'0', '1', '平台管理员', '2024-12-24 13:49:48', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1487,13 +1566,760 @@ CREATE TABLE `t_user` (
 -- Records of t_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '平台管理员', 100, 100, b'0', '1837307557@qq.com', '13002171111', '111111111', 1, b'1', 'https://img.zcool.cn/community/010cb65e205811a80120a895cf85b3.jpg@1280w_1l_2o_100sh.jpg', '平台最帅的超级管理员', 'mz_daiz', 'SUOSHI', 'QUIT', '2023-10-14', '0:0:0:0:0:0:0:1', '2024-12-18 16:27:45', b'0', 0, NULL, '2020-10-16 03:25:36', NULL, NULL, '2024-12-18 16:27:45');
+INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '平台管理员', 100, 100, b'0', '1837307557@qq.com', '13002171111', '111111111', 1, b'1', 'http://127.0.0.1:19000/wp-local/dev/6766346cd59052dfcedc7531.png', '平台最帅的超级管理员', 'mz_daiz', 'SUOSHI', 'QUIT', '2023-10-14', '0:0:0:0:0:0:0:1', '2024-12-24 10:19:10', b'0', 0, NULL, '2020-10-16 03:25:36', NULL, NULL, '2024-12-24 10:19:10');
 INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (23, 1, 'test', '{bcrypt}$2a$10$j1U0rIRl8ODzc2j5rkLx8OSvjjEZ.cJ/Xe8DzkqL2jgAyX2c3x.4C', '444', NULL, NULL, b'0', '1837307557@qq.com', '13002171921', NULL, 1, b'0', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, b'1', 1, '长风一梦8888', '2022-12-04 08:05:29', NULL, NULL, '2024-12-07 14:34:19');
-INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (24, 1, 'admin2', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '测试管理员', 100, 100, b'0', '1837307557@qq.com', '13002171921', NULL, 1, b'1', '', '修改描述信息吧222', 'mz_daiz', 'XIAOXUE', 'QUIT', NULL, '0:0:0:0:0:0:0:1', '2024-12-07 22:34:47', b'0', 1, '长风一梦8888', '2023-02-21 01:17:43', NULL, NULL, '2024-12-07 22:34:47');
+INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (24, 1, 'admin2', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '测试管理员', 100, 100, b'0', '1837307557@qq.com', '13002171921', NULL, 1, b'1', 'http://127.0.0.1:19000/wp-local/dev/67663480d59052dfcedc7532.png', '修改描述信息吧222', 'mz_daiz', 'XIAOXUE', 'QUIT', NULL, '0:0:0:0:0:0:0:1', '2024-12-07 22:34:47', b'0', 1, '长风一梦8888', '2023-02-21 01:17:43', 1, '平台管理员', '2024-12-21 11:22:43');
 INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1710534752819261442, 2, 'admin', '{bcrypt}$2a$10$VjkzPHKfMoN0ZNLJSl.PkOWx9LVA7BqLmcI6sgyvzpe5D1INtm8xe', '雷军', NULL, NULL, b'0', '1837307557@qq.com', '13002176666', NULL, 1, b'1', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, b'1', 1, '长风一梦8888', NULL, 0, NULL, '2024-12-05 15:36:32');
 INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1725059377381027842, 1, 'admin3', '{bcrypt}$2a$10$oaKlJc26SNFT4obD4B0aOOil12YtKH7/yyayzhbGrLrWyAgc.X.Ji', 'admin3', 10001, 104, b'0', '1837307557@qq.com', '13002171934', NULL, 2, b'0', '', NULL, NULL, NULL, 'QUIT', NULL, NULL, NULL, b'1', 1, '长风一梦0000', '2023-11-16 15:53:00', 1, '长风一梦000011', '2024-12-05 15:36:32');
-INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1863475850498969601, 1, 'guoxue', '{bcrypt}$2a$10$cLEEmhkxOWcRamyIy79dKuUleCXfNZmk5EwaZxNa/3/6BglOnEokm', '2323', 10001, 101, b'0', '1837307557@qq.com', '13002171933', NULL, 1, b'1', '', '11', 'mz_lhz', 'COLLEGE', 'WORKING', NULL, '0:0:0:0:0:0:0:1', '2024-12-09 14:56:49', b'0', NULL, NULL, '2024-12-02 14:50:39', 1, '平台管理员', '2024-12-12 20:48:21');
+INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1863475850498969601, 1, 'guoxue', '{bcrypt}$2a$10$cLEEmhkxOWcRamyIy79dKuUleCXfNZmk5EwaZxNa/3/6BglOnEokm', '2323', 10001, 101, b'0', '1837307557@qq.com', '13002171933', NULL, 1, b'1', 'http://127.0.0.1:19000/wp-local/dev/67663398d59052dfcedc7530.png', '11', 'mz_lhz', 'COLLEGE', 'WORKING', NULL, '0:0:0:0:0:0:0:1', '2024-12-09 14:56:49', b'0', NULL, NULL, '2024-12-02 14:50:39', 1, '平台管理员', '2024-12-21 11:18:52');
 INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1865599612446965761, 3, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '马化腾', NULL, NULL, b'0', NULL, '13002178888', NULL, 1, b'1', '', NULL, NULL, NULL, NULL, NULL, '0:0:0:0:0:0:0:1', '2024-12-12 14:39:10', b'0', NULL, NULL, '2024-12-08 11:29:43', NULL, NULL, '2024-12-12 14:39:10');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_accident
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_accident`;
+CREATE TABLE `tms_accident` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '事故ID',
+  `accident_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '事故编号',
+  `truck_id` bigint DEFAULT NULL COMMENT '卡车ID',
+  `plate_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号',
+  `driver_id` bigint DEFAULT NULL COMMENT '驾驶员ID',
+  `driver_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶员姓名',
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '事故地点',
+  `responsible_party` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '责任方',
+  `accident_amount` decimal(10,2) NOT NULL COMMENT '事故金额',
+  `accident_date` date DEFAULT NULL COMMENT '事故日期',
+  `agent_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '经办人姓名',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+  `deleted` bit(1) DEFAULT b'0',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '修改人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1739954453250420738 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='车辆事故表';
+
+-- ----------------------------
+-- Records of tms_accident
+-- ----------------------------
+BEGIN;
+INSERT INTO `tms_accident` (`id`, `accident_no`, `truck_id`, `plate_no`, `driver_id`, `driver_name`, `address`, `responsible_party`, `accident_amount`, `accident_date`, `agent_name`, `remark`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700845402592829442, 'TEN202309100001', 11, NULL, 11, NULL, '11', '11', 112.00, '2023-09-08', '121', '212', NULL, 1, '长风一梦8888', '2023-09-10 12:15:18', NULL, NULL, NULL);
+INSERT INTO `tms_accident` (`id`, `accident_no`, `truck_id`, `plate_no`, `driver_id`, `driver_name`, `address`, `responsible_party`, `accident_amount`, `accident_date`, `agent_name`, `remark`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1739954453250420737, 'TAN202312270001', 1739846242807664641, NULL, 1, NULL, '123123', '123', 132.00, '2023-12-27', '123', '123123', b'0', 1, '长风一梦8888', '2023-12-27 18:20:43', 1, '长风一梦8888', '2023-12-27 18:23:34');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_driver
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_driver`;
+CREATE TABLE `tms_driver` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '驾驶员ID',
+  `id_card_no` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证号',
+  `id_card_start_date` date DEFAULT NULL COMMENT '身份证有效期开始日期',
+  `id_card_end_date` date DEFAULT NULL COMMENT '身份证有效期结束日期',
+  `license_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证号',
+  `license_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证类型',
+  `driver_license_start` date DEFAULT NULL COMMENT '驾驶证有效期开始日期',
+  `driver_license_end` date DEFAULT NULL COMMENT '驾驶证有效期结束日期',
+  `driver_license_issue_org` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证发放机关',
+  `certificate_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '证书编号',
+  `certificate_start` date DEFAULT NULL COMMENT '证书有效期开始日期',
+  `certificate_end` date DEFAULT NULL COMMENT '证书有效期结束日期',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
+  `tenant_id` int DEFAULT NULL COMMENT '租户ID',
+  `enabled` tinyint(1) DEFAULT NULL COMMENT '启用状态',
+  `file_portrait_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '人像照片ID',
+  `file_id_card_front` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证正面照片ID',
+  `file_id_card_back` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证背面照片ID',
+  `file_driver_license` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证照片ID',
+  `file_certificate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '证书照片ID',
+  `file_other` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '其他照片ID',
+  `real_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '真实姓名',
+  `mobile` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '手机号',
+  `adapt_id_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '适用证件号',
+  `driver_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶员类型',
+  `default_truck_id` bigint DEFAULT NULL COMMENT '默认车辆ID',
+  `adapt_id_issue_date` date DEFAULT NULL COMMENT '适用证件发放日期',
+  `adapt_id_due_date` date DEFAULT NULL COMMENT '适用证件有效期至',
+  `file_adapt_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '适用证件照片ID',
+  `approval_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批状态',
+  `bpm_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'BPM状态',
+  `approval_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批用户ID',
+  `approval_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批用户名',
+  `approval_desc` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '审批描述',
+  `deleted` bit(1) DEFAULT b'0',
+  `created_by` bigint NOT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1698999611146285058 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='司机信息表';
+
+-- ----------------------------
+-- Records of tms_driver
+-- ----------------------------
+BEGIN;
+INSERT INTO `tms_driver` (`id`, `id_card_no`, `id_card_start_date`, `id_card_end_date`, `license_code`, `license_type`, `driver_license_start`, `driver_license_end`, `driver_license_issue_org`, `certificate_code`, `certificate_start`, `certificate_end`, `remark`, `tenant_id`, `enabled`, `file_portrait_id`, `file_id_card_front`, `file_id_card_back`, `file_driver_license`, `file_certificate`, `file_other`, `real_name`, `mobile`, `adapt_id_no`, `driver_type`, `default_truck_id`, `adapt_id_issue_date`, `adapt_id_due_date`, `file_adapt_id`, `approval_status`, `bpm_status`, `approval_id`, `approval_name`, `approval_desc`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1, '431103199008255733', '2023-09-05', '2023-09-05', 'HX0102', 'C2', '2023-09-01', '2023-09-22', NULL, NULL, '2023-09-01', '2023-09-05', '备注信息', 1, 1, '1698991906406989826', '1698991906406989826', '1698991906406989826', '1698991906406989826', '1698991906406989826', '1698991906406989826', '哈哈哈', '13000001111', 'AI13213123', 'C2', 1739846242807664641, '2023-09-05', '2023-09-23', NULL, NULL, NULL, NULL, NULL, NULL, b'0', 1, '系统管理员', '2023-09-05 05:09:41', 1, '平台管理员', '2024-12-19 22:06:24');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_expense
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_expense`;
+CREATE TABLE `tms_expense` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `expense_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '费用编号',
+  `expense_item` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '费用项目',
+  `truck_id` bigint DEFAULT NULL COMMENT '卡车ID',
+  `plate_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号',
+  `expiry_date` date DEFAULT NULL COMMENT '到期日期',
+  `amount` decimal(10,2) DEFAULT NULL COMMENT '金额',
+  `handling_date` date DEFAULT NULL COMMENT '管理日期',
+  `agent_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '经办人姓名',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+  `deleted` bit(1) DEFAULT b'0',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '修改人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1739953184926445571 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='费用表';
+
+-- ----------------------------
+-- Records of tms_expense
+-- ----------------------------
+BEGIN;
+INSERT INTO `tms_expense` (`id`, `expense_no`, `expense_item`, `truck_id`, `plate_no`, `expiry_date`, `amount`, `handling_date`, `agent_name`, `remark`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700070891471699970, 'TEN202309080002', 'gps_fee', NULL, NULL, '2023-09-23', 222.00, '2023-09-15', '123', '123123', NULL, 1, '长风一梦8888', '2023-09-08 08:57:41', NULL, NULL, NULL);
+INSERT INTO `tms_expense` (`id`, `expense_no`, `expense_item`, `truck_id`, `plate_no`, `expiry_date`, `amount`, `handling_date`, `agent_name`, `remark`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1739952440613646337, 'TEN202312270001', 'strong_insurance', NULL, NULL, '2023-12-27', 123.00, '2023-12-27', '123', '231231', b'1', 1, '长风一梦8888', '2023-12-27 18:12:43', 1, '长风一梦8888', '2023-12-27 18:15:44');
+INSERT INTO `tms_expense` (`id`, `expense_no`, `expense_item`, `truck_id`, `plate_no`, `expiry_date`, `amount`, `handling_date`, `agent_name`, `remark`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1739953184926445570, 'TEN202312270002', 'commercial_insurance', 1739846242807664641, NULL, '2023-12-27', 213.00, '2023-12-27', '唐亚峰', '123123', b'0', 1, '长风一梦8888', '2023-12-27 18:15:41', NULL, NULL, NULL);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_fleet
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_fleet`;
+CREATE TABLE `tms_fleet` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '车辆ID',
+  `leader_real_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '队长姓名',
+  `leader_mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '队长手机号',
+  `leader_user_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '队长用户ID',
+  `fleet_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车队名称',
+  `remark` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+  `enabled` bit(1) DEFAULT b'1' COMMENT 'true = 启用/ false = 禁用',
+  `deleted` bit(1) DEFAULT b'0',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '修改人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1739849003846684674 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='运输车队';
+
+-- ----------------------------
+-- Records of tms_fleet
+-- ----------------------------
+BEGIN;
+INSERT INTO `tms_fleet` (`id`, `leader_real_name`, `leader_mobile`, `leader_user_id`, `fleet_name`, `remark`, `enabled`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1699703444549881857, '唐队长', '13002171912', '123', '车队A', '3123213', b'1', b'0', 1, '长风一梦8888', '2023-09-07 08:37:35', 1, '长风一梦0000', '2023-12-27 11:25:08');
+INSERT INTO `tms_fleet` (`id`, `leader_real_name`, `leader_mobile`, `leader_user_id`, `fleet_name`, `remark`, `enabled`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1739849003846684673, '12321', '13002171912', NULL, '车队A', '123123', b'1', b'0', 1, '长风一梦0000', '2023-12-27 11:21:42', 1, '长风一梦0000', '2023-12-27 11:25:05');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_order
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_order`;
+CREATE TABLE `tms_order` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `custom_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '客户单号',
+  `order_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '平台订单号;系统自动生成',
+  `waybill_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '运输单号',
+  `project_id` bigint NOT NULL COMMENT '项目id(dic_project.id)',
+  `project_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '项目名称(dic_project.name)',
+  `transport_type` int NOT NULL DEFAULT '0' COMMENT '运输方式(dic_transport_type.id)',
+  `cargo_desc` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '货物信息',
+  `quantity` int NOT NULL DEFAULT '0' COMMENT '总数量',
+  `detail_quantity` int DEFAULT '0' COMMENT '订单明细数量',
+  `gross_weight` decimal(20,5) DEFAULT '0.00000' COMMENT '毛重',
+  `volume` decimal(20,5) DEFAULT '0.00000' COMMENT '体积',
+  `qty_unit` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单位',
+  `check_quantity` int DEFAULT '0' COMMENT '确认数量',
+  `check_weight` decimal(20,5) DEFAULT '0.00000' COMMENT '确认重量',
+  `check_volume` decimal(20,5) DEFAULT '0.00000' COMMENT '确认体积',
+  `declare_value` decimal(20,2) DEFAULT '0.00' COMMENT '声明价值',
+  `etd` datetime DEFAULT NULL COMMENT '预计发货时间',
+  `atd` datetime DEFAULT NULL COMMENT '实际发货时间',
+  `eta` datetime DEFAULT NULL COMMENT '预计到达时间',
+  `ata` datetime DEFAULT NULL COMMENT '实际到达时间',
+  `pick_time` datetime DEFAULT NULL COMMENT '提货时间',
+  `pod_time` datetime DEFAULT NULL COMMENT '签收时间',
+  `latest_event_type` int DEFAULT '0' COMMENT '最后一个节点类型(dic_event_type.id)',
+  `latest_event_id` bigint DEFAULT NULL COMMENT '最后一个节点id(tms_order_event.id)',
+  `order_status` int NOT NULL DEFAULT '0' COMMENT '订单状态:-10取消,0新建,10提货,20到达始发站,30离开始发站,40到达目的站,50离开目的站,60签收,70回单,80完成',
+  `remark` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '订单备注',
+  `operator_id` bigint DEFAULT '0' COMMENT '操作人员ID(user.id)',
+  `transport_line_id` bigint DEFAULT '0' COMMENT '运输线路id(tms_transport_line.id)',
+  `has_epod` bit(1) DEFAULT b'0' COMMENT '是否有电子回单',
+  `source_type` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+  `deleted` bit(1) DEFAULT b'0',
+  `created_by` bigint NOT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `oo_system_no` (`custom_no`) USING BTREE,
+  KEY `oo_order_no` (`order_no`) USING BTREE,
+  KEY `oo_waybill_no` (`waybill_no`) USING BTREE,
+  KEY `oo_operator_id` (`operator_id`) USING BTREE,
+  KEY `oo_project_id` (`project_id`) USING BTREE,
+  KEY `oo_latest_event_type` (`latest_event_type`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1775347830765010946 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单表';
+
+-- ----------------------------
+-- Records of tms_order
+-- ----------------------------
+BEGIN;
+INSERT INTO `tms_order` (`id`, `custom_no`, `order_no`, `waybill_no`, `project_id`, `project_name`, `transport_type`, `cargo_desc`, `quantity`, `detail_quantity`, `gross_weight`, `volume`, `qty_unit`, `check_quantity`, `check_weight`, `check_volume`, `declare_value`, `etd`, `atd`, `eta`, `ata`, `pick_time`, `pod_time`, `latest_event_type`, `latest_event_id`, `order_status`, `remark`, `operator_id`, `transport_line_id`, `has_epod`, `source_type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (3, '', 'TEST001', 'WB001', 1, '万华化学危险品项目', 1, '货物1', 2, 100, 2000.10000, 3.30000, NULL, 0, 0.00000, 0.00000, 500.00, '2023-09-25 08:00:00', NULL, '2023-09-26 17:00:00', NULL, '2023-10-12 11:13:13', '2023-10-12 11:13:13', 0, 0, -10, '订单备注', 1, 0, b'0', 1, b'1', 1, '长风一梦8888', '2023-09-24 14:07:59', 1, '长风一梦8888', '2023-10-12 03:13:21');
+INSERT INTO `tms_order` (`id`, `custom_no`, `order_no`, `waybill_no`, `project_id`, `project_name`, `transport_type`, `cargo_desc`, `quantity`, `detail_quantity`, `gross_weight`, `volume`, `qty_unit`, `check_quantity`, `check_weight`, `check_volume`, `declare_value`, `etd`, `atd`, `eta`, `ata`, `pick_time`, `pod_time`, `latest_event_type`, `latest_event_id`, `order_status`, `remark`, `operator_id`, `transport_line_id`, `has_epod`, `source_type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (4, '', 'TEST001', 'WB001', 1, '万华化学危险品项目', 1, '货物1', 2, 100, 2000.10000, 3.30000, NULL, 0, 0.00000, 0.00000, 500.00, '2023-09-25 08:00:00', NULL, '2023-09-26 17:00:00', NULL, '2023-10-12 11:13:13', '2023-10-12 11:13:13', 0, 0, -10, '订单备注', 1, 0, b'0', 1, b'1', 1, '长风一梦8888', '2023-09-24 14:11:51', 1, '长风一梦8888', '2023-10-12 03:13:21');
+INSERT INTO `tms_order` (`id`, `custom_no`, `order_no`, `waybill_no`, `project_id`, `project_name`, `transport_type`, `cargo_desc`, `quantity`, `detail_quantity`, `gross_weight`, `volume`, `qty_unit`, `check_quantity`, `check_weight`, `check_volume`, `declare_value`, `etd`, `atd`, `eta`, `ata`, `pick_time`, `pod_time`, `latest_event_type`, `latest_event_id`, `order_status`, `remark`, `operator_id`, `transport_line_id`, `has_epod`, `source_type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (5, '', 'TEST001', 'WB001', 1, '万华化学危险品项目', 1, '货物1', 2, 100, 2000.10000, 3.30000, NULL, 0, 0.00000, 0.00000, 500.00, '2023-09-25 08:00:00', NULL, '2023-09-26 17:00:00', NULL, '2023-10-12 11:13:13', '2023-10-12 11:13:13', 0, 0, -10, '订单备注', 1, 0, b'0', 1, b'1', 1, '长风一梦8888', '2023-09-24 14:15:38', 1, '长风一梦8888', '2023-10-12 03:13:21');
+INSERT INTO `tms_order` (`id`, `custom_no`, `order_no`, `waybill_no`, `project_id`, `project_name`, `transport_type`, `cargo_desc`, `quantity`, `detail_quantity`, `gross_weight`, `volume`, `qty_unit`, `check_quantity`, `check_weight`, `check_volume`, `declare_value`, `etd`, `atd`, `eta`, `ata`, `pick_time`, `pod_time`, `latest_event_type`, `latest_event_id`, `order_status`, `remark`, `operator_id`, `transport_line_id`, `has_epod`, `source_type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705951547298496513, '', 'TEST001', 'WB001', 1, '万华化学危险品项目', 1, '货物1', 2, 100, 2000.10000, 3.30000, NULL, 0, 0.00000, 0.00000, 500.00, '2023-09-25 08:00:00', NULL, '2023-09-26 17:00:00', NULL, '2023-10-12 11:13:13', '2023-10-12 11:13:13', 0, 0, -10, '订单备注', 1, 0, b'0', 1, b'1', 1, '长风一梦8888', '2023-09-24 14:25:19', 1, '长风一梦8888', '2023-10-12 03:13:21');
+INSERT INTO `tms_order` (`id`, `custom_no`, `order_no`, `waybill_no`, `project_id`, `project_name`, `transport_type`, `cargo_desc`, `quantity`, `detail_quantity`, `gross_weight`, `volume`, `qty_unit`, `check_quantity`, `check_weight`, `check_volume`, `declare_value`, `etd`, `atd`, `eta`, `ata`, `pick_time`, `pod_time`, `latest_event_type`, `latest_event_id`, `order_status`, `remark`, `operator_id`, `transport_line_id`, `has_epod`, `source_type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705953334864699393, 'TON202309240001', 'TEST008', 'WB008', 1, '万华化学危险品项目', 1, '货物1', 2, 100, 2000.10000, 3.30000, NULL, 0, 0.00000, 0.00000, 500.00, '2023-09-25 08:00:00', NULL, '2023-09-26 17:00:00', NULL, '2023-10-12 11:13:13', '2023-10-12 11:13:13', 0, 0, 0, '订单备注', 0, 0, b'0', 1, b'1', 1, '长风一梦8888', '2023-09-24 14:32:25', 1, '长风一梦8888', '2023-10-13 16:01:52');
+INSERT INTO `tms_order` (`id`, `custom_no`, `order_no`, `waybill_no`, `project_id`, `project_name`, `transport_type`, `cargo_desc`, `quantity`, `detail_quantity`, `gross_weight`, `volume`, `qty_unit`, `check_quantity`, `check_weight`, `check_volume`, `declare_value`, `etd`, `atd`, `eta`, `ata`, `pick_time`, `pod_time`, `latest_event_type`, `latest_event_id`, `order_status`, `remark`, `operator_id`, `transport_line_id`, `has_epod`, `source_type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705956979316416513, 'TON202309240002', 'TEST001', 'WB001', 1, '万华化学危险品项目', 1, '货物1', 2, 100, 2000.10000, 3.30000, NULL, 0, 0.00000, 0.00000, 500.00, '2023-09-25 08:00:00', NULL, '2023-09-26 17:00:00', NULL, '2023-10-12 11:13:13', '2023-10-12 11:13:13', 0, 0, 20, '订单备注', 1, 0, b'0', 1, b'1', 1, '长风一梦8888', '2023-09-24 14:46:54', 1, '长风一梦8888', '2023-10-13 16:01:57');
+INSERT INTO `tms_order` (`id`, `custom_no`, `order_no`, `waybill_no`, `project_id`, `project_name`, `transport_type`, `cargo_desc`, `quantity`, `detail_quantity`, `gross_weight`, `volume`, `qty_unit`, `check_quantity`, `check_weight`, `check_volume`, `declare_value`, `etd`, `atd`, `eta`, `ata`, `pick_time`, `pod_time`, `latest_event_type`, `latest_event_id`, `order_status`, `remark`, `operator_id`, `transport_line_id`, `has_epod`, `source_type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707711488627687426, 'TON202309290001', 'TEST002', 'WB002', 1, '万华化学危险品项目', 1, '货物1', 2, 100, 400.10000, 3.30000, '2', 0, 0.00000, 0.00000, 500.00, '2023-09-25 08:00:00', NULL, '2023-09-26 17:00:00', NULL, '2023-10-12 11:13:13', '2023-10-12 11:13:13', 0, 0, 10, '订单备注', 1, 0, b'0', 1, b'1', 1, '长风一梦8888', '2023-09-29 10:58:41', 1, '长风一梦8888', '2024-04-03 10:20:06');
+INSERT INTO `tms_order` (`id`, `custom_no`, `order_no`, `waybill_no`, `project_id`, `project_name`, `transport_type`, `cargo_desc`, `quantity`, `detail_quantity`, `gross_weight`, `volume`, `qty_unit`, `check_quantity`, `check_weight`, `check_volume`, `declare_value`, `etd`, `atd`, `eta`, `ata`, `pick_time`, `pod_time`, `latest_event_type`, `latest_event_id`, `order_status`, `remark`, `operator_id`, `transport_line_id`, `has_epod`, `source_type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707711819205951489, 'TON202309290002', 'TEST002', 'WB002', 1, '万华化学危险品项目', 1, '货物1', 2, 100, 2000.10000, 3.30000, '3', 0, 0.00000, 0.00000, 500.00, '2023-09-25 08:00:00', NULL, '2023-09-26 17:00:00', NULL, '2023-10-12 11:13:13', '2023-10-12 11:13:13', 0, 0, 0, '订单备注', 1, 0, b'0', 1, b'1', 1, '长风一梦8888', '2023-09-29 10:59:59', 1, '长风一梦8888', '2024-04-03 10:20:07');
+INSERT INTO `tms_order` (`id`, `custom_no`, `order_no`, `waybill_no`, `project_id`, `project_name`, `transport_type`, `cargo_desc`, `quantity`, `detail_quantity`, `gross_weight`, `volume`, `qty_unit`, `check_quantity`, `check_weight`, `check_volume`, `declare_value`, `etd`, `atd`, `eta`, `ata`, `pick_time`, `pod_time`, `latest_event_type`, `latest_event_id`, `order_status`, `remark`, `operator_id`, `transport_line_id`, `has_epod`, `source_type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712333510775152642, 'TON202310120001', '12', '12', 1, NULL, 2, '213', 0, 0, 0.00000, 0.00000, NULL, 0, 0.00000, 0.00000, 0.00, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 1, 0, b'0', 0, b'1', 1, '长风一梦8888', '2023-10-12 13:04:57', 1, '长风一梦8888', '2023-10-12 13:05:10');
+INSERT INTO `tms_order` (`id`, `custom_no`, `order_no`, `waybill_no`, `project_id`, `project_name`, `transport_type`, `cargo_desc`, `quantity`, `detail_quantity`, `gross_weight`, `volume`, `qty_unit`, `check_quantity`, `check_weight`, `check_volume`, `declare_value`, `etd`, `atd`, `eta`, `ata`, `pick_time`, `pod_time`, `latest_event_type`, `latest_event_id`, `order_status`, `remark`, `operator_id`, `transport_line_id`, `has_epod`, `source_type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712378494794596353, 'KH202310130001', 'TON202310120002', 'YD202310130001', 1, NULL, 2, '危险化工品', 100, 0, 300.00000, 400.00000, '1', 0, 0.00000, 0.00000, 10000.00, '2023-10-13 17:37:49', NULL, '2023-10-13 17:37:47', NULL, NULL, NULL, 0, NULL, 0, NULL, 0, 0, b'0', 0, b'0', 1, '长风一梦8888', '2023-10-12 16:03:42', 1, '长风一梦8888', '2023-12-28 09:44:55');
+INSERT INTO `tms_order` (`id`, `custom_no`, `order_no`, `waybill_no`, `project_id`, `project_name`, `transport_type`, `cargo_desc`, `quantity`, `detail_quantity`, `gross_weight`, `volume`, `qty_unit`, `check_quantity`, `check_weight`, `check_volume`, `declare_value`, `etd`, `atd`, `eta`, `ata`, `pick_time`, `pod_time`, `latest_event_type`, `latest_event_id`, `order_status`, `remark`, `operator_id`, `transport_line_id`, `has_epod`, `source_type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1775347830765010945, 'KH20240403000001', 'TON202404030001', 'YD20240403000001', 1, NULL, 1, '213123', 13, 0, 123.00000, 21.00000, '2', 0, 0.00000, 0.00000, 213.00, '2024-04-03 10:20:49', NULL, '2024-04-19 10:20:50', NULL, NULL, NULL, 0, NULL, 0, NULL, 0, 0, b'0', 0, b'0', 1, '长风一梦8888', '2024-04-03 10:21:22', NULL, NULL, NULL);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_order_address
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_order_address`;
+CREATE TABLE `tms_order_address` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `order_id` bigint NOT NULL COMMENT '订单ID(tms_order.id)',
+  `company` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公司/商店/站点名称',
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人姓名',
+  `phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '固定电话',
+  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '手机',
+  `province_id` int DEFAULT NULL COMMENT '省份',
+  `province_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省份',
+  `city_id` int DEFAULT NULL COMMENT '市',
+  `city_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市',
+  `district_id` int DEFAULT NULL COMMENT '区县',
+  `district_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区县',
+  `address` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '详细地址',
+  `warehouse` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '幢/码头/库位',
+  `position` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '幢号/码头号/库位号',
+  `sys_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '地图解析的编码',
+  `sys_province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的省份',
+  `sys_city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的城市',
+  `sys_district` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的区县',
+  `longitude` decimal(20,6) DEFAULT '0.000000' COMMENT '地理经度',
+  `latitude` decimal(20,6) DEFAULT '0.000000' COMMENT '地理纬度',
+  `type` int DEFAULT '0' COMMENT '地址类型(0=发;1=收)',
+  `deleted` bit(1) DEFAULT b'0',
+  `created_by` bigint NOT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `oc_order_id` (`order_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1775347830794371074 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单发货人表';
+
+-- ----------------------------
+-- Records of tms_order_address
+-- ----------------------------
+BEGIN;
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712753783840186369, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 16:54:58', NULL, NULL, '2023-10-13 08:55:47');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712753783840186370, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 16:54:58', NULL, NULL, '2023-10-13 08:55:47');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712753989956673538, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 16:55:47', NULL, NULL, '2023-10-13 08:59:51');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712753989956673539, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 16:55:47', NULL, NULL, '2023-10-13 08:59:51');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712755015610802178, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 16:59:52', NULL, NULL, '2023-10-13 09:01:16');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712755015610802179, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 16:59:52', NULL, NULL, '2023-10-13 09:01:16');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712755370721550337, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 17:01:16', NULL, NULL, '2023-10-13 09:01:54');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712755370721550338, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 17:01:16', NULL, NULL, '2023-10-13 09:01:54');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712755531585691650, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 17:01:55', NULL, NULL, '2023-10-13 09:03:31');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712755531585691651, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 17:01:55', NULL, NULL, '2023-10-13 09:03:31');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712755936084369409, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 150000, NULL, 150400, NULL, 150404, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 17:03:31', NULL, NULL, '2023-10-13 09:05:42');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712755936084369410, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 17:03:31', NULL, NULL, '2023-10-13 09:05:42');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712756487924752385, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 150000, NULL, 150400, NULL, 150404, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 17:05:43', NULL, NULL, '2023-10-13 09:07:35');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712756487933140994, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 17:05:43', NULL, NULL, '2023-10-13 09:07:35');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712756960052387842, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 120000, NULL, 120100, NULL, 120102, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 17:07:35', NULL, NULL, '2023-10-13 09:08:22');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712756960052387843, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 17:07:35', NULL, NULL, '2023-10-13 09:08:22');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712757156442284033, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 150000, NULL, 150300, NULL, 150303, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 17:08:22', NULL, NULL, '2023-10-13 09:09:53');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712757156442284034, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 17:08:22', NULL, NULL, '2023-10-13 09:09:53');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712757537310253058, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 110000, NULL, 110100, NULL, 110101, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 17:09:53', NULL, NULL, '2023-10-13 09:15:39');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712757537310253059, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 17:09:53', NULL, NULL, '2023-10-13 09:15:39');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712758988443029505, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 120000, NULL, 120100, NULL, 120102, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 17:15:39', NULL, NULL, '2023-10-13 09:15:53');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712758988443029506, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 17:15:39', NULL, NULL, '2023-10-13 09:15:53');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712759051051405314, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 110000, NULL, 110100, NULL, 110101, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 17:15:54', NULL, NULL, '2023-10-13 09:33:18');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712759051051405315, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', NULL, NULL, NULL, NULL, NULL, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 17:15:54', NULL, NULL, '2023-10-13 09:33:18');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712763433910341634, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 110000, NULL, 110100, NULL, 110101, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 17:33:19', NULL, NULL, '2023-10-13 09:36:04');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712763433910341635, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', 120000, NULL, 120100, NULL, 120102, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 17:33:19', NULL, NULL, '2023-10-13 09:36:04');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712764130378715137, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 110000, NULL, 110100, NULL, 110101, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 17:36:05', NULL, NULL, '2023-10-13 09:37:52');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712764130378715138, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', 120000, NULL, 120100, NULL, 120102, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 17:36:05', NULL, NULL, '2023-10-13 09:37:52');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712764579727085570, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 110000, NULL, 110100, NULL, 110101, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-13 17:37:52', NULL, NULL, '2023-10-14 02:15:30');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1712764579727085571, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', 120000, NULL, 120100, NULL, 120102, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-13 17:37:52', NULL, NULL, '2023-10-14 02:15:30');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1713015644846305282, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 110000, NULL, 110100, NULL, 110101, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-14 10:15:31', NULL, NULL, '2023-10-14 02:19:13');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1713015644846305283, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', 120000, NULL, 120100, NULL, 120102, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-14 10:15:31', NULL, NULL, '2023-10-14 02:19:13');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1713016579093966850, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 110000, NULL, 110100, NULL, 110101, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-14 10:19:13', NULL, NULL, '2023-10-14 02:34:46');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1713016579093966851, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', 120000, NULL, 120100, NULL, 120102, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-14 10:19:13', NULL, NULL, '2023-10-14 02:34:46');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1713020493210099714, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 110000, NULL, 110100, NULL, 110101, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-14 10:34:47', NULL, NULL, '2023-10-14 02:40:18');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1713020493210099715, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', 120000, NULL, 120100, NULL, 120102, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-14 10:34:47', NULL, NULL, '2023-10-14 02:40:18');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1713021884007776257, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 110000, NULL, 110100, NULL, 110101, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'1', 1, '长风一梦8888', '2023-10-14 10:40:18', NULL, NULL, '2023-12-28 01:44:55');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1713021884007776258, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', 120000, NULL, 120100, NULL, 120102, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-10-14 10:40:18', NULL, NULL, '2023-12-28 01:44:55');
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1740186189062299650, 1707711488627687426, NULL, '3213213', '12321', '123123', 130000, NULL, 130100, NULL, 130102, NULL, '21321', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'0', 1, '长风一梦8888', '2023-12-28 09:41:33', NULL, NULL, NULL);
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1740186189062299651, 1707711488627687426, NULL, '213213', '123', '123213', 130000, NULL, 130200, NULL, 130204, NULL, '123123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'0', 1, '长风一梦8888', '2023-12-28 09:41:33', NULL, NULL, NULL);
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1740187006519566337, 1707711819205951489, NULL, '213', '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'0', 1, '长风一梦8888', '2023-12-28 09:44:48', NULL, NULL, NULL);
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1740187006519566338, 1707711819205951489, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '123123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'0', 1, '长风一梦8888', '2023-12-28 09:44:48', NULL, NULL, NULL);
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1740187036848578561, 1712378494794596353, NULL, '唐亚峰', '0746-8585555', '13002170000', 110000, NULL, 110100, NULL, 110101, NULL, '123', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'0', 1, '长风一梦8888', '2023-12-28 09:44:55', NULL, NULL, NULL);
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1740187036848578562, 1712378494794596353, NULL, '唐亚峰', '12213', '13002170000', 120000, NULL, 120100, NULL, 120102, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'0', 1, '长风一梦8888', '2023-12-28 09:44:55', NULL, NULL, NULL);
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1775347830790176769, 1775347830765010945, NULL, '万华', '', NULL, 120000, NULL, 120100, NULL, 120102, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, b'0', 1, '长风一梦8888', '2024-04-03 10:21:22', NULL, NULL, NULL);
+INSERT INTO `tms_order_address` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province_id`, `province_name`, `city_id`, `city_name`, `district_id`, `district_name`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `type`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1775347830794371073, 1775347830765010945, NULL, '唐亚峰', NULL, NULL, 140000, NULL, 140300, NULL, 140303, NULL, '42-52 Export Street', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'0', 1, '长风一梦8888', '2024-04-03 10:21:22', NULL, NULL, NULL);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_order_consignee
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_order_consignee`;
+CREATE TABLE `tms_order_consignee` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `order_id` bigint NOT NULL COMMENT '订单ID(tms_order.id)',
+  `company` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公司/商店/站点名称',
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人姓名',
+  `phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '固定电话',
+  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '手机',
+  `province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省份',
+  `city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '城市',
+  `district` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区县',
+  `street` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '街道',
+  `address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '地址',
+  `warehouse` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '幢/码头/库位',
+  `position` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '幢号/码头号/库位号',
+  `sys_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '地图解析的编码',
+  `sys_province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的省份',
+  `sys_city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的城市',
+  `sys_district` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的区县',
+  `longitude` decimal(20,6) DEFAULT '0.000000' COMMENT '地理经度',
+  `latitude` decimal(20,6) DEFAULT '0.000000' COMMENT '地理纬度',
+  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+  `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+  `deleted` bit(1) DEFAULT b'0',
+  `created_by` bigint NOT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `oc_order_id` (`order_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1707711819457609730 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单收货人表';
+
+-- ----------------------------
+-- Records of tms_order_consignee
+-- ----------------------------
+BEGIN;
+INSERT INTO `tms_order_consignee` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province`, `city`, `district`, `street`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `source_id`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705947188477091841, 0, '收货公司', '收货人', '65280001', '13636633667', '江苏省', '镇江市', '京口区', '', '学府路301号', '', '', '321102', '', '', '', 0.000000, 0.000000, 1, b'1', b'0', 1, '长风一梦8888', '2023-09-24 22:07:59', NULL, NULL, '2023-09-24 14:09:15');
+INSERT INTO `tms_order_consignee` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province`, `city`, `district`, `street`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `source_id`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705948337854799874, 0, '收货公司', '收货人', '65280001', '13636633667', '江苏省', '镇江市', '京口区', '', '学府路301号', '', '', '321102', '', '', '', 0.000000, 0.000000, 1, b'0', b'0', 1, '长风一梦8888', '2023-09-24 22:12:33', NULL, NULL, NULL);
+INSERT INTO `tms_order_consignee` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province`, `city`, `district`, `street`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `source_id`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705949153827307521, 0, '收货公司', '收货人', '65280001', '13636633667', '江苏省', '镇江市', '京口区', '', '学府路301号', '', '', '321102', '', '', '', 0.000000, 0.000000, 1, b'0', b'0', 1, '长风一梦8888', '2023-09-24 22:15:48', NULL, NULL, NULL);
+INSERT INTO `tms_order_consignee` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province`, `city`, `district`, `street`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `source_id`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705951621386682370, 1705951547298496513, '收货公司', '收货人', '65280001', '13636633667', '江苏省', '镇江市', '京口区', '', '学府路301号', '', '', '321102', '', '', '', 0.000000, 0.000000, 1, b'0', b'0', 1, '长风一梦8888', '2023-09-24 22:25:36', NULL, NULL, NULL);
+INSERT INTO `tms_order_consignee` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province`, `city`, `district`, `street`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `source_id`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705953335443513345, 1705953334864699393, '收货公司', '收货人', '65280001', '13636633667', '江苏省', '镇江市', '京口区', '', '学府路301号', '', '', '321102', '', '', '', 0.000000, 0.000000, 1, b'1', b'0', 1, '长风一梦8888', '2023-09-24 22:32:25', 1, '长风一梦8888', '2023-09-26 17:33:51');
+INSERT INTO `tms_order_consignee` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province`, `city`, `district`, `street`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `source_id`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705956979580657666, 1705956979316416513, '收货公司', '收货人', '65280001', '13636633667', '江苏省', '镇江市', '京口区', '', '学府路301号', '', '', '321102', '', '', '', 0.000000, 0.000000, 1, b'0', b'0', 1, '长风一梦8888', '2023-09-24 22:46:54', NULL, NULL, NULL);
+INSERT INTO `tms_order_consignee` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province`, `city`, `district`, `street`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `source_id`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1706723769730465793, 1705953334864699393, '收货公司', '收货人', '65280001', '13636633667', '江苏省', '镇江市', '京口区', '', '学府路301号', '', '', '321102', '', '', '', 0.000000, 0.000000, 1, b'0', b'0', 1, '长风一梦8888', '2023-09-27 01:33:51', NULL, NULL, NULL);
+INSERT INTO `tms_order_consignee` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province`, `city`, `district`, `street`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `source_id`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707711489172946945, 1707711488627687426, '收货公司', '收货人', '65280001', '13636633667', '江苏省', '南京市', '雨花台区', '', '学府路301号', '', '', '321102', '', '', '', 0.000000, 0.000000, 1, b'0', b'0', 1, '长风一梦8888', '2023-09-29 18:58:41', NULL, NULL, NULL);
+INSERT INTO `tms_order_consignee` (`id`, `order_id`, `company`, `name`, `phone`, `mobile`, `province`, `city`, `district`, `street`, `address`, `warehouse`, `position`, `sys_code`, `sys_province`, `sys_city`, `sys_district`, `longitude`, `latitude`, `source_id`, `locked`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707711819457609729, 1707711819205951489, '收货公司', '收货人', '65280001', '13636633667', '上海市', '上海城区', '徐汇区', '', '学府路301号', '', '', '321102', '', '', '', 0.000000, 0.000000, 1, b'0', b'0', 1, '长风一梦8888', '2023-09-29 19:00:00', NULL, NULL, NULL);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_order_event
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_order_event`;
+CREATE TABLE `tms_order_event` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `order_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
+  `system_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '平台单号(tms_order.system_number)',
+  `province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省份',
+  `city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '城市',
+  `district` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区县',
+  `longitude` decimal(20,6) DEFAULT '0.000000' COMMENT '经度',
+  `latitude` decimal(20,6) DEFAULT '0.000000' COMMENT '纬度',
+  `record_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录时间',
+  `event_type` int NOT NULL DEFAULT '0' COMMENT '节点状态ID(dic_event_type.id)',
+  `operator_id` bigint DEFAULT '0' COMMENT '操作人员ID(user.id)',
+  `remark` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '节点备注',
+  `quantity` int NOT NULL DEFAULT '0' COMMENT '总数量',
+  `gross_weight` decimal(20,5) DEFAULT '0.00000' COMMENT '毛重',
+  `volume` decimal(20,5) DEFAULT '0.00000' COMMENT '体积',
+  `sku_id` bigint DEFAULT NULL COMMENT '订单货物ID(tms_order_sku.id)',
+  `station_id` bigint DEFAULT NULL COMMENT '站点ID(tms_station.id)',
+  `task_id` bigint DEFAULT NULL COMMENT '任务ID(tms_task.id)',
+  `driver_id` bigint DEFAULT NULL COMMENT '司机ID(tms_driver.id)',
+  `driver_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机姓名(tms_driver.name)',
+  `driver_mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机手机号(tms_driver.mobile)',
+  `truck_id` bigint DEFAULT NULL COMMENT '车辆id(tms_truck.id)',
+  `plate_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号(tms_truck.plate_number)',
+  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+  `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+  `created_by` bigint NOT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `event_order_id` (`order_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1707640174810255363 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单节点表';
+
+-- ----------------------------
+-- Records of tms_order_event
+-- ----------------------------
+BEGIN;
+INSERT INTO `tms_order_event` (`id`, `order_id`, `system_no`, `province`, `city`, `district`, `longitude`, `latitude`, `record_time`, `event_type`, `operator_id`, `remark`, `quantity`, `gross_weight`, `volume`, `sku_id`, `station_id`, `task_id`, `driver_id`, `driver_name`, `driver_mobile`, `truck_id`, `plate_no`, `source_id`, `locked`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705947188804247554, 0, '', NULL, NULL, NULL, 0.000000, 0.000000, '2023-09-24 14:07:59', 0, 1, NULL, 2, 2000.10000, 3.30000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-09-24 14:07:59', NULL, NULL, '2023-09-24 14:10:26');
+INSERT INTO `tms_order_event` (`id`, `order_id`, `system_no`, `province`, `city`, `district`, `longitude`, `latitude`, `record_time`, `event_type`, `operator_id`, `remark`, `quantity`, `gross_weight`, `volume`, `sku_id`, `station_id`, `task_id`, `driver_id`, `driver_name`, `driver_mobile`, `truck_id`, `plate_no`, `source_id`, `locked`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705948338173566977, 0, '', NULL, NULL, NULL, 0.000000, 0.000000, '2023-09-24 14:12:33', 0, 1, NULL, 2, 2000.10000, 3.30000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-09-24 14:12:33', NULL, NULL, '2023-09-24 14:23:25');
+INSERT INTO `tms_order_event` (`id`, `order_id`, `system_no`, `province`, `city`, `district`, `longitude`, `latitude`, `record_time`, `event_type`, `operator_id`, `remark`, `quantity`, `gross_weight`, `volume`, `sku_id`, `station_id`, `task_id`, `driver_id`, `driver_name`, `driver_mobile`, `truck_id`, `plate_no`, `source_id`, `locked`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705949154276098049, 0, '', NULL, NULL, NULL, 0.000000, 0.000000, '2023-09-24 14:15:48', 0, 1, NULL, 2, 2000.10000, 3.30000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-09-24 14:15:48', NULL, NULL, '2023-09-24 14:23:25');
+INSERT INTO `tms_order_event` (`id`, `order_id`, `system_no`, `province`, `city`, `district`, `longitude`, `latitude`, `record_time`, `event_type`, `operator_id`, `remark`, `quantity`, `gross_weight`, `volume`, `sku_id`, `station_id`, `task_id`, `driver_id`, `driver_name`, `driver_mobile`, `truck_id`, `plate_no`, `source_id`, `locked`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705951621583814658, 1705951547298496513, '', NULL, NULL, NULL, 0.000000, 0.000000, '2023-09-24 14:25:36', 0, 1, NULL, 2, 2000.10000, 3.30000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-09-24 14:25:36', NULL, NULL, '2023-09-24 15:07:58');
+INSERT INTO `tms_order_event` (`id`, `order_id`, `system_no`, `province`, `city`, `district`, `longitude`, `latitude`, `record_time`, `event_type`, `operator_id`, `remark`, `quantity`, `gross_weight`, `volume`, `sku_id`, `station_id`, `task_id`, `driver_id`, `driver_name`, `driver_mobile`, `truck_id`, `plate_no`, `source_id`, `locked`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705953335770669057, 1705953334864699393, 'TON202309240001', NULL, NULL, NULL, 0.000000, 0.000000, '2023-09-24 14:32:25', 0, 1, NULL, 2, 2000.10000, 3.30000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-09-24 14:32:25', NULL, NULL, '2023-09-24 15:07:58');
+INSERT INTO `tms_order_event` (`id`, `order_id`, `system_no`, `province`, `city`, `district`, `longitude`, `latitude`, `record_time`, `event_type`, `operator_id`, `remark`, `quantity`, `gross_weight`, `volume`, `sku_id`, `station_id`, `task_id`, `driver_id`, `driver_name`, `driver_mobile`, `truck_id`, `plate_no`, `source_id`, `locked`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705956979781984258, 1705956979316416513, 'TON202309240002', NULL, NULL, NULL, 0.000000, 0.000000, '2023-09-24 14:46:54', 0, 1, NULL, 2, 2000.10000, 3.30000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, b'1', 1, '长风一梦8888', '2023-09-24 14:46:54', NULL, NULL, '2023-09-24 15:07:58');
+INSERT INTO `tms_order_event` (`id`, `order_id`, `system_no`, `province`, `city`, `district`, `longitude`, `latitude`, `record_time`, `event_type`, `operator_id`, `remark`, `quantity`, `gross_weight`, `volume`, `sku_id`, `station_id`, `task_id`, `driver_id`, `driver_name`, `driver_mobile`, `truck_id`, `plate_no`, `source_id`, `locked`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1706725449884852226, 1705953334864699393, 'TON202309240001', '北京市', '北京城区', '东城区', 0.000000, 0.000000, '2023-09-27 01:38:00', 10, 1, '节点备注', 1, 2.20000, 3.30000, 0, 0, 0, 0, '', '', 0, '', 0, b'0', 1, '长风一梦8888', '2023-09-26 17:40:31', 1, '长风一梦8888', '2023-09-26 17:57:37');
+INSERT INTO `tms_order_event` (`id`, `order_id`, `system_no`, `province`, `city`, `district`, `longitude`, `latitude`, `record_time`, `event_type`, `operator_id`, `remark`, `quantity`, `gross_weight`, `volume`, `sku_id`, `station_id`, `task_id`, `driver_id`, `driver_name`, `driver_mobile`, `truck_id`, `plate_no`, `source_id`, `locked`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707637996729229313, 1705953334864699393, 'TON202309240001', '上海市', '上海城区', '徐汇区', 0.000000, 0.000000, '2023-09-27 01:38:00', 101, 1, '节点备注', 1, 2.20000, 3.30000, 0, 0, 0, 0, '', '', 0, '', 0, b'0', 1, '长风一梦8888', '2023-09-29 06:06:39', NULL, NULL, NULL);
+INSERT INTO `tms_order_event` (`id`, `order_id`, `system_no`, `province`, `city`, `district`, `longitude`, `latitude`, `record_time`, `event_type`, `operator_id`, `remark`, `quantity`, `gross_weight`, `volume`, `sku_id`, `station_id`, `task_id`, `driver_id`, `driver_name`, `driver_mobile`, `truck_id`, `plate_no`, `source_id`, `locked`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707638583487193090, 1705953334864699393, 'TON202309240001', '上海市', '上海城区', '徐汇区', 0.000000, 0.000000, '2023-09-27 01:38:00', 101, 1, '节点备注', 1, 2.20000, 3.30000, 0, 0, 0, 0, '', '', 0, '', 0, b'0', 1, '长风一梦8888', '2023-09-29 06:08:59', NULL, NULL, NULL);
+INSERT INTO `tms_order_event` (`id`, `order_id`, `system_no`, `province`, `city`, `district`, `longitude`, `latitude`, `record_time`, `event_type`, `operator_id`, `remark`, `quantity`, `gross_weight`, `volume`, `sku_id`, `station_id`, `task_id`, `driver_id`, `driver_name`, `driver_mobile`, `truck_id`, `plate_no`, `source_id`, `locked`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707640174810255362, 1705953334864699393, 'TON202309240001', '上海市', '上海城区', '徐汇区', 0.000000, 0.000000, '2023-09-27 01:38:00', 101, 0, '节点备注', 1, 2.20000, 3.30000, 0, 0, 0, 0, '', '', 0, '', 0, b'0', 1, '长风一梦8888', '2023-09-29 06:15:18', 1, '长风一梦8888', '2023-09-29 06:17:01');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_order_event_file
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_order_event_file`;
+CREATE TABLE `tms_order_event_file` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `order_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
+  `event_id` bigint NOT NULL DEFAULT '0' COMMENT '订单节点ID(tms_order_event.id)',
+  `file_id` bigint NOT NULL DEFAULT '0' COMMENT '订单节点ID(tms_order_event.id)',
+  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+  `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+  `created_by` bigint NOT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `event_order_id` (`order_id`) USING BTREE,
+  KEY `event_event_id` (`event_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1707641509819514883 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单节点文件表';
+
+-- ----------------------------
+-- Records of tms_order_event_file
+-- ----------------------------
+BEGIN;
+INSERT INTO `tms_order_event_file` (`id`, `order_id`, `event_id`, `file_id`, `source_id`, `locked`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707640175032553474, 1705953334864699393, 1707640174810255362, 55, 0, b'1', 1, '长风一梦8888', '2023-09-29 14:15:19', 1, '长风一梦8888', '2023-09-29 06:20:36');
+INSERT INTO `tms_order_event_file` (`id`, `order_id`, `event_id`, `file_id`, `source_id`, `locked`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707640608450957313, 1705953334864699393, 1707640174810255362, 66, 0, b'1', 1, '长风一梦8888', '2023-09-29 14:17:02', 1, '长风一梦8888', '2023-09-29 06:20:36');
+INSERT INTO `tms_order_event_file` (`id`, `order_id`, `event_id`, `file_id`, `source_id`, `locked`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707641509819514882, 1705953334864699393, 1707640174810255362, 66, 0, b'0', 1, '长风一梦8888', '2023-09-29 14:20:37', NULL, NULL, NULL);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_order_file
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_order_file`;
+CREATE TABLE `tms_order_file` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `order_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
+  `file_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
+  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+  `created_by` bigint NOT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `event_order_id` (`order_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单文件表';
+
+-- ----------------------------
+-- Records of tms_order_file
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_order_sku
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_order_sku`;
+CREATE TABLE `tms_order_sku` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `order_id` bigint NOT NULL COMMENT '订单ID(tms_order.id)',
+  `sku_master_id` bigint DEFAULT NULL COMMENT '货物规格id(dic_sku_master.id)',
+  `item_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '货号',
+  `box_no` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '箱号',
+  `cargo_desc` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '货物信息',
+  `al` decimal(20,2) DEFAULT NULL COMMENT '长',
+  `aw` decimal(20,2) DEFAULT NULL COMMENT '宽',
+  `ah` decimal(20,2) DEFAULT NULL COMMENT '高',
+  `quantity` int DEFAULT NULL COMMENT '数量',
+  `weight` decimal(20,5) DEFAULT NULL COMMENT '毛重',
+  `volume` decimal(20,5) DEFAULT NULL COMMENT '体积',
+  `qty_unit` int DEFAULT NULL COMMENT '单位',
+  `remark` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '货物备注',
+  `check_quantity` int DEFAULT '0' COMMENT '确认数量',
+  `check_weight` decimal(20,5) DEFAULT '0.00000' COMMENT '确认重量',
+  `check_volume` decimal(20,5) DEFAULT '0.00000' COMMENT '确认体积',
+  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+  `created_by` bigint NOT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `osku_order_id` (`order_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1740187006553120771 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单货物明细表';
+
+-- ----------------------------
+-- Records of tms_order_sku
+-- ----------------------------
+BEGIN;
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705947188607115265, 0, 1, 'ITEM001', 'BOX001', '测试货物1', 0.00, 0.00, 0.00, 1, 1000.00000, 1.60000, 0, '货物备注1', 0, 0.00000, 0.00000, 1, b'1', 1, '长风一梦8888', '2023-09-24 22:07:59', NULL, NULL, '2023-09-24 14:10:45');
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705947188607115266, 0, 2, 'ITEM002', 'BOX002', '测试货物2', 0.00, 0.00, 0.00, 1, 1000.10000, 1.70000, 0, '货物备注2', 0, 0.00000, 0.00000, 1, b'1', 1, '长风一梦8888', '2023-09-24 22:07:59', NULL, NULL, '2023-09-24 14:10:45');
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705948337976434689, 0, 1, 'ITEM001', 'BOX001', '测试货物1', 0.00, 0.00, 0.00, 1, 1000.00000, 1.60000, 0, '货物备注1', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-09-24 22:12:33', NULL, NULL, NULL);
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705948337976434690, 0, 2, 'ITEM002', 'BOX002', '测试货物2', 0.00, 0.00, 0.00, 1, 1000.10000, 1.70000, 0, '货物备注2', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-09-24 22:12:33', NULL, NULL, NULL);
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705949154020245505, 0, 1, 'ITEM001', 'BOX001', '测试货物1', 0.00, 0.00, 0.00, 1, 1000.00000, 1.60000, 0, '货物备注1', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-09-24 22:15:48', NULL, NULL, NULL);
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705949154020245506, 0, 2, 'ITEM002', 'BOX002', '测试货物2', 0.00, 0.00, 0.00, 1, 1000.10000, 1.70000, 0, '货物备注2', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-09-24 22:15:48', NULL, NULL, NULL);
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705951621516705793, 1705951547298496513, 1, 'ITEM001', 'BOX001', '测试货物1', 0.00, 0.00, 0.00, 1, 1000.00000, 1.60000, 0, '货物备注1', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-09-24 22:25:36', NULL, NULL, NULL);
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705951621516705794, 1705951547298496513, 2, 'ITEM002', 'BOX002', '测试货物2', 0.00, 0.00, 0.00, 1, 1000.10000, 1.70000, 0, '货物备注2', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-09-24 22:25:36', NULL, NULL, NULL);
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705953335573536770, 1705953334864699393, 1, 'ITEM001', 'BOX001', '测试货物1', 0.00, 0.00, 0.00, 1, 1000.00000, 1.60000, 0, '货物备注1', 0, 0.00000, 0.00000, 1, b'1', 1, '长风一梦8888', '2023-09-24 22:32:25', 1, '长风一梦8888', '2023-09-26 17:33:51');
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705953335636451330, 1705953334864699393, 2, 'ITEM002', 'BOX002', '测试货物2', 0.00, 0.00, 0.00, 1, 1000.10000, 1.70000, 0, '货物备注2', 0, 0.00000, 0.00000, 1, b'1', 1, '长风一梦8888', '2023-09-24 22:32:25', 1, '长风一梦8888', '2023-09-26 17:33:51');
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705956979647766530, 1705956979316416513, 1, 'ITEM001', 'BOX001', '测试货物1', 0.00, 0.00, 0.00, 1, 1000.00000, 1.60000, 0, '货物备注1', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-09-24 22:46:54', NULL, NULL, NULL);
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1705956979714875393, 1705956979316416513, 2, 'ITEM002', 'BOX002', '测试货物2', 0.00, 0.00, 0.00, 1, 1000.10000, 1.70000, 0, '货物备注2', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-09-24 22:46:54', NULL, NULL, NULL);
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1706723770061815810, 1705953334864699393, 1, 'ITEM001', 'BOX001', '测试货物1', 0.00, 0.00, 0.00, 1, 1000.00000, 1.60000, 0, '货物备注1', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-09-27 01:33:51', NULL, NULL, NULL);
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1706723770061815811, 1705953334864699393, 2, 'ITEM002', 'BOX002', '测试货物2', 0.00, 0.00, 0.00, 1, 1000.10000, 1.70000, 0, '货物备注2', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-09-27 01:33:51', NULL, NULL, NULL);
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707711489302970370, 1707711488627687426, 1, 'ITEM001', 'BOX001', '测试货物1', 0.00, 0.00, 0.00, 1, 1000.00000, 1.60000, 0, '货物备注1', 0, 0.00000, 0.00000, 1, b'1', 1, '长风一梦8888', '2023-09-29 18:58:41', NULL, NULL, '2023-12-28 01:41:33');
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707711489302970371, 1707711488627687426, 2, 'ITEM002', 'BOX002', '测试货物2', 0.00, 0.00, 0.00, 1, 1000.10000, 1.70000, 0, '货物备注2', 0, 0.00000, 0.00000, 1, b'1', 1, '长风一梦8888', '2023-09-29 18:58:41', NULL, NULL, '2023-12-28 01:41:33');
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707711819583438850, 1707711819205951489, 1, 'ITEM001', 'BOX001', '测试货物1', 0.00, 0.00, 0.00, 1, 1000.00000, 1.60000, 0, '货物备注1', 0, 0.00000, 0.00000, 1, b'1', 1, '长风一梦8888', '2023-09-29 19:00:00', NULL, NULL, '2023-12-28 01:44:48');
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1707711819583438851, 1707711819205951489, 2, 'ITEM002', 'BOX002', '测试货物2', 0.00, 0.00, 0.00, 1, 1000.10000, 1.70000, 0, '货物备注2', 0, 0.00000, 0.00000, 1, b'1', 1, '长风一梦8888', '2023-09-29 19:00:00', NULL, NULL, '2023-12-28 01:44:48');
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1740186189100048385, 1707711488627687426, 2, 'ITEM002', 'BOX002', '测试货物2', 0.00, 0.00, 0.00, 1, 1000.10000, 1.70000, 0, '货物备注2', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-12-28 09:41:33', NULL, NULL, NULL);
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1740186189100048386, 1707711488627687426, 1, 'ITEM001', 'BOX001', '测试货物1', 0.00, 0.00, 0.00, 1, 1000.00000, 1.60000, 0, '货物备注1', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-12-28 09:41:33', NULL, NULL, NULL);
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1740187006553120769, 1707711819205951489, 2, 'ITEM002', 'BOX002', '测试货物2', 0.00, 0.00, 0.00, 1, 1000.10000, 1.70000, 0, '货物备注2', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-12-28 09:44:48', NULL, NULL, NULL);
+INSERT INTO `tms_order_sku` (`id`, `order_id`, `sku_master_id`, `item_no`, `box_no`, `cargo_desc`, `al`, `aw`, `ah`, `quantity`, `weight`, `volume`, `qty_unit`, `remark`, `check_quantity`, `check_weight`, `check_volume`, `source_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1740187006553120770, 1707711819205951489, 1, 'ITEM001', 'BOX001', '测试货物1', 0.00, 0.00, 0.00, 1, 1000.00000, 1.60000, 0, '货物备注1', 0, 0.00000, 0.00000, 1, b'0', 1, '长风一梦8888', '2023-12-28 09:44:48', NULL, NULL, NULL);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_part_purchase
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_part_purchase`;
+CREATE TABLE `tms_part_purchase` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `purchase_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '采购编号',
+  `part_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '零件名称',
+  `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '型号',
+  `quantity` int DEFAULT NULL COMMENT '数量',
+  `quantity_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '数量单位',
+  `available_quantity` int DEFAULT NULL COMMENT '可用数量',
+  `unit_price` int DEFAULT NULL COMMENT '单价',
+  `subtotal_price` int DEFAULT NULL COMMENT '小计价格',
+  `in_stock` tinyint(1) DEFAULT '0' COMMENT '是否入库',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '是否删除(0=未删除;1=已删除)',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '修改人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1739939803553181699 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='配件采购';
+
+-- ----------------------------
+-- Records of tms_part_purchase
+-- ----------------------------
+BEGIN;
+INSERT INTO `tms_part_purchase` (`id`, `purchase_no`, `part_name`, `model`, `quantity`, `quantity_unit`, `available_quantity`, `unit_price`, `subtotal_price`, `in_stock`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1701108102744940545, 'PPN202309110001', '2', '3', 4, '5', 7, 6, NULL, 0, 1, 1, '长风一梦8888', '2023-09-11 05:39:11', 1, '长风一梦8888', '2023-12-27 17:22:52');
+INSERT INTO `tms_part_purchase` (`id`, `purchase_no`, `part_name`, `model`, `quantity`, `quantity_unit`, `available_quantity`, `unit_price`, `subtotal_price`, `in_stock`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1739937682258767874, 'PPN202312270001', '21312', '21312', 2133, '123', 21312, 123, NULL, 0, 1, 1, '长风一梦8888', '2023-12-27 17:14:05', 1, '长风一梦8888', '2023-12-28 09:32:33');
+INSERT INTO `tms_part_purchase` (`id`, `purchase_no`, `part_name`, `model`, `quantity`, `quantity_unit`, `available_quantity`, `unit_price`, `subtotal_price`, `in_stock`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1739939803553181698, 'PPN202312270002', '123', '123', 123, '21321', 123, 100000, 12300000, 0, 0, 1, '长风一梦8888', '2023-12-27 17:22:30', NULL, NULL, NULL);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_peccancy
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_peccancy`;
+CREATE TABLE `tms_peccancy` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `peccancy_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '违章编号',
+  `truck_id` bigint DEFAULT NULL COMMENT '卡车ID',
+  `plate_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号',
+  `driver_id` bigint DEFAULT NULL COMMENT '驾驶员ID',
+  `driver_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶员姓名',
+  `peccancy_item` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '违章项目',
+  `point_deduction` int DEFAULT NULL COMMENT '扣分',
+  `category_city_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '违章地点',
+  `category_city_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '违章地点ID',
+  `fine_amount` decimal(10,2) NOT NULL COMMENT '罚款金额',
+  `company_payable` decimal(10,2) DEFAULT NULL COMMENT '公司应付',
+  `driver_payable` decimal(10,2) DEFAULT NULL COMMENT '司机应付',
+  `peccancy_date` date DEFAULT NULL COMMENT '违章日期',
+  `expense_date` date DEFAULT NULL COMMENT '费用日期',
+  `agent_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '经办人姓名',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+  `deleted` bit(1) DEFAULT b'0',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '修改人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1739952107560742914 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='车辆违章表';
+
+-- ----------------------------
+-- Records of tms_peccancy
+-- ----------------------------
+BEGIN;
+INSERT INTO `tms_peccancy` (`id`, `peccancy_no`, `truck_id`, `plate_no`, `driver_id`, `driver_name`, `peccancy_item`, `point_deduction`, `category_city_name`, `category_city_id`, `fine_amount`, `company_payable`, `driver_payable`, `peccancy_date`, `expense_date`, `agent_name`, `remark`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1700854734923403265, 'abc', 1739846242807664641, '111', 122, NULL, '123', 123, NULL, '123', 213.00, 123.00, 123.00, '2023-09-06', '2023-09-23', '123', '213', b'1', 1, '长风一梦8888', '2023-09-10 12:52:24', 1, '长风一梦8888', '2023-12-27 17:49:38');
+INSERT INTO `tms_peccancy` (`id`, `peccancy_no`, `truck_id`, `plate_no`, `driver_id`, `driver_name`, `peccancy_item`, `point_deduction`, `category_city_name`, `category_city_id`, `fine_amount`, `company_payable`, `driver_payable`, `peccancy_date`, `expense_date`, `agent_name`, `remark`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1739944524338814977, 'WZ202312270001', 1739846242807664641, '沪A88888', 1, NULL, '碰撞了', 3, NULL, '上还闵行区', 100.00, 50.00, 50.00, '2023-12-27', '2023-12-27', '不知道哦', '傻逼货拉拉', b'0', 1, '长风一梦8888', '2023-12-27 17:41:16', 1, '长风一梦8888', '2023-12-27 18:06:54');
+INSERT INTO `tms_peccancy` (`id`, `peccancy_no`, `truck_id`, `plate_no`, `driver_id`, `driver_name`, `peccancy_item`, `point_deduction`, `category_city_name`, `category_city_id`, `fine_amount`, `company_payable`, `driver_payable`, `peccancy_date`, `expense_date`, `agent_name`, `remark`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1739952107560742913, 'WZ202312270002', 1739846242807664641, '沪A88888', 1, NULL, '12312', 3123123, NULL, '12312', 123123.00, 12312.00, 213.00, '2023-12-27', '2023-12-27', '33', '123123', b'0', 1, '长风一梦8888', '2023-12-27 18:11:24', 1, '长风一梦8888', '2023-12-27 18:11:41');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_task
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_task`;
+CREATE TABLE `tms_task` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增长ID',
+  `task_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '调度计划名称',
+  `task_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '调度号',
+  `project_id` bigint NOT NULL COMMENT '项目id(dic_project.id)',
+  `transport_type` int NOT NULL DEFAULT '0' COMMENT '运输方式(dic_transport_type.id)',
+  `truck_type` int DEFAULT NULL COMMENT '车辆类型ID(dic_truck_type.id)',
+  `etd` datetime DEFAULT NULL COMMENT '预计提货时间',
+  `atd` datetime DEFAULT NULL COMMENT '实际提货时间',
+  `eta` datetime DEFAULT NULL COMMENT '预计到达时间',
+  `ata` datetime DEFAULT NULL COMMENT '实际到达时间',
+  `station_from` bigint DEFAULT NULL COMMENT '始发站点ID',
+  `station_to` bigint DEFAULT NULL COMMENT '目的站点ID',
+  `driver_id` bigint DEFAULT NULL COMMENT '司机ID(tms_driver.id)',
+  `driver_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机姓名(tms_driver.name)',
+  `driver_mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机手机号(tms_driver.mobile)',
+  `truck_id` bigint DEFAULT NULL COMMENT '车辆id(tms_truck.id)',
+  `plate_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号(tms_truck.plate_number)',
+  `remark` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '任务备注',
+  `task_status` int NOT NULL DEFAULT '0' COMMENT '订单状态:-10取消,0新建,10出发,20运输中,30到达,40完成',
+  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+  `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+  `created_by` bigint NOT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `tt_task_no` (`task_no`) USING BTREE,
+  KEY `tt_project_id` (`project_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='调度计划表';
+
+-- ----------------------------
+-- Records of tms_task
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_task_order
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_task_order`;
+CREATE TABLE `tms_task_order` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `task_id` bigint NOT NULL DEFAULT '0' COMMENT '调度计划ID(tms_task.id)',
+  `order_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
+  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+  `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+  `created_by` bigint NOT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `tos_task_id` (`task_id`) USING BTREE,
+  KEY `tos_order_id` (`order_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='调度订单关联表';
+
+-- ----------------------------
+-- Records of tms_task_order
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for tms_truck
+-- ----------------------------
+DROP TABLE IF EXISTS `tms_truck`;
+CREATE TABLE `tms_truck` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '车辆ID',
+  `plate_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号',
+  `is_external` tinyint(1) DEFAULT NULL COMMENT '是否外协',
+  `truck_model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '卡车型号',
+  `truck_length` decimal(10,2) DEFAULT NULL COMMENT '卡车长度',
+  `truck_width` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '卡车宽度',
+  `energy_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '能源类型（租户字典 TMS_ENERGY_TYPE）',
+  `tires_count` int DEFAULT NULL COMMENT '轮胎数量',
+  `axles_count` int DEFAULT NULL COMMENT '轴数',
+  `file_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '档案编号',
+  `plate_color` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌颜色（租户字典 TMS_PLATE_COLOR）',
+  `usage_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '使用性质',
+  `brand` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌',
+  `truck_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车辆识别代码',
+  `engine_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '发动机号码',
+  `approved_passenger` int DEFAULT NULL COMMENT '核定载客人数',
+  `total_weight` decimal(10,2) DEFAULT NULL COMMENT '总质量',
+  `curb_weight` decimal(10,2) DEFAULT NULL COMMENT '整备质量',
+  `approved_weight` decimal(10,2) DEFAULT NULL COMMENT '核定载重',
+  `tow_weight` decimal(10,2) DEFAULT NULL COMMENT '牵引质量',
+  `scrap_date` datetime DEFAULT NULL COMMENT '报废日期',
+  `road_certificate_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '道路运输证号',
+  `road_certificate_due_date` date DEFAULT NULL COMMENT '道路运输证到期日期',
+  `owner_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所有人',
+  `owner_id_card_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所有人证件号',
+  `is_affiliation` tinyint(1) DEFAULT NULL COMMENT '是否隶属',
+  `subordination` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '挂靠单位',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+  `default_driver_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '默认司机ID',
+  `fleet_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车队ID',
+  `trailer_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '挂车ID',
+  `file_driver_and_vehicle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证照片ID',
+  `file_road_certificate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证照片ID',
+  `file_other` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证照片ID',
+  `enabled` bit(1) DEFAULT b'1' COMMENT '启用状态',
+  `approval_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批状态',
+  `approval_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批用户ID',
+  `approval_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批用户名',
+  `approval_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批描述',
+  `deleted` bit(1) DEFAULT b'0',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modified_by` bigint DEFAULT NULL COMMENT '修改人ID',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1739846242807664642 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='车辆信息表';
+
+-- ----------------------------
+-- Records of tms_truck
+-- ----------------------------
+BEGIN;
+INSERT INTO `tms_truck` (`id`, `plate_no`, `is_external`, `truck_model`, `truck_length`, `truck_width`, `energy_type`, `tires_count`, `axles_count`, `file_no`, `plate_color`, `usage_type`, `brand`, `truck_code`, `engine_code`, `approved_passenger`, `total_weight`, `curb_weight`, `approved_weight`, `tow_weight`, `scrap_date`, `road_certificate_code`, `road_certificate_due_date`, `owner_name`, `owner_id_card_no`, `is_affiliation`, `subordination`, `remark`, `default_driver_id`, `fleet_id`, `trailer_id`, `file_driver_and_vehicle`, `file_road_certificate`, `file_other`, `enabled`, `approval_status`, `approval_id`, `approval_name`, `approval_desc`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1739846242807664641, '沪A88888', 0, '12312', NULL, '213', '1', 123, 123123, '123123', 'BLUE', '12312', '小米', '213', '21312', 123, 3123.00, 312.00, 3122312.00, 3213.00, '2023-12-30 00:00:00', '21321', NULL, '123213', '123', 0, NULL, '213213', NULL, '1739849003846684673', NULL, NULL, NULL, NULL, b'1', NULL, NULL, NULL, NULL, b'0', 1, '长风一梦0000', '2023-12-27 11:10:44', 1, '长风一梦8888', '2023-12-27 09:07:56');
 COMMIT;
 
 -- ----------------------------
