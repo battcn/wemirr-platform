@@ -26,15 +26,15 @@
         <spotless-maven-plugin.version>2.22.1</spotless-maven-plugin.version>
 
         <!-- Spring Boot 相关 版本-->
-        <spring-boot-admin.version>3.3.6</spring-boot-admin.version>
-        <spring-boot.version>3.3.6</spring-boot.version>
-        <spring-cloud.version>2023.0.4</spring-cloud.version>
+        <spring-boot-admin.version>3.4.0</spring-boot-admin.version>
+        <spring-boot.version>3.4.0</spring-boot.version>
+        <spring-cloud.version>2024.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
         <!-- DB 相关 -->
         <mybatis-plus.version>3.5.8</mybatis-plus.version>
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
         <mysql.version>9.1.0</mysql.version>
-        <redisson.version>3.34.1</redisson.version>
+        <redisson.version>3.41.0</redisson.version>
         <!-- 文件存储 -->
         <minio.version>8.5.11</minio.version>
         <aliyun-sdk-oss.version>3.17.2</aliyun-sdk-oss.version>
@@ -62,7 +62,7 @@
             <dependency>
                 <groupId>com.fhs-opensource</groupId>
                 <artifactId>easy-trans-spring-boot-starter</artifactId>
-                <version>3.0.5</version>
+                <version>3.1.1</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>

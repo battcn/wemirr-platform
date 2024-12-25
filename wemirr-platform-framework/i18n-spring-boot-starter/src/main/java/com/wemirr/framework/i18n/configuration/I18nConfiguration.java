@@ -20,7 +20,6 @@
 package com.wemirr.framework.i18n.configuration;
 
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.i18n.I18nMessageProvider;
 import com.wemirr.framework.i18n.aspect.I18nAspect;
 import com.wemirr.framework.i18n.core.DynamicMessageSource;
@@ -65,7 +64,7 @@ public class I18nConfiguration {
     @Primary
     public MessageSource messageSource(MessageSourceProperties properties) {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        List<String> baseNames = StrUtil.split(properties.getBasename(), ",");
+        List<String> baseNames = properties.getBasename();
         baseNames.add("classpath:/default-i18n/messages");
         baseNames.add("classpath:i18n/messages");
         baseNames.add("classpath:messages");
