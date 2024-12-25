@@ -19,20 +19,23 @@
 package com.wemirr.platform.iam.tenant.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
-import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.framework.redis.plus.sequence.RedisSequenceHelper;
 import com.wemirr.platform.iam.system.domain.dto.resp.RolePermissionResp;
-import com.wemirr.platform.iam.system.domain.dto.resp.VisibleResourceResp;
+import com.wemirr.platform.iam.system.domain.entity.Resource;
+import com.wemirr.platform.iam.system.domain.enums.ResourceType;
 import com.wemirr.platform.iam.system.repository.ResourceMapper;
 import com.wemirr.platform.iam.tenant.domain.dto.req.ProductDefPermissionReq;
 import com.wemirr.platform.iam.tenant.domain.dto.req.ProductDefinitionSaveReq;
 import com.wemirr.platform.iam.tenant.domain.entity.ProductDefinition;
 import com.wemirr.platform.iam.tenant.domain.entity.ProductDefinitionRes;
 import com.wemirr.platform.iam.tenant.domain.entity.ProductSubscription;
+import com.wemirr.platform.iam.tenant.domain.enums.TenantSequence;
 import com.wemirr.platform.iam.tenant.repository.ProductDefResMapper;
 import com.wemirr.platform.iam.tenant.repository.ProductDefinitionMapper;
 import com.wemirr.platform.iam.tenant.repository.ProductSubscriptionMapper;
@@ -57,6 +60,7 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefini
     private final ProductDefResMapper productDefResMapper;
     private final ProductSubscriptionMapper productSubscriptionMapper;
     private final ResourceMapper resourceMapper;
+    private final RedisSequenceHelper sequenceHelper;
 
     @Override
     public void create(ProductDefinitionSaveReq req) {
@@ -64,7 +68,10 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefini
         if (count > 0) {
             throw CheckedException.badRequest("该产品名称已存在");
         }
-        this.baseMapper.insert(BeanUtil.toBean(req, ProductDefinition.class));
+        var bean = BeanUtil.toBean(req, ProductDefinition.class);
+        String code = sequenceHelper.generate(TenantSequence.PRODUCT_DEFINITION_NO);
+        bean.setCode(code);
+        this.baseMapper.insert(bean);
     }
 
     @Override
@@ -98,21 +105,30 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefini
 
     @Override
     public RolePermissionResp findPermissions(Long id) {
-        final List<VisibleResourceResp> buttons = BeanUtilPlus.toBeans(resourceMapper.selectList(), VisibleResourceResp.class);
-        final List<Long> roleRes = Optional.of(this.productDefResMapper.selectList(ProductDefinitionRes::getProductId, id))
-                .orElseGet(List::of).stream().map(ProductDefinitionRes::getResId).toList();
-        return RolePermissionResp.builder().menuIdList(roleRes)
-                .buttonIdList(buttons.stream().map(VisibleResourceResp::getId).collect(toList()))
-                .build();
+        final List<Resource> resourceList = resourceMapper.selectList();
+        if (CollUtil.isEmpty(resourceList)) {
+            return null;
+        }
+        List<Long> resIdList = this.productDefResMapper.selectList(ProductDefinitionRes::getProductId, id)
+                .stream().map(ProductDefinitionRes::getResId).distinct().toList();
+        List<Long> buttonIdList = resourceList.stream()
+                .filter(x -> resIdList.contains(x.getId()))
+                .filter(x -> x.getType() == ResourceType.BUTTON)
+                .map(Resource::getId)
+                .toList();
+        List<Long> menuIdList = resourceList.stream()
+                .filter(x -> resIdList.contains(x.getId()))
+                .filter(x -> x.getType() != ResourceType.BUTTON)
+                .map(Resource::getId)
+                .toList();
+        return RolePermissionResp.builder().menuIdList(menuIdList).buttonIdList(buttonIdList).build();
     }
 
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void delete(Long id) {
-        ProductDefinition definition = this.baseMapper.selectById(id);
-        if (definition == null) {
-            throw CheckedException.notFound("产品不存在,删除失败");
-        }
+        ProductDefinition definition = Optional.ofNullable(this.baseMapper.selectById(id))
+                .orElseThrow(() -> CheckedException.notFound("产品不存在,删除失败"));
         if (definition.getStatus() != null && definition.getStatus()) {
             throw CheckedException.notFound("产品已启用,删除失败");
         }
@@ -120,7 +136,6 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefini
         if (count != null && count > 0) {
             throw CheckedException.badRequest("产品已被订阅,删除失败");
         }
-
     }
 
 }

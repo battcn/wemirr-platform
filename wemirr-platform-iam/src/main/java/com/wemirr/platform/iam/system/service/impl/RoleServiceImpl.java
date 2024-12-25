@@ -25,18 +25,12 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.commons.security.DataResourceType;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.iam.system.domain.dto.req.ResourceQueryReq;
 import com.wemirr.platform.iam.system.domain.dto.req.RoleSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.RolePermissionResp;
-import com.wemirr.platform.iam.system.domain.dto.resp.VisibleResourceResp;
-import com.wemirr.platform.iam.system.domain.entity.DataPermissionResource;
-import com.wemirr.platform.iam.system.domain.entity.Role;
-import com.wemirr.platform.iam.system.domain.entity.RoleRes;
-import com.wemirr.platform.iam.system.domain.entity.UserRole;
+import com.wemirr.platform.iam.system.domain.entity.*;
 import com.wemirr.platform.iam.system.domain.enums.ResourceType;
 import com.wemirr.platform.iam.system.repository.*;
 import com.wemirr.platform.iam.system.service.RoleService;
@@ -56,24 +50,22 @@ import static java.util.stream.Collectors.toList;
  * </p>
  *
  * @author Levin
- * @since 2019-07-03
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implements RoleService {
-    
+
     private final RoleResMapper roleResMapper;
     private final DataPermissionResourceMapper dataPermissionResourceMapper;
     private final UserRoleMapper userRoleMapper;
     private final ResourceMapper resourceMapper;
-    private final AuthenticationContext context;
-    
+
     @Override
     public List<Role> list() {
         return baseMapper.list();
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void removeByRoleId(Long roleId) {
@@ -91,7 +83,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         roleResMapper.delete(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, roleId));
         userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId));
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void create(RoleSaveReq req) {
@@ -100,7 +92,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         super.save(role);
         addDataPermission(role.getId(), req.getOrgList());
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void modify(Long roleId, RoleSaveReq req) {
@@ -119,7 +111,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         this.baseMapper.updateById(bean);
         addDataPermission(role.getId(), req.getOrgList());
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void assignUser(Long roleId, List<Long> userIdList) {
@@ -132,7 +124,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
                 .toList();
         this.userRoleMapper.insertBatchSomeColumn(userRoles);
     }
-    
+
     private void addDataPermission(Long roleId, List<Long> orgList) {
         dataPermissionResourceMapper.delete(Wraps.<DataPermissionResource>lbQ()
                 .eq(DataPermissionResource::getOwnerId, roleId)
@@ -150,21 +142,24 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
                 .collect(toList());
         dataPermissionResourceMapper.insertBatchSomeColumn(list);
     }
-    
+
     @Override
     public RolePermissionResp findRolePermissionById(Long roleId) {
-        final List<VisibleResourceResp> resourceList = resourceMapper.findVisibleResource(ResourceQueryReq.builder()
-                .roleId(roleId).userId(context.userId()).build());
+        final List<Resource> resourceList = resourceMapper.selectList();
         if (CollUtil.isEmpty(resourceList)) {
             return null;
         }
+        List<Long> resIdList = this.roleResMapper.selectList(RoleRes::getRoleId, roleId)
+                .stream().map(RoleRes::getResId).distinct().toList();
         List<Long> buttonIdList = resourceList.stream()
                 .filter(x -> x.getType() == ResourceType.BUTTON)
-                .map(VisibleResourceResp::getId)
+                .filter(x -> resIdList.contains(x.getId()))
+                .map(Resource::getId)
                 .toList();
         List<Long> menuIdList = resourceList.stream()
                 .filter(x -> x.getType() != ResourceType.BUTTON)
-                .map(VisibleResourceResp::getId)
+                .filter(x -> resIdList.contains(x.getId()))
+                .map(Resource::getId)
                 .toList();
         return RolePermissionResp.builder().menuIdList(menuIdList).buttonIdList(buttonIdList).build();
     }

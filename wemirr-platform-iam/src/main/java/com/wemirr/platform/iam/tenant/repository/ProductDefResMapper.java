@@ -20,12 +20,17 @@ package com.wemirr.platform.iam.tenant.repository;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.iam.tenant.domain.entity.ProductDefinitionRes;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author Levin
  */
 @Repository
 public interface ProductDefResMapper extends SuperMapper<ProductDefinitionRes> {
-    
+
+    List<Long> selectDefRedByTenantId(@Param("tenantId") Long tenantId);
+
 }

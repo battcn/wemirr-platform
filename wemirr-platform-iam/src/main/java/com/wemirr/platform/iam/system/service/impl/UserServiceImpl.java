@@ -41,6 +41,9 @@ import com.wemirr.framework.db.mybatisplus.datascope.service.DataScopeService;
 import com.wemirr.framework.db.mybatisplus.datascope.util.DataPermissionUtils;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
+import com.wemirr.framework.db.properties.DatabaseProperties;
+import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.framework.log.diff.core.annotation.DiffLog;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
@@ -53,14 +56,15 @@ import com.wemirr.platform.iam.system.domain.dto.req.UserPageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserUpdateReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.UserResp;
+import com.wemirr.platform.iam.system.domain.entity.Resource;
 import com.wemirr.platform.iam.system.domain.entity.Role;
 import com.wemirr.platform.iam.system.domain.entity.User;
 import com.wemirr.platform.iam.system.domain.entity.UserRole;
+import com.wemirr.platform.iam.system.repository.ResourceMapper;
 import com.wemirr.platform.iam.system.repository.RoleMapper;
 import com.wemirr.platform.iam.system.repository.UserMapper;
 import com.wemirr.platform.iam.system.repository.UserRoleMapper;
 import com.wemirr.platform.iam.system.service.OrgService;
-import com.wemirr.platform.iam.system.service.ResourceService;
 import com.wemirr.platform.iam.system.service.UserService;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
 import com.wemirr.platform.iam.tenant.repository.TenantMapper;
@@ -69,7 +73,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.Lists;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -79,16 +85,16 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implements UserService {
-    
+
     private final UserRoleMapper userRoleMapper;
     private final AuthenticationContext context;
     private final OrgService orgService;
-    private final ResourceService resourceService;
+    private final ResourceMapper resourceMapper;
     private final RoleMapper roleMapper;
     private final TenantMapper tenantMapper;
     private final DataScopeService dataScopeService;
     private final SaTokenDao saTokenDao;
-    
+
     @Override
     public void create(UserSaveReq req) {
         final long count = super.count(Wraps.<User>lbQ().eq(User::getUsername, req.getUsername()));
@@ -100,7 +106,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         bean.setTenantId(context.tenantId());
         this.baseMapper.insert(bean);
     }
-    
+
     @Override
     @DiffLog(group = "用户管理", tag = "编辑用户", businessKey = "{{#id}}",
             success = "更新用户信息 {_DIFF{#_newObj}}",
@@ -111,19 +117,20 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         DiffLogContext.putDiffItem(oldVal, newVal);
         this.baseMapper.updateById(newVal);
     }
-    
+
     @Override
     public List<User> list() {
         return baseMapper.list();
     }
-    
+
     @Override
     @RemoteResult
     public IPage<UserResp> pageList(UserPageReq req) {
         return DataPermissionUtils.executeWithDataPermissionRule(DataPermissionRule.builder()
-                .columns(List.of(new DataPermissionRule.Column()))
-                .build(),
+                        .columns(List.of(new DataPermissionRule.Column()))
+                        .build(),
                 () -> baseMapper.selectPage(req.buildPage(), Wraps.<User>lbQ()
+                        .eq(User::getTenantId, context.tenantId())
                         .like(User::getUsername, req.getUsername())
                         .like(User::getNickName, req.getNickName())
                         .like(User::getEmail, req.getEmail())
@@ -134,7 +141,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
                         .in(User::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
                         .eq(User::getMobile, req.getMobile())).convert(x -> BeanUtil.toBean(x, UserResp.class)));
     }
-    
+
     @Override
     public void changePassword(Long userId, String orgPassword, String newPassword) {
         final User user = Optional.ofNullable(this.baseMapper.selectById(userId)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
@@ -143,7 +150,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         // }
         // this.baseMapper.updateById(User.builder().id(userId).password(passwordEncoder.encode(newPassword)).build());
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void deleteById(Long id) {
@@ -154,7 +161,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         baseMapper.deleteById(id);
         userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getUserId, id));
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void changeInfo(ChangeUserInfoReq req) {
@@ -164,7 +171,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
                 .description(req.getDescription()).build();
         this.baseMapper.updateById(bean);
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void resetPassword(Long id) {
@@ -180,7 +187,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         log.info("随机生成的新密码 - {} - {}", password, encodePassword);
         this.baseMapper.updateById(User.builder().id(id).password(encodePassword).build());
     }
-    
+
     @Override
     public UserInfoDetails userinfo(Long userId) {
         // TODO 后续通过注解和 API 方式动态控制
@@ -204,13 +211,39 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         info.setPassword(user.getPassword());
         final List<Role> roles = this.roleMapper.findRoleByUserId(user.getId());
         info.setRoles(roles.stream().map(Role::getCode).toList());
-        final List<String> permissions = this.resourceService.selectPermissionByUserId(user.getId());
-        info.setFuncPermissions(permissions);
+        setFuncPermissions(info);
         // 为了减少一次数据库查询,所以用了这个不规范写法
         info.setDataPermission(dataScopeService.getDataScopeById(user.getId()));
         return info;
     }
-    
+
+    private final DatabaseProperties databaseProperties;
+
+    private static final List<String> ADMIN_ROLE = List.of("PLATFORM-ADMIN", "TENANT-ADMIN");
+
+    public void setFuncPermissions(UserInfoDetails info) {
+        Collection<String> roles = info.getRoles();
+        Long userId = info.getUserId();
+        // 需要考虑下租户订阅产品后,租户管理员应该自动读取相关权限
+        // 同时需要考虑到期的产品如何回收权限
+        DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
+        boolean isAdmin = CollUtil.containsAny(roles, ADMIN_ROLE);
+        if (isAdmin || multiTenant.getType() != MultiTenantType.COLUMN) {
+            // 查询租户数据源
+            LbqWrapper<Resource> wrapper = Wraps.<Resource>lbQ().select(Resource::getPermission);
+            if (!isAdmin) {
+                List<Long> resIdList = this.baseMapper.selectResByUserId(userId);
+                wrapper.in(Resource::getId, resIdList);
+            }
+            List<String> permission = TenantHelper.executeWithMaster(() -> this.resourceMapper.selectList(wrapper)
+                    .stream().filter(Objects::nonNull).map(Resource::getPermission).distinct().toList());
+            info.setFuncPermissions(permission);
+        } else {
+            List<String> permission = this.resourceMapper.selectPermissionByUserId(userId);
+            info.setFuncPermissions(permission);
+        }
+    }
+
     @Override
     public IPage<Object> userOnlineList(UserOnlinePageReq req) {
         List<Object> list = Lists.newArrayList();

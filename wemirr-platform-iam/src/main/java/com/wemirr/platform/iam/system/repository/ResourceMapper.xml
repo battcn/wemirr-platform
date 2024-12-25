@@ -2,38 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wemirr.platform.iam.system.repository.ResourceMapper">
 
-    <select id="findVisibleResource" resultType="com.wemirr.platform.iam.system.domain.dto.resp.VisibleResourceResp">
-        SELECT
-        t1.*
-        FROM
-        sys_resource t1
-        WHERE t1.deleted = 0
-        <if test="req.status != null">
-            and t1.status = #{req.status}
-        </if>
-        <if test="req.type != null">
-            and t1.type = #{req.type}
-        </if>
-        <if test="req.parentId != null">
-            and t1.parent_id = #{req.parentId}
-        </if>
-        and t1.id IN (
-        SELECT
-        res_id
-        FROM
-        sys_role_res
-        WHERE 1 = 1
-        <if test="req.roleId != null">
-            AND role_id = #{req.roleId}
-        </if>
-        <if test="req.roleId == null">
-            AND role_id IN ( SELECT role_id FROM sys_user_role WHERE user_id = #{req.userId} )
-        </if>
-        ) OR t1.global
-        ORDER BY t1.sequence
-    </select>
-
-
     <select id="selectPermissionByUserId" resultType="java.lang.String">
         SELECT DISTINCT (t2.permission)
         FROM sys_role_res t1

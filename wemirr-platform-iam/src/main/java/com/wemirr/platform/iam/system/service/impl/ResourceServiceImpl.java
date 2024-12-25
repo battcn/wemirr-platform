@@ -21,15 +21,12 @@ package com.wemirr.platform.iam.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
-import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.framework.db.properties.DatabaseProperties;
-import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceQueryReq;
 import com.wemirr.platform.iam.system.domain.dto.req.ResourceSaveReq;
@@ -43,13 +40,13 @@ import com.wemirr.platform.iam.system.repository.RoleMapper;
 import com.wemirr.platform.iam.system.repository.RoleResMapper;
 import com.wemirr.platform.iam.system.repository.UserMapper;
 import com.wemirr.platform.iam.system.service.ResourceService;
+import com.wemirr.platform.iam.tenant.repository.ProductDefResMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * <p>
@@ -58,50 +55,32 @@ import java.util.Objects;
  * </p>
  *
  * @author Levin
- * @since 2019-07-03
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resource> implements ResourceService {
 
-    public static final String DEFAULT_PATH = "/system/development/release/tenant_%s";
-    public static final String DEFAULT_COMPONENT = "/system/development/build/standard";
-
     private static final String SPEL = "/";
-    private final DatabaseProperties databaseProperties;
+    private final AuthenticationContext context;
+    private final ProductDefResMapper productDefResMapper;
     private final RoleMapper roleMapper;
     private final UserMapper userMapper;
     private final RoleResMapper roleResMapper;
 
     @Override
     public List<VisibleResourceResp> findVisibleResource(ResourceQueryReq req) {
-        // TODO 查询租户数据源
-        // DynamicDataSourceContextHolder.poll();
-        List<Long> resIdList = this.userMapper.selectResByUserId(req.getUserId());
+        // TODO 如果动态数据源应该分批次查询,先查询出这个租户下的全部权限,
+        List<Long> roleResIdList = this.userMapper.selectResByUserId(req.getUserId());
+        List<Long> productResIdList = TenantHelper.executeWithMaster(() -> this.productDefResMapper.selectDefRedByTenantId(context.tenantId()));
+        List<Long> resIdList = CollUtil.addAll(roleResIdList, productResIdList).stream().distinct().toList();
         // 解决租户越权行为,菜单数据直接从主库查询,减少数据分发次数
         List<Resource> list = TenantHelper.executeWithMaster(() -> this.baseMapper.selectList(Wraps.<Resource>lbQ()
                 .eq(Resource::getStatus, req.getStatus())
-                .and(lb -> lb.eq(Resource::getGlobal, true).or(CollUtil.isNotEmpty(resIdList), xx -> xx.in(Resource::getId, resIdList)))
+                .and(lb -> lb.eq(Resource::getGlobal, true)
+                        .or(CollUtil.isNotEmpty(resIdList), xx -> xx.in(Resource::getId, resIdList)))
                 .eq(Resource::getParentId, req.getParentId()).eq(Resource::getType, req.getType())));
         return BeanUtilPlus.toBeans(list, VisibleResourceResp.class);
-    }
-
-    @Override
-    public List<String> selectPermissionByUserId(Long userId) {
-        DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
-        if (multiTenant.getType() == MultiTenantType.COLUMN) {
-            return this.baseMapper.selectPermissionByUserId(userId);
-        }
-        // 查询租户数据源
-        List<Long> resIdList = this.userMapper.selectResByUserId(userId);
-        DynamicDataSourceContextHolder.poll();
-        // 解决租户越权行为,菜单数据直接从主库查询,减少数据分发次数
-        DynamicDataSourceContextHolder.push(multiTenant.getDefaultDsName());
-        // 此处应该还要读取一下主库下发的资源数据,防止租户库自己偷偷该数据
-        List<Resource> list = this.baseMapper.selectList(Wraps.<Resource>lbQ().select(Resource::getPermission).in(Resource::getId, resIdList));
-        DynamicDataSourceContextHolder.poll();
-        return list.stream().filter(Objects::nonNull).map(Resource::getPermission).filter(StrUtil::isNotBlank).toList();
     }
 
     @Override

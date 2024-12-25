@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/product_definitions")
+@RequestMapping("/product-definitions")
 @Tag(name = "产品定义", description = "产品定义")
 public class ProductDefinitionController {
 

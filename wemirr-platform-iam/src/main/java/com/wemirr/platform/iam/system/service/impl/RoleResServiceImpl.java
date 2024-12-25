@@ -47,10 +47,11 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes> implements RoleResService {
-    
+
     private final UserRoleMapper userRoleMapper;
-    
+
     @Override
+    @DSTransactional(rollbackFor = Exception.class)
     public boolean assignUser(UserRoleSaveReq req) {
         userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, req.getRoleId()));
         List<UserRole> list = req.getUserIdList().stream()
@@ -58,15 +59,15 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
         userRoleMapper.insertBatchSomeColumn(list);
         return true;
     }
-    
+
     @Override
-    @DSTransactional
+    @DSTransactional(rollbackFor = Exception.class)
     public void assignResource(RoleResSaveReq req) {
         // 删除角色和资源的关联
         super.remove(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, req.getRoleId()));
         resHandler(req, req.getRoleId());
     }
-    
+
     private void resHandler(RoleResSaveReq data, Long roleId) {
         final Set<Long> resIdList = data.getResIdList();
         if (CollUtil.isEmpty(resIdList)) {
