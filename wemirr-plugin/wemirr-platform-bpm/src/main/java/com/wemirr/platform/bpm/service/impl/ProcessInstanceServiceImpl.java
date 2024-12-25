@@ -102,10 +102,10 @@ public class ProcessInstanceServiceImpl implements ProcessInstanceService {
 
     @Override
     public ProcessInstanceDetailResp detail(String id) {
-        var processInstanceExt = Optional.ofNullable(processInstanceExtMapper.selectOne(ProcessInstanceExt::getProcInstId, id)).orElseThrow(() -> CheckedException.badRequest("流程信息不存在"));
+        var instanceExt = Optional.ofNullable(processInstanceExtMapper.selectOne(ProcessInstanceExt::getProcInstId, id)).orElseThrow(() -> CheckedException.badRequest("流程信息不存在"));
         //获取历史任务信息
         var historicActivityInstances = historyService.createHistoricActivityInstanceQuery().processInstanceId(id).orderByHistoricActivityInstanceStartTime().asc().list();
-        BpmnModelInstance instance = repositoryService.getBpmnModelInstance(processInstanceExt.getProcDefId());
+        BpmnModelInstance instance = repositoryService.getBpmnModelInstance(instanceExt.getProcDefId());
         Collection<SequenceFlow> sequenceFlows = instance.getModelElementsByType(SequenceFlow.class);
         // 使用 Stream API 优化遍历
         var nodeList = historicActivityInstances.stream()
@@ -122,11 +122,11 @@ public class ProcessInstanceServiceImpl implements ProcessInstanceService {
                         })
                 )
                 .collect(Collectors.toList());
-        return ProcessInstanceDetailResp.builder().diagramData(processInstanceExt.getDiagramData()).diagramName(processInstanceExt.getDiagramName())
-                .processDefinitionId(processInstanceExt.getProcDefId()).processDefinitionKey(processInstanceExt.getProcDefKey())
-                .processInstanceId(processInstanceExt.getProcInstId()).processInstanceName(processInstanceExt.getProcInstName()).version(processInstanceExt.getProcInstVersion())
-                .processStartTime(processInstanceExt.getProcInstStartTime())
-                .processEndTime(processInstanceExt.getProcInstEndTime())
+        return ProcessInstanceDetailResp.builder().diagramData(instanceExt.getDiagramData()).diagramName(instanceExt.getDiagramName())
+                .processDefinitionId(instanceExt.getProcDefId()).processDefinitionKey(instanceExt.getProcDefKey())
+                .processInstanceId(instanceExt.getProcInstId()).processInstanceName(instanceExt.getProcInstName()).version(instanceExt.getProcInstVersion())
+                .processStartTime(instanceExt.getProcInstStartTime())
+                .processEndTime(instanceExt.getProcInstEndTime())
                 .nodeList(nodeList).build();
     }
 
