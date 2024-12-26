@@ -17,36 +17,31 @@
  * limitations under the License.
  */
 
-package com.wemirr.framework.security.configuration;
+package com.wemirr.platform.bpm.configuration;
 
-import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.exception.NotLoginException;
-import cn.dev33.satoken.exception.SaTokenException;
 import com.wemirr.framework.commons.entity.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.camunda.bpm.engine.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * 全局异常处理
+ * BPMN 异常处理
  *
  * @author Levin
  */
 @Slf4j
 @RestControllerAdvice
-public class OAuth2ExceptionHandler {
-    
-    @ExceptionHandler(NotLoginException.class)
-    public ResponseEntity<Result<?>> handlerException(NotLoginException e) {
-        log.error("no-login => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Result.fail(HttpStatus.UNAUTHORIZED.value(), e.getMessage()));
+public class BpmExceptionHandler {
+
+    @ResponseBody
+    @ExceptionHandler(value = ParseException.class)
+    public Result<ResponseEntity<Void>> handlerException(ParseException e) {
+        String message = "BPMN 异常[" + e.getLocalizedMessage() + "]";
+        return Result.fail(HttpStatus.BAD_REQUEST.value(), message);
     }
-    
-    @ExceptionHandler(SaTokenException.class)
-    public ResponseEntity<Result<?>> handlerException(SaTokenException e) {
-        log.error("sa-token => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
-        return ResponseEntity.ok(Result.fail(HttpStatus.FORBIDDEN.value(), e.getMessage()));
-    }
+
 }
