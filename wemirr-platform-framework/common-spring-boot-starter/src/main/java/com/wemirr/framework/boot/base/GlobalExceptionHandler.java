@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.boot.base;
 
+import cn.dev33.satoken.context.SaHolder;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.wemirr.framework.commons.entity.Result;
@@ -78,7 +79,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = CheckedException.class)
     public Result<ResponseEntity<Void>> handlerException(CheckedException e) {
-        return Result.fail(e.getCode(), i18nMessageResource.getMessage(e.getMessage(), e.getArgs()));
+        String message = i18nMessageResource.getMessage(e.getMessage(), e.getArgs());
+        log.error("bpm-parse => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), message);
+        return Result.fail(e.getCode(), message);
     }
 
     @ExceptionHandler(UnexpectedTypeException.class)
@@ -91,7 +94,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     public final Result<ResponseEntity<Void>> dataIntegrityViolationException(DataIntegrityViolationException e) {
         log.warn("""
-                                
+                
                 [================================================================]
                 [异常信息] - [{}]
                 [================================================================]""", e.getLocalizedMessage());

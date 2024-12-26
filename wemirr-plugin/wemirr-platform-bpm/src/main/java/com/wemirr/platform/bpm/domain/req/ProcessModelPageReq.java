@@ -2,6 +2,7 @@
 package com.wemirr.platform.bpm.domain.req;
 
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
+import com.wemirr.platform.bpm.feign.domain.enums.ProcessModelStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +27,6 @@ public class ProcessModelPageReq extends PageRequest {
     @Schema(description = "类别ID")
     private String categoryId;
 
-    @Schema(description = "模型状态:0-未部署,1-已经部署,2-新版本待部署,参考常量字段:ModelStateType")
-    private Integer state;
+    @Schema(description = "模型状态:0-未部署,1-已经部署,2-新版本待部署")
+    private ProcessModelStatus status;
 }

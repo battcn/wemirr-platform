@@ -19,6 +19,7 @@
 
 package com.wemirr.platform.bpm.configuration;
 
+import cn.dev33.satoken.context.SaHolder;
 import com.wemirr.framework.commons.entity.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.ParseException;
@@ -41,6 +42,7 @@ public class BpmExceptionHandler {
     @ExceptionHandler(value = ParseException.class)
     public Result<ResponseEntity<Void>> handlerException(ParseException e) {
         String message = "BPMN 异常[" + e.getLocalizedMessage() + "]";
+        log.error("bpm-parse => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
         return Result.fail(HttpStatus.BAD_REQUEST.value(), message);
     }
 

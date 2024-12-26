@@ -6,6 +6,8 @@ import com.wemirr.platform.bpm.domain.resp.ProcessInstanceDetailResp;
 import com.wemirr.platform.bpm.domain.resp.ProcessInstancePageResp;
 import com.wemirr.platform.bpm.domain.resp.ProcessTaskCommentResp;
 import com.wemirr.platform.bpm.domain.resp.RenderFormResp;
+import com.wemirr.platform.bpm.feign.domain.req.StartInstanceReq;
+import com.wemirr.platform.bpm.feign.domain.resp.StartInstanceResp;
 import com.wemirr.platform.bpm.service.ProcessInstanceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,7 +30,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "流程实例", description = "流程实例管理")
-@RequestMapping(value = "/process_instances", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/process-instances", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProcessInstanceController {
 
     private final ProcessInstanceService processInstanceService;
@@ -39,8 +41,15 @@ public class ProcessInstanceController {
         return processInstanceService.pageList(req);
     }
 
+    @PostMapping("/start")
+    @Operation(summary = "启动实例", description = "启动流程实例")
+    public StartInstanceResp start(@RequestBody StartInstanceReq req) {
+        return processInstanceService.startProcess(req);
+    }
+
+
     @PutMapping("/{instance_id}/status/{status}")
-    @Operation(summary = "挂起或激活流程实例", description = "挂起或激活流程实例")
+    @Operation(summary = "状态变更", description = "挂起或激活流程实例")
     public void suspendOrResumeInstance(@PathVariable("instance_id") Long instanceId, @PathVariable("status") Boolean status) {
         processInstanceService.suspendOrResumeInstance(instanceId, status);
     }

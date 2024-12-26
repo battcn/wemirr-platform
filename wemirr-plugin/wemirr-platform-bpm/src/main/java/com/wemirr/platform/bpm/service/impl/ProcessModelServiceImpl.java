@@ -21,6 +21,7 @@ import com.wemirr.platform.bpm.domain.entity.ProcessModel;
 import com.wemirr.platform.bpm.domain.entity.ProcessModelForm;
 import com.wemirr.platform.bpm.domain.req.*;
 import com.wemirr.platform.bpm.domain.resp.*;
+import com.wemirr.platform.bpm.feign.domain.enums.ProcessModelStatus;
 import com.wemirr.platform.bpm.repository.ProcessCategoryMapper;
 import com.wemirr.platform.bpm.repository.ProcessDeployHistoryMapper;
 import com.wemirr.platform.bpm.repository.ProcessModelFormMapper;
@@ -60,7 +61,7 @@ public class ProcessModelServiceImpl extends SuperServiceImpl<ProcessModelMapper
     @Override
     public IPage<ProcessModelPageResp> pageList(ProcessModelPageReq req) {
         return baseMapper.selectPage(req.buildPage(), Wraps.<ProcessModel>lbQ()
-                        .eq(ProcessModel::getState, req.getState())
+                        .eq(ProcessModel::getStatus, req.getStatus())
                         .eq(ProcessModel::getDiagramName, req.getDiagramName())
                         .eq(ProcessModel::getCategoryCode, req.getCategoryId()))
                 .convert(x -> BeanUtil.toBean(x, ProcessModelPageResp.class));
@@ -75,13 +76,13 @@ public class ProcessModelServiceImpl extends SuperServiceImpl<ProcessModelMapper
         if (count != null && count > 0) {
             throw CheckedException.badRequest("bpm.design.duplicate-process-key");
         }
-        ProcessModel record = BeanUtil.toBean(req, ProcessModel.class);
-        record.setTenantId(context.tenantId());
-        record.setCategoryCode(category.getCode());
-        record.setCategoryName(category.getName());
-        record.setDiagramIcon(req.getDiagramIcon());
-        record.setDiagramData(record.getDiagramData());
-        this.baseMapper.insert(record);
+        var bean = BeanUtil.toBean(req, ProcessModel.class);
+        bean.setTenantId(context.tenantId());
+        bean.setCategoryCode(category.getCode());
+        bean.setCategoryName(category.getName());
+        bean.setDiagramIcon(req.getDiagramIcon());
+        bean.setDiagramData(bean.getDiagramData());
+        this.baseMapper.insert(bean);
     }
 
     @Override
@@ -96,7 +97,7 @@ public class ProcessModelServiceImpl extends SuperServiceImpl<ProcessModelMapper
         }
         ProcessModel record = BeanUtil.toBean(req, ProcessModel.class);
         record.setId(id);
-        record.setState(2);
+        record.setStatus(ProcessModelStatus.NEW_VERSION_TO_DEPLOY);
         record.setCategoryCode(category.getCode());
         record.setCategoryName(category.getName());
         record.setDiagramData(record.getDiagramData());
@@ -148,7 +149,7 @@ public class ProcessModelServiceImpl extends SuperServiceImpl<ProcessModelMapper
                 .name(processModel.getDiagramName()).deploy();
         var processCategory = Optional.ofNullable(this.processCategoryMapper.selectById(processModel.getCategoryId())).orElseThrow(() -> CheckedException.notFound("模型部署失败,流程类目不存在"));
         var definition = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
-        this.updateById(ProcessModel.builder().id(id).state(1)
+        this.updateById(ProcessModel.builder().id(id).status(ProcessModelStatus.DEPLOYED)
                 .definitionId(definition.getId()).definitionKey(definition.getKey())
                 .deployId(deployment.getId()).deployName(deployment.getName())
                 .deployTime(deployment.getDeploymentTime().toInstant())
@@ -203,7 +204,7 @@ public class ProcessModelServiceImpl extends SuperServiceImpl<ProcessModelMapper
         if (CollUtil.isEmpty(list)) {
             return List.of();
         }
-        final List<ProcessModel> modelList = this.baseMapper.selectList(Wraps.<ProcessModel>lbQ().eq(ProcessModel::getState, 1));
+        final List<ProcessModel> modelList = this.baseMapper.selectList(Wraps.<ProcessModel>lbQ().eq(ProcessModel::getStatus, ProcessModelStatus.DEPLOYED));
         final Map<Long, List<ProcessModel>> map = modelList.stream().collect(Collectors.groupingBy(ProcessModel::getCategoryId));
         return list.stream().map(category -> {
             final List<DesignModelListResp> designModelList = Optional.ofNullable(map.get(category.getId())).orElseGet(List::of)
@@ -221,12 +222,12 @@ public class ProcessModelServiceImpl extends SuperServiceImpl<ProcessModelMapper
     @DSTransactional(rollbackFor = Exception.class)
     public void startInstance(Long id, InstanceStartReq req) {
         ProcessModel processModel = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("模型不存在"));
-        if (processModel.getState() != 1) {
+        if (processModel.getStatus() != ProcessModelStatus.DEPLOYED) {
             throw CheckedException.badRequest("模型未部署");
         }
         // 设置流程参数
         JSONObject variables = new JSONObject(req.getFormData());
-        variables.put("ext.instName", req.getInstanceName());
+        variables.put("ext.processInstName", req.getInstanceName());
         variables.put("ext.businessKey", req.getBusinessKey());
         variables.put("ext.businessGroup", req.getBusinessGroup());
         variables.put("ext.formData", req.getFormData());

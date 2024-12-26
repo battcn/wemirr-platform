@@ -6,6 +6,8 @@ import com.wemirr.platform.bpm.domain.resp.ProcessInstanceDetailResp;
 import com.wemirr.platform.bpm.domain.resp.ProcessInstancePageResp;
 import com.wemirr.platform.bpm.domain.resp.ProcessTaskCommentResp;
 import com.wemirr.platform.bpm.domain.resp.RenderFormResp;
+import com.wemirr.platform.bpm.feign.domain.req.StartInstanceReq;
+import com.wemirr.platform.bpm.feign.domain.resp.StartInstanceResp;
 
 import java.util.List;
 
@@ -62,5 +64,12 @@ public interface ProcessInstanceService {
      * @return 审核信息
      */
     List<ProcessTaskCommentResp> approvalInfo(String procInstId);
+
+    /**
+     * 启动流程实例
+     *
+     * @param req req
+     */
+    StartInstanceResp startProcess(StartInstanceReq req);
 
 }

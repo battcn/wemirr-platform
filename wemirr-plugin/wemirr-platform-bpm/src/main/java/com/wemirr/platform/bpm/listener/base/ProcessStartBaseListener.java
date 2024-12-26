@@ -47,7 +47,7 @@ public class ProcessStartBaseListener implements ExecutionListener {
                 .procDefKey(processDefinition.getKey())
                 .procDefName(processDefinition.getName())
                 .procInstId(execution.getProcessInstanceId())
-                .procInstName(variables.getString("ext.instName"))
+                .procInstName(variables.getString("ext.processInstName"))
                 .businessKey(variables.getString("ext.businessKey"))
                 .businessGroup(variables.getString("ext.businessGroup"))
                 .procInstVersion(deployHistory.getVersion())

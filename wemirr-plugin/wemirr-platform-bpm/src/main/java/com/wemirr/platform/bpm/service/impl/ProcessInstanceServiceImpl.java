@@ -2,19 +2,25 @@ package com.wemirr.platform.bpm.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.bpm.domain.entity.ProcessDeployHistory;
 import com.wemirr.platform.bpm.domain.entity.ProcessInstanceExt;
+import com.wemirr.platform.bpm.domain.entity.ProcessModel;
 import com.wemirr.platform.bpm.domain.entity.ProcessTaskComment;
 import com.wemirr.platform.bpm.domain.enums.ProcInstStatus;
 import com.wemirr.platform.bpm.domain.req.ProcessInstancePageReq;
 import com.wemirr.platform.bpm.domain.resp.*;
+import com.wemirr.platform.bpm.feign.domain.enums.ProcessModelStatus;
+import com.wemirr.platform.bpm.feign.domain.req.StartInstanceReq;
+import com.wemirr.platform.bpm.feign.domain.resp.StartInstanceResp;
 import com.wemirr.platform.bpm.repository.ProcessDeployHistoryMapper;
 import com.wemirr.platform.bpm.repository.ProcessInstanceExtMapper;
 import com.wemirr.platform.bpm.repository.ProcessTaskCommentMapper;
@@ -25,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.instance.FlowNode;
@@ -48,6 +55,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class ProcessInstanceServiceImpl implements ProcessInstanceService {
 
+    private final AuthenticationContext context;
     private final RuntimeService runtimeService;
     private final RepositoryService repositoryService;
     private final TaskService taskService;
@@ -151,6 +159,31 @@ public class ProcessInstanceServiceImpl implements ProcessInstanceService {
                 .remark(x.getRemark()).attachment(x.getAttachment())
                 .approverTime(x.getCreatedTime()).approverName(x.getCreatedName())
                 .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    @DSTransactional(rollbackFor = Exception.class)
+    public StartInstanceResp startProcess(StartInstanceReq req) {
+        String businessKey = StrUtil.blankToDefault(IdUtil.fastSimpleUUID(), req.getBusinessKey());
+        ProcessModel processModel = Optional.ofNullable(this.processModelService.getOne(Wraps.<ProcessModel>lbQ()
+                        .eq(ProcessModel::getCode, req.getModelCode())))
+                .orElseGet(() -> ProcessModel.builder().code(req.getModelCode()).status(ProcessModelStatus.NOT_EXIST).build());
+        StartInstanceResp result = StartInstanceResp.builder().businessKey(businessKey).modelStatus(processModel.getStatus()).build();
+        if (processModel.getStatus() != ProcessModelStatus.DEPLOYED) {
+            return result;
+        }
+        // 设置流程参数
+        JSONObject variables = new JSONObject(req.getVariables());
+        variables.put("ext.processInstName", req.getProcessInstName());
+        variables.put("ext.businessKey", req.getBusinessKey());
+        variables.put("ext.businessGroup", req.getBusinessGroup());
+        variables.put("ext.businessTag", req.getBusinessTag());
+        variables.put("ext.remark", req.getRemark());
+        variables.put("ext.variables", req.getVariables());
+        ProcessInstance instance = runtimeService.createProcessInstanceByKey(processModel.getDefinitionKey())
+                .processDefinitionTenantId(context.tenantId().toString()).businessKey(businessKey).setVariables(variables).execute();
+        result.setProcessInstanceId(instance.getProcessInstanceId());
+        return result;
     }
 
     @Override

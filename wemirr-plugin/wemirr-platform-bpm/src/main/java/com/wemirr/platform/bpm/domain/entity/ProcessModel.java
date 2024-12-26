@@ -2,6 +2,7 @@ package com.wemirr.platform.bpm.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
+import com.wemirr.platform.bpm.feign.domain.enums.ProcessModelStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,9 @@ import java.time.Instant;
 @AllArgsConstructor
 @TableName("wp_process_model")
 public class ProcessModel extends SuperEntity<Long> {
+
+    @Schema(description = "模型编号")
+    private String code;
 
     @Schema(description = "bpmn模型")
     private String diagramData;
@@ -53,9 +57,9 @@ public class ProcessModel extends SuperEntity<Long> {
     private String categoryName;
 
     /**
-     * 模型状态:0-未部署,1-已经部署,2-新版本待部署,参考常量字段:ModelStateType
+     * 模型状态:0-未部署,1-已经部署,2-新版本待部署,参考常量字段:ProcessModelStatus
      */
-    private Integer state;
+    private ProcessModelStatus status;
 
     @Schema(description = "是否pool模型,0-不是,1-是", example = "0")
     private Integer havePool;
@@ -75,7 +79,7 @@ public class ProcessModel extends SuperEntity<Long> {
 
     @Schema(description = "部署时间")
     private Instant deployTime;
-    
+
     @Schema(description = "当前模型版本")
     private Integer version;
 

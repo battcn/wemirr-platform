@@ -58,6 +58,7 @@ public class ProcessIdentityWebAutoConfigurer implements WebMvcConfigurer {
                 if (context.anonymous()) {
                     return true;
                 }
+                // TODO 需要想办法优化
                 processIdentityService.createTenant(context.tenantId(), context.tenantCode());
                 processIdentityService.setAuthentication(context.userId(), context.tenantId());
                 return true;
