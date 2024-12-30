@@ -42,6 +42,7 @@ public interface RoleService extends SuperService<Role> {
      *
      * @return 查询结果
      */
+    @Override
     List<Role> list();
     
     /**

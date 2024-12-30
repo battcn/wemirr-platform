@@ -85,8 +85,8 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
     @DSTransactional(rollbackFor = Exception.class)
     public void modify(Long id, DictSaveReq req) {
         final SysDict old = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("字典不存在"));
-        if (old.getReadonly()) {
-            throw CheckedException.notFound("内置数据无法修改");
+        if (old.getType() == 0) {
+            throw CheckedException.notFound("平台字典数据无法修改");
         }
         final Long count = this.baseMapper.selectCount(Wraps.<SysDict>lbQ().ne(SysDict::getId, id).eq(SysDict::getCode, req.getCode()));
         if (count != 0 && count > 0) {
@@ -101,7 +101,7 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
     @DSTransactional(rollbackFor = Exception.class)
     public void deleteById(Long id) {
         final SysDict dict = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("字典不存在"));
-        if (dict.getReadonly()) {
+        if (dict.getType() == 0) {
             throw CheckedException.notFound("内置数据无法删除");
         }
         this.baseMapper.deleteById(id);

@@ -29,13 +29,9 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
- * <p>
- * 实体类
  * 字典类型
- * </p>
  *
  * @author Levin
- * @since 2020-01-03
  */
 @Data
 @SuperBuilder
@@ -60,9 +56,6 @@ public class SysDict extends SuperEntity<Long> {
 
     @Schema(description = "状态")
     private Boolean status;
-
-    @Schema(description = "只读")
-    private Boolean readonly;
 
     @Schema(description = "描述")
     private String description;
