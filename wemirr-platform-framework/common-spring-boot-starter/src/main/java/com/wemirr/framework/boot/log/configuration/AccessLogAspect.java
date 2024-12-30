@@ -69,16 +69,28 @@ import java.util.function.Consumer;
 public class AccessLogAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(AccessLogAspect.class);
-    private static final int MAX_LENGTH = 65535; // 限制日志内容的最大长度
+    /**
+     * 限制日志内容的最大长度
+     */
+    private static final int MAX_LENGTH = 65535;
     private static final TransmittableThreadLocal<AccessLogInfo> THREAD_LOCAL = new TransmittableThreadLocal<>();
     private static final String USER_AGENT = "User-Agent";
 
+    /**
+     * 认证上下文，用于获取当前用户信息
+     */
     @Resource
-    private AuthenticationContext context; // 认证上下文，用于获取当前用户信息
+    private AuthenticationContext context;
+    /**
+     * 日志处理器，用于处理和存储日志
+     */
     @Resource
-    private AbstractLogHandler abstractLogHandler; // 日志处理器，用于处理和存储日志
+    private AbstractLogHandler abstractLogHandler;
+    /**
+     * 配置文件，获取日志相关配置
+     */
     @Resource
-    private AccessLogProperties accessLogProperties; // 配置文件，获取日志相关配置
+    private AccessLogProperties accessLogProperties;
 
     /**
      * 定义切点：拦截所有 public 方法，且该方法带有 @AccessLog 注解。
@@ -257,7 +269,8 @@ public class AccessLogAspect {
     private String getSafeText(String text) {
         if (text != null && text.length() > MAX_LENGTH) {
             logger.warn("响应内容过长，长度: {}", text.length());
-            return text.substring(0, MAX_LENGTH); // 截取最大长度
+            // 截取最大长度
+            return text.substring(0, MAX_LENGTH);
         }
         return text;
     }

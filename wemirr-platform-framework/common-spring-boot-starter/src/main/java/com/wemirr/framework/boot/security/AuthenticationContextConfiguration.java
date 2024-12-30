@@ -60,6 +60,11 @@ public class AuthenticationContextConfiguration {
             }
 
             @Override
+            public String tenantName() {
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getTenantName).orElse(null);
+            }
+
+            @Override
             public String tenantCode() {
                 return Optional.ofNullable(getContext()).map(UserInfoDetails::getTenantCode).orElse(null);
             }

@@ -167,6 +167,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      * 通用的接口映射异常处理方法
      */
     @ResponseBody
+    @Override
     protected ResponseEntity<Object> handleExceptionInternal(@Nonnull Exception ex, Object body, @Nonnull HttpHeaders headers, @Nonnull HttpStatusCode statusCode, @Nonnull WebRequest request) {
         String uri = ((ServletWebRequest) request).getRequest().getRequestURI();
         if (ex instanceof MethodArgumentNotValidException e) {
