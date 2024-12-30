@@ -65,9 +65,12 @@ public class CalculateUtils {
         StringBuffer columnTemp = new StringBuffer();
         // 从表达式的第一个字符开始处理
         for (int i = 0; i < numStr.length(); i++) {
-            char ch = numStr.charAt(i); // 获取一个字符
-            if (isNumber(ch)) { // 若当前字符是数字
-                temp.append(ch); // 加入到数字缓存中
+            // 获取一个字符
+            char ch = numStr.charAt(i);
+            if (isNumber(ch)) {
+                // 若当前字符是数字
+                // 加入到数字缓存中
+                temp.append(ch);
             } else if (isOptionChar(ch)) {
                 columnTemp.append(ch);
             } else { // 非数字的情况

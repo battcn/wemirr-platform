@@ -35,7 +35,7 @@ public class ProcessIdentityServiceImpl implements ProcessIdentityService {
     @DSTransactional(rollbackFor = Exception.class)
     public void createTenant(Long tenantId, String tenantName) {
         long count = identityService.createTenantQuery().tenantId(tenantId.toString()).count();
-        if (count >= 0) {
+        if (count > 0) {
             log.warn("[{}] 租户已存在", tenantName);
             return;
         }
@@ -47,7 +47,7 @@ public class ProcessIdentityServiceImpl implements ProcessIdentityService {
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void setAuthentication(Long userId, Long tenantId) {
-        createUser(userId);
+//        createUser(userId);
         identityService.setAuthentication(userId.toString(), null, List.of(tenantId.toString()));
     }
 

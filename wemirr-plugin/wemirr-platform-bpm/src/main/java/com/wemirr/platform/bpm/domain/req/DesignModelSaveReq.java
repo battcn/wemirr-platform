@@ -21,7 +21,7 @@ public class DesignModelSaveReq {
     private String diagramData;
 
     @Schema(description = "模型图标")
-    @NotBlank(message = "模型图标不能为空")
+//    @NotBlank(message = "模型图标不能为空")
     private String diagramIcon;
 
     @Schema(description = "模型名称")

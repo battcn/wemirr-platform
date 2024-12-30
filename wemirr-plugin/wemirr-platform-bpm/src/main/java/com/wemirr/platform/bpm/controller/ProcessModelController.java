@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "模型管理", description = "流程模型管理")
-@RequestMapping(value = "/process_models", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/process-models", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProcessModelController {
 
     private final ProcessModelService processModelService;
@@ -44,7 +44,7 @@ public class ProcessModelController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/group_list")
+    @GetMapping("/group-list")
     @Operation(summary = "分组查询", description = "流程模型分组查询")
     public List<DesignModelGroupListResp> groupList() {
         return processModelService.groupList();
@@ -90,8 +90,8 @@ public class ProcessModelController {
     }
 
 
-    @Operation(summary = "流程发布")
-    @PostMapping("/{id}/start_instance")
+    @Operation(summary = "启动流程")
+    @PostMapping("/{id}/start-instance")
     @Validated
     public void start(@PathVariable("id") Long id, @RequestBody InstanceStartReq req) {
         processModelService.startInstance(id, req);
@@ -99,13 +99,13 @@ public class ProcessModelController {
 
 
     @Operation(summary = "表单设计", description = "保存表单设计")
-    @PostMapping(value = "/{id}/form_designs")
+    @PostMapping(value = "/{id}/form-designs")
     public void formDesign(@PathVariable Long id, @Validated @RequestBody FormDesignSaveReq req) {
         processModelService.saveFormDesign(id, req);
     }
 
     @Operation(summary = "表单设计", description = "表单设计详情")
-    @GetMapping(value = "/{id}/form_designs")
+    @GetMapping(value = "/{id}/form-designs")
     public DesignModelFormResp formDesign(@PathVariable Long id) {
         return processModelService.findFormDesign(id);
     }

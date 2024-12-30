@@ -58,8 +58,8 @@ public class ProcessIdentityWebAutoConfigurer implements WebMvcConfigurer {
                 if (context.anonymous()) {
                     return true;
                 }
-                // TODO 需要想办法优化
-                processIdentityService.createTenant(context.tenantId(), context.tenantCode());
+                // TODO 需要想办法优化,否则数据量大后性能是个个很大的问题,亦或是关闭授权？ camunda.bpm.authorization.enabled=false
+                processIdentityService.createTenant(context.tenantId(), context.tenantName());
                 processIdentityService.setAuthentication(context.userId(), context.tenantId());
                 return true;
             }

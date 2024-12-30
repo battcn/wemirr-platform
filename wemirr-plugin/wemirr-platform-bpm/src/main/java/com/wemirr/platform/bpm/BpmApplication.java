@@ -28,13 +28,14 @@ public class BpmApplication {
 
     @SneakyThrows
     public static void main(String[] args) {
+        System.setProperty("skipIsolationLevelCheck", "true");
         final ConfigurableApplicationContext applicationContext = SpringApplication.run(BpmApplication.class, args);
         Environment env = applicationContext.getEnvironment();
         final String appName = env.getProperty("spring.application.name");
         String host = InetAddress.getLocalHost().getHostAddress();
         String port = env.getProperty("server.port");
         log.info("""
-
+                        
                         ----------------------------------------------------------
                         \tApplication '{}' is running! Access URLs:
                         \tDoc: \thttp://{}:{}/doc.html
