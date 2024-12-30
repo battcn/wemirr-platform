@@ -45,7 +45,7 @@ public enum ProcessModelStatus implements DictEnum<Integer> {
             return null;
         }
         for (ProcessModelStatus info : values()) {
-            if (info.type == type) {
+            if (info.type.equals(type)) {
                 return info;
             }
         }

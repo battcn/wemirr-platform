@@ -67,8 +67,10 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
                 .of(file)
 //                .setThumbnailSuffix() //指定缩略图后缀，必须是 thumbnailator 支持的图片格式，默认使用全局的
 //                .setSaveThFilename() //指定缩略图的保存文件名，注意此文件名不含后缀，默认自动生成
-                .image(img -> img.size(1000, 1000))  // 将图片大小调整到 1000*1000
-                .thumbnail(th -> th.size(200, 200))  // 再生成一张 200*200 的缩略图
+                // 将图片大小调整到 1000*1000
+                .image(img -> img.size(1000, 1000))
+                // 再生成一张 200*200 的缩略图
+                .thumbnail(th -> th.size(200, 200))
                 .upload();
         return toFileInfoRecord(info);
     }

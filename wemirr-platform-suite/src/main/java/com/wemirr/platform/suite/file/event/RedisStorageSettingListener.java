@@ -37,6 +37,7 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
      *
      * @param event Redis 存储配置事件
      */
+    @Override
     public void handleMessage(StorageSettingEvent event) {
         log.info("租户ID:{}, 更新类型:{}", event.getTenantId(), event.getUpdateType());
         switch (event.getUpdateType()) {
