@@ -28,6 +28,7 @@ import com.wemirr.framework.i18n.core.I18nMessageResource;
 import feign.RetryableException;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Resource;
+import jakarta.servlet.ServletException;
 import jakarta.validation.UnexpectedTypeException;
 import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
@@ -77,10 +78,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ResponseBody
+    @ExceptionHandler(value = ServletException.class)
+    public Result<ResponseEntity<Void>> servletException(ServletException e) {
+        log.error("servlet exception => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
+        return Result.fail(e.getLocalizedMessage());
+    }
+
+    @ResponseBody
     @ExceptionHandler(value = CheckedException.class)
     public Result<ResponseEntity<Void>> handlerException(CheckedException e) {
         String message = i18nMessageResource.getMessage(e.getMessage(), e.getArgs());
-        log.error("bpm-parse => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), message);
+        log.error("check exception => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), message);
         return Result.fail(e.getCode(), message);
     }
 

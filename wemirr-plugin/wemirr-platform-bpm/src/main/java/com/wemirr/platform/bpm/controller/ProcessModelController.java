@@ -92,8 +92,7 @@ public class ProcessModelController {
 
     @Operation(summary = "启动流程")
     @PostMapping("/{id}/start-instance")
-    @Validated
-    public void start(@PathVariable("id") Long id, @RequestBody InstanceStartReq req) {
+    public void start(@PathVariable("id") Long id, @Validated @RequestBody InstanceStartReq req) {
         processModelService.startInstance(id, req);
     }
 

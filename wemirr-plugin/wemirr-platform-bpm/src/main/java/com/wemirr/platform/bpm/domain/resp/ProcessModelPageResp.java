@@ -1,6 +1,7 @@
 
 package com.wemirr.platform.bpm.domain.resp;
 
+import com.wemirr.platform.bpm.feign.domain.enums.ProcessModelStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -27,8 +28,8 @@ public class ProcessModelPageResp {
     @Schema(description = "类别名称")
     private String categoryName;
 
-    @Schema(description = "模型状态:0-未部署,1-已经部署,2-新版本待部署,参考常量字段:ModelStateType")
-    private Integer state;
+    @Schema(description = "模型状态:0-未部署,1-已经部署,2-新版本待部署")
+    private ProcessModelStatus status;
 
     @Schema(description = "是否pool模型,0-不是,1-是")
     private Integer havePool;

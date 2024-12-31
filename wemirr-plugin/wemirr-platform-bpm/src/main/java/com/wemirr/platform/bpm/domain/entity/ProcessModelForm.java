@@ -26,13 +26,10 @@ public class ProcessModelForm extends SuperEntity<Long> {
     @Schema(description = "租户ID")
     private Long tenantId;
 
-    @Schema(description = "表单编码")
-    private String formCode;
+    @Schema(defaultValue = "脚本")
+    private String formScript;
 
     @Schema(description = "表单配置")
-    private String formConfig;
-
-    @Schema(description = "表单字段")
-    private String formFields;
+    private String formSchemas;
 
 }

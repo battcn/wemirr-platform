@@ -26,6 +26,7 @@ import com.wemirr.platform.bpm.repository.ProcessCategoryMapper;
 import com.wemirr.platform.bpm.repository.ProcessDeployHistoryMapper;
 import com.wemirr.platform.bpm.repository.ProcessModelFormMapper;
 import com.wemirr.platform.bpm.repository.ProcessModelMapper;
+import com.wemirr.platform.bpm.service.ProcessIdentityService;
 import com.wemirr.platform.bpm.service.ProcessModelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +57,7 @@ public class ProcessModelServiceImpl extends SuperServiceImpl<ProcessModelMapper
     private final ProcessModelFormMapper processModelFormMapper;
     private final RuntimeService runtimeService;
     private final AuthenticationContext context;
-
+    private final ProcessIdentityService processIdentityService;
 
     @Override
     public IPage<ProcessModelPageResp> pageList(ProcessModelPageReq req) {
@@ -142,30 +143,33 @@ public class ProcessModelServiceImpl extends SuperServiceImpl<ProcessModelMapper
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void deployById(Long id) {
-        var tenantId = context.tenantId();
-        var processModel = Optional.ofNullable(baseMapper.selectById(id)).orElseThrow(() -> CheckedException.badRequest("bpm.design.not-exists"));
-        var deployment = repositoryService.createDeployment().tenantId(String.valueOf(tenantId))
-                .addString(processModel.getDiagramName() + ".bpmn20.xml", processModel.getDiagramData())
-                .name(processModel.getDiagramName()).deploy();
-        var processCategory = Optional.ofNullable(this.processCategoryMapper.selectById(processModel.getCategoryId())).orElseThrow(() -> CheckedException.notFound("模型部署失败,流程类目不存在"));
-        var definition = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
-        this.updateById(ProcessModel.builder().id(id).status(ProcessModelStatus.DEPLOYED)
-                .definitionId(definition.getId()).definitionKey(definition.getKey())
-                .deployId(deployment.getId()).deployName(deployment.getName())
-                .deployTime(deployment.getDeploymentTime().toInstant())
-                .version(definition.getVersion())
-                .build());
-        // 添加流程信息到历史表
-        final ProcessDeployHistory deploymentHistory = ProcessDeployHistory.builder().modelId(id).remark(processModel.getRemark())
-                .diagramData(processModel.getDiagramData()).diagramNames(processModel.getDiagramName())
-                // 既然是历史表应该冗余租户相关内容
-                .tenantId(tenantId).tenantCode(context.tenantCode())
-                .tenantName(context.tenantCode())
-                .deploymentId(deployment.getId()).deploymentName(deployment.getName()).deploymentTime(deployment.getDeploymentTime().toInstant())
-                .processCategoryId(processCategory.getId()).processCategoryCode(processCategory.getCode()).processCategoryName(processCategory.getName())
-                .processDefinitionId(definition.getId()).processDefinitionKey(definition.getKey())
-                .version(definition.getVersion()).build();
-        this.processDeployHistoryMapper.insert(deploymentHistory);
+        processIdentityService.execute(() -> {
+            var tenantId = context.tenantId();
+            var processModel = Optional.ofNullable(baseMapper.selectById(id)).orElseThrow(() -> CheckedException.badRequest("bpm.design.not-exists"));
+            var deployment = repositoryService.createDeployment().tenantId(String.valueOf(tenantId))
+                    .addString(processModel.getDiagramName() + ".bpmn20.xml", processModel.getDiagramData())
+                    .name(processModel.getDiagramName()).deploy();
+            var processCategory = Optional.ofNullable(this.processCategoryMapper.selectById(processModel.getCategoryId())).orElseThrow(() -> CheckedException.notFound("模型部署失败,流程类目不存在"));
+            var definition = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+            this.updateById(ProcessModel.builder().id(id).status(ProcessModelStatus.DEPLOYED)
+                    .definitionId(definition.getId()).definitionKey(definition.getKey())
+                    .deployId(deployment.getId()).deployName(deployment.getName())
+                    .deployTime(deployment.getDeploymentTime().toInstant())
+                    .version(definition.getVersion())
+                    .build());
+            // 添加流程信息到历史表
+            final ProcessDeployHistory deploymentHistory = ProcessDeployHistory.builder().modelId(id).remark(processModel.getRemark())
+                    .diagramData(processModel.getDiagramData()).diagramNames(processModel.getDiagramName())
+                    // 既然是历史表应该冗余租户相关内容
+                    .tenantId(tenantId).tenantCode(context.tenantCode())
+                    .tenantName(context.tenantCode())
+                    .deploymentId(deployment.getId()).deploymentName(deployment.getName()).deploymentTime(deployment.getDeploymentTime().toInstant())
+                    .processCategoryId(processCategory.getId()).processCategoryCode(processCategory.getCode()).processCategoryName(processCategory.getName())
+                    .processDefinitionId(definition.getId()).processDefinitionKey(definition.getKey())
+                    .version(definition.getVersion()).build();
+            this.processDeployHistoryMapper.insert(deploymentHistory);
+            return null;
+        });
     }
 
 
@@ -174,15 +178,14 @@ public class ProcessModelServiceImpl extends SuperServiceImpl<ProcessModelMapper
         Optional.ofNullable(baseMapper.selectById(id)).orElseThrow(() -> CheckedException.badRequest("bpm.design.not-exists"));
         final ProcessModelForm modelForm = this.processModelFormMapper.selectOne(Wraps.<ProcessModelForm>lbQ().eq(ProcessModelForm::getModelId, id));
         if (modelForm == null) {
-            this.processModelFormMapper.insert(ProcessModelForm.builder()
-                    .modelId(id).formCode(req.getTableId())
-                    .formConfig(req.getFormConfig().toString())
-                    .formFields(JSON.toJSONString(req.getFormFields())).build());
+            this.processModelFormMapper.insert(ProcessModelForm.builder().modelId(id)
+                    .formSchemas(req.getSchemas().toJSONString())
+                    .formScript(req.getScript()).build());
         } else {
             this.processModelFormMapper.updateById(ProcessModelForm.builder()
-                    .id(modelForm.getId()).modelId(id).formCode(req.getTableId())
-                    .formConfig(req.getFormConfig().toString())
-                    .formFields(JSON.toJSONString(req.getFormFields())).build());
+                    .id(modelForm.getId()).modelId(id)
+                    .formSchemas(JSON.toJSONString(req.getSchemas()))
+                    .formScript(req.getScript()).build());
         }
     }
 
@@ -193,9 +196,10 @@ public class ProcessModelServiceImpl extends SuperServiceImpl<ProcessModelMapper
         if (modelForm == null) {
             return null;
         }
-        return DesignModelFormResp.builder().modelId(modelForm.getModelId()).tableId(modelForm.getFormCode())
-                .formConfig(JSON.parseObject(modelForm.getFormConfig()))
-                .formFields(JSONArray.parseArray(modelForm.getFormFields())).build();
+        return DesignModelFormResp.builder().modelId(modelForm.getModelId())
+                .schemas(JSONArray.parseArray(modelForm.getFormSchemas()))
+                .script(modelForm.getFormScript())
+                .build();
     }
 
     @Override

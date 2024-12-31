@@ -1,6 +1,7 @@
 package com.wemirr.platform.bpm.service.impl;
 
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.platform.bpm.service.ProcessIdentityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.camunda.bpm.spring.boot.starter.property.CamundaBpmProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author Levin
@@ -27,34 +29,44 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProcessIdentityServiceImpl implements ProcessIdentityService {
 
+    private final AuthenticationContext context;
     private final IdentityService identityService;
     private final AuthorizationService authorizationService;
     private final CamundaBpmProperties camundaBpmProperties;
 
-    @Override
-    @DSTransactional(rollbackFor = Exception.class)
-    public void createTenant(Long tenantId, String tenantName) {
-        long count = identityService.createTenantQuery().tenantId(tenantId.toString()).count();
+    public void createTenant(String tenantId, String tenantName) {
+        long count = identityService.createTenantQuery().tenantId(tenantId).count();
         if (count > 0) {
             log.warn("[{}] 租户已存在", tenantName);
             return;
         }
-        Tenant tenant = identityService.newTenant(tenantId.toString());
+        Tenant tenant = identityService.newTenant(tenantId);
         tenant.setName(tenantName);
         identityService.saveTenant(tenant);
     }
 
+    public void setAuthentication() {
+        var userId = context.userId().toString();
+        var tenantId = context.tenantId().toString();
+        createUser(userId, tenantId);
+        createTenant(tenantId, context.tenantName());
+        identityService.setAuthentication(userId, null, List.of(tenantId));
+    }
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
-    public void setAuthentication(Long userId, Long tenantId) {
-//        createUser(userId);
-        identityService.setAuthentication(userId.toString(), null, List.of(tenantId.toString()));
+    public <T> T execute(Supplier<T> supplier) {
+        try {
+            setAuthentication();
+            return supplier.get();
+        } finally {
+            identityService.clearAuthentication();
+        }
     }
 
 
-    public void createUser(Long userId) {
-        String bpmUserId = userId.toString();
-        final long count = this.identityService.createUserQuery().userId(bpmUserId).count();
+    public void createUser(String userId, String nickName) {
+        final long count = this.identityService.createUserQuery().userId(userId).count();
         if (count > 0) {
             log.warn("用户已存在,跳过创建用户步骤");
             return;
@@ -63,15 +75,16 @@ public class ProcessIdentityServiceImpl implements ProcessIdentityService {
             final String adminId = camundaBpmProperties.getAdminUser().getId();
             identityService.setAuthentication(adminId, null);
             User user = new UserEntity();
-            user.setId(bpmUserId);
+            user.setId(userId);
+            user.setFirstName(nickName);
             this.identityService.saveUser(user);
-            final List<Authorization> list = this.authorizationService.createAuthorizationQuery().userIdIn(bpmUserId).list();
+            final List<Authorization> list = this.authorizationService.createAuthorizationQuery().userIdIn(userId).list();
             if (list != null && !list.isEmpty()) {
                 for (Authorization authorization : list) {
                     this.authorizationService.deleteAuthorization(authorization.getId());
                 }
             }
-            saveAuthorization(bpmUserId);
+            saveAuthorization(userId);
         } catch (Exception e) {
             log.error("操作异常", e);
         } finally {

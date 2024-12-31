@@ -66,7 +66,7 @@ public class ProcessInstanceController {
         return processInstanceService.detail(id);
     }
 
-    @GetMapping("/{id}/render_form")
+    @GetMapping("/{id}/form-preview")
     @Operation(summary = "表单渲染", description = "表单渲染")
     public RenderFormResp renderForm(@PathVariable String id) {
         return processInstanceService.renderForm(id);
