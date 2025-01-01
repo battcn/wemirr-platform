@@ -26,6 +26,9 @@ public class ProcessTaskCommentResp {
     @Schema(description = "任务名称")
     private String taskName;
 
+    @Schema(description = "任务定义Key")
+    private String taskDefinitionKey;
+
     @Schema(description = "审批人")
     private String approverName;
 

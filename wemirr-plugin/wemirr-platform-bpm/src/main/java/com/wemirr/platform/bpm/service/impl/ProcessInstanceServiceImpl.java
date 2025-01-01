@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -11,11 +12,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.bpm.domain.entity.ProcessDeployHistory;
 import com.wemirr.platform.bpm.domain.entity.ProcessInstanceExt;
 import com.wemirr.platform.bpm.domain.entity.ProcessModel;
 import com.wemirr.platform.bpm.domain.entity.ProcessTaskComment;
 import com.wemirr.platform.bpm.domain.enums.ProcInstStatus;
+import com.wemirr.platform.bpm.domain.enums.TaskCommentType;
 import com.wemirr.platform.bpm.domain.req.ProcessInstancePageReq;
 import com.wemirr.platform.bpm.domain.resp.*;
 import com.wemirr.platform.bpm.feign.domain.enums.ProcessModelStatus;
@@ -30,7 +31,6 @@ import com.wemirr.platform.bpm.service.ProcessModelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.*;
-import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
@@ -60,11 +60,9 @@ public class ProcessInstanceServiceImpl implements ProcessInstanceService {
     private final RepositoryService repositoryService;
     private final TaskService taskService;
     private final HistoryService historyService;
-    private final ProcessDeployHistoryMapper processDeployHistoryMapper;
     private final ProcessInstanceExtMapper processInstanceExtMapper;
     private final ProcessModelService processModelService;
     private final ProcessTaskCommentMapper processTaskCommentMapper;
-    private final ProcessTaskHistoryMapper processTaskHistoryMapper;
 
     @Override
     public IPage<ProcessInstancePageResp> pageList(ProcessInstancePageReq req) {
@@ -135,28 +133,28 @@ public class ProcessInstanceServiceImpl implements ProcessInstanceService {
                 .processInstanceId(instanceExt.getProcInstId()).processInstanceName(instanceExt.getProcInstName()).version(instanceExt.getProcInstVersion())
                 .processStartTime(instanceExt.getProcInstStartTime())
                 .processEndTime(instanceExt.getProcInstEndTime())
+                .commentList(comments(instanceExt.getProcInstId(), TaskCommentType.APPROVAL))
                 .nodeList(nodeList).build();
     }
 
     @Override
-    public RenderFormResp renderForm(String id) {
-        //通过获取流程实例ID获取模型ID
-        HistoricProcessInstance processInstance = Optional.ofNullable(historyService.createHistoricProcessInstanceQuery().processInstanceId(id).singleResult()).orElseThrow(() -> new CheckedException("不存在的流程实例"));
-        //从历史表获取modelID
-        ProcessDeployHistory deployHistory = processDeployHistoryMapper.selectOne(Wraps.<ProcessDeployHistory>lbQ().eq(ProcessDeployHistory::getProcessDefinitionId, processInstance.getProcessDefinitionId()));
-        //通过modelId获取表单信息
-        DesignModelFormResp formDesign = Optional.ofNullable(processModelService.findFormDesign(deployHistory.getModelId())).orElseGet(DesignModelFormResp::new);
-        final ProcessInstanceExt ext = processInstanceExtMapper.selectOne(ProcessInstanceExt::getProcInstId, id);
+    public ProcessInstanceFormPreviewResp formPreview(String id) {
+        final ProcessInstanceExt ext = Optional.ofNullable(processInstanceExtMapper.selectOne(ProcessInstanceExt::getProcInstId, id))
+                .orElseThrow(() -> CheckedException.notFound("流程不存在"));
         //通过实例ID获取表单数据
-        return RenderFormResp.builder().formDesign(formDesign).dataJson(JSONObject.parse(ext.getFormData())).build();
+        return ProcessInstanceFormPreviewResp.builder().formDesign(ProcessInstanceFormPreviewResp.FormDesign.builder()
+                        .schemas(JSONArray.parseArray(ext.getFormSchemas())).script(ext.getFormScript()).build())
+                .formData(JSONObject.parse(ext.getFormData())).build();
 
     }
 
     @Override
-    public List<ProcessTaskCommentResp> approvalInfo(String procInstId) {
-        List<ProcessTaskComment> comments = this.processTaskCommentMapper.selectList(ProcessTaskComment::getProcInstId, procInstId);
+    public List<ProcessTaskCommentResp> comments(String procInstId, TaskCommentType type) {
+        List<ProcessTaskComment> comments = this.processTaskCommentMapper.selectList(ProcessTaskComment::getProcInstId, procInstId,
+                ProcessTaskComment::getType, type);
         return comments.stream().map(x -> ProcessTaskCommentResp.builder().taskId(x.getProcTaskId())
-                .remark(x.getRemark()).attachments(StrUtil.split(x.getAttachment(),','))
+                .taskDefinitionKey(x.getTaskDefinitionKey())
+                .remark(x.getRemark()).attachments(StrUtil.split(x.getAttachment(), ','))
                 .approverTime(x.getCreatedTime()).approverName(x.getCreatedName())
                 .build()).collect(Collectors.toList());
     }

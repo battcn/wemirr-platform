@@ -32,6 +32,9 @@ public class ProcessTaskComment extends Entity<Long> {
     @Schema(description = "流程实例ID")
     private String procInstId;
 
+    @Schema(description = "任务定义Key")
+    private String taskDefinitionKey;
+
     @Schema(description = "内容")
     private String remark;
 

@@ -78,6 +78,7 @@ public class ProcessTaskExtServiceImpl implements ProcessTaskExtService {
                 .procTaskId(task.getId())
                 .procInstId(task.getProcessInstanceId())
                 .remark(req.getRemark())
+                .taskDefinitionKey(task.getTaskDefinitionKey())
                 .attachment(StrUtil.join(",", req.getAttachments()))
                 .build());
     }
@@ -87,13 +88,14 @@ public class ProcessTaskExtServiceImpl implements ProcessTaskExtService {
     public void comment(String taskId, ProcessTaskApprovalReq req) {
         Task task = Optional.ofNullable(taskService.createTaskQuery().taskId(taskId).singleResult()).orElseThrow(() -> CheckedException.notFound("bpm.task.not-exists-or-completed"));
         // 理论上自己扩展表记录了就不需要再写到 camunda 中浪费存储空间了
-//        this.taskService.createComment(taskId, task.getProcessInstanceId(), req.getRemark());
+        // Activity_1qeyyv2
+        task.getTaskDefinitionKey();
         this.processTaskCommentMapper.insert(ProcessTaskComment.builder()
                 .type(TaskCommentType.COMMENT)
                 .procTaskId(task.getId())
                 .procInstId(task.getProcessInstanceId())
                 .remark(req.getRemark())
-                .attachment("todo 暂时没考虑好咋存储")
+                .taskDefinitionKey(task.getTaskDefinitionKey())
                 .build());
     }
 

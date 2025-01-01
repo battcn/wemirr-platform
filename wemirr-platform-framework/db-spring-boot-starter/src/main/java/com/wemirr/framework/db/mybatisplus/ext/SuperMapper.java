@@ -125,11 +125,23 @@ public interface SuperMapper<T> extends BaseMapper<T> {
      *
      * @param field 字段
      * @param value 值
-     * @return
+     * @return 查询结果
      */
     default List<T> selectList(SFunction<T, ?> field, Object value) {
         return selectList(Wraps.<T>lbQ().eq(field, value));
     }
+
+    /**
+     * 查询数据
+     *
+     * @param field1 字段
+     * @param value1 值
+     * @return 查询结果
+     */
+    default List<T> selectList(SFunction<T, ?> field1, Object value1, SFunction<T, ?> field2, Object value2) {
+        return selectList(Wraps.<T>lbQ().eq(field1, value1).eq(field2, value2));
+    }
+
 
     /**
      * 批量查询

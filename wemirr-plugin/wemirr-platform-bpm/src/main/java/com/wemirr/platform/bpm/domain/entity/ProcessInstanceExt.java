@@ -76,6 +76,12 @@ public class ProcessInstanceExt extends SuperEntity<Long> {
     @Schema(description = "流程实例结束时间")
     private Instant procInstEndTime;
 
+    @Schema(defaultValue = "脚本")
+    private String formScript;
+
+    @Schema(description = "表单配置")
+    private String formSchemas;
+
     @Schema(description = "表单数据")
     private String formData;
 

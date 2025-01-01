@@ -235,10 +235,12 @@ public class ProcessModelServiceImpl extends SuperServiceImpl<ProcessModelMapper
         variables.put("ext.businessKey", req.getBusinessKey());
         variables.put("ext.businessGroup", req.getBusinessGroup());
         variables.put("ext.formData", req.getFormData());
+        long startTime = System.currentTimeMillis();
         runtimeService.createProcessInstanceByKey(processModel.getDefinitionKey())
                 .processDefinitionTenantId(context.tenantId().toString())
                 .businessKey(StrUtil.blankToDefault(IdUtil.fastSimpleUUID(), req.getBusinessKey()))
                 .setVariables(variables).execute();
+        log.debug("start instance 耗时 => {}", (System.currentTimeMillis() - startTime));
     }
 
 }
