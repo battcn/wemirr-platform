@@ -3,6 +3,8 @@ package com.wemirr.platform.bpm.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.framework.redis.plus.anontation.RedisLock;
+import com.wemirr.framework.redis.plus.anontation.RedisParam;
 import com.wemirr.platform.bpm.domain.entity.ProcessModel;
 import com.wemirr.platform.bpm.domain.req.*;
 import com.wemirr.platform.bpm.domain.resp.*;
@@ -90,9 +92,10 @@ public class ProcessModelController {
     }
 
 
+    @RedisLock(prefix = "instance")
     @Operation(summary = "启动流程")
     @PostMapping("/{id}/start-instance")
-    public void start(@PathVariable("id") Long id, @Validated @RequestBody InstanceStartReq req) {
+    public void start(@RedisParam @PathVariable("id") Long id, @Validated @RequestBody InstanceStartReq req) {
         processModelService.startInstance(id, req);
     }
 

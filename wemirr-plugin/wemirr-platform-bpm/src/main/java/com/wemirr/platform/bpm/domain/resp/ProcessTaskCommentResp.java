@@ -36,7 +36,7 @@ public class ProcessTaskCommentResp {
     private String remark;
 
     @Schema(description = "审核附件（暂时没有）")
-    private String attachment;
+    private List<String> attachments;
 
     @Schema(description = "执行人头像")
     private String avatar;

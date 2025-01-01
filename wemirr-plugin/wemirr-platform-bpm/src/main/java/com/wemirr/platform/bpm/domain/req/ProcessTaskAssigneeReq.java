@@ -19,6 +19,6 @@ public class ProcessTaskAssigneeReq {
     private String remark;
 
     @Schema(description = "审核附件（暂时没有）")
-    private String attachment;
+    private String attachments;
 
 }

@@ -156,7 +156,7 @@ public class ProcessInstanceServiceImpl implements ProcessInstanceService {
     public List<ProcessTaskCommentResp> approvalInfo(String procInstId) {
         List<ProcessTaskComment> comments = this.processTaskCommentMapper.selectList(ProcessTaskComment::getProcInstId, procInstId);
         return comments.stream().map(x -> ProcessTaskCommentResp.builder().taskId(x.getProcTaskId())
-                .remark(x.getRemark()).attachment(x.getAttachment())
+                .remark(x.getRemark()).attachments(StrUtil.split(x.getAttachment(),','))
                 .approverTime(x.getCreatedTime()).approverName(x.getCreatedName())
                 .build()).collect(Collectors.toList());
     }

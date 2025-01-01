@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.i18n.core.I18nMessageResource;
+import com.wemirr.framework.redis.plus.exception.RedisLockException;
 import feign.RetryableException;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Resource;
@@ -81,6 +82,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = ServletException.class)
     public Result<ResponseEntity<Void>> servletException(ServletException e) {
         log.error("servlet exception => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
+        return Result.fail(e.getLocalizedMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = RedisLockException.class)
+    public Result<ResponseEntity<Void>> redisLockException(RedisLockException e) {
+        log.error("redis lock exception => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
         return Result.fail(e.getLocalizedMessage());
     }
 

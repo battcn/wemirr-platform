@@ -43,8 +43,8 @@ public class ValidTest {
     public void test3() {
         String expression = "3+5*2";
         Map<String, Object> orderInfo = new HashMap<>();
-        Map<String, Object> result = CalculateUtils.calculateFloat(expression, orderInfo);
-        System.out.println(result);  // 输出：0.0  (表达式非法，缺少'=')
+//        Map<String, Object> result = CalculateUtils.calculateFloat(expression, orderInfo);
+//        System.out.println(result);  // 输出：0.0  (表达式非法，缺少'=')
     }
 
 

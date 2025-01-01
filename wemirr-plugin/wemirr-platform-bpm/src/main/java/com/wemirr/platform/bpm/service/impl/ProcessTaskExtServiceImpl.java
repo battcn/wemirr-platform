@@ -78,7 +78,7 @@ public class ProcessTaskExtServiceImpl implements ProcessTaskExtService {
                 .procTaskId(task.getId())
                 .procInstId(task.getProcessInstanceId())
                 .remark(req.getRemark())
-                .attachment("todo 暂时没考虑好咋存储")
+                .attachment(StrUtil.join(",", req.getAttachments()))
                 .build());
     }
 

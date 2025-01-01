@@ -184,12 +184,11 @@ public class SettleServiceImpl extends SuperServiceImpl<BmsSettleDetailMapper, B
                         }
                         //计算费用
                         String expression = rule.getExpression();
-                        Map<String, Object> resultMap = CalculateUtils.calculateFloat(expression, orderMap);
-                        Float amount = (Float) resultMap.get("amount");
+                        BigDecimal amount = CalculateUtils.calculate(expression, orderMap);
                         //计算公式
-                        StringBuffer msg = new StringBuffer();
+                        StringBuilder msg = new StringBuilder();
                         msg.append(expression).append("\n");
-                        BigDecimal amountDecimal = new BigDecimal(amount.toString()).setScale(2, RoundingMode.HALF_UP);
+                        BigDecimal amountDecimal = amount.setScale(2, RoundingMode.HALF_UP);
                         //判断下限、上限
                         BigDecimal min = rule.getMin();
                         if (min != null) {
@@ -199,7 +198,7 @@ public class SettleServiceImpl extends SuperServiceImpl<BmsSettleDetailMapper, B
                         if (max != null) {
                             amountDecimal = amountDecimal.min(max);
                         }
-                        if (amountDecimal.compareTo(BigDecimal.ZERO) == 1) {
+                        if (amountDecimal.compareTo(BigDecimal.ZERO) > 0) {
                             Long orderId = (Long) orderMap.get("id");
                             BmsSettleDetail detail = BmsSettleDetail.builder()
                                     .orderId(orderId)
@@ -283,7 +282,7 @@ public class SettleServiceImpl extends SuperServiceImpl<BmsSettleDetailMapper, B
                         return false;
                     }
                 } else if (type == RuleOption.TYPE_INPUT_NUM) {
-                    BigDecimal colBig = colValStr != null ? new BigDecimal(colValStr) : BigDecimal.ZERO;
+                    BigDecimal colBig = new BigDecimal(colValStr);
                     BigDecimal detailBig = detail != null ? new BigDecimal(detail) : BigDecimal.ZERO;
 
                     if (RuleSymbol.MORE_THAN.getId().equals(judgmentId) && colBig.compareTo(detailBig) <= 0) {

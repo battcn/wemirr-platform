@@ -17,7 +17,7 @@ public class ProcessTaskApprovalReq {
 
 
     @Schema(title = "附件")
-    private List<String> attachment;
+    private List<String> attachments;
 
     @Schema(title = "审批意见")
     @NotBlank(message = "审批意见不能为空")

@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
  * @author Levin
  */
 @Slf4j
-@Validated
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "流程任务", description = "流程任务管理")
@@ -46,41 +45,39 @@ public class ProcessTaskController {
 
     @PutMapping(value = "/{taskId}/complete")
     @Operation(summary = "审批通过", description = "审批通过")
-    public void complete(@PathVariable String taskId, @RequestBody ProcessTaskApprovalReq req) {
+    public void complete(@PathVariable String taskId, @Validated @RequestBody ProcessTaskApprovalReq req) {
         processTaskExtService.approval(taskId, ApprovalStatus.APPROVED, req);
     }
 
     @PutMapping(value = "/{taskId}/comment")
     @Operation(summary = "添加评论", description = "添加评论")
-    public void comment(@PathVariable String taskId, @RequestBody ProcessTaskApprovalReq req) {
+    public void comment(@PathVariable String taskId, @Validated @RequestBody ProcessTaskApprovalReq req) {
         processTaskExtService.comment(taskId, req);
     }
 
-    @AccessLog(module = "", description = "转办任务")
+    @AccessLog(module = "流程任务", description = "审批拒绝")
     @PutMapping(value = "/{taskId}/reject")
     @Operation(summary = "审批拒绝", description = "审批拒绝")
     public void cancel(@PathVariable String taskId, @RequestBody ProcessTaskApprovalReq req) {
         processTaskExtService.approval(taskId, ApprovalStatus.REJECT, req);
     }
 
-    @AccessLog(module = "", description = "拾取任务")
+    @AccessLog(module = "流程任务", description = "拾取任务")
     @PutMapping(value = "/{taskId}/claim")
     @Operation(summary = "拾取任务", description = "拾取任务")
     public void claim(@PathVariable String taskId) {
         processTaskExtService.claimTask(taskId);
     }
 
-    @Validated
-    @AccessLog(module = "", description = "委派任务")
+    @AccessLog(module = "流程任务", description = "委派任务")
     @PutMapping(value = "/{taskId}/delegate")
     @Operation(summary = "委派任务", description = "委派任务")
-    public void delegate(@PathVariable String taskId, @RequestBody ProcessTaskAssigneeReq req) {
+    public void delegate(@PathVariable String taskId,@Validated @RequestBody ProcessTaskAssigneeReq req) {
         processTaskExtService.delegate(taskId, req);
     }
 
 
-    @Validated
-    @AccessLog(module = "", description = "转办任务")
+    @AccessLog(module = "流程任务", description = "转办任务")
     @PutMapping(value = "/{taskId}/transfer")
     @Operation(summary = "转办任务", description = "转办任务")
     public void transfer(@PathVariable("taskId") String taskId, @RequestBody ProcessTaskAssigneeReq req) {
