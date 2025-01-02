@@ -19,7 +19,6 @@
 
 package com.wemirr.framework.boot.base.configuration;
 
-import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -30,7 +29,6 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import com.wemirr.framework.boot.base.DemoProfileInterceptor;
 import com.wemirr.framework.boot.base.HttpInterceptor;
 import com.wemirr.framework.boot.base.converter.*;
 import lombok.extern.slf4j.Slf4j;
@@ -60,11 +58,8 @@ import java.util.TimeZone;
  */
 @Slf4j
 @Configuration
-public class InitBaseConfiguration implements WebMvcConfigurer {
+public class DefaultWebMvcConfiguration implements WebMvcConfigurer {
 
-    private static final String PROFILE_DEMO = "demo";
-    @Value("${spring.profiles.active:local}")
-    private String profile;
     @Value("${spring.jackson.date-format:yyyy-MM-dd HH:mm:ss}")
     private String pattern;
 
@@ -80,10 +75,6 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(@NonNull InterceptorRegistry registry) {
         registry.addInterceptor(new HttpInterceptor());
-        if (StrUtil.equals(PROFILE_DEMO, profile)) {
-            log.debug("demo 环境,开启专属拦截器");
-            registry.addInterceptor(new DemoProfileInterceptor());
-        }
     }
 
     /**
@@ -150,7 +141,5 @@ public class InitBaseConfiguration implements WebMvcConfigurer {
             this.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(NORM_DATE_PATTERN)));
             this.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(NORM_TIME_PATTERN)));
         }
-
     }
-
 }
