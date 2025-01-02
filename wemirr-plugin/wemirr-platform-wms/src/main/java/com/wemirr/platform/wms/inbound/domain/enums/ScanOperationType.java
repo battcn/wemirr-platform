@@ -48,7 +48,7 @@ public enum ScanOperationType implements IEnum<String> {
     }
 
 
-    public String getFormat(String... args) {
+    public String getFormat(Object... args) {
         return String.format(this.format, args);
     }
 

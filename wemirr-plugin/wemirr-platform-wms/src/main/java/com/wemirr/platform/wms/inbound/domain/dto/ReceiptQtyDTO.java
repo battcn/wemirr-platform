@@ -23,9 +23,11 @@ public class ReceiptQtyDTO {
     @Schema(description = "收货计划行项ID")
     private Long planItemId;
 
+    @Builder.Default
     @Schema(description = "收货进行中的数量")
     private BigDecimal progressQty = BigDecimal.ZERO;
 
+    @Builder.Default
     @Schema(description = "收货已完成的数量")
     private BigDecimal completeQty = BigDecimal.ZERO;
 

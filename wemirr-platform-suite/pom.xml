@@ -115,6 +115,14 @@
                 <configuration>
                     <mainClass>com.wemirr.platform.suite.SuiteApplication</mainClass>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
