@@ -11,7 +11,7 @@
  Target Server Version : 80029 (8.0.29)
  File Encoding         : 65001
 
- Date: 31/12/2024 21:47:00
+ Date: 02/01/2025 11:22:27
 */
 
 SET NAMES utf8mb4;
@@ -45,18 +45,12 @@ CREATE TABLE `wp_process_category` (
 -- Records of wp_process_category
 -- ----------------------------
 BEGIN;
-INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (2, 1, 'CW', '财务管理', 1, '财务管理', NULL, 1, b'0', NULL, '2023-10-17 04:53:29', NULL, NULL, NULL);
-INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (3, 1, 'PROJECT', '项目管理', 1, '项目管理', NULL, 1, b'0', NULL, '2023-10-17 04:54:02', NULL, NULL, NULL);
-INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (4, 1, 'ACCOUNT', '账号申请', 1, '账号申请', NULL, 1, b'0', NULL, '2023-10-17 04:54:22', NULL, NULL, NULL);
-INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (5, 1, 'DATA', '数字研发', 1, '数字研发', NULL, 1, b'0', NULL, '2023-10-17 04:54:40', NULL, NULL, NULL);
-INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (6, 1, 'OTHER', '其它申请', 1, '其它申请', NULL, NULL, b'0', NULL, '2023-10-17 04:55:06', NULL, NULL, NULL);
-INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (7, 1, 'FW', '法务管理', 1, '法务管理', 'ant-design:align-center-outlined', NULL, b'0', NULL, '2023-10-17 04:55:27', 1, '长风一梦8888', '2024-10-11 15:15:37');
-INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1704064840869396481, 1, 'HR', '人事专项', 1, '人事专项', NULL, 1, b'0', '长风一梦8888', '2023-09-19 09:28:12', NULL, NULL, NULL);
-INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1816354843372052481, 1, 'TEST', '测试ICON', 1, '测试ICON', 'ion:snow-outline', 1, b'0', '长风一梦8888', '2024-07-25 14:08:36', 1, '长风一梦8888', '2024-07-25 14:16:06');
-INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1822905204253671425, 3, 'PAY', '支付流程', 1, '哈哈哈', 'ant-design:alipay-circle-filled', 1816052061532356609, b'0', '马化腾', '2024-08-12 15:57:23', 1, '平台管理员', '2024-12-26 15:08:29');
-INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1857314409126207490, 1, 'adsfdsaf', 'adsfdsaf', 1, 'dasfdsaf', 'ant-design:amazon-circle-filled', 1, b'1', '长风一梦8888', '2024-11-15 14:47:17', 1, '平台管理员', '2024-12-26 15:04:39');
-INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1859870286605623297, 1, '456', '456', 1, '456', 'ant-design:alipay-circle-filled', 1, b'1', '长风一梦8888', '2024-11-22 16:03:26', 1, '长风一梦8888', '2024-12-06 01:58:42');
-INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1866504202607304706, 1, 'test', 'test', 1, 'test', 'ant-design:account-book-filled', 1, b'1', '长风一梦8888', '2024-12-10 23:24:15', 1, '平台管理员', '2024-12-26 15:04:37');
+INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (2, 1, 'CW', '财务管理', 1, '财务管理', 'ion:snow-outline', 1, b'0', '长风一梦8888', '2023-10-17 04:53:29', 1, '长风一梦8888', NULL);
+INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (3, 1, 'PROJECT', '项目管理', 1, '项目管理', 'ant-design:alipay-circle-filled', 1, b'0', '长风一梦8888', '2023-10-17 04:54:02', 1, '长风一梦8888', NULL);
+INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (4, 1, 'ACCOUNT', '账号申请', 1, '账号申请', 'ant-design:amazon-circle-filled', 1, b'0', '长风一梦8888', '2023-10-17 04:54:22', 1, '长风一梦8888', NULL);
+INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (5, 1, 'DATA', '数字研发', 1, '数字研发', 'ant-design:alipay-circle-filled', 1, b'0', '长风一梦8888', '2023-10-17 04:54:40', 1, '长风一梦8888', NULL);
+INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (6, 1, 'OTHER', '其它申请', 1, '其它申请', 'ant-design:account-book-filled', 1, b'0', '长风一梦8888', '2023-10-17 04:55:06', 1, '长风一梦8888', NULL);
+INSERT INTO `wp_process_category` (`id`, `tenant_id`, `code`, `name`, `status`, `description`, `icon`, `created_by`, `deleted`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (7, 1, 'FW', '法务管理', 1, '法务管理', 'ant-design:align-center-outlined', 1, b'0', '长风一梦8888', '2023-10-17 04:55:27', 1, '长风一梦8888', '2024-10-11 15:15:37');
 COMMIT;
 
 -- ----------------------------
@@ -126,6 +120,8 @@ CREATE TABLE `wp_process_instance_ext` (
   `proc_inst_end_time` datetime DEFAULT NULL COMMENT '流程结束时间',
   `business_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '业务KEY（如：ID或者编号）\n',
   `business_group` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '业务组（如：表名）\n',
+  `form_schemas` longtext COLLATE utf8mb4_bin COMMENT '表单字段',
+  `form_script` varchar(4000) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '表单脚本',
   `form_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '流程实例绑定的数据',
   `created_by` bigint DEFAULT NULL COMMENT '创建人id',
   `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除（0=未删除;1=已删除）',
@@ -134,7 +130,8 @@ CREATE TABLE `wp_process_instance_ext` (
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人id',
   `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_proc_inst_id` (`proc_inst_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='camunda扩展表 流程实例扩展信息表';
 
 -- ----------------------------
@@ -148,7 +145,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wp_process_model`;
 CREATE TABLE `wp_process_model` (
-  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '模型id',
+  `id` bigint NOT NULL COMMENT '模型id',
   `code` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '模型编码',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
   `diagram_icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
@@ -224,6 +221,7 @@ CREATE TABLE `wp_process_task_comment` (
   `proc_inst_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
   `proc_task_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
   `remark` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `task_definition_key` varchar(56) COLLATE utf8_bin DEFAULT NULL COMMENT '任务定义KEY',
   `attachment` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT NULL,
@@ -232,7 +230,8 @@ CREATE TABLE `wp_process_task_comment` (
   `last_modified_by` bigint DEFAULT NULL,
   `last_modified_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
   `last_modified_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_proc_inst_id` (`proc_inst_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin COMMENT='审核内容与评论';
 
 -- ----------------------------
