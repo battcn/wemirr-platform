@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.strategy;
+package com.wemirr.platform.iam.auth.strategy;
 
 import cn.dev33.satoken.context.SaHolder;
 import cn.hutool.core.lang.Assert;

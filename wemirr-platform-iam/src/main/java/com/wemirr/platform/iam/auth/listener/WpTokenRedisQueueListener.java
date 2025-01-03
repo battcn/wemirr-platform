@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.listener;
+package com.wemirr.platform.iam.auth.listener;
 
 import com.wemirr.framework.redis.plus.listener.AbstractMessageEventListener;
 import lombok.RequiredArgsConstructor;

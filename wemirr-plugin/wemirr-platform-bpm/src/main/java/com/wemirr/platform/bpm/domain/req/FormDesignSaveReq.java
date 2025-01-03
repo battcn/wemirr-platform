@@ -1,12 +1,9 @@
 package com.wemirr.platform.bpm.domain.req;
 
 import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
-
-import java.util.List;
 
 /**
  * @author Levin

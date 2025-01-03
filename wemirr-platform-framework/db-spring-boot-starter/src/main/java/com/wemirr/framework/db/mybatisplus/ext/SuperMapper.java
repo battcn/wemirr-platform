@@ -99,6 +99,11 @@ public interface SuperMapper<T> extends BaseMapper<T> {
         return selectCount(Wraps.<T>lbQ().eq(field, value));
     }
 
+    default long selectCount(SFunction<T, ?> field, Object value, SFunction<T, ?> field2, Object value2) {
+        Long count = selectCount(Wraps.<T>lbQ().eq(field, value).eq(field2, value2));
+        return count != null ? count : 0;
+    }
+
     default void existsCallback(SFunction<T, ?> field, Object value, Supplier<?> func) {
         Long count = selectCount(Wraps.<T>lbQ().eq(field, value));
         if (count != null && count > 0) {

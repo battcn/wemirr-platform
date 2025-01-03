@@ -1,7 +1,6 @@
 package com.wemirr.platform.bpm.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.platform.bpm.domain.entity.ProcessTaskComment;
 import com.wemirr.platform.bpm.domain.enums.TaskCommentType;
 import com.wemirr.platform.bpm.domain.req.ProcessInstancePageReq;
 import com.wemirr.platform.bpm.domain.resp.ProcessInstanceDetailResp;

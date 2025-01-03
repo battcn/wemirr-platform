@@ -1,17 +1,13 @@
 package com.wemirr.platform;
 
 import cn.hutool.core.lang.Validator;
-import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSON;
 import com.ezylang.evalex.Expression;
 import com.ezylang.evalex.data.EvaluationValue;
 import com.google.common.collect.Maps;
-import com.wemirr.platform.tms.util.CalculateUtils;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.wildfly.common.Assert;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 

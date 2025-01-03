@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.listener;
+package com.wemirr.platform.iam.auth.listener;
 
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.dao.SaTokenDao;

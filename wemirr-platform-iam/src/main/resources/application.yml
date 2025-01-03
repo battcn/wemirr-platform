@@ -18,3 +18,10 @@ spring:
       config:
         server-addr: ${spring.cloud.nacos.server-addr}
         namespace: v3-dev
+extend:
+  third-auth:
+    config-map:
+      gitee:
+        client-id: 5e73364262e4194cffcfedd16ce0a1c023dc52de65cbdcffe17f8b605e790c43
+        client-secret: 19de971aeae2a0b2ae48ce2ec0d04b5bfc472cac36d3276b553d3737888f3eba
+        redirect-uri: http://localhost:5002/third-auth/gitee/callback

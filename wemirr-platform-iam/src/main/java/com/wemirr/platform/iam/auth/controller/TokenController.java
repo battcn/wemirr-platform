@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.controller;
+package com.wemirr.platform.iam.auth.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaIgnore;
@@ -30,13 +30,13 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.security.configuration.server.support.AuthenticationPrincipal;
 import com.wemirr.framework.security.domain.UserInfoDetails;
+import com.wemirr.platform.iam.auth.strategy.AuthenticatorStrategyTemplate;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangePasswordReq;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangeUserInfoReq;
 import com.wemirr.platform.iam.system.domain.dto.req.LoginReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserOnlinePageReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.LoginResp;
 import com.wemirr.platform.iam.system.service.UserService;
-import com.wemirr.platform.iam.system.strategy.AuthenticatorStrategyTemplate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

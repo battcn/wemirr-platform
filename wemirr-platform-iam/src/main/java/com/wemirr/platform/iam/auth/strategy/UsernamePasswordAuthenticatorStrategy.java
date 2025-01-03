@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.strategy;
+package com.wemirr.platform.iam.auth.strategy;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.wemirr.framework.commons.exception.CheckedException;
