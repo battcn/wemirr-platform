@@ -1,15 +1,19 @@
 package com.wemirr.platform.iam.auth.service;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.exception.CheckedException;
+import com.wemirr.platform.iam.auth.configuration.ThirdAuthProperties;
 import com.wemirr.platform.iam.system.domain.dto.resp.ThirdAuthResp;
 import com.wemirr.platform.iam.system.domain.entity.UserThirdAccount;
 import com.wemirr.platform.iam.system.domain.enums.ThirdAuthType;
 import com.wemirr.platform.iam.system.repository.ThirdAccountMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import me.zhyd.oauth.config.AuthConfig;
 import me.zhyd.oauth.model.AuthCallback;
 import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.model.AuthToken;
@@ -21,16 +25,26 @@ import java.util.Map;
 /**
  * @author Levin
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ThirdAuthTemplate {
 
+    private final ThirdAuthProperties thirdAuthProperties;
     private final ThirdAccountMapper thirdAccountMapper;
 
     private static final Map<ThirdAuthType, ThirdAuthService> AUTH_SERVICE_MAP = Maps.newConcurrentMap();
 
     @PostConstruct
     public void init() {
+        Map<ThirdAuthType, AuthConfig> configMap = thirdAuthProperties.getConfigMap();
+        if (CollUtil.isEmpty(configMap)) {
+            log.warn("""
+                    \n============================= Third Auth =============================
+                    \nThird-Auth 未进行任何平台配置,该功能不可用
+                    \n============================= Third Auth =============================
+                    """);
+        }
         var beans = SpringUtil.getBeansOfType(ThirdAuthService.class);
         for (Map.Entry<String, ThirdAuthService> entry : beans.entrySet()) {
             ThirdAuthService entryValue = entry.getValue();

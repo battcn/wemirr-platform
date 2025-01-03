@@ -79,6 +79,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ResponseBody
+    @ExceptionHandler(value = NullPointerException.class)
+    public Result<ResponseEntity<Void>> nullPointerException(NullPointerException e) {
+        log.error("null exception => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
+        return Result.fail(e.getLocalizedMessage());
+    }
+
+    @ResponseBody
     @ExceptionHandler(value = ServletException.class)
     public Result<ResponseEntity<Void>> servletException(ServletException e) {
         log.error("servlet exception => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
