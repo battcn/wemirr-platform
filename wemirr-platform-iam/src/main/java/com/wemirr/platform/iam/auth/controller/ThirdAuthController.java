@@ -39,7 +39,7 @@ public class ThirdAuthController {
         // TODO 如何更加灵活,还在思考中
         // TODO 租户/租户绑定域名后,这地方是否需要动态配置,返回的 POJO 需要改进,应该只返回基本信息以及基本租户信息才行
         // response.sendRedirect("http://localhost:5666/auth/login?accountId=" + user.getUuid() + "&platform=" + type + "&tenantCode=0000");
-        response.sendRedirect("https://cloud.battcn.com/?accountId=" + user.getUuid() + "&platform=" + type + "&tenantCode=0000");
+        response.sendRedirect("https://cloud.battcn.com?accountId=" + user.getUuid() + "&platform=" + type + "&tenantCode=0000");
         return user;
     }
 }
