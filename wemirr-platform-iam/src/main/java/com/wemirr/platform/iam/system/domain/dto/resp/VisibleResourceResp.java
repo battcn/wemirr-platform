@@ -59,4 +59,6 @@ public class VisibleResourceResp {
     private Boolean status;
     @Schema(description = "描述信息")
     private String description;
+    @Schema(description = "自定义菜单 meta 属性")
+    private String meta;
 }
