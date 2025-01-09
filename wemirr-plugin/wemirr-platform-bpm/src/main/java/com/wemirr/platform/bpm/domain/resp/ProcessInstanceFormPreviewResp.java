@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProcessInstanceFormPreviewResp {
 
-    @NotEmpty(message = "表单配置")
+    @NotEmpty(message = "表单字段不能为空")
     private FormDesign formDesign;
 
     @Schema(description = "表单数据")
@@ -35,7 +35,7 @@ public class ProcessInstanceFormPreviewResp {
         @Schema(defaultValue = "脚本")
         private String script;
 
-        @NotEmpty(message = "表单配置")
+        @NotEmpty(message = "表单字段不能为空")
         private JSONArray schemas;
     }
 
