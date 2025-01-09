@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.suite.online.repository.OnlineFormDataMapper">
+
+    <select id="pageList" resultType="com.wemirr.platform.suite.online.domain.entity.OnlineFormData">
+        select * from t_online_form_data t1
+        where t1.deleted = false
+        <if test="req.definitionKey != null and req.definitionKey != ''">
+            AND t1.definition_key = #{req.definitionKey}
+        </if>
+    </select>
+</mapper>
