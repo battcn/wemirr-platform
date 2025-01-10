@@ -29,7 +29,7 @@ public class OnlineFormDataServiceImpl extends SuperServiceImpl<OnlineFormDataMa
             put("tenantId", x.getTenantId());
             put("createdName", x.getCreatedName());
             put("createdTime", x.getCreatedTime());
-            putAll(JSONObject.parse(x.getFormData()));
+            putAll(x.getFormData());
         }});
     }
 
