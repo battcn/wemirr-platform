@@ -45,7 +45,6 @@ import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.framework.db.utils.TenantHelper;
-import com.wemirr.framework.i18n.core.I18nMessageResource;
 import com.wemirr.framework.log.diff.core.annotation.DiffLog;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
 import com.wemirr.framework.security.domain.UserInfoDetails;
@@ -95,7 +94,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     private final TenantMapper tenantMapper;
     private final DataScopeService dataScopeService;
     private final SaTokenDao saTokenDao;
-    private final I18nMessageResource i18nMessageResource;
+
     @Override
     public void create(UserSaveReq req) {
         final long count = super.count(Wraps.<User>lbQ().eq(User::getUsername, req.getUsername()));
