@@ -34,6 +34,7 @@ import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
+import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.platform.iam.base.domain.entity.AreaEntity;
 import com.wemirr.platform.iam.base.domain.entity.SysDict;
 import com.wemirr.platform.iam.base.domain.entity.SysDictItem;
@@ -81,7 +82,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> implements TenantService {
-    
+
     private final AuthenticationContext context;
     private final TenantSettingMapper tenantSettingMapper;
     private final AreaMapper areaMapper;
@@ -95,7 +96,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     private final SysDictItemMapper dictItemMapper;
     private final TenantDictMapper tenantDictMapper;
     private final TenantDictItemMapper tenantDictItemMapper;
-    
+
     private String getNameById(Long id) {
         if (Objects.isNull(id)) {
             return null;
@@ -106,7 +107,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         }
         return areaEntity.getName();
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void create(TenantSaveReq req) {
@@ -126,7 +127,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         tenant.setDistrictName(getNameById(tenant.getDistrictId()));
         this.baseMapper.insert(tenant);
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void modify(Long id, TenantSaveReq req) {
@@ -146,7 +147,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         bean.setDistrictName(getNameById(tenant.getDistrictId()));
         this.baseMapper.updateById(bean);
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void tenantConfig(Long tenantId, TenantConfigReq req) {
@@ -170,7 +171,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         // initSqlScript(tenantId);
         // }
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void initSqlScript(Long id) {
@@ -215,35 +216,32 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             record.setStatus(true);
             this.userMapper.insert(record);
             this.userRoleMapper.insert(UserRole.builder().userId(record.getId()).roleId(role.getId()).build());
-            
+
         } else if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
             DynamicDataSourceHandler dynamicDataSourceHandler = SpringUtil.getBean(DynamicDataSourceHandler.class);
             dynamicDataSourceHandler.initSqlScript(tenant.getCode(), Map.of("tenant_id", tenant.getId() + "", "tenant_name", tenant.getName()));
         }
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void refreshTenantDict(Long tenantId) {
         // 查询超管 所有字典数据
-        // TODO 默认查询租户ID = 1 的 , 后续改造成配置文件读取的 超管租户ID
-        List<SysDict> dictList = dictMapper.selectList(SysDict::getType, 1);
+        List<SysDict> dictList = TenantHelper.executeWithMaster(() -> dictMapper.selectList(SysDict::getType, 1));
         if (CollUtil.isEmpty(dictList)) {
             log.warn("未查询到有效的数据字典");
             return;
         }
-        List<TenantDict> dictTypeList = dictMapper.selectList(SysDict::getType, 1)
-                .stream()
-                .map(x -> {
-                    TenantDict dict = BeanUtil.toBean(x, TenantDict.class);
-                    dict.setId(null);
-                    dict.setLastModifiedTime(Instant.now());
-                    dict.setLastModifiedBy(context.userId());
-                    dict.setLastModifiedName(context.nickName());
-                    return dict;
-                }).toList();
+        List<TenantDict> dictTypeList = dictList.stream().map(x -> {
+            TenantDict dict = BeanUtil.toBean(x, TenantDict.class);
+            dict.setId(null);
+            dict.setLastModifiedTime(Instant.now());
+            dict.setLastModifiedBy(context.userId());
+            dict.setLastModifiedName(context.nickName());
+            return dict;
+        }).toList();
         List<Long> dictIdList = dictList.stream().map(Entity::getId).toList();
-        List<TenantDictItem> dictDataList = dictItemMapper.selectList(Wraps.<SysDictItem>lbQ().in(SysDictItem::getDictId, dictIdList))
+        List<TenantDictItem> dictDataList = TenantHelper.executeWithMaster(() -> dictItemMapper.selectList(Wraps.<SysDictItem>lbQ().in(SysDictItem::getDictId, dictIdList)))
                 .stream()
                 .map(x -> {
                     TenantDictItem item = BeanUtil.toBean(x, TenantDictItem.class);
@@ -254,7 +252,6 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
                     item.setLastModifiedName(context.nickName());
                     return item;
                 }).toList();
-        // TODO 暂未实现动态数据源刷新 => 如果是动态数据源需要手动切换一下DB
         // 理论上如果是管理员刷新租户字典那么需要给租户的数据给删除然后重新添加
         this.tenantDictMapper.delete(Wraps.<TenantDict>lbQ().eq(TenantDict::getTenantId, tenantId));
         this.tenantDictItemMapper.delete(Wraps.<TenantDictItem>lbQ().eq(TenantDictItem::getTenantId, tenantId));
@@ -262,13 +259,13 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         this.tenantDictMapper.insertBatchSomeColumn(dictTypeList);
         this.tenantDictItemMapper.insertBatchSomeColumn(dictDataList);
     }
-    
+
     @Override
     public TenantSettingResp settingInfo(Long tenantId) {
         TenantSetting setting = this.tenantSettingMapper.selectOne(TenantSetting::getTenantId, tenantId);
         return BeanUtil.toBean(setting, TenantSettingResp.class);
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void saveSetting(Long tenantId, TenantSettingReq req) {

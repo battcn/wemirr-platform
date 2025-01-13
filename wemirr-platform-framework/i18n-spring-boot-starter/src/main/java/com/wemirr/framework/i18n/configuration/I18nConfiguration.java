@@ -69,6 +69,7 @@ public class I18nConfiguration {
         List<String> baseNames = StrUtil.split(properties.getBasename(),",");
         baseNames.add("classpath:/default-i18n/messages");
         baseNames.add("classpath:i18n/messages");
+        baseNames.add("classpath:i18n");
         baseNames.add("classpath:messages");
         baseNames.add("messages");
         if (properties.getEncoding() != null) {
