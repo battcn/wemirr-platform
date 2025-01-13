@@ -100,7 +100,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     public void create(UserSaveReq req) {
         final long count = super.count(Wraps.<User>lbQ().eq(User::getUsername, req.getUsername()));
         if (count > 0) {
-            throw CheckedException.badRequest(i18nMessageResource.getMessage("global.exception.duplicate-key"));
+            throw CheckedException.badRequest("账号已存在");
         }
         var bean = BeanUtil.toBean(req, User.class);
         bean.setPassword(PasswordEncoderHelper.encode(req.getPassword()));
