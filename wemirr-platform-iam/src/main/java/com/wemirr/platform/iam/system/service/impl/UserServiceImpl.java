@@ -47,6 +47,7 @@ import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.framework.log.diff.core.annotation.DiffLog;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
+import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.framework.security.utils.PasswordEncoderHelper;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangeUserInfoReq;
@@ -94,6 +95,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     private final TenantMapper tenantMapper;
     private final DataScopeService dataScopeService;
     private final SaTokenDao saTokenDao;
+    private final SecurityExtProperties extProperties;
 
     @Override
     public void create(UserSaveReq req) {
@@ -255,8 +257,8 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             if (StpUtil.stpLogic.getTokenActiveTimeoutByToken(token) < -1) {
                 continue;
             }
-            // TODO 需要优化,不应该暴露 token key 给开发
-            UserInfoDetails info = JSONObject.parseObject((String) saTokenDao.getObject("wp-token:userinfo:" + token), UserInfoDetails.class);
+            String key = String.format(extProperties.getServer().getInfoKeyPrefix(), token);
+            UserInfoDetails info = JSONObject.parseObject((String) saTokenDao.getObject(key), UserInfoDetails.class);
             if (info == null || info.getLoginLog() == null) {
                 continue;
             }
