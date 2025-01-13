@@ -131,19 +131,19 @@ DROP TABLE IF EXISTS `c_diff_log`;
 CREATE TABLE `c_diff_log` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
   `variables` json DEFAULT NULL COMMENT '变量信息，JSON格式',
-  `service_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL COMMENT '服务名称',
-  `business_group` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL COMMENT '业务组',
-  `business_tag` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL COMMENT '业务标签',
-  `business_key` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL COMMENT '业务关键字',
-  `description` text CHARACTER SET utf8mb3 COLLATE utf8_bin COMMENT '描述信息',
+  `service_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '服务名称',
+  `business_group` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '业务组',
+  `business_tag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '业务标签',
+  `business_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '业务关键字',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '描述信息',
   `status` int DEFAULT NULL COMMENT '状态',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
   `created_by` bigint DEFAULT NULL COMMENT '创建者ID',
-  `created_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL COMMENT '创建者名称',
+  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建者名称',
   `created_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `extra` text CHARACTER SET utf8mb3 COLLATE utf8_bin COMMENT '额外信息，JSON格式',
+  `extra` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '额外信息，JSON格式',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin COMMENT='通用差异日志表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='通用差异日志表';
 
 -- ----------------------------
 -- Records of c_diff_log
@@ -175,7 +175,7 @@ CREATE TABLE `c_generate` (
   `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='代码生成器';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='代码生成器';
 
 -- ----------------------------
 -- Records of c_generate
@@ -189,8 +189,8 @@ COMMIT;
 DROP TABLE IF EXISTS `c_i18n_data`;
 CREATE TABLE `c_i18n_data` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `code` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '唯一标识 = 业务:关键词',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '备注',
+  `code` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '唯一标识 = 业务:关键词',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
   `tenant_id` bigint DEFAULT NULL,
   `deleted` bit(1) DEFAULT b'0' COMMENT '删除状态0：未删除，1：已删除',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
@@ -200,7 +200,7 @@ CREATE TABLE `c_i18n_data` (
   `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1724355494514126850 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='国际化信息';
+) ENGINE=InnoDB AUTO_INCREMENT=1724355494514126850 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='国际化信息';
 
 -- ----------------------------
 -- Records of c_i18n_data
@@ -219,13 +219,13 @@ DROP TABLE IF EXISTS `c_i18n_locale_message`;
 CREATE TABLE `c_i18n_locale_message` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `parent_id` bigint DEFAULT NULL COMMENT 'i18n_data.id',
-  `locale` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '语言',
-  `message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '文本值，可以使用 {} 加角标，作为占位符',
+  `locale` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '语言',
+  `message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文本值，可以使用 {} 加角标，作为占位符',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
   `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1864960309274497027 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='国际化信息';
+) ENGINE=InnoDB AUTO_INCREMENT=1864960309274497027 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='国际化信息';
 
 -- ----------------------------
 -- Records of c_i18n_locale_message
@@ -246,7 +246,7 @@ DROP TABLE IF EXISTS `c_login_log`;
 CREATE TABLE `c_login_log` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `tenant_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '租户编码',
+  `tenant_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '租户编码',
   `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录IP',
   `location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录地点',
   `client_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人客户端ID',
@@ -255,12 +255,12 @@ CREATE TABLE `c_login_log` (
   `engine` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '引擎类型',
   `browser` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器名称',
   `os` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作系统',
-  `login_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '登录类型',
+  `login_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录类型',
   `created_by` bigint DEFAULT NULL,
-  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='登录日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='登录日志';
 
 -- ----------------------------
 -- Records of c_login_log
@@ -275,31 +275,31 @@ DROP TABLE IF EXISTS `c_opt_log`;
 CREATE TABLE `c_opt_log` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `tenant_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '租户编码',
-  `module` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '日志模块',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作描述',
-  `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作IP（支持IPv6）',
-  `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '地址',
-  `trace` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '日志链路追踪id日志标志',
-  `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '类路径',
-  `uri` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '请求地址',
-  `http_method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'GET' COMMENT '请求类型ENUM(''GET'', ''POST'', ''PUT'', ''DELETE'', ''PATCH'', ''TRACE'', ''HEAD'', ''OPTIONS'')',
-  `request` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '请求参数',
-  `response` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '返回值',
-  `message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '执行消息',
+  `tenant_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '租户编码',
+  `module` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '日志模块',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作描述',
+  `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作IP（支持IPv6）',
+  `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '地址',
+  `trace` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '日志链路追踪id日志标志',
+  `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类路径',
+  `uri` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '请求地址',
+  `http_method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT 'GET' COMMENT '请求类型ENUM(''GET'', ''POST'', ''PUT'', ''DELETE'', ''PATCH'', ''TRACE'', ''HEAD'', ''OPTIONS'')',
+  `request` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '请求参数',
+  `response` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '返回值',
+  `message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '执行消息',
   `status` bit(1) DEFAULT NULL COMMENT '日志状态（true=正常;false=异常）',
   `start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
   `end_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
   `duration` bigint DEFAULT '0' COMMENT '消耗时间',
-  `browser` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器名称',
-  `os` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作系统',
-  `engine` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '浏览器引擎',
-  `platform` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '平台信息',
-  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '请求令牌',
+  `browser` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器名称',
+  `os` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作系统',
+  `engine` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器引擎',
+  `platform` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '平台信息',
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '请求令牌',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作人',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='系统日志';
 
 -- ----------------------------
 -- Records of c_opt_log
@@ -521,21 +521,21 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_dict`;
 CREATE TABLE `sys_dict` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '编码\r\n一颗树仅仅有一个统一的编码',
-  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '名称',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '编码\r\n一颗树仅仅有一个统一的编码',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '名称',
   `type` tinyint DEFAULT '0' COMMENT '字典类型(0=平台字典;1=租户字典)',
-  `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述',
+  `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
   `status` bit(1) DEFAULT b'1' COMMENT '状态',
   `sequence` tinyint DEFAULT '0' COMMENT '排序',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人名称',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1873605395382255618 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='字典类型';
+) ENGINE=InnoDB AUTO_INCREMENT=1873605395382255618 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='字典类型';
 
 -- ----------------------------
 -- Records of sys_dict
@@ -569,23 +569,23 @@ DROP TABLE IF EXISTS `sys_dict_item`;
 CREATE TABLE `sys_dict_item` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `dict_id` bigint DEFAULT NULL COMMENT '类型ID',
-  `dict_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '类型',
-  `value` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '编码',
-  `label` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '名称',
+  `dict_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '类型',
+  `value` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '编码',
+  `label` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '名称',
   `status` bit(1) DEFAULT b'1' COMMENT '状态',
-  `color` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '颜色',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '描述',
+  `color` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '颜色',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '描述',
   `sequence` int DEFAULT '1' COMMENT '排序',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `dict_code_item_code_uniq` (`dict_code`,`value`) USING BTREE COMMENT '字典编码与字典项目编码联合唯一'
-) ENGINE=InnoDB AUTO_INCREMENT=1865928793793933314 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='字典项';
+) ENGINE=InnoDB AUTO_INCREMENT=1865928793793933314 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='字典项';
 
 -- ----------------------------
 -- Records of sys_dict_item
@@ -806,19 +806,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_registered_client`;
 CREATE TABLE `sys_registered_client` (
-  `id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
-  `client_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
+  `id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `client_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `client_id_issued_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `client_secret` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `client_secret` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `client_secret_expires_at` timestamp NULL DEFAULT NULL,
-  `client_name` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
-  `client_authentication_methods` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
-  `grant_types` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
-  `redirect_uris` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
-  `post_logout_redirect_uris` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
-  `scopes` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
-  `client_settings` varchar(2000) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
-  `token_settings` varchar(2000) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
+  `client_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `client_authentication_methods` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `grant_types` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `redirect_uris` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `post_logout_redirect_uris` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `scopes` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `client_settings` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `token_settings` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `status` bit(1) DEFAULT b'1' COMMENT '0=禁用;1=启用',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT NULL COMMENT '创建人id',
@@ -828,7 +828,7 @@ CREATE TABLE `sys_registered_client` (
   `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of sys_registered_client
@@ -1026,21 +1026,21 @@ DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `tenant_id` int DEFAULT NULL COMMENT '租户编码',
-  `code` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL COMMENT '角色编码',
-  `name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '名称',
-  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL COMMENT '描述信息',
+  `code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '角色编码',
+  `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '名称',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述信息',
   `scope_type` tinyint DEFAULT NULL COMMENT '数据权限范围，值越大，权限越大',
   `status` tinyint(1) DEFAULT '0' COMMENT '0=正常1=禁用',
   `super` tinyint(1) DEFAULT '0' COMMENT '0=非 1=管理员',
   `readonly` tinyint(1) DEFAULT '0' COMMENT '是否内置角色',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1829323672360452099 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin COMMENT='角色';
+) ENGINE=InnoDB AUTO_INCREMENT=1829323672360452099 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='角色';
 
 -- ----------------------------
 -- Records of sys_role
@@ -1060,7 +1060,7 @@ CREATE TABLE `sys_role_res` (
   `res_id` bigint NOT NULL COMMENT '菜单ID',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   UNIQUE KEY `idx_role_res` (`role_id`,`res_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='角色权限表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色权限表';
 
 -- ----------------------------
 -- Records of sys_role_res
@@ -1342,23 +1342,23 @@ COMMIT;
 DROP TABLE IF EXISTS `t_db_setting`;
 CREATE TABLE `t_db_setting` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '连接名',
-  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户名',
-  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '密码',
-  `db_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '数据库类型',
-  `driver_class_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `host` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'localhost' COMMENT '数据库连接',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述信息',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '连接名',
+  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '用户名',
+  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '密码',
+  `db_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '数据库类型',
+  `driver_class_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `host` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'localhost' COMMENT '数据库连接',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述信息',
   `locked` bit(1) DEFAULT b'0' COMMENT '0=正常1=禁用',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '最后修改人名称',
+  `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最后修改人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1735576153244049410 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='动态数据源';
+) ENGINE=InnoDB AUTO_INCREMENT=1735576153244049410 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='动态数据源';
 
 -- ----------------------------
 -- Records of t_db_setting
@@ -1375,72 +1375,41 @@ COMMIT;
 DROP TABLE IF EXISTS `t_file_storage`;
 CREATE TABLE `t_file_storage` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '文件id',
-  `platform` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '存储平台',
-  `url` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL COMMENT '预览地址',
+  `platform` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存储平台',
+  `url` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '预览地址',
   `size` bigint DEFAULT NULL COMMENT '文件大小，单位字节',
-  `format_size` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `filename` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件名称',
-  `original_filename` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '原始文件名',
-  `base_path` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '基础存储路径',
-  `path` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '存储路径',
-  `ext` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件扩展名',
-  `content_type` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'MIME类型',
-  `th_url` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '缩略图访问路径',
-  `th_filename` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '缩略图名称',
+  `format_size` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `filename` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件名称',
+  `original_filename` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '原始文件名',
+  `base_path` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基础存储路径',
+  `path` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存储路径',
+  `ext` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件扩展名',
+  `content_type` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'MIME类型',
+  `th_url` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '缩略图访问路径',
+  `th_filename` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '缩略图名称',
   `th_size` bigint DEFAULT NULL COMMENT '缩略图大小，单位字节',
-  `th_content_type` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '缩略图MIME类型',
-  `object_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件所属对象id',
-  `object_type` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件所属对象类型，例如用户头像，评价图片',
-  `metadata` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci COMMENT '文件元数据',
-  `user_metadata` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci COMMENT '文件用户元数据',
-  `th_metadata` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci COMMENT '缩略图元数据',
-  `th_user_metadata` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci COMMENT '缩略图用户元数据',
-  `attr` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci COMMENT '附加属性',
-  `file_acl` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件ACL',
-  `th_file_acl` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '缩略图文件ACL',
-  `hash_info` text CHARACTER SET utf8mb3 COLLATE utf8_general_ci COMMENT '哈希信息',
-  `category` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `th_content_type` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '缩略图MIME类型',
+  `object_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件所属对象id',
+  `object_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件所属对象类型，例如用户头像，评价图片',
+  `metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '文件元数据',
+  `user_metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '文件用户元数据',
+  `th_metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '缩略图元数据',
+  `th_user_metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '缩略图用户元数据',
+  `attr` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '附加属性',
+  `file_acl` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件ACL',
+  `th_file_acl` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '缩略图文件ACL',
+  `hash_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '哈希信息',
+  `category` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `tenant_id` bigint DEFAULT NULL,
   `deleted` bit(1) DEFAULT b'0',
-  `created_by` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `created_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `created_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `created_time` datetime DEFAULT NULL,
-  `last_modified_by` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `last_modified_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `last_modified_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `last_modified_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1874298148772622338 DEFAULT CHARSET=utf8mb3 COMMENT='文件记录表';
-
--- ----------------------------
--- Records of t_file_storage
--- ----------------------------
-BEGIN;
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1868878857646768129, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676100b07090747e073e4234.png', 116918, '114.18 KB', '676100b07090747e073e4234.png', '系统架构图.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-17 12:40:16', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1868879288737353729, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/67610116e30e4578789e9754.png', 116918, '114.18 KB', '67610116e30e4578789e9754.png', '92947efb109647c3a85ab714dbc9b4d2.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-17 12:41:59', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870306052155793409, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676631ddd59052dfcedc752c.png', 119015, '116.23 KB', '676631ddd59052dfcedc752c.png', 'c34a57b14bdc4a0b876918d7d5f0de1c.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-21 11:11:26', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870307007752462338, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676632c1d59052dfcedc752d.png', 119015, '116.23 KB', '676632c1d59052dfcedc752d.png', '92947efb109647c3a85ab714dbc9b4d2 (2).png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-21 11:15:14', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870307381972459521, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/6766331bd59052dfcedc752e.png', 119015, '116.23 KB', '6766331bd59052dfcedc752e.png', '92947efb109647c3a85ab714dbc9b4d2 (1).png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'1', '1', '平台管理员', '2024-12-21 11:16:43', '1', '平台管理员', '2025-01-07 11:22:45');
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870307630417862657, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/67663356d59052dfcedc752f.png', 119015, '116.23 KB', '67663356d59052dfcedc752f.png', 'c34a57b14bdc4a0b876918d7d5f0de1c.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-21 11:17:42', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870307909485879297, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/67663398d59052dfcedc7530.png', 119015, '116.23 KB', '67663398d59052dfcedc7530.png', '系统架构图.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-21 11:18:49', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870308798833516546, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/6766346cd59052dfcedc7531.png', 119015, '116.23 KB', '6766346cd59052dfcedc7531.png', '系统架构图.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'1', '1', '平台管理员', '2024-12-21 11:22:21', '1', '平台管理员', '2024-12-23 11:17:43');
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1870308881964621825, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/67663480d59052dfcedc7532.png', 212103, '207.13 KB', '67663480d59052dfcedc7532.png', '数据串联.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-21 11:22:41', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871432483258683394, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676a4af0ca327d0083c8536e.txt', 15114, '14.76 KB', '676a4af0ca327d0083c8536e.txt', '生产环境异常.txt', 'dev/', '', 'txt', 'text/plain', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'OTHER', 1, b'0', '1', '平台管理员', '2024-12-24 13:47:28', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871433068846501890, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676a4b7bca3270ea84f73f41.pdf', 1100369, '1.05 MB', '676a4b7bca3270ea84f73f41.pdf', '海信VPN客户端安装使用手册.pdf', 'dev/', '', 'pdf', 'application/pdf', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'DOCUMENT', 1, b'0', '1', '平台管理员', '2024-12-24 13:49:48', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871755787504861186, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676b780991326cc9f14145aa.png', 93971, '91.77 KB', '676b780991326cc9f14145aa.png', 'c34a57b14bdc4a0b876918d7d5f0de1c.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-25 11:12:10', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871756445591158785, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676b78a691326cc9f14145ab.png', 119015, '116.23 KB', '676b78a691326cc9f14145ab.png', '92947efb109647c3a85ab714dbc9b4d2.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-25 11:14:47', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871756520551759874, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676b78b891326cc9f14145ac.png', 119015, '116.23 KB', '676b78b891326cc9f14145ac.png', '系统架构图.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-25 11:15:05', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871756692052656129, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676b78e191326cc9f14145ad.png', 119015, '116.23 KB', '676b78e191326cc9f14145ad.png', '92947efb109647c3a85ab714dbc9b4d2.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-25 11:15:46', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871756856452595713, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676b790891326cc9f14145ae.png', 119015, '116.23 KB', '676b790891326cc9f14145ae.png', '系统架构图.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-25 11:16:25', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871756921623691265, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676b791891326cc9f14145af.png', 119015, '116.23 KB', '676b791891326cc9f14145af.png', '92947efb109647c3a85ab714dbc9b4d2.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-25 11:16:40', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871757067606441986, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676b793b91326cc9f14145b0.png', 119015, '116.23 KB', '676b793b91326cc9f14145b0.png', '系统架构图.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-25 11:17:15', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871786023260930050, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676b943291326cc9f14145b1.png', 119015, '116.23 KB', '676b943291326cc9f14145b1.png', 'c34a57b14bdc4a0b876918d7d5f0de1c.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-25 13:12:19', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1871795993318670338, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/676b9d7b91326cc9f14145b2.png', 119015, '116.23 KB', '676b9d7b91326cc9f14145b2.png', '系统架构图.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2024-12-25 13:51:56', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1874284269837463553, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/6774aaded590e5fd014f10c2.png', 116918, '114.18 KB', '6774aaded590e5fd014f10c2.png', '92947efb109647c3a85ab714dbc9b4d2.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2025-01-01 10:39:27', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1874284338624049154, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/6774aaefd590e5fd014f10c3.png', 116918, '114.18 KB', '6774aaefd590e5fd014f10c3.png', '系统架构图.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2025-01-01 10:39:44', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1874296971733479426, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/6774b6b3d590e5fd014f10c4.png', 116918, '114.18 KB', '6774b6b3d590e5fd014f10c4.png', '92947efb109647c3a85ab714dbc9b4d2.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2025-01-01 11:29:55', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1874297593337720834, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/6774b747d590e5fd014f10c5.png', 116918, '114.18 KB', '6774b747d590e5fd014f10c5.png', '92947efb109647c3a85ab714dbc9b4d2.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2025-01-01 11:32:24', NULL, NULL, NULL);
-INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `created_by`, `created_name`, `created_time`, `last_modified_by`, `last_modified_name`, `last_modified_time`) VALUES (1874298148772622337, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/6774b7ccd590e5fd014f10c6.png', 116918, '114.18 KB', '6774b7ccd590e5fd014f10c6.png', '92947efb109647c3a85ab714dbc9b4d2.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2025-01-01 11:34:36', NULL, NULL, NULL);
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件记录表';
 
 -- ----------------------------
 -- Table structure for t_file_storage_setting
@@ -1449,25 +1418,25 @@ DROP TABLE IF EXISTS `t_file_storage_setting`;
 CREATE TABLE `t_file_storage_setting` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `tenant_id` bigint DEFAULT NULL,
-  `platform` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'type+bucket_name 组合',
-  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '类型（七牛云、阿里云、腾讯云、Minio、其他S3）',
+  `platform` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'type+bucket_name 组合',
+  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类型（七牛云、阿里云、腾讯云、Minio、其他S3）',
   `status` tinyint DEFAULT '0' COMMENT '状态',
-  `access_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'AccessKey',
-  `secret_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'SecretKey',
-  `region` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '存储区域',
-  `domain` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '域名',
-  `bucket_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '存储桶',
-  `base_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '基础路径',
-  `end_point` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '服务端点',
+  `access_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'AccessKey',
+  `secret_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'SecretKey',
+  `region` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存储区域',
+  `domain` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '域名',
+  `bucket_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存储桶',
+  `base_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基础路径',
+  `end_point` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '服务端点',
   `deleted` bit(1) DEFAULT b'0',
-  `created_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `created_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `created_time` timestamp NULL DEFAULT NULL,
-  `last_modified_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `last_modified_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `last_modified_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1868599415401865218 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1868599415401865218 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of t_file_storage_setting
@@ -1483,11 +1452,11 @@ COMMIT;
 DROP TABLE IF EXISTS `t_gateway_route`;
 CREATE TABLE `t_gateway_route` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `route_id` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL COMMENT '路由ID',
-  `uri` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '企业邮箱',
+  `route_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '路由ID',
+  `uri` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '企业邮箱',
   `order` tinyint DEFAULT '0' COMMENT '排序',
-  `predicates` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '谓语条件',
-  `filters` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '过滤器',
+  `predicates` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '谓语条件',
+  `filters` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '过滤器',
   `locked` bit(1) DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -1495,7 +1464,7 @@ CREATE TABLE `t_gateway_route` (
   `last_modified_by` bigint DEFAULT NULL COMMENT '最后修改人',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `unique_route_id` (`route_id`) USING BTREE COMMENT '路由ID唯一索引'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='网关路由表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='网关路由表';
 
 -- ----------------------------
 -- Records of t_gateway_route
@@ -1509,7 +1478,7 @@ COMMIT;
 DROP TABLE IF EXISTS `t_online_form_data`;
 CREATE TABLE `t_online_form_data` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `definition_key` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '业务组标识',
+  `definition_key` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '业务组标识',
   `form_data` longtext NOT NULL COMMENT '动态表单数据',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
   `deleted` bit(1) DEFAULT b'0',
@@ -1521,7 +1490,7 @@ CREATE TABLE `t_online_form_data` (
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_business_group_key` (`definition_key`)
-) ENGINE=InnoDB AUTO_INCREMENT=1876938407108820994 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='动态表单数据表';
+) ENGINE=InnoDB AUTO_INCREMENT=1876938407108820994 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='动态表单数据表';
 
 -- ----------------------------
 -- Records of t_online_form_data
@@ -1544,7 +1513,7 @@ CREATE TABLE `t_online_model` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
   `version` int NOT NULL DEFAULT '1' COMMENT '版本号',
   `description` text COMMENT '备注',
-  `form_script` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '脚本',
+  `form_script` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '脚本',
   `form_schemas` longtext COMMENT '表单配置',
   `form_crud_config` longtext COMMENT '表单CRUD配置',
   `deleted` bit(1) DEFAULT b'0',
@@ -1555,7 +1524,7 @@ CREATE TABLE `t_online_model` (
   `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1876935098889273347 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='在线模型表';
+) ENGINE=InnoDB AUTO_INCREMENT=1876935098889273347 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='在线模型表';
 
 -- ----------------------------
 -- Records of t_online_model
@@ -1570,37 +1539,37 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_tenant`;
 CREATE TABLE `t_tenant` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `code` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '租户编码',
-  `name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL COMMENT '租户名称',
-  `type` tinyint DEFAULT '0' COMMENT '0=其它,1=企业',
-  `alias` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '简称',
-  `logo` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'LOGO',
-  `email` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '租户邮箱',
-  `status` bit(1) DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
-  `contact_person` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '联系人',
-  `contact_phone` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '联系人方式',
-  `industry` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '行业',
-  `province_id` int DEFAULT NULL COMMENT '省份',
-  `province_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '省份',
-  `city_id` int DEFAULT NULL COMMENT '市',
-  `city_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '市',
-  `address` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '详细地址',
-  `district_id` int DEFAULT NULL COMMENT '区县',
-  `district_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '区县',
-  `credit_code` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '统一信用代码',
-  `legal_person_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '法人',
-  `web_site` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '企业网址',
-  `description` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
-  `deleted` bit(1) DEFAULT b'0',
-  `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人名称',
-  `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人名称',
-  `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1864956411491020802 DEFAULT CHARSET=utf8mb3 COMMENT='租户信息';
+    `id` bigint NOT NULL AUTO_INCREMENT,
+    `code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '租户编码',
+    `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '租户名称',
+    `type` tinyint DEFAULT '0' COMMENT '0=其它,1=企业',
+    `alias` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '简称',
+    `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'LOGO',
+    `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '租户邮箱',
+    `status` bit(1) DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+    `contact_person` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人',
+    `contact_phone` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人方式',
+    `industry` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '行业',
+    `province_id` int DEFAULT NULL COMMENT '省份',
+    `province_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省份',
+    `city_id` int DEFAULT NULL COMMENT '市',
+    `city_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市',
+    `address` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '详细地址',
+    `district_id` int DEFAULT NULL COMMENT '区县',
+    `district_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区县',
+    `credit_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '统一信用代码',
+    `legal_person_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '法人',
+    `web_site` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '企业网址',
+    `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
+    `deleted` bit(1) DEFAULT b'0',
+    `created_by` bigint DEFAULT '0' COMMENT '创建人id',
+    `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+    `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
+    `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+    `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1864956411491020802 DEFAULT CHARSET=utf8mb4 COMMENT='租户信息';
 
 -- ----------------------------
 -- Records of t_tenant
@@ -1621,23 +1590,23 @@ COMMIT;
 DROP TABLE IF EXISTS `t_tenant_dict`;
 CREATE TABLE `t_tenant_dict` (
   `id` bigint NOT NULL COMMENT '雪花算法ID',
-  `code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL COMMENT '编码',
-  `name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL COMMENT '名称',
-  `description` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '编码',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '名称',
+  `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
   `status` bit(1) DEFAULT b'1' COMMENT '状态',
   `readonly` bit(1) DEFAULT b'0' COMMENT '0=否；1=是；只读数据不允许删除',
   `sequence` tinyint DEFAULT NULL COMMENT '排序',
   `tenant_id` bigint NOT NULL COMMENT '租户ID t_tenant.id',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `created_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人ID',
-  `last_modified_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人名称',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_code` (`code`) USING BTREE COMMENT '租户字典索引'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of t_tenant_dict
@@ -1658,25 +1627,25 @@ COMMIT;
 DROP TABLE IF EXISTS `t_tenant_dict_item`;
 CREATE TABLE `t_tenant_dict_item` (
   `id` bigint NOT NULL COMMENT '雪花算法id',
-  `dict_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '字典ID',
-  `dict_code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL COMMENT '字典编码',
-  `value` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL COMMENT '字典值',
-  `label` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8_general_ci NOT NULL COMMENT '子项名',
+  `dict_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '字典ID',
+  `dict_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '字典编码',
+  `value` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '字典值',
+  `label` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '子项名',
   `readonly` bit(1) DEFAULT b'0' COMMENT '是否只读 true = 只读;false = 可编辑修改',
   `status` bit(1) DEFAULT b'1' COMMENT '状态',
-  `color` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '颜色',
+  `color` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '颜色',
   `deleted` bit(1) DEFAULT b'0',
-  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT '' COMMENT '描述',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '描述',
   `sequence` int DEFAULT '1' COMMENT '排序',
   `tenant_id` bigint NOT NULL COMMENT '租户id，t_tenant.id',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人名称',
+  `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of t_tenant_dict_item
@@ -1710,20 +1679,20 @@ DROP TABLE IF EXISTS `t_tenant_setting`;
 CREATE TABLE `t_tenant_setting` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `tenant_id` bigint NOT NULL COMMENT '租户ID',
-  `site_url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '站点',
-  `site_title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '站点标题',
-  `site_sub_title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT '子标题',
-  `site_logo` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'LOGO',
+  `site_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '站点',
+  `site_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '站点标题',
+  `site_sub_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '子标题',
+  `site_logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'LOGO',
   `db_id` bigint DEFAULT NULL,
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT NULL,
-  `created_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `created_time` datetime DEFAULT NULL,
   `last_modified_by` bigint DEFAULT NULL,
-  `last_modified_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
+  `last_modified_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `last_modified_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COMMENT='租户配置信息';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='租户配置信息';
 
 -- ----------------------------
 -- Records of t_tenant_setting
@@ -1741,35 +1710,35 @@ DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '账号',
-  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '密码',
-  `nick_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '昵称',
+  `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '账号',
+  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '密码',
+  `nick_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '昵称',
   `org_id` bigint DEFAULT NULL COMMENT '组织ID',
   `position_id` bigint DEFAULT NULL COMMENT '岗位ID',
   `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否内置',
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
-  `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '手机',
-  `id_card` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '身份证',
+  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮箱',
+  `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '手机',
+  `id_card` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证',
   `sex` tinyint DEFAULT '1' COMMENT '性别',
   `status` bit(1) DEFAULT b'0' COMMENT '状态 \n1启用 0禁用',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '头像',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述',
-  `nation` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '民族',
-  `education` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '学历',
-  `position_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '职位状态',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '头像',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
+  `nation` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '民族',
+  `education` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '学历',
+  `position_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '职位状态',
   `birthday` date DEFAULT NULL COMMENT '生日',
-  `last_login_ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '最后一次登录IP',
+  `last_login_ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最后一次登录IP',
   `last_login_time` datetime DEFAULT NULL COMMENT '最后一次登录时间',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人名称',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `UN_ACCOUNT_TENANT` (`username`,`tenant_id`) USING BTREE COMMENT '账号唯一约束'
-) ENGINE=InnoDB AUTO_INCREMENT=1871805475306237954 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=1871805475306237954 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户';
 
 -- ----------------------------
 -- Records of t_user
@@ -1803,15 +1772,15 @@ CREATE TABLE `t_user_third_account` (
   `token_expire_time` datetime DEFAULT NULL COMMENT '令牌过期时间',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人名称',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_user_platform` (`type`,`account_id`),
   KEY `idx_created_time` (`created_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=1875008671508062211 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='第三方授权账户表';
+) ENGINE=InnoDB AUTO_INCREMENT=1875008671508062211 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='第三方授权账户表';
 
 -- ----------------------------
 -- Records of t_user_third_account
@@ -1839,10 +1808,10 @@ CREATE TABLE `tms_accident` (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '修改人ID',
-  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1739954453250420738 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='车辆事故表';
@@ -1928,10 +1897,10 @@ CREATE TABLE `tms_expense` (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '修改人ID',
-  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1739953184926445571 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='费用表';
@@ -1959,10 +1928,10 @@ CREATE TABLE `tms_fleet` (
   `enabled` bit(1) DEFAULT b'1' COMMENT 'true = 启用/ false = 禁用',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '修改人ID',
-  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1739849003846684674 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='运输车队';
@@ -2419,10 +2388,10 @@ CREATE TABLE `tms_peccancy` (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '修改人ID',
-  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1739952107560742914 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='车辆违章表';
@@ -2552,10 +2521,10 @@ CREATE TABLE `tms_truck` (
   `approval_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批描述',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+  `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '修改人ID',
-  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `last_modified_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
   `last_modified_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1739846242807664642 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='车辆信息表';
@@ -2573,21 +2542,21 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_aisle`;
 CREATE TABLE `wms_aisle` (
   `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '巷道编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '巷道名称',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '巷道编号',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '巷道名称',
   `status` tinyint NOT NULL COMMENT '是否启用',
   `length` decimal(10,2) DEFAULT NULL COMMENT '长度',
   `width` decimal(10,2) DEFAULT NULL COMMENT '宽度',
   `height` decimal(10,2) DEFAULT NULL COMMENT '高度',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='巷道表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='巷道表';
 
 -- ----------------------------
 -- Records of wms_aisle
@@ -2606,36 +2575,36 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_brand`;
 CREATE TABLE `wms_brand` (
   `id` bigint NOT NULL COMMENT '对象存储主键',
-  `code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '品牌编号',
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '品牌名称',
-  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '品牌状态',
-  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '品牌类型',
-  `country` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '品牌所属国家',
-  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '品牌logo',
-  `website` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '品牌官方网站URL',
-  `contact_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '品牌联系人',
-  `contact_phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '联系人电话',
-  `owner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '品牌所有者',
-  `company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '品牌公司',
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '联系人邮箱',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '品牌备注',
+  `code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌编号',
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌名称',
+  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌状态',
+  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌类型',
+  `country` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌所属国家',
+  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌logo',
+  `website` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌官方网站URL',
+  `contact_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌联系人',
+  `contact_phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人电话',
+  `owner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌所有者',
+  `company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌公司',
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人邮箱',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '品牌备注',
   `province_id` bigint DEFAULT NULL COMMENT '省',
-  `province_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '省名称',
+  `province_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省名称',
   `city_id` bigint DEFAULT NULL COMMENT '市',
-  `city_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '市名称',
+  `city_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市名称',
   `district_id` bigint DEFAULT NULL COMMENT '区',
-  `district_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '区名称',
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '详细地址',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '品牌描述，详细介绍品牌信息',
+  `district_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区名称',
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '详细地址',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌描述，详细介绍品牌信息',
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='品牌表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='品牌表';
 
 -- ----------------------------
 -- Records of wms_brand
@@ -2651,38 +2620,38 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_carrier`;
 CREATE TABLE `wms_carrier` (
   `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '承运商编码',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '承运商名称',
-  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '承运商类型：外贸、内贸',
-  `service_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '服务类型：陆运、海运、空运',
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '承运商编码',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '承运商名称',
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '承运商类型：外贸、内贸',
+  `service_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '服务类型：陆运、海运、空运',
   `effective_date` date DEFAULT NULL COMMENT '合同起始日期',
   `expiration_date` date DEFAULT NULL COMMENT '合同结束日期',
-  `payment_term` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '付款条款',
-  `settlement_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '结算方式',
-  `contact_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '联系人',
-  `postcode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '邮编',
-  `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '手机号',
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '电子邮箱',
-  `fax` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '传真',
+  `payment_term` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '付款条款',
+  `settlement_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '结算方式',
+  `contact_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人',
+  `postcode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮编',
+  `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '手机号',
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '电子邮箱',
+  `fax` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '传真',
   `province_id` bigint DEFAULT NULL COMMENT '省ID',
-  `province_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '省',
+  `province_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省',
   `city_id` bigint DEFAULT NULL COMMENT '市ID',
-  `city_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '市',
+  `city_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市',
   `district_id` bigint DEFAULT NULL COMMENT '区ID',
-  `district_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '区',
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '详细地址',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '备注',
-  `attachment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '合同文件',
-  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '状态',
+  `district_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区',
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '详细地址',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
+  `attachment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '合同文件',
+  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='承运商表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='承运商表';
 
 -- ----------------------------
 -- Records of wms_carrier
@@ -2698,20 +2667,20 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_container`;
 CREATE TABLE `wms_container` (
   `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '容器编码',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '容器名称',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '容器编码',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '容器名称',
   `spec_id` bigint NOT NULL COMMENT '容器规格',
-  `remark` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '占用任务类型',
+  `remark` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '占用任务类型',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   KEY `container_spec_id` (`spec_id`) USING BTREE,
   CONSTRAINT `wms_container_ibfk_1` FOREIGN KEY (`spec_id`) REFERENCES `wms_container_spec` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='容器表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='容器表';
 
 -- ----------------------------
 -- Records of wms_container
@@ -2727,25 +2696,25 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_container_log`;
 CREATE TABLE `wms_container_log` (
   `id` bigint NOT NULL COMMENT 'ID',
-  `occupation_task_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '占用任务类型',
-  `task_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '任务号',
+  `occupation_task_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '占用任务类型',
+  `task_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '任务号',
   `doc_id` bigint DEFAULT NULL COMMENT '单据id',
   `doc_item_id` bigint DEFAULT NULL COMMENT '单据行id',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '状态(占用、释放、异常)',
+  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态(占用、释放、异常)',
   `end_time` datetime DEFAULT NULL COMMENT '结束时间',
-  `error_msg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '错误日志',
+  `error_msg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '错误日志',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `container_id` bigint DEFAULT NULL COMMENT '容器ID',
-  `doc_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `doc_item_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `doc_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `doc_item_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='容器规格表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='容器规格表';
 
 -- ----------------------------
 -- Records of wms_container_log
@@ -2759,11 +2728,11 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_container_spec`;
 CREATE TABLE `wms_container_spec` (
   `id` bigint NOT NULL COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '容器规格名称',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '容器规格名称',
   `length` decimal(10,2) NOT NULL COMMENT '长度',
   `width` decimal(10,2) NOT NULL COMMENT '宽度',
   `height` decimal(10,2) NOT NULL COMMENT '高度',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '1',
   `self_weight` decimal(10,2) NOT NULL COMMENT '容器自重(单位KG)',
   `load_length` decimal(10,2) NOT NULL COMMENT '可承载长度',
   `load_width` decimal(10,2) NOT NULL COMMENT '可承载宽度',
@@ -2772,12 +2741,12 @@ CREATE TABLE `wms_container_spec` (
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='容器规格表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='容器规格表';
 
 -- ----------------------------
 -- Records of wms_container_spec
@@ -2793,20 +2762,20 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_dock`;
 CREATE TABLE `wms_dock` (
   `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '月台编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '月台名称',
-  `spec` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '月台规格',
-  `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类型',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '状态(空闲、占用、维护)',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '月台编号',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '月台名称',
+  `spec` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '月台规格',
+  `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '类型',
+  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '状态(空闲、占用、维护)',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='月台管理表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='月台管理表';
 
 -- ----------------------------
 -- Records of wms_dock
@@ -2824,20 +2793,20 @@ CREATE TABLE `wms_inventory_receipt` (
   `id` bigint NOT NULL COMMENT '入库单主键',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `created_by` bigint NOT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `receipt_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '入库单编号',
+  `receipt_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '入库单编号',
   `plan_id` bigint DEFAULT NULL COMMENT '关联的收货计划ID',
-  `plan_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '收货计划单编号',
+  `plan_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货计划单编号',
   `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
   `supplier_id` bigint DEFAULT NULL COMMENT '供应商ID',
   `status` int DEFAULT NULL COMMENT '状态',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '备注',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='入库单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='入库单表';
 
 -- ----------------------------
 -- Records of wms_inventory_receipt
@@ -2864,30 +2833,30 @@ CREATE TABLE `wms_inventory_receipt_item` (
   `id` bigint NOT NULL COMMENT '明细行主键',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `created_by` bigint NOT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `receipt_id` bigint DEFAULT NULL COMMENT '入库单表ID',
   `plan_item_id` bigint DEFAULT NULL COMMENT '关联的收货计划行项ID',
   `location_id` bigint DEFAULT NULL COMMENT '储位ID',
   `material_id` bigint NOT NULL COMMENT '物料ID',
-  `material_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '物料编号',
-  `material_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '物料描述',
-  `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '批次号',
+  `material_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料编号',
+  `material_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料描述',
+  `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '批次号',
   `receiving_qty` decimal(18,2) NOT NULL COMMENT '收货数量',
-  `receiving_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收货单位',
+  `receiving_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '收货单位',
   `qty` decimal(18,2) NOT NULL COMMENT '入库数量',
-  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '入库单位',
+  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '入库单位',
   `receipt_time` datetime DEFAULT NULL COMMENT '入库时间',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '备注',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
   `production_date` date DEFAULT NULL COMMENT '生产日期',
   `expiry_date` date DEFAULT NULL COMMENT '失效日期',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `receipt_id` (`receipt_id`) USING BTREE,
   CONSTRAINT `wms_inventory_receipt_item_ibfk_1` FOREIGN KEY (`receipt_id`) REFERENCES `wms_inventory_receipt` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='入库单明细行';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='入库单明细行';
 
 -- ----------------------------
 -- Records of wms_inventory_receipt_item
@@ -2930,22 +2899,22 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_location`;
 CREATE TABLE `wms_location` (
   `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '储位编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '储位名称',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '储位编号',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '储位名称',
   `warehouse_id` bigint NOT NULL COMMENT '仓库id',
   `storage_area_id` bigint NOT NULL COMMENT '所属库区',
   `aisle_id` bigint NOT NULL COMMENT '所属巷道',
   `spec_id` bigint NOT NULL COMMENT '储位规格',
-  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '储位类型（1=高储位;0=低储位）',
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '储位类型（1=高储位;0=低储位）',
   `shelf_layer` int NOT NULL COMMENT '位于货架第几层',
-  `picking_level` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '拣选储位销售等级',
+  `picking_level` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '拣选储位销售等级',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `storage_area_id` (`storage_area_id`) USING BTREE,
   KEY `aisle_id` (`aisle_id`) USING BTREE,
@@ -2953,7 +2922,7 @@ CREATE TABLE `wms_location` (
   CONSTRAINT `wms_location_ibfk_1` FOREIGN KEY (`storage_area_id`) REFERENCES `wms_storage_area` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `wms_location_ibfk_2` FOREIGN KEY (`aisle_id`) REFERENCES `wms_aisle` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `wms_location_ibfk_3` FOREIGN KEY (`spec_id`) REFERENCES `wms_location_spec` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='储位表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='储位表';
 
 -- ----------------------------
 -- Records of wms_location
@@ -2971,8 +2940,8 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_location_spec`;
 CREATE TABLE `wms_location_spec` (
   `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '储位规格编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '储位规格名称',
+  `code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '储位规格编号',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '储位规格名称',
   `status` tinyint NOT NULL COMMENT '是否启用',
   `length` decimal(10,2) NOT NULL COMMENT '长度',
   `width` decimal(10,2) NOT NULL COMMENT '宽度',
@@ -2981,12 +2950,12 @@ CREATE TABLE `wms_location_spec` (
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='储位规格表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='储位规格表';
 
 -- ----------------------------
 -- Records of wms_location_spec
@@ -3005,29 +2974,29 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_material`;
 CREATE TABLE `wms_material` (
   `id` bigint NOT NULL COMMENT '主键',
-  `code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '物料编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '物料描述',
+  `code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物料编号',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物料描述',
   `category_id` bigint DEFAULT NULL COMMENT '物料类型ID',
   `brand_id` bigint DEFAULT NULL COMMENT '品牌ID',
-  `unit` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '单位',
-  `spec` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '规格',
-  `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '型号',
-  `bar_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '条码号',
+  `unit` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单位',
+  `spec` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '规格',
+  `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '型号',
+  `bar_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '条码号',
   `gross_weight` decimal(16,16) DEFAULT NULL COMMENT '毛重',
   `net_weight` decimal(16,16) DEFAULT NULL COMMENT '净重',
   `length` decimal(16,2) DEFAULT NULL COMMENT '长',
   `width` decimal(16,2) DEFAULT NULL COMMENT '宽',
   `height` decimal(16,2) DEFAULT NULL COMMENT '高',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='物料表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='物料表';
 
 -- ----------------------------
 -- Records of wms_material
@@ -3043,20 +3012,20 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_material_category`;
 CREATE TABLE `wms_material_category` (
   `id` bigint NOT NULL COMMENT '对象存储主键',
-  `code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '物料类型编号',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '物料类型名称',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '是否启用',
+  `code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物料类型编号',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料类型名称',
+  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否启用',
   `parent_id` bigint DEFAULT NULL COMMENT '父类型ID',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `created_by` bigint NOT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='物料类型表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='物料类型表';
 
 -- ----------------------------
 -- Records of wms_material_category
@@ -3079,18 +3048,18 @@ CREATE TABLE `wms_material_config` (
   `id` bigint NOT NULL COMMENT '对象存储主键',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime NOT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '更新人姓名',
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
-  `material_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '物料编号',
+  `material_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物料编号',
   `batch` tinyint DEFAULT NULL COMMENT '批次管理',
   `validity_period` tinyint DEFAULT NULL COMMENT '有效期管理',
   `min_stock_day` int DEFAULT NULL COMMENT '最小在库天数',
   `danger` tinyint DEFAULT NULL COMMENT '危化品标识',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='物料表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='物料表';
 
 -- ----------------------------
 -- Records of wms_material_config
@@ -3106,30 +3075,30 @@ CREATE TABLE `wms_outbound_plan` (
   `id` bigint NOT NULL COMMENT '主键ID',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `created_by` bigint NOT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `plan_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '出库单编号',
+  `plan_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '出库单编号',
   `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
   `supplier_id` bigint DEFAULT NULL COMMENT '供应商ID',
   `dock_id` bigint DEFAULT NULL COMMENT '月台ID',
   `carrier_id` bigint DEFAULT NULL COMMENT '承运商ID',
   `delivery_date` date DEFAULT NULL COMMENT '计划发货日期',
-  `delivery_car_number` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '运单号或车辆车牌号',
-  `delivery_driver` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '运输人',
-  `driver_contact` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '司机联系方式',
-  `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '订单类型',
-  `customer_order_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '客户订单号',
-  `delivery_receiver` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '收货人',
-  `delivery_receiver_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '收货人电话',
-  `delivery_receiver_address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '收货人地址',
-  `delivery_mode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '送货方式',
+  `delivery_car_number` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '运单号或车辆车牌号',
+  `delivery_driver` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '运输人',
+  `driver_contact` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机联系方式',
+  `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '订单类型',
+  `customer_order_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '客户订单号',
+  `delivery_receiver` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货人',
+  `delivery_receiver_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货人电话',
+  `delivery_receiver_address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货人地址',
+  `delivery_mode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '送货方式',
   `status` int DEFAULT NULL COMMENT '状态',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '备注',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='出库单';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='出库单';
 
 -- ----------------------------
 -- Records of wms_outbound_plan
@@ -3147,19 +3116,19 @@ CREATE TABLE `wms_outbound_plan_item` (
   `id` bigint NOT NULL COMMENT '主键ID',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `created_by` bigint NOT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `plan_id` bigint NOT NULL COMMENT '发货计划ID',
   `plan_item_num` bigint DEFAULT NULL COMMENT '行号',
   `material_id` bigint DEFAULT NULL COMMENT '物料ID',
   `qty` decimal(18,2) NOT NULL COMMENT '计划发货数量',
-  `unit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '计划发货单位',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '备注',
+  `unit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计划发货单位',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='出库单行项';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='出库单行项';
 
 -- ----------------------------
 -- Records of wms_outbound_plan_item
@@ -3177,17 +3146,17 @@ CREATE TABLE `wms_outbound_plan_item_stock` (
   `id` bigint NOT NULL COMMENT '主键ID',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `created_by` bigint NOT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `plan_item_id` bigint NOT NULL COMMENT '出库单行项ID',
   `stock_id` bigint DEFAULT NULL COMMENT '库存余额ID',
   `qty` decimal(18,2) NOT NULL COMMENT '计划发货数量',
-  `unit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '计划发货单位',
+  `unit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计划发货单位',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='出库行项库存余额明细行';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='出库行项库存余额明细行';
 
 -- ----------------------------
 -- Records of wms_outbound_plan_item_stock
@@ -3318,30 +3287,30 @@ CREATE TABLE `wms_receiving_plan` (
   `id` bigint NOT NULL COMMENT '对象存储主键',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `created_by` bigint NOT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `plan_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '收货计划编号',
-  `receiving_notice_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '到货通知单编号',
+  `plan_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货计划编号',
+  `receiving_notice_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '到货通知单编号',
   `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
   `dock_id` bigint DEFAULT NULL COMMENT '月台ID',
   `supplier_id` bigint DEFAULT NULL COMMENT '供应商ID',
-  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '类型',
-  `source` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '来源',
+  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类型',
+  `source` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '来源',
   `delivery_date` date DEFAULT NULL COMMENT '发货日期',
   `expected_arrival_time` date DEFAULT NULL COMMENT '预计到货时间',
   `actual_arrival_time` date DEFAULT NULL COMMENT '实际到货时间',
-  `arrival_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '到货状态(已到货、延迟、未到货)',
+  `arrival_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '到货状态(已到货、延迟、未到货)',
   `status` int DEFAULT NULL COMMENT '状态',
-  `delivery_car_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '送货车辆车牌号',
-  `delivery_driver` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '送货司机',
-  `driver_contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '司机联系方式',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '备注',
+  `delivery_car_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '送货车辆车牌号',
+  `delivery_driver` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '送货司机',
+  `driver_contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机联系方式',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
   `container_id` bigint DEFAULT NULL COMMENT '容器ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='收货计划表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='收货计划表';
 
 -- ----------------------------
 -- Records of wms_receiving_plan
@@ -3363,26 +3332,26 @@ CREATE TABLE `wms_receiving_plan_item` (
   `id` bigint NOT NULL COMMENT '对象存储主键',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `created_by` bigint NOT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `receiving_plan_id` bigint DEFAULT NULL COMMENT '收货计划Id',
   `plan_item_num` int DEFAULT NULL COMMENT '收货计划行号',
-  `receiving_notice_item_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '到货通知单行号',
+  `receiving_notice_item_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '到货通知单行号',
   `material_id` bigint NOT NULL COMMENT '物料ID',
-  `material_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '物料编号',
-  `material_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '物料描述',
+  `material_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料编号',
+  `material_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料描述',
   `production_date` date DEFAULT NULL COMMENT '生产日期',
   `expiry_date` date DEFAULT NULL COMMENT '失效日期',
-  `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '批次号',
-  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '单位',
+  `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '批次号',
+  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单位',
   `qty` decimal(18,2) DEFAULT NULL COMMENT '数量',
   `unit_price` decimal(18,2) DEFAULT NULL COMMENT '单位价格',
-  `material_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `material_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='收货计划明细表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='收货计划明细表';
 
 -- ----------------------------
 -- Records of wms_receiving_plan_item
@@ -3476,25 +3445,25 @@ CREATE TABLE `wms_stock` (
   `id` bigint NOT NULL COMMENT 'ID',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `warehouse_id` bigint NOT NULL COMMENT '仓库ID',
   `location_id` bigint NOT NULL COMMENT '储位ID',
   `material_id` bigint NOT NULL COMMENT '物料ID',
-  `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '批次号',
+  `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '批次号',
   `production_date` date DEFAULT NULL COMMENT '生产日期',
   `expiry_date` date DEFAULT NULL COMMENT '失效日期',
   `available_qty` decimal(18,2) DEFAULT NULL COMMENT '可用库存数量',
   `qty` decimal(18,2) DEFAULT '0.00' COMMENT '库存数量',
-  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '库存单位',
-  `attribute` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '特殊属性',
-  `level` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '物料存货等级(良品、待检品、不良品、返工品、报废品、退货品)',
+  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '库存单位',
+  `attribute` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '特殊属性',
+  `level` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料存货等级(良品、待检品、不良品、返工品、报废品、退货品)',
   `unit_price` decimal(18,2) DEFAULT '0.00' COMMENT '单价',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='库存余额表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='库存余额表';
 
 -- ----------------------------
 -- Records of wms_stock
@@ -3527,29 +3496,29 @@ CREATE TABLE `wms_stock_change` (
   `id` bigint NOT NULL COMMENT 'ID',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `stock_id` bigint NOT NULL COMMENT '库存余额ID',
   `warehouse_id` bigint NOT NULL COMMENT '仓库ID',
   `location_id` bigint NOT NULL COMMENT '储位ID',
   `material_id` bigint NOT NULL COMMENT '物料ID',
-  `change_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '库存变动类型(入库、出库、盘点、移库)',
+  `change_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '库存变动类型(入库、出库、盘点、移库)',
   `doc_id` bigint NOT NULL COMMENT '单据ID',
   `doc_item_id` bigint NOT NULL COMMENT '单据行ID',
-  `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '批次号',
+  `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '批次号',
   `production_date` date DEFAULT NULL COMMENT '生产日期',
   `expiry_date` date DEFAULT NULL COMMENT '失效日期',
   `qty` decimal(18,2) DEFAULT '0.00' COMMENT '变动数量',
-  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '库存单位',
-  `attribute` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '特殊属性',
-  `level` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '物料存货等级(良品、待检品、不良品、返工品、报废品、退货品)',
+  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '库存单位',
+  `attribute` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '特殊属性',
+  `level` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料存货等级(良品、待检品、不良品、返工品、报废品、退货品)',
   `unit_price` decimal(18,2) DEFAULT '0.00' COMMENT '单价',
-  `remarks` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+  `remarks` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='库存余额变动表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='库存余额变动表';
 
 -- ----------------------------
 -- Records of wms_stock_change
@@ -3612,22 +3581,22 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_storage_area`;
 CREATE TABLE `wms_storage_area` (
   `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '库区编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '库区名称',
-  `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '库区类型',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '库区编号',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '库区名称',
+  `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '库区类型',
   `warehouse_id` bigint NOT NULL COMMENT '仓库id',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '仓库状态',
+  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库状态',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `warehouse_id` (`warehouse_id`) USING BTREE,
   CONSTRAINT `wms_storage_area_ibfk_1` FOREIGN KEY (`warehouse_id`) REFERENCES `wms_warehouse` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='库区表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='库区表';
 
 -- ----------------------------
 -- Records of wms_storage_area
@@ -3646,44 +3615,44 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_supplier`;
 CREATE TABLE `wms_supplier` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `name` varchar(52) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '供应商名称',
-  `contact_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '联系人姓名',
-  `contact_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '联系电话',
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '电子邮件',
-  `address` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '地址',
-  `tel` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '公司电话',
+  `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `name` varchar(52) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '供应商名称',
+  `contact_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人姓名',
+  `contact_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系电话',
+  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '电子邮件',
+  `address` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '地址',
+  `tel` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公司电话',
   `establishment_date` date DEFAULT NULL COMMENT '成立日期',
   `business_start_date` date DEFAULT NULL COMMENT '营业期限开始时间',
   `business_end_date` date DEFAULT NULL COMMENT '营业期限截止时间',
-  `registration_authority` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '登记机关',
-  `registration_address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '注册地址',
-  `business_scope` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '经营范围',
-  `enterprise_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '企业类型',
-  `legal_person` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '法定代表人',
-  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'LOGO（存储路径或URL）',
-  `credit_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '统一信用代码',
+  `registration_authority` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登记机关',
+  `registration_address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '注册地址',
+  `business_scope` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '经营范围',
+  `enterprise_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '企业类型',
+  `legal_person` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '法定代表人',
+  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'LOGO（存储路径或URL）',
+  `credit_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '统一信用代码',
   `credit_limit` decimal(10,2) DEFAULT NULL COMMENT '信用限额',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '备注',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
   `province_id` bigint DEFAULT NULL COMMENT '省',
-  `province_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '省名称',
+  `province_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省名称',
   `city_id` bigint DEFAULT NULL COMMENT '市',
-  `city_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '市名称',
+  `city_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市名称',
   `district_id` bigint DEFAULT NULL COMMENT '区',
-  `district_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '区名称',
+  `district_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区名称',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '是否删除',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `last_modified_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_supplier_name` (`name`) USING BTREE,
   KEY `idx_contact_name` (`contact_name`) USING BTREE,
   KEY `idx_created_by` (`created_by`) USING BTREE,
   KEY `idx_last_modified_by` (`last_modified_by`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1808032660916916227 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='供应商基本信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=1808032660916916227 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='供应商基本信息表';
 
 -- ----------------------------
 -- Records of wms_supplier
@@ -3700,19 +3669,19 @@ CREATE TABLE `wms_unit` (
   `id` bigint NOT NULL COMMENT '对象存储主键',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `created_by` bigint NOT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '计量单位中文名称',
-  `name_en` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '计量单位英文名称',
-  `symbol` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '计量单位符号',
-  `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '计量单位类型',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '状态',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '计量单位中文名称',
+  `name_en` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计量单位英文名称',
+  `symbol` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计量单位符号',
+  `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计量单位类型',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='基本计量单位表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='基本计量单位表';
 
 -- ----------------------------
 -- Records of wms_unit
@@ -3732,20 +3701,20 @@ CREATE TABLE `wms_unit_conv` (
   `id` bigint NOT NULL COMMENT '对象存储主键',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `created_by` bigint NOT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `unit_id` bigint NOT NULL COMMENT '基本计量单位ID',
-  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '基本计量单位',
+  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基本计量单位',
   `conv_unit_id` bigint DEFAULT NULL COMMENT '转换的计量单位ID',
-  `conv_unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '转换的基本计量单位',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+  `conv_unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '转换的基本计量单位',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
   `numerator` decimal(10,2) DEFAULT NULL COMMENT '分子',
   `denominator` decimal(10,2) DEFAULT NULL COMMENT '分母',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='基本计量单位转换表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='基本计量单位转换表';
 
 -- ----------------------------
 -- Records of wms_unit_conv
@@ -3760,33 +3729,33 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_warehouse`;
 CREATE TABLE `wms_warehouse` (
   `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '仓库编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '仓库名称',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '仓库状态',
-  `timezone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '时区',
-  `attribute` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '属性',
-  `unit` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '计量单位',
-  `contact_person` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '联系人',
-  `contact_email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '邮箱',
-  `contact_phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '联系电话',
-  `postcode` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '邮编',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库编号',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库名称',
+  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库状态',
+  `timezone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '时区',
+  `attribute` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '属性',
+  `unit` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计量单位',
+  `contact_person` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人',
+  `contact_email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮箱',
+  `contact_phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系电话',
+  `postcode` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮编',
   `province_id` int DEFAULT NULL COMMENT '省份ID',
-  `province_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `province_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `city_id` int DEFAULT NULL COMMENT '城市ID',
-  `city_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `city_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `district_id` int DEFAULT NULL COMMENT '区县ID',
-  `district_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `district_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='仓库表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='仓库表';
 
 -- ----------------------------
 -- Records of wms_warehouse
@@ -3803,24 +3772,24 @@ COMMIT;
 DROP TABLE IF EXISTS `wms_workbench`;
 CREATE TABLE `wms_workbench` (
   `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '工作台编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '工作台名称',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '是否启用',
-  `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '工作台类型',
-  `category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '工作台类别',
-  `review_mode` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '复核模式',
-  `task_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '任务类型',
-  `weight_mode` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '启用称重',
-  `mac_address` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'MAC地址',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '工作台编号',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '工作台名称',
+  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '是否启用',
+  `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '工作台类型',
+  `category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '工作台类别',
+  `review_mode` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '复核模式',
+  `task_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '任务类型',
+  `weight_mode` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '启用称重',
+  `mac_address` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'MAC地址',
   `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',
   `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人姓名',
+  `created_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
   `last_modified_time` datetime DEFAULT NULL COMMENT '更新时间',
   `last_modified_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人姓名',
+  `last_modified_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='工作台表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='工作台表';
 
 -- ----------------------------
 -- Records of wms_workbench
