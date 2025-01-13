@@ -8,6 +8,7 @@ spring:
       - optional:nacos:security.yaml
       - optional:nacos:cloud-default.yaml
       - optional:nacos:${spring.application.name}.properties
+      - optional:nacos:redis.properties
       - optional:nacos:mybatis-plus-default.yaml
   cloud:
     nacos:
