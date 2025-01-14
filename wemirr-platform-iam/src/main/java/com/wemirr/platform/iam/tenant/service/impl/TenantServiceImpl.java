@@ -24,6 +24,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.exception.CheckedException;
@@ -35,6 +36,7 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.framework.db.utils.TenantHelper;
+import com.wemirr.framework.security.utils.PasswordEncoderHelper;
 import com.wemirr.platform.iam.base.domain.entity.AreaEntity;
 import com.wemirr.platform.iam.base.domain.entity.SysDict;
 import com.wemirr.platform.iam.base.domain.entity.SysDictItem;
@@ -209,7 +211,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             this.orgMapper.insert(org);
             User record = new User();
             record.setUsername("admin");
-            // record.setPassword(passwordEncoder.encode("123456"));
+            record.setPassword(PasswordEncoderHelper.encode("123456"));
             record.setTenantId(id);
             record.setNickName(tenant.getContactPerson());
             record.setMobile(tenant.getContactPhone());
@@ -219,7 +221,10 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
 
         } else if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
             DynamicDataSourceHandler dynamicDataSourceHandler = SpringUtil.getBean(DynamicDataSourceHandler.class);
-            dynamicDataSourceHandler.initSqlScript(tenant.getCode(), Map.of("tenant_id", tenant.getId() + "", "tenant_name", tenant.getName()));
+            Map<String, Object> variables = Maps.newHashMap();
+            variables.put("tenant_id", tenant.getId());
+            variables.put("tenant_name", tenant.getName());
+            dynamicDataSourceHandler.initSqlScript(tenant.getCode(), variables);
         }
     }
 
