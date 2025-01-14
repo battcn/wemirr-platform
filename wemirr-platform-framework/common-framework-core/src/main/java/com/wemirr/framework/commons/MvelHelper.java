@@ -36,9 +36,9 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public class MvelHelper {
-
+    
     private static final Pattern DEFAULT_VARIABLES_PATTERN = Pattern.compile("\\$\\{([^}]+)}");
-
+    
     public static List<String> getVariables(Pattern pattern, String content) {
         Matcher matcher = pattern.matcher(content);
         List<String> variables = new ArrayList<>();
@@ -47,7 +47,7 @@ public class MvelHelper {
         }
         return variables;
     }
-
+    
     public static List<String> getVariables(String content) {
         Matcher matcher = DEFAULT_VARIABLES_PATTERN.matcher(content);
         List<String> variables = new ArrayList<>();
@@ -56,7 +56,7 @@ public class MvelHelper {
         }
         return variables;
     }
-
+    
     /**
      * 格式化忽略异常
      *
@@ -68,7 +68,7 @@ public class MvelHelper {
     public static String formatIgnoreError(Pattern pattern, String content, Map<String, Object> variables) {
         return format(pattern, content, variables, true, true);
     }
-
+    
     /**
      * 使用默认配置格式化
      *
@@ -79,7 +79,7 @@ public class MvelHelper {
     public static String format(String content, Map<String, Object> variables) {
         return format(DEFAULT_VARIABLES_PATTERN, content, variables, true, true);
     }
-
+    
     /**
      * 使用默认正则格式化
      *
@@ -91,7 +91,7 @@ public class MvelHelper {
     public static String format(String content, Map<String, Object> variables, boolean ignoreError) {
         return format(DEFAULT_VARIABLES_PATTERN, content, variables, true, ignoreError);
     }
-
+    
     /**
      * 使用默认正则格式化
      *
@@ -103,7 +103,7 @@ public class MvelHelper {
     public static String format(Pattern pattern, String content, Map<String, Object> variables) {
         return format(pattern, content, variables, true, true);
     }
-
+    
     /**
      * 使用指定正则格式化
      *
@@ -138,7 +138,7 @@ public class MvelHelper {
         matcher.appendTail(result);
         return result.toString();
     }
-
+    
     @SuppressWarnings("unchecked")
     public static Map<String, Object> transNestedMap(Map<String, Object> variables) {
         Map<String, Object> nestedMap = MapUtil.newHashMap();
@@ -155,5 +155,5 @@ public class MvelHelper {
         }
         return nestedMap;
     }
-
+    
 }

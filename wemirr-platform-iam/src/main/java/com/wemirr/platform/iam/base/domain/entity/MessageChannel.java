@@ -38,23 +38,23 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "b_message_channel")
 public class MessageChannel extends SuperEntity<Long> {
-
+    
     @Schema(description = "标题")
     private String title;
-
+    
     @Schema(description = "类型")
     private String type;
-
+    
     @Schema(description = "状态(0=禁用;1=启用)")
     private Boolean status;
-
+    
     @Schema(description = "设置")
     private String setting;
-
+    
     @Schema(description = "租户ID")
     private Long tenantId;
-
+    
     @Schema(description = "描述信息")
     private String description;
-
+    
 }

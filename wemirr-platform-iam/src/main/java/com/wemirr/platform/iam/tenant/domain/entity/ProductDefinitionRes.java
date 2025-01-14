@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.iam.tenant.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -24,7 +25,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
 
 /**
  * @author Levin
@@ -36,11 +36,11 @@ import lombok.experimental.SuperBuilder;
 @TableName(value = "plat_product_def_res")
 @Schema(name = "ProductDefinitionRes", description = "产品授权")
 public class ProductDefinitionRes {
-
+    
     @Schema(description = "产品ID")
     private Long productId;
-
+    
     @Schema(description = "权限资源ID")
     private Long resId;
-
+    
 }

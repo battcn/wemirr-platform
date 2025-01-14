@@ -30,12 +30,11 @@ import org.springframework.beans.BeanUtils;
  */
 @Slf4j
 public class DictionaryConverts {
-
+    
     public static final DictionaryConverts.DictionaryItemDto2ItemPoConverts DICTIONARY_ITEM_DTO_2_ITEM_PO_CONVERTS = new DictionaryConverts.DictionaryItemDto2ItemPoConverts();
-
-
+    
     public static class DictionaryItemDto2ItemPoConverts implements BasePageConverts<DictItemSaveReq, SysDictItem> {
-
+        
         @Override
         public SysDictItem convert(DictItemSaveReq source) {
             if (source == null) {
@@ -46,5 +45,5 @@ public class DictionaryConverts {
             return target;
         }
     }
-
+    
 }

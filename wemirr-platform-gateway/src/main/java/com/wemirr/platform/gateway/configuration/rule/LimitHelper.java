@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.platform.gateway.configuration.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
@@ -24,18 +43,17 @@ import static com.wemirr.platform.gateway.configuration.rule.GatewayRule.Constan
 import static com.wemirr.platform.gateway.configuration.rule.GatewayRule.Constants.GLOBAL_RANGE;
 import static com.wemirr.platform.gateway.configuration.rule.GatewayRule.GatewayRuleEnum.RULE_LIMIT;
 
-
 /**
  * @author Levin
  */
 @Component
 @RequiredArgsConstructor
 public class LimitHelper implements GatewayRule<LimitRule> {
-
+    
     private final StringRedisTemplate stringRedisTemplate;
-
+    
     private final BlacklistHelper blacklistHelper;
-
+    
     public List<LimitRule> query() {
         final Set<Object> keys = stringRedisTemplate.opsForHash().keys(RULE_LIMIT.hashKey());
         if (CollectionUtil.isEmpty(keys)) {
@@ -52,7 +70,7 @@ public class LimitHelper implements GatewayRule<LimitRule> {
                     return rule;
                 }).collect(Collectors.toList());
     }
-
+    
     public void saveOrUpdate(LimitRule rule) {
         if (rule == null) {
             return;
@@ -66,12 +84,11 @@ public class LimitHelper implements GatewayRule<LimitRule> {
         }
         stringRedisTemplate.opsForHash().put(RULE_LIMIT.hashKey(), rule.getId(), JSON.toJSONString(rule));
     }
-
+    
     public void delete(String id) {
         stringRedisTemplate.opsForHash().delete(RULE_LIMIT.hashKey(), id);
     }
-
-
+    
     public boolean hostTrace(ServerWebExchange exchange) {
         final ServerHttpRequest request = exchange.getRequest();
         final InetSocketAddress remoteAddress = request.getRemoteAddress();

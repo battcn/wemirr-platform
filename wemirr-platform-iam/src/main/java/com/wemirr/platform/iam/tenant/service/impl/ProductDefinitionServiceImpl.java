@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.iam.tenant.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -56,12 +57,12 @@ import static java.util.stream.Collectors.toList;
 @Service
 @RequiredArgsConstructor
 public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefinitionMapper, ProductDefinition> implements ProductDefinitionService {
-
+    
     private final ProductDefResMapper productDefResMapper;
     private final ProductSubscriptionMapper productSubscriptionMapper;
     private final ResourceMapper resourceMapper;
     private final RedisSequenceHelper sequenceHelper;
-
+    
     @Override
     public void create(ProductDefinitionSaveReq req) {
         final long count = count(Wraps.<ProductDefinition>lbQ().eq(ProductDefinition::getName, req.getName()));
@@ -73,7 +74,7 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefini
         bean.setCode(code);
         this.baseMapper.insert(bean);
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void modify(Long id, ProductDefinitionSaveReq req) {
@@ -87,7 +88,7 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefini
                 .id(id).name(req.getName()).logo(req.getLogo()).description(req.getDescription())
                 .build());
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void permissions(Long productId, ProductDefPermissionReq req) {
@@ -102,7 +103,7 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefini
                 .collect(toList());
         productDefResMapper.insertBatch(resList);
     }
-
+    
     @Override
     public RolePermissionResp findPermissions(Long id) {
         final List<Resource> resourceList = resourceMapper.selectList();
@@ -123,7 +124,7 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefini
                 .toList();
         return RolePermissionResp.builder().menuIdList(menuIdList).buttonIdList(buttonIdList).build();
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void delete(Long id) {
@@ -137,5 +138,5 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefini
             throw CheckedException.badRequest("产品已被订阅,删除失败");
         }
     }
-
+    
 }

@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.platform.suite.file.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -35,17 +54,15 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, FileStorage> implements FileStorageService {
-
-
+    
     private final org.dromara.x.file.storage.core.FileStorageService fileStorageService;
     private final StorageSettingTemplate storageSettingTemplate;
-
+    
     private static final long KB = 1024;
     private static final long MB = KB * 1024;
     private static final long GB = MB * 1024;
     private static final long TB = GB * 1024;
-
-
+    
     @Override
     public FileStorage upload(MultipartFile file) {
         FileStorageSetting setting = storageSettingTemplate.getDefaultStorageSetting();
@@ -60,13 +77,13 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
         this.baseMapper.insert(storage);
         return storage;
     }
-
+    
     @Override
     public FileStorage uploadImage(MultipartFile file) {
         FileInfo info = fileStorageService
                 .of(file)
-//                .setThumbnailSuffix() //指定缩略图后缀，必须是 thumbnailator 支持的图片格式，默认使用全局的
-//                .setSaveThFilename() //指定缩略图的保存文件名，注意此文件名不含后缀，默认自动生成
+                // .setThumbnailSuffix() //指定缩略图后缀，必须是 thumbnailator 支持的图片格式，默认使用全局的
+                // .setSaveThFilename() //指定缩略图的保存文件名，注意此文件名不含后缀，默认自动生成
                 // 将图片大小调整到 1000*1000
                 .image(img -> img.size(1000, 1000))
                 // 再生成一张 200*200 的缩略图
@@ -74,7 +91,7 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
                 .upload();
         return toFileInfoRecord(info);
     }
-
+    
     @Override
     public void delete(Long id) {
         FileStorage storage = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("文件不存在"));
@@ -87,21 +104,21 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
             this.baseMapper.deleteById(id);
         }
     }
-
+    
     @Override
     public void rename(Long id, String originName) {
         this.baseMapper.updateById(FileStorage.builder().id(id).originalFilename(originName).build());
     }
-
+    
     @Override
     public IPage<FileStoragePageResp> pageList(FileStoragePageReq req) {
         return this.baseMapper.selectPage(req.buildPage(), Wraps.<FileStorage>lbQ()
-                        .eq(FileStorage::getCategory, req.getCategory())
-                        .like(FileStorage::getOriginalFilename, req.getOriginalFilename())
-                        .like(FileStorage::getCreatedName, req.getCreatedName()))
+                .eq(FileStorage::getCategory, req.getCategory())
+                .like(FileStorage::getOriginalFilename, req.getOriginalFilename())
+                .like(FileStorage::getCreatedName, req.getCreatedName()))
                 .convert(x -> BeanUtil.toBean(x, FileStoragePageResp.class));
     }
-
+    
     /**
      * 将 FileInfo 转为 FileInfoRecord
      */
@@ -117,7 +134,7 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
         detail.setFormatSize(formatFileSize(info.getSize()));
         return detail;
     }
-
+    
     /**
      * 将 FileInfoRecord 转为 FileInfo
      */
@@ -134,7 +151,7 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
         info.setHashInfo(JSON.parseObject(detail.getHashInfo(), HashInfo.class));
         return info;
     }
-
+    
     /**
      * 将 json 字符串转换成元数据对象
      */
@@ -145,8 +162,7 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
         return JSON.parseObject(json, new TypeReference<>() {
         });
     }
-
-
+    
     public static String formatFileSize(long bytes) {
         if (bytes >= TB) {
             return String.format("%.2f TB", bytes / (double) TB);
@@ -160,5 +176,5 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
             return String.format("%d B", bytes);
         }
     }
-
+    
 }

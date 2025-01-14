@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.iam.tenant.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
@@ -28,14 +29,14 @@ import com.wemirr.platform.iam.tenant.domain.entity.ProductDefinition;
  * @author Levin
  */
 public interface ProductDefinitionService extends SuperService<ProductDefinition> {
-
+    
     /**
      * 创建产品定义
      *
      * @param req req
      */
     void create(ProductDefinitionSaveReq req);
-
+    
     /**
      * 修改
      *
@@ -43,7 +44,7 @@ public interface ProductDefinitionService extends SuperService<ProductDefinition
      * @param req req
      */
     void modify(Long id, ProductDefinitionSaveReq req);
-
+    
     /**
      * 产品授予权限
      *
@@ -51,7 +52,7 @@ public interface ProductDefinitionService extends SuperService<ProductDefinition
      * @param req       req
      */
     void permissions(Long productId, ProductDefPermissionReq req);
-
+    
     /**
      * 查询套餐权限
      *
@@ -59,12 +60,12 @@ public interface ProductDefinitionService extends SuperService<ProductDefinition
      * @return 查询权限
      */
     RolePermissionResp findPermissions(Long id);
-
+    
     /**
      * 删除产品
      *
      * @param id id
      */
     void delete(Long id);
-
+    
 }

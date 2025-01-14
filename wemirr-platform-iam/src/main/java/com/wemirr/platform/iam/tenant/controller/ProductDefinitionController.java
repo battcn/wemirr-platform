@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.iam.tenant.controller;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -49,20 +50,20 @@ import java.util.stream.Collectors;
 @RequestMapping("/product-definitions")
 @Tag(name = "产品定义", description = "产品定义")
 public class ProductDefinitionController {
-
+    
     private final ProductDefinitionService productDefinitionService;
-
+    
     @GetMapping("/list")
     @Operation(summary = "产品列表", description = "产品列表")
     public List<Dict<?>> list(String name, Boolean status) {
         return productDefinitionService.list(Wraps.<ProductDefinition>lbQ().likeRight(ProductDefinition::getName, name)
-                        .eq(ProductDefinition::getStatus, status))
+                .eq(ProductDefinition::getStatus, status))
                 .stream()
                 .map(x -> Dict.builder().label(x.getName()).value(x.getId()).build())
                 .collect(Collectors.toList());
-
+        
     }
-
+    
     @GetMapping("/page")
     @Operation(summary = "分页查询", description = "分页查询")
     public IPage<ProductDefinitionPageResp> pageList(PageRequest req, String code, String name, Boolean status) {
@@ -70,32 +71,32 @@ public class ProductDefinitionController {
                 .likeRight(ProductDefinition::getName, name)
                 .eq(ProductDefinition::getStatus, status)).convert(x -> BeanUtil.toBean(x, ProductDefinitionPageResp.class));
     }
-
+    
     @PostMapping
     @Operation(summary = "添加产品", description = "添加产品")
     public void create(@RequestBody ProductDefinitionSaveReq req) {
         productDefinitionService.create(req);
     }
-
+    
     @PutMapping("/{id}")
     @Operation(summary = "编辑产品", description = "编辑产品")
     public void modify(@PathVariable Long id, @RequestBody ProductDefinitionSaveReq req) {
         productDefinitionService.modify(id, req);
     }
-
+    
     @GetMapping("/{id}/permissions")
     @Operation(summary = "编辑产品", description = "编辑产品")
     public RolePermissionResp permissions(@PathVariable Long id) {
         return productDefinitionService.findPermissions(id);
     }
-
+    
     @PutMapping("/{id}/permissions")
     @AccessLog(module = "产品定义", description = "产品授权", response = false)
     @Operation(summary = "产品授权", description = "产品授权")
     public void permissions(@PathVariable Long id, @Validated @RequestBody ProductDefPermissionReq req) {
         productDefinitionService.permissions(id, req);
     }
-
+    
     @DeleteMapping("/{id}")
     @Operation(summary = "删除产品", description = "删除产品")
     public void delete(@PathVariable Long id) {

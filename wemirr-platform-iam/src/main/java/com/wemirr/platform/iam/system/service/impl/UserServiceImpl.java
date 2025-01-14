@@ -86,7 +86,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implements UserService {
-
+    
     private final UserRoleMapper userRoleMapper;
     private final AuthenticationContext context;
     private final OrgService orgService;
@@ -96,7 +96,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     private final DataScopeService dataScopeService;
     private final SaTokenDao saTokenDao;
     private final SecurityExtProperties extProperties;
-
+    
     @Override
     public void create(UserSaveReq req) {
         final long count = super.count(Wraps.<User>lbQ().eq(User::getUsername, req.getUsername()));
@@ -108,7 +108,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         bean.setTenantId(context.tenantId());
         this.baseMapper.insert(bean);
     }
-
+    
     @Override
     @DiffLog(group = "用户管理", tag = "编辑用户", businessKey = "{{#id}}",
             success = "更新用户信息 {_DIFF{#_newObj}}",
@@ -119,18 +119,18 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         DiffLogContext.putDiffItem(oldVal, newVal);
         this.baseMapper.updateById(newVal);
     }
-
+    
     @Override
     public List<User> list() {
         return baseMapper.list();
     }
-
+    
     @Override
     @RemoteResult
     public IPage<UserResp> pageList(UserPageReq req) {
         return DataPermissionUtils.executeWithDataPermissionRule(DataPermissionRule.builder()
-                        .columns(List.of(new DataPermissionRule.Column()))
-                        .build(),
+                .columns(List.of(new DataPermissionRule.Column()))
+                .build(),
                 () -> baseMapper.selectPage(req.buildPage(), Wraps.<User>lbQ()
                         .eq(User::getTenantId, context.tenantId())
                         .like(User::getUsername, req.getUsername())
@@ -143,7 +143,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
                         .in(User::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
                         .eq(User::getMobile, req.getMobile())).convert(x -> BeanUtil.toBean(x, UserResp.class)));
     }
-
+    
     @Override
     public void changePassword(Long userId, String orgPassword, String newPassword) {
         final User user = Optional.ofNullable(this.baseMapper.selectById(userId)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
@@ -152,7 +152,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         // }
         // this.baseMapper.updateById(User.builder().id(userId).password(passwordEncoder.encode(newPassword)).build());
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void deleteById(Long id) {
@@ -163,7 +163,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         baseMapper.deleteById(id);
         userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getUserId, id));
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void changeInfo(ChangeUserInfoReq req) {
@@ -173,7 +173,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
                 .description(req.getDescription()).build();
         this.baseMapper.updateById(bean);
     }
-
+    
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void resetPassword(Long id) {
@@ -189,7 +189,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         log.info("随机生成的新密码 - {} - {}", password, encodePassword);
         this.baseMapper.updateById(User.builder().id(id).password(encodePassword).build());
     }
-
+    
     @Override
     public UserInfoDetails userinfo(Long userId) {
         // TODO 后续通过注解和 API 方式动态控制
@@ -218,11 +218,11 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         info.setDataPermission(dataScopeService.getDataScopeById(user.getId()));
         return info;
     }
-
+    
     private final DatabaseProperties databaseProperties;
-
+    
     private static final List<String> ADMIN_ROLE = List.of("PLATFORM-ADMIN", "TENANT-ADMIN");
-
+    
     public void setFuncPermissions(UserInfoDetails info) {
         Collection<String> roles = info.getRoles();
         Long userId = info.getUserId();
@@ -245,7 +245,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             info.setFuncPermissions(permission);
         }
     }
-
+    
     @Override
     public IPage<Object> userOnlineList(UserOnlinePageReq req) {
         List<Object> list = Lists.newArrayList();

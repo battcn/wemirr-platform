@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.suite.file.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -39,33 +40,33 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonFormat
 public enum MessageCenterType implements DictEnum<Integer> {
-
+    
     /**
      * WAIT="待办"
      */
     WAIT(0, "待办"),
-
+    
     /**
      * NOTIFY="通知"
      */
     NOTIFY(1, "通知"),
-
+    
     /**
      * PUBLICITY="公告"
      */
     PUBLICITY(2, "公告"),
-
+    
     /**
      * WARN="预警"
      */
     WARN(-1, "预警"),
     ;
-
+    
     private Integer type;
-
+    
     @Parameter(description = "描述信息")
     private String desc;
-
+    
     @JsonCreator
     public static MessageCenterType of(Integer type) {
         if (type == null) {
@@ -78,26 +79,26 @@ public enum MessageCenterType implements DictEnum<Integer> {
         }
         return null;
     }
-
+    
     public boolean eq(String val) {
         return this.name().equalsIgnoreCase(val);
     }
-
+    
     public boolean eq(MessageCenterType val) {
         if (val == null) {
             return false;
         }
         return eq(val.name());
     }
-
+    
     @Override
     public Integer getValue() {
         return this.type;
     }
-
+    
     @Override
     public String toString() {
         return String.valueOf(type);
     }
-
+    
 }

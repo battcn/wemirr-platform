@@ -40,50 +40,49 @@ import lombok.experimental.SuperBuilder;
 @TableName("c_login_log")
 @EqualsAndHashCode(callSuper = true)
 public class LoginLog extends Entity<Long> {
-
-
+    
     @Schema(description = "登录IP")
     private String ip;
-
+    
     @Schema(description = "租户ID")
     private Long tenantId;
-
+    
     @Schema(description = "租户编码")
     private String tenantCode;
-
+    
     /**
      * 登录人账号
      */
     @Schema(description = "登录人账号")
     private String principal;
-
+    
     @Schema(description = "平台类型")
     private String platform;
-
+    
     @Schema(description = "引擎类型")
     private String engine;
-
+    
     /**
      * 浏览器名称
      */
     @Schema(description = "浏览器名称")
     private String browser;
-
+    
     /**
      * 操作系统
      */
     @Schema(description = "操作系统")
     private String os;
-
+    
     /**
      * 登录地点
      */
     @Schema(description = "登录地点")
     private String location;
-
+    
     @Schema(description = "客户端ID")
     private String clientId;
-
+    
     @Schema(description = "登录类型")
     private String loginType;
 }

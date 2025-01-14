@@ -1,5 +1,23 @@
-package com.wemirr.platform.suite.file.event;
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
+package com.wemirr.platform.suite.file.event;
 
 import com.wemirr.framework.redis.plus.listener.AbstractMessageEventListener;
 import com.wemirr.platform.suite.file.domain.constants.StorageConstants;
@@ -18,7 +36,6 @@ import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
-
 /**
  * @author xiao1
  * @since 2024-12
@@ -27,10 +44,9 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class RedisStorageSettingListener implements AbstractMessageEventListener<StorageSettingEvent> {
-
+    
     private final FileStorageService fileStorageService;
-
-
+    
     /**
      * fil
      * 处理Redis存储配置更新消息
@@ -46,14 +62,14 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
             case 3 -> handleDeleteConfiguration(event);
             default -> log.warn("未知的更新类型: {}", event.getUpdateType());
         }
-        //当前的存储配置
+        // 当前的存储配置
         String platform = fileStorageService.getFileStorageList()
                 .stream()
                 .map(FileStorage::getPlatform)
                 .collect(Collectors.joining(";"));
         log.info("- 更新后当前的存储配置平台： -{}", platform);
     }
-
+    
     /**
      * 处理新的配置添加
      *
@@ -65,7 +81,7 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
         FileStorageProperties.AmazonS3Config amazonS3Config = createAmazonS3Config(event);
         list.addAll(FileStorageServiceBuilder.buildAmazonS3FileStorage(Collections.singletonList(amazonS3Config), null));
     }
-
+    
     /**
      * 处理配置更新
      *
@@ -79,7 +95,7 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
         FileStorageProperties.AmazonS3Config amazonS3Config = createAmazonS3Config(event);
         list.addAll(FileStorageServiceBuilder.buildAmazonS3FileStorage(Collections.singletonList(amazonS3Config), null));
     }
-
+    
     /**
      * 处理配置删除
      * 删除事件无需更新redis，因为开启的配置不应该被删除
@@ -92,7 +108,7 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
         FileStorage fileStorage = fileStorageService.getFileStorage(event.getPlatform());
         list.remove(fileStorage);
     }
-
+    
     /**
      * 创建AmazonS3Config配置
      *
@@ -111,17 +127,15 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
         s3Config.setBasePath(event.getBasePath());
         return s3Config;
     }
-
-
+    
     @Override
     public Topic topic() {
         return new ChannelTopic(StorageConstants.STORAGE_CONFIG_EVENT_TOPIC);
     }
-
+    
     @Override
     public Type type() {
         return StorageSettingEvent.class;
     }
-
-
+    
 }

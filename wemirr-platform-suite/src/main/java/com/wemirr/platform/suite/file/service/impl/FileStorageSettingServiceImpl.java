@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.platform.suite.file.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -21,7 +40,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
 /**
  * @author xiao1
  * @since 2024-12
@@ -30,10 +48,10 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class FileStorageSettingServiceImpl extends SuperServiceImpl<FileStorageSettingMapper, FileStorageSetting> implements FileStorageSettingService {
-
+    
     private final AuthenticationContext context;
     private final StorageSettingTemplate storageSettingTemplate;
-
+    
     @Override
     public void create(FileStorageSettingSaveReq req) {
         // 获取当前租户ID
@@ -56,8 +74,7 @@ public class FileStorageSettingServiceImpl extends SuperServiceImpl<FileStorageS
         }
         this.storageSettingTemplate.publish(setting, 1);
     }
-
-
+    
     @Override
     public void delete(Long id) {
         FileStorageSetting setting = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("配置不存在"));
@@ -68,7 +85,7 @@ public class FileStorageSettingServiceImpl extends SuperServiceImpl<FileStorageS
         }
         this.storageSettingTemplate.publish(setting, 3);
     }
-
+    
     @Override
     public void modify(Long id, FileStorageSettingSaveReq req) {
         Optional.ofNullable(baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("配置不存在"));
@@ -92,12 +109,12 @@ public class FileStorageSettingServiceImpl extends SuperServiceImpl<FileStorageS
         this.baseMapper.updateById(bean);
         this.storageSettingTemplate.publish(bean, 2);
     }
-
+    
     @Override
     public IPage<FileStorageSettingPageResp> pageList(FileStorageSettingPageReq req) {
         return this.baseMapper.selectPage(req.buildPage(), Wraps.<FileStorageSetting>lbQ()
-                        .eq(FileStorageSetting::getStatus, req.getStatus())
-                        .eq(FileStorageSetting::getType, req.getType()))
+                .eq(FileStorageSetting::getStatus, req.getStatus())
+                .eq(FileStorageSetting::getType, req.getType()))
                 .convert(x -> BeanUtil.toBean(x, FileStorageSettingPageResp.class));
     }
 }

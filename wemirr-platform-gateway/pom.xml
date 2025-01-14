@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.wemirr</groupId>
@@ -9,14 +8,14 @@
     </parent>
     <artifactId>wemirr-platform-gateway</artifactId>
     <version>3.0.0-SNAPSHOT</version>
-    <name>wemirr-platform-gateway</name>
     <packaging>jar</packaging>
+    <name>wemirr-platform-gateway</name>
     <description>wemirr 平台网关，包括限流，熔断，灰度</description>
-
+    
     <properties>
         <java.version>17</java.version>
     </properties>
-
+    
     <dependencies>
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
@@ -62,20 +61,20 @@
             <artifactId>common-framework-core</artifactId>
         </dependency>
     </dependencies>
-
+    
     <build>
         <finalName>${project.name}</finalName>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
                 <filtering>false</filtering>
+                <directory>src/main/resources</directory>
             </resource>
             <resource>
+                <filtering>false</filtering>
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**/*.xml</include>
                 </includes>
-                <filtering>false</filtering>
             </resource>
         </resources>
         <plugins>
@@ -83,6 +82,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
+                <configuration>
+                    <mainClass>com.wemirr.platform.gateway.GatewayApplication</mainClass>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -91,9 +93,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <mainClass>com.wemirr.platform.gateway.GatewayApplication</mainClass>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
@@ -146,5 +145,5 @@
             </plugin>
         </plugins>
     </build>
-
+    
 </project>

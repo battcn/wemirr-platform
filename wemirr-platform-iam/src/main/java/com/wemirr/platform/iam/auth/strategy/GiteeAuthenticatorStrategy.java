@@ -50,20 +50,20 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class GiteeAuthenticatorStrategy implements AuthenticatorStrategy {
-
+    
     @Resource
     private TenantMapper tenantMapper;
-
+    
     @Resource
     private UserMapper userMapper;
-
+    
     @Resource
     private ThirdAccountMapper thirdAccountMapper;
-
+    
     @Override
     public void prepare(final AuthenticationPrincipal principal) {
     }
-
+    
     @Override
     public void authenticate(final AuthenticationPrincipal principal) {
         log.warn("暂未实现授权绑定逻辑,比如授权后默认第一种授权类型生成 t_user 记录");
@@ -82,7 +82,7 @@ public class GiteeAuthenticatorStrategy implements AuthenticatorStrategy {
                 .orElseThrow(() -> CheckedException.notFound("账户不存在"));
         StpUtil.login(user.getId(), principal.getClientId());
     }
-
+    
     @Override
     public String loginType() {
         return ThirdAuthType.GITEE.getType();

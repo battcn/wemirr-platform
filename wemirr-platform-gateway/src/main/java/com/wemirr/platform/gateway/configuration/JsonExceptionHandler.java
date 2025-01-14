@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.platform.gateway.configuration;
 
 import com.google.common.collect.Maps;
@@ -26,10 +45,10 @@ import java.util.Map;
  */
 @Slf4j
 public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
-
+    
     private static final String UNABLE_ERROR = "Unable to find instance for";
     private final BlacklistHelper blacklistHelper;
-
+    
     public JsonExceptionHandler(ErrorAttributes errorAttributes, BlacklistHelper blacklistHelper,
                                 WebProperties webProperties,
                                 ErrorProperties errorProperties,
@@ -37,7 +56,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         super(errorAttributes, webProperties.getResources(), errorProperties, applicationContext);
         this.blacklistHelper = blacklistHelper;
     }
-
+    
     /**
      * 构建返回的JSON数据格式
      *
@@ -54,7 +73,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         log.warn("[响应结果] - [{}]", map);
         return map;
     }
-
+    
     /**
      * 获取异常属性
      */
@@ -66,19 +85,19 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         if (StringUtils.contains(message, UNABLE_ERROR)) {
             return response(HttpStatus.NOT_FOUND.value(), "网络异常，请稍后再试");
         }
-//        if (error instanceof ParamFlowException) {
-//            // 触发限流规则直接拉黑名单
-//            ParamFlowException flowException = (ParamFlowException) error
-//            log.error("[触发限流规则] - {} - {}", flowException.getResourceName(), flowException.getRule())
-//            blacklistHelper.setBlack(request.exchange())
-//            return response(HttpStatus.SERVICE_UNAVAILABLE.value(), "访问量过大，请稍后再试")
-//        }
+        // if (error instanceof ParamFlowException) {
+        // // 触发限流规则直接拉黑名单
+        // ParamFlowException flowException = (ParamFlowException) error
+        // log.error("[触发限流规则] - {} - {}", flowException.getResourceName(), flowException.getRule())
+        // blacklistHelper.setBlack(request.exchange())
+        // return response(HttpStatus.SERVICE_UNAVAILABLE.value(), "访问量过大，请稍后再试")
+        // }
         if (error instanceof ResponseStatusException) {
             code = HttpStatus.SERVICE_UNAVAILABLE.value();
         }
         return response(code, this.buildMessage(request, error));
     }
-
+    
     /**
      * 指定响应处理方法为JSON处理的方法
      *
@@ -88,7 +107,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
     protected RouterFunction<ServerResponse> getRoutingFunction(ErrorAttributes errorAttributes) {
         return RouterFunctions.route(RequestPredicates.all(), this::renderErrorResponse);
     }
-
+    
     /**
      * 根据code获取对应的HttpStatus
      *
@@ -98,7 +117,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
     protected int getHttpStatus(Map<String, Object> errorAttributes) {
         return HttpStatus.OK.value();
     }
-
+    
     /**
      * 构建异常信息
      *
@@ -121,5 +140,5 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         }
         return message.toString();
     }
-
+    
 }

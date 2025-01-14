@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.platform.gateway.filter;
 
 import com.alibaba.fastjson2.JSON;
@@ -31,18 +50,18 @@ import java.util.List;
 @Order(99)
 @Configuration
 public class BlackWhiteListGatewayFilterFactory extends AbstractGatewayFilterFactory<BlackWhiteListGatewayFilterFactory.Config> {
-
+    
     private static final String DEFAULT_FILTER_NAME = "BlackWhiteList";
-
+    
     public BlackWhiteListGatewayFilterFactory() {
         super(Config.class);
     }
-
+    
     @Override
     public String name() {
         return DEFAULT_FILTER_NAME;
     }
-
+    
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
@@ -72,7 +91,7 @@ public class BlackWhiteListGatewayFilterFactory extends AbstractGatewayFilterFac
             return chain.filter(exchange);
         };
     }
-
+    
     private Mono<Void> accessRestricted(ServerWebExchange exchange) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(HttpStatus.FORBIDDEN);
@@ -84,7 +103,7 @@ public class BlackWhiteListGatewayFilterFactory extends AbstractGatewayFilterFac
         result.put("timestamp", System.currentTimeMillis());
         return response.writeWith(Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(result))));
     }
-
+    
     @AllArgsConstructor
     public enum BlackWhiteListType {
         /**
@@ -95,16 +114,16 @@ public class BlackWhiteListGatewayFilterFactory extends AbstractGatewayFilterFac
          * 白名单
          */
         WHITE_LIST;
-
+        
     }
-
+    
     @Data
     public static class Config {
-
+        
         private Integer maxTrustedIndex = 1;
         private BlackWhiteListType type;
         private boolean ignoreIntranet;
         private List<String> ipList;
     }
-
+    
 }

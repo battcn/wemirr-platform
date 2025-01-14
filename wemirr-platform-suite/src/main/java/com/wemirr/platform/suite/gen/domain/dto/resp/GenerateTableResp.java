@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.suite.gen.domain.dto.resp;
 
 import lombok.AllArgsConstructor;
@@ -31,7 +32,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GenerateTableResp {
-
+    
     private String value;
     private String label;
 }

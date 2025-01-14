@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.platform.iam.auth.service;
 
 import cn.hutool.core.collection.CollUtil;
@@ -29,12 +48,12 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class ThirdAuthTemplate {
-
+    
     private final ThirdAuthProperties thirdAuthProperties;
     private final ThirdAccountMapper thirdAccountMapper;
-
+    
     private static final Map<ThirdAuthType, ThirdAuthService> AUTH_SERVICE_MAP = Maps.newConcurrentMap();
-
+    
     @PostConstruct
     public void init() {
         Map<ThirdAuthType, AuthConfig> configMap = thirdAuthProperties.getConfigMap();
@@ -51,20 +70,19 @@ public class ThirdAuthTemplate {
             AUTH_SERVICE_MAP.put(entryValue.platform(), entryValue);
         }
     }
-
+    
     private ThirdAuthService thirdAuthService(ThirdAuthType type) {
         if (type == null) {
             throw CheckedException.notFound("未知的授权方式");
         }
         return AUTH_SERVICE_MAP.get(type);
     }
-
-
+    
     public ThirdAuthResp authorize(ThirdAuthType type) {
         ThirdAuthService service = thirdAuthService(type);
         return service.authorize();
     }
-
+    
     @DSTransactional(rollbackFor = Exception.class)
     public AuthUser callback(ThirdAuthType type, AuthCallback authCallback) {
         ThirdAuthService service = thirdAuthService(type);
@@ -89,6 +107,5 @@ public class ThirdAuthTemplate {
         service.callback(user);
         return user;
     }
-
-
+    
 }

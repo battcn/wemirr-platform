@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.suite.file.domain.dto.req;
 
 import lombok.Data;
@@ -28,7 +29,7 @@ import java.util.List;
  */
 @Data
 public class BatchKey<T> {
-
+    
     private List<T> ids;
-
+    
 }

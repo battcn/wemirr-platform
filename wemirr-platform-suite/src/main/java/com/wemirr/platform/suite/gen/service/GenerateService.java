@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.suite.gen.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
@@ -28,7 +29,7 @@ import java.util.List;
  * @author Levin
  */
 public interface GenerateService extends SuperService<GenerateEntity> {
-
+    
     /**
      * 生成
      *
@@ -36,7 +37,7 @@ public interface GenerateService extends SuperService<GenerateEntity> {
      * @return 生成结果
      */
     String generate(GenerateEntity request);
-
+    
     /**
      * 显示所有表
      *

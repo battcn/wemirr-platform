@@ -23,6 +23,8 @@ import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.iam.system.domain.entity.RoleRes;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 角色资源
  *
@@ -32,4 +34,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoleResMapper extends SuperMapper<RoleRes> {
     
+    /**
+     * 查询租户管理员资源
+     *
+     * @return 查询结果
+     */
+    List<Long> selectTenantAdminResIdList();
 }

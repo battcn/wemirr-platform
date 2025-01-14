@@ -43,8 +43,8 @@ public class ResourceQueryReq {
     @Schema(description = "父资源ID,用于查询按钮")
     private Long parentId;
     
-//    @Schema(description = "角色ID,查询指定角色可见的")
-//    private Long roleId;
+    // @Schema(description = "角色ID,查询指定角色可见的")
+    // private Long roleId;
     
     @Schema(description = "true=启用;false=禁用")
     private Boolean status;

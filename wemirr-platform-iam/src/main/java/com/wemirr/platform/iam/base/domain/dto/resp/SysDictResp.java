@@ -27,7 +27,7 @@ import lombok.Data;
  */
 @Data
 public class SysDictResp {
-
+    
     @Schema(description = "ID")
     private Long id;
     
@@ -39,7 +39,7 @@ public class SysDictResp {
     
     @Schema(description = "描述")
     private String description;
-
+    
     @Schema(description = "字典类型 0=平台字典;1=租户字典")
     private Integer type;
 }

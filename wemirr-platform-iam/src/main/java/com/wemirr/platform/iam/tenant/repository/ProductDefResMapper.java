@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.iam.tenant.repository;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
@@ -30,7 +31,7 @@ import java.util.List;
  */
 @Repository
 public interface ProductDefResMapper extends SuperMapper<ProductDefinitionRes> {
-
+    
     List<Long> selectDefRedByTenantId(@Param("tenantId") Long tenantId);
-
+    
 }

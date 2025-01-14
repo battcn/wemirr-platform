@@ -1,5 +1,23 @@
-package com.wemirr.platform.gateway.rest;
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
+package com.wemirr.platform.gateway.rest;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.commons.entity.Result;
@@ -23,10 +41,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/gateway/rules/routes")
 public class RouteController {
-
+    
     private final RouteRuleHelper routeRuleHelper;
-
-
+    
     @GetMapping
     public Result<JSONObject> query() {
         JSONObject data = new JSONObject();
@@ -38,24 +55,24 @@ public class RouteController {
         data.put("pages", 1);
         return Result.success(data);
     }
-
+    
     @SneakyThrows
     @PostMapping
     public Result<Void> add(@Validated @RequestBody RouteRule rule) {
         routeRuleHelper.saveOrUpdate(rule);
         return Result.success();
     }
-
+    
     @PatchMapping("/{id}/{status}")
     public Result<Void> status(@PathVariable String id, @PathVariable Boolean status) {
         this.routeRuleHelper.routeHandler(id, status);
         return Result.success();
     }
-
+    
     @DeleteMapping("/{id}")
     public Result<Void> delete(@PathVariable String id) {
         this.routeRuleHelper.delete(id);
         return Result.success();
     }
-
+    
 }

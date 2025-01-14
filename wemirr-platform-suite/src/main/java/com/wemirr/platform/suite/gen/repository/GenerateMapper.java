@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.suite.gen.repository;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
@@ -30,7 +31,7 @@ import java.util.List;
  */
 @Repository
 public interface GenerateMapper extends SuperMapper<GenerateEntity> {
-
+    
     /**
      * 显示所有表
      *

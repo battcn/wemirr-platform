@@ -36,7 +36,7 @@ import java.util.List;
  */
 @Repository
 public interface ResourceMapper extends SuperMapper<Resource> {
-
+    
     /**
      * 查询指定用户资源权限
      *

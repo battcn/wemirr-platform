@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.platform.suite;
 
 import cn.hutool.core.util.StrUtil;
@@ -8,16 +27,16 @@ import org.dromara.x.file.storage.core.hash.HashInfo;
 import org.junit.jupiter.api.Test;
 
 public class JsonTests {
-
+    
     @Test
     public void test1() {
         String json = null;
         System.out.println(JSON.parseObject("", HashInfo.class));
         System.out.println(JSON.parseObject(json, HashInfo.class));
-        System.out.println( StrUtil.removePrefix("str-xxx", "-"));
-        System.out.println( StrUtil.removePrefix(null, "-"));
+        System.out.println(StrUtil.removePrefix("str-xxx", "-"));
+        System.out.println(StrUtil.removePrefix(null, "-"));
     }
-
+    
     @Test
     public void test2() {
         String json = null;
@@ -27,7 +46,7 @@ public class JsonTests {
             System.out.println(obj.toString());
         }
     }
-
+    
     private static final String EP_JSON = """
             [
                {
@@ -102,7 +121,5 @@ public class JsonTests {
                }
              ]
             """;
-
-
-
+    
 }

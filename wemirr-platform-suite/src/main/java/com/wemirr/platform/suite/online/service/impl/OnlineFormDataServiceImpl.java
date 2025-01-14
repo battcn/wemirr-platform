@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.platform.suite.online.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
@@ -20,25 +39,28 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OnlineFormDataServiceImpl extends SuperServiceImpl<OnlineFormDataMapper, OnlineFormData> implements OnlineFormDataService {
-
+    
     @Override
     public IPage<JSONObject> pageList(OnlineFormDesignerPageReq req) {
-        return this.baseMapper.pageList(req.buildPage(), req).convert(x -> new JSONObject() {{
-            put("id", x.getId());
-            put("definitionKey", x.getDefinitionKey());
-            put("tenantId", x.getTenantId());
-            put("createdName", x.getCreatedName());
-            put("createdTime", x.getCreatedTime());
-            putAll(x.getFormData());
-        }});
+        return this.baseMapper.pageList(req.buildPage(), req).convert(x -> new JSONObject() {
+            
+            {
+                put("id", x.getId());
+                put("definitionKey", x.getDefinitionKey());
+                put("tenantId", x.getTenantId());
+                put("createdName", x.getCreatedName());
+                put("createdTime", x.getCreatedTime());
+                putAll(x.getFormData());
+            }
+        });
     }
-
+    
     @Override
     public void created(OnlineFormDataSaveReq req) {
         var bean = BeanUtilPlus.toBean(req, OnlineFormData.class);
         this.baseMapper.insert(bean);
     }
-
+    
     @Override
     public void modify(Long id, OnlineFormDataSaveReq req) {
         var bean = BeanUtilPlus.toBean(id, req, OnlineFormData.class);

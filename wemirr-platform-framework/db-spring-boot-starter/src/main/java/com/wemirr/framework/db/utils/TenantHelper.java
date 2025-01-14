@@ -53,4 +53,23 @@ public class TenantHelper {
             DataPermissionRuleHolder.poll();
         }
     }
+
+    public static boolean isDynamicSource() {
+        DatabaseProperties properties = SpringUtil.getBean(DatabaseProperties.class);
+        DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
+        return multiTenant.getType() == MultiTenantType.DATASOURCE;
+    }
+
+
+    /**
+     * 使用隔离类型执行
+     *
+     * @param dbSupplier     数据源函数
+     * @param columnSupplier 字段隔离函数
+     * @param <T>            返回类型
+     * @return 查询结果
+     */
+    public static <T> T executeWithIsolationType(Supplier<T> dbSupplier, Supplier<T> columnSupplier) {
+        return isDynamicSource() ? dbSupplier.get() : columnSupplier.get();
+    }
 }

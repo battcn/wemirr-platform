@@ -58,8 +58,7 @@ public class TenantController {
     
     private final TenantService tenantService;
     private final DbSettingService dynamicDatasourceService;
-
-
+    
     @Operation(summary = "查询可用", description = "查询可用数据源")
     @PostMapping("/ids")
     public List<Tenant> list(@RequestBody List<Long> ids) {

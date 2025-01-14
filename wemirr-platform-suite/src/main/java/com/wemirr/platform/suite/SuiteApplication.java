@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.suite;
 
 import com.wemirr.framework.security.configuration.client.annotation.EnableOAuth2Client;
@@ -45,7 +46,7 @@ import java.net.InetAddress;
 @MapperScan(value = "com.wemirr.**.repository", annotationClass = Repository.class)
 @EnableFileStorage
 public class SuiteApplication {
-
+    
     @SneakyThrows
     public static void main(String[] args) {
         final ConfigurableApplicationContext applicationContext = SpringApplication.run(SuiteApplication.class, args);
@@ -54,10 +55,10 @@ public class SuiteApplication {
         String host = InetAddress.getLocalHost().getHostAddress();
         String port = env.getProperty("server.port");
         log.info("""
-                        ----------------------------------------------------------
-                        \tApplication '{}' is running! Access URLs:
-                        \tDoc: \thttp://{}:{}/doc.html
-                        ----------------------------------------------------------""",
+                ----------------------------------------------------------
+                \tApplication '{}' is running! Access URLs:
+                \tDoc: \thttp://{}:{}/doc.html
+                ----------------------------------------------------------""",
                 appName, host, port);
     }
 }

@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.platform.gateway.configuration.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
@@ -24,9 +43,9 @@ import java.util.Set;
  * @author Levin
  */
 public interface GatewayRule<T> {
-
+    
     AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
-
+    
     /**
      * //（1）? 匹配一个字符（除过操作系统默认的文件分隔符）
      * //（2）* 匹配0个或多个字符
@@ -72,40 +91,41 @@ public interface GatewayRule<T> {
         }
         return null;
     }
-
+    
     @AllArgsConstructor
     @NoArgsConstructor
     enum GatewayRuleEnum {
+        
         /**
          * 限流
          */
         RULE_LIMIT("gateway:rule:limit", "gateway:rule:limit:visits", LimitRule.class),
         RULE_BLACKLIST("gateway:rule:blacklist", "gateway:blacklist:visits", BlacklistRule.class),
-
+        
         ;
         private String hashKey;
         private String visitsKey;
         private Class<?> clazz;
-
+        
         public String hashKey() {
             return hashKey;
         }
-
+        
         public String visitsKey() {
             return visitsKey;
         }
-
+        
         public Class<?> clazz() {
             return clazz;
         }
     }
-
+    
     interface Constants {
+        
         String GATEWAY_RULE_ROUTE = "gateway:rule:route";
         String DEFAULT_RULE_LIMIT_TOTAL = "gateway:rule:limit:total";
         int GLOBAL_RANGE = 0;
         int IP_RANGE = 1;
     }
-
-
+    
 }

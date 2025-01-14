@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.wemirr.platform.gateway.configuration.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
@@ -22,18 +41,16 @@ import java.util.stream.Collectors;
 
 import static com.wemirr.platform.gateway.configuration.rule.GatewayRule.GatewayRuleEnum.RULE_BLACKLIST;
 
-
 /**
  * @author Levin
  */
 @Slf4j
 @Component
 public class BlacklistHelper implements GatewayRule<BlacklistRule> {
-
+    
     @Resource
     private StringRedisTemplate stringRedisTemplate;
-
-
+    
     public void setBlack(ServerWebExchange exchange) {
         final InetSocketAddress remoteAddress = exchange.getRequest().getRemoteAddress();
         if (remoteAddress == null) {
@@ -57,8 +74,7 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
         record.setPath(path);
         saveOrUpdate(record);
     }
-
-
+    
     public BlacklistRule getById(String id) {
         final Object object = stringRedisTemplate.opsForHash().get(RULE_BLACKLIST.hashKey(), id);
         if (object == null) {
@@ -66,7 +82,7 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
         }
         return JSON.parseObject(object.toString(), BlacklistRule.class);
     }
-
+    
     public List<BlacklistRule> query() {
         final Set<Object> keys = stringRedisTemplate.opsForHash().keys(RULE_BLACKLIST.hashKey());
         if (CollectionUtil.isEmpty(keys)) {
@@ -83,7 +99,7 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
                     return rule;
                 }).collect(Collectors.toList());
     }
-
+    
     public boolean valid(ServerWebExchange exchange) {
         final InetSocketAddress remoteAddress = exchange.getRequest().getRemoteAddress();
         if (remoteAddress == null) {
@@ -96,7 +112,7 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
         }
         return flag;
     }
-
+    
     public void saveOrUpdate(BlacklistRule rule) {
         if (rule == null) {
             return;
@@ -110,10 +126,9 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
         final String content = JSON.toJSONString(rule);
         stringRedisTemplate.opsForHash().put(RULE_BLACKLIST.hashKey(), rule.getId(), content);
     }
-
+    
     public void delete(String id) {
         stringRedisTemplate.opsForHash().delete(RULE_BLACKLIST.hashKey(), id);
     }
-
-
+    
 }

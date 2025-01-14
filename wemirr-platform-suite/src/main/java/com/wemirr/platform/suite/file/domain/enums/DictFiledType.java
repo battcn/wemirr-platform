@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.suite.file.domain.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,7 +38,7 @@ import lombok.RequiredArgsConstructor;
 @JsonFormat
 @RequiredArgsConstructor
 public enum DictFiledType implements DictEnum<String> {
-
+    
     /**
      * radio
      */
@@ -51,12 +52,12 @@ public enum DictFiledType implements DictEnum<String> {
      */
     SELECT("select", "select"),
     ;
-
+    
     private final String type;
-
+    
     @Parameter(description = "描述信息")
     private final String desc;
-
+    
     @JsonCreator
     public static DictFiledType of(String type) {
         if (type == null) {
@@ -69,15 +70,15 @@ public enum DictFiledType implements DictEnum<String> {
         }
         return null;
     }
-
+    
     @Override
     public String getValue() {
         return this.type;
     }
-
+    
     @Override
     public String toString() {
         return this.type;
     }
-
+    
 }

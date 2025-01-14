@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.wemirr.platform.suite.gen.domain.enums;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -33,7 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 @RequiredArgsConstructor
 @JsonFormat
 public enum Expression implements DictEnum<String> {
-
+    
     /**
      * eq
      */
@@ -47,9 +48,9 @@ public enum Expression implements DictEnum<String> {
     LIKE("LIKE"),
     IS_NOT_NULL("IS NOT NULL"),
     ;
-
+    
     public final String value;
-
+    
     @JsonCreator
     public static Expression of(String name) {
         for (Expression expression : values()) {
@@ -59,17 +60,17 @@ public enum Expression implements DictEnum<String> {
         }
         return null;
     }
-
+    
     @Override
     public String getValue() {
         return this.value;
     }
-
+    
     @Override
     public String toString() {
         return value;
     }
-
+    
     @Override
     public String getDesc() {
         return value;
