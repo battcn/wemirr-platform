@@ -19,12 +19,12 @@
 
 package com.wemirr.platform.iam.auth.strategy;
 
-import cn.dev33.satoken.stp.StpUtil;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.utils.TenantHelper;
-import com.wemirr.framework.security.configuration.server.support.AuthenticationPrincipal;
-import com.wemirr.framework.security.configuration.server.support.AuthenticatorStrategy;
 import com.wemirr.framework.security.utils.PasswordEncoderHelper;
+import com.wemirr.platform.iam.auth.support.AuthenticationPrincipal;
+import com.wemirr.platform.iam.auth.support.AuthenticatorStrategy;
+import com.wemirr.platform.iam.auth.support.domain.UserTenantAuthentication;
 import com.wemirr.platform.iam.system.domain.entity.User;
 import com.wemirr.platform.iam.system.repository.UserMapper;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
@@ -47,18 +47,18 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrategy {
-    
+
     @Resource
     private UserMapper userMapper;
     @Resource
     private TenantMapper tenantMapper;
-    
+
     @Override
     public void prepare(final AuthenticationPrincipal principal) {
     }
-    
+
     @Override
-    public void authenticate(final AuthenticationPrincipal principal) {
+    public UserTenantAuthentication authenticate(final AuthenticationPrincipal principal) {
         String username = principal.getUsername();
         String password = principal.getPassword();
         String tenantCode = principal.getTenantCode();
@@ -72,6 +72,6 @@ public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrat
         if (!PasswordEncoderHelper.matches(password, user.getPassword())) {
             throw CheckedException.badRequest("用户名或密码错误");
         }
-        StpUtil.login(user.getId(), principal.getClientId());
+        return UserTenantAuthentication.builder().user(user).tenant(tenant).build();
     }
 }

@@ -32,6 +32,8 @@ import com.wemirr.framework.commons.RegionUtils;
 import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.domain.UserInfoDetails;
+import com.wemirr.platform.iam.auth.support.AuthenticationPrincipal;
+import com.wemirr.platform.iam.auth.support.domain.UserTenantAuthentication;
 import com.wemirr.platform.iam.base.domain.entity.LoginLog;
 import com.wemirr.platform.iam.base.repository.LoginLogMapper;
 import com.wemirr.platform.iam.system.domain.entity.User;
@@ -52,14 +54,14 @@ import java.time.Instant;
 @Component
 @RequiredArgsConstructor
 public class WpTokenListener implements SaTokenListener {
-    
+
     private static final String USER_AGENT = "User-Agent";
     private final SecurityExtProperties extProperties;
     private final SaTokenDao saTokenDao;
     private final LoginLogMapper loginLogMapper;
     private final UserService userService;
     private final HttpServletRequest request;
-    
+
     /**
      * @param loginType  账号类别
      * @param loginId    账号id
@@ -74,9 +76,10 @@ public class WpTokenListener implements SaTokenListener {
         final UserAgent userAgent = UserAgentUtil.parse(ua);
         final Browser browser = userAgent.getBrowser();
         final Long userId = Long.parseLong(loginId.toString());
-        String principal = SaHolder.getStorage().getString("principal");
-        String principalType = SaHolder.getStorage().getString("principalType");
-        UserInfoDetails info = this.userService.userinfo(userId);
+        String principal = SaHolder.getStorage().getString(AuthenticationPrincipal.PRINCIPAL);
+        String principalType = SaHolder.getStorage().getString(AuthenticationPrincipal.PRINCIPAL_TYPE);
+        UserTenantAuthentication authentication = SaHolder.getStorage().getModel(AuthenticationPrincipal.AUTHENTICATION, UserTenantAuthentication.class);
+        UserInfoDetails info = this.userService.userinfo(authentication);
         LoginLog loginLog = LoginLog.builder().principal(principal)
                 .clientId(loginModel.getDevice())
                 .tenantId(info.getTenantId()).tenantCode(info.getTenantCode())
@@ -95,11 +98,11 @@ public class WpTokenListener implements SaTokenListener {
         // 刷新登录时间和IP
         this.userService.updateById(User.builder().id(userId).lastLoginIp(ip).lastLoginTime(Instant.now()).build());
     }
-    
+
     private String buildCacheKey(String tokenValue) {
         return String.format(extProperties.getServer().getInfoKeyPrefix(), tokenValue);
     }
-    
+
     /**
      * @param tokenValue token 值
      * @param loginId    账号id
@@ -109,7 +112,7 @@ public class WpTokenListener implements SaTokenListener {
     public void doRenewTimeout(String tokenValue, Object loginId, long timeout) {
         this.saTokenDao.updateTimeout(buildCacheKey(tokenValue), timeout);
     }
-    
+
     /**
      * @param loginType  账号类别
      * @param loginId    账号id
@@ -119,7 +122,7 @@ public class WpTokenListener implements SaTokenListener {
     public void doLogout(String loginType, Object loginId, String tokenValue) {
         this.saTokenDao.delete(buildCacheKey(tokenValue));
     }
-    
+
     /**
      * 每次被踢下线时触发
      *
@@ -132,39 +135,39 @@ public class WpTokenListener implements SaTokenListener {
         // 数据库可以记录一下操作日志
         this.saTokenDao.delete(buildCacheKey(tokenValue));
     }
-    
+
     @Override
     public void doReplaced(String loginType, Object loginId, String tokenValue) {
-        
+
     }
-    
+
     @Override
     public void doDisable(String loginType, Object loginId, String service, int level, long disableTime) {
-        
+
     }
-    
+
     @Override
     public void doUntieDisable(String loginType, Object loginId, String service) {
-        
+
     }
-    
+
     @Override
     public void doOpenSafe(String loginType, String tokenValue, String service, long safeTime) {
-        
+
     }
-    
+
     @Override
     public void doCloseSafe(String loginType, String tokenValue, String service) {
-        
+
     }
-    
+
     @Override
     public void doCreateSession(String id) {
-        
+
     }
-    
+
     @Override
     public void doLogoutSession(String id) {
-        
+
     }
 }

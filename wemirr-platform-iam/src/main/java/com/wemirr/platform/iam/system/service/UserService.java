@@ -22,6 +22,7 @@ package com.wemirr.platform.iam.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.framework.security.domain.UserInfoDetails;
+import com.wemirr.platform.iam.auth.support.domain.UserTenantAuthentication;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangeUserInfoReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserOnlinePageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserPageReq;
@@ -101,6 +102,8 @@ public interface UserService extends SuperService<User> {
      * @return 用户信息
      */
     UserInfoDetails userinfo(Long userId);
+
+    UserInfoDetails userinfo(UserTenantAuthentication authentication);
     
     /**
      * 查询在线用户列表

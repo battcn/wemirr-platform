@@ -1025,7 +1025,7 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `tenant_id` int DEFAULT NULL COMMENT '租户编码',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户编码',
   `code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '角色编码',
   `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '名称',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述信息',
@@ -1596,7 +1596,7 @@ CREATE TABLE `t_tenant_dict` (
   `status` bit(1) DEFAULT b'1' COMMENT '状态',
   `readonly` bit(1) DEFAULT b'0' COMMENT '0=否；1=是；只读数据不允许删除',
   `sequence` tinyint DEFAULT NULL COMMENT '排序',
-  `tenant_id` bigint NOT NULL COMMENT '租户ID t_tenant.id',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID t_tenant.id',
   `deleted` bit(1) DEFAULT b'0',
   `created_by` bigint DEFAULT NULL COMMENT '创建人ID',
   `created_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
@@ -1637,7 +1637,7 @@ CREATE TABLE `t_tenant_dict_item` (
   `deleted` bit(1) DEFAULT b'0',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '描述',
   `sequence` int DEFAULT '1' COMMENT '排序',
-  `tenant_id` bigint NOT NULL COMMENT '租户id，t_tenant.id',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户id，t_tenant.id',
   `created_by` bigint DEFAULT '0' COMMENT '创建人id',
   `created_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `created_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -1678,7 +1678,7 @@ COMMIT;
 DROP TABLE IF EXISTS `t_tenant_setting`;
 CREATE TABLE `t_tenant_setting` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `tenant_id` bigint NOT NULL COMMENT '租户ID',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
   `site_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '站点',
   `site_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '站点标题',
   `site_sub_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '子标题',

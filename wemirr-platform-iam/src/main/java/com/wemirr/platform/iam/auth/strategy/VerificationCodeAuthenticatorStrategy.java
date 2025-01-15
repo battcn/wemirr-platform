@@ -21,7 +21,7 @@ package com.wemirr.platform.iam.auth.strategy;
 
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.security.configuration.server.support.AuthenticationPrincipal;
+import com.wemirr.platform.iam.auth.support.AuthenticationPrincipal;
 import com.wemirr.platform.iam.system.service.CaptchaService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;

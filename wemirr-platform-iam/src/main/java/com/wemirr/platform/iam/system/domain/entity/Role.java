@@ -24,13 +24,19 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.security.DataScopeType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
  * @author battcn
  */
 @Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("sys_role")
 @EqualsAndHashCode(callSuper = true)
 public class Role extends Entity<Long> {
