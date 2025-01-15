@@ -2,7 +2,6 @@ package com.wemirr.framework.db.utils;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
-import com.wemirr.framework.db.mybatisplus.datascope.holder.DataPermissionRuleHolder;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import lombok.AccessLevel;
@@ -31,7 +30,7 @@ public class TenantHelper {
             DynamicDataSourceContextHolder.push(properties.getMultiTenant().getDefaultDsName());
             return supplier.get();
         } finally {
-            DataPermissionRuleHolder.poll();
+            DynamicDataSourceContextHolder.poll();
         }
     }
 
@@ -50,7 +49,7 @@ public class TenantHelper {
             DynamicDataSourceContextHolder.push(multiTenant.buildTenantDataSourceName(tenantCode));
             return supplier.get();
         } finally {
-            DataPermissionRuleHolder.poll();
+            DynamicDataSourceContextHolder.poll();
         }
     }
 
@@ -59,7 +58,6 @@ public class TenantHelper {
         DatabaseProperties.MultiTenant multiTenant = properties.getMultiTenant();
         return multiTenant.getType() == MultiTenantType.DATASOURCE;
     }
-
 
     /**
      * 使用隔离类型执行
