@@ -59,11 +59,13 @@ public class TenantSaveReq {
     
     @Length(min = 2, max = 30, message = "租户邮箱长度 {min} - {max} 之间")
     private String email;
-    
+
+    @NotBlank(message = "租户联系人不能为空")
     @Length(min = 2, max = 30, message = "联系人长度 {min} - {max} 之间")
     @Schema(description = "联系人")
     private String contactPerson;
-    
+
+    @NotBlank(message = "租户联系方式不能为空")
     @Length(min = 2, max = 30, message = "联系方式长度 {min} - {max} 之间")
     @Schema(description = "联系方式")
     private String contactPhone;

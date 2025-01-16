@@ -245,7 +245,6 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
 
     private void initializeTenantData(Tenant tenant, Role role) {
         log.warn("开始初始化租户 - {} 的系统数据,危险动作", tenant.getName());
-
         Org org = new Org();
         org.setLabel(tenant.getName());
         org.setTenantId(tenant.getId());
@@ -255,16 +254,18 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         org.setSequence(0);
         this.orgMapper.insert(org);
 
-        User record = new User();
-        record.setUsername("admin");
-        record.setPassword(PasswordEncoderHelper.encode("123456"));
-        record.setTenantId(tenant.getId());
-        record.setNickName(tenant.getContactPerson());
-        record.setMobile(tenant.getContactPhone());
-        record.setStatus(true);
-        this.userMapper.insert(record);
-
-        this.userRoleMapper.insert(UserRole.builder().userId(record.getId()).roleId(role.getId()).build());
+        User user = new User();
+        String contactPhone = tenant.getContactPhone();
+        user.setUsername(contactPhone);
+        user.setEmail(tenant.getEmail());
+        user.setAvatar(tenant.getLogo());
+        user.setPassword(PasswordEncoderHelper.encode("123456"));
+        user.setTenantId(tenant.getId());
+        user.setNickName(tenant.getContactPerson());
+        user.setMobile(contactPhone);
+        user.setStatus(true);
+        this.userMapper.insert(user);
+        this.userRoleMapper.insert(UserRole.builder().userId(user.getId()).roleId(role.getId()).build());
     }
 
 
