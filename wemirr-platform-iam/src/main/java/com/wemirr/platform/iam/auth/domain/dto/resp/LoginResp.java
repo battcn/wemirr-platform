@@ -17,42 +17,50 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.domain.dto.resp;
+package com.wemirr.platform.iam.auth.domain.dto.resp;
 
-import com.wemirr.platform.iam.system.domain.enums.LoginConfigType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.util.List;
 
 /**
- * @author levin
+ * @author Levin
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginConfigResp {
+public class LoginResp {
     
-    @Schema(description = "登录类型")
-    private LoginConfigType type;
+    @Schema(description = "scope")
+    @JsonProperty("scope")
+    private List<String> scope;
     
-    @Schema(description = "租户ID")
-    private Long tenantId;
-    @Schema(description = "编码")
-    private String tenantCode;
-    @Schema(description = "名称")
-    private String tenantName;
-    @Schema(description = "LOGO")
-    private String tenantLogo;
-    @Schema(description = "WEB站点")
-    private String webSite;
-    @Schema(description = "描述")
-    private String description;
-    @Schema(description = "创建时间")
-    private Instant createdTime;
+    @Schema(description = "openId")
+    @JsonProperty("openId")
+    private String openId;
+    
+    @Schema(description = "访问令牌")
+    private String accessToken;
+    
+    @Schema(description = "Token 类型")
+    private String tokenType;
+    
+    @Schema(description = "刷新令牌")
+    private String refreshToken;
+    
+    @Schema(description = "客户端ID")
+    private String clientId;
+    
+    @Schema(description = "访问令牌失效时间")
+    private Long expiresIn;
+    
+    @Schema(description = "刷新令牌失效时间")
+    private Long refreshExpireIn;
     
 }

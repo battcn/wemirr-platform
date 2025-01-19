@@ -20,7 +20,7 @@
 package com.wemirr.platform.iam.system.repository;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
+import com.wemirr.platform.iam.auth.domain.entity.RegisteredClient;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

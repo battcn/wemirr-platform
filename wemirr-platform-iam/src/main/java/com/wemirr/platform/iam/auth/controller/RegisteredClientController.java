@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.controller;
+package com.wemirr.platform.iam.auth.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -25,7 +25,7 @@ import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.RegisteredClientResp;
-import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
+import com.wemirr.platform.iam.auth.domain.entity.RegisteredClient;
 import com.wemirr.platform.iam.system.service.RegisteredClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

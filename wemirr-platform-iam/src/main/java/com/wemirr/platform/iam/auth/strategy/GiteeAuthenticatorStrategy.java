@@ -26,7 +26,7 @@ import com.wemirr.platform.iam.auth.support.AuthenticationPrincipal;
 import com.wemirr.platform.iam.auth.support.AuthenticatorStrategy;
 import com.wemirr.platform.iam.auth.support.domain.UserTenantAuthentication;
 import com.wemirr.platform.iam.system.domain.entity.User;
-import com.wemirr.platform.iam.system.domain.entity.UserThirdAccount;
+import com.wemirr.platform.iam.auth.domain.entity.UserThirdAccount;
 import com.wemirr.platform.iam.system.domain.enums.ThirdAuthType;
 import com.wemirr.platform.iam.system.repository.ThirdAccountMapper;
 import com.wemirr.platform.iam.system.repository.UserMapper;

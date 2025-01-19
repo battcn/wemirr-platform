@@ -19,7 +19,7 @@
 
 package com.wemirr.platform.iam.auth.service;
 
-import com.wemirr.platform.iam.system.domain.dto.resp.ThirdAuthResp;
+import com.wemirr.platform.iam.auth.domain.dto.resp.ThirdAuthResp;
 import com.wemirr.platform.iam.system.domain.enums.ThirdAuthType;
 import me.zhyd.oauth.model.AuthUser;
 import me.zhyd.oauth.request.AuthRequest;

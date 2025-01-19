@@ -26,7 +26,7 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientReq;
-import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
+import com.wemirr.platform.iam.auth.domain.entity.RegisteredClient;
 import com.wemirr.platform.iam.system.repository.RegisteredClientMapper;
 import com.wemirr.platform.iam.system.service.RegisteredClientService;
 import lombok.RequiredArgsConstructor;

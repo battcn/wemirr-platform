@@ -28,7 +28,7 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.auth.support.AuthenticationPrincipal;
 import com.wemirr.platform.iam.auth.support.AuthenticatorStrategy;
 import com.wemirr.platform.iam.auth.support.domain.UserTenantAuthentication;
-import com.wemirr.platform.iam.system.domain.entity.RegisteredClient;
+import com.wemirr.platform.iam.auth.domain.entity.RegisteredClient;
 import com.wemirr.platform.iam.system.domain.entity.User;
 import com.wemirr.platform.iam.system.repository.RegisteredClientMapper;
 import lombok.RequiredArgsConstructor;

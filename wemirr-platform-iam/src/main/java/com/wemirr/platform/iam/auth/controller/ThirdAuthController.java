@@ -21,7 +21,7 @@ package com.wemirr.platform.iam.auth.controller;
 
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.wemirr.platform.iam.auth.service.ThirdAuthTemplate;
-import com.wemirr.platform.iam.system.domain.dto.resp.ThirdAuthResp;
+import com.wemirr.platform.iam.auth.domain.dto.resp.ThirdAuthResp;
 import com.wemirr.platform.iam.system.domain.enums.ThirdAuthType;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;

@@ -17,17 +17,15 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.domain.entity;
+package com.wemirr.platform.iam.auth.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import com.wemirr.platform.iam.system.domain.enums.ThirdAuthType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
@@ -37,42 +35,36 @@ import java.time.Instant;
  */
 @Data
 @SuperBuilder
-@EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
-@Schema(description = "第三方授权账户实体类")
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("t_user_third_account")
-public class UserThirdAccount extends SuperEntity<Long> {
+@EqualsAndHashCode(callSuper = true)
+@TableName("sys_registered_client")
+public class RegisteredClient extends SuperEntity<String> {
     
-    @Schema(description = "平台用户 ID")
-    private Long userId;
+    @Schema(description = "客户端ID")
+    private String clientId;
+    @Schema(description = "客户端秘钥")
+    private String clientSecret;
+    @Schema(description = "客户端 ID 发放时间")
+    private Instant clientIdIssuedAt;
+    @Schema(description = "客户端 秘钥失效时间")
+    private Instant clientSecretExpiresAt;
+    @Schema(description = "客户端名称")
+    private String clientName;
+    @Schema(description = "授权类型")
+    private String grantTypes;
+    @Schema(description = "重定向地址")
+    private String redirectUris;
+    @Schema(description = "退出登录重定向地址")
+    private String postLogoutRedirectUris;
+    @Schema(description = "授权范围")
+    private String scopes;
+    @Schema(description = "客户端设置")
+    private String clientSettings;
+    @Schema(description = "令牌设置")
+    private String tokenSettings;
     
-    @Schema(description = "平台类型")
-    private ThirdAuthType type;
-    
-    @Schema(description = "第三方平台用户唯一标识")
-    private String accountId;
-    
-    @Schema(description = "用户名")
-    private String username;
-    
-    @Schema(description = "昵称")
-    private String nickname;
-    
-    @Schema(description = "邮箱")
-    private String email;
-    
-    @Schema(description = "头像 URL")
-    private String avatar;
-    
-    @Schema(description = "访问令牌")
-    private String accessToken;
-    
-    @Schema(description = "刷新令牌")
-    private String refreshToken;
-    
-    @Schema(description = "令牌过期时间")
-    private Instant tokenExpireTime;
+    @Schema(description = "状态")
+    private Boolean status;
     
 }

@@ -17,50 +17,62 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.domain.dto.resp;
+package com.wemirr.platform.iam.auth.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.wemirr.framework.commons.entity.SuperEntity;
+import com.wemirr.platform.iam.system.domain.enums.ThirdAuthType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
-import java.util.List;
+import java.time.Instant;
 
 /**
  * @author Levin
  */
 @Data
-@Builder
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
+@Schema(description = "第三方授权账户实体类")
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResp {
+@TableName("t_user_third_account")
+public class UserThirdAccount extends SuperEntity<Long> {
     
-    @Schema(description = "scope")
-    @JsonProperty("scope")
-    private List<String> scope;
+    @Schema(description = "平台用户 ID")
+    private Long userId;
     
-    @Schema(description = "openId")
-    @JsonProperty("openId")
-    private String openId;
+    @Schema(description = "平台类型")
+    private ThirdAuthType type;
+    
+    @Schema(description = "第三方平台用户唯一标识")
+    private String accountId;
+    
+    @Schema(description = "用户名")
+    private String username;
+    
+    @Schema(description = "昵称")
+    private String nickname;
+    
+    @Schema(description = "邮箱")
+    private String email;
+    
+    @Schema(description = "头像 URL")
+    private String avatar;
     
     @Schema(description = "访问令牌")
     private String accessToken;
     
-    @Schema(description = "Token 类型")
-    private String tokenType;
-    
     @Schema(description = "刷新令牌")
     private String refreshToken;
     
-    @Schema(description = "客户端ID")
-    private String clientId;
-    
-    @Schema(description = "访问令牌失效时间")
-    private Long expiresIn;
-    
-    @Schema(description = "刷新令牌失效时间")
-    private Long refreshExpireIn;
+    @Schema(description = "令牌过期时间")
+    private Instant tokenExpireTime;
     
 }
