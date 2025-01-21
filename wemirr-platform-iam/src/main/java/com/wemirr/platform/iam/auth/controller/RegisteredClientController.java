@@ -26,7 +26,7 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.RegisteredClientResp;
 import com.wemirr.platform.iam.auth.domain.entity.RegisteredClient;
-import com.wemirr.platform.iam.system.service.RegisteredClientService;
+import com.wemirr.platform.iam.auth.service.RegisteredClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

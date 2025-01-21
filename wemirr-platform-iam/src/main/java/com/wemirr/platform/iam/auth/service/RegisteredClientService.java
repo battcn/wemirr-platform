@@ -17,16 +17,35 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.base.service;
+package com.wemirr.platform.iam.auth.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.iam.base.domain.entity.LoginLog;
+import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientReq;
+import com.wemirr.platform.iam.auth.domain.entity.RegisteredClient;
 
 /**
- * 登录日志
- *
- * @author Levin
+ * @author levin
  */
-public interface LoginLogService extends SuperService<LoginLog> {
+public interface RegisteredClientService extends SuperService<RegisteredClient> {
     
+    /**
+     * 创建安全终端
+     *
+     * @param req req
+     */
+    void create(RegisteredClientReq req);
+    
+    /**
+     * 修改安全终端
+     *
+     * @param req req
+     */
+    void modify(Long id, RegisteredClientReq req);
+    
+    /**
+     * 根据ID删除
+     *
+     * @param id id
+     */
+    void deleteById(String id);
 }

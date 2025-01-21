@@ -52,7 +52,7 @@ import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.framework.security.utils.PasswordEncoderHelper;
 import com.wemirr.platform.iam.auth.support.domain.UserTenantAuthentication;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangeUserInfoReq;
-import com.wemirr.platform.iam.base.domain.entity.LoginLog;
+import com.wemirr.platform.iam.auth.domain.entity.LoginLog;
 import com.wemirr.platform.iam.system.domain.dto.req.UserOnlinePageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserPageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserSaveReq;

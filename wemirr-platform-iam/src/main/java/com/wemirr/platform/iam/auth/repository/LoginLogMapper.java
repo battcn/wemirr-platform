@@ -17,10 +17,10 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.base.repository;
+package com.wemirr.platform.iam.auth.repository;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.platform.iam.base.domain.entity.LoginLog;
+import com.wemirr.platform.iam.auth.domain.entity.LoginLog;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 

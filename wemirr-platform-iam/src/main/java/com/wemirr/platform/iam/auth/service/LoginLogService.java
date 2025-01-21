@@ -17,24 +17,16 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.base.service.impl;
+package com.wemirr.platform.iam.auth.service;
 
-import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
-import com.wemirr.platform.iam.base.domain.entity.LoginLog;
-import com.wemirr.platform.iam.base.repository.LoginLogMapper;
-import com.wemirr.platform.iam.base.service.LoginLogService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import com.wemirr.framework.db.mybatisplus.ext.SuperService;
+import com.wemirr.platform.iam.auth.domain.entity.LoginLog;
 
 /**
  * 登录日志
  *
  * @author Levin
  */
-@Slf4j
-@Service
-@RequiredArgsConstructor
-public class LoginLogServiceImpl extends SuperServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
+public interface LoginLogService extends SuperService<LoginLog> {
     
 }
