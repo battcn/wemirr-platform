@@ -1,0 +1,52 @@
+version: '2'
+# 如果执行失败,请选尝试创建 docker network create wemirr
+networks:
+  default:
+    driver: bridge
+    external:
+      name: wemirr
+services:
+  wemirr-platform-mysql:
+    image: mysql:8.0.19
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_HOST: '%'
+      TZ: Asia/Shanghai
+    restart: always
+    container_name: wemirr-platform-mysql
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+      --max_allowed_packet=128M
+      --default-authentication-plugin=caching_sha2_password
+    ports:
+      - 3306:3306
+  wemirr-platform-redis:
+    image: redis:5.0
+    ports:
+      - 6379:6379
+    restart: always
+    container_name: wemirr-platform-redis
+  wemirr-platform-nacos:
+    container_name: wemirr-platform-nacos
+    image: nacos/nacos-server:2.4.2
+    environment:
+      MODE: standalone
+      JVM_XMS: 512m
+      JVM_MMS: 320m
+    ports:
+      - 8848:8848
+      - 9848:9848
+      - 9849:9849
+    restart: always
+  wemirr-platform-rabbitmq:
+    container_name: wemirr-platform-rabbitmq
+    image: docker.io/macintoshplus/rabbitmq-management
+    ports:
+      - 5671:5671
+      - 5672:5672
+      - 15672:15672
+      - 25672:25672
+    restart: always
