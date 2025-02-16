@@ -61,28 +61,32 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resource> implements ResourceService {
-    
+
     private static final String SPEL = "/";
     private final AuthenticationContext context;
     private final ProductDefResMapper productDefResMapper;
     private final RoleMapper roleMapper;
     private final UserMapper userMapper;
     private final RoleResMapper roleResMapper;
-    
+
     @Override
     public List<VisibleResourceResp> findVisibleResource(ResourceQueryReq req) {
-        Collection<Long> resIdList = TenantHelper.executeWithIsolationType(() -> {
-            List<Long> list = TenantHelper.executeWithMaster(() -> {
-                List<Long> roleResIdList = this.roleResMapper.selectTenantAdminResIdList();
-                List<Long> productResIdList = this.productDefResMapper.selectDefRedByTenantId(context.tenantId());
+        var resIdList = TenantHelper.executeWithIsolationType(() -> {
+            var list = TenantHelper.executeWithMaster(() -> {
+                var roleResIdList = this.roleResMapper.selectTenantAdminResIdList();
+                var productResIdList = this.productDefResMapper.selectDefRedByTenantId(context.tenantId());
                 return CollUtil.addAll(roleResIdList, productResIdList).stream().distinct().toList();
             });
             if (CollUtil.isEmpty(list)) {
                 return null;
             }
-            List<Long> roleResIdList = this.userMapper.selectResByUserId(req.getUserId());
+            var roleResIdList = this.userMapper.selectResByUserId(req.getUserId());
             return CollUtil.intersection(list, roleResIdList);
-        }, () -> this.userMapper.selectResByUserId(req.getUserId()));
+        }, () -> {
+            var roleResIdList = this.userMapper.selectResByUserId(req.getUserId());
+            var productResIdList = this.productDefResMapper.selectDefRedByTenantId(context.tenantId());
+            return CollUtil.addAll(roleResIdList, productResIdList).stream().distinct().toList();
+        });
         // 解决租户越权行为,菜单数据直接从主库查询,减少数据分发次数
         List<Resource> list = TenantHelper.executeWithMaster(() -> this.baseMapper.selectList(Wraps.<Resource>lbQ()
                 .eq(Resource::getStatus, req.getStatus())
@@ -91,7 +95,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
                 .eq(Resource::getParentId, req.getParentId()).eq(Resource::getType, req.getType())));
         return BeanUtilPlus.toBeans(list, VisibleResourceResp.class);
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void create(ResourceSaveReq req) {
@@ -113,13 +117,13 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
                 .toList();
         roleResMapper.insertBatchSomeColumn(roleResList);
     }
-    
+
     @Override
     public void modify(Long id, ResourceSaveReq req) {
         final Resource resource = BeanUtilPlus.toBean(id, req, Resource.class);
         this.baseMapper.updateById(resource);
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void delete(Long id) {
