@@ -111,7 +111,8 @@ public class TokenController {
     public void changeInfo(@Validated @RequestBody ChangeUserInfoReq req) {
         this.userService.changeInfo(req);
     }
-    
+
+    @SaIgnore
     @DeleteMapping("/logout")
     @Operation(summary = "退出登录")
     public void logout() {

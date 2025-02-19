@@ -24,7 +24,7 @@
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-checkstyle-plugin.version>3.2.1</maven-checkstyle-plugin.version>
         <spotless-maven-plugin.version>2.22.1</spotless-maven-plugin.version>
-
+        <spring-ai.version>1.0.0-M3</spring-ai.version>
         <!-- Spring Boot 相关 版本-->
         <spring-boot-admin.version>3.3.6</spring-boot-admin.version>
         <spring-boot.version>3.3.6</spring-boot.version>
@@ -54,6 +54,7 @@
         <!-- 自定义SDK版本 -->
         <wemirr-framework.version>3.0.0-SNAPSHOT</wemirr-framework.version>
         <jakarta-validation.version>3.1.0</jakarta-validation.version>
+        <sa-token.version>1.40.0</sa-token.version>
     </properties>
 
     <dependencyManagement>
@@ -63,6 +64,16 @@
                 <groupId>com.fhs-opensource</groupId>
                 <artifactId>easy-trans-spring-boot-starter</artifactId>
                 <version>3.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot3-starter</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-redis-fastjson2</artifactId>
+                <version>${sa-token.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -264,6 +275,13 @@
                 </exclusions>
             </dependency>
             <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
@@ -299,21 +317,25 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>alimaven</id>
-            <name>Maven Aliyun Mirror</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
+        </repository>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
+
 
     <!-- 资源文件拷贝插件 -->
     <build>
