@@ -2,11 +2,13 @@ package com.wemirr.framework.db.utils;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
+import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.function.Supplier;
 
@@ -18,6 +20,13 @@ import java.util.function.Supplier;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TenantHelper {
+
+    public static boolean isSuperTenant() {
+        DatabaseProperties properties = SpringUtil.getBean(DatabaseProperties.class);
+        AuthenticationContext context = SpringUtil.getBean(AuthenticationContext.class);
+        String tenantCode = context.tenantCode();
+        return StringUtils.isNotBlank(tenantCode) && StringUtils.equals(tenantCode, properties.getMultiTenant().getSuperTenantCode());
+    }
 
     /**
      * 使用主数据源执行

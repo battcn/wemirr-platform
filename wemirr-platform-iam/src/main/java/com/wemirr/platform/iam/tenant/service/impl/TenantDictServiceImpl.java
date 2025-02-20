@@ -65,18 +65,18 @@ import static java.util.stream.Collectors.groupingBy;
 @Service
 @RequiredArgsConstructor
 public class TenantDictServiceImpl extends SuperServiceImpl<TenantDictMapper, TenantDict> implements TenantDictService {
-    
+
     private final AuthenticationContext context;
     private final SysDictMapper dictMapper;
     private final SysDictItemMapper dictItemMapper;
     private final TenantDictItemMapper tenantDictItemMapper;
     private final DictLoadService dictLoadService;
-    
+
     @PostConstruct
     public void init() {
         refresh();
     }
-    
+
     @Override
     public void create(TenantDictSaveReq req) {
         if (req == null) {
@@ -88,7 +88,7 @@ public class TenantDictServiceImpl extends SuperServiceImpl<TenantDictMapper, Te
         }
         this.baseMapper.insert(BeanUtil.toBean(req, TenantDict.class));
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void modify(Long id, TenantDictSaveReq req) {
@@ -101,7 +101,7 @@ public class TenantDictServiceImpl extends SuperServiceImpl<TenantDictMapper, Te
         this.baseMapper.updateById(bean);
         this.dictLoadService.refreshCache(getPairMap(List.of(req.getCode())));
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void deleteById(Long id) {
@@ -109,7 +109,7 @@ public class TenantDictServiceImpl extends SuperServiceImpl<TenantDictMapper, Te
         this.baseMapper.deleteById(id);
         this.tenantDictItemMapper.delete(Wraps.<TenantDictItem>lbQ().eq(TenantDictItem::getDictCode, dict.getCode()));
     }
-    
+
     @Override
     public void refresh() {
         List<TenantDict> list = this.baseMapper.selectList(TenantDict::getStatus, true);
@@ -119,16 +119,16 @@ public class TenantDictServiceImpl extends SuperServiceImpl<TenantDictMapper, Te
         List<String> codeList = list.stream().map(TenantDict::getCode).distinct().toList();
         this.dictLoadService.refreshCache(getPairMap(codeList));
     }
-    
+
     private Map<String, List<Pair<String, String>>> getPairMap(List<String> codeList) {
         return this.tenantDictItemMapper.selectList(Wraps.<TenantDictItem>lbQ()
-                .eq(TenantDictItem::getStatus, true))
+                        .eq(TenantDictItem::getStatus, true))
                 .stream()
                 .collect(groupingBy(
                         TenantDictItem::getDictCode,
                         Collectors.mapping(item -> Pair.of(item.getValue(), item.getLabel()), Collectors.toList())));
     }
-    
+
     @Override
     public List<Dict<String>> findItemByCode(String code) {
         Map<Object, Object> map = this.dictLoadService.findByIds(code);
@@ -141,9 +141,13 @@ public class TenantDictServiceImpl extends SuperServiceImpl<TenantDictMapper, Te
         }
         return dictList;
     }
-    
+
     @Override
     public void incrSyncTenantDict(Long tenantId) {
+        if (TenantHelper.isSuperTenant()) {
+            log.warn("超级租户,跳过同步");
+            return;
+        }
         // 查询超管 所有字典数据
         List<SysDict> dictList = TenantHelper.executeWithMaster(() -> dictMapper.selectList(SysDict::getType, 1));
         if (CollUtil.isEmpty(dictList)) {
@@ -186,5 +190,5 @@ public class TenantDictServiceImpl extends SuperServiceImpl<TenantDictMapper, Te
         this.baseMapper.insertBatchSomeColumn(dictTypeList);
         this.tenantDictItemMapper.insertBatchSomeColumn(dictDataList);
     }
-    
+
 }
