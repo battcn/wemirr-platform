@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.suite.gen.repository.GenerateTemplateMapper">
+
+
+    <select id="getTemplateDetailByGroupId"
+            resultType="com.wemirr.platform.suite.gen.domain.entity.GenerateTemplate">
+        SELECT DISTINCT cgt.*
+        FROM c_generate_template cgt
+                 INNER JOIN c_generate_template_group_relation rel ON cgt.id = rel.template_id
+        WHERE rel.group_id = #{templateGroupId}
+    </select>
+</mapper>

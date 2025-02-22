@@ -11,7 +11,7 @@
 
     //此处为组件定义
 export default defineComponent({
-    name: '${table.entityName}',
+    name: '${ClassName}',
     setup() {
         const {crudRef, crudBinding, crudExpose} = useFs({createCrudOptions, context: {}});
         // 页面打开后获取列表数据

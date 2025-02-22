@@ -1,19 +1,17 @@
-package ${package.Mapper};
+package ${package}.${moduleName}.repository;
 
-import ${package.Entity}.${entity};
-import ${superMapperClassPackage};
+import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
+import ${package}.${moduleName}.domain.entity.${ClassName};
 import org.springframework.stereotype.Repository;
+
 /**
- * ${table.comment!}接口层
- *
- * @author ${author}
- * @since ${date}
- */
-<#if kotlin>
-interface ${table.mapperName} : ${superMapperClass}<${entity}>
-<#else>
+* ${table.comment!}接口层
+*
+* @author ${author}
+* @since ${date}
+*/
+
 @Repository
-public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+public interface ${ClassName}Mapper extends SuperMapper<${ClassName}> {
 
 }
-</#if>

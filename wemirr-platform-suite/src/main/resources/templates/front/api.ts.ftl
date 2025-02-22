@@ -1,19 +1,18 @@
 import { defHttp } from '#/api/request';
 
-const apiPrefix = "<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>manager/${table.entityPath}</#if>";
+const apiPrefix = "/<#if moduleName??>${moduleName}</#if>/<#if businessName??>${businessName}</#if>";
 
-export function pageList(query) {
-    return defHttp.get(apiPrefix + '/page', { params: query });
+export function pageList(query : any) {
+return defHttp.get(apiPrefix + '/page', { params: query });
 }
-export function create(obj) {
-    return defHttp.post(apiPrefix + `/create`,obj);
-}
-
-export function modify(obj) {
-    return defHttp.put(apiPrefix + `/obj.id/modify`,obj);
+export function create(obj  : any) {
+return defHttp.post(apiPrefix + `/create`,obj);
 }
 
-export function remove(id) {
-    return defHttp.delete(apiPrefix + `/obj.id`);
+export function modify(row : any) {
+return defHttp.put(apiPrefix + `<#noparse>/${row.id}/modify</#noparse>`, row);
 }
 
+export function remove(id : any) {
+return defHttp.delete(apiPrefix + `<#noparse>/${id}</#noparse>`);
+}

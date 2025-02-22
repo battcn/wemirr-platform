@@ -51,6 +51,8 @@
         <knife4j.version>4.5.0</knife4j.version>
         <knife4j-springdoc-ui.version>3.0.3</knife4j-springdoc-ui.version>
         <transmittable.version>2.14.5</transmittable.version>
+        <!-- D-ORM依赖 -->
+        <anyline.version>8.7.2-20241022</anyline.version>
         <!-- 自定义SDK版本 -->
         <wemirr-framework.version>3.0.0-SNAPSHOT</wemirr-framework.version>
         <jakarta-validation.version>3.1.0</jakarta-validation.version>
@@ -301,6 +303,17 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.anyline</groupId>
+                <artifactId>anyline-environment-spring-data-jdbc</artifactId>
+                <version>${anyline.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.anyline</groupId>
+                <artifactId>anyline-data-jdbc-mysql</artifactId>
+                <version>${anyline.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
