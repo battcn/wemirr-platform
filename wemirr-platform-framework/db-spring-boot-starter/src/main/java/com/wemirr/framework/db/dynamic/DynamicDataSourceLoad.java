@@ -40,7 +40,7 @@ public class DynamicDataSourceLoad {
 
     public void init() {
         log.debug("extend.mybatis-plus.multi-tenant.strategy eq feign , pull dynamic begin...");
-        final List<DynamicDatasourceEvent> result = tenantFeignClient.selectAll();
+        final List<DynamicDatasourceEvent> result = tenantFeignClient.selectActiveDbSetting();
         if (CollUtil.isEmpty(result)) {
             log.warn("feign pull tenantDynamicDataSources is null......");
             return;

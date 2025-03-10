@@ -40,7 +40,7 @@ public class AutoRefreshTokenProperties {
     private boolean enabled;
     private String includeTokenHeader = X_AUTO_TOKEN_KEYWORD;
     private String serverTokenHeader = AUTHORIZATION;
-    private OAuth oAuth;
+    private Login login;
     private String uri;
 
     /**
@@ -50,16 +50,14 @@ public class AutoRefreshTokenProperties {
     private Cache cache = new Cache();
 
     @Data
-    public static class OAuth {
+    public static class Login {
 
-        private String clientId = "wemirr";
-        private String clientSecret = "wemirr";
         private String username;
         private String password;
+        private String clientId = "wemirr";
+        private String clientSecret = "wemirr";
         private String tenantCode;
-        private String grantType = "password";
         private String loginType = "password";
-        private String scope = "server";
     }
 
     @Data

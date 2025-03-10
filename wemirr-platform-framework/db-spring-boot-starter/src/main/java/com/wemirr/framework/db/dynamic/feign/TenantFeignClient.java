@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * @author Levin
  */
-@FeignClient(name = "wemirr-platform-authority", dismiss404 = true, fallback = TenantFeignClient.TenantFeignClientFallback.class)
+@FeignClient(name = "wemirr-platform-iam", dismiss404 = true, fallback = TenantFeignClient.TenantFeignClientFallback.class)
 public interface TenantFeignClient {
 
     /**
@@ -38,15 +38,15 @@ public interface TenantFeignClient {
      *
      * @return 查询结果
      */
-    @GetMapping(value = "/tenants/databases/active", headers = {"X-Auto-Token=true"})
-    List<DynamicDatasourceEvent> selectAll();
+    @GetMapping(value = "/db-setting/active", headers = {"X-Auto-Token=true"})
+    List<DynamicDatasourceEvent> selectActiveDbSetting();
 
     @Component
     @RequiredArgsConstructor
     class TenantFeignClientFallback implements TenantFeignClient {
 
         @Override
-        public List<DynamicDatasourceEvent> selectAll() {
+        public List<DynamicDatasourceEvent> selectActiveDbSetting() {
             return null;
         }
     }

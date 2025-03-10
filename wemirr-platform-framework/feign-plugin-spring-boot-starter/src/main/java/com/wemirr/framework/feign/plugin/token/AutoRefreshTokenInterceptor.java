@@ -22,6 +22,7 @@ package com.wemirr.framework.feign.plugin.token;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONPath;
 import com.google.common.cache.Cache;
 import com.wemirr.framework.commons.exception.CheckedException;
@@ -66,17 +67,15 @@ public class AutoRefreshTokenInterceptor implements RequestInterceptor {
 
     @SneakyThrows
     private String loadCache() {
-        final AutoRefreshTokenProperties.OAuth auth = properties.getOAuth();
+        final AutoRefreshTokenProperties.Login auth = properties.getLogin();
         // 设置访问参数
-        Map<String, Object> params = new LinkedHashMap<>();
-        params.put("client_id", auth.getClientId());
-        params.put("client_secret", auth.getClientSecret());
+        JSONObject params = new JSONObject();
+        params.put("clientId", auth.getClientId());
+        params.put("clientSecret", auth.getClientSecret());
         params.put("username", auth.getUsername());
         params.put("password", auth.getPassword());
-        params.put("tenant_code", auth.getTenantCode());
-        params.put("grant_type", auth.getGrantType());
-        params.put("scope", auth.getScope());
-        params.put("login_type", auth.getLoginType());
+        params.put("tenantCode", auth.getTenantCode());
+        params.put("loginType", auth.getLoginType());
         String url = properties.getUri();
         if (properties.isLoadBalance()) {
             // 没找到好方案,只能用这种笨办法了
@@ -87,13 +86,13 @@ public class AutoRefreshTokenInterceptor implements RequestInterceptor {
             final String hostAndPort = instance.getHost() + ":" + instance.getPort();
             url = StrUtil.replace(url, serviceId, hostAndPort);
         }
-        final String exchangeUrl = HttpUtil.urlWithForm(url, params, Charset.defaultCharset(), true);
-        final String response = HttpUtil.createPost(exchangeUrl).basicAuth(auth.getClientId(), auth.getClientSecret()).execute().body();
+        final String response = HttpUtil.createPost(url).body(params.toJSONString())
+                .basicAuth(auth.getClientId(), auth.getClientSecret()).execute().body();
         log.info("自动获取Token响应结果 - {}", response);
-        final String accessToken = (String) JSONPath.eval(response, "data.access_token");
+        final String accessToken = (String) JSONPath.eval(response, "data.accessToken");
         if (StrUtil.isBlank(accessToken)) {
             throw CheckedException.badRequest("未获取到有效的 Token 数据");
         }
-        return "bearer " + accessToken;
+        return "Bearer " + accessToken;
     }
 }

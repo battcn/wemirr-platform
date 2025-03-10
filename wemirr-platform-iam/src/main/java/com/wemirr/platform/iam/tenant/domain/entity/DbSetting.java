@@ -49,19 +49,15 @@ public class DbSetting extends SuperEntity<Long> {
     @Schema(description = "驱动类名")
     private String driverClassName;
     
-    @TableField("username")
     @Schema(description = "用户名")
     private String username;
     
-    @TableField("password")
     @Schema(description = "密码")
     private String password;
     
-    @TableField("host")
     @Schema(description = "host")
     private String host;
     
-    @TableField("locked")
     @Schema(description = "是否禁用")
     private Boolean locked;
     
