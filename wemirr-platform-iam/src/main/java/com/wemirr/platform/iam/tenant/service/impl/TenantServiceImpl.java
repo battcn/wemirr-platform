@@ -268,10 +268,20 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         this.userRoleMapper.insert(UserRole.builder().userId(user.getId()).roleId(role.getId()).build());
     }
 
+    void validTenant(Long tenantId) {
+        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantId)).orElseThrow(() -> CheckedException.notFound("租户不存在"));
+        if (!tenant.getStatus()) {
+            throw CheckedException.badRequest("租户未启用");
+        }
+        if (StringUtils.equals(tenant.getCode(), properties.getMultiTenant().getSuperTenantCode())) {
+            throw CheckedException.badRequest("超级租户,禁止操作");
+        }
+    }
 
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void refreshTenantDict(Long tenantId) {
+        validTenant(tenantId);
         // 查询超管 所有字典数据
         List<SysDict> dictList = TenantHelper.executeWithMaster(() -> dictMapper.selectList(SysDict::getType, 1));
         if (CollUtil.isEmpty(dictList)) {
@@ -315,13 +325,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void saveSetting(Long tenantId, TenantSettingReq req) {
-        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantId)).orElseThrow(() -> CheckedException.notFound("租户不存在"));
-        if (!tenant.getStatus()) {
-            throw CheckedException.badRequest("租户未启用");
-        }
-        if (StringUtils.equals(tenant.getCode(), properties.getMultiTenant().getSuperTenantCode())) {
-            throw CheckedException.badRequest("超级租户,禁止操作");
-        }
+        validTenant(tenantId);
         String siteUrl = req.getSiteUrl();
         if (StrUtil.isNotBlank(siteUrl)) {
             Long count = this.tenantSettingMapper.selectCount(Wraps.<TenantSetting>lbQ()
