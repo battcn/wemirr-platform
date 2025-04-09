@@ -29,8 +29,6 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.plugins.IgnoreStrategy;
-import com.baomidou.mybatisplus.core.plugins.InterceptorIgnoreHelper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.remote.RemoteResult;
@@ -44,6 +42,7 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
+import com.wemirr.framework.db.utils.InterceptorIgnoreUtils;
 import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.framework.log.diff.core.annotation.DiffLog;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
@@ -194,11 +193,12 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     @Override
     public UserInfoDetails userinfo(Long userId) {
         // TODO 后续通过注解和 API 方式动态控制，MP3.5.10 支持 api.execute 方式
-        InterceptorIgnoreHelper.handle(IgnoreStrategy.builder().tenantLine(true).build());
-        final User user = Optional.ofNullable(this.baseMapper.selectById(userId))
-                .orElseThrow(() -> CheckedException.notFound("用户信息不存在"));
-        Tenant tenant = this.tenantMapper.selectById(user.getTenantId());
-        return userinfo(UserTenantAuthentication.builder().user(user).tenant(tenant).build());
+        return InterceptorIgnoreUtils.withIgnoreStrategy(() -> {
+            final User user = Optional.ofNullable(this.baseMapper.selectById(userId))
+                    .orElseThrow(() -> CheckedException.notFound("用户信息不存在"));
+            Tenant tenant = this.tenantMapper.selectById(user.getTenantId());
+            return userinfo(UserTenantAuthentication.builder().user(user).tenant(tenant).build());
+        });
     }
 
     @Override
