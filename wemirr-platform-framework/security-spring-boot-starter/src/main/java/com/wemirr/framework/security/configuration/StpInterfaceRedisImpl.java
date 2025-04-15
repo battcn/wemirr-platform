@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.auth.listener;
+package com.wemirr.framework.security.configuration;
 
 import cn.dev33.satoken.stp.StpInterface;
 import com.wemirr.framework.commons.security.AuthenticationContext;
