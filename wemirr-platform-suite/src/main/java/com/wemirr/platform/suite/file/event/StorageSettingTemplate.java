@@ -24,10 +24,9 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import com.baomidou.mybatisplus.core.plugins.IgnoreStrategy;
-import com.baomidou.mybatisplus.core.plugins.InterceptorIgnoreHelper;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.framework.db.utils.InterceptorIgnoreUtils;
 import com.wemirr.platform.suite.file.domain.constants.StorageConstants;
 import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;
 import com.wemirr.platform.suite.file.repository.FileStorageSettingMapper;
@@ -48,16 +47,15 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class StorageSettingTemplate implements ApplicationRunner {
-    
+
     private final AuthenticationContext context;
     private final FileStorageSettingMapper fileStorageSettingMapper;
     private final RedisTemplate<String, Object> redisTemplate;
-    
+
     @Override
     public void run(ApplicationArguments args) {
         log.info("==================== 存储设置初始化-Begin ====================");
-        InterceptorIgnoreHelper.handle(IgnoreStrategy.builder().tenantLine(true).build());
-        List<FileStorageSetting> storageSettingList = fileStorageSettingMapper.selectList(FileStorageSetting::getStatus, true);
+        List<FileStorageSetting> storageSettingList = InterceptorIgnoreUtils.withIgnoreStrategy(() -> fileStorageSettingMapper.selectList(FileStorageSetting::getStatus, true));
         if (CollUtil.isEmpty(storageSettingList)) {
             return;
         }
@@ -66,7 +64,7 @@ public class StorageSettingTemplate implements ApplicationRunner {
         }
         log.info("==================== 存储设置初始化-End ====================");
     }
-    
+
     public void publish(FileStorageSetting setting, int eventType) {
         log.info("redis publish - {},type -> {}", setting, eventType);
         // 构建后台存储配置的平台名称（租户ID + 平台名称）
@@ -90,7 +88,7 @@ public class StorageSettingTemplate implements ApplicationRunner {
         redisTemplate.convertAndSend(StorageConstants.STORAGE_CONFIG_EVENT_TOPIC, event);
         SpringUtil.publishEvent(event);
     }
-    
+
     public FileStorageSetting getDefaultStorageSetting() {
         String json = (String) redisTemplate.opsForHash().get(StorageConstants.STORAGE_SETTING_DEFAULT_SETTING, context.tenantId().toString());
         if (StrUtil.isBlank(json)) {
