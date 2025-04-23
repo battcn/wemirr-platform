@@ -50,7 +50,7 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * @author xiao1
- * @date 2024-12
+ * @since 2024-12
  */
 @Service
 @RequiredArgsConstructor
@@ -252,12 +252,13 @@ public class GenerateTableServiceImpl extends SuperServiceImpl<GenerateTableMapp
             //根据模板获取模板详情
             List<GenerateTemplate> templates = generateTemplateService.getTemplateDetailByGroupId(templateGroupId);
             for (GenerateTemplate template : templates) {
-                String templateCode = template.getCode();//模板代码
-                String generatePath = template.getGeneratePath();//模板生成路径
+                //模板代码
+                String templateCode = template.getCode();
+                //模板生成路径
+                String generatePath = template.getGeneratePath();
                 String renderedString = renderTemplate(templateCode, modalData);
                 String filePath = renderTemplate(generatePath, modalData);
                 previewMap.put(filePath, renderedString);
-
             }
         }
         return previewMap;
@@ -357,13 +358,14 @@ public class GenerateTableServiceImpl extends SuperServiceImpl<GenerateTableMapp
     /**
      * 将表名转换为业务名称 【忽略前缀】例如：sys_user => User
      *
-     * @param tableName
-     * @return
+     * @param tableName tableName
+     * @return 结果
      */
     public static String convertTableNameToBusinessNameRemovePre(String tableName) {
         int firstIndex = tableName.indexOf('_');
         if (firstIndex == -1 || firstIndex == tableName.length() - 1) {
-            return tableName; // 如果没有下划线或下划线在最后，则直接返回原表名
+            // 如果没有下划线或下划线在最后，则直接返回原表名
+            return tableName;
         }
         String businessName = tableName.substring(firstIndex + 1);
         return StrUtil.toCamelCase(businessName);

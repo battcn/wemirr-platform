@@ -56,25 +56,32 @@
         <!-- 自定义SDK版本 -->
         <wemirr-framework.version>3.0.0-SNAPSHOT</wemirr-framework.version>
         <jakarta-validation.version>3.1.0</jakarta-validation.version>
-        <sa-token.version>1.40.0</sa-token.version>
+        <sa-token.version>1.42.0</sa-token.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <!-- 暂时未集成,存在BUG -->
-            <dependency>
+            <!--<dependency>
                 <groupId>com.fhs-opensource</groupId>
                 <artifactId>easy-trans-spring-boot-starter</artifactId>
                 <version>3.1.1</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>cn.dev33</groupId>
                 <artifactId>sa-token-spring-boot3-starter</artifactId>
                 <version>${sa-token.version}</version>
             </dependency>
+            <!-- Sa-Token 整合 Redis (可选) -->
             <dependency>
                 <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-redis-fastjson2</artifactId>
+                <artifactId>sa-token-fastjson2</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <!-- Sa-Token 整合 RedisTemplate -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-redis-template</artifactId>
                 <version>${sa-token.version}</version>
             </dependency>
             <dependency>

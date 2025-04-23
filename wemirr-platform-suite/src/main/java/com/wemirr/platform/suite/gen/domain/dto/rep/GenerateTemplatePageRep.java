@@ -7,7 +7,7 @@ import java.time.Instant;
 
 /**
  * @author xiao1
- * @date 2024-12
+ * @since 2024-12
  */
 @Data
 public class GenerateTemplatePageRep {
@@ -23,10 +23,11 @@ public class GenerateTemplatePageRep {
 
     /**
      * 文件路径模板
+     * 用于文件生成路径
      * wp/src/main/java/${packagePath}/${moduleName}/controller/${ClassName}Controller.java
      */
     @Schema(description = "模板路径")
-    private String generatePath; //用于文件生成路径
+    private String generatePath;
 
     /**
      * 模板描述

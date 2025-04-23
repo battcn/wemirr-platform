@@ -42,16 +42,15 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
-import com.wemirr.framework.db.utils.InterceptorIgnoreUtils;
 import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.framework.log.diff.core.annotation.DiffLog;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
 import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.framework.security.utils.PasswordEncoderHelper;
+import com.wemirr.platform.iam.auth.domain.entity.LoginLog;
 import com.wemirr.platform.iam.auth.support.domain.UserTenantAuthentication;
 import com.wemirr.platform.iam.base.domain.dto.req.ChangeUserInfoReq;
-import com.wemirr.platform.iam.auth.domain.entity.LoginLog;
 import com.wemirr.platform.iam.system.domain.dto.req.UserOnlinePageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserPageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserSaveReq;
@@ -193,7 +192,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     @Override
     public UserInfoDetails userinfo(Long userId) {
         // TODO 后续通过注解和 API 方式动态控制，MP3.5.10 支持 api.execute 方式
-        return InterceptorIgnoreUtils.withIgnoreStrategy(() -> {
+        return TenantHelper.withIgnoreStrategy(() -> {
             final User user = Optional.ofNullable(this.baseMapper.selectById(userId))
                     .orElseThrow(() -> CheckedException.notFound("用户信息不存在"));
             Tenant tenant = this.tenantMapper.selectById(user.getTenantId());
@@ -258,6 +257,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
     @Override
     public IPage<Object> userOnlineList(UserOnlinePageReq req) {
+        // TODO 需要重写
         List<Object> list = Lists.newArrayList();
         // 查询所有在线 Token
         List<String> tokenKeyList = StpUtil.searchTokenValue(StrUtil.EMPTY, 0, -1, false);
@@ -267,7 +267,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             if (StpUtil.stpLogic.getTokenActiveTimeoutByToken(token) < -1) {
                 continue;
             }
-            String key = String.format(extProperties.getServer().getInfoKeyPrefix(), token);
+            String key = String.format(extProperties.getServer().getTokenInfoKey(), token);
             UserInfoDetails info = JSONObject.parseObject((String) saTokenDao.getObject(key), UserInfoDetails.class);
             if (info == null || info.getLoginLog() == null) {
                 continue;

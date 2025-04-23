@@ -20,9 +20,9 @@
 package com.wemirr.platform.iam.auth.listener;
 
 import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.listener.SaTokenListener;
-import cn.dev33.satoken.stp.SaLoginModel;
+import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.stp.parameter.SaLoginParameter;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.useragent.Browser;
 import cn.hutool.http.useragent.UserAgent;
@@ -32,10 +32,10 @@ import com.wemirr.framework.commons.RegionUtils;
 import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.domain.UserInfoDetails;
-import com.wemirr.platform.iam.auth.support.AuthenticationPrincipal;
-import com.wemirr.platform.iam.auth.support.domain.UserTenantAuthentication;
 import com.wemirr.platform.iam.auth.domain.entity.LoginLog;
 import com.wemirr.platform.iam.auth.repository.LoginLogMapper;
+import com.wemirr.platform.iam.auth.support.AuthenticationPrincipal;
+import com.wemirr.platform.iam.auth.support.domain.UserTenantAuthentication;
 import com.wemirr.platform.iam.system.domain.entity.User;
 import com.wemirr.platform.iam.system.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,7 +57,6 @@ public class WpTokenListener implements SaTokenListener {
 
     private static final String USER_AGENT = "User-Agent";
     private final SecurityExtProperties extProperties;
-    private final SaTokenDao saTokenDao;
     private final LoginLogMapper loginLogMapper;
     private final UserService userService;
     private final HttpServletRequest request;
@@ -66,22 +65,21 @@ public class WpTokenListener implements SaTokenListener {
      * @param loginType  账号类别
      * @param loginId    账号id
      * @param tokenValue 本次登录产生的 token 值
-     * @param loginModel 登录参数
      */
     @Override
-    public void doLogin(String loginType, Object loginId, String tokenValue, SaLoginModel loginModel) {
+    public void doLogin(String loginType, Object loginId, String tokenValue, SaLoginParameter loginParameter) {
         String ip = JakartaServletUtil.getClientIP(request);
         String region = RegionUtils.getRegion(ip);
         String ua = request.getHeader(USER_AGENT);
         final UserAgent userAgent = UserAgentUtil.parse(ua);
         final Browser browser = userAgent.getBrowser();
-        final Long userId = Long.parseLong(loginId.toString());
+        final long userId = (long) loginId;
         String principal = SaHolder.getStorage().getString(AuthenticationPrincipal.PRINCIPAL);
         String principalType = SaHolder.getStorage().getString(AuthenticationPrincipal.PRINCIPAL_TYPE);
         UserTenantAuthentication authentication = SaHolder.getStorage().getModel(AuthenticationPrincipal.AUTHENTICATION, UserTenantAuthentication.class);
         UserInfoDetails info = this.userService.userinfo(authentication);
         LoginLog loginLog = LoginLog.builder().principal(principal)
-                .clientId(loginModel.getDevice())
+                .clientId(loginParameter.getDeviceType())
                 .tenantId(info.getTenantId()).tenantCode(info.getTenantCode())
                 .location(region).ip(ip)
                 .platform(userAgent.getPlatform().getName())
@@ -92,15 +90,11 @@ public class WpTokenListener implements SaTokenListener {
                 .createdBy(userId).createdTime(Instant.now()).createdName(info.getNickName())
                 .build();
         info.setLoginLog(JSONObject.from(loginLog));
-        this.saTokenDao.setObject(buildCacheKey(tokenValue), info, loginModel.getTimeout());
+        StpUtil.getTokenSessionByToken(tokenValue).set(extProperties.getServer().getTokenInfoKey(), info);
         // 记录登录日志
         TenantHelper.executeWithTenantDb(info.getTenantCode(), () -> this.loginLogMapper.insert(loginLog));
         // 刷新登录时间和IP
         this.userService.updateById(User.builder().id(userId).lastLoginIp(ip).lastLoginTime(Instant.now()).build());
-    }
-
-    private String buildCacheKey(String tokenValue) {
-        return String.format(extProperties.getServer().getInfoKeyPrefix(), tokenValue);
     }
 
     /**
@@ -110,7 +104,6 @@ public class WpTokenListener implements SaTokenListener {
      */
     @Override
     public void doRenewTimeout(String tokenValue, Object loginId, long timeout) {
-        this.saTokenDao.updateTimeout(buildCacheKey(tokenValue), timeout);
     }
 
     /**
@@ -120,7 +113,6 @@ public class WpTokenListener implements SaTokenListener {
      */
     @Override
     public void doLogout(String loginType, Object loginId, String tokenValue) {
-        this.saTokenDao.delete(buildCacheKey(tokenValue));
     }
 
     /**
@@ -133,7 +125,6 @@ public class WpTokenListener implements SaTokenListener {
     @Override
     public void doKickout(String loginType, Object loginId, String tokenValue) {
         // 数据库可以记录一下操作日志
-        this.saTokenDao.delete(buildCacheKey(tokenValue));
     }
 
     @Override

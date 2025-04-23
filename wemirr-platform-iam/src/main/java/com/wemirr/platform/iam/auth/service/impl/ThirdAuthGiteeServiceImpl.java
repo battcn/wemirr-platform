@@ -20,8 +20,8 @@
 package com.wemirr.platform.iam.auth.service.impl;
 
 import com.wemirr.platform.iam.auth.configuration.ThirdAuthProperties;
-import com.wemirr.platform.iam.auth.service.ThirdAuthService;
 import com.wemirr.platform.iam.auth.domain.dto.resp.ThirdAuthResp;
+import com.wemirr.platform.iam.auth.service.ThirdAuthService;
 import com.wemirr.platform.iam.system.domain.enums.ThirdAuthType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

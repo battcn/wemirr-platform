@@ -20,7 +20,7 @@ import java.util.Optional;
 
 /**
  * @author xiao1
- * @date 2024-12
+ * @since 2024-12
  */
 @Service
 public class GenerateTableColumnServiceImpl extends SuperServiceImpl<GenerateTableColumnMapper, GenerateTableColumn> implements GenerateTableColumnService {

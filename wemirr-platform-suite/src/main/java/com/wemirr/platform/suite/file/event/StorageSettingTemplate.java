@@ -26,7 +26,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.framework.db.utils.InterceptorIgnoreUtils;
+import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.platform.suite.file.domain.constants.StorageConstants;
 import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;
 import com.wemirr.platform.suite.file.repository.FileStorageSettingMapper;
@@ -55,7 +55,7 @@ public class StorageSettingTemplate implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         log.info("==================== 存储设置初始化-Begin ====================");
-        List<FileStorageSetting> storageSettingList = InterceptorIgnoreUtils.withIgnoreStrategy(() -> fileStorageSettingMapper.selectList(FileStorageSetting::getStatus, true));
+        List<FileStorageSetting> storageSettingList = TenantHelper.withIgnoreStrategy(() -> fileStorageSettingMapper.selectList(FileStorageSetting::getStatus, true));
         if (CollUtil.isEmpty(storageSettingList)) {
             return;
         }

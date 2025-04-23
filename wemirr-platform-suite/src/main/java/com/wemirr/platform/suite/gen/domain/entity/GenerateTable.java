@@ -15,9 +15,10 @@ import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 /**
+ * 生成表配置信息
+ *
  * @author xiao1
- * @date 2024-12
- * @description: 生成表配置信息
+ * @since 2024-12
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -38,7 +39,6 @@ public class GenerateTable extends SuperEntity<Long> {
      */
     @NotBlank(message = "表描述不能为空")
     private String comment;
-
 
 
     /**
@@ -104,7 +104,6 @@ public class GenerateTable extends SuperEntity<Long> {
      */
     @Schema(description = "关联模板组")
     private Long templateGroupId;
-
 
 
     @Schema(description = "租户ID")

@@ -6,9 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
+ * 生成表配置信息
+ *
  * @author xiao1
- * @date 2024-12
- * @description: 生成表配置信息
+ * @since 2024-12
  */
 @Data
 public class GenerateTableSaveReq {

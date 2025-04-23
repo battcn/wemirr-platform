@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  * @author xiao1
- * @date 2024-12
+ * @since 2024-12
  */
 public interface GenerateTableService extends SuperService<GenerateTable> {
     List<GenerateTable> getGenTableListFromDs(String tableName) throws Exception;

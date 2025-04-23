@@ -7,9 +7,10 @@ import lombok.Data;
 import java.util.List;
 
 /**
+ * 生成模板实体类
+ *
  * @author xiao1
- * @date 2024-12
- * @description: 生成模板实体类
+ * @since 2024-12
  */
 @Data
 public class GenerateTemplateGroupSaveReq {

@@ -9,7 +9,7 @@ import com.wemirr.platform.suite.gen.domain.entity.GenerateTemplateGroup;
 
 /**
  * @author xiao1
- * @date 2024-12
+ * @since 2024-12
  */
 public interface GenerateTemplateGroupService extends SuperService<GenerateTemplateGroup> {
 

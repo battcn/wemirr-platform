@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
+ * 生成模板实体类
+ *
  * @author xiao1
- * @date 2024-12
- * @description: 生成模板实体类
+ * @since 2024-12
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -32,11 +33,12 @@ public class GenerateTemplate extends SuperEntity<Long> {
 
     /**
      * 文件路径模板
+     * 用于文件生成路径
      * wp/src/main/java/${packagePath}/${moduleName}/controller/${ClassName}Controller.java
      */
     @Schema(description = "模板路径")
     @NotBlank(message = "模板路径不能为空")
-    private String generatePath; //用于文件生成路径
+    private String generatePath;
 
     /**
      * 模板描述

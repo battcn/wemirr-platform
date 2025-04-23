@@ -2,6 +2,8 @@ package com.wemirr.framework.db.utils;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
+import com.baomidou.mybatisplus.core.plugins.IgnoreStrategy;
+import com.baomidou.mybatisplus.core.plugins.InterceptorIgnoreHelper;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
@@ -78,5 +80,18 @@ public class TenantHelper {
      */
     public static <T> T executeWithIsolationType(Supplier<T> dbSupplier, Supplier<T> columnSupplier) {
         return isDynamicSource() ? dbSupplier.get() : columnSupplier.get();
+    }
+
+    public static <T> T withIgnoreStrategy(Supplier<T> block) {
+        return withIgnoreStrategy(IgnoreStrategy.builder().tenantLine(true).build(), block);
+    }
+
+    public static <T> T withIgnoreStrategy(IgnoreStrategy strategy, Supplier<T> block) {
+        try {
+            InterceptorIgnoreHelper.handle(strategy);
+            return block.get();
+        } finally {
+            InterceptorIgnoreHelper.clearIgnoreStrategy();
+        }
     }
 }

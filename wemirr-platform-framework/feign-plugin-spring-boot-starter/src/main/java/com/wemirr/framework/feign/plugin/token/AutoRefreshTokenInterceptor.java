@@ -35,9 +35,7 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 import java.net.URI;
-import java.nio.charset.Charset;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**

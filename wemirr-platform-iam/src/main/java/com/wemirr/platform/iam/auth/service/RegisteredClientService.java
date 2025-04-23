@@ -20,8 +20,8 @@
 package com.wemirr.platform.iam.auth.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientReq;
 import com.wemirr.platform.iam.auth.domain.entity.RegisteredClient;
+import com.wemirr.platform.iam.system.domain.dto.req.RegisteredClientReq;
 
 /**
  * @author levin

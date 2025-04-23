@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * @author xiao1
- * @date 2024-12
+ * @since 2024-12
  */
 @Repository
 public interface GenerateTableColumnMapper extends SuperMapper<GenerateTableColumn> {

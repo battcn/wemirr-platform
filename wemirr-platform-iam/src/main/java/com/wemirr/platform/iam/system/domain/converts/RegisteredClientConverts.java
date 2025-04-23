@@ -23,8 +23,8 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.db.mybatisplus.page.BasePageConverts;
-import com.wemirr.platform.iam.system.domain.dto.resp.RegisteredClientResp;
 import com.wemirr.platform.iam.auth.domain.entity.RegisteredClient;
+import com.wemirr.platform.iam.system.domain.dto.resp.RegisteredClientResp;
 import lombok.SneakyThrows;
 
 /**

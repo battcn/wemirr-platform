@@ -19,7 +19,6 @@
 
 package com.wemirr.framework.boot.security;
 
-import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.commons.security.AuthenticationContext;
@@ -42,16 +41,15 @@ import java.util.Optional;
 public class AuthenticationContextConfiguration {
 
     private static final String USER_INFO = "USER_INFO_KEY";
-    private final SaTokenDao saTokenDao;
 
     @Bean
     public AuthenticationContext authenticationContext(SecurityExtProperties properties) {
         return new AuthenticationContext() {
             @Override
             public UserInfoDetails getContext() {
-                String key = String.format(properties.getServer().getInfoKeyPrefix(), StpUtil.getTokenValue());
+                var tokenInfo = StpUtil.getTokenSession().get(properties.getServer().getTokenInfoKey());
                 return (UserInfoDetails) ThreadLocalHolder.get(USER_INFO,
-                        () -> JSONObject.parseObject((String) saTokenDao.getObject(key), UserInfoDetails.class));
+                        () -> ((JSONObject) tokenInfo).toJavaObject(UserInfoDetails.class));
             }
 
             @Override
@@ -97,10 +95,16 @@ public class AuthenticationContextConfiguration {
             @Override
             public boolean anonymous() {
                 try {
-                    return !StpUtil.isLogin();
+                    if (StpUtil.isLogin()) {
+                        return false;
+                    }
+                    if (getContext() != null) {
+                        return false;
+                    }
                 } catch (Exception e) {
                     return true;
                 }
+                return true;
             }
         };
     }
