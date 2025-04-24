@@ -22,8 +22,14 @@ package com.wemirr.framework.security.configuration;
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
+import com.wemirr.framework.commons.exception.ResourceNotFoundException;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -32,12 +38,25 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @EnableConfigurationProperties(SecurityExtProperties.class)
 public class OAuth2AutoConfiguration implements WebMvcConfigurer {
-    
+
     @Resource
     private SecurityExtProperties extProperties;
-    
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // 第一个拦截器：检查404
+        registry.addInterceptor(new HandlerInterceptor() {
+            @Override
+            public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) {
+                if (!(handler instanceof HandlerMethod)) {
+                    // 可以添加更多检查
+                    String method = request.getMethod();
+                    String uri = request.getRequestURI();
+                    throw new ResourceNotFoundException(String.format("资源不存在: %s %s", method, uri));
+                }
+                return true; // 继续执行后续拦截器和控制器
+            }
+        }).addPathPatterns("/**");
         // 注册 Sa-Token 拦截器，定义详细认证规则
         registry.addInterceptor(new SaInterceptor(handler -> {
             // 拦截的 path 列表，可以写多个 /**
