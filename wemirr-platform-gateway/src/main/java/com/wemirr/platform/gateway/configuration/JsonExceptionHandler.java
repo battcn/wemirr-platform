@@ -32,6 +32,7 @@ import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.server.*;
+import org.springframework.web.reactive.resource.NoResourceFoundException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
@@ -94,6 +95,9 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         // }
         if (error instanceof ResponseStatusException) {
             code = HttpStatus.SERVICE_UNAVAILABLE.value();
+        }
+        if (error instanceof NoResourceFoundException) {
+            return response(HttpStatus.NOT_FOUND.value(), error.getLocalizedMessage());
         }
         return response(code, this.buildMessage(request, error));
     }

@@ -19,8 +19,10 @@
 
 package com.wemirr.platform.iam.system.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
+import com.wemirr.framework.db.mybatisplus.handler.type.LongListTypeHandler;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,7 +41,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_org")
+@TableName(value = "sys_org", autoResultMap = true)
 @EqualsAndHashCode(callSuper = true)
 @Schema(name = "Org", description = "组织")
 public class Org extends SuperEntity<Long> {
@@ -48,6 +50,7 @@ public class Org extends SuperEntity<Long> {
     private String label;
     
     @Schema(description = "树形结构路径")
+    @TableField(typeHandler = LongListTypeHandler.class)
     private List<Long> treePath;
     
     @Schema(description = "父ID")
