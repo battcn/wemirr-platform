@@ -47,9 +47,10 @@ public class AuthenticationContextConfiguration {
         return new AuthenticationContext() {
             @Override
             public UserInfoDetails getContext() {
-                var tokenInfo = StpUtil.getTokenSession().get(properties.getServer().getTokenInfoKey());
-                return (UserInfoDetails) ThreadLocalHolder.get(USER_INFO,
-                        () -> ((JSONObject) tokenInfo).toJavaObject(UserInfoDetails.class));
+                return (UserInfoDetails) ThreadLocalHolder.get(USER_INFO, () -> {
+                    var tokenInfo = StpUtil.getTokenSession().get(properties.getServer().getTokenInfoKey());
+                    return ((JSONObject) tokenInfo).toJavaObject(UserInfoDetails.class);
+                });
             }
 
             @Override
