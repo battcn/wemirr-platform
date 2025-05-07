@@ -38,32 +38,32 @@ import java.util.List;
  * @author Levin
  */
 @MappedTypes(value = {List.class})
-public class LongListTypeHandler extends BaseTypeHandler<List<?>> {
+public class LongListTypeHandler extends BaseTypeHandler<List<Long>> {
 
     @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, List<?> parameter, JdbcType jdbcType) throws SQLException {
+    public void setNonNullParameter(PreparedStatement ps, int i, List<Long> parameter, JdbcType jdbcType) throws SQLException {
         ps.setString(i, StrUtil.join(StrUtil.COMMA, parameter));
     }
 
     @Override
     @SneakyThrows
-    public List<?> getNullableResult(ResultSet rs, String columnName) {
+    public List<Long> getNullableResult(ResultSet rs, String columnName) {
         String reString = rs.getString(columnName);
-        return Convert.toList(Object.class, reString);
+        return Convert.toList(Long.class, reString);
     }
 
     @Override
     @SneakyThrows
-    public List<?> getNullableResult(ResultSet rs, int columnIndex) {
+    public List<Long> getNullableResult(ResultSet rs, int columnIndex) {
         String reString = rs.getString(columnIndex);
-        return Convert.toList(Object.class, reString);
+        return Convert.toList(Long.class, reString);
     }
 
     @Override
     @SneakyThrows
-    public List<?> getNullableResult(CallableStatement cs, int columnIndex) {
+    public List<Long> getNullableResult(CallableStatement cs, int columnIndex) {
         String reString = cs.getString(columnIndex);
-        return Convert.toList(Object.class, reString);
+        return Convert.toList(Long.class, reString);
     }
 
 }
