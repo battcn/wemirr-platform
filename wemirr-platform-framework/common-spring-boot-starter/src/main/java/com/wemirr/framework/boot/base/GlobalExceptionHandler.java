@@ -24,7 +24,6 @@ import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.commons.exception.ResourceNotFoundException;
 import com.wemirr.framework.i18n.core.I18nMessageResource;
 import com.wemirr.framework.redis.plus.exception.RedisLockException;
 import feign.RetryableException;
@@ -95,14 +94,6 @@ public class GlobalExceptionHandler {
     public Result<ResponseEntity<Void>> redisLockException(RedisLockException e) {
         log.error("redis lock exception => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
         return Result.fail(e.getLocalizedMessage());
-    }
-
-    @ResponseBody
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Result<?>> handlerResourceNotFoundException(ResourceNotFoundException e) {
-        log.error("ResourceNotFoundException => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage(), e);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(Result.fail(HttpStatus.NOT_FOUND.value(), e.getMessage()));
     }
 
     @ResponseBody
