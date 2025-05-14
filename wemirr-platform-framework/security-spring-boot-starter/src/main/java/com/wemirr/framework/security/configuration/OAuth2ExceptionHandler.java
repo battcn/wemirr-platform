@@ -24,6 +24,7 @@ import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.SaTokenException;
 import com.wemirr.framework.commons.entity.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,15 +36,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @author Levin
  */
 @Slf4j
+@Order(-100)
 @RestControllerAdvice
 public class OAuth2ExceptionHandler {
-    
+
     @ExceptionHandler(NotLoginException.class)
     public ResponseEntity<Result<?>> handlerException(NotLoginException e) {
         log.error("no-login => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Result.fail(HttpStatus.UNAUTHORIZED.value(), e.getMessage()));
     }
-    
+
     @ExceptionHandler(SaTokenException.class)
     public ResponseEntity<Result<?>> handlerException(SaTokenException e) {
         log.error("sa-token => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
