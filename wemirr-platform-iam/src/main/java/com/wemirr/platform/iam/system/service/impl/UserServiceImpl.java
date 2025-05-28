@@ -23,6 +23,7 @@ import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
@@ -268,7 +269,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
                 continue;
             }
             String key = String.format(extProperties.getServer().getTokenInfoKey(), token);
-            UserInfoDetails info = JSONObject.parseObject((String) saTokenDao.getObject(key), UserInfoDetails.class);
+            UserInfoDetails info = ((JSONObject) StpUtil.getTokenSessionByToken(token).get(key)).to(UserInfoDetails.class);
             if (info == null || info.getLoginLog() == null) {
                 continue;
             }
@@ -282,7 +283,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             if (StrUtil.isNotBlank(req.getPlatform()) && !StrUtil.equals(req.getPlatform(), loginLog.getPlatform())) {
                 continue;
             }
-            if (ObjUtil.isNotNull(req.getTenantId()) && !ObjUtil.equals(req.getClientId(), loginLog.getClientId())) {
+            if (ObjUtil.isNotNull(req.getTenantId()) && !NumberUtil.equals(req.getTenantId(), loginLog.getTenantId())) {
                 continue;
             }
             JSONObject item = JSONObject.from(info.getLoginLog());
