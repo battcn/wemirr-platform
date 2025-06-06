@@ -47,6 +47,12 @@ public class RemoteProperties {
      */
     private LocalCache localCache = new LocalCache();
 
+
+    /**
+     * 独立Redis配置信息
+     */
+    private AloneRedis alone = new AloneRedis();
+
     @Data
     public static class LocalCache {
 
@@ -69,5 +75,15 @@ public class RemoteProperties {
          * guava自动刷新缓存的线程数量
          */
         private Integer refreshThreadPoolSize = 10;
+    }
+
+    @Data
+    public static class AloneRedis {
+        public static final String PREFIX = "extend.boot.remote.alone";
+
+        /**
+         * 是否启用独立Redis
+         */
+        private Boolean enabled = false;
     }
 }

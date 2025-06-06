@@ -1,5 +1,20 @@
 server:
   port: 5002
+# 应该配置到cloud-default.yaml中 需要广播的字典配置
+extend:
+  boot:
+    remote:
+      alone:
+        enabled: true
+        database: 1
+        # Redis服务器地址
+        host: 127.0.0.1
+        # Redis服务器连接端口
+        port: 6379
+        # Redis服务器连接密码（默认为空）
+        password: 123456
+        # 连接超时时间
+        timeout: 10s
 spring:
   application:
     name: wemirr-platform-iam
