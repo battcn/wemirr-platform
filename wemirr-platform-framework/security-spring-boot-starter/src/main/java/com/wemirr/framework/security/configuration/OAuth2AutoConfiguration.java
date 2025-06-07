@@ -20,9 +20,12 @@
 package com.wemirr.framework.security.configuration;
 
 
+import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.router.SaRouter;
+import cn.dev33.satoken.same.SaSameUtil;
 import cn.dev33.satoken.stp.StpUtil;
+import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.Resource;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -44,7 +47,14 @@ public class OAuth2AutoConfiguration implements WebMvcConfigurer {
             SaRouter.match("/**")
                     .notMatch(extProperties.getDefaultIgnoreUrls())
                     .notMatch(extProperties.getIgnore().getResourceUrls())
-                    .check(r -> StpUtil.checkLogin());
+                    .check(r -> {
+                        String sameToken = SaHolder.getRequest().getHeader(SaSameUtil.SAME_TOKEN);
+                        if (StringUtils.isNotBlank(sameToken)) {
+                            SaSameUtil.checkToken(sameToken);
+                            return;
+                        }
+                        StpUtil.checkLogin();
+                    });
         })).addPathPatterns("/**");
     }
 }
