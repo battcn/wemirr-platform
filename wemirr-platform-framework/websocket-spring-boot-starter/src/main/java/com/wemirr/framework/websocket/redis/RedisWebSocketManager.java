@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.wemirr.framework.websocket.redis;
 
 import cn.hutool.extra.spring.SpringUtil;
@@ -28,6 +27,11 @@ import com.wemirr.framework.websocket.redis.action.BroadCastAction;
 import com.wemirr.framework.websocket.redis.action.RemoveAction;
 import com.wemirr.framework.websocket.redis.action.SendMessageAction;
 import com.wemirr.framework.websocket.utils.WebSocketUtil;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
@@ -51,6 +55,24 @@ public class RedisWebSocketManager extends MemWebSocketManager {
         super.put(identifier, webSocket);
         // 在线数量加1
         countChange(1);
+        
+        // 处理离线消息
+        StringRedisTemplate redisTemplate = SpringUtil.getBean(StringRedisTemplate.class);
+        ListOperations<String, String> listOps = redisTemplate.opsForList();
+        String queueKey = "offline:messages:" + identifier;
+        
+        // 获取队列中所有消息
+        List<String> msgList = listOps.range(queueKey, 0, -1);
+        if (!msgList.isEmpty()) {
+            for (String msgStr : msgList) {
+                JSONObject msgObj = JSONObject.parseObject(msgStr);
+                String message = msgObj.getString(Action.MESSAGE);
+                // 发送消息给用户
+                WebSocketUtil.sendMessage(webSocket.getSession(), message);
+            }
+            // 清空队列
+            redisTemplate.delete(queueKey);
+        }
     }
 
     @Override
@@ -83,11 +105,20 @@ public class RedisWebSocketManager extends MemWebSocketManager {
             WebSocketUtil.sendMessage(webSocket.getSession(), message);
             return;
         }
+        // 离线消息，暂存到Redis
         final StringRedisTemplate redisTemplate = SpringUtil.getBean(StringRedisTemplate.class);
+        ListOperations<String, String> listOps = redisTemplate.opsForList();
+        // 队列键格式：offline:messages:{用户标识}
+        String queueKey = "offline:messages:" + identifier;
+        
+        // 构建消息对象（可包含动作、内容等信息）
         JSONObject map = new JSONObject();
         map.put(Action.ACTION, SendMessageAction.class.getName());
         map.put(Action.IDENTIFIER, identifier);
         map.put(Action.MESSAGE, message);
+        
+        listOps.leftPush(queueKey, map.toJSONString()); // 存入队列左侧
+        redisTemplate.expire(queueKey, 7, TimeUnit.DAYS); // 设置过期时间（7天）
         // 在websocket频道上发布发送消息的消息
         redisTemplate.convertAndSend(getChannel(), map.toJSONString());
     }
