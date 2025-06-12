@@ -92,6 +92,7 @@ public abstract class BaseWebSocketEndpoint {
     }
 
     protected WebSocketManager getWebSocketManager() {
-        return SpringUtil.getBean(WebSocketManager.WEBSOCKET_MANAGER_NAME, WebSocketManager.class);
+        return SpringUtil.getBean(WebSocketManager.class);
     }
+
 }
