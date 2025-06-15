@@ -94,6 +94,13 @@ spring:
           filters:
             - StripPrefix=1
             - PreserveHostHeader
+        - id: wemirr-platform-warmflow
+          uri: lb://wemirr-platform-warmflow
+          predicates:
+            - Path=/warmflow/**
+          filters:
+            - StripPrefix=1
+            - PreserveHostHeader
       loadbalancer:
         use404: true
       httpclient:
