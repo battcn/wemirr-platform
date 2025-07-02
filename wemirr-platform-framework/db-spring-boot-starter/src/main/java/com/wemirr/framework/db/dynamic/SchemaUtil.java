@@ -32,7 +32,7 @@ public class SchemaUtil {
         Db db = Db.use(hikari);
         List<String> schemas = db.query(checkSchemaSql, String.class, schemaName);
         if (schemas.isEmpty()) {
-            String createSchemaSql = StrUtil.format("CREATE DATABASE {} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", schemaName);
+            String createSchemaSql = StrUtil.format("CREATE DATABASE IF NOT EXISTS {} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci", schemaName);
             db.execute(createSchemaSql);
             log.debug("MySQL Schema 创建成功: {}", schemaName);
         } else {
