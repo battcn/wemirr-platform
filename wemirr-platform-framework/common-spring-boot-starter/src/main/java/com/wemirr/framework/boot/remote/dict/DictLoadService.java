@@ -58,6 +58,7 @@ public class DictLoadService implements LoadService<Object> {
             return;
         }
         for (Map.Entry<String, List<Pair<String, String>>> entry : data.entrySet()) {
+            redisTemplate.opsForHash().delete(PLAT_DICT_HASH_KEY, entry.getKey());
             String key = entry.getKey();
             List<Pair<String, String>> value = entry.getValue();
             if (value == null) {

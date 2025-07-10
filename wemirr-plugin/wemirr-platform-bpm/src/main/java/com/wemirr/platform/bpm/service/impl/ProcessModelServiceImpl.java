@@ -91,8 +91,7 @@ public class ProcessModelServiceImpl extends SuperServiceImpl<ProcessModelMapper
     public void modify(Long id, DesignModelSaveReq req) {
         ProcessCategory category = Optional.ofNullable(this.processCategoryMapper.selectById(req.getCategoryId())).orElseThrow(() -> CheckedException.notFound("流程类型不存在"));
         final Long count = this.baseMapper.selectCount(Wraps.<ProcessModel>lbQ().ne(ProcessModel::getId, id)
-                .eq(ProcessModel::getDefinitionKey, req.getDefinitionKey())
-                .eq(ProcessModel::getTenantId, context.tenantId()));
+                .eq(ProcessModel::getDefinitionKey, req.getDefinitionKey()));
         if (count != null && count > 0) {
             throw CheckedException.badRequest("bpm.design.duplicate-process-key");
         }
