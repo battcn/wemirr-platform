@@ -102,6 +102,16 @@ public class RedisPlusAutoConfiguration {
     @ConditionalOnBean(RedisConnectionFactory.class)
     @Primary
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory, ObjectMapper objectMapper) {
+        return createRedisTemplate(connectionFactory);
+    }
+
+    /**
+     * 统一创建RedisTemplate
+     *
+     * @param connectionFactory
+     * @return
+     */
+    public static RedisTemplate<String, Object> createRedisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         // 设置连接工厂
         redisTemplate.setConnectionFactory(connectionFactory);

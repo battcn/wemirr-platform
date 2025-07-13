@@ -9,6 +9,8 @@
                  join plat_product_def_res t2 on t1.id = t2.product_id
                  join plat_product_subscription t3 on t2.product_id = t3.product_id
         where t1.status = 1
+        and t3.deleted is false
+        and t3.end_time > NOW()
           and t3.tenant_id = #{tenantId}
     </select>
 </mapper>

@@ -1,3 +1,4 @@
 com.wemirr.framework.security.configuration.OAuth2AutoConfiguration
 com.wemirr.framework.security.configuration.OAuth2ExceptionHandler
 com.wemirr.framework.security.configuration.StpInterfaceRedisImpl
+com.wemirr.framework.security.configuration.feign.AutoSaSameConfiguration
