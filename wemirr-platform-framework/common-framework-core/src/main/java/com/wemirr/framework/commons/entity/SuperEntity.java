@@ -45,29 +45,30 @@ import java.time.Instant;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class SuperEntity<T> extends Entity<T> {
-    
+
     public static final String UPDATE_TIME = "lastModifiedTime";
     public static final String UPDATE_USER = "lastModifiedBy";
     public static final String UPDATE_USER_NAME = "lastModifiedName";
-    
+
     public static final String UPDATE_TIME_COLUMN = "last_modified_time";
     public static final String UPDATE_USER_COLUMN = "last_modified_by";
     public static final String UPDATE_USER_NAME_COLUMN = "last_modified_name";
-    
+
     @Schema(description = "最后修改时间")
     @TableField(value = UPDATE_TIME_COLUMN, fill = FieldFill.UPDATE)
     private Instant lastModifiedTime;
-    
+
     @Schema(description = "最后修改人ID")
     @TableField(value = UPDATE_USER_COLUMN, fill = FieldFill.UPDATE)
     private T lastModifiedBy;
-    
+
     @Schema(description = "最后修改人名称")
     @TableField(value = UPDATE_USER_NAME_COLUMN, fill = FieldFill.UPDATE)
     private String lastModifiedName;
-    
+
     @TableLogic
     @Schema(description = "逻辑删除")
+    @TableField(fill = FieldFill.INSERT)
     private Boolean deleted;
-    
+
 }
