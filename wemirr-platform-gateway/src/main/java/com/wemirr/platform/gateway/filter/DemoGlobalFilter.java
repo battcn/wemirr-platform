@@ -24,6 +24,7 @@ import com.wemirr.platform.gateway.utils.MonoHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -37,7 +38,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-//@Profile("demo")
+@Profile("demo")
 public class DemoGlobalFilter implements GlobalFilter {
 
 

@@ -47,6 +47,15 @@ public class SysDict extends SuperEntity<Long> {
     
     @Schema(description = "编码")
     private String code;
+
+    @Schema(description = "父级节点ID")
+    private Long parentId;
+
+    @Schema(description = "父级节点编码")
+    private String parentCode;
+
+    @Schema(description = "完整字典路径")
+    private String fullCodePath;
     
     @Schema(description = "字典类型 0=平台字典;1=租户字典")
     private Integer type;

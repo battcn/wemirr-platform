@@ -36,9 +36,18 @@ public class SysDictResp {
     
     @Schema(description = "编码")
     private String code;
+
+    @Schema(description = "排序")
+    private Integer sequence;
+
+    @Schema(description = "状态")
+    private Boolean status;
     
     @Schema(description = "描述")
     private String description;
+
+    @Schema(description = "父级ID")
+    private Long parentId;
     
     @Schema(description = "字典类型 0=平台字典;1=租户字典")
     private Integer type;
