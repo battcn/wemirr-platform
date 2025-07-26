@@ -27,13 +27,12 @@ import com.wemirr.framework.websocket.redis.action.BroadCastAction;
 import com.wemirr.framework.websocket.redis.action.RemoveAction;
 import com.wemirr.framework.websocket.redis.action.SendMessageAction;
 import com.wemirr.framework.websocket.utils.WebSocketUtil;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * WebSocket的session无法序列化,所以session还是保存在本地内存中，发送消息这种就走订阅发布模式
@@ -116,9 +115,10 @@ public class RedisWebSocketManager extends MemWebSocketManager {
         map.put(Action.ACTION, SendMessageAction.class.getName());
         map.put(Action.IDENTIFIER, identifier);
         map.put(Action.MESSAGE, message);
-        
-        listOps.leftPush(queueKey, map.toJSONString()); // 存入队列左侧
-        redisTemplate.expire(queueKey, 7, TimeUnit.DAYS); // 设置过期时间（7天）
+        // 存入队列左侧
+        listOps.leftPush(queueKey, map.toJSONString());
+        // 设置过期时间（7天）
+        redisTemplate.expire(queueKey, 7, TimeUnit.DAYS);
         // 在websocket频道上发布发送消息的消息
         redisTemplate.convertAndSend(getChannel(), map.toJSONString());
     }

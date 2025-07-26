@@ -20,6 +20,7 @@
 package com.wemirr.framework.security.configuration;
 
 import cn.dev33.satoken.context.SaHolder;
+import cn.dev33.satoken.context.SaTokenContext;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.SaTokenException;
 import com.wemirr.framework.commons.entity.Result;
@@ -48,7 +49,11 @@ public class OAuth2ExceptionHandler {
 
     @ExceptionHandler(SaTokenException.class)
     public ResponseEntity<Result<?>> handlerException(SaTokenException e) {
-        log.error("sa-token => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
+        SaTokenContext context = SaHolder.getContext();
+        if (context != null && context.isValid()) {
+            log.error("sa-token => http request uri => {},message => {}", context.getRequest().getUrl(), e.getLocalizedMessage());
+            return ResponseEntity.ok(Result.fail(HttpStatus.FORBIDDEN.value(), e.getMessage()));
+        }
         return ResponseEntity.ok(Result.fail(HttpStatus.FORBIDDEN.value(), e.getMessage()));
     }
 }

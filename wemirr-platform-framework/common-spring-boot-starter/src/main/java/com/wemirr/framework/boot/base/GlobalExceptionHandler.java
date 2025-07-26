@@ -36,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
@@ -61,6 +62,7 @@ import java.util.Objects;
  * @since 2019-01-21
  */
 @Slf4j
+@Order(10)
 @Configuration
 @ControllerAdvice
 public class GlobalExceptionHandler {

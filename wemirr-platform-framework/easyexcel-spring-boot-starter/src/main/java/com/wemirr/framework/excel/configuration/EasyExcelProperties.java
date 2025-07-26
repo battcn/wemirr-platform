@@ -21,7 +21,7 @@ public class EasyExcelProperties {
     /**
      * 自动列宽
      */
-    private Boolean autoColumnWidth = true;
+    private Boolean autoColumnWidth = false;
 
 
 }

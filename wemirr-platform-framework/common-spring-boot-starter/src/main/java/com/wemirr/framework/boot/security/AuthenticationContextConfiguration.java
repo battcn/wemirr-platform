@@ -27,6 +27,7 @@ import com.wemirr.framework.commons.threadlocal.ThreadLocalHolder;
 import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,6 +37,7 @@ import java.util.Optional;
 /**
  * @author Levin
  */
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class AuthenticationContextConfiguration {
@@ -47,10 +49,23 @@ public class AuthenticationContextConfiguration {
         return new AuthenticationContext() {
             @Override
             public UserInfoDetails getContext() {
-                return (UserInfoDetails) ThreadLocalHolder.get(USER_INFO, () -> {
-                    var tokenInfo = StpUtil.getTokenSession().get(properties.getServer().getTokenInfoKey());
-                    return ((JSONObject) tokenInfo).toJavaObject(UserInfoDetails.class);
-                });
+                return (UserInfoDetails) ThreadLocalHolder.get(USER_INFO,
+                        () -> {
+                            if (!StpUtil.isLogin()) {
+                                return null;
+                            }
+                            // 优化读取性能,一个线程只读取一次
+                            var tokenInfo = StpUtil.getTokenSession().get(properties.getServer().getTokenInfoKey());
+                            if (tokenInfo == null) {
+                                return null;
+                            }
+                            return ((JSONObject) tokenInfo).toJavaObject(UserInfoDetails.class);
+                        });
+            }
+
+            @Override
+            public String clientId() {
+                return StpUtil.getLoginDeviceType();
             }
 
             @Override
@@ -79,6 +94,12 @@ public class AuthenticationContextConfiguration {
             }
 
             @Override
+            public String mobile() {
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getMobile).orElse(null);
+
+            }
+
+            @Override
             public List<String> funcPermissionList() {
                 return (List<String>) getContext().getFuncPermissions();
             }
@@ -103,6 +124,7 @@ public class AuthenticationContextConfiguration {
                         return false;
                     }
                 } catch (Exception e) {
+                    log.error("API 访问异常 - {}", e.getLocalizedMessage());
                     return true;
                 }
                 return true;

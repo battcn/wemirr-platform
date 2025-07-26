@@ -97,6 +97,7 @@ spring:
       loadbalancer:
         use404: true
       httpclient:
+        compression: true
         response-timeout: 300s
         pool:
           type: elastic

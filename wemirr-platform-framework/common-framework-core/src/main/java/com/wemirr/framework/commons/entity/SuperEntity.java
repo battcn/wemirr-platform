@@ -46,6 +46,8 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = true)
 public class SuperEntity<T> extends Entity<T> {
 
+    public static final String DELETED = "deleted";
+
     public static final String UPDATE_TIME = "lastModifiedTime";
     public static final String UPDATE_USER = "lastModifiedBy";
     public static final String UPDATE_USER_NAME = "lastModifiedName";
@@ -66,9 +68,9 @@ public class SuperEntity<T> extends Entity<T> {
     @TableField(value = UPDATE_USER_NAME_COLUMN, fill = FieldFill.UPDATE)
     private String lastModifiedName;
 
-    @TableLogic
+    @TableLogic(value = "false", delval = "true")
+    @TableField(value = DELETED, fill = FieldFill.INSERT)
     @Schema(description = "逻辑删除")
-    @TableField(fill = FieldFill.INSERT)
     private Boolean deleted;
 
 }

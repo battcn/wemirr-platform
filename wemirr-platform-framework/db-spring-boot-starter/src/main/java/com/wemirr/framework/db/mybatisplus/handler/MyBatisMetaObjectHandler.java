@@ -59,19 +59,25 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT CURRENT_TIMESTAMP
-        final Object createTime = Optional.ofNullable(metaObject.getValue(Entity.CREATE_TIME)).orElseGet(Instant::now);
-        this.setFieldValByName(Entity.CREATE_TIME, createTime, metaObject);
+        if (metaObject.hasGetter(Entity.CREATE_TIME)) {
+            final Object createTime = Optional.ofNullable(metaObject.getValue(Entity.CREATE_TIME)).orElseGet(Instant::now);
+            this.setFieldValByName(Entity.CREATE_TIME, createTime, metaObject);
+        }
+        if (metaObject.hasGetter(SuperEntity.DELETED)) {
+            this.setFieldValByName(SuperEntity.DELETED, false, metaObject);
+        }
         if (context.anonymous()) {
             log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
             return;
         }
-//        boolean hasTenantId = metaObject.hasGetter(Entity.TENANT_ID);
-//        if (hasTenantId) {
-//            final Object tenantId = Optional.ofNullable(metaObject.getValue(Entity.TENANT_ID)).orElse(context.tenantId());
-//            this.setFieldValByName(Entity.TENANT_ID, tenantId, metaObject);
-//        }
-        this.setFieldValByName(Entity.CREATE_USER, context.userId(), metaObject);
-        this.setFieldValByName(Entity.CREATE_USER_NAME, context.nickName(), metaObject);
+        if (metaObject.hasGetter(Entity.TENANT_ID)) {
+            final Object tenantId = Optional.ofNullable(metaObject.getValue(Entity.TENANT_ID)).orElse(context.tenantId());
+            this.setFieldValByName(Entity.TENANT_ID, tenantId, metaObject);
+        }
+        if (metaObject.hasGetter(Entity.CREATE_USER)) {
+            this.setFieldValByName(Entity.CREATE_USER, context.userId(), metaObject);
+            this.setFieldValByName(Entity.CREATE_USER_NAME, context.nickName(), metaObject);
+        }
     }
 
     /**
@@ -83,14 +89,18 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-        // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-        final Object updateTime = Optional.ofNullable(metaObject.getValue(SuperEntity.UPDATE_TIME)).orElseGet(Instant::now);
-        this.setFieldValByName(SuperEntity.UPDATE_TIME, updateTime, metaObject);
-        if (context.anonymous()) {
-            log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
-            return;
-        }
-        this.setFieldValByName(SuperEntity.UPDATE_USER, context.userId(), metaObject);
-        this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, context.nickName(), metaObject);
+            // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+            if (metaObject.hasGetter(SuperEntity.UPDATE_TIME)) {
+                final Object updateTime = Optional.ofNullable(metaObject.getValue(SuperEntity.UPDATE_TIME)).orElseGet(Instant::now);
+                this.setFieldValByName(SuperEntity.UPDATE_TIME, updateTime, metaObject);
+            }
+            if (context.anonymous()) {
+                log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
+                return;
+            }
+            if (metaObject.hasGetter(SuperEntity.UPDATE_USER)) {
+                this.setFieldValByName(SuperEntity.UPDATE_USER, context.userId(), metaObject);
+                this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, context.nickName(), metaObject);
+            }
     }
 }
