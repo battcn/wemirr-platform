@@ -1,7 +1,7 @@
 package com.wemirr.platform.warmflow.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +18,7 @@ public class ParameterMappingJsonKeywordHandler implements JsonKeywordHandler {
         Set<Map.Entry<String, Object>> entries = jsonObject.entrySet();
         for (Map.Entry<String, Object> entry : entries) {
             Object o = entry.getValue();
-            if (StringUtils.equals(content, entry.getKey())) {
+            if (StrUtil.equals(content, entry.getKey())) {
                 if (o instanceof String) {
                     return entry.getValue() + "";
                 }

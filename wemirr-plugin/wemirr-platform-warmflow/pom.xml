@@ -85,6 +85,10 @@
             <artifactId>warm-flow-plugin-ui-sb-web</artifactId>
             <version>1.7.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
