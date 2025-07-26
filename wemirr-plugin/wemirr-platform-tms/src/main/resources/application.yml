@@ -15,7 +15,7 @@ spring:
       server-addr: 127.0.0.1:8848
       discovery:
         server-addr: ${spring.cloud.nacos.server-addr}
-        namespace: v3-dev
+        namespace: v4-dev
       config:
         server-addr: ${spring.cloud.nacos.server-addr}
-        namespace: v3-dev
+        namespace: v4-dev

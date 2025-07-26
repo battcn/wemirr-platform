@@ -61,7 +61,7 @@ public interface UserMapper extends SuperMapper<User> {
      * @return 查询结果
      */
     @InterceptorIgnore(tenantLine = "true")
-    @Select("select * from t_user where username = #{username} and tenant_id = #{tenantId}")
+    @Select("select * from t_user where username = #{username} and tenant_id = #{tenantId} AND deleted = false")
     User selectUserByTenantId(@Param("username") String username, @Param("tenantId") Long tenantId);
     
     /**

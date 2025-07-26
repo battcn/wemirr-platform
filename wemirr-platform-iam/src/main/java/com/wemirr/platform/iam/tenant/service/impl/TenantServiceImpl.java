@@ -39,9 +39,7 @@ import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.framework.security.utils.PasswordEncoderHelper;
 import com.wemirr.platform.iam.base.domain.entity.AreaEntity;
 import com.wemirr.platform.iam.base.domain.entity.SysDict;
-import com.wemirr.platform.iam.base.domain.entity.SysDictItem;
 import com.wemirr.platform.iam.base.repository.AreaMapper;
-import com.wemirr.platform.iam.base.repository.SysDictItemMapper;
 import com.wemirr.platform.iam.base.repository.SysDictMapper;
 import com.wemirr.platform.iam.system.domain.entity.*;
 import com.wemirr.platform.iam.system.repository.*;
@@ -90,7 +88,6 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     private final UserMapper userMapper;
     private final OrgMapper orgMapper;
     private final SysDictMapper dictMapper;
-    private final SysDictItemMapper dictItemMapper;
     private final TenantDictMapper tenantDictMapper;
     private final TenantDictItemMapper tenantDictItemMapper;
 
@@ -297,17 +294,18 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             return dict;
         }).toList();
         List<Long> dictIdList = dictList.stream().map(Entity::getId).toList();
-        List<TenantDictItem> dictDataList = TenantHelper.executeWithMaster(() -> dictItemMapper.selectList(Wraps.<SysDictItem>lbQ().in(SysDictItem::getDictId, dictIdList)))
-                .stream()
-                .map(x -> {
-                    TenantDictItem item = BeanUtil.toBean(x, TenantDictItem.class);
-                    item.setId(null);
-                    item.setTenantId(tenantId);
-                    item.setLastModifiedTime(Instant.now());
-                    item.setLastModifiedBy(context.userId());
-                    item.setLastModifiedName(context.nickName());
-                    return item;
-                }).toList();
+        List<TenantDictItem> dictDataList = null;
+//                TenantHelper.executeWithMaster(() -> dictItemMapper.selectList(Wraps.<SysDictItem>lbQ().in(SysDictItem::getDictId, dictIdList)))
+//                .stream()
+//                .map(x -> {
+//                    TenantDictItem item = BeanUtil.toBean(x, TenantDictItem.class);
+//                    item.setId(null);
+//                    item.setTenantId(tenantId);
+//                    item.setLastModifiedTime(Instant.now());
+//                    item.setLastModifiedBy(context.userId());
+//                    item.setLastModifiedName(context.nickName());
+//                    return item;
+//                }).toList();
         // 理论上如果是管理员刷新租户字典那么需要给租户的数据给删除然后重新添加
         this.tenantDictMapper.delete(Wraps.<TenantDict>lbQ().eq(TenantDict::getTenantId, tenantId));
         this.tenantDictItemMapper.delete(Wraps.<TenantDictItem>lbQ().eq(TenantDictItem::getTenantId, tenantId));

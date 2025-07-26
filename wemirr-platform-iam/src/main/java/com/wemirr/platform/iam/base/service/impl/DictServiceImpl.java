@@ -31,9 +31,7 @@ import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.base.domain.dto.req.DictSaveReq;
 import com.wemirr.platform.iam.base.domain.entity.SysDict;
-import com.wemirr.platform.iam.base.domain.entity.SysDictItem;
 import com.wemirr.platform.iam.base.repository.I18nLocaleMessageMapper;
-import com.wemirr.platform.iam.base.repository.SysDictItemMapper;
 import com.wemirr.platform.iam.base.repository.SysDictMapper;
 import com.wemirr.platform.iam.base.service.DictService;
 import jakarta.annotation.PostConstruct;
@@ -45,9 +43,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.groupingBy;
 
 /**
  * 系统字典服务层
@@ -59,28 +54,38 @@ import static java.util.stream.Collectors.groupingBy;
 @Service
 @RequiredArgsConstructor
 public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> implements DictService {
-    
-    private final SysDictItemMapper sysDictItemMapper;
+
     private final DictLoadService dictLoadService;
     private final I18nLocaleMessageMapper i18nLocaleMessageMapper;
-    
+
     @PostConstruct
     public void init() {
         refresh();
     }
-    
+
     @Override
     public void create(DictSaveReq req) {
         if (req == null) {
             throw CheckedException.notFound("字典内容不能为空");
         }
-        final Long count = this.baseMapper.selectCount(SysDict::getCode, req.getCode());
-        if (count != 0 && count > 0) {
+        final long count = this.baseMapper.selectCount(SysDict::getParentId, req.getParentId(), SysDict::getCode, req.getCode());
+        if (count > 0) {
             throw CheckedException.badRequest("字典类型编码重复");
         }
-        this.baseMapper.insert(BeanUtil.toBean(req, SysDict.class));
+        var bean = BeanUtil.toBean(req, SysDict.class);
+        bean.setStatus(true);
+        // TODO 需要加上类型
+        bean.setType(0);
+        if (req.getParentId() == 0L) {
+            bean.setParentCode(req.getCode());
+            bean.setFullCodePath(req.getCode());
+        } else {
+            var parentDict = Optional.ofNullable(this.baseMapper.selectById(req.getParentId())).orElseThrow(() -> CheckedException.notFound("上级字典不存在"));
+            bean.setParentCode(parentDict.getCode());
+        }
+        this.baseMapper.insert(bean);
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void modify(Long id, DictSaveReq req) {
@@ -88,7 +93,8 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         if (old.getType() == 0) {
             throw CheckedException.notFound("平台字典数据无法修改");
         }
-        final Long count = this.baseMapper.selectCount(Wraps.<SysDict>lbQ().ne(SysDict::getId, id).eq(SysDict::getCode, req.getCode()));
+        final Long count = this.baseMapper.selectCount(Wraps.<SysDict>lbQ().ne(SysDict::getId, id)
+                .eq(SysDict::getParentId, req.getParentId()).eq(SysDict::getCode, req.getCode()));
         if (count != 0 && count > 0) {
             throw CheckedException.badRequest("字典类型编码重复");
         }
@@ -96,7 +102,7 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         this.baseMapper.updateById(bean);
         this.dictLoadService.refreshCache(getPairMap(List.of(req.getCode())));
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void deleteById(Long id) {
@@ -105,9 +111,8 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
             throw CheckedException.notFound("内置数据无法删除");
         }
         this.baseMapper.deleteById(id);
-        this.sysDictItemMapper.delete(Wraps.<SysDictItem>lbQ().eq(SysDictItem::getDictCode, dict.getCode()));
     }
-    
+
     @Override
     public void refresh() {
         List<SysDict> list = this.baseMapper.selectList(SysDict::getStatus, true);
@@ -117,16 +122,17 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         List<String> codeList = list.stream().map(SysDict::getCode).distinct().toList();
         this.dictLoadService.refreshCache(getPairMap(codeList));
     }
-    
+
     private Map<String, List<Pair<String, String>>> getPairMap(List<String> codeList) {
-        return this.sysDictItemMapper.selectList(Wraps.<SysDictItem>lbQ()
-                .eq(SysDictItem::getStatus, true))
-                .stream()
-                .collect(groupingBy(
-                        SysDictItem::getDictCode,
-                        Collectors.mapping(item -> Pair.of(item.getValue(), item.getLabel()), Collectors.toList())));
+//        return this.sysDictItemMapper.selectList(Wraps.<SysDictItem>lbQ()
+//                        .eq(SysDictItem::getStatus, true))
+//                .stream()
+//                .collect(groupingBy(
+//                        SysDictItem::getDictCode,
+//                        Collectors.mapping(item -> Pair.of(item.getValue(), item.getLabel()), Collectors.toList())));
+        return null;
     }
-    
+
     @Override
     public List<Dict<String>> findItemByCode(String code) {
         Map<Object, Object> map = this.dictLoadService.findByIds(code);
@@ -139,5 +145,5 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         }
         return dictList;
     }
-    
+
 }

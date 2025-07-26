@@ -19,11 +19,10 @@
 
 package com.wemirr.platform.gateway.configuration;
 
+import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.platform.gateway.configuration.rule.BlacklistHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler;
@@ -46,18 +45,18 @@ import java.util.Map;
  */
 @Slf4j
 public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
-    
+
+
     private static final String UNABLE_ERROR = "Unable to find instance for";
-    private final BlacklistHelper blacklistHelper;
-    
-    public JsonExceptionHandler(ErrorAttributes errorAttributes, BlacklistHelper blacklistHelper,
+    private static final String CONNECTION_REFUSED = "Connection refused";
+
+    public JsonExceptionHandler(ErrorAttributes errorAttributes,
                                 WebProperties webProperties,
                                 ErrorProperties errorProperties,
                                 ApplicationContext applicationContext) {
         super(errorAttributes, webProperties.getResources(), errorProperties, applicationContext);
-        this.blacklistHelper = blacklistHelper;
     }
-    
+
     /**
      * 构建返回的JSON数据格式
      *
@@ -74,7 +73,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         log.warn("[响应结果] - [{}]", map);
         return map;
     }
-    
+
     /**
      * 获取异常属性
      */
@@ -83,8 +82,8 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         int code = HttpStatus.INTERNAL_SERVER_ERROR.value();
         Throwable error = super.getError(request);
         final String message = error.getMessage();
-        if (StringUtils.contains(message, UNABLE_ERROR)) {
-            return response(HttpStatus.NOT_FOUND.value(), "网络异常，请稍后再试");
+        if (StrUtil.contains(message, UNABLE_ERROR) || StrUtil.contains(message, CONNECTION_REFUSED)) {
+            return response(HttpStatus.NOT_FOUND.value(), "当前可能正处于发版状态,请稍后再试");
         }
         // if (error instanceof ParamFlowException) {
         // // 触发限流规则直接拉黑名单
@@ -101,7 +100,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         }
         return response(code, this.buildMessage(request, error));
     }
-    
+
     /**
      * 指定响应处理方法为JSON处理的方法
      *
@@ -111,7 +110,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
     protected RouterFunction<ServerResponse> getRoutingFunction(ErrorAttributes errorAttributes) {
         return RouterFunctions.route(RequestPredicates.all(), this::renderErrorResponse);
     }
-    
+
     /**
      * 根据code获取对应的HttpStatus
      *
@@ -121,7 +120,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
     protected int getHttpStatus(Map<String, Object> errorAttributes) {
         return HttpStatus.OK.value();
     }
-    
+
     /**
      * 构建异常信息
      *
@@ -144,5 +143,5 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         }
         return message.toString();
     }
-    
+
 }

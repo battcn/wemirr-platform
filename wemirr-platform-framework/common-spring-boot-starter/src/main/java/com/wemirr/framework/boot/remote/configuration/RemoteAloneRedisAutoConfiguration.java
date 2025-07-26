@@ -47,7 +47,8 @@ public class RemoteAloneRedisAutoConfiguration implements EnvironmentAware {
         // 获取cfg对象，解析开发者配置的 extend.boot.remote.alone 相关信息
         // 检查是否存在配置，如果不存在，则不创建这个独立的连接工厂
         if (!environment.containsProperty(REMOTE_ALONE_PREFIX + ".host") &&
-                !environment.containsProperty(REMOTE_ALONE_PREFIX + ".url") && // Spring Boot 2.4+
+                // Spring Boot 2.4+
+                !environment.containsProperty(REMOTE_ALONE_PREFIX + ".url") &&
                 !environment.containsProperty(REMOTE_ALONE_PREFIX + ".cluster.nodes") &&
                 !environment.containsProperty(REMOTE_ALONE_PREFIX + ".sentinel.master")) {
             // 如果没有任何关键配置，可能用户不想为远程数据服务使用独立 Redis
@@ -122,9 +123,9 @@ public class RemoteAloneRedisAutoConfiguration implements EnvironmentAware {
         }
         // 注意：你的代码中 socket 和 aws 模式是自定义的 pattern，Spring Boot RedisProperties 不直接支持
         // 如果需要这些，你需要像 SaAloneRedisInject 中那样显式地检查 pattern 属性
-
         // 2. 连接池配置
-        GenericObjectPoolConfig<?> poolConfig = new GenericObjectPoolConfig<>(); // 使用泛型
+        // 使用泛型
+        GenericObjectPoolConfig<?> poolConfig = new GenericObjectPoolConfig<>();
         LettuceClientConfiguration clientConfig;
 
         RedisProperties.Lettuce lettuce = cfg.getLettuce();

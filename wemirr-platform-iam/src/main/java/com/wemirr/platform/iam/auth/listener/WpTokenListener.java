@@ -97,13 +97,9 @@ public class WpTokenListener implements SaTokenListener {
         this.userService.updateById(User.builder().id(userId).lastLoginIp(ip).lastLoginTime(Instant.now()).build());
     }
 
-    /**
-     * @param tokenValue token 值
-     * @param loginId    账号id
-     * @param timeout    续期时间
-     */
     @Override
-    public void doRenewTimeout(String tokenValue, Object loginId, long timeout) {
+    public void doRenewTimeout(String loginType, Object loginId, String tokenValue, long timeout) {
+
     }
 
     /**
@@ -161,4 +157,6 @@ public class WpTokenListener implements SaTokenListener {
     public void doLogoutSession(String id) {
 
     }
+
+
 }

@@ -57,7 +57,7 @@ public class InstantConverter implements Converter<Instant> {
         Field field = contentProperty.getField();
         // 暂时只读取 JsonFormat.format
         JsonFormat format = field.getAnnotation(JsonFormat.class);
-        String pattern = Optional.ofNullable(format).map(JsonFormat::pattern).orElse("yyyy-MM-dd HH:MM:ss");
+        String pattern = Optional.ofNullable(format).map(JsonFormat::pattern).orElse("yyyy-MM-dd HH:mm:ss");
         ZoneId zoneId = TimeZoneUtil.toZoneId(ThreadLocalHolder.getLocal());
         log.debug("Instant 日期时区 - {}", zoneId);
         LocalDateTime localDateTime = LocalDateTime.ofInstant(value, zoneId);
