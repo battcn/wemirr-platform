@@ -43,7 +43,7 @@ public class SecurityExtProperties {
      * 默认的过滤地址
      */
     private List<String> defaultIgnoreUrls = List.of("/captcha", "/sms_captcha", "/message/**",
-            "/login", "/error", "/oauth2/**",
+            "/login", "/error", "/oauth2/**", "/warm-flow-ui/**", "/warm-flow/**",  "/flow/**",
             "/favicon.ico", "/css/**", "/webjars/**",
             "/swagger-ui.html", "/doc.html", "/v3/api-docs/**");
 

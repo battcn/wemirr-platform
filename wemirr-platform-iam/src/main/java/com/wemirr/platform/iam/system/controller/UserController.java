@@ -121,6 +121,13 @@ public class UserController {
         final List<User> users = this.userService.listByIds(ids);
         return MapHelper.toHashMap(users, Entity::getId, x -> BeanUtil.toBean(x, UserResp.class));
     }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "用户信息查询")
+    public UserResp getUser(@PathVariable Long id) {
+        final User user = this.userService.getById(id);
+        return BeanUtil.toBean(user, UserResp.class);
+    }
     
     @GetMapping("/{id}/data_permission")
     @Operation(summary = "获取数据权限")
