@@ -58,18 +58,6 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        // 检查是否继承 Entity 或 SuperEntity
-        if (!isEntityOrSuperEntity(metaObject)) {
-            return;
-        }
-        // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT CURRENT_TIMESTAMP
-        if (metaObject.hasGetter(Entity.CREATE_TIME)) {
-            final Object createTime = Optional.ofNullable(metaObject.getValue(Entity.CREATE_TIME)).orElseGet(Instant::now);
-            this.setFieldValByName(Entity.CREATE_TIME, createTime, metaObject);
-        }
-        if (metaObject.hasGetter(SuperEntity.DELETED)) {
-            this.setFieldValByName(SuperEntity.DELETED, false, metaObject);
-        }
         if (context.anonymous()) {
             log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
             return;
@@ -77,6 +65,10 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
         if (metaObject.hasGetter(Entity.TENANT_ID)) {
             final Object tenantId = Optional.ofNullable(metaObject.getValue(Entity.TENANT_ID)).orElse(context.tenantId());
             this.setFieldValByName(Entity.TENANT_ID, tenantId, metaObject);
+        }
+        if (metaObject.hasGetter(Entity.CREATE_TIME)) {
+            final Object createTime = Optional.ofNullable(metaObject.getValue(Entity.CREATE_TIME)).orElseGet(Instant::now);
+            this.setFieldValByName(Entity.CREATE_TIME, createTime, metaObject);
         }
         if (metaObject.hasGetter(Entity.CREATE_USER)) {
             this.setFieldValByName(Entity.CREATE_USER, context.userId(), metaObject);
@@ -93,52 +85,18 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-
-        // 检查是否继承 Entity 或 SuperEntity
-        if (!isEntityOrSuperEntity(metaObject)) {
-            return;
-        }
-
-        // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-        final Object updateTime = Optional.ofNullable(metaObject.getValue(SuperEntity.UPDATE_TIME)).orElseGet(Instant::now);
-        this.setFieldValByName(SuperEntity.UPDATE_TIME, updateTime, metaObject);
         if (context.anonymous()) {
             log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
             return;
         }
-        this.setFieldValByName(SuperEntity.UPDATE_USER, context.userId(), metaObject);
-        this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, context.nickName(), metaObject);
-            // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
-            if (metaObject.hasGetter(SuperEntity.UPDATE_TIME)) {
-                final Object updateTime = Optional.ofNullable(metaObject.getValue(SuperEntity.UPDATE_TIME)).orElseGet(Instant::now);
-                this.setFieldValByName(SuperEntity.UPDATE_TIME, updateTime, metaObject);
-            }
-            if (context.anonymous()) {
-                log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
-                return;
-            }
-            if (metaObject.hasGetter(SuperEntity.UPDATE_USER)) {
-                this.setFieldValByName(SuperEntity.UPDATE_USER, context.userId(), metaObject);
-                this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, context.nickName(), metaObject);
-            }
-    }
-
-    /**
-     * 检查实体是否继承 Entity 或 SuperEntity
-     *
-     * @param metaObject 元数据对象
-     * @return 是否继承
-     */
-    private boolean isEntityOrSuperEntity(MetaObject metaObject) {
-        try {
-            // 获取实体类的原始 Class 对象
-            Class<?> entityClass = metaObject.getOriginalObject().getClass();
-            // 检查是否继承 Entity 或 SuperEntity
-            return Entity.class.isAssignableFrom(entityClass) ||
-                    SuperEntity.class.isAssignableFrom(entityClass);
-        } catch (Exception e) {
-            log.warn("检查实体继承关系时发生异常", e);
-            return false;
+        final Object updateTime = Optional.ofNullable(metaObject.getValue(SuperEntity.UPDATE_TIME)).orElseGet(Instant::now);
+        // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+        if (metaObject.hasGetter(SuperEntity.UPDATE_TIME)) {
+            this.setFieldValByName(SuperEntity.UPDATE_TIME, updateTime, metaObject);
+        }
+        if (metaObject.hasGetter(SuperEntity.UPDATE_USER)) {
+            this.setFieldValByName(SuperEntity.UPDATE_USER, context.userId(), metaObject);
+            this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, context.nickName(), metaObject);
         }
     }
 }

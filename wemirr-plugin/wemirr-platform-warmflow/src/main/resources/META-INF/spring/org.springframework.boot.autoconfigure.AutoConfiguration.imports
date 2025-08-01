@@ -1,5 +1,0 @@
-## AutoConfigurations
-#org.camunda.bpm.spring.boot.starter.CamundaBpmAutoConfiguration
-#
-## Application Listeners
-#org.camunda.bpm.spring.boot.starter.runlistener.PropertiesListener
