@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * 流程任务监听
  *
- * @author may
+ * @author battcn
  */
 @Data
 public class ProcessTaskEvent implements Serializable {

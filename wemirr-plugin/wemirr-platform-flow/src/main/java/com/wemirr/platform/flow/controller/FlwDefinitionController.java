@@ -26,7 +26,7 @@ package com.wemirr.platform.flow.controller;
 import com.wemirr.framework.db.wramflow.page.PageQuery;
 import com.wemirr.framework.db.wramflow.page.TableDataInfo;
 import com.wemirr.platform.flow.configuration.common.ConditionalOnEnable;
-import com.wemirr.platform.flow.domain.vo.FlowDefinitionVo;
+import com.wemirr.platform.flow.domain.dto.vo.FlowDefinitionVo;
 import com.wemirr.platform.flow.service.IFlwDefinitionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
@@ -45,7 +45,7 @@ import java.util.List;
 /**
  * 流程定义管理 控制层
  *
- * @author may
+ * @author battcn
  */
 @ConditionalOnEnable
 @Validated

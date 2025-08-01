@@ -3,16 +3,16 @@ package com.wemirr.platform.flow.service;
 import cn.hutool.core.lang.tree.Tree;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.flow.domain.entity.FlowCategory;
-import com.wemirr.platform.flow.domain.req.warmflow.category.FlowCategoryReq;
-import com.wemirr.platform.flow.domain.req.warmflow.category.FlowCategorySaveReq;
-import com.wemirr.platform.flow.domain.resp.warmflow.FlowCategoryResp;
+import com.wemirr.platform.flow.domain.dto.req.warmflow.category.FlowCategoryReq;
+import com.wemirr.platform.flow.domain.dto.req.warmflow.category.FlowCategorySaveReq;
+import com.wemirr.platform.flow.domain.dto.resp.warmflow.FlowCategoryResp;
 
 import java.util.List;
 
 /**
  * 流程分类Service接口
  *
- * @author may
+ * @author battcn
  */
 public interface IFlwCategoryService extends SuperService<FlowCategory> {
 

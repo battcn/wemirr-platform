@@ -14,7 +14,7 @@ import com.wemirr.framework.commons.utils.StreamUtils;
 import com.wemirr.framework.db.wramflow.page.PageQuery;
 import com.wemirr.framework.db.wramflow.page.TableDataInfo;
 import com.wemirr.platform.flow.configuration.common.ConditionalOnEnable;
-import com.wemirr.platform.flow.domain.vo.FlowDefinitionVo;
+import com.wemirr.platform.flow.domain.dto.vo.FlowDefinitionVo;
 import com.wemirr.platform.flow.repository.FlwCategoryMapper;
 import com.wemirr.platform.flow.service.IFlwCommonService;
 import com.wemirr.platform.flow.service.IFlwDefinitionService;
@@ -45,7 +45,7 @@ import java.util.List;
 /**
  * 流程定义 服务层实现
  *
- * @author may
+ * @author battcn
  */
 @ConditionalOnEnable
 @Slf4j

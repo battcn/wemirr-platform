@@ -3,7 +3,7 @@ package com.wemirr.platform.flow.configuration.common.enums;
 /**
  * 节点扩展属性枚举
  *
- * @author AprilWind
+ * @author battcn
  */
 public interface NodeExtEnum {
 

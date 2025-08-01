@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 人员类型
  *
- * @author AprilWind
+ * @author battcn
  */
 @Getter
 @AllArgsConstructor

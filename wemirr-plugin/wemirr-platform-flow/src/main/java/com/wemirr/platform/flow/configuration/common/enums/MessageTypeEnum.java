@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 /**
  * 消息类型枚举
  *
- * @author may
+ * @author battcn
  */
 @Getter
 @AllArgsConstructor

@@ -5,9 +5,9 @@ import com.wemirr.framework.commons.entity.SuperEntity;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.excel.domain.ExcelWriteFile;
 import com.wemirr.platform.flow.configuration.common.constant.FlowConstant;
-import com.wemirr.platform.flow.domain.req.warmflow.category.FlowCategoryReq;
-import com.wemirr.platform.flow.domain.req.warmflow.category.FlowCategorySaveReq;
-import com.wemirr.platform.flow.domain.resp.warmflow.FlowCategoryResp;
+import com.wemirr.platform.flow.domain.dto.req.warmflow.category.FlowCategoryReq;
+import com.wemirr.platform.flow.domain.dto.req.warmflow.category.FlowCategorySaveReq;
+import com.wemirr.platform.flow.domain.dto.resp.warmflow.FlowCategoryResp;
 import com.wemirr.platform.flow.service.IFlwCategoryService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * 流程分类
  *
- * @author may
+ * @author battcn
  */
 @Validated
 @RequiredArgsConstructor

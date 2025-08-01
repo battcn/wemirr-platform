@@ -7,7 +7,7 @@
 ///**
 // * 流程节点扩展属性 服务层
 // *
-// * @author AprilWind
+// * @author battcn
 // */
 //public interface IFlwNodeExtService {
 //

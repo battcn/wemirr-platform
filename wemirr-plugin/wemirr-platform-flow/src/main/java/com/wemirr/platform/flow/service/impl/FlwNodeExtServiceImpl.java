@@ -25,7 +25,7 @@
 ///**
 // * 流程设计器-节点扩展属性
 // *
-// * @author AprilWind
+// * @author battcn
 // */
 //@ConditionalOnEnable
 //@Slf4j

@@ -2,7 +2,7 @@ package com.wemirr.platform.flow.service;
 
 import com.wemirr.framework.db.wramflow.page.PageQuery;
 import com.wemirr.framework.db.wramflow.page.TableDataInfo;
-import com.wemirr.platform.flow.domain.vo.FlowDefinitionVo;
+import com.wemirr.platform.flow.domain.dto.vo.FlowDefinitionVo;
 import jakarta.servlet.http.HttpServletResponse;
 import org.dromara.warm.flow.orm.entity.FlowDefinition;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 流程定义 服务层
  *
- * @author may
+ * @author battcn
  */
 public interface IFlwDefinitionService {
 

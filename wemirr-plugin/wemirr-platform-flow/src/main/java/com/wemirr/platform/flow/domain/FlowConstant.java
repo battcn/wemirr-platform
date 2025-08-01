@@ -4,7 +4,7 @@ package com.wemirr.platform.flow.domain;
 /**
  * 工作流常量
  *
- * @author may
+ * @author battcn
  */
 public interface FlowConstant {
 

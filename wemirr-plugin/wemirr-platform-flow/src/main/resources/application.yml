@@ -2,7 +2,7 @@ server:
   port: 5004
 spring:
   application:
-    name: wemirr-platform-warmflow
+    name: wemirr-platform-flow
   config:
     import:
       - optional:nacos:security.yaml

@@ -13,9 +13,9 @@ import com.wemirr.framework.commons.utils.StreamUtils;
 import com.wemirr.framework.commons.utils.TreeBuildUtils;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.platform.flow.domain.entity.FlowCategory;
-import com.wemirr.platform.flow.domain.req.warmflow.category.FlowCategoryReq;
-import com.wemirr.platform.flow.domain.req.warmflow.category.FlowCategorySaveReq;
-import com.wemirr.platform.flow.domain.resp.warmflow.FlowCategoryResp;
+import com.wemirr.platform.flow.domain.dto.req.warmflow.category.FlowCategoryReq;
+import com.wemirr.platform.flow.domain.dto.req.warmflow.category.FlowCategorySaveReq;
+import com.wemirr.platform.flow.domain.dto.resp.warmflow.FlowCategoryResp;
 import com.wemirr.platform.flow.repository.FlwCategoryMapper;
 import com.wemirr.platform.flow.service.IFlwCategoryService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * 流程分类Service业务层处理
  *
- * @author may
+ * @author battcn
  */
 //@ConditionalOnEnable
 

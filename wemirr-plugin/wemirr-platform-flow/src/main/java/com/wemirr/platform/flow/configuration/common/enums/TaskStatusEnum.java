@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 /**
  * 任务状态枚举
  *
- * @author may
+ * @author battcn
  */
 @Getter
 @AllArgsConstructor
