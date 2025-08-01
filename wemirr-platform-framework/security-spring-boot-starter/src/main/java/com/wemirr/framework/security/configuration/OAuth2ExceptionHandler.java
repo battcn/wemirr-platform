@@ -44,7 +44,7 @@ public class OAuth2ExceptionHandler {
     @ExceptionHandler(NotLoginException.class)
     public ResponseEntity<Result<?>> handlerException(NotLoginException e) {
         log.error("no-login => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Result.fail(HttpStatus.UNAUTHORIZED.value(), e.getMessage()));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Result.fail(HttpStatus.UNAUTHORIZED.value(), "登录会话失效,请重新登录"));
     }
 
     @ExceptionHandler(SaTokenException.class)

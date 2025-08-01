@@ -43,6 +43,7 @@ import java.util.Optional;
 public class AuthenticationContextConfiguration {
 
     private static final String USER_INFO = "USER_INFO_KEY";
+    private static final String ANONYMOUS = "USER_ANONYMOUS_KEY";
 
     @Bean
     public AuthenticationContext authenticationContext(SecurityExtProperties properties) {
@@ -116,20 +117,19 @@ public class AuthenticationContextConfiguration {
 
             @Override
             public boolean anonymous() {
-                try {
-                    if (StpUtil.isLogin()) {
-                        return false;
+                // 放到上下文，提升匿名场景下的性能
+                return (boolean) ThreadLocalHolder.get(ANONYMOUS, () -> {
+                    try {
+                        if (StpUtil.isLogin() || getContext() != null) {
+                            return false;
+                        }
+                    } catch (Exception ex) {
+                        log.error("API 访问异常 - {}", ex.getLocalizedMessage());
+                        return true;
                     }
-                    if (getContext() != null) {
-                        return false;
-                    }
-                } catch (Exception e) {
-                    log.error("API 访问异常 - {}", e.getLocalizedMessage());
                     return true;
-                }
-                return true;
+                });
             }
         };
     }
-
 }
