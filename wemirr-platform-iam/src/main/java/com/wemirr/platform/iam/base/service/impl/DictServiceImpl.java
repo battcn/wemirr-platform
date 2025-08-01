@@ -75,11 +75,11 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         var bean = BeanUtil.toBean(req, SysDict.class);
         bean.setStatus(true);
         if (req.getParentId() == 0L) {
-            bean.setParentCode(req.getCode());
             bean.setFullCodePath(req.getCode());
         } else {
             var parentDict = Optional.ofNullable(this.baseMapper.selectById(req.getParentId())).orElseThrow(() -> CheckedException.notFound("上级字典不存在"));
             bean.setParentCode(parentDict.getCode());
+            bean.setType(parentDict.getType());
         }
         this.baseMapper.insert(bean);
     }
