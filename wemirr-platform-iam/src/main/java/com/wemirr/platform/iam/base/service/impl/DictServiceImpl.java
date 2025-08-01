@@ -74,8 +74,6 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         }
         var bean = BeanUtil.toBean(req, SysDict.class);
         bean.setStatus(true);
-        // TODO 需要加上类型
-        bean.setType(0);
         if (req.getParentId() == 0L) {
             bean.setParentCode(req.getCode());
             bean.setFullCodePath(req.getCode());

@@ -62,6 +62,10 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
             log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
             return;
         }
+        if (metaObject.hasGetter(SuperEntity.DELETED)) {
+            final Object deleted = Optional.ofNullable(metaObject.getValue(SuperEntity.DELETED)).orElse(Boolean.FALSE);
+            this.setFieldValByName(SuperEntity.DELETED, deleted, metaObject);
+        }
         if (metaObject.hasGetter(Entity.TENANT_ID)) {
             final Object tenantId = Optional.ofNullable(metaObject.getValue(Entity.TENANT_ID)).orElse(context.tenantId());
             this.setFieldValByName(Entity.TENANT_ID, tenantId, metaObject);

@@ -61,7 +61,7 @@ public class DictController {
     @Operation(summary = "字典列表 - [DONE] - [Levin]", description = "查询字典列表 - [DONE] - [Levin]")
     @SaCheckPermission(value = {"dict:list"})
     public List<SysDictResp> list() {
-        List<SysDict> list = this.dictService.list(Wraps.<SysDict>lbQ().eq(SysDict::getStatus, true).orderByAsc(SysDict::getSequence));
+        List<SysDict> list = this.dictService.list(Wraps.<SysDict>lbQ().orderByAsc(SysDict::getSequence));
         return BeanUtilPlus.toBeans(list, SysDictResp.class);
     }
 
