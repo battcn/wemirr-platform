@@ -20,6 +20,8 @@
 package com.wemirr.platform.iam.tenant.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.entity.Dict;
@@ -31,6 +33,7 @@ import com.wemirr.platform.iam.tenant.domain.entity.TenantDict;
 import com.wemirr.platform.iam.tenant.service.TenantDictService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -60,10 +63,26 @@ public class TenantDictController {
     @Operation(summary = "字典列表 - [DONE] - [Levin]", description = "查询字典列表 - [DONE] - [Levin]")
     @SaCheckPermission(value = {"tenant:dict:list"})
     public List<TenantDictResp> list() {
-        List<TenantDict> list = this.tenantDictService.list(Wraps.<TenantDict>lbQ().eq(TenantDict::getStatus, true));
+        var list = this.tenantDictService.list(Wraps.<TenantDict>lbQ().eq(TenantDict::getParentId, 0L).orderByAsc(TenantDict::getSequence));
         return BeanUtilPlus.toBeans(list, TenantDictResp.class);
     }
-    
+
+    @GetMapping("/items")
+    @Operation(summary = "查询字典子项", description = "查询字典子项 - [DONE] - [Levin]")
+    @Parameters({
+            @Parameter(name = "current", description = "当前页", in = ParameterIn.QUERY),
+            @Parameter(name = "size", description = "每页记录", in = ParameterIn.QUERY),
+            @Parameter(name = "ancestorCode", description = "祖节点", in = ParameterIn.QUERY),
+            @Parameter(name = "status", description = "状态", in = ParameterIn.QUERY),
+            @Parameter(name = "keyword", description = "关键字搜索", in = ParameterIn.QUERY),
+    })
+    public IPage<TenantDictResp> pageList(Integer current, Integer size, Long parentId, Boolean status, String keyword) {
+        return this.tenantDictService.page(new Page<>(current, size), Wraps.<TenantDict>lbQ().eq(TenantDict::getParentId, parentId)
+                        .eq(TenantDict::getStatus, status).like(TenantDict::getCode, keyword))
+                .convert(x -> BeanUtilPlus.toBean(x, TenantDictResp.class));
+    }
+
+
     @PostMapping("/refresh")
     @AccessLog(module = "租户字典", description = "刷新字典")
     @Operation(summary = "刷新字典 - [DONE] - [Levin]", description = "刷新字典缓存数据 - [DONE] - [Levin]")

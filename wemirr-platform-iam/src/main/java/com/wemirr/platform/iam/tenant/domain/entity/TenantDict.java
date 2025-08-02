@@ -49,7 +49,19 @@ public class TenantDict extends SuperEntity<Long> {
     
     @Schema(description = "名称")
     private String name;
-    
+
+    @Schema(description = "父级节点ID")
+    private Long parentId;
+
+    @Schema(description = "父级节点编码")
+    private String parentCode;
+
+    @Schema(description = "完整字典路径")
+    private String fullCodePath;
+
+    @Schema(description = "排序")
+    private Integer sequence;
+
     @TableField(value = TENANT_ID_COLUMN, fill = FieldFill.INSERT)
     @Schema(description = "租户ID")
     private Long tenantId;

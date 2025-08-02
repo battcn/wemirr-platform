@@ -21,6 +21,7 @@ package com.wemirr.platform.iam.tenant.domain.dto.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -32,19 +33,26 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @Schema(name = "TenantDictSaveReq")
 public class TenantDictSaveReq {
-    
+
     @Schema(description = "编码类型(一颗树仅仅有一个统一的编码)")
     @NotBlank(message = "编码不能为空")
     @Length(max = 64, message = "类型长度不能超过 {max}")
     private String code;
-    
+
     @Schema(description = "名称")
     @NotBlank(message = "名称不能为空")
     @Length(max = 64, message = "名称长度不能超过 {max}")
     private String name;
-    
+
+    @NotNull(message = "排序不能为空")
+    @Schema(description = "字典排序")
+    private Integer sequence;
+
     @Schema(description = "描述")
     @Length(max = 200, message = "描述长度不能超过 {max}")
     private String description;
-    
+
+    @NotNull(message = "上级字典ID不能为空")
+    @Schema(description = "上级字典ID")
+    private Long parentId;
 }

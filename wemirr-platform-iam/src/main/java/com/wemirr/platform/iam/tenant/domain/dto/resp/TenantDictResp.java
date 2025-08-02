@@ -42,6 +42,15 @@ public class TenantDictResp {
     
     @Schema(description = "编码")
     private String code;
+
+    @Schema(description = "父级节点ID")
+    private Long parentId;
+
+    @Schema(description = "父级节点编码")
+    private String parentCode;
+
+    @Schema(description = "完整字典路径")
+    private String fullCodePath;
     
     @Schema(description = "排序")
     private Integer sequence;

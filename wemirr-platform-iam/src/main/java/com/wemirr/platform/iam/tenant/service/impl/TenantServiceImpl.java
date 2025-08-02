@@ -49,9 +49,7 @@ import com.wemirr.platform.iam.tenant.domain.dto.req.TenantSettingReq;
 import com.wemirr.platform.iam.tenant.domain.dto.resp.TenantSettingResp;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
 import com.wemirr.platform.iam.tenant.domain.entity.TenantDict;
-import com.wemirr.platform.iam.tenant.domain.entity.TenantDictItem;
 import com.wemirr.platform.iam.tenant.domain.entity.TenantSetting;
-import com.wemirr.platform.iam.tenant.repository.TenantDictItemMapper;
 import com.wemirr.platform.iam.tenant.repository.TenantDictMapper;
 import com.wemirr.platform.iam.tenant.repository.TenantMapper;
 import com.wemirr.platform.iam.tenant.repository.TenantSettingMapper;
@@ -89,7 +87,6 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     private final OrgMapper orgMapper;
     private final SysDictMapper dictMapper;
     private final TenantDictMapper tenantDictMapper;
-    private final TenantDictItemMapper tenantDictItemMapper;
 
     private String getNameById(Long id) {
         if (Objects.isNull(id)) {
@@ -294,24 +291,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             return dict;
         }).toList();
         List<Long> dictIdList = dictList.stream().map(Entity::getId).toList();
-        List<TenantDictItem> dictDataList = null;
-//                TenantHelper.executeWithMaster(() -> dictItemMapper.selectList(Wraps.<SysDictItem>lbQ().in(SysDictItem::getDictId, dictIdList)))
-//                .stream()
-//                .map(x -> {
-//                    TenantDictItem item = BeanUtil.toBean(x, TenantDictItem.class);
-//                    item.setId(null);
-//                    item.setTenantId(tenantId);
-//                    item.setLastModifiedTime(Instant.now());
-//                    item.setLastModifiedBy(context.userId());
-//                    item.setLastModifiedName(context.nickName());
-//                    return item;
-//                }).toList();
-        // 理论上如果是管理员刷新租户字典那么需要给租户的数据给删除然后重新添加
-        this.tenantDictMapper.delete(Wraps.<TenantDict>lbQ().eq(TenantDict::getTenantId, tenantId));
-        this.tenantDictItemMapper.delete(Wraps.<TenantDictItem>lbQ().eq(TenantDictItem::getTenantId, tenantId));
-        // 将新数据写入到租户字典表中
-        this.tenantDictMapper.insertBatchSomeColumn(dictTypeList);
-        this.tenantDictItemMapper.insertBatchSomeColumn(dictDataList);
+        // TODO 重构优化逻辑
     }
 
     @Override
