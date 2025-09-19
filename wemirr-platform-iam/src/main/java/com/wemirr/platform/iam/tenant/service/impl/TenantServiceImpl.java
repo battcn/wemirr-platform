@@ -285,9 +285,9 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         List<TenantDict> dictTypeList = dictList.stream().map(x -> {
             TenantDict dict = BeanUtil.toBean(x, TenantDict.class);
             dict.setId(null);
-            dict.setLastModifiedTime(Instant.now());
-            dict.setLastModifiedBy(context.userId());
-            dict.setLastModifiedName(context.nickName());
+            dict.setLastModifyTime(Instant.now());
+            dict.setLastModifyBy(context.userId());
+            dict.setLastModifyName(context.nickName());
             return dict;
         }).toList();
         List<Long> dictIdList = dictList.stream().map(Entity::getId).toList();

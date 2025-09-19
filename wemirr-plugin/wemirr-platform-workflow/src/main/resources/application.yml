@@ -1,0 +1,51 @@
+server:
+  port: 5004
+spring:
+  application:
+    name: wemirr-platform-workflow
+  config:
+    import:
+      - optional:nacos:security.yaml
+      - optional:nacos:cloud-default.yaml
+      - optional:nacos:${spring.application.name}.properties
+      - optional:nacos:redis.properties
+      - optional:nacos:mybatis-plus-default.yaml?group=DEFAULT_GROUP&refreshEnabled=true #这是完写法
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        server-addr: ${spring.cloud.nacos.server-addr}
+        namespace: v4-dev
+      config:
+        server-addr: ${spring.cloud.nacos.server-addr}
+        namespace: v4-dev
+extend:
+  robot:
+    enabled: true
+    ding-talk:
+      enabled: true
+      # 填写钉钉 token
+      access-token: b607239418a01bd6b56b9ae9aa41f74c487b70ae8eedb14c4b8d0361d5199889
+    we-chat:
+      enabled: false
+      key: 123
+    fei-shu:
+      enabled: false
+      key: 飞书申请
+      secret: 飞书申请,如果不校验签名就可以不配置
+--- # warm-flow工作流配置
+warm-flow:
+  # 是否开启工作流，默认true
+  enabled: true
+  # 是否开启设计器ui
+  ui: true
+  # 默认Authorization，如果有多个token，用逗号分隔
+  token-name: ${sa-token.token-name},clientid
+  # 流程状态对应的三元色
+  chart-status-color:
+    ## 未办理
+    - 62,62,62
+    ## 待办理
+    - 255,205,23
+    ## 已办理
+    - 157,255,0

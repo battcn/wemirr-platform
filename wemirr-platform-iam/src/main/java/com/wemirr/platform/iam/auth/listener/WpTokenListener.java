@@ -87,7 +87,7 @@ public class WpTokenListener implements SaTokenListener {
                 .browser(browser.getName())
                 .os(userAgent.getOs().getName())
                 .loginType(principalType)
-                .createdBy(userId).createdTime(Instant.now()).createdName(info.getNickName())
+                .createBy(userId).createTime(Instant.now()).createName(info.getNickName())
                 .build();
         info.setLoginLog(JSONObject.from(loginLog));
         StpUtil.getTokenSessionByToken(tokenValue).set(extProperties.getServer().getTokenInfoKey(), info);

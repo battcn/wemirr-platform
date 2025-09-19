@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
  * @author ddCat
  */
 @Getter
+@JsonFormat
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonFormat
 @Schema(description = "CarrierType")
 public enum CarrierType implements DictEnum<String> {
 
@@ -27,10 +27,10 @@ public enum CarrierType implements DictEnum<String> {
 
     @EnumValue
     @JsonValue
-    private String type;
+    private String value;
 
     @Schema(description = "描述")
-    private String desc;
+    private String label;
 
     @JsonCreator
     public static CarrierType of(String type) {
@@ -38,22 +38,10 @@ public enum CarrierType implements DictEnum<String> {
             return null;
         }
         for (CarrierType info : values()) {
-            if (info.type.equals(type)) {
+            if (info.value.equals(type)) {
                 return info;
             }
         }
         return null;
     }
-
-
-    @Override
-    public String getValue() {
-        return this.type;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(type);
-    }
-
 }

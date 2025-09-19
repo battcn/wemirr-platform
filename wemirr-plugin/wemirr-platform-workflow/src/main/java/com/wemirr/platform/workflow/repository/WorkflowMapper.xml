@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.workflow.repository.WorkflowMapper">
+
+    <select id="selectTodoTaskPageList" resultType="com.wemirr.platform.workflow.domain.dto.resp.TodoTaskPageResp">
+        SELECT
+        distinct t.id,
+        t.node_code,
+        t.node_name,
+        t.node_type,
+        t.definition_id,
+        t.instance_id,
+        t.create_time,
+        t.update_time,
+        t.tenant_id,
+        t.flow_status,
+        i.activity_status,
+        d.flow_name,
+        d.flow_code,
+        ie.create_by,
+        ie.create_name,
+        ie.attachment,
+        ie.business_id,
+        ie.business_type as business_type
+        FROM flow_task AS t
+        LEFT JOIN flow_user uu ON uu.associated = t.id and uu.del_flag = '0'
+        LEFT JOIN flow_definition d on t.definition_id = d.id
+        LEFT JOIN flow_instance i on t.instance_id = i.id
+        left join flow_instance_ext ie on i.id = ie.instance_id
+        where
+        t.node_type = 1
+        AND t.del_flag = '0'
+        <if test="req.permissionList != null and req.permissionList.size > 0">
+            AND uu.processed_by in
+            <foreach item="permission" collection="req.permissionList" open="(" separator="," close=")">
+                #{permission}
+            </foreach>
+        </if>
+        <if test="req.nodeCode != null and req.nodeCode != ''">
+            and t.node_code = #{req.nodeCode}
+        </if>
+        <if test="req.instanceId != null ">
+            and t.instance_id = #{req.instanceId}
+        </if>
+        <if test="req.businessCode != null and req.businessCode != ''">
+            and i.business_id like concat('%',#{req.businessCode}, '%')
+        </if>
+        <if test="req.keyword != null and req.keyword != ''">
+            and (ie.keyword like concat('%',#{req.keyword}, '%') or i.business_id like concat('%',#{req.keyword}, '%') or t.node_name like concat('%',#{req.nodeName}, '%'))
+        </if>
+        <if test="req.businessType != null and req.businessType != ''">
+            and ie.business_type = #{req.businessType}
+        </if>
+        order by t.create_time desc
+    </select>
+    <select id="selectInstancePageList" resultType="com.wemirr.platform.workflow.domain.dto.resp.InstancePageResp">
+        SELECT t1.id,
+        t1.business_id,
+        t1.definition_id,
+        t1.node_type,
+        t1.node_code,
+        t1.node_name,
+        t1.flow_status,
+        t1.create_by,
+        t2.flow_code,
+        t2.flow_name,
+        t2.version,
+        t1.create_time,
+        t3.create_name,
+        t1.update_time,
+        t3.remark,
+        t3.title,
+        t3.attachment,
+        t3.business_code,
+        t3.business_type ,
+        t1.activity_status,
+        t4.id as category_id,
+        t4.name as category_name
+        FROM flow_instance t1
+        LEFT JOIN flow_definition t2 ON t1.definition_id = t2.id
+        LEFT JOIN flow_instance_ext t3 on t1.id = t3.instance_id
+        left join flow_category t4 on t2.category = t4.id
+        WHERE 1 = 1
+        <if test="req.userId != null  and req.userId != ''">
+            and t1.create_by = #{req.userId}
+        </if>
+        <if test="req.businessCode != null  and req.businessCode != ''">
+            and t1.business_id like concat('%',#{req.businessCode},'%')
+        </if>
+        <if test="req.keyword != null and req.keyword != ''">
+            and (t3.keyword like concat('%',#{req.keyword}, '%') or t1.business_id like concat('%',#{req.keyword}, '%'))
+        </if>
+        <if test="req.businessType != null  and req.businessType != ''">
+            and t3.business_type like concat('%',#{req.businessType},'%')
+        </if>
+        <if test="req.activityStatus != null  and req.activityStatus != ''">
+            and t1.activity_status = #{req.activityStatus}
+        </if>
+        <if test="req.approvalStatus != null  and req.approvalStatus != ''">
+            and t1.flow_status = #{req.approvalStatus}
+        </if>
+        <if test="req.categoryId != null  and req.categoryId != ''">
+            and t2.category = #{req.categoryId}
+        </if>
+        order by t1.create_time desc
+    </select>
+    <select id="selectTaskByInstanceId" resultType="com.wemirr.platform.workflow.domain.dto.resp.FlowTaskApproveListResp"
+            parameterType="java.lang.Long">
+        SELECT instance_id,
+               task_id,
+               node_code,
+               node_name,
+               approver,
+               flow_status,
+               variable,
+               message,
+               update_time AS "approval_time"
+        FROM flow_his_task
+        WHERE del_flag = '0'
+          AND node_type = 1
+          and instance_id = #{instanceId}
+        UNION ALL
+
+        SELECT t.instance_id,
+               t.id                               AS task_id,
+               t.node_code,
+               t.node_name,
+               GROUP_CONCAT(fl.processed_by, ',') AS "approver",
+               t.flow_status,
+               NULL                               as variable,
+               NULL                               as message,
+               NULL                               AS "approval_time"
+        FROM flow_task t
+                 LEFT JOIN
+             flow_user fl ON fl.associated = t.id
+        WHERE t.del_flag = '0'
+          AND node_type = 1
+          AND t.instance_id = #{instanceId}
+        GROUP BY t.instance_id,
+                 t.id,
+                 t.node_code,
+                 t.node_name,
+                 t.node_type,
+                 t.flow_status
+    </select>
+    <select id="selectDoneTaskPageList" resultType="com.wemirr.platform.workflow.domain.dto.resp.DoneTaskPageResp">
+        select t.task_id,
+        t.node_code,
+        t.node_name,
+        t.approver,
+        t.node_type,
+        t.definition_id,
+        t.instance_id,
+        i.flow_status,
+        t.create_time,
+        t.update_time,
+        t.tenant_id,
+        d.flow_name,
+        ie.create_by,
+        ie.create_name,
+        ie.attachment,
+        ie.business_id,
+        ie.business_type as business_type,
+        t.ext as skip_type
+        from flow_his_task t
+        LEFT JOIN flow_definition d on t.definition_id = d.id
+        LEFT JOIN flow_instance i on t.instance_id = i.id
+        left join flow_instance_ext ie on i.id = ie.instance_id
+        where t.node_type = 1
+        <if test="req.permissionList != null and req.permissionList.size > 0">
+            AND t.approver in
+            <foreach item="permission" collection="req.permissionList" open="(" separator="," close=")">
+                #{permission}
+            </foreach>
+        </if>
+        <if test="req.nodeCode != null  and req.nodeCode != ''">
+            and node_code = #{req.nodeCode}
+        </if>
+        <if test="req.instanceId != null ">
+            and instance_id = #{req.instanceId}
+        </if>
+        <if test="req.businessCode != null and req.businessCode != ''">
+            and i.business_id like concat('%',#{req.businessCode}, '%')
+        </if>
+        <if test="req.keyword != null and req.keyword != ''">
+            and (ie.keyword like concat('%',#{req.keyword}, '%') or i.business_id like concat('%',#{req.keyword}, '%'))
+        </if>
+        <if test="req.businessType != null and req.businessType != ''">
+            and ie.business_type = #{req.businessType}
+        </if>
+        order by t.create_time desc
+    </select>
+
+    <select id="selectDefinitionPageList"
+            resultType="com.wemirr.platform.workflow.domain.dto.resp.FlowDefinitionPageResp">
+        select t1.*,t2.name as category_name
+        from flow_definition t1
+        left join flow_category t2 on t1.category = t2.id
+        where t1.del_flag = '0'
+        <if test="req.flowCode != null and req.flowCode != ''">
+            and t1.flow_code = #{req.flowCode}
+        </if>
+        <if test="req.categoryId != null and req.categoryId != ''">
+            and t2.id = #{req.categoryId}
+        </if>
+        <if test="req.flowCode != null and req.flowCode != ''">
+            and t1.flow_code = #{req.flowCode}
+        </if>
+        <if test="req.publishStatus != null">
+            and t1.is_publish = #{req.publishStatus}
+        </if>
+        <if test="req.modelValue != null">
+            and t1.model_value = #{req.modelValue.value}
+        </if>
+        ORDER BY ID DESC
+    </select>
+</mapper>

@@ -66,7 +66,9 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         // 判单当前请求是否需要经过Response统一结果封装
         String isReWrite = requestHeaders.containsKey(RESPONSE_DATA_REWRITE) ? requestHeaders.getFirst(RESPONSE_DATA_REWRITE) : REWRITE;
         serverHttpResponse.getHeaders().add(RESPONSE_DATA_REWRITE, REWRITE);
-        if (IGNORE_URLS.contains(path)) {
+        if (IGNORE_URLS.contains(path) ||
+                path.startsWith("/warm-flow/") ||
+                path.startsWith("/warm-flow-ui/")) {
             return body;
         }
         if (REWRITE.equals(isReWrite) || StringUtils.isBlank(isReWrite)) {

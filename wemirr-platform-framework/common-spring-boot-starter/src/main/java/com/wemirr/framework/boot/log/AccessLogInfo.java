@@ -98,10 +98,10 @@ public class AccessLogInfo {
     protected String platform;
 
     @Schema(description = "创建者ID")
-    protected Long createdBy;
+    protected Long createBy;
 
     @Schema(description = "创建者名字")
-    protected String createdName;
+    protected String createName;
 
     @Schema(description = "请求令牌")
     private String token;

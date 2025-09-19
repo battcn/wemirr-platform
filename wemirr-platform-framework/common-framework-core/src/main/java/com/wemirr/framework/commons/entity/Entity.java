@@ -48,12 +48,12 @@ public class Entity<T> implements Serializable {
     public static final String TENANT_ID_COLUMN = "tenant_id";
     public static final String TENANT_ID = "tenantId";
     public static final String FIELD_ID = "id";
-    public static final String CREATE_TIME = "createdTime";
-    public static final String CREATE_TIME_COLUMN = "created_time";
-    public static final String CREATE_USER = "createdBy";
-    public static final String CREATE_USER_NAME = "createdName";
-    public static final String CREATE_USER_NAME_COLUMN = "created_name";
-    public static final String CREATE_USER_COLUMN = "created_by";
+    public static final String CREATE_TIME = "createTime";
+    public static final String CREATE_TIME_COLUMN = "create_time";
+    public static final String CREATE_USER = "createBy";
+    public static final String CREATE_USER_NAME = "createName";
+    public static final String CREATE_USER_NAME_COLUMN = "create_name";
+    public static final String CREATE_USER_COLUMN = "create_by";
     @Serial
     private static final long serialVersionUID = 1L;
     @Schema(description = "ID")
@@ -67,21 +67,21 @@ public class Entity<T> implements Serializable {
      */
     @TableField(value = CREATE_USER_COLUMN, fill = FieldFill.INSERT)
     @Schema(description = "创建人ID")
-    private T createdBy;
+    private T createBy;
     
     /**
      * 创建人名称
      */
     @TableField(value = CREATE_USER_NAME_COLUMN, fill = FieldFill.INSERT)
     @Schema(description = "创建人名称")
-    private String createdName;
+    private String createName;
     
     /**
      * 创建时间（依托数据库功能）
      */
     @TableField(value = CREATE_TIME_COLUMN, fill = FieldFill.INSERT)
     @Schema(description = "创建时间")
-    private Instant createdTime;
+    private Instant createTime;
     
     /**
      * 保存和缺省验证组

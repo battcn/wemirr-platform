@@ -60,7 +60,7 @@ public class StringCodeToEnumConverterFactory implements ConverterFactory<String
         public StringToEnumConverter(Class<T> enumType) {
             T[] enums = enumType.getEnumConstants();
             for (T e : enums) {
-                enumMap.put(String.valueOf(e.getCode()), e);
+                enumMap.put(String.valueOf(e.getValue()), e);
             }
         }
 

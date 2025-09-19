@@ -14,7 +14,7 @@
     <modules>
         <module>wemirr-platform-iam-api</module>
         <module>wemirr-platform-suite-api</module>
-        <module>wemirr-platform-flow-api</module>
+        <module>wemirr-platform-workflow-api</module>
     </modules>
     
     <properties>

@@ -133,7 +133,7 @@ public class SettleServiceImpl extends SuperServiceImpl<BmsSettleDetailMapper, B
 
         List<Map<String, Object>> orderMaps = this.orderMapper.selectMaps(Wrappers.<TmsOrder>lambdaQuery()
                 .eq(TmsOrder::getProjectId, req.getProjectId())
-                .between(TmsOrder::getCreatedTime, orderStartDate, orderEndDate.plusDays(1))
+                .between(TmsOrder::getCreateTime, orderStartDate, orderEndDate.plusDays(1))
         ).parallelStream().peek(orderMap -> {
             Long orderId = (Long) orderMap.get("id");
             final List<Map<String, Object>> senders = this.orderSenderMapper.selectMaps(Wraps.<TmsOrderAddress>lbQ()

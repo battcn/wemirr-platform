@@ -82,8 +82,8 @@ public class MessageNotifyServiceImpl extends SuperServiceImpl<MessageNotifyMapp
                             .content(content).nickname(user.getNickName())
                             .tenantId(context.tenantId())
                             .subscribe(user.getEmail())
-                            .deleted(false).createdBy(context.userId())
-                            .createdName(context.nickName()).createdTime(Instant.now())
+                            .deleted(false).createBy(context.userId())
+                            .createName(context.nickName()).createTime(Instant.now())
                             .build()).toList();
                 }).flatMap(Collection::stream).collect(Collectors.toList());
         CollUtil.split(list, 600).forEach(messageNotifyMapper::insertBatchSomeColumn);

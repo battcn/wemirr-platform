@@ -55,7 +55,7 @@ public class LoginLogController {
     @SaCheckPermission(value = {"monitor:log:login"})
     public Page<LoginLog> pageList(LoginLogPageReq req) {
         return DataPermissionUtils.executeDefaultDataPermissionRule(() -> loginLogService.page(req.buildPage(), Wraps.<LoginLog>lbQ()
-                .like(LoginLog::getCreatedBy, req.getNickName())
+                .like(LoginLog::getCreateBy, req.getNickName())
                 .like(LoginLog::getPrincipal, req.getPrincipal())
                 .eq(LoginLog::getPlatform, req.getPlatform())));
     }

@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.db.mybatisplus.handler;
 
+import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.entity.SuperEntity;
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 
+import java.lang.reflect.Field;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -62,20 +64,30 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
             log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
             return;
         }
+        Object object = metaObject.getOriginalObject();
         if (metaObject.hasGetter(SuperEntity.DELETED)) {
             final Object deleted = Optional.ofNullable(metaObject.getValue(SuperEntity.DELETED)).orElse(Boolean.FALSE);
             this.setFieldValByName(SuperEntity.DELETED, deleted, metaObject);
         }
         if (metaObject.hasGetter(Entity.TENANT_ID)) {
             final Object tenantId = Optional.ofNullable(metaObject.getValue(Entity.TENANT_ID)).orElse(context.tenantId());
-            this.setFieldValByName(Entity.TENANT_ID, tenantId, metaObject);
+            if (isStrField(object, Entity.TENANT_ID)) {
+                this.setFieldValByName(Entity.TENANT_ID, String.valueOf(tenantId), metaObject);
+            } else {
+                this.setFieldValByName(Entity.TENANT_ID, tenantId, metaObject);
+            }
         }
         if (metaObject.hasGetter(Entity.CREATE_TIME)) {
             final Object createTime = Optional.ofNullable(metaObject.getValue(Entity.CREATE_TIME)).orElseGet(Instant::now);
             this.setFieldValByName(Entity.CREATE_TIME, createTime, metaObject);
         }
         if (metaObject.hasGetter(Entity.CREATE_USER)) {
-            this.setFieldValByName(Entity.CREATE_USER, context.userId(), metaObject);
+            final Object userId = Optional.ofNullable(metaObject.getValue(Entity.CREATE_USER)).orElse(context.userId());
+            if (isStrField(object, Entity.CREATE_USER)) {
+                this.setFieldValByName(Entity.CREATE_USER, String.valueOf(userId), metaObject);
+            } else {
+                this.setFieldValByName(Entity.CREATE_USER, userId, metaObject);
+            }
             this.setFieldValByName(Entity.CREATE_USER_NAME, context.nickName(), metaObject);
         }
     }
@@ -93,14 +105,35 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
             log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
             return;
         }
-        final Object updateTime = Optional.ofNullable(metaObject.getValue(SuperEntity.UPDATE_TIME)).orElseGet(Instant::now);
+        Object object = metaObject.getOriginalObject();
         // 如果要自己设置服务器时间就自己赋值,否则建议使用数据库的默认时间 DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
         if (metaObject.hasGetter(SuperEntity.UPDATE_TIME)) {
+            final Object updateTime = Optional.ofNullable(metaObject.getValue(SuperEntity.UPDATE_TIME)).orElseGet(Instant::now);
             this.setFieldValByName(SuperEntity.UPDATE_TIME, updateTime, metaObject);
         }
         if (metaObject.hasGetter(SuperEntity.UPDATE_USER)) {
             this.setFieldValByName(SuperEntity.UPDATE_USER, context.userId(), metaObject);
+
+            final Object userId = Optional.ofNullable(metaObject.getValue(SuperEntity.UPDATE_USER)).orElse(context.userId());
+            if (isStrField(object, SuperEntity.UPDATE_USER)) {
+                this.setFieldValByName(SuperEntity.UPDATE_USER, String.valueOf(userId), metaObject);
+            } else {
+                this.setFieldValByName(SuperEntity.UPDATE_USER, userId, metaObject);
+            }
             this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, context.nickName(), metaObject);
         }
     }
+
+    /**
+     * 判断字段是否是Long类型
+     */
+    public static boolean isStrField(Object obj, String fieldName) {
+        Field field = ReflectUtil.getField(obj.getClass(), fieldName);
+        if (field == null) {
+            return false;
+        }
+        Class<?> fieldType = field.getType();
+        return fieldType.equals(String.class);
+    }
+
 }

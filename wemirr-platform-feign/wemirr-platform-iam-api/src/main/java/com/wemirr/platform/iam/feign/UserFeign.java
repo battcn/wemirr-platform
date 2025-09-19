@@ -1,7 +1,9 @@
 package com.wemirr.platform.iam.feign;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.FeignConstants;
 import com.wemirr.framework.commons.remote.LoadService;
+import com.wemirr.platform.iam.feign.domain.req.UserFeignPageReq;
 import com.wemirr.platform.iam.feign.domain.resp.UserInfoResp;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +29,14 @@ public interface UserFeign extends LoadService<UserInfoResp> {
     @PostMapping("/users/batch_ids")
     Map<Object, UserInfoResp> findByIds(@RequestBody Set<Object> ids);
 
+    /**
+     * 分页查询
+     *
+     * @param req req
+     * @return 查询结果
+     */
+    @PostMapping("/users/page")
+    Page<UserInfoResp> pageList(@RequestBody UserFeignPageReq req);
 
     /**
      * 根据 ID 批量查询

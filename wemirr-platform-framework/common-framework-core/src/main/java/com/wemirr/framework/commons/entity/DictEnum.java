@@ -51,7 +51,7 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
         if (dictList == null) {
             return null;
         }
-        return Arrays.stream(dictList).map(dictionary -> new Dict<>(dictionary.getCode(), dictionary.getDesc())).collect(toList());
+        return Arrays.stream(dictList).map(dictionary -> new Dict<>(dictionary.getValue(), dictionary.getLabel())).collect(toList());
     }
     
     /**
@@ -85,7 +85,7 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
         }
         return dictList.stream()
                 .filter(Objects::nonNull)
-                .map(DictEnum::getCode)
+                .map(DictEnum::getValue)
                 .filter(Objects::nonNull)
                 .map(String::valueOf)
                 .collect(Collectors.joining(","));
@@ -113,7 +113,7 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
      *
      * @return 描述
      */
-    String getDesc();
+    String getLabel();
     
     /**
      * 语言
@@ -122,15 +122,6 @@ public interface DictEnum<T extends Serializable> extends IEnum<T> {
      */
     default String getLanguage() {
         return null;
-    }
-    
-    /**
-     * 获取枚举编码
-     *
-     * @return 编码
-     */
-    default T getCode() {
-        return this.getValue();
     }
     
 }

@@ -26,6 +26,6 @@ public class FeignConstants {
     
     public static final String AUTH_FEIGN_NAME = "wemirr-platform-iam";
     public static final String SUITE_FEIGN_NAME = "wemirr-platform-suite";
-    public static final String BPM_FEIGN_NAME = "wemirr-platform-bpm";
-    
+    public static final String WORKFLOW_FEIGN_NAME = "wemirr-platform-workflow";
+
 }

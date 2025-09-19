@@ -117,6 +117,6 @@ public class UserResp {
     
     @ExcelProperty("创建时间")
     @Schema(description = "创建时间")
-    private Instant createdTime;
+    private Instant createTime;
     
 }

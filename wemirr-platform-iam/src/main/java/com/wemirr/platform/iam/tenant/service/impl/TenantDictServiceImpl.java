@@ -166,12 +166,12 @@ public class TenantDictServiceImpl extends SuperServiceImpl<TenantDictMapper, Te
             dict.setId(null);
             dict.setReadonly(true);
             dict.setTenantId(tenantId);
-            dict.setCreatedTime(Instant.now());
-            dict.setCreatedBy(context.userId());
-            dict.setCreatedName(context.nickName());
-            dict.setLastModifiedTime(Instant.now());
-            dict.setLastModifiedBy(context.userId());
-            dict.setLastModifiedName(context.nickName());
+            dict.setCreateTime(Instant.now());
+            dict.setCreateBy(context.userId());
+            dict.setCreateName(context.nickName());
+            dict.setLastModifyTime(Instant.now());
+            dict.setLastModifyBy(context.userId());
+            dict.setLastModifyName(context.nickName());
             return dict;
         }).toList();
         // TODO 需要优化重构

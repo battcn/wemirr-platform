@@ -57,6 +57,7 @@
         <wemirr-framework.version>3.0.0-SNAPSHOT</wemirr-framework.version>
         <jakarta-validation.version>3.1.0</jakarta-validation.version>
         <sa-token.version>1.44.0</sa-token.version>
+        <warm-flow.version>1.8.2-m3</warm-flow.version>
     </properties>
 
     <dependencyManagement>

@@ -94,10 +94,10 @@ spring:
           filters:
             - StripPrefix=1
             - PreserveHostHeader
-        - id: wemirr-platform-warmflow
-          uri: lb://wemirr-platform-warmflow
+        - id: wemirr-platform-workflow
+          uri: lb://wemirr-platform-workflow
           predicates:
-            - Path=/warmflow/**
+            - Path=/workflow/**
           filters:
             - StripPrefix=1
             - PreserveHostHeader

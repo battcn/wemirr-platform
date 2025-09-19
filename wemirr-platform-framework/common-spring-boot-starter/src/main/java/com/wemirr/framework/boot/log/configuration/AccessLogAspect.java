@@ -197,8 +197,8 @@ public class AccessLogAspect {
         if (context != null) {
             log.setTenantId(context.tenantId());
             log.setTenantCode(context.tenantCode());
-            log.setCreatedBy(context.userId());
-            log.setCreatedName(context.nickName());
+            log.setCreateBy(context.userId());
+            log.setCreateName(context.nickName());
         }
         HttpServletRequest request = getRequest();
         log.setTrace(MDC.get(accessLogProperties.getTrace()));

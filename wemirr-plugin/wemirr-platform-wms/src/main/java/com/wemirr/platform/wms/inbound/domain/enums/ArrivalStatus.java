@@ -28,10 +28,10 @@ public enum ArrivalStatus implements DictEnum<String> {
     ;
     @EnumValue
     @JsonValue
-    private String status;
+    private String value;
 
     @Schema(description = "描述")
-    private String desc;
+    private String label;
 
     @JsonCreator
     public static ArrivalStatus of(String status) {
@@ -39,21 +39,10 @@ public enum ArrivalStatus implements DictEnum<String> {
             return null;
         }
         for (ArrivalStatus info : values()) {
-            if (info.status.equals(status)) {
+            if (info.value.equals(status)) {
                 return info;
             }
         }
         return null;
-    }
-
-
-    @Override
-    public String getValue() {
-        return this.status;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(status);
     }
 }

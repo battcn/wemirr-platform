@@ -29,7 +29,7 @@ public class DefaultHandlerAbstract extends AbstractLogHandler {
                             \t异常 - {}\s
                             \t耗时 - {}\s
                             ----------------------------全局日志结束----------------------------""",
-                    info.getTenantId(), info.getCreatedBy(), info.getCreatedName(),
+                    info.getTenantId(), info.getCreateBy(), info.getCreateName(),
                     info.getToken(),
                     info.getAction(), info.getUri(),
                     info.getRequest(),
@@ -48,7 +48,7 @@ public class DefaultHandlerAbstract extends AbstractLogHandler {
                             \t异常 - {}\s
                             \t耗时 - {}\s
                             ----------------------------全局日志结束----------------------------""",
-                    info.getTenantId(), info.getCreatedBy(), info.getCreatedName(),
+                    info.getTenantId(), info.getCreateBy(), info.getCreateName(),
                     info.getToken(),
                     info.getAction(), info.getUri(),
                     info.getRequest(),

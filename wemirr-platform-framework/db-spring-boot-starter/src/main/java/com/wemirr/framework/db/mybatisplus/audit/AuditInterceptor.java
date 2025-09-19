@@ -104,10 +104,10 @@ public class AuditInterceptor implements InnerInterceptor {
             AuditField auditField = AuditField.builder().label(label).field(fieldName).source(oldValue).target(newValue).build();
             Object source = null;
             if (oldValue instanceof DictEnum<?> dict) {
-                source = ObjUtil.defaultIfNull(dict.getDesc(), oldValue);
+                source = ObjUtil.defaultIfNull(dict.getLabel(), oldValue);
             }
             if (newValue instanceof DictEnum<?> dict) {
-                Object target = ObjUtil.defaultIfNull(dict.getDesc(), newValue);
+                Object target = ObjUtil.defaultIfNull(dict.getLabel(), newValue);
                 String format = String.format("字段 [%s] 从 %s 修改至 %s ", label, source, target);
                 auditField.setFormat(format);
             }

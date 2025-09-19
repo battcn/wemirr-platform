@@ -57,10 +57,10 @@ public enum Sex implements DictEnum<String> {
     
     @EnumValue
     @JsonValue
-    private String type;
+    private String value;
     
     @Schema(description = "描述")
-    private String desc;
+    private String label;
     
     @JsonCreator
     public static Sex of(String type) {
@@ -68,21 +68,16 @@ public enum Sex implements DictEnum<String> {
             return null;
         }
         for (Sex info : values()) {
-            if (info.type.equals(type)) {
+            if (info.value.equals(type)) {
                 return info;
             }
         }
         return null;
     }
-    
-    @Override
-    public String getValue() {
-        return this.type;
-    }
-    
+
     @Override
     public String toString() {
-        return String.valueOf(type);
+        return String.valueOf(value);
     }
     
 }

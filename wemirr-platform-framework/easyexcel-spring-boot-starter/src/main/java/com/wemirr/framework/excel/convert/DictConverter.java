@@ -39,7 +39,7 @@ public class DictConverter implements Converter<DictEnum<?>> {
     @Override
     public WriteCellData<String> convertToExcelData(DictEnum<?> value, ExcelContentProperty contentProperty,
                                                     GlobalConfiguration globalConfiguration) {
-        return new WriteCellData<>(Optional.ofNullable(value).map(DictEnum::getDesc).orElse(""));
+        return new WriteCellData<>(Optional.ofNullable(value).map(DictEnum::getLabel).orElse(""));
     }
 
 }

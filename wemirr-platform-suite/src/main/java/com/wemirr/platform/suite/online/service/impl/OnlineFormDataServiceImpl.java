@@ -48,8 +48,8 @@ public class OnlineFormDataServiceImpl extends SuperServiceImpl<OnlineFormDataMa
                 put("id", x.getId());
                 put("definitionKey", x.getDefinitionKey());
                 put("tenantId", x.getTenantId());
-                put("createdName", x.getCreatedName());
-                put("createdTime", x.getCreatedTime());
+                put("createdName", x.getCreateName());
+                put("createdTime", x.getCreateTime());
                 putAll(x.getFormData());
             }
         });

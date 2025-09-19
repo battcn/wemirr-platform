@@ -252,6 +252,10 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         return super.in(values != null && values.length > 0, column, values);
     }
 
+    public LbqWrapper<T> bt(SFunction<T, ?> column, Object left, Object right) {
+        return super.between(left != null && right != null, column, left, right);
+    }
+
     @Override
     public LbqWrapper<T> like(SFunction<T, ?> column, Object val) {
         return super.like(this.checkCondition(val), column, val);
@@ -324,5 +328,6 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         setColumn.apply(this.getEntity(), null);
         return this;
     }
+
 
 }

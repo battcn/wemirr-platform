@@ -97,10 +97,10 @@ public class GenerateTableServiceImpl extends SuperServiceImpl<GenerateTableMapp
                     gen.setName(x.getName());
                     gen.setComment(x.getComment());
                     if (x.getCreateTime() != null) {
-                        gen.setCreatedTime(x.getCreateTime().toInstant());
+                        gen.setCreateTime(x.getCreateTime().toInstant());
                     }
                     if (x.getUpdateTime() != null) {
-                        gen.setLastModifiedTime(x.getUpdateTime().toInstant());
+                        gen.setLastModifyTime(x.getUpdateTime().toInstant());
                     }
                     return gen;
                 }).toList();
@@ -133,10 +133,10 @@ public class GenerateTableServiceImpl extends SuperServiceImpl<GenerateTableMapp
                     gen.setName(x.getName());
                     gen.setComment(x.getComment());
                     if (x.getCreateTime() != null) {
-                        gen.setCreatedTime(x.getCreateTime().toInstant());
+                        gen.setCreateTime(x.getCreateTime().toInstant());
                     }
                     if (x.getUpdateTime() != null) {
-                        gen.setLastModifiedTime(x.getUpdateTime().toInstant());
+                        gen.setLastModifyTime(x.getUpdateTime().toInstant());
                     }
                     buildInitTable(gen);
                     return gen;

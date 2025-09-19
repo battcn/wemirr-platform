@@ -43,7 +43,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "枚举")
 @JsonFormat
 public enum ReceiverType implements DictEnum<Integer> {
-    
+
     /**
      * 1
      */
@@ -53,46 +53,30 @@ public enum ReceiverType implements DictEnum<Integer> {
      */
     ROLE(2, "角色"),
     ;
-    
+
     @EnumValue
     @JsonValue
-    private Integer type;
-    
+    private Integer value;
+
     @Schema(description = "描述")
-    private String desc;
-    
+    private String label;
+
     @JsonCreator
     public static ReceiverType of(Integer type) {
         if (type == null) {
             return null;
         }
         for (ReceiverType info : values()) {
-            if (info.type.equals(type)) {
+            if (info.value.equals(type)) {
                 return info;
             }
         }
         return null;
     }
-    
-    public boolean eq(String val) {
-        return this.name().equalsIgnoreCase(val);
-    }
-    
-    public boolean eq(ReceiverType val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
-    }
-    
-    @Override
-    public Integer getValue() {
-        return this.type;
-    }
-    
+
     @Override
     public String toString() {
-        return String.valueOf(type);
+        return String.valueOf(value);
     }
-    
+
 }

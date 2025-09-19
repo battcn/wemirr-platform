@@ -40,43 +40,38 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Schema(description = "资源类型-枚举")
 public enum ResourceType implements DictEnum<String> {
-    
+
     DIRECTORY("directory", "目录"),
     MENU("menu", "菜单"),
     IFRAME("iframe", "内嵌"),
     LINK("link", "外链"),
     BUTTON("button", "按钮"),
     ;
-    
+
     @EnumValue
     @JsonValue
     @Schema(description = "资源类型")
-    private String type;
-    
+    private String value;
+
     @Schema(description = "描述")
-    private String desc;
-    
+    private String label;
+
     @JsonCreator
     public static ResourceType of(String type) {
         if (type == null) {
             return null;
         }
         for (ResourceType info : values()) {
-            if (info.type.equals(type)) {
+            if (info.value.equals(type)) {
                 return info;
             }
         }
         return null;
     }
-    
-    @Override
-    public String getValue() {
-        return this.type;
-    }
-    
+
     @Override
     public String toString() {
-        return type;
+        return value;
     }
-    
+
 }

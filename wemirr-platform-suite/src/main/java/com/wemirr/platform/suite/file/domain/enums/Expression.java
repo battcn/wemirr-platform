@@ -72,7 +72,7 @@ public enum Expression implements DictEnum<String> {
     }
     
     @Override
-    public String getDesc() {
+    public String getLabel() {
         return value;
     }
 }

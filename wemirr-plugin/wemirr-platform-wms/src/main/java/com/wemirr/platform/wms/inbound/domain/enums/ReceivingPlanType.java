@@ -30,10 +30,10 @@ public enum ReceivingPlanType implements DictEnum<String> {
 
     @EnumValue
     @JsonValue
-    private String type;
+    private String value;
 
     @Schema(description = "描述")
-    private String desc;
+    private String label;
 
     @JsonCreator
     public static ReceivingPlanType of(String type) {
@@ -41,22 +41,10 @@ public enum ReceivingPlanType implements DictEnum<String> {
             return null;
         }
         for (ReceivingPlanType info : values()) {
-            if (info.type.equals(type)) {
+            if (info.value.equals(type)) {
                 return info;
             }
         }
         return null;
     }
-
-
-    @Override
-    public String getValue() {
-        return this.type;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(type);
-    }
-
 }

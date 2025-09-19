@@ -48,25 +48,25 @@ public class SuperEntity<T> extends Entity<T> {
 
     public static final String DELETED = "deleted";
 
-    public static final String UPDATE_TIME = "lastModifiedTime";
-    public static final String UPDATE_USER = "lastModifiedBy";
-    public static final String UPDATE_USER_NAME = "lastModifiedName";
+    public static final String UPDATE_TIME = "lastModifyTime";
+    public static final String UPDATE_USER = "lastModifyBy";
+    public static final String UPDATE_USER_NAME = "lastModifyName";
 
-    public static final String UPDATE_TIME_COLUMN = "last_modified_time";
-    public static final String UPDATE_USER_COLUMN = "last_modified_by";
-    public static final String UPDATE_USER_NAME_COLUMN = "last_modified_name";
+    public static final String UPDATE_TIME_COLUMN = "last_modify_time";
+    public static final String UPDATE_USER_COLUMN = "last_modify_by";
+    public static final String UPDATE_USER_NAME_COLUMN = "last_modify_name";
 
     @Schema(description = "最后修改时间")
     @TableField(value = UPDATE_TIME_COLUMN, fill = FieldFill.UPDATE)
-    private Instant lastModifiedTime;
+    private Instant lastModifyTime;
 
     @Schema(description = "最后修改人ID")
     @TableField(value = UPDATE_USER_COLUMN, fill = FieldFill.UPDATE)
-    private T lastModifiedBy;
+    private T lastModifyBy;
 
     @Schema(description = "最后修改人名称")
     @TableField(value = UPDATE_USER_NAME_COLUMN, fill = FieldFill.UPDATE)
-    private String lastModifiedName;
+    private String lastModifyName;
 
     @TableLogic(value = "false", delval = "true")
     @TableField(value = DELETED, fill = FieldFill.INSERT)
