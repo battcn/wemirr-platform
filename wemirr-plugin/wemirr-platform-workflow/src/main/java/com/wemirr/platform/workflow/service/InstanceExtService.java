@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.workflow.domain.dto.req.InstancePageReq;
 import com.wemirr.platform.workflow.domain.dto.resp.FlowTaskApproveListResp;
+import com.wemirr.platform.workflow.domain.dto.resp.InstanceExtDetailResp;
 import com.wemirr.platform.workflow.domain.dto.resp.InstancePageResp;
 import com.wemirr.platform.workflow.domain.entity.InstanceExt;
 
@@ -43,4 +44,12 @@ public interface InstanceExtService extends SuperService<InstanceExt> {
      * @return 查询结果
      */
     IPage<InstancePageResp> pageList(InstancePageReq req);
+
+    /**
+     * 流程详情
+     * @param id id
+     * @return 查询结果
+     */
+    InstanceExtDetailResp extInfo(Long id);
+
 }

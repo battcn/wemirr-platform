@@ -6,11 +6,14 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.commons.BeanUtilPlus;
+import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.platform.workflow.domain.constant.VariableConstant;
 import com.wemirr.platform.workflow.domain.dto.req.InstancePageReq;
 import com.wemirr.platform.workflow.domain.dto.resp.FlowTaskApproveListResp;
+import com.wemirr.platform.workflow.domain.dto.resp.InstanceExtDetailResp;
 import com.wemirr.platform.workflow.domain.dto.resp.InstancePageResp;
 import com.wemirr.platform.workflow.domain.entity.InstanceExt;
 import com.wemirr.platform.workflow.repository.InstanceExtMapper;
@@ -18,9 +21,12 @@ import com.wemirr.platform.workflow.repository.WorkflowMapper;
 import com.wemirr.platform.workflow.service.InstanceExtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.warm.flow.core.orm.dao.FlowInstanceDao;
+import org.dromara.warm.flow.orm.entity.FlowInstance;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Collections.reverseOrder;
 import static java.util.Comparator.comparing;
@@ -40,7 +46,8 @@ public class InstanceExtServiceImpl extends SuperServiceImpl<InstanceExtMapper, 
 
     private final WorkflowMapper workflowMapper;
     private final AuthenticationContext context;
-
+    private final InstanceExtMapper instanceExtMapper;
+    private final FlowInstanceDao<FlowInstance> flowInstanceDao;
 
     @Override
     public IPage<InstancePageResp> mePageList(InstancePageReq req) {
@@ -66,6 +73,15 @@ public class InstanceExtServiceImpl extends SuperServiceImpl<InstanceExtMapper, 
     @Override
     public IPage<InstancePageResp> pageList(InstancePageReq req) {
         return workflowMapper.selectInstancePageList(req.buildPage(), req);
+    }
+
+    @Override
+    public InstanceExtDetailResp extInfo(Long id) {
+        var instance = Optional.ofNullable(instanceExtMapper.selectOne(InstanceExt::getInstanceId, id)).orElseThrow(() -> CheckedException.notFound("流程实例不存在"));
+        var taskList = allTask(id);
+        var detail = BeanUtilPlus.toBean(instance, InstanceExtDetailResp.class);
+        detail.setTaskList(taskList);
+        return detail;
     }
 
     private void handlerVariable(List<FlowTaskApproveListResp> list) {

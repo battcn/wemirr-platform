@@ -3,6 +3,7 @@ package com.wemirr.platform.workflow.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.platform.workflow.domain.dto.req.InstancePageReq;
 import com.wemirr.platform.workflow.domain.dto.resp.FlowTaskApproveListResp;
+import com.wemirr.platform.workflow.domain.dto.resp.InstanceExtDetailResp;
 import com.wemirr.platform.workflow.domain.dto.resp.InstancePageResp;
 import com.wemirr.platform.workflow.domain.dto.resp.ProcessInstanceFormPreviewResp;
 import com.wemirr.platform.workflow.feign.domain.req.WorkflowInstanceTerminationReq;
@@ -43,6 +44,12 @@ public class FlowInstanceController {
     @Operation(summary = "实例信息", description = "实例信息")
     public Instance info(@PathVariable("id") Long id) {
         return insService.getById(id);
+    }
+
+    @GetMapping("/{id}/ext-info")
+    @Operation(summary = "实例详情", description = "流程实例详情")
+    public InstanceExtDetailResp extInfo(@PathVariable("id") Long id) {
+        return instanceExtService.extInfo(id);
     }
 
     @PutMapping("/{id}/un-active")

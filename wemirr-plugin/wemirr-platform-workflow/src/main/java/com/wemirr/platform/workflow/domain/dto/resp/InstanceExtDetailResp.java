@@ -1,29 +1,16 @@
-package com.wemirr.platform.workflow.domain.entity;
+package com.wemirr.platform.workflow.domain.dto.resp;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
- * 流程实例扩展信息
- *
- * @author battcn
- * @since 2025/5/28
- **/
+ * @author Levin
+ */
 @Data
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@TableName("flow_instance_ext")
-public class InstanceExt extends SuperEntity<Long> {
+public class InstanceExtDetailResp {
 
     @Schema(description = "流程实例ID")
     private Long instanceId;
@@ -55,11 +42,18 @@ public class InstanceExt extends SuperEntity<Long> {
     @Schema(description = "关键字")
     private String keyword;
 
+    @Schema(description = "表单数据")
     private String formData;
+
+    @Schema(description = "表单字段")
     private String formSchemas;
+
+    @Schema(description = "表单脚本")
     private String formScript;
 
+    @Schema(description = "完成时间")
     private Instant finishTime;
 
-
+    @Schema(description = "任务清单")
+    private List<FlowTaskApproveListResp> taskList;
 }
