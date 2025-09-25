@@ -42,10 +42,10 @@ public class I18nDataPageResp {
     private String remark;
     
     @Schema(description = "创建人")
-    private String createdName;
+    private String createName;
     
     @Schema(description = "创建时间")
-    private Instant createdTime;
+    private Instant createTime;
     
     @Schema(description = "语言区域")
     private List<I18nLocaleMessage> languages;

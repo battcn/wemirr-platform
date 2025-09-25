@@ -76,10 +76,10 @@ public class OutboundPlanDetailResp {
     private String remark;
 
     @Schema(description = "创建人名称")
-    private String createdName;
+    private String createName;
 
     @Schema(description = "创建时间")
-    private Instant createdTime;
+    private Instant createTime;
 
     @Schema(description = "出库单行项")
     private List<OutboundPlanItemPageResp> items;

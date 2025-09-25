@@ -72,10 +72,10 @@ public class FileStoragePageResp {
     /**
      * 上传者
      */
-    private String createdName;
+    private String createName;
     /**
      * 上传时间
      */
-    private Instant createdTime;
+    private Instant createTime;
     
 }

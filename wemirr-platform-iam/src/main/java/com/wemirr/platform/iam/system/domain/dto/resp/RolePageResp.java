@@ -59,6 +59,6 @@ public class RolePageResp {
     private DataScopeType scopeType;
     
     @Schema(description = "创建时间")
-    private Instant createdTime;
+    private Instant createTime;
     
 }

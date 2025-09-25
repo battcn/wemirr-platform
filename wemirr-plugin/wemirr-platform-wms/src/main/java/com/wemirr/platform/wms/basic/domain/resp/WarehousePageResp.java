@@ -72,10 +72,10 @@ public class WarehousePageResp {
     private String remark;
 
     @Schema(description = "创建人名称")
-    private String createdName;
+    private String createName;
 
     @Schema(description = "创建时间")
-    private Instant createdTime;
+    private Instant createTime;
 
     @Schema(description = "最后修改时间")
     private Instant lastModifiedTime;

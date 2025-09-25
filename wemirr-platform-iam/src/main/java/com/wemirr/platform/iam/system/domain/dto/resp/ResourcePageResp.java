@@ -68,7 +68,7 @@ public class ResourcePageResp {
     private Boolean status;
     
     @Schema(description = "创建时间")
-    private Instant createdTime;
+    private Instant createTime;
     
     @Schema(description = "描述信息")
     private String description;

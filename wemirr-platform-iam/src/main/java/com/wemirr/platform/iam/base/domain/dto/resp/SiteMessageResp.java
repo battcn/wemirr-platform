@@ -47,8 +47,8 @@ public class SiteMessageResp {
     @Schema(description = "内容")
     private String content;
     @Schema(description = "创建人")
-    private String createdName;
+    private String createName;
     @Schema(description = "创建时间")
-    private Instant createdTime;
+    private Instant createTime;
     
 }

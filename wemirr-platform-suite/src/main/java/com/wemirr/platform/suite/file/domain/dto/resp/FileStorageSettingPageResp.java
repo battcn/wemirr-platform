@@ -59,5 +59,5 @@ public class FileStorageSettingPageResp {
     private String endPoint;
     
     @Schema(description = "创建时间")
-    private Instant createdTime;
+    private Instant createTime;
 }

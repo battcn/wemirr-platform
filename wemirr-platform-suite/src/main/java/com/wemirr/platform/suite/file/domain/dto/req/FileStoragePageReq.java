@@ -40,6 +40,6 @@ public class FileStoragePageReq extends PageRequest {
     private String originalFilename;
     
     @Schema(description = "上传人")
-    private String createdName;
+    private String createName;
     
 }

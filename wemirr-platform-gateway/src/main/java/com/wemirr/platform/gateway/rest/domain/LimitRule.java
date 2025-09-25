@@ -59,6 +59,6 @@ public class LimitRule {
     @Schema(description = "描述")
     private String description;
     @Schema(description = "创建时间")
-    private Instant createdTime;
+    private Instant createTime;
     
 }
