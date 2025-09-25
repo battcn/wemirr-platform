@@ -42,17 +42,11 @@ public class InstanceExtDetailResp {
     @Schema(description = "关键字")
     private String keyword;
 
-    @Schema(description = "表单数据")
-    private String formData;
-
-    @Schema(description = "表单字段")
-    private String formSchemas;
-
-    @Schema(description = "表单脚本")
-    private String formScript;
-
     @Schema(description = "完成时间")
     private Instant finishTime;
+
+    @Schema(description = "表单预览数据")
+    private ProcessInstanceFormPreviewResp formPreview;
 
     @Schema(description = "任务清单")
     private List<FlowTaskApproveListResp> taskList;

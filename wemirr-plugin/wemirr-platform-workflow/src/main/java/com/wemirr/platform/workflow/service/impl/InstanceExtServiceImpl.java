@@ -4,6 +4,7 @@ package com.wemirr.platform.workflow.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
@@ -15,6 +16,7 @@ import com.wemirr.platform.workflow.domain.dto.req.InstancePageReq;
 import com.wemirr.platform.workflow.domain.dto.resp.FlowTaskApproveListResp;
 import com.wemirr.platform.workflow.domain.dto.resp.InstanceExtDetailResp;
 import com.wemirr.platform.workflow.domain.dto.resp.InstancePageResp;
+import com.wemirr.platform.workflow.domain.dto.resp.ProcessInstanceFormPreviewResp;
 import com.wemirr.platform.workflow.domain.entity.InstanceExt;
 import com.wemirr.platform.workflow.repository.InstanceExtMapper;
 import com.wemirr.platform.workflow.repository.WorkflowMapper;
@@ -80,7 +82,12 @@ public class InstanceExtServiceImpl extends SuperServiceImpl<InstanceExtMapper, 
         var instance = Optional.ofNullable(instanceExtMapper.selectOne(InstanceExt::getInstanceId, id)).orElseThrow(() -> CheckedException.notFound("流程实例不存在"));
         var taskList = allTask(id);
         var detail = BeanUtilPlus.toBean(instance, InstanceExtDetailResp.class);
+        //通过实例ID获取表单数据
+        var formPreview = ProcessInstanceFormPreviewResp.builder().formDesign(ProcessInstanceFormPreviewResp.FormDesign.builder()
+                        .schemas(JSONArray.parseArray(instance.getFormSchemas())).script(instance.getFormScript()).build())
+                .formData(JSONObject.parse(instance.getFormData())).build();
         detail.setTaskList(taskList);
+        detail.setFormPreview(formPreview);
         return detail;
     }
 
