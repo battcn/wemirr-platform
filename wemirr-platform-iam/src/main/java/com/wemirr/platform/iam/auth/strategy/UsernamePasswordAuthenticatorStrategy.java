@@ -69,6 +69,9 @@ public class UsernamePasswordAuthenticatorStrategy implements AuthenticatorStrat
         }
         User user = Optional.ofNullable(TenantHelper.executeWithTenantDb(tenantCode, () -> userMapper.selectUserByTenantId(username, tenant.getId())))
                 .orElseThrow(() -> CheckedException.notFound("账户不存在"));
+        if (user.getStatus() == null || !user.getStatus()) {
+            throw CheckedException.badRequest("用户已被禁用");
+        }
         if (!PasswordEncoderHelper.matches(password, user.getPassword())) {
             throw CheckedException.badRequest("用户名或密码错误");
         }

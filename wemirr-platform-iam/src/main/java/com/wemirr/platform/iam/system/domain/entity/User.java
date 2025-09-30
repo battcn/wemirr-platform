@@ -88,7 +88,7 @@ public class User extends SuperEntity<Long> {
     @Schema(description = "是否只读")
     private Boolean readonly;
     
-    @Schema(description = "状态")
+    @Schema(description = "状态(false=禁用;true=启用)")
     private Boolean status;
     
     @Schema(description = "民族")
