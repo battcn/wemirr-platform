@@ -79,8 +79,8 @@ public class LimitHelper implements GatewayRule<LimitRule> {
             String uuid = IdUtil.fastSimpleUUID();
             rule.setId(uuid);
         }
-        if (rule.getCreatedTime() == null) {
-            rule.setCreatedTime(Instant.now());
+        if (rule.getCreateTime() == null) {
+            rule.setCreateTime(Instant.now());
         }
         stringRedisTemplate.opsForHash().put(RULE_LIMIT.hashKey(), rule.getId(), JSON.toJSONString(rule));
     }

@@ -25,6 +25,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class RouteRule {
     private List<Predicate> predicates;
     private List<Filter> filters;
     private String description;
-    private LocalDateTime createdTime;
+    private Instant createTime;
     private Integer order;
     private Boolean dynamic;
     

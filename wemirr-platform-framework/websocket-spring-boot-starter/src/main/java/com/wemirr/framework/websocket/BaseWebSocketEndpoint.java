@@ -52,6 +52,8 @@ public abstract class BaseWebSocketEndpoint {
                 return;
             }
             WebSocketManager websocketManager = getWebSocketManager();
+            // 防止多个客户端连接异常（好一点的做法可以通过设备标签区分多WS Session；然后多端推送；而不是共用一个身份ID）
+            websocketManager.remove(identifier);
             WebSocket webSocket = new WebSocket();
             webSocket.setIdentifier(identifier);
             webSocket.setSession(session);

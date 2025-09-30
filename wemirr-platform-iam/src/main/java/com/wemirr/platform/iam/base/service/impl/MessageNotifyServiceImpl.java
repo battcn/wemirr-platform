@@ -103,7 +103,7 @@ public class MessageNotifyServiceImpl extends SuperServiceImpl<MessageNotifyMapp
     // message.setDescription(messagePublish.getDescription());
     // message.setLevel(messagePublish.getLevel());
     // message.setReceiveId(userId);
-    // message.setCreatedTime(Instant.now());
+    // message.setCreateTime(Instant.now());
     // this.messageNotifyMapper.insert(message);
     // this.webSocketManager.sendMessage(String.valueOf(userId), JSON.toJSONString(message));
     // }

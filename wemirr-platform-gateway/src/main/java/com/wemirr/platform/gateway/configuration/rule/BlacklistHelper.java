@@ -120,8 +120,8 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
         if (rule.getId() == null) {
             rule.setId(UuidUtils.generateUuid());
         }
-        if (rule.getCreatedTime() == null) {
-            rule.setCreatedTime(Instant.now());
+        if (rule.getCreateTime() == null) {
+            rule.setCreateTime(Instant.now());
         }
         final String content = JSON.toJSONString(rule);
         stringRedisTemplate.opsForHash().put(RULE_BLACKLIST.hashKey(), rule.getId(), content);

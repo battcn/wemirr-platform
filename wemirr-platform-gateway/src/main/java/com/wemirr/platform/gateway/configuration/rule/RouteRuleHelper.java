@@ -41,6 +41,7 @@ import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -68,8 +69,8 @@ public class RouteRuleHelper {
         if (rule == null) {
             throw CheckedException.notFound("rule 不能为空");
         }
-        if (rule.getCreatedTime() == null) {
-            rule.setCreatedTime(LocalDateTime.now());
+        if (rule.getCreateTime() == null) {
+            rule.setCreateTime(Instant.now());
         }
         if (rule.getStatus() == null) {
             rule.setStatus(false);
