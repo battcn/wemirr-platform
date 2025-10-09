@@ -16,7 +16,7 @@ import com.wemirr.platform.workflow.domain.dto.req.InstanceStartReq;
 import com.wemirr.platform.workflow.domain.dto.resp.*;
 import com.wemirr.platform.workflow.domain.entity.FlowCategory;
 import com.wemirr.platform.workflow.domain.entity.InstanceExt;
-import com.wemirr.platform.workflow.domain.entity.ProcessModelForm;
+import com.wemirr.platform.workflow.domain.entity.FlowModelForm;
 import com.wemirr.platform.workflow.feign.domain.enums.ApprovalStatus;
 import com.wemirr.platform.workflow.feign.domain.enums.DefId2Tag;
 import com.wemirr.platform.workflow.feign.domain.req.WorkflowStartReq;
@@ -151,13 +151,13 @@ public class DefExtServiceImpl implements DefExtService {
     @Override
     public void addFormDesign(Long id, FormDesignSaveReq req) {
         var definition = Optional.ofNullable(defService.getById(id)).orElseThrow(() -> CheckedException.notFound("流程定义不存在"));
-        final ProcessModelForm modelForm = this.processModelFormMapper.selectOne(Wraps.<ProcessModelForm>lbQ().eq(ProcessModelForm::getModelId, id));
+        final FlowModelForm modelForm = this.processModelFormMapper.selectOne(Wraps.<FlowModelForm>lbQ().eq(FlowModelForm::getModelId, id));
         if (modelForm == null) {
-            this.processModelFormMapper.insert(ProcessModelForm.builder().modelId(id)
+            this.processModelFormMapper.insert(FlowModelForm.builder().modelId(id)
                     .formSchemas(req.getSchemas().toJSONString())
                     .formScript(req.getScript()).build());
         } else {
-            this.processModelFormMapper.updateById(ProcessModelForm.builder()
+            this.processModelFormMapper.updateById(FlowModelForm.builder()
                     .id(modelForm.getId()).modelId(id)
                     .formSchemas(JSON.toJSONString(req.getSchemas()))
                     .formScript(req.getScript()).build());
@@ -167,7 +167,7 @@ public class DefExtServiceImpl implements DefExtService {
     @Override
     public DesignModelFormResp findFormDesign(Long id) {
         var definition = Optional.ofNullable(defService.getById(id)).orElseThrow(() -> CheckedException.notFound("流程定义不存在"));
-        final ProcessModelForm modelForm = this.processModelFormMapper.selectOne(Wraps.<ProcessModelForm>lbQ().eq(ProcessModelForm::getModelId, id));
+        final FlowModelForm modelForm = this.processModelFormMapper.selectOne(Wraps.<FlowModelForm>lbQ().eq(FlowModelForm::getModelId, id));
         if (modelForm == null) {
             return null;
         }
@@ -217,7 +217,7 @@ public class DefExtServiceImpl implements DefExtService {
         if (instance == null) {
             throw CheckedException.notFound("流程启动失败");
         }
-        var form = Optional.ofNullable(processModelFormMapper.selectOne(ProcessModelForm::getModelId, id)).orElseGet(ProcessModelForm::new);
+        var form = Optional.ofNullable(processModelFormMapper.selectOne(FlowModelForm::getModelId, id)).orElseGet(FlowModelForm::new);
         // 同步新增流程实例扩展信息
         var instanceExt = InstanceExt.builder().operationType("other")
                 .businessType(DefId2Tag.ofBusinessType(definition.getFlowCode()))

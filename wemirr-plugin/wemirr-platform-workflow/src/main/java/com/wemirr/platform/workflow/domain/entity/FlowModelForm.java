@@ -17,8 +17,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("wp_process_model_form")
-public class ProcessModelForm extends SuperEntity<Long> {
+@TableName("flow_model_form")
+public class FlowModelForm extends SuperEntity<Long> {
 
     @Schema(description = "模型ID")
     private Long modelId;
