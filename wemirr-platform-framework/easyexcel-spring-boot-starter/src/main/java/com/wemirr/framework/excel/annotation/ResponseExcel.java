@@ -1,9 +1,9 @@
 package com.wemirr.framework.excel.annotation;
 
 
-import com.alibaba.excel.converters.Converter;
-import com.alibaba.excel.support.ExcelTypeEnum;
-import com.alibaba.excel.write.handler.WriteHandler;
+import cn.idev.excel.converters.Converter;
+import cn.idev.excel.support.ExcelTypeEnum;
+import cn.idev.excel.write.handler.WriteHandler;
 import com.wemirr.framework.excel.domain.WriterType;
 import com.wemirr.framework.excel.handler.head.HeadGenerator;
 

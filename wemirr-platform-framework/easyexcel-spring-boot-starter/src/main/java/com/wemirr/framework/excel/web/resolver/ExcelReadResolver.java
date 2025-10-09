@@ -1,7 +1,7 @@
 package com.wemirr.framework.excel.web.resolver;
 
-import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.read.builder.ExcelReaderBuilder;
+import cn.idev.excel.EasyExcel;
+import cn.idev.excel.read.builder.ExcelReaderBuilder;
 import com.wemirr.framework.excel.convert.DictConverter;
 import com.wemirr.framework.excel.convert.InstantConverter;
 import com.wemirr.framework.excel.domain.ExcelReadFile;

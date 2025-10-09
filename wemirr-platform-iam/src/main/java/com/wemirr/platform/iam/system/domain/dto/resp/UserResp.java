@@ -19,9 +19,9 @@
 
 package com.wemirr.platform.iam.system.domain.dto.resp;
 
-import com.alibaba.excel.annotation.ExcelIgnore;
-import com.alibaba.excel.annotation.ExcelProperty;
-import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import cn.idev.excel.annotation.ExcelIgnore;
+import cn.idev.excel.annotation.ExcelProperty;
+import cn.idev.excel.annotation.write.style.ColumnWidth;
 import com.wemirr.framework.boot.remote.dict.DictLoadService;
 import com.wemirr.framework.commons.annotation.remote.Remote;
 import com.wemirr.framework.excel.convert.DictConverter;
