@@ -30,6 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author xiao1
@@ -42,13 +43,15 @@ import org.springframework.validation.annotation.Validated;
 @RequiredArgsConstructor
 @Tag(name = "存储配置", description = "存储配置管理")
 public class FileStorageSettingController {
-    
+
     private final FileStorageSettingService fileStorageSettingService;
+
     @GetMapping("/page")
     @Operation(summary = "分页查询")
     public IPage<FileStorageSettingPageResp> pageList(FileStorageSettingPageReq req) {
         return fileStorageSettingService.pageList(req);
     }
+
     /**
      * 删除配置
      */
@@ -58,14 +61,14 @@ public class FileStorageSettingController {
     public void add(@RequestBody FileStorageSettingSaveReq req) {
         fileStorageSettingService.create(req);
     }
-    
+
     @PutMapping("/{id}/modify")
     @AccessLog(module = "存储配置", description = "编辑存储配置")
     @Operation(summary = "编辑存储配置", description = "编辑存储配置")
     public void edit(@PathVariable Long id, @Validated @RequestBody FileStorageSettingSaveReq req) {
         fileStorageSettingService.modify(id, req);
     }
-    
+
     @DeleteMapping("/{id}")
     @AccessLog(module = "存储配置", description = "删除存储配置")
     @Operation(summary = "删除存储配置", description = "删除存储配置")

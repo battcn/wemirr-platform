@@ -38,7 +38,7 @@ import lombok.RequiredArgsConstructor;
 @JsonFormat
 @RequiredArgsConstructor
 public enum DictFiledType implements DictEnum<String> {
-    
+
     /**
      * radio
      */
@@ -52,33 +52,28 @@ public enum DictFiledType implements DictEnum<String> {
      */
     SELECT("select", "select"),
     ;
-    
-    private final String type;
-    
+
+    private final String value;
+
     @Parameter(description = "描述信息")
-    private final String desc;
-    
+    private final String label;
+
     @JsonCreator
     public static DictFiledType of(String type) {
         if (type == null) {
             return null;
         }
         for (DictFiledType info : values()) {
-            if (info.type.equals(type)) {
+            if (info.value.equals(type)) {
                 return info;
             }
         }
         return null;
     }
-    
-    @Override
-    public String getValue() {
-        return this.type;
-    }
-    
+
     @Override
     public String toString() {
-        return this.type;
+        return this.value;
     }
-    
+
 }

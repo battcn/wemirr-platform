@@ -115,7 +115,7 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
         return this.baseMapper.selectPage(req.buildPage(), Wraps.<FileStorage>lbQ()
                 .eq(FileStorage::getCategory, req.getCategory())
                 .like(FileStorage::getOriginalFilename, req.getOriginalFilename())
-                .like(FileStorage::getCreateName, req.getCreatedName()))
+                .like(FileStorage::getCreateName, req.getCreateName()))
                 .convert(x -> BeanUtil.toBean(x, FileStoragePageResp.class));
     }
     

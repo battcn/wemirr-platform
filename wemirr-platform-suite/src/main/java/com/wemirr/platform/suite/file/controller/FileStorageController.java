@@ -32,6 +32,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -45,16 +46,16 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Tag(name = "文件存储", description = "文件存储")
 public class FileStorageController {
-    
+
     private final FileStorageService fileStorageService;
-    
+
     @GetMapping("/token")
     @Parameter(description = "文件名", name = "originName", in = ParameterIn.QUERY)
     @Operation(summary = "上传Token获取 - [Levin] - [DONE]")
     public void getToken(String key, @RequestParam(defaultValue = "true") boolean random) {
         // return Result.ok(storageOperation.token(key, random));
     }
-    
+
     // @IgnoreAuthorize
     // @Parameters({@Parameter(name = "id", description = "文件ID", in = ParameterIn.PATH),})
     // @GetMapping("/{id}/download")
@@ -89,7 +90,7 @@ public class FileStorageController {
     // headers.add(HttpHeaders.CONTENT_TYPE, file.getContentType());
     // return new ResponseEntity<>(new InputStreamResource(download.getInputStream()), headers, HttpStatus.OK);
     // }
-    
+
     // @PostMapping("/ids_query")
     // @Operation(summary = "通过ID查询文件信息 - [Aaron] - [DONE]")
     // public List<FileEntity> batchQueryByIds(@RequestBody BatchKey<String> param) {
@@ -98,38 +99,38 @@ public class FileStorageController {
     // }
     // return fileService.list(Wraps.<FileEntity>lbQ().in(FileEntity::getId, param.getIds()));
     // }
-    
+
     @PostMapping("/upload")
     @Operation(summary = "上传文件", description = "上传文件")
     @AccessLog(module = "文件存储", description = "上传文件")
     public FileStorage upload(@RequestParam("file") MultipartFile file) {
         return fileStorageService.upload(file);
     }
-    
+
     @GetMapping("/page")
     @Operation(summary = "分页查询")
     public IPage<FileStoragePageResp> pageList(FileStoragePageReq req) {
         return fileStorageService.pageList(req);
     }
-    
+
     @PostMapping("/{id}")
     @Operation(summary = "删除文件", description = "删除文件")
     @AccessLog(module = "文件存储", description = "删除文件")
     public void delete(@PathVariable Long id) {
         fileStorageService.delete(id);
     }
-    
+
     @PutMapping("/rename/{id}/{originName}")
     @Operation(summary = "文件重命名", description = "文件重命名")
     @AccessLog(module = "文件存储", description = "文件重命名")
     public void rename(@PathVariable Long id, @PathVariable String originName) {
         fileStorageService.rename(id, originName);
     }
-    
+
     @PostMapping("/upload-image")
     @Operation(summary = "上传图片", description = "上传图片")
     public FileStorage uploadImage(@RequestParam("file") MultipartFile file) {
         return fileStorageService.uploadImage(file);
     }
-    
+
 }
