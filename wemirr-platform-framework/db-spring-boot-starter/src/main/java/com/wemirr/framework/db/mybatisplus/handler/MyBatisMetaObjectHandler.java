@@ -83,7 +83,8 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
         }
         if (metaObject.hasGetter(Entity.CREATE_USER)) {
             final Object userId = Optional.ofNullable(metaObject.getValue(Entity.CREATE_USER)).orElse(context.userId());
-            if (isStrField(object, Entity.CREATE_USER)) {
+            // 如果是字符串或者不存在字段,统一设置成字符串 防止报错
+            if (isStrField(object, Entity.CREATE_USER) || !ReflectUtil.hasField(object.getClass(), Entity.CREATE_USER)) {
                 this.setFieldValByName(Entity.CREATE_USER, String.valueOf(userId), metaObject);
             } else {
                 this.setFieldValByName(Entity.CREATE_USER, userId, metaObject);
