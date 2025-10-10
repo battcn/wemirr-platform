@@ -164,7 +164,9 @@ public class RemoteAloneRedisAutoConfiguration implements EnvironmentAware {
      * 辅助方法，尝试设置 username，兼容低版本 Spring Data Redis
      */
     private void trySetUsername(RedisConfiguration redisConfig, String username) {
-        if (username == null || username.isEmpty()) return;
+        if (username == null || username.isEmpty()) {
+            return;
+        }
         try {
             if (redisConfig instanceof RedisStandaloneConfiguration) {
                 ((RedisStandaloneConfiguration) redisConfig).setUsername(username);

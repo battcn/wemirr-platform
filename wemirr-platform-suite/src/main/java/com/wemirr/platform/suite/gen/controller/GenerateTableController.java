@@ -28,35 +28,27 @@ import java.util.Map;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/gennerate-table")
+@RequestMapping("/generate-tables")
 @Tag(name = "代码生成表配置", description = "代码生成表配置")
 public class GenerateTableController {
 
     private final GenerateTableService generateTableService;
 
-    /**
-     * 获取当前数据源的表信息
-     */
-    @Operation(summary = "获取当前未导入的数据源的表信息")
     @GetMapping("/ds/list")
+    @Operation(summary = "获取当前未导入的数据源的表信息", description = "获取当前未导入的数据源的表信息")
     public List<GenerateTable> getGenTableListFromDs(String tableName) throws Exception {
         return generateTableService.getGenTableListFromDs(tableName);
     }
 
-    /**
-     * 数据源表信息 导入到 生成表配置信息
-     */
-    @Operation(summary = "数据源表信息导入到生成表配置信息")
     @PostMapping("/ds/import")
+    @Operation(summary = "数据源表信息导入到生成表配置信息")
     public void importToGenTable(@RequestBody List<String> tableNames) {
         generateTableService.importToGenTable(tableNames);
     }
 
-    /**
-     * 分页查询表配置信息
-     */
-    @Operation(summary = "分页查询表配置信息")
+
     @GetMapping("/page")
+    @Operation(summary = "分页查询 - [DONE]", description = "分页查询表配置信息")
     public IPage<GenerateTablePageRep> pageList(GenerateTablePageReq req) {
         return generateTableService.pageList(req);
     }
@@ -93,8 +85,6 @@ public class GenerateTableController {
     public void generate(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         generateTableService.generate(id, request, response);
     }
-
-    //TODO 批量代码生成
 
     @Operation(summary = "代码生成预览")
     @GetMapping("/{id}/preview")
