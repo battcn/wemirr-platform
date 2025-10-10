@@ -81,7 +81,7 @@ public class GenerateTableController {
     }
 
     @Operation(summary = "代码生成")
-    @PostMapping("/{id}/generate")
+    @PostMapping("/{id}/download")
     public void generate(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         generateTableService.generate(id, request, response);
     }

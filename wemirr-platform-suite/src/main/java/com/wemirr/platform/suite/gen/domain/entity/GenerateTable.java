@@ -20,11 +20,11 @@ import java.util.List;
  * @author xiao1
  * @since 2024-12
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @TableName("c_generate_table")
 public class GenerateTable extends SuperEntity<Long> {
 
