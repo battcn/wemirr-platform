@@ -15,7 +15,7 @@ import java.util.Optional;
  * @author Levin
  */
 @SuppressWarnings("unchecked")
-public class DictConverter implements Converter<DictEnum<?>> {
+public class LocalDictConverter implements Converter<DictEnum<?>> {
 
     @Override
     public Class<?> supportJavaTypeKey() {

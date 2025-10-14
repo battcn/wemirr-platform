@@ -9,7 +9,7 @@ import cn.idev.excel.write.handler.WriteHandler;
 import cn.idev.excel.write.metadata.WriteSheet;
 import cn.idev.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.wemirr.framework.excel.configuration.EasyExcelProperties;
-import com.wemirr.framework.excel.convert.DictConverter;
+import com.wemirr.framework.excel.convert.LocalDictConverter;
 import com.wemirr.framework.excel.convert.InstantConverter;
 import com.wemirr.framework.excel.domain.ExcelWriteFile;
 import com.wemirr.framework.excel.domain.SheetInfo;
@@ -174,7 +174,7 @@ public interface ISheetWriteHandler {
     }
 
     default void registerGlobalConverters(ApplicationContext context, ExcelWriterBuilder builder) {
-        builder.registerConverter(new DictConverter()).registerConverter(new InstantConverter());
+        builder.registerConverter(new LocalDictConverter()).registerConverter(new InstantConverter());
         ObjectProvider<List<Converter<?>>> converterProvider = context.getBeanProvider(ResolvableType.forClass(Converter.class));
         converterProvider.ifAvailable(converters -> converters.forEach(builder::registerConverter));
     }
