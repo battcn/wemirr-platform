@@ -75,6 +75,10 @@ public class FeignResponseDecoder implements Decoder {
                 }
             };
             Result<?> result = (Result<?>) this.decoder.decode(response, newType);
+            // 处理调用失败的情况 直接抛出异常
+            if (!result.isSuccessful()) {
+                throw new CheckedException(result.getCode(), result.getMessage());
+            }
             // 只返回data
             return result.getData();
         }
