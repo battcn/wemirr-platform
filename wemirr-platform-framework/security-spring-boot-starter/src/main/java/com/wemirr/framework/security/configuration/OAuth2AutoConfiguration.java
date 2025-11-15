@@ -25,9 +25,11 @@ import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.same.SaSameUtil;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.StrUtil;
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.Resource;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -48,13 +50,13 @@ public class OAuth2AutoConfiguration implements WebMvcConfigurer {
                     .notMatch(extProperties.getDefaultIgnoreUrls())
                     .notMatch(extProperties.getIgnore().getResourceUrls())
                     .check(r -> {
-                        String sameToken = SaHolder.getRequest().getHeader(SaSameUtil.SAME_TOKEN);
-                        if (StringUtils.isNotBlank(sameToken)) {
-                            SaSameUtil.checkToken(sameToken);
-                            return;
+                        // 校验 Same-Token 身份凭证     —— 以下两句代码可简化为：SaSameUtil.checkCurrentRequestToken();
+                        String token = SaHolder.getRequest().getHeader(SaSameUtil.SAME_TOKEN);
+                        if (StrUtil.isBlank(token)) {
+                            StpUtil.checkLogin();
                         }
-                        StpUtil.checkLogin();
                     });
-        })).addPathPatterns("/**");
+            // 设置较低优先级，确保全局异常处理器先执行
+        })).excludePathPatterns("/error").addPathPatterns("/**").order(Ordered.HIGHEST_PRECEDENCE);
     }
 }
