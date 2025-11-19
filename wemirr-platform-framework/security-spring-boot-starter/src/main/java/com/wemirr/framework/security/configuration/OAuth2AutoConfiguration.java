@@ -26,7 +26,6 @@ import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.same.SaSameUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
-import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.Resource;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.Ordered;
@@ -52,7 +51,9 @@ public class OAuth2AutoConfiguration implements WebMvcConfigurer {
                     .check(r -> {
                         // 校验 Same-Token 身份凭证     —— 以下两句代码可简化为：SaSameUtil.checkCurrentRequestToken();
                         String token = SaHolder.getRequest().getHeader(SaSameUtil.SAME_TOKEN);
-                        if (StrUtil.isBlank(token)) {
+                        if (StrUtil.isNotBlank(token)) {
+                            SaSameUtil.checkToken(token);
+                        } else {
                             StpUtil.checkLogin();
                         }
                     });
