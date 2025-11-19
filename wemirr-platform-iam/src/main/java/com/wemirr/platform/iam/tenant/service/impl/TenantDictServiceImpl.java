@@ -140,7 +140,7 @@ public class TenantDictServiceImpl extends SuperServiceImpl<TenantDictMapper, Te
     public List<Dict<String>> findItemByCode(String code) {
         Map<Object, Object> map = this.dictLoadService.findByIds(code);
         if (CollUtil.isEmpty(map)) {
-            return null;
+            return List.of();
         }
         List<Dict<String>> dictList = new ArrayList<>();
         for (Map.Entry<Object, Object> entry : map.entrySet()) {

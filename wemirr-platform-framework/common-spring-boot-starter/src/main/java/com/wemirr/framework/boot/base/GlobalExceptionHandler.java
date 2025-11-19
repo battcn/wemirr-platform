@@ -159,10 +159,10 @@ public class GlobalExceptionHandler {
         return Result.fail(e.getLocalizedMessage());
     }
 
-    @ExceptionHandler(MybatisPlusException.class)
     @ResponseBody
+    @ExceptionHandler(MybatisPlusException.class)
     public final Result<ResponseEntity<Void>> mybatisPlusException(MybatisPlusException e) {
-        System.out.println(e.getCause().getClass());
+        log.error("mybatis-plus 操作异常", e);
         return Result.fail(e.getMessage());
     }
 
