@@ -13,12 +13,12 @@ CREATE TABLE `c_area`
     `source`             varchar(255)   DEFAULT NULL COMMENT '数据 来源',
     `sequence`           varchar(255)   DEFAULT '0' COMMENT '排序',
     `deleted`            bit(1)         DEFAULT b'0',
-    `created_by`         bigint         DEFAULT '0' COMMENT '创建人id',
-    `created_name`       varchar(50)    DEFAULT NULL COMMENT '创建人名称',
-    `created_time`       datetime       DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `last_modified_by`   bigint         DEFAULT '0' COMMENT '更新人id',
-    `last_modified_name` varchar(50)    DEFAULT NULL COMMENT '更新人名称',
-    `last_modified_time` datetime       DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `create_by`         bigint         DEFAULT '0' COMMENT '创建人id',
+    `create_name`       varchar(50)    DEFAULT NULL COMMENT '创建人名称',
+    `create_time`       datetime       DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `last_modify_by`   bigint         DEFAULT '0' COMMENT '更新人id',
+    `last_modify_name` varchar(50)    DEFAULT NULL COMMENT '更新人名称',
+    `last_modify_time` datetime       DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     KEY `idx_parent_id` (`parent_id`),
     KEY `idx_name` (`name`)
 ) ENGINE = InnoDB

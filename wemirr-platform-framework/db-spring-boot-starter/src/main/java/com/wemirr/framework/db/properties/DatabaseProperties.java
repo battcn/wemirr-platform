@@ -108,7 +108,7 @@ public class DatabaseProperties {
         /**
          * 全局忽略(默认情况下如果没给表单独配置则取全局忽略)
          */
-        private List<String> ignoreGlobalColumns = Lists.newArrayList("deleted", "created_time", "created_by", "created_name", "last_modified_time", "last_modified_by", "last_modified_name");
+        private List<String> ignoreGlobalColumns = Lists.newArrayList("deleted", "create_time", "create_by", "create_name", "last_modify_time", "last_modify_by", "last_modify_name");
 
         /**
          * 忽略表字段

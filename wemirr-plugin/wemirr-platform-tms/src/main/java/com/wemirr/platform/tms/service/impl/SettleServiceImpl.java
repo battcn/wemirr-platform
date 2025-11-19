@@ -166,7 +166,7 @@ public class SettleServiceImpl extends SuperServiceImpl<BmsSettleDetailMapper, B
                 for (Map<String, Object> orderMap : orderMaps) {
                     for (BmsRulePageResp rule : bmsRules) {
                         //判断有效期
-                        LocalDateTime createdTime = (LocalDateTime) orderMap.get("created_time");
+                        LocalDateTime createdTime = (LocalDateTime) orderMap.get("create_time");
                         LocalDate createdDate = createdTime.toLocalDate();
                         LocalDate startDate = rule.getStartDate();
                         LocalDate endDate = rule.getEndDate();

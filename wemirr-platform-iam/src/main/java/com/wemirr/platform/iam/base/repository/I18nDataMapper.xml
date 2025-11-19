@@ -5,8 +5,8 @@
     <resultMap id="i18nResultMap" type="com.wemirr.platform.iam.base.domain.dto.resp.I18nDataPageResp">
         <id property="code" column="code"/>
         <result property="remark" column="remark"/>
-        <result property="createdName" column="created_name"/>
-        <result property="createdTime" column="created_time"/>
+        <result property="createdName" column="create_name"/>
+        <result property="createdTime" column="create_time"/>
         <collection property="languages" ofType="com.wemirr.platform.iam.base.domain.entity.I18nLocaleMessage">
             <result property="locale" column="locale"/>
             <result property="message" column="message"/>

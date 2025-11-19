@@ -410,9 +410,9 @@ public class GenerateTableServiceImpl extends SuperServiceImpl<GenerateTableMapp
     //判断是否需要生成代码
     public boolean isNeedGenerate(String columnName) {
         // 忽略的列名列表，可以根据实际需要进行扩展或修改
-        List<String> ignoredColumns = Arrays.asList("id", "created_by",
-                "created_name", "created_time", "last_modified_by",
-                "last_modified_name", "last_modified_time", "deleted", "tenant_id");
+        List<String> ignoredColumns = Arrays.asList("id", "create_by",
+                "create_name", "create_time", "last_modify_by",
+                "last_modify_name", "last_modify_time", "deleted", "tenant_id");
         return !ignoredColumns.contains(columnName);
     }
 
