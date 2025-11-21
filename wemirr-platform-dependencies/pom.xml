@@ -31,21 +31,21 @@
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
         <!-- DB 相关 -->
-        <mybatis-plus.version>3.5.8</mybatis-plus.version>
+        <mybatis-plus.version>3.5.14</mybatis-plus.version>
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
         <mysql.version>9.1.0</mysql.version>
-        <redisson.version>3.41.0</redisson.version>
+        <redisson.version>3.52.0</redisson.version>
         <!-- 文件存储 -->
         <minio.version>8.5.11</minio.version>
-        <aliyun-sdk-oss.version>3.17.2</aliyun-sdk-oss.version>
-        <qiniu-java-sdk.version>7.14.0</qiniu-java-sdk.version>
+        <aliyun-sdk-oss.version>3.18.3</aliyun-sdk-oss.version>
+        <qiniu-java-sdk.version>7.19.0</qiniu-java-sdk.version>
         <cos_api.version>5.6.191</cos_api.version>
         <x-file-storage-spring.version>2.3.0</x-file-storage-spring.version>
-        <aws-java-sdk-s3.version>1.12.429</aws-java-sdk-s3.version>
+        <aws-java-sdk-s3.version>2.39.0</aws-java-sdk-s3.version>
         <!-- 工具包 -->
-        <guava.version>33.3.1-jre</guava.version>
-        <hutool.version>5.8.34</hutool.version>
-        <fastjson2.version>2.0.53</fastjson2.version>
+        <guava.version>33.5.0-jre</guava.version>
+        <hutool.version>5.8.41</hutool.version>
+        <fastjson2.version>2.0.59</fastjson2.version>
         <springdoc-openapi.version>1.8.0</springdoc-openapi.version>
         <knife4j.version>4.6.0</knife4j.version>
         <knife4j-springdoc-ui.version>3.0.3</knife4j-springdoc-ui.version>
@@ -153,8 +153,8 @@
                 <version>${x-file-storage-spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.amazonaws</groupId>
-                <artifactId>aws-java-sdk-s3</artifactId>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>s3</artifactId>
                 <version>${aws-java-sdk-s3.version}</version>
             </dependency>
             <!--
@@ -168,6 +168,11 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-jsqlparser</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>

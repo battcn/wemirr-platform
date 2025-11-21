@@ -23,7 +23,6 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
-
 /**
  * @author Levin
  */

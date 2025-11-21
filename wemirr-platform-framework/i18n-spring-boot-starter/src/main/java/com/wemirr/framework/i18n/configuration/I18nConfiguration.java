@@ -20,7 +20,6 @@
 package com.wemirr.framework.i18n.configuration;
 
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.i18n.I18nMessageProvider;
 import com.wemirr.framework.i18n.aspect.I18nAspect;
 import com.wemirr.framework.i18n.core.DynamicMessageSource;
