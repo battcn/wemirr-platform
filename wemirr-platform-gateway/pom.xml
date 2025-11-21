@@ -18,9 +18,8 @@
     
     <dependencies>
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
+            <groupId>com.github.xingfudeshi</groupId>
             <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
-            <version>4.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

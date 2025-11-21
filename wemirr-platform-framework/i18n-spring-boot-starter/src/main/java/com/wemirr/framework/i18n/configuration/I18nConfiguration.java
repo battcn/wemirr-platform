@@ -65,8 +65,8 @@ public class I18nConfiguration {
     @Primary
     public MessageSource messageSource(MessageSourceProperties properties) {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-//        List<String> baseNames = properties.getBasename();
-        List<String> baseNames = StrUtil.split(properties.getBasename(),",");
+        List<String> baseNames = properties.getBasename();
+//        List<String> baseNames = StrUtil.split(properties.getBasename(),",");
         baseNames.add("classpath:/default-i18n/messages");
         baseNames.add("classpath:i18n/messages");
         baseNames.add("classpath:i18n");

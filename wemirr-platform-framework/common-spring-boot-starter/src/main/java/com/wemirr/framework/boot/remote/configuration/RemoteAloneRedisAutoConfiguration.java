@@ -3,6 +3,7 @@ package com.wemirr.framework.boot.remote.configuration;
 import com.wemirr.framework.boot.remote.exception.RemoteAloneRedisException;
 import com.wemirr.framework.boot.remote.properties.RemoteProperties;
 import com.wemirr.framework.redis.plus.RedisPlusAutoConfiguration;
+import io.lettuce.core.api.StatefulConnection;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -125,7 +126,7 @@ public class RemoteAloneRedisAutoConfiguration implements EnvironmentAware {
         // 如果需要这些，你需要像 SaAloneRedisInject 中那样显式地检查 pattern 属性
         // 2. 连接池配置
         // 使用泛型
-        GenericObjectPoolConfig<?> poolConfig = new GenericObjectPoolConfig<>();
+        GenericObjectPoolConfig<StatefulConnection<?, ?>> poolConfig = new GenericObjectPoolConfig<>();
         LettuceClientConfiguration clientConfig;
 
         RedisProperties.Lettuce lettuce = cfg.getLettuce();
