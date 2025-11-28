@@ -47,13 +47,13 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author Levin
  */
 @Slf4j
-@EnableRedisWebSocket
 @EnableCaching
+@EnableOAuth2Server
+@EnableRedisWebSocket
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableFeignClients(basePackages = "com.wemirr")
 @MapperScan(value = "com.wemirr.**.repository", annotationClass = Repository.class)
-@EnableOAuth2Server
 @EnableDiffLog(serviceName = "基础服务")
 public class IamApplication {
     

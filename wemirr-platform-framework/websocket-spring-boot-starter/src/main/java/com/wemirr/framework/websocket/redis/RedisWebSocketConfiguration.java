@@ -25,7 +25,6 @@ import com.wemirr.framework.websocket.configuration.WebSocketProperties;
 import com.wemirr.framework.websocket.redis.action.ActionConfig;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -43,7 +42,6 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 @Configuration
 @Import(ActionConfig.class)
 @EnableConfigurationProperties(WebSocketProperties.class)
-@ConditionalOnProperty(name = "spring.websocket.manager.type", havingValue = "REDIS")
 public class RedisWebSocketConfiguration {
 
     @Bean

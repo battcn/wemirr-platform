@@ -26,15 +26,33 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author Levin
  */
 @Data
-@ConfigurationProperties(prefix = "spring.websocket.heart-check")
+@ConfigurationProperties(prefix = "spring.websocket")
 public class WebSocketProperties {
 
     private boolean enabled = true;
+
     /**
-     * 每隔 30s 检查一次
+     * 心跳检测
      */
-    private String trigger = "30 * * * * ?";
-    private long timeSpan = 10000;
-    private int errorToleration = 30;
+    private HeartCheck heartCheck = new HeartCheck();
+
+    /**
+     * 类型
+     */
+    private ManagerType type = ManagerType.MEMORY;
+
+    public enum ManagerType {
+        MEMORY, REDIS
+    }
+
+    @Data
+    public static class HeartCheck {
+        /**
+         * 每隔 30s 检查一次
+         */
+        private String trigger = "30 * * * * ?";
+        private long timeSpan = 10000;
+        private int errorToleration = 30;
+    }
 
 }

@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.wemirr.framework.websocket.configuration;
 
 import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
@@ -26,10 +26,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 
- * @Author: Denivko
- * @CreatedDate: 2025-06-06 14:47:25
- * @Description: 显式注册 WebSocketDeploymentInfo 到 ServletContext
+ *
+ * @author battcn
  *
  */
 @Configuration
@@ -40,8 +38,8 @@ public class WebSocketContainerConfigurer {
         UndertowServletWebServerFactory factory = new UndertowServletWebServerFactory();
         factory.addDeploymentInfoCustomizers(deploymentInfo -> {
             deploymentInfo.addServletContextAttribute(
-                "io.undertow.websockets.jsr.WebSocketDeploymentInfo", 
-                new WebSocketDeploymentInfo()
+                    "io.undertow.websockets.jsr.WebSocketDeploymentInfo",
+                    new WebSocketDeploymentInfo()
             );
         });
         return factory;

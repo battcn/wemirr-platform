@@ -91,22 +91,4 @@ public class MessageNotifyServiceImpl extends SuperServiceImpl<MessageNotifyMapp
         // 如果消息负载压力过高可以采用 MQ 异步投递解耦
         SpringUtil.publishEvent(new MessageNotifyEvent(template, list));
     }
-    
-    // private final WebSocketManager webSocketManager;
-    
-    // void publish(SiteNotify messagePublish, List<Long> userIdList) {
-    // for (Long userId : userIdList) {
-    // MessageNotify message = new MessageNotify();
-    // message.setTitle(messagePublish.getTitle());
-    // message.setMark(false);
-    // message.setContent(messagePublish.getContent());
-    // message.setDescription(messagePublish.getDescription());
-    // message.setLevel(messagePublish.getLevel());
-    // message.setReceiveId(userId);
-    // message.setCreateTime(Instant.now());
-    // this.messageNotifyMapper.insert(message);
-    // this.webSocketManager.sendMessage(String.valueOf(userId), JSON.toJSONString(message));
-    // }
-    // }
-    
 }

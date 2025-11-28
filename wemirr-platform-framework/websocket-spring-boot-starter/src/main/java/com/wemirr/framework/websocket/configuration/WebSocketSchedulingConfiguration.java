@@ -54,7 +54,8 @@ public class WebSocketSchedulingConfiguration {
      */
     @Scheduled(cron = "${spring.websocket.heart-check.trigger}")
     public void webSocketHeartCheckJob() {
-        webSocketHeartBeatChecker.check(webSocketManager, properties.getTimeSpan(), properties.getErrorToleration(), (webSocket) -> {
+        WebSocketProperties.HeartCheck heartCheck = properties.getHeartCheck();
+        webSocketHeartBeatChecker.check(webSocketManager, heartCheck.getTimeSpan(), heartCheck.getErrorToleration(), (webSocket) -> {
             log.info("[心跳检测] - {}", webSocket.toString());
         });
     }

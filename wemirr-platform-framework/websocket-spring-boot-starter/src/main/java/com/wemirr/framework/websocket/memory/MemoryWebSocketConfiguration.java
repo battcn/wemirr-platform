@@ -23,7 +23,6 @@ import com.wemirr.framework.websocket.WebSocketManager;
 import com.wemirr.framework.websocket.configuration.WebSocketHeartBeatChecker;
 import com.wemirr.framework.websocket.configuration.WebSocketProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +35,6 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
  */
 @Configuration
 @EnableConfigurationProperties(WebSocketProperties.class)
-@ConditionalOnProperty(name = "spring.websocket.manager.type", havingValue = "MEMORY", matchIfMissing = true)
 public class MemoryWebSocketConfiguration {
 
     @Bean

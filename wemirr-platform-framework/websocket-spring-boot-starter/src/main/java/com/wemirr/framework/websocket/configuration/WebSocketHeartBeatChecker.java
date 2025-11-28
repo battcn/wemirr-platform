@@ -61,7 +61,7 @@ public class WebSocketHeartBeatChecker {
             }
         });
 
-        if (toRemoves.size() > 0) {
+        if (!toRemoves.isEmpty()) {
             for (WebSocket webSocket : toRemoves) {
                 // 内存删了
                 socketMap.remove(webSocket.getIdentifier());
