@@ -22,9 +22,9 @@ package com.wemirr.platform.iam.tenant.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
-import com.wemirr.platform.iam.tenant.domain.dto.req.ProductSubscriptionSaveReq;
-import com.wemirr.platform.iam.tenant.domain.entity.ProductSubscription;
-import com.wemirr.platform.iam.tenant.repository.ProductSubscriptionMapper;
+import com.wemirr.platform.iam.tenant.domain.dto.req.PlanSubscriptionSaveReq;
+import com.wemirr.platform.iam.tenant.domain.entity.PlanSubscription;
+import com.wemirr.platform.iam.tenant.repository.PlanSubscriptionMapper;
 import com.wemirr.platform.iam.tenant.service.ProductSubscriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,15 +34,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class ProductSubscriptionServiceImpl extends SuperServiceImpl<ProductSubscriptionMapper, ProductSubscription> implements ProductSubscriptionService {
+public class ProductSubscriptionServiceImpl extends SuperServiceImpl<PlanSubscriptionMapper, PlanSubscription> implements ProductSubscriptionService {
     
     @Override
-    public void create(ProductSubscriptionSaveReq req) {
-        this.baseMapper.insert(BeanUtil.toBean(req, ProductSubscription.class));
+    public void create(PlanSubscriptionSaveReq req) {
+        this.baseMapper.insert(BeanUtil.toBean(req, PlanSubscription.class));
     }
     
     @Override
-    public void modify(Long id, ProductSubscriptionSaveReq req) {
+    public void modify(Long id, PlanSubscriptionSaveReq req) {
         throw CheckedException.badRequest("禁止编辑");
     }
 }

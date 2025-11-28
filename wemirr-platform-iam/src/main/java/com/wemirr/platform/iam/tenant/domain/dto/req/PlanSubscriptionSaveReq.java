@@ -17,9 +17,10 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.tenant.domain.dto.resp;
+package com.wemirr.platform.iam.tenant.domain.dto.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -29,22 +30,23 @@ import java.time.Instant;
  * @author Levin
  */
 @Data
-public class ProductSubscriptionPageResp {
+public class PlanSubscriptionSaveReq {
     
-    @Schema(description = "ID")
-    private Long id;
+    @NotNull(message = "套餐不能为空")
+    @Schema(description = "套餐ID")
+    private Long planId;
     
-    @Schema(description = "产品ID")
-    private Long productId;
-    
+    @NotNull(message = "租户不能为空")
     @Schema(description = "租户ID")
     private Long tenantId;
     
+    @NotNull(message = "用户数量不能为空")
     @Schema(description = "用户数量")
-    private Integer users;
+    private Integer userNum;
     
+    @NotNull(message = "订阅时长不能为空")
     @Schema(description = "月数")
-    private Integer months;
+    private Integer monthNum;
     
     @Schema(description = "用户单价")
     private BigDecimal licensePrice;
@@ -61,9 +63,11 @@ public class ProductSubscriptionPageResp {
     @Schema(description = "结算金额")
     private BigDecimal statementAmount;
     
+    @NotNull(message = "订阅起始日期不能为空")
     @Schema(description = "开始时间")
     private Instant startTime;
     
+    @NotNull(message = "订阅结束日期不能为空")
     @Schema(description = "结束时间")
     private Instant endTime;
     
@@ -73,9 +77,4 @@ public class ProductSubscriptionPageResp {
     @Schema(description = "描述")
     private String description;
     
-    @Schema(description = "创建人")
-    private String createName;
-    
-    @Schema(description = "创建时间")
-    private Instant createTime;
 }

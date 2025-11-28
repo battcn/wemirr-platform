@@ -17,30 +17,30 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.tenant.domain.entity;
+package com.wemirr.platform.iam.tenant.domain.dto.req;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * @author Levin
  */
 @Data
-@SuperBuilder(toBuilder = true)
-@NoArgsConstructor
-@AllArgsConstructor
-@TableName(value = "plat_product_def_res")
-@Schema(name = "ProductDefinitionRes", description = "产品授权")
-public class ProductDefinitionRes {
+@Schema(name = "ProductDefinitionSaveReq")
+public class PlanDefinitionSaveReq {
     
-    @Schema(description = "产品ID")
-    private Long productId;
+    @NotBlank(message = "套餐名称不能为空")
+    @Length(min = 1, max = 100, message = "套餐名称长度 {min} - {max}")
+    @Schema(description = "套餐名称")
+    private String name;
     
-    @Schema(description = "权限资源ID")
-    private Long resId;
+    @Schema(description = "套餐Logo链接")
+    private String logo;
+    
+    @Length(max = 10086, message = "套餐描述超过 {max} 描述,请简化描述")
+    @Schema(description = "套餐描述")
+    private String description;
     
 }

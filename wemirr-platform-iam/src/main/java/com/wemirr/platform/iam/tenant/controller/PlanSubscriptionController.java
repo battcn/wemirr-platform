@@ -23,9 +23,9 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.iam.tenant.domain.dto.req.ProductSubscriptionSaveReq;
-import com.wemirr.platform.iam.tenant.domain.dto.resp.ProductSubscriptionPageResp;
-import com.wemirr.platform.iam.tenant.domain.entity.ProductSubscription;
+import com.wemirr.platform.iam.tenant.domain.dto.req.PlanSubscriptionSaveReq;
+import com.wemirr.platform.iam.tenant.domain.dto.resp.PlanSubscriptionPageResp;
+import com.wemirr.platform.iam.tenant.domain.entity.PlanSubscription;
 import com.wemirr.platform.iam.tenant.service.ProductSubscriptionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,33 +38,33 @@ import org.springframework.web.bind.annotation.*;
  * @author Levin
  */
 @Slf4j
-@RequestMapping("/product_subscriptions")
+@RequestMapping("/plan-subscriptions")
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "产品订阅", description = "产品订阅")
-public class ProductSubscriptionController {
+@Tag(name = "套餐订阅", description = "套餐订阅")
+public class PlanSubscriptionController {
     
     private final ProductSubscriptionService productSubscriptionService;
     
     @GetMapping("/page")
     @Operation(summary = "分页查询", description = "分页查询")
-    public IPage<ProductSubscriptionPageResp> pageList(PageRequest req, Long tenantId, Long productId, Boolean status) {
-        return productSubscriptionService.page(req.buildPage(), Wraps.<ProductSubscription>lbQ()
-                .eq(ProductSubscription::getProductId, productId)
-                .eq(ProductSubscription::getTenantId, tenantId)
-                .eq(ProductSubscription::getPaymentStatus, status))
-                .convert(x -> BeanUtil.toBean(x, ProductSubscriptionPageResp.class));
+    public IPage<PlanSubscriptionPageResp> pageList(PageRequest req, Long tenantId, Long planId, Boolean status) {
+        return productSubscriptionService.page(req.buildPage(), Wraps.<PlanSubscription>lbQ()
+                .eq(PlanSubscription::getPlanId, planId)
+                .eq(PlanSubscription::getTenantId, tenantId)
+                .eq(PlanSubscription::getPaymentStatus, status))
+                .convert(x -> BeanUtil.toBean(x, PlanSubscriptionPageResp.class));
     }
     
     @PostMapping
     @Operation(summary = "添加订阅", description = "添加订阅")
-    public void create(@Validated @RequestBody ProductSubscriptionSaveReq req) {
+    public void create(@Validated @RequestBody PlanSubscriptionSaveReq req) {
         productSubscriptionService.create(req);
     }
     
     @PutMapping("/{id}")
     @Operation(summary = "编辑订阅", description = "编辑订阅")
-    public void modify(@PathVariable Long id, @Validated @RequestBody ProductSubscriptionSaveReq req) {
+    public void modify(@PathVariable Long id, @Validated @RequestBody PlanSubscriptionSaveReq req) {
         productSubscriptionService.modify(id, req);
     }
     

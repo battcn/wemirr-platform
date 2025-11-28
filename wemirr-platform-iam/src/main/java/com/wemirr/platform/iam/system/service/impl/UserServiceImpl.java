@@ -236,8 +236,8 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     public void setFuncPermissions(UserInfoDetails info) {
         Collection<String> roles = info.getRoles();
         Long userId = info.getUserId();
-        // 需要考虑下租户订阅产品后,租户管理员应该自动读取相关权限
-        // 同时需要考虑到期的产品如何回收权限
+        // 需要考虑下租户订阅套餐后,租户管理员应该自动读取相关权限
+        // 同时需要考虑到期的套餐如何回收权限
         DatabaseProperties.MultiTenant multiTenant = databaseProperties.getMultiTenant();
         boolean isAdmin = CollUtil.containsAny(roles, ADMIN_ROLE);
         if (isAdmin || multiTenant.getType() != MultiTenantType.COLUMN) {

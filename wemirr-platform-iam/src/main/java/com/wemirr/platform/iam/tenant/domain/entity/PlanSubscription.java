@@ -39,21 +39,21 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-@TableName("plat_product_subscription")
-@Schema(name = "ProductSubscription", description = "产品订阅信息")
-public class ProductSubscription extends SuperEntity<Long> {
+@TableName("plat_plan_subscription")
+@Schema(name = "PlanSubscription", description = "套餐订阅信息")
+public class PlanSubscription extends SuperEntity<Long> {
     
-    @Schema(description = "产品ID")
-    private Long productId;
+    @Schema(description = "套餐ID")
+    private Long planId;
     
     @Schema(description = "租户ID")
     private Long tenantId;
     
     @Schema(description = "用户数量")
-    private Integer users;
+    private Integer userNum;
     
     @Schema(description = "月数")
-    private Integer months;
+    private Integer monthNum;
     
     @Schema(description = "用户单价")
     private BigDecimal licensePrice;

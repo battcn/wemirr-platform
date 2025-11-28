@@ -21,21 +21,21 @@ package com.wemirr.platform.iam.tenant.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.iam.system.domain.dto.resp.RolePermissionResp;
-import com.wemirr.platform.iam.tenant.domain.dto.req.ProductDefPermissionReq;
-import com.wemirr.platform.iam.tenant.domain.dto.req.ProductDefinitionSaveReq;
-import com.wemirr.platform.iam.tenant.domain.entity.ProductDefinition;
+import com.wemirr.platform.iam.tenant.domain.dto.req.PlanDefPermissionReq;
+import com.wemirr.platform.iam.tenant.domain.dto.req.PlanDefinitionSaveReq;
+import com.wemirr.platform.iam.tenant.domain.entity.PlanDefinition;
 
 /**
  * @author Levin
  */
-public interface ProductDefinitionService extends SuperService<ProductDefinition> {
+public interface ProductDefinitionService extends SuperService<PlanDefinition> {
     
     /**
-     * 创建产品定义
+     * 创建套餐定义
      *
      * @param req req
      */
-    void create(ProductDefinitionSaveReq req);
+    void create(PlanDefinitionSaveReq req);
     
     /**
      * 修改
@@ -43,15 +43,15 @@ public interface ProductDefinitionService extends SuperService<ProductDefinition
      * @param id  id
      * @param req req
      */
-    void modify(Long id, ProductDefinitionSaveReq req);
+    void modify(Long id, PlanDefinitionSaveReq req);
     
     /**
-     * 产品授予权限
+     * 套餐授予权限
      *
-     * @param productId productId
+     * @param planId planId
      * @param req       req
      */
-    void permissions(Long productId, ProductDefPermissionReq req);
+    void permissions(Long planId, PlanDefPermissionReq req);
     
     /**
      * 查询套餐权限
@@ -62,7 +62,7 @@ public interface ProductDefinitionService extends SuperService<ProductDefinition
     RolePermissionResp findPermissions(Long id);
     
     /**
-     * 删除产品
+     * 删除套餐
      *
      * @param id id
      */

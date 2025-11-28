@@ -31,15 +31,15 @@ import com.wemirr.platform.iam.system.domain.dto.resp.RolePermissionResp;
 import com.wemirr.platform.iam.system.domain.entity.Resource;
 import com.wemirr.platform.iam.system.domain.enums.ResourceType;
 import com.wemirr.platform.iam.system.repository.ResourceMapper;
-import com.wemirr.platform.iam.tenant.domain.dto.req.ProductDefPermissionReq;
-import com.wemirr.platform.iam.tenant.domain.dto.req.ProductDefinitionSaveReq;
-import com.wemirr.platform.iam.tenant.domain.entity.ProductDefinition;
-import com.wemirr.platform.iam.tenant.domain.entity.ProductDefinitionRes;
-import com.wemirr.platform.iam.tenant.domain.entity.ProductSubscription;
+import com.wemirr.platform.iam.tenant.domain.dto.req.PlanDefPermissionReq;
+import com.wemirr.platform.iam.tenant.domain.dto.req.PlanDefinitionSaveReq;
+import com.wemirr.platform.iam.tenant.domain.entity.PlanDefinition;
+import com.wemirr.platform.iam.tenant.domain.entity.PlanDefinitionRes;
+import com.wemirr.platform.iam.tenant.domain.entity.PlanSubscription;
 import com.wemirr.platform.iam.tenant.domain.enums.TenantSequence;
-import com.wemirr.platform.iam.tenant.repository.ProductDefResMapper;
-import com.wemirr.platform.iam.tenant.repository.ProductDefinitionMapper;
-import com.wemirr.platform.iam.tenant.repository.ProductSubscriptionMapper;
+import com.wemirr.platform.iam.tenant.repository.PlanDefResMapper;
+import com.wemirr.platform.iam.tenant.repository.PlanDefinitionMapper;
+import com.wemirr.platform.iam.tenant.repository.PlanSubscriptionMapper;
 import com.wemirr.platform.iam.tenant.service.ProductDefinitionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -56,20 +56,20 @@ import static java.util.stream.Collectors.toList;
  */
 @Service
 @RequiredArgsConstructor
-public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefinitionMapper, ProductDefinition> implements ProductDefinitionService {
+public class ProductDefinitionServiceImpl extends SuperServiceImpl<PlanDefinitionMapper, PlanDefinition> implements ProductDefinitionService {
     
-    private final ProductDefResMapper productDefResMapper;
-    private final ProductSubscriptionMapper productSubscriptionMapper;
+    private final PlanDefResMapper planDefResMapper;
+    private final PlanSubscriptionMapper planSubscriptionMapper;
     private final ResourceMapper resourceMapper;
     private final RedisSequenceHelper sequenceHelper;
     
     @Override
-    public void create(ProductDefinitionSaveReq req) {
-        final long count = count(Wraps.<ProductDefinition>lbQ().eq(ProductDefinition::getName, req.getName()));
+    public void create(PlanDefinitionSaveReq req) {
+        final long count = count(Wraps.<PlanDefinition>lbQ().eq(PlanDefinition::getName, req.getName()));
         if (count > 0) {
-            throw CheckedException.badRequest("该产品名称已存在");
+            throw CheckedException.badRequest("该套餐名称已存在");
         }
-        var bean = BeanUtil.toBean(req, ProductDefinition.class);
+        var bean = BeanUtil.toBean(req, PlanDefinition.class);
         String code = sequenceHelper.generate(TenantSequence.PRODUCT_DEFINITION_NO);
         bean.setCode(code);
         this.baseMapper.insert(bean);
@@ -77,31 +77,31 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefini
     
     @Override
     @DSTransactional(rollbackFor = Exception.class)
-    public void modify(Long id, ProductDefinitionSaveReq req) {
-        final ProductDefinition definition = Optional.ofNullable(this.baseMapper.selectById(id))
-                .orElseThrow(() -> CheckedException.notFound("产品信息不存在"));
-        final long count = count(Wraps.<ProductDefinition>lbQ().ne(ProductDefinition::getId, definition.getId()).eq(ProductDefinition::getName, req.getName()));
+    public void modify(Long id, PlanDefinitionSaveReq req) {
+        final PlanDefinition definition = Optional.ofNullable(this.baseMapper.selectById(id))
+                .orElseThrow(() -> CheckedException.notFound("套餐信息不存在"));
+        final long count = count(Wraps.<PlanDefinition>lbQ().ne(PlanDefinition::getId, definition.getId()).eq(PlanDefinition::getName, req.getName()));
         if (count > 0) {
-            throw CheckedException.badRequest("该产品名称已存在");
+            throw CheckedException.badRequest("该套餐名称已存在");
         }
-        this.baseMapper.updateById(ProductDefinition.builder()
+        this.baseMapper.updateById(PlanDefinition.builder()
                 .id(id).name(req.getName()).logo(req.getLogo()).description(req.getDescription())
                 .build());
     }
     
     @Override
     @DSTransactional(rollbackFor = Exception.class)
-    public void permissions(Long productId, ProductDefPermissionReq req) {
+    public void permissions(Long planId, PlanDefPermissionReq req) {
         // 删除角色和资源的关联
-        productDefResMapper.delete(Wraps.<ProductDefinitionRes>lbQ().eq(ProductDefinitionRes::getProductId, productId));
+        planDefResMapper.delete(Wraps.<PlanDefinitionRes>lbQ().eq(PlanDefinitionRes::getPlanId, planId));
         final Set<Long> resIdList = req.getResIdList();
         if (CollectionUtil.isEmpty(resIdList)) {
             return;
         }
-        final List<ProductDefinitionRes> resList = resIdList.stream().filter(Objects::nonNull)
-                .map(resId -> ProductDefinitionRes.builder().resId(resId).productId(productId).build())
+        final List<PlanDefinitionRes> resList = resIdList.stream().filter(Objects::nonNull)
+                .map(resId -> PlanDefinitionRes.builder().resId(resId).planId(planId).build())
                 .collect(toList());
-        productDefResMapper.insertBatch(resList);
+        planDefResMapper.insertBatch(resList);
     }
     
     @Override
@@ -110,8 +110,8 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefini
         if (CollUtil.isEmpty(resourceList)) {
             return null;
         }
-        List<Long> resIdList = this.productDefResMapper.selectList(ProductDefinitionRes::getProductId, id)
-                .stream().map(ProductDefinitionRes::getResId).distinct().toList();
+        List<Long> resIdList = this.planDefResMapper.selectList(PlanDefinitionRes::getPlanId, id)
+                .stream().map(PlanDefinitionRes::getResId).distinct().toList();
         List<Long> buttonIdList = resourceList.stream()
                 .filter(x -> resIdList.contains(x.getId()))
                 .filter(x -> x.getType() == ResourceType.BUTTON)
@@ -128,14 +128,14 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<ProductDefini
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void delete(Long id) {
-        ProductDefinition definition = Optional.ofNullable(this.baseMapper.selectById(id))
-                .orElseThrow(() -> CheckedException.notFound("产品不存在,删除失败"));
+        PlanDefinition definition = Optional.ofNullable(this.baseMapper.selectById(id))
+                .orElseThrow(() -> CheckedException.notFound("套餐不存在,删除失败"));
         if (definition.getStatus() != null && definition.getStatus()) {
-            throw CheckedException.notFound("产品已启用,删除失败");
+            throw CheckedException.notFound("套餐已启用,删除失败");
         }
-        Long count = this.productSubscriptionMapper.selectCount(ProductSubscription::getProductId, id);
+        Long count = this.planSubscriptionMapper.selectCount(PlanSubscription::getPlanId, id);
         if (count != null && count > 0) {
-            throw CheckedException.badRequest("产品已被订阅,删除失败");
+            throw CheckedException.badRequest("套餐已被订阅,删除失败");
         }
     }
     

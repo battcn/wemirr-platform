@@ -17,42 +17,47 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.tenant.domain.entity;
+package com.wemirr.platform.iam.tenant.domain.dto.req;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 /**
  * @author Levin
  */
 @Data
-@SuperBuilder(toBuilder = true)
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@TableName(value = "plat_product_definition")
-@Schema(name = "ProductDefinition", description = "产品定义")
-public class ProductDefinition extends SuperEntity<Long> {
+@Schema(name = "ProductPricingSaveReq")
+public class PlanPricingSaveReq {
     
-    @Schema(description = "产品名称")
+    @Schema(description = "套餐ID")
+    @NotNull(message = "套餐不能为空")
+    private Long planId;
+    
+    @Schema(description = "定价名称")
+    @NotNull(message = "定价名称不能为空")
     private String name;
     
-    @Schema(description = "产品编码")
-    private String code;
+    @Schema(description = "用户数量")
+    @NotNull(message = "用户数量不能为空")
+    private Integer userNum;
     
-    @Schema(description = "产品Logo链接")
-    private String logo;
+    @Schema(description = "月数")
+    @NotNull(message = "采购购买不能为空")
+    private Integer monthNum;
     
-    @Schema(description = "产品详情")
+    @Schema(description = "每用户单价")
+    @NotNull(message = "每用户单价不能为空")
+    private Integer pricePerUser;
+    
+    @Schema(description = "超额单价")
+    private String overPrice;
+    
+    @Schema(description = "超额单价")
+    @NotNull(message = "超额单价不能为空")
+    private Integer price;
+    
+    @Schema(description = "描述")
     private String description;
-    
-    @Schema(description = "启用状态")
-    private Boolean status;
     
 }

@@ -40,7 +40,7 @@ import com.wemirr.platform.iam.system.repository.RoleMapper;
 import com.wemirr.platform.iam.system.repository.RoleResMapper;
 import com.wemirr.platform.iam.system.repository.UserMapper;
 import com.wemirr.platform.iam.system.service.ResourceService;
-import com.wemirr.platform.iam.tenant.repository.ProductDefResMapper;
+import com.wemirr.platform.iam.tenant.repository.PlanDefResMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -63,7 +63,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
 
     private static final String SPEL = "/";
     private final AuthenticationContext context;
-    private final ProductDefResMapper productDefResMapper;
+    private final PlanDefResMapper planDefResMapper;
     private final RoleMapper roleMapper;
     private final UserMapper userMapper;
     private final RoleResMapper roleResMapper;
@@ -73,7 +73,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
         var resIdList = TenantHelper.executeWithIsolationType(() -> {
             var list = TenantHelper.executeWithMaster(() -> {
                 var roleResIdList = this.roleResMapper.selectTenantAdminResIdList();
-                var productResIdList = this.productDefResMapper.selectDefRedByTenantId(context.tenantId());
+                var productResIdList = this.planDefResMapper.selectDefRedByTenantId(context.tenantId());
                 return CollUtil.addAll(roleResIdList, productResIdList).stream().distinct().toList();
             });
             if (CollUtil.isEmpty(list)) {
@@ -83,7 +83,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
             return CollUtil.intersection(list, roleResIdList);
         }, () -> {
             var roleResIdList = this.userMapper.selectResByUserId(req.getUserId());
-            var productResIdList = this.productDefResMapper.selectDefRedByTenantId(context.tenantId());
+            var productResIdList = this.planDefResMapper.selectDefRedByTenantId(context.tenantId());
             return CollUtil.addAll(roleResIdList, productResIdList).stream().distinct().toList();
         });
         // 解决租户越权行为,菜单数据直接从主库查询,减少数据分发次数

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wemirr.platform.iam.tenant.repository.ProductDefResMapper">
+<mapper namespace="com.wemirr.platform.iam.tenant.repository.PlanDefResMapper">
 
 
     <select id="selectDefRedByTenantId" resultType="java.lang.Long">
         select t2.res_id
-        from plat_product_definition t1
-                 join plat_product_def_res t2 on t1.id = t2.product_id
-                 join plat_product_subscription t3 on t2.product_id = t3.product_id
+        from plat_plan_definition t1
+                 join plat_plan_def_res t2 on t1.id = t2.plan_id
+                 join plat_plan_subscription t3 on t2.plan_id = t3.plan_id
         where t1.status = 1
         and t3.deleted is false
         and t3.end_time > NOW()

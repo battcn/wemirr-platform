@@ -22,36 +22,60 @@ package com.wemirr.platform.iam.tenant.domain.dto.resp;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 /**
  * @author Levin
  */
 @Data
-public class ProductDefinitionPageResp {
+public class PlanSubscriptionPageResp {
     
     @Schema(description = "ID")
     private Long id;
     
-    @Schema(description = "产品编码")
-    private String code;
+    @Schema(description = "套餐ID")
+    private Long planId;
     
-    @Schema(description = "产品名称")
-    private String name;
+    @Schema(description = "租户ID")
+    private Long tenantId;
     
-    @Schema(description = "产品Logo链接")
-    private String logo;
+    @Schema(description = "用户数量")
+    private Integer userNum;
     
-    @Schema(description = "产品详情")
+    @Schema(description = "月数")
+    private Integer monthNum;
+    
+    @Schema(description = "用户单价")
+    private BigDecimal licensePrice;
+    
+    @Schema(description = "总金额")
+    private BigDecimal totalAmount;
+    
+    @Schema(description = "优惠金额")
+    private BigDecimal discountAmount;
+    
+    @Schema(description = "结算单价")
+    private BigDecimal statementPrice;
+    
+    @Schema(description = "结算金额")
+    private BigDecimal statementAmount;
+    
+    @Schema(description = "开始时间")
+    private Instant startTime;
+    
+    @Schema(description = "结束时间")
+    private Instant endTime;
+    
+    @Schema(description = "支付状态(0=待支付;10=部分支付;20=已支付)")
+    private String paymentStatus;
+    
+    @Schema(description = "描述")
     private String description;
-    
-    @Schema(description = "启用状态")
-    private Boolean status;
     
     @Schema(description = "创建人")
     private String createName;
     
     @Schema(description = "创建时间")
     private Instant createTime;
-    
 }

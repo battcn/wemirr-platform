@@ -17,28 +17,21 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.tenant.domain.dto.req;
+package com.wemirr.platform.iam.tenant.repository;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
+import com.wemirr.platform.iam.tenant.domain.entity.PlanDefinitionRes;
+import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.stereotype.Repository;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author Levin
  */
-@Data
-@Schema(name = "ProductDefPermissionReq")
-public class ProductDefPermissionReq {
+@Repository
+public interface PlanDefResMapper extends SuperMapper<PlanDefinitionRes> {
     
-    @NotNull(message = "产品定义不能为空")
-    @Schema(description = "产品定义ID")
-    private Long productId;
-    
-    @NotEmpty(message = "权限资源不能为空")
-    @Schema(description = "权限资源ID")
-    private Set<Long> resIdList;
+    List<Long> selectDefRedByTenantId(@Param("tenantId") Long tenantId);
     
 }

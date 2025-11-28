@@ -17,51 +17,42 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.tenant.domain.dto.resp;
+package com.wemirr.platform.iam.tenant.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.time.Instant;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
  * @author Levin
  */
 @Data
-@Schema(name = "ProductPricingPageResp")
-public class ProductPricingPageResp {
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@TableName(value = "plat_plan_definition")
+@Schema(name = "PlanDefinition", description = "套餐定义")
+public class PlanDefinition extends SuperEntity<Long> {
     
-    @Schema(description = "ID")
-    private Long id;
-    
-    @Schema(description = "定价名称")
+    @Schema(description = "套餐名称")
     private String name;
     
-    @Schema(description = "产品ID")
-    private String productId;
+    @Schema(description = "套餐编码")
+    private String code;
     
-    @Schema(description = "用户数量")
-    private Integer users;
+    @Schema(description = "套餐Logo链接")
+    private String logo;
     
-    @Schema(description = "月数")
-    private Integer months;
-    
-    @Schema(description = "每用户单价")
-    private Integer pricePerUser;
-    
-    @Schema(description = "超额单价")
-    private String overPrice;
-    
-    @Schema(description = "状态")
-    private Boolean status;
-    
-    @Schema(description = "描述")
+    @Schema(description = "套餐详情")
     private String description;
     
-    @Schema(description = "创建人")
-    private String createName;
-    
-    @Schema(description = "创建时间")
-    private Instant createTime;
+    @Schema(description = "启用状态")
+    private Boolean status;
     
 }

@@ -17,21 +17,33 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.tenant.repository;
+package com.wemirr.platform.iam.tenant.domain.entity;
 
-import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.platform.iam.tenant.domain.entity.ProductDefinitionRes;
-import io.lettuce.core.dynamic.annotation.Param;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.wemirr.framework.commons.entity.SuperEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
  * @author Levin
  */
-@Repository
-public interface ProductDefResMapper extends SuperMapper<ProductDefinitionRes> {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder(toBuilder = true)
+@EqualsAndHashCode(callSuper = true)
+@TableName(value = "plat_plan_def_res")
+@Schema(name = "ProductDefinitionRes", description = "套餐授权")
+public class PlanDefinitionRes extends SuperEntity<Long> {
     
-    List<Long> selectDefRedByTenantId(@Param("tenantId") Long tenantId);
+    @Schema(description = "套餐ID")
+    private Long planId;
+    
+    @Schema(description = "权限资源ID")
+    private Long resId;
     
 }

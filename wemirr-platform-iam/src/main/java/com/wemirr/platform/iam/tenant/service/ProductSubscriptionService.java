@@ -20,20 +20,20 @@
 package com.wemirr.platform.iam.tenant.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.iam.tenant.domain.dto.req.ProductSubscriptionSaveReq;
-import com.wemirr.platform.iam.tenant.domain.entity.ProductSubscription;
+import com.wemirr.platform.iam.tenant.domain.dto.req.PlanSubscriptionSaveReq;
+import com.wemirr.platform.iam.tenant.domain.entity.PlanSubscription;
 
 /**
  * @author Levin
  */
-public interface ProductSubscriptionService extends SuperService<ProductSubscription> {
+public interface ProductSubscriptionService extends SuperService<PlanSubscription> {
     
     /**
      * 添加
      *
      * @param req req
      */
-    void create(ProductSubscriptionSaveReq req);
+    void create(PlanSubscriptionSaveReq req);
     
     /**
      * 编辑
@@ -41,6 +41,6 @@ public interface ProductSubscriptionService extends SuperService<ProductSubscrip
      * @param id  id
      * @param req req
      */
-    void modify(Long id, ProductSubscriptionSaveReq req);
+    void modify(Long id, PlanSubscriptionSaveReq req);
     
 }
