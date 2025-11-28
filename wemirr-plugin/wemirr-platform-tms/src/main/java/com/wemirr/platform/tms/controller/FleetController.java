@@ -30,7 +30,7 @@ public class FleetController {
     private final FleetService fleetService;
 
     @Operation(summary = "车队列表 - [Levin] - [DONE]", description = "车队列表")
-    @GetMapping("/dict_list")
+    @GetMapping("/dict-list")
     public List<Dict<?>> list(Boolean enabled) {
         return this.fleetService.list(Wraps.<Fleet>lbQ().eq(Fleet::getEnabled, enabled))
                 .stream()

@@ -30,7 +30,7 @@ public class TruckController {
 
     private final TruckService truckService;
 
-    @GetMapping("/dict_list")
+    @GetMapping("/dict-list")
     @Operation(summary = "车辆列表 - [Levin] - [DONE]")
     public List<Dict<?>> dictList(Boolean enabled) {
         final List<Truck> list = this.truckService.list(Wraps.<Truck>lbQ().eq(Truck::getEnabled, enabled));

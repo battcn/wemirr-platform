@@ -28,7 +28,7 @@ public class DriverController {
 
     private final DriverService driverService;
 
-    @GetMapping("/dict_list")
+    @GetMapping("/dict-list")
     @Operation(summary = "司机列表 - [Levin] - [DONE]")
     public List<Dict<?>> dictList(Boolean enabled) {
         final List<Driver> list = this.driverService.list(Wraps.<Driver>lbQ().eq(Driver::getEnabled, enabled));
