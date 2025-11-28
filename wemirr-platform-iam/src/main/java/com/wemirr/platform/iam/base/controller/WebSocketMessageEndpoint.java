@@ -43,7 +43,7 @@ import javax.sql.DataSource;
 import java.util.List;
 
 /**
- * 聊天室
+ * WS消息监听（如果存在安全隐患的话,可以考虑加 Token 鉴权之类的 不过这样的话  如果量大会影响性能,不过一般PC系统无所谓了）
  *
  * @author Levin
  * @since 2020/11/11
@@ -54,9 +54,12 @@ import java.util.List;
 public class WebSocketMessageEndpoint extends BaseWebSocketEndpoint {
 
     @OnOpen
-    public void openSession(@PathParam("tenantCode") String tenantCode, @PathParam(IDENTIFIER) String userId, Session session) {
+    public void openSession(@PathParam("tenantCode") String tenantCode, @PathParam(IDENTIFIER) String userId,
+                            Session session) {
         connect(userId, session);
         List<MessageNotify> messages = null;
+        List<String> accessToken = session.getRequestParameterMap().get("accessToken");
+        log.debug("access-token => {}", accessToken);
         final DatabaseProperties properties = SpringUtil.getBean(DatabaseProperties.class);
         final MessageNotifyService service = SpringUtil.getBean(MessageNotifyService.class);
         if (properties.getMultiTenant().getType() == MultiTenantType.DATASOURCE) {
