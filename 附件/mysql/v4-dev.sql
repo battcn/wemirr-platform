@@ -326,99 +326,99 @@ INSERT INTO `c_opt_log` (`id`, `tenant_id`, `tenant_code`, `module`, `descriptio
 COMMIT;
 
 -- ----------------------------
--- Table structure for plat_product_def_res
+-- Table structure for plat_plan_def_res
 -- ----------------------------
-DROP TABLE IF EXISTS `plat_product_def_res`;
-CREATE TABLE `plat_product_def_res` (
-  `product_id` bigint NOT NULL COMMENT '角色ID',
+DROP TABLE IF EXISTS `plat_plan_def_res`;
+CREATE TABLE `plat_plan_def_res` (
+  `plan_id` bigint NOT NULL COMMENT '角色ID',
   `res_id` bigint NOT NULL COMMENT '菜单ID',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  UNIQUE KEY `idx_role_res` (`product_id`,`res_id`) USING BTREE
+  UNIQUE KEY `idx_role_res` (`plan_id`,`res_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='角色权限表';
 
 -- ----------------------------
--- Records of plat_product_def_res
+-- Records of plat_plan_def_res
 -- ----------------------------
 BEGIN;
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 11, '2024-12-25 05:12:39');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 1101, '2024-12-25 05:12:39');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 1102, '2024-12-25 05:12:39');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110101, '2024-12-25 05:12:39');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110102, '2024-12-25 05:12:39');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110107, '2024-12-25 05:12:39');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110201, '2024-12-25 05:12:39');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110202, '2024-12-25 05:12:39');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110203, '2024-12-25 05:12:39');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110204, '2024-12-25 05:12:39');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 151, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 152, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 153, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 301, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 302, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 303, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 306, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 310, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 320, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15101, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15102, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15103, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15201, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15202, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15203, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15204, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15205, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15206, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15207, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15301, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30101, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30102, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30103, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30201, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30202, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30301, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30303, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30604, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30605, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30606, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30607, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30608, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 31003, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 31005, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 31006, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 32002, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 32003, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010101, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010102, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010103, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010104, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010105, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010201, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010202, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010203, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010301, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010302, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010303, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020101, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020102, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020103, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020201, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020202, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020203, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020207, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020208, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3060501, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3060502, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3060503, '2024-12-25 05:53:27');
-INSERT INTO `plat_product_def_res` (`product_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3060504, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 11, '2024-12-25 05:12:39');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 1101, '2024-12-25 05:12:39');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 1102, '2024-12-25 05:12:39');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110101, '2024-12-25 05:12:39');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110102, '2024-12-25 05:12:39');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110107, '2024-12-25 05:12:39');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110201, '2024-12-25 05:12:39');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110202, '2024-12-25 05:12:39');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110203, '2024-12-25 05:12:39');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110204, '2024-12-25 05:12:39');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 151, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 152, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 153, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 301, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 302, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 303, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 306, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 310, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 320, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15101, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15102, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15103, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15201, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15202, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15203, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15204, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15205, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15206, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15207, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15301, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30101, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30102, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30103, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30201, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30202, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30301, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30303, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30604, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30605, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30606, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30607, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30608, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 31003, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 31005, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 31006, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 32002, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 32003, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010101, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010102, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010103, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010104, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010105, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010201, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010202, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010203, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010301, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010302, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010303, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020101, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020102, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020103, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020201, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020202, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020203, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020207, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020208, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3060501, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3060502, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3060503, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3060504, '2024-12-25 05:53:27');
 COMMIT;
 
 -- ----------------------------
--- Table structure for plat_product_definition
+-- Table structure for plat_plan_definition
 -- ----------------------------
-DROP TABLE IF EXISTS `plat_product_definition`;
-CREATE TABLE `plat_product_definition` (
+DROP TABLE IF EXISTS `plat_plan_definition`;
+CREATE TABLE `plat_plan_definition` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '产品定义ID',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '产品名称',
   `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
@@ -436,21 +436,21 @@ CREATE TABLE `plat_product_definition` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1971026559142187011 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='产品定义表';
 
 -- ----------------------------
--- Records of plat_product_definition
+-- Records of plat_plan_definition
 -- ----------------------------
 BEGIN;
-INSERT INTO `plat_product_definition` (`id`, `name`, `code`, `logo`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871786068400021505, '审批管理', 'PD202412250001', 'http://127.0.0.1:19000/wp-local/dev/676b943291326cc9f14145b1.png', 1, b'0', 'BPM 审批产品', 1, '平台管理员', '2024-12-25 13:12:29', 0, NULL, '2024-12-25 05:51:07');
-INSERT INTO `plat_product_definition` (`id`, `name`, `code`, `logo`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871796003473084418, '租户测试项目', 'PD202412250002', 'http://127.0.0.1:19000/wp-local/dev/676b9d7b91326cc9f14145b2.png', 1, b'0', '租户测试项目', 1, '平台管理员', '2024-12-25 13:51:58', 0, NULL, '2024-12-25 05:52:06');
-INSERT INTO `plat_product_definition` (`id`, `name`, `code`, `logo`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1971026559142187010, '21312', 'PD202509250001', NULL, 1, b'0', '123', 1, '平台管理员', '2025-09-25 09:38:46', 0, NULL, NULL);
+INSERT INTO `plat_plan_definition` (`id`, `name`, `code`, `logo`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871786068400021505, '审批管理', 'PD202412250001', 'http://127.0.0.1:19000/wp-local/dev/676b943291326cc9f14145b1.png', 1, b'0', 'BPM 审批产品', 1, '平台管理员', '2024-12-25 13:12:29', 0, NULL, '2024-12-25 05:51:07');
+INSERT INTO `plat_plan_definition` (`id`, `name`, `code`, `logo`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871796003473084418, '租户测试项目', 'PD202412250002', 'http://127.0.0.1:19000/wp-local/dev/676b9d7b91326cc9f14145b2.png', 1, b'0', '租户测试项目', 1, '平台管理员', '2024-12-25 13:51:58', 0, NULL, '2024-12-25 05:52:06');
+INSERT INTO `plat_plan_definition` (`id`, `name`, `code`, `logo`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1971026559142187010, '21312', 'PD202509250001', NULL, 1, b'0', '123', 1, '平台管理员', '2025-09-25 09:38:46', 0, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
--- Table structure for plat_product_pricing
+-- Table structure for plat_plan_pricing
 -- ----------------------------
-DROP TABLE IF EXISTS `plat_product_pricing`;
-CREATE TABLE `plat_product_pricing` (
+DROP TABLE IF EXISTS `plat_plan_pricing`;
+CREATE TABLE `plat_plan_pricing` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `product_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品ID',
+  `plan_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品ID',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '定价名称',
   `users` int DEFAULT NULL COMMENT '用户数量',
   `months` int DEFAULT NULL COMMENT '月数',
@@ -470,18 +470,18 @@ CREATE TABLE `plat_product_pricing` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='产品定价表';
 
 -- ----------------------------
--- Records of plat_product_pricing
+-- Records of plat_plan_pricing
 -- ----------------------------
 BEGIN;
 COMMIT;
 
 -- ----------------------------
--- Table structure for plat_product_subscription
+-- Table structure for plat_plan_subscription
 -- ----------------------------
-DROP TABLE IF EXISTS `plat_product_subscription`;
-CREATE TABLE `plat_product_subscription` (
+DROP TABLE IF EXISTS `plat_plan_subscription`;
+CREATE TABLE `plat_plan_subscription` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `product_id` bigint DEFAULT NULL COMMENT '产品ID',
+  `plan_id` bigint DEFAULT NULL COMMENT '产品ID',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
   `users` int DEFAULT NULL COMMENT '用户数量',
   `months` int DEFAULT NULL COMMENT '月数',
@@ -505,11 +505,11 @@ CREATE TABLE `plat_product_subscription` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1871796594064633859 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='产品订阅信息';
 
 -- ----------------------------
--- Records of plat_product_subscription
+-- Records of plat_plan_subscription
 -- ----------------------------
 BEGIN;
-INSERT INTO `plat_product_subscription` (`id`, `product_id`, `tenant_id`, `users`, `months`, `license_price`, `total_amount`, `discount_amount`, `statement_amount`, `statement_price`, `start_time`, `end_time`, `payment_status`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871786355412049922, 1871786068400021505, 3, 100, 12, 100.00, 120000.00, 100000.00, 20000.00, 16.67, '2024-12-25 13:13:05', '2025-12-25 13:13:05', 10, '订阅 12 个月的 BPM ', b'0', 1, '平台管理员', '2024-12-25 13:13:38', NULL, NULL, NULL);
-INSERT INTO `plat_product_subscription` (`id`, `product_id`, `tenant_id`, `users`, `months`, `license_price`, `total_amount`, `discount_amount`, `statement_amount`, `statement_price`, `start_time`, `end_time`, `payment_status`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871796594064633858, 1871796003473084418, 3, 10000, 12, 1.00, 120000.00, 0.00, 120000.00, 1.00, '2024-12-25 13:54:06', '2025-12-25 13:54:06', 20, '测试项目', b'0', 1, '平台管理员', '2024-12-25 13:54:19', NULL, NULL, NULL);
+INSERT INTO `plat_plan_subscription` (`id`, `plan_id`, `tenant_id`, `users`, `months`, `license_price`, `total_amount`, `discount_amount`, `statement_amount`, `statement_price`, `start_time`, `end_time`, `payment_status`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871786355412049922, 1871786068400021505, 3, 100, 12, 100.00, 120000.00, 100000.00, 20000.00, 16.67, '2024-12-25 13:13:05', '2025-12-25 13:13:05', 10, '订阅 12 个月的 BPM ', b'0', 1, '平台管理员', '2024-12-25 13:13:38', NULL, NULL, NULL);
+INSERT INTO `plat_plan_subscription` (`id`, `plan_id`, `tenant_id`, `users`, `months`, `license_price`, `total_amount`, `discount_amount`, `statement_amount`, `statement_price`, `start_time`, `end_time`, `payment_status`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871796594064633858, 1871796003473084418, 3, 10000, 12, 1.00, 120000.00, 0.00, 120000.00, 1.00, '2024-12-25 13:54:06', '2025-12-25 13:54:06', 20, '测试项目', b'0', 1, '平台管理员', '2024-12-25 13:54:19', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -3437,7 +3437,7 @@ CREATE TABLE `wms_scan_order_detail` (
   `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
   `warehouse_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库编码',
   `warehouse_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库名字',
-  `product_id` bigint DEFAULT NULL,
+  `plan_id` bigint DEFAULT NULL,
   `product_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `product_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作类型',
@@ -3456,7 +3456,7 @@ CREATE TABLE `wms_scan_order_detail` (
 -- Records of wms_scan_order_detail
 -- ----------------------------
 BEGIN;
-INSERT INTO `wms_scan_order_detail` (`id`, `assets_id`, `assets_code`, `ref_id`, `ref_code`, `company_id`, `company_name`, `warehouse_id`, `warehouse_code`, `warehouse_name`, `product_id`, `product_code`, `product_name`, `type`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, '202406 000001', 1, 'DD202406050001', 1, '公司名字', 1, 'CK202406060001', '一号仓库', 1, 'CP2024060001', '苹果14', 'in', '系统管理', b'0', 1, '系统管理', '2024-06-06 06:21:53', NULL, NULL, '2024-06-06 06:27:51');
+INSERT INTO `wms_scan_order_detail` (`id`, `assets_id`, `assets_code`, `ref_id`, `ref_code`, `company_id`, `company_name`, `warehouse_id`, `warehouse_code`, `warehouse_name`, `plan_id`, `product_code`, `product_name`, `type`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, '202406 000001', 1, 'DD202406050001', 1, '公司名字', 1, 'CK202406060001', '一号仓库', 1, 'CP2024060001', '苹果14', 'in', '系统管理', b'0', 1, '系统管理', '2024-06-06 06:21:53', NULL, NULL, '2024-06-06 06:27:51');
 COMMIT;
 
 -- ----------------------------
@@ -3574,7 +3574,7 @@ CREATE TABLE `wms_stock_flow` (
   `company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `ref_id` bigint DEFAULT NULL,
   `ref_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `product_id` bigint DEFAULT NULL COMMENT '产品ID',
+  `plan_id` bigint DEFAULT NULL COMMENT '产品ID',
   `product_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品编码',
   `product_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品名字',
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作类型',
@@ -3594,7 +3594,7 @@ CREATE TABLE `wms_stock_flow` (
 -- Records of wms_stock_flow
 -- ----------------------------
 BEGIN;
-INSERT INTO `wms_stock_flow` (`id`, `warehouse_id`, `warehouse_code`, `warehouse_name`, `company_id`, `company_name`, `ref_id`, `ref_code`, `product_id`, `product_code`, `product_name`, `type`, `quantity`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, 'WN202406050001', '一号仓库', NULL, NULL, NULL, NULL, 1, 'WP202406050001', '苹果', 'in', 100, '入库 100 个苹果', b'0', 1, '系统', '2024-06-05 07:59:30', NULL, NULL, NULL);
+INSERT INTO `wms_stock_flow` (`id`, `warehouse_id`, `warehouse_code`, `warehouse_name`, `company_id`, `company_name`, `ref_id`, `ref_code`, `plan_id`, `product_code`, `product_name`, `type`, `quantity`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, 'WN202406050001', '一号仓库', NULL, NULL, NULL, NULL, 1, 'WP202406050001', '苹果', 'in', 100, '入库 100 个苹果', b'0', 1, '系统', '2024-06-05 07:59:30', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
