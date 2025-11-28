@@ -26,8 +26,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -37,7 +37,7 @@ import org.springframework.context.annotation.Primary;
  * properties.initializeDataSourceBuilder() 去实例化的，那么我们只需要在实例化数据源后解密密码即可
  *
  * @author Levin
- * @see org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+ * @see org.springframework.boot.jdbc.autoconfigure.DataSourceProperties
  */
 @Slf4j
 @Configuration

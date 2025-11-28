@@ -27,8 +27,8 @@
         <spring-ai.version>1.0.0-M3</spring-ai.version>
         <!-- Spring Boot 相关 版本-->
         <spring-boot-admin.version>3.3.6</spring-boot-admin.version>
-        <spring-boot.version>3.5.7</spring-boot.version>
-        <spring-cloud.version>2025.0.0</spring-cloud.version>
+        <spring-boot.version>4.0.0</spring-boot.version>
+        <spring-cloud.version>2025.1.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
         <!-- DB 相关 -->
         <mybatis-plus.version>3.5.14</mybatis-plus.version>

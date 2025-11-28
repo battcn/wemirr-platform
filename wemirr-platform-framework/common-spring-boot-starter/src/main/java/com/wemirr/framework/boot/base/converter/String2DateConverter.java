@@ -24,7 +24,7 @@ import com.wemirr.framework.commons.exception.ValidException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import java.text.DateFormat;
 import java.text.ParseException;

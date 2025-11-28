@@ -25,13 +25,14 @@ import com.wemirr.framework.redis.plus.interceptor.RedisLimitInterceptor;
 import com.wemirr.framework.redis.plus.interceptor.RedisLockInterceptor;
 import com.wemirr.framework.redis.plus.lock.RedisLockHelper;
 import com.wemirr.framework.redis.plus.sequence.RedisSequenceHelper;
+import jakarta.annotation.Nullable;
 import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -47,7 +48,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @author Levin
  */
 @Configuration
-@AutoConfigureAfter(RedisAutoConfiguration.class)
+@AutoConfigureAfter(DataRedisAutoConfiguration.class)
 @EnableConfigurationProperties(RedisPlusProperties.class)
 @ConditionalOnProperty(prefix = "extend.redis", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class RedisPlusAutoConfiguration {
@@ -108,8 +109,8 @@ public class RedisPlusAutoConfiguration {
     /**
      * 统一创建RedisTemplate
      *
-     * @param connectionFactory
-     * @return
+     * @param connectionFactory connectionFactory
+     * @return RedisTemplate<String, Object>
      */
     public static RedisTemplate<String, Object> createRedisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
