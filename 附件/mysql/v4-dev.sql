@@ -11,7 +11,7 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 09/10/2025 15:51:18
+ Date: 28/11/2025 13:50:15
 */
 
 SET NAMES utf8mb4;
@@ -43,7 +43,7 @@ CREATE TABLE `b_message_channel` (
 -- Records of b_message_channel
 -- ----------------------------
 BEGIN;
-INSERT INTO `b_message_channel` (`id`, `title`, `type`, `status`, `setting`, `tenant_id`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1864537666578714625, '系统内置', 'system', b'1', NULL, 1, '系统内置 webstock 消息', b'0', NULL, NULL, '2024-12-05 13:09:56', NULL, NULL, '2024-12-05 14:17:23');
+INSERT INTO `b_message_channel` (`id`, `title`, `type`, `status`, `setting`, `tenant_id`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1864537666578714625, '系统内置', 'system', b'1', NULL, 1, '系统内置 webstock 消息', b'0', NULL, NULL, '2024-12-05 13:09:56', 1, '平台管理员', '2025-11-28 11:30:39');
 INSERT INTO `b_message_channel` (`id`, `title`, `type`, `status`, `setting`, `tenant_id`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1864543691579056130, '213123', NULL, b'1', NULL, 1, '12312', b'0', NULL, NULL, '2024-12-05 13:33:52', NULL, NULL, '2024-12-05 05:58:16');
 INSERT INTO `b_message_channel` (`id`, `title`, `type`, `status`, `setting`, `tenant_id`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1864548132428439554, '腾讯邮箱', 'email', b'1', '{\"id\": \"1864548132428439554\", \"host\": \"smtp.qq.com\", \"port\": \"465\", \"smtp\": {\"ssl\": true, \"auth\": true}, \"type\": \"email\", \"title\": \"腾讯邮箱\", \"status\": true, \"password\": \"123\", \"protocol\": \"smtp\", \"tenantId\": \"1\", \"username\": \"123@qq.com\", \"description\": \"描述\"}', 1, '描述', b'0', NULL, NULL, '2024-12-05 13:51:31', NULL, NULL, '2024-12-05 06:31:14');
 COMMIT;
@@ -71,7 +71,7 @@ CREATE TABLE `b_message_notify` (
   `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1871423081856249858 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='消息通知';
+) ENGINE=InnoDB AUTO_INCREMENT=1994273599468744706 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='消息通知';
 
 -- ----------------------------
 -- Records of b_message_notify
@@ -92,6 +92,29 @@ INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables
 INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871423081650728961, '系统消息', 'email', 1863835249327370241, '{\"username\":\"测试一下\"}', '欢迎 测试一下 来到 WP 系统', 24, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 13:10:07', NULL, NULL, NULL);
 INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871423081759780865, '系统消息', 'ding-talk', 1863835249327370241, '{\"username\":\"测试一下\"}', '欢迎 测试一下 来到 WP 系统', 24, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 13:10:07', NULL, NULL, NULL);
 INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871423081856249857, '系统消息', 'sms', 1863835249327370241, '{\"username\":\"测试一下\"}', '欢迎 测试一下 来到 WP 系统', 24, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2024-12-24 13:10:07', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994247733669924865, '系统消息', 'email', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:31:26', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994247733669924866, '系统消息', 'ding-talk', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:31:26', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994247733669924867, '系统消息', 'sms', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:31:26', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994247733669924868, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:31:26', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994247733669924869, '系统消息', 'email', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 2, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:31:26', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994247733669924870, '系统消息', 'ding-talk', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 2, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:31:26', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994247733669924871, '系统消息', 'sms', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 2, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:31:26', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994247733669924872, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 2, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:31:26', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994247794164371457, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:31:40', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994247794164371458, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 2, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:31:40', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994247811210022914, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:31:44', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994247811210022915, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 2, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:31:44', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994248110096125953, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:32:55', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994248110096125954, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 2, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 11:32:55', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994262021293887489, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 12:28:12', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994262021293887490, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 2, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 12:28:12', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994262083340226561, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 12:28:27', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994262083340226562, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 2, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 12:28:27', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994265128111403010, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 12:40:33', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994265128111403011, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 2, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 12:40:33', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994265234755776514, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 12:40:58', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994265234759970817, '系统消息', 'system', 1863835249327370241, '{\"username\":\"\"}', '<p>欢迎  来到 WP 系统</p>', 2, '测试管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 12:40:58', NULL, NULL, NULL);
+INSERT INTO `b_message_notify` (`id`, `title`, `type`, `template_id`, `variables`, `content`, `user_id`, `nickname`, `subscribe`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994273599468744705, '系统消息', 'system', 1863835249327370241, '{\"username\":\"321312312\"}', '<p>欢迎 321312312 来到 WP 系统</p>', 1, '平台管理员', '1837307557@qq.com', 1, b'0', 1, '平台管理员', '2025-11-28 13:14:13', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -121,7 +144,7 @@ CREATE TABLE `b_message_template` (
 -- Records of b_message_template
 -- ----------------------------
 BEGIN;
-INSERT INTO `b_message_template` (`id`, `code`, `name`, `type`, `subject`, `content`, `status`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1863835249327370241, '0001', '系统消息', 'email,ding-talk,sms', '系统消息', '欢迎 ${username} 来到 WP 系统', b'1', NULL, b'0', NULL, NULL, '2024-12-03 14:38:46', NULL, NULL, '2024-12-06 11:09:43');
+INSERT INTO `b_message_template` (`id`, `code`, `name`, `type`, `subject`, `content`, `status`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1863835249327370241, '0001', '系统消息', 'system', '系统消息', '<p>欢迎 ${username} 来到 WP 系统</p>', b'1', NULL, b'0', NULL, NULL, '2024-12-03 14:38:46', 1, '平台管理员', '2025-11-28 11:31:37');
 COMMIT;
 
 -- ----------------------------
@@ -169,35 +192,43 @@ BEGIN;
 COMMIT;
 
 -- ----------------------------
--- Table structure for c_generate
+-- Table structure for c_generate_table
 -- ----------------------------
-DROP TABLE IF EXISTS `c_generate`;
-CREATE TABLE `c_generate` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `root_dir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '根目录',
-  `springdoc` bit(2) DEFAULT b'0' COMMENT '是否添加swagger2',
-  `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '作者',
-  `table_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '表名',
-  `parent_package` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '父包',
-  `module_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '模块名',
-  `table_prefix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '表前缀',
-  `api_url_prefix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'api地址前缀',
-  `logic_delete_field` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '逻辑删除字段',
-  `platform_id` bigint DEFAULT '0' COMMENT '平台ID',
-  `deleted` bit(2) DEFAULT b'0',
+DROP TABLE IF EXISTS `c_generate_table`;
+CREATE TABLE `c_generate_table` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `name` varchar(255) NOT NULL COMMENT '表名称',
+  `comment` varchar(255) NOT NULL COMMENT '表描述',
+  `class_name` varchar(255) NOT NULL COMMENT '实体类名',
+  `package_name` varchar(255) NOT NULL COMMENT '包名',
+  `module_name` varchar(255) NOT NULL COMMENT '生成模块名',
+  `author` varchar(255) DEFAULT NULL COMMENT '作者',
+  `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
+  `business_name` varchar(255) DEFAULT NULL COMMENT '业务名称',
+  `remove_prefix` bit(1) DEFAULT NULL COMMENT '是否去掉前缀',
+  `prefix` varchar(255) DEFAULT NULL COMMENT '前缀',
+  `swagger` bit(1) DEFAULT NULL COMMENT '是否开启swagger配置',
+  `template_group_id` bigint DEFAULT NULL COMMENT '关联模板组',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除',
   `create_by` bigint DEFAULT '0' COMMENT '创建人id',
   `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL,
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='代码生成器';
+  `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人id',
+  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最后修改人',
+  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_tenant_id` (`tenant_id`),
+  KEY `idx_template_group_id` (`template_group_id`),
+  KEY `idx_create_time` (`create_time`),
+  KEY `idx_last_modify_time` (`last_modify_time`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='代码生成表配置';
 
 -- ----------------------------
--- Records of c_generate
+-- Records of c_generate_table
 -- ----------------------------
 BEGIN;
+INSERT INTO `c_generate_table` (`id`, `name`, `comment`, `class_name`, `package_name`, `module_name`, `author`, `email`, `business_name`, `remove_prefix`, `prefix`, `swagger`, `template_group_id`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 't_user', '113', '123', '123', '213', '213', '213', '123', b'1', '132', b'1', 123, 1, b'0', 0, NULL, '2025-10-10 07:59:33', NULL, NULL, '2025-10-10 08:00:41');
 COMMIT;
 
 -- ----------------------------
@@ -316,13 +347,12 @@ CREATE TABLE `c_opt_log` (
   `create_by` bigint DEFAULT '0' COMMENT '创建人id',
   `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1976168852161216514 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='系统日志';
 
 -- ----------------------------
 -- Records of c_opt_log
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_opt_log` (`id`, `tenant_id`, `tenant_code`, `module`, `description`, `ip`, `location`, `trace`, `action`, `uri`, `http_method`, `request`, `response`, `message`, `status`, `start_time`, `end_time`, `duration`, `browser`, `os`, `engine`, `platform`, `token`, `create_by`, `create_name`) VALUES (1976168852161216513, 1, '0000', '用户管理', '删除用户', '0:0:0:0:0:0:0:1', '内网', NULL, 'com.wemirr.platform.iam.system.controller.UserController.del', '/users/1863475850498969601', 'DELETE', '[1863475850498969601]', 'null', NULL, b'1', '2025-10-09 14:12:24', '2025-10-09 14:12:24', 0, 'Chrome', 'OSX', 'Webkit', 'Mac', 'Bearer 8d01e893-4ae9-42cb-9181-aefcb69f89fa', 1, '平台管理员');
 COMMIT;
 
 -- ----------------------------
@@ -330,88 +360,96 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `plat_plan_def_res`;
 CREATE TABLE `plat_plan_def_res` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `plan_id` bigint NOT NULL COMMENT '角色ID',
   `res_id` bigint NOT NULL COMMENT '菜单ID',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除标记',
+  `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_modify_by` bigint DEFAULT NULL COMMENT '修改人',
+  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `last_modify_time` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`),
   UNIQUE KEY `idx_role_res` (`plan_id`,`res_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='角色权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='角色权限表';
 
 -- ----------------------------
 -- Records of plat_plan_def_res
 -- ----------------------------
 BEGIN;
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 11, '2024-12-25 05:12:39');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 1101, '2024-12-25 05:12:39');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 1102, '2024-12-25 05:12:39');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110101, '2024-12-25 05:12:39');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110102, '2024-12-25 05:12:39');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110107, '2024-12-25 05:12:39');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110201, '2024-12-25 05:12:39');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110202, '2024-12-25 05:12:39');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110203, '2024-12-25 05:12:39');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871786068400021505, 110204, '2024-12-25 05:12:39');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 151, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 152, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 153, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 301, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 302, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 303, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 306, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 310, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 320, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15101, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15102, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15103, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15201, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15202, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15203, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15204, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15205, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15206, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15207, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 15301, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30101, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30102, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30103, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30201, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30202, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30301, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30303, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30604, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30605, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30606, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30607, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 30608, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 31003, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 31005, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 31006, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 32002, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 32003, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010101, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010102, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010103, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010104, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010105, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010201, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010202, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010203, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010301, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010302, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3010303, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020101, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020102, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020103, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020201, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020202, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020203, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020207, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3020208, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3060501, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3060502, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3060503, '2024-12-25 05:53:27');
-INSERT INTO `plat_plan_def_res` (`plan_id`, `res_id`, `create_time`) VALUES (1871796003473084418, 3060504, '2024-12-25 05:53:27');
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1871786068400021505, 11, NULL, NULL, NULL, '2024-12-25 05:12:39', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (2, 1871786068400021505, 1101, NULL, NULL, NULL, '2024-12-25 05:12:39', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3, 1871786068400021505, 1102, NULL, NULL, NULL, '2024-12-25 05:12:39', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (4, 1871786068400021505, 110101, NULL, NULL, NULL, '2024-12-25 05:12:39', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (5, 1871786068400021505, 110102, NULL, NULL, NULL, '2024-12-25 05:12:39', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (6, 1871786068400021505, 110107, NULL, NULL, NULL, '2024-12-25 05:12:39', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (7, 1871786068400021505, 110201, NULL, NULL, NULL, '2024-12-25 05:12:39', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (8, 1871786068400021505, 110202, NULL, NULL, NULL, '2024-12-25 05:12:39', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (9, 1871786068400021505, 110203, NULL, NULL, NULL, '2024-12-25 05:12:39', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10, 1871786068400021505, 110204, NULL, NULL, NULL, '2024-12-25 05:12:39', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (11, 1871796003473084418, 3, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (12, 1871796003473084418, 15, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (13, 1871796003473084418, 151, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (14, 1871796003473084418, 152, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (15, 1871796003473084418, 153, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (16, 1871796003473084418, 301, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (17, 1871796003473084418, 302, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (18, 1871796003473084418, 303, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (19, 1871796003473084418, 306, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (20, 1871796003473084418, 310, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (21, 1871796003473084418, 320, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (22, 1871796003473084418, 15101, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (23, 1871796003473084418, 15102, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (24, 1871796003473084418, 15103, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (25, 1871796003473084418, 15201, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (26, 1871796003473084418, 15202, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (27, 1871796003473084418, 15203, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (28, 1871796003473084418, 15204, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (29, 1871796003473084418, 15205, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (30, 1871796003473084418, 15206, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (31, 1871796003473084418, 15207, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (32, 1871796003473084418, 15301, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (33, 1871796003473084418, 30101, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (34, 1871796003473084418, 30102, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (35, 1871796003473084418, 30103, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (36, 1871796003473084418, 30201, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (37, 1871796003473084418, 30202, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (38, 1871796003473084418, 30301, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (39, 1871796003473084418, 30303, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (40, 1871796003473084418, 30604, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (41, 1871796003473084418, 30605, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (42, 1871796003473084418, 30606, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (43, 1871796003473084418, 30607, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (44, 1871796003473084418, 30608, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (45, 1871796003473084418, 31003, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (46, 1871796003473084418, 31005, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (47, 1871796003473084418, 31006, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (48, 1871796003473084418, 32002, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (49, 1871796003473084418, 32003, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (50, 1871796003473084418, 3010101, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (51, 1871796003473084418, 3010102, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (52, 1871796003473084418, 3010103, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (53, 1871796003473084418, 3010104, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (54, 1871796003473084418, 3010105, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (55, 1871796003473084418, 3010201, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (56, 1871796003473084418, 3010202, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (57, 1871796003473084418, 3010203, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (58, 1871796003473084418, 3010301, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (59, 1871796003473084418, 3010302, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (60, 1871796003473084418, 3010303, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (61, 1871796003473084418, 3020101, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (62, 1871796003473084418, 3020102, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (63, 1871796003473084418, 3020103, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (64, 1871796003473084418, 3020201, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (65, 1871796003473084418, 3020202, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (66, 1871796003473084418, 3020203, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (67, 1871796003473084418, 3020207, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (68, 1871796003473084418, 3020208, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (69, 1871796003473084418, 3060501, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (70, 1871796003473084418, 3060502, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (71, 1871796003473084418, 3060503, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (72, 1871796003473084418, 3060504, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -450,12 +488,12 @@ COMMIT;
 DROP TABLE IF EXISTS `plat_plan_pricing`;
 CREATE TABLE `plat_plan_pricing` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `plan_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品ID',
+  `plan_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '套餐ID',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '定价名称',
-  `users` int DEFAULT NULL COMMENT '用户数量',
-  `months` int DEFAULT NULL COMMENT '月数',
-  `price` decimal(10,0) DEFAULT NULL COMMENT '总价',
-  `price_per_user` decimal(10,0) DEFAULT NULL COMMENT '每用户单价',
+  `user_num` int DEFAULT NULL COMMENT '用户数量',
+  `month_num` int DEFAULT NULL COMMENT '月数',
+  `amount` decimal(10,0) DEFAULT NULL COMMENT '总价',
+  `unit_price` decimal(10,0) DEFAULT NULL COMMENT '用户单价',
   `over_price` decimal(10,2) DEFAULT NULL COMMENT '超额单价',
   `status` bit(1) DEFAULT b'0' COMMENT '状态(1=启用;0=禁用)',
   `description` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述信息',
@@ -483,8 +521,8 @@ CREATE TABLE `plat_plan_subscription` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `plan_id` bigint DEFAULT NULL COMMENT '产品ID',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `users` int DEFAULT NULL COMMENT '用户数量',
-  `months` int DEFAULT NULL COMMENT '月数',
+  `user_num` int DEFAULT NULL COMMENT '用户数量',
+  `month_num` int DEFAULT NULL COMMENT '月数',
   `license_price` decimal(19,2) DEFAULT NULL COMMENT '用户单价',
   `total_amount` decimal(19,2) DEFAULT NULL COMMENT '总金额',
   `discount_amount` decimal(19,2) DEFAULT NULL COMMENT '优惠金额',
@@ -494,7 +532,7 @@ CREATE TABLE `plat_plan_subscription` (
   `end_time` datetime DEFAULT NULL COMMENT '结束时间',
   `payment_status` tinyint DEFAULT NULL COMMENT '支付状态(0=待支付;10=部分支付;20=已支付)',
   `description` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述信息',
-  `deleted` bit(1) DEFAULT b'0',
+  `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除',
   `create_by` bigint DEFAULT NULL COMMENT '创建人id',
   `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -502,14 +540,15 @@ CREATE TABLE `plat_plan_subscription` (
   `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1871796594064633859 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='产品订阅信息';
+) ENGINE=InnoDB AUTO_INCREMENT=1994243308565958659 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='产品订阅信息';
 
 -- ----------------------------
 -- Records of plat_plan_subscription
 -- ----------------------------
 BEGIN;
-INSERT INTO `plat_plan_subscription` (`id`, `plan_id`, `tenant_id`, `users`, `months`, `license_price`, `total_amount`, `discount_amount`, `statement_amount`, `statement_price`, `start_time`, `end_time`, `payment_status`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871786355412049922, 1871786068400021505, 3, 100, 12, 100.00, 120000.00, 100000.00, 20000.00, 16.67, '2024-12-25 13:13:05', '2025-12-25 13:13:05', 10, '订阅 12 个月的 BPM ', b'0', 1, '平台管理员', '2024-12-25 13:13:38', NULL, NULL, NULL);
-INSERT INTO `plat_plan_subscription` (`id`, `plan_id`, `tenant_id`, `users`, `months`, `license_price`, `total_amount`, `discount_amount`, `statement_amount`, `statement_price`, `start_time`, `end_time`, `payment_status`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871796594064633858, 1871796003473084418, 3, 10000, 12, 1.00, 120000.00, 0.00, 120000.00, 1.00, '2024-12-25 13:54:06', '2025-12-25 13:54:06', 20, '测试项目', b'0', 1, '平台管理员', '2024-12-25 13:54:19', NULL, NULL, NULL);
+INSERT INTO `plat_plan_subscription` (`id`, `plan_id`, `tenant_id`, `user_num`, `month_num`, `license_price`, `total_amount`, `discount_amount`, `statement_amount`, `statement_price`, `start_time`, `end_time`, `payment_status`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871786355412049922, 1871786068400021505, 3, 100, 12, 100.00, 120000.00, 100000.00, 20000.00, 16.67, '2024-12-25 13:13:05', '2025-12-25 13:13:05', 10, '订阅 12 个月的 BPM ', b'0', 1, '平台管理员', '2024-12-25 13:13:38', NULL, NULL, NULL);
+INSERT INTO `plat_plan_subscription` (`id`, `plan_id`, `tenant_id`, `user_num`, `month_num`, `license_price`, `total_amount`, `discount_amount`, `statement_amount`, `statement_price`, `start_time`, `end_time`, `payment_status`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871796594064633858, 1871796003473084418, 3, 10000, 12, 1.00, 120000.00, 0.00, 120000.00, 1.00, '2024-12-25 13:54:06', '2025-12-25 13:54:06', 20, '测试项目', b'0', 1, '平台管理员', '2024-12-25 13:54:19', NULL, NULL, NULL);
+INSERT INTO `plat_plan_subscription` (`id`, `plan_id`, `tenant_id`, `user_num`, `month_num`, `license_price`, `total_amount`, `discount_amount`, `statement_amount`, `statement_price`, `start_time`, `end_time`, `payment_status`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1994243308565958658, 1871796003473084418, 3, 10000, 120, 99999.00, 119998800000.00, 0.00, 119998800000.00, 99999.00, '2025-11-28 11:13:43', '2035-11-28 11:13:43', 10, '123123213213', b'0', 1, '平台管理员', '2025-11-28 11:13:51', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -539,7 +578,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict`;
 CREATE TABLE `sys_dict` (
-  `id` bigint NOT NULL COMMENT 'ID',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '名称',
   `code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '编码\n一颗树仅仅有一个统一的编码',
   `parent_id` bigint DEFAULT NULL COMMENT '父级字典ID',
@@ -557,14 +596,13 @@ CREATE TABLE `sys_dict` (
   `last_modify_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='字典类型';
+) ENGINE=InnoDB AUTO_INCREMENT=1951122262522572867 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='字典类型';
 
 -- ----------------------------
 -- Records of sys_dict
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_dict` (`id`, `name`, `code`, `parent_id`, `parent_code`, `full_code_path`, `type`, `description`, `status`, `sequence`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1951120008197382146, '租户字典', 'TENANT-DICT', 0, NULL, 'TENANT-DICT', 1, '租户字典', b'1', 22, b'0', '1', '平台管理员', '2025-08-01 11:17:15', NULL, NULL, NULL);
-INSERT INTO `sys_dict` (`id`, `name`, `code`, `parent_id`, `parent_code`, `full_code_path`, `type`, `description`, `status`, `sequence`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1951120712177790978, '123', '123', 0, NULL, '123', 1, '123', b'1', 99, b'1', '1', '平台管理员', '2025-08-01 11:20:03', '1', '平台管理员', '2025-08-01 11:20:05');
 INSERT INTO `sys_dict` (`id`, `name`, `code`, `parent_id`, `parent_code`, `full_code_path`, `type`, `description`, `status`, `sequence`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1951122262522572801, 'HAHA', 'H01', 1951120008197382146, 'TENANT-DICT', NULL, 1, '123', b'1', 0, b'0', '1', '平台管理员', '2025-08-01 11:26:12', '1', '平台管理员', '2025-08-01 11:27:23');
 COMMIT;
 
@@ -743,7 +781,7 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (50, '开发平台', NULL, 0, '/dev', 'BasicLayout', 50, 'ant-design:appstore-add-outlined', 'directory', b'1', NULL, b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (60, '人工智能', NULL, 0, '/ai', 'BasicLayout', 60, 'carbon:ai-recommend', 'directory', b'1', NULL, b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (104, '租户管理', NULL, 1, '/plat/tenant', NULL, 104, 'ant-design:code-sandbox-outlined', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (105, '产品管理', NULL, 1, '/plat/product', NULL, 105, 'icon-park-outline:ad-product', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:54:15', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (105, '套餐管理', NULL, 1, '/plat/plan', NULL, 105, 'icon-park-outline:ad-product', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:54:15', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (107, '数据配置', NULL, 1, '/plat/setting', NULL, 107, 'file-icons:config-coffeescript', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (151, '运输资源', NULL, 15, '/tms/resource', NULL, 0, 'ant-design:control-filled', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', 1, '长风一梦8888', '2023-09-05 05:03:59', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (152, '车辆维保', NULL, 15, '/tms/maintenance', NULL, 1, 'ant-design:mail-twotone', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', 1, '长风一梦8888', '2023-09-07 10:08:49', 1, '长风一梦8888', NULL);
@@ -775,9 +813,9 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (6003, '共享模型', NULL, 60, '/ai/cloud', NULL, 6003, 'lineicons:open-ai', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-01-10 09:47:40', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10401, '租户中心', 'tenant:list', 104, '/plat/tenant/list', '/wemirr/platform/tenant/index', 10401, 'ant-design:code-sandbox-outlined', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10402, '多数据源', NULL, 104, '/plat/db/list', '/wemirr/platform/db/index', 10402, 'ant-design:database-filled', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', NULL, NULL, '2024-12-06 17:07:02');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10501, '产品定义', 'plat:product:definition', 105, '/platform/product/definition', '/wemirr/platform/product/definition/index', 1, 'fluent-mdl2:product-list', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:59:39', NULL, NULL, NULL);
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10502, '产品定价', 'plat:product:pricing', 105, '/platform/product/pricing', '/wemirr/platform/product/pricing/index', 2, 'arcticons:pricespy', 'menu', b'0', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:59:39', NULL, NULL, NULL);
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10503, '产品订阅', 'plat:product:subscribe', 105, '/platform/product/subscribe', '/wemirr/platform/product/subscribe/index', 3, 'material-symbols:package-2-sharp', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:59:39', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10501, '产品定义', 'plat:plan:definition', 105, '/platform/plan/definition', '/wemirr/platform/plan/definition/index', 1, 'fluent-mdl2:product-list', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:59:39', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10502, '产品定价', 'plat: plan:pricing', 105, '/platform/plan/pricing', '/wemirr/platform/plan/pricing/index', 2, 'arcticons:pricespy', 'menu', b'0', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:59:39', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10503, '产品订阅', 'plat: plan:subscribe', 105, '/platform/plan/subscribe', '/wemirr/platform/plan/subscribe/index', 3, 'material-symbols:package-2-sharp', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:59:39', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10706, '数据字典', 'dict:list', 107, '/plat/setting/dict', '/wemirr/platform/basic/dict/index', 10706, 'bx-bxs-data', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10707, '地区信息', NULL, 107, '/plat/setting/area', '/wemirr/platform/basic/area/index', 10707, 'ant-design:area-chart-outlined', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (15101, '司机管理', NULL, 151, '/tms/resource/driver', '/wemirr/tms/resource/driver/index', 0, 'ant-design:dribbble-outlined', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', 1, '长风一梦8888', '2023-09-05 05:05:43', 1, '长风一梦8888', NULL);
@@ -852,6 +890,10 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500501, '限流规则', 'dev:gateway:limit', 5005, '/dev/gateway/limit', '/wemirr/develop/gateway/limit/index', 500501, 'carbon-rule', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500502, '限访名单', 'dev:gateway:blacklist', 5005, '/dev/gateway/blacklist', '/wemirr/develop/gateway/blacklist/index', 500502, 'carbon-ai-status-rejected', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500503, '网关路由', 'dev:gateway:route', 5005, '/dev/gateway/route', '/wemirr/develop/gateway/route/index', 500503, 'mdi-router-wireless-settings', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500801, '生成配置', NULL, 5008, '/develop/gen/table', '/wemirr/develop/gen/generate-table', 0, 'arcticons:jobstreet', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:55');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500802, '模板配置', NULL, 5008, '/develop/gen/template', '/wemirr/develop/gen/generate-template', 0, 'arcticons:jobstreet', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:51');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500803, '列配置', NULL, 5008, '/develop/gen/column', '/wemirr/develop/gen/generate-table-column', 0, 'arcticons:jobstreet', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:48');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500804, '模板组', NULL, 5008, '/develop/gen/template-group', '/wemirr/develop/gen/generate-template-group', 0, 'arcticons:jobstreet', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:45');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (600101, '智能问答', NULL, 6001, '/ai/local/talk', '/wemirr/ai/local/talk', 60001, 'mingcute:kakao-talk-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-01-10 09:50:35', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (600301, '智能问答', NULL, 6003, '/ai/cloud/chat', '/wemirr/ai/cloud/chat', 6003, 'mingcute:kakao-talk-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-01-10 09:50:35', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1040101, '添加', 'tenant:add', 10401, '', NULL, 1040101, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
@@ -860,9 +902,9 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1040105, '数据源配置', 'tenant:db-config', 10401, '', NULL, 1040105, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '数据源配置', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1040106, '数据初始化', 'tenant:init-script', 10401, '', NULL, 1040106, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '基础数据初始化', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1040107, '字典数据刷新', 'tenant:refresh-dict', 10401, '', NULL, 1040107, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '字典数据刷新', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1050101, '添加', 'product:definition:add', 10501, '', NULL, 1050101, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1050102, '编辑', 'product:definition:edit', 10501, '', NULL, 1050102, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '编辑按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:17', 1, '平台管理员', '2024-12-07 17:52:00');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1050103, '删除', 'product:definition:remove', 10501, '', NULL, 1050103, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1050101, '添加', 'plan:definition:add', 10501, '', NULL, 1050101, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1050102, '编辑', 'plan:definition:edit', 10501, '', NULL, 1050102, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '编辑按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:17', 1, '平台管理员', '2024-12-07 17:52:00');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1050103, '删除', 'plan:definition:remove', 10501, '', NULL, 1050103, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1070601, '添加', 'dict:add', 10706, '', NULL, 1070601, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1070602, '编辑', 'dict:edit', 10706, '', NULL, 1070602, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '编辑按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:17', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1070603, '删除', 'dict:remove', 10706, '', NULL, 1070603, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
@@ -886,15 +928,15 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3020203, '删除', 'sys:role:remove', 30202, '', NULL, 3020203, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3020207, '分配用户', 'sys:role:assign-users', 30202, '', NULL, 3020207, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '分配用户', b'0', 1, '平台管理员', '2024-12-09 15:54:08', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3020208, '分配资源', 'sys:role:assign-resource', 30202, '', NULL, 3020208, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '分配资源', b'0', 1, '平台管理员', '2024-12-09 15:55:02', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3030101, '添加', 'tenant:dict:add', 30301, '', NULL, 3030101, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3030102, '编辑', 'tenant:dict:edit', 30301, '', NULL, 3030102, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '编辑按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:17', 1, '平台管理员', '2024-12-07 17:52:00');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3030103, '删除', 'tenant:dict:remove', 30301, '', NULL, 3030103, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3060501, '添加', 'message:template:add', 30605, '', NULL, 3060501, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3060502, '编辑', 'message:template:edit', 30605, '', NULL, 3060502, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '编辑按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:17', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3060503, '删除', 'message:template:remove', 30605, '', NULL, 3060503, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3060504, '推送', 'message:template:publish', 30605, '', NULL, 3060504, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2024-12-07 10:30:13', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (50030801, '学生管理', NULL, 500308, '/dev/online/demo/student', '/wemirr/develop/online/reader', 1, 'ph:student-fill', 'menu', b'1', b'1', b'0', b'0', b'1', '{\"query\":{\"definitionKey\":\"student\"}}', '', b'0', NULL, NULL, '2025-01-08 09:38:42', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (50030802, '老师管理', NULL, 500308, '/dev/online/demo/teacher', '/wemirr/develop/online/reader', 2, 'mdi:teacher', 'menu', b'1', b'1', b'0', b'0', b'1', '{\"query\":{\"definitionKey\":\"teacher\"}}', '', b'0', NULL, NULL, '2025-01-08 09:38:42', NULL, NULL, NULL);
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3030101, '添加', 'tenant:dict:add', 30301, '', NULL, 3030101, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3030102, '编辑', 'tenant:dict:edit', 30301, '', NULL, 3030102, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '编辑按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:17', 1, '平台管理员', '2024-12-07 17:52:00');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3030103, '删除', 'tenant:dict:remove', 30301, '', NULL, 3030103, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
 COMMIT;
 
 -- ----------------------------
@@ -1016,163 +1058,161 @@ CREATE TABLE `sys_role_res` (
 -- Records of sys_role_res
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 11, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 50, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 60, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 104, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 105, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 107, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 151, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 152, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 153, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 161, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 162, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 163, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 164, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 165, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 166, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 168, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 301, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 302, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 303, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 306, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 310, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 320, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 350, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1101, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1102, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1104, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1106, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5003, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5005, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5008, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5050, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 6001, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 6003, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10401, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10402, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10501, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10502, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10503, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10706, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10707, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15101, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15102, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15103, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15201, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15202, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15203, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15204, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15205, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15206, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15207, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15301, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16101, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16102, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16103, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16108, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16201, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16401, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16408, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16501, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16502, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16601, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16608, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30101, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30102, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30103, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30201, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30202, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30301, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30303, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30604, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30605, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30606, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30607, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30608, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 31003, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 31005, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 31006, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 32002, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 32003, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 35005, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110101, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110102, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110107, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110108, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110201, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110202, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110203, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110401, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110402, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110403, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110404, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110601, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160001, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160002, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160005, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160006, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160010, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160011, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160012, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 161001, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 161002, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 161003, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 162002, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 163001, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 163002, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500301, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500302, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500304, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500308, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500501, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500502, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500503, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 600101, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 600301, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040101, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040102, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040103, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040105, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040106, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040107, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1050101, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1050102, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1050103, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1070601, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1070602, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1070603, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1070605, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010101, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010102, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010103, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010104, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010105, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010201, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010202, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010203, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010301, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010302, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010303, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020101, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020102, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020103, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020201, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020202, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020203, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020207, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020208, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3060501, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3060502, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3060503, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3060504, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 50030801, '2025-09-18 08:16:45');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 50030802, '2025-09-18 08:16:45');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 11, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 50, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 60, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 104, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 105, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 107, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 151, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 152, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 153, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 161, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 162, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 163, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 166, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 301, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 302, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 303, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 306, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 310, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 320, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 350, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1101, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1102, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1104, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1106, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5003, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5005, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5008, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5050, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 6001, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 6003, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10401, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10402, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10501, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10502, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10503, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10706, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10707, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15101, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15102, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15103, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15201, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15202, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15203, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15204, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15205, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15206, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15207, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15301, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16101, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16102, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16103, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16108, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16201, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16501, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16502, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16601, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30101, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30102, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30103, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30201, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30202, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30301, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30303, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30604, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30605, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30606, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30607, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30608, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 31003, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 31005, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 31006, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 32002, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 32003, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 35005, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110101, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110102, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110107, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110108, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110201, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110401, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110402, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110403, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110601, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160001, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160002, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160005, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160006, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160010, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160011, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160012, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 161001, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 161002, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 161003, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 162002, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 163001, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 163002, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500301, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500302, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500304, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500308, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500501, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500502, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500503, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500801, '2025-11-04 00:58:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500802, '2025-11-04 00:58:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500803, '2025-11-04 00:58:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500804, '2025-11-04 00:58:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 600101, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 600301, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040101, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040102, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040103, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040105, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040106, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040107, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1050101, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1050102, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1050103, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1070601, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1070602, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1070603, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1070605, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010101, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010102, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010103, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010104, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010105, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010201, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010202, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010203, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010301, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010302, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010303, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020101, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020102, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020103, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020201, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020202, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020203, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020207, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020208, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3030101, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3030102, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3030103, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3060501, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3060502, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3060503, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3060504, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 50030801, '2025-10-14 01:34:37');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 50030802, '2025-10-14 01:34:37');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1892780582101815297, 11, '2025-09-19 05:13:23');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1892780582101815297, 1104, '2025-09-19 05:13:23');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1892780582101815297, 110401, '2025-09-19 05:13:23');
@@ -1663,7 +1703,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_tenant_dict`;
 CREATE TABLE `t_tenant_dict` (
-  `id` bigint NOT NULL COMMENT '雪花算法ID',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '雪花算法ID',
   `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '编码',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '名称',
   `parent_id` bigint DEFAULT NULL COMMENT '父级ID',
@@ -1683,7 +1723,7 @@ CREATE TABLE `t_tenant_dict` (
   `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_code` (`code`) USING BTREE COMMENT '租户字典索引'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1977911359849271299 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of t_tenant_dict
@@ -1696,8 +1736,7 @@ INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `
 INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1865705185339424769, 'PAYMENT_TYPE', '付款类型', 0, NULL, 'PAYMENT_TYPE', b'1', b'1', 1, '付款类型', 1, b'0', 1, '平台管理员', '2024-12-08 18:29:14', NULL, NULL, NULL);
 INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1865705185343619074, 'PAYMENT_METHOD', '付款方法', 0, NULL, 'PAYMENT_METHOD', b'1', b'1', 1, '付款方法', 1, b'0', 1, '平台管理员', '2024-12-08 18:29:14', NULL, NULL, NULL);
 INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1865705185352007681, 'CONTRACT_SEAL_TYPE', '用印类型', 0, NULL, 'CONTRACT_SEAL_TYPE', b'1', b'1', 1, '用印类型', 1, b'0', 1, '平台管理员', '2024-12-08 18:29:14', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1951499679523307522, '213', '213', 0, NULL, '213', b'1', b'0', 99, '213', 1, b'1', 1, '平台管理员', '2025-08-02 12:26:02', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1951500651507097602, '213', '123', 0, NULL, '213', b'1', b'0', 99, '213', 1, b'1', 1, '平台管理员', '2025-08-02 12:29:51', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1977911359849271298, '123', '123', 1865705185326841858, 'TENANT-DICT', NULL, b'1', b'0', 0, '12312', 1, b'1', 1, '平台管理员', '2025-10-14 09:36:31', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1772,7 +1811,7 @@ CREATE TABLE `t_user` (
 -- Records of t_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '平台管理员', 100, 100, b'0', '1837307557@qq.com', '13002171111', '000000000000000000', 1, b'1', 'http://127.0.0.1:19000/wp-local/dev/6766346cd59052dfcedc7531.png', '平台最帅的超级管理员', 'mz_daiz', 'SUOSHI', 'QUIT', '2023-10-14', '0:0:0:0:0:0:0:1', '2025-10-09 13:59:43', b'0', 0, '系统管理员', '2020-10-16 03:25:36', 0, '系统管理员', '2025-10-09 06:14:05');
+INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '平台管理员', 100, 100, b'0', '1837307557@qq.com', '13002171111', '000000000000000000', 1, b'1', 'http://127.0.0.1:19000/wp-local/dev/6766346cd59052dfcedc7531.png', '平台最帅的超级管理员', 'mz_daiz', 'SUOSHI', 'QUIT', '2023-10-14', '192.168.12.149', '2025-11-28 10:48:39', b'0', 0, '系统管理员', '2020-10-16 03:25:36', NULL, NULL, NULL);
 INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (2, 1, 'test', '{bcrypt}$2a$10$j1U0rIRl8ODzc2j5rkLx8OSvjjEZ.cJ/Xe8DzkqL2jgAyX2c3x.4C', '测试管理员', 1001, 100, b'0', '1837307557@qq.com', '13002171921', '000000000000000000', 1, b'0', '', '测试管理员', 'mz_daiz', 'SUOSHI', 'QUIT', '2023-10-14', NULL, NULL, b'0', 0, '系统管理员', '2022-12-04 08:05:29', 0, '系统管理员', '2025-10-09 06:14:06');
 COMMIT;
 
@@ -3437,7 +3476,7 @@ CREATE TABLE `wms_scan_order_detail` (
   `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
   `warehouse_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库编码',
   `warehouse_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库名字',
-  `plan_id` bigint DEFAULT NULL,
+  `product_id` bigint DEFAULT NULL,
   `product_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `product_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作类型',
@@ -3456,7 +3495,7 @@ CREATE TABLE `wms_scan_order_detail` (
 -- Records of wms_scan_order_detail
 -- ----------------------------
 BEGIN;
-INSERT INTO `wms_scan_order_detail` (`id`, `assets_id`, `assets_code`, `ref_id`, `ref_code`, `company_id`, `company_name`, `warehouse_id`, `warehouse_code`, `warehouse_name`, `plan_id`, `product_code`, `product_name`, `type`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, '202406 000001', 1, 'DD202406050001', 1, '公司名字', 1, 'CK202406060001', '一号仓库', 1, 'CP2024060001', '苹果14', 'in', '系统管理', b'0', 1, '系统管理', '2024-06-06 06:21:53', NULL, NULL, '2024-06-06 06:27:51');
+INSERT INTO `wms_scan_order_detail` (`id`, `assets_id`, `assets_code`, `ref_id`, `ref_code`, `company_id`, `company_name`, `warehouse_id`, `warehouse_code`, `warehouse_name`, `product_id`, `product_code`, `product_name`, `type`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, '202406 000001', 1, 'DD202406050001', 1, '公司名字', 1, 'CK202406060001', '一号仓库', 1, 'CP2024060001', '苹果14', 'in', '系统管理', b'0', 1, '系统管理', '2024-06-06 06:21:53', NULL, NULL, '2024-06-06 06:27:51');
 COMMIT;
 
 -- ----------------------------
@@ -3574,7 +3613,7 @@ CREATE TABLE `wms_stock_flow` (
   `company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `ref_id` bigint DEFAULT NULL,
   `ref_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `plan_id` bigint DEFAULT NULL COMMENT '产品ID',
+  `product_id` bigint DEFAULT NULL COMMENT '产品ID',
   `product_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品编码',
   `product_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品名字',
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作类型',
@@ -3594,7 +3633,7 @@ CREATE TABLE `wms_stock_flow` (
 -- Records of wms_stock_flow
 -- ----------------------------
 BEGIN;
-INSERT INTO `wms_stock_flow` (`id`, `warehouse_id`, `warehouse_code`, `warehouse_name`, `company_id`, `company_name`, `ref_id`, `ref_code`, `plan_id`, `product_code`, `product_name`, `type`, `quantity`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, 'WN202406050001', '一号仓库', NULL, NULL, NULL, NULL, 1, 'WP202406050001', '苹果', 'in', 100, '入库 100 个苹果', b'0', 1, '系统', '2024-06-05 07:59:30', NULL, NULL, NULL);
+INSERT INTO `wms_stock_flow` (`id`, `warehouse_id`, `warehouse_code`, `warehouse_name`, `company_id`, `company_name`, `ref_id`, `ref_code`, `product_id`, `product_code`, `product_name`, `type`, `quantity`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, 'WN202406050001', '一号仓库', NULL, NULL, NULL, NULL, 1, 'WP202406050001', '苹果', 'in', 100, '入库 100 个苹果', b'0', 1, '系统', '2024-06-05 07:59:30', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
