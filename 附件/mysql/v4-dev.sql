@@ -191,45 +191,6 @@ CREATE TABLE `c_gen_demo` (
 BEGIN;
 COMMIT;
 
--- ----------------------------
--- Table structure for c_generate_table
--- ----------------------------
-DROP TABLE IF EXISTS `c_generate_table`;
-CREATE TABLE `c_generate_table` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `name` varchar(255) NOT NULL COMMENT '表名称',
-  `comment` varchar(255) NOT NULL COMMENT '表描述',
-  `class_name` varchar(255) NOT NULL COMMENT '实体类名',
-  `package_name` varchar(255) NOT NULL COMMENT '包名',
-  `module_name` varchar(255) NOT NULL COMMENT '生成模块名',
-  `author` varchar(255) DEFAULT NULL COMMENT '作者',
-  `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
-  `business_name` varchar(255) DEFAULT NULL COMMENT '业务名称',
-  `remove_prefix` bit(1) DEFAULT NULL COMMENT '是否去掉前缀',
-  `prefix` varchar(255) DEFAULT NULL COMMENT '前缀',
-  `swagger` bit(1) DEFAULT NULL COMMENT '是否开启swagger配置',
-  `template_group_id` bigint DEFAULT NULL COMMENT '关联模板组',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作人',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人id',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最后修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
-  PRIMARY KEY (`id`),
-  KEY `idx_tenant_id` (`tenant_id`),
-  KEY `idx_template_group_id` (`template_group_id`),
-  KEY `idx_create_time` (`create_time`),
-  KEY `idx_last_modify_time` (`last_modify_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='代码生成表配置';
-
--- ----------------------------
--- Records of c_generate_table
--- ----------------------------
-BEGIN;
-INSERT INTO `c_generate_table` (`id`, `name`, `comment`, `class_name`, `package_name`, `module_name`, `author`, `email`, `business_name`, `remove_prefix`, `prefix`, `swagger`, `template_group_id`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 't_user', '113', '123', '123', '213', '213', '213', '123', b'1', '132', b'1', 123, 1, b'0', 0, NULL, '2025-10-10 07:59:33', NULL, NULL, '2025-10-10 08:00:41');
-COMMIT;
 
 -- ----------------------------
 -- Table structure for c_i18n_data
@@ -807,7 +768,6 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1106, '流程监控', NULL, 11, '/workflow/monitor', NULL, 1106, 'ant-design:appstore-add-outlined', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2022-10-20 07:42:59', 1, '长风一梦8888', NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (5003, '在线开发', NULL, 50, '/dev/online', '', 5003, 'material-symbols:home-work-outline-rounded', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2024-12-12 13:11:50', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (5005, '网关管理', NULL, 50, '/dev/gateway', NULL, 5005, 'ant-design:gateway-outlined', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (5008, '代码生成', NULL, 50, '/dev/gen', '/wemirr/develop/generate/code/index', 5008, 'streamline:ai-generate-variation-spark-solid', 'menu', b'1', b'1', b'0', b'0', b'1', '{\"badge\":\"Alpha\",\"badgeVariants\":\"destructive\"}', '', b'0', NULL, NULL, '2024-12-12 13:11:50', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (5050, '定时任务', NULL, 50, '/dev/job', 'http://localhost:8871/snail-job', 5050, 'arcticons:jobstreet', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (6001, '私有模型', NULL, 60, '/ai/local', NULL, 6001, 'carbon:navaid-private', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-01-10 09:47:40', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (6003, '共享模型', NULL, 60, '/ai/cloud', NULL, 6003, 'lineicons:open-ai', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-01-10 09:47:40', NULL, NULL, NULL);
@@ -890,10 +850,6 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500501, '限流规则', 'dev:gateway:limit', 5005, '/dev/gateway/limit', '/wemirr/develop/gateway/limit/index', 500501, 'carbon-rule', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500502, '限访名单', 'dev:gateway:blacklist', 5005, '/dev/gateway/blacklist', '/wemirr/develop/gateway/blacklist/index', 500502, 'carbon-ai-status-rejected', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500503, '网关路由', 'dev:gateway:route', 5005, '/dev/gateway/route', '/wemirr/develop/gateway/route/index', 500503, 'mdi-router-wireless-settings', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500801, '生成配置', NULL, 5008, '/develop/gen/table', '/wemirr/develop/gen/generate-table', 0, 'arcticons:jobstreet', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:55');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500802, '模板配置', NULL, 5008, '/develop/gen/template', '/wemirr/develop/gen/generate-template', 0, 'arcticons:jobstreet', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:51');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500803, '列配置', NULL, 5008, '/develop/gen/column', '/wemirr/develop/gen/generate-table-column', 0, 'arcticons:jobstreet', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:48');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500804, '模板组', NULL, 5008, '/develop/gen/template-group', '/wemirr/develop/gen/generate-template-group', 0, 'arcticons:jobstreet', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:45');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (600101, '智能问答', NULL, 6001, '/ai/local/talk', '/wemirr/ai/local/talk', 60001, 'mingcute:kakao-talk-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-01-10 09:50:35', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (600301, '智能问答', NULL, 6003, '/ai/cloud/chat', '/wemirr/ai/cloud/chat', 6003, 'mingcute:kakao-talk-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-01-10 09:50:35', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1040101, '添加', 'tenant:add', 10401, '', NULL, 1040101, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
@@ -937,6 +893,11 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3060504, '推送', 'message:template:publish', 30605, '', NULL, 3060504, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2024-12-07 10:30:13', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (50030801, '学生管理', NULL, 500308, '/dev/online/demo/student', '/wemirr/develop/online/reader', 1, 'ph:student-fill', 'menu', b'1', b'1', b'0', b'0', b'1', '{\"query\":{\"definitionKey\":\"student\"}}', '', b'0', NULL, NULL, '2025-01-08 09:38:42', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (50030802, '老师管理', NULL, 500308, '/dev/online/demo/teacher', '/wemirr/develop/online/reader', 2, 'mdi:teacher', 'menu', b'1', b'1', b'0', b'0', b'1', '{\"query\":{\"definitionKey\":\"teacher\"}}', '', b'0', NULL, NULL, '2025-01-08 09:38:42', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (5069, '代码生成', NULL, 50, '/develop/gen', '', 0, 'ant-design:appstore-filled', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-12 13:11:50', 1, '平台管理员', '2025-02-22 22:26:20');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (505069, '生成配置', NULL, 5069, '/develop/gen/table', '/wemirr/develop/gen/generate-table', 0, 'arcticons:jobstreet', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:55');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (505079, '模板配置', NULL, 5069, '/develop/gen/template', '/wemirr/develop/gen/generate-template', 0, 'arcticons:jobstreet', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:51');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (505089, '列配置', NULL, 5069, '/develop/gen/column', '/wemirr/develop/gen/generate-table-column', 0, 'arcticons:jobstreet', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:48');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (505099, '模板组', NULL, 5069, '/develop/gen/template-group', '/wemirr/develop/gen/generate-template-group', 0, 'arcticons:jobstreet', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:45');
 COMMIT;
 
 -- ----------------------------
@@ -1089,7 +1050,6 @@ INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1104,
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1106, '2025-10-14 01:34:37');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5003, '2025-10-14 01:34:37');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5005, '2025-10-14 01:34:37');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5008, '2025-10-14 01:34:37');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5050, '2025-10-14 01:34:37');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 6001, '2025-10-14 01:34:37');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 6003, '2025-10-14 01:34:37');
@@ -1218,6 +1178,11 @@ INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (18927805
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1892780582101815297, 110401, '2025-09-19 05:13:23');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1892780582101815297, 110402, '2025-09-19 05:13:23');
 INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1892780582101815297, 110403, '2025-09-19 05:13:23');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5069, '2025-02-10 10:57:18');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 505069, '2025-02-10 10:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 505079, '2025-02-10 10:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 505089, '2025-02-10 10:57:09');
+INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 505099, '2025-02-10 10:57:09');
 COMMIT;
 
 -- ----------------------------
@@ -3859,5 +3824,184 @@ BEGIN;
 INSERT INTO `wms_workbench` (`id`, `code`, `name`, `status`, `type`, `category`, `review_mode`, `task_type`, `weight_mode`, `mac_address`, `deleted`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`) VALUES (1829453647671713793, '123', '123', '1', '123', '123', '122321', '123', 'disabled', '1231', 1, '2024-08-30 17:38:34', 1, '长风一梦8888', '2024-08-30 17:41:26', 1, '长风一梦8888');
 INSERT INTO `wms_workbench` (`id`, `code`, `name`, `status`, `type`, `category`, `review_mode`, `task_type`, `weight_mode`, `mac_address`, `deleted`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`) VALUES (1829454221641236482, '12322', '1231', '1', '123', '123', '123', '123', 'disabled', '123', 1, '2024-08-30 17:40:51', 1, '长风一梦8888', '2024-08-30 17:41:24', 1, '长风一梦8888');
 COMMIT;
+
+
+-- ----------------------------
+-- Table structure for c_generate_table
+-- ----------------------------
+DROP TABLE IF EXISTS `c_generate_table`;
+CREATE TABLE `c_generate_table`  (
+                                     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表名称',
+                                     `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表描述',
+                                     `class_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '实体类名称(首字母大写)',
+                                     `package_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '生成包路径',
+                                     `module_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '生成模块名',
+                                     `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '作者',
+                                     `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮箱',
+                                     `business_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '业务名称 [英文，用于api路径命名]',
+                                     `remove_prefix` tinyint(1) NULL DEFAULT 0 COMMENT '是否去掉前缀',
+                                     `prefix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '前缀',
+                                     `template_group_id` bigint NULL DEFAULT NULL COMMENT '关联模板组',
+                                     `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                     `create_by` bigint NULL DEFAULT NULL COMMENT '创建人ID',
+                                     `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人名称',
+                                     `last_modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+                                     `last_modify_by` bigint NULL DEFAULT NULL COMMENT '最后修改人ID',
+                                     `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后修改人名称',
+                                     `deleted` bit(1) NULL DEFAULT b'0' COMMENT '逻辑删除标记 (0: 未删除, 1: 已删除)',
+                                     `tenant_id` bigint NULL DEFAULT NULL COMMENT '租户ID',
+                                     `swagger` tinyint(1) NULL DEFAULT 1 COMMENT '是否开启swagger配置',
+                                     PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1892201850246184962 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of c_generate_table
+-- ----------------------------
+INSERT INTO `c_generate_table` VALUES (1893148668509442050, 'b_message_channel', '消息通知', 'BMessageChannel', 'com.wemirr.platform', 'GenCode', '平台管理员', NULL, 'bMessageChannel', 0, '', 1872173937937879041, '2025-02-10 09:32:36', 1, '平台管理员', '2025-02-22 11:59:50', 1, '平台管理员', b'1', 1, 1);
+INSERT INTO `c_generate_table` VALUES (1893152402421485569, 'b_message_notify', '消息通知', 'BMessageNotify', 'com.wemirr.platform', 'GenCode', '平台管理员', NULL, 'bMessageNotify', 0, '', 1872173937937879041, '2025-02-10 09:32:36', 1, '平台管理员', '2025-02-22 12:14:40', 1, '平台管理员', b'1', 1, 1);
+INSERT INTO `c_generate_table` VALUES (1893152842248863745, 'b_message_template', '站内消息', 'BMessageTemplate', 'com.wemirr.platform', 'GenCode', '平台管理员', NULL, 'bMessageTemplate', 0, '', 1872173937937879041, '2025-02-10 09:32:36', 1, '平台管理员', '2025-02-22 12:16:25', 1, '平台管理员', b'1', 1, 1);
+INSERT INTO `c_generate_table` VALUES (1893154833356275714, 'b_message_channel', '消息通知', 'MessageChannel', 'com.wemirr.platform', 'suite', '平台管理员', NULL, 'messageChannel', 1, 'b_', 1872173937937879041, '2025-02-10 09:32:36', 1, '平台管理员', '2025-02-22 12:26:19', 1, '平台管理员', b'0', 1, 1);
+
+-- ----------------------------
+-- Table structure for c_generate_table_column
+-- ----------------------------
+DROP TABLE IF EXISTS `c_generate_table_column`;
+CREATE TABLE `c_generate_table_column`  (
+                                            `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                            `table_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表名称 [ alipan 是用表名称进行关联的 ]',
+                                            `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字段名称',
+                                            `sort` int NULL DEFAULT NULL COMMENT '排序',
+                                            `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字段类型',
+                                            `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '注释',
+                                            `property_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '属性类型',
+                                            `property_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '属性名',
+                                            `property_package` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '属性所属的包',
+                                            `pk` tinyint(1) NULL DEFAULT NULL COMMENT '主键 0：否 1：是',
+                                            `increment` tinyint(1) NULL DEFAULT NULL COMMENT '是否自增',
+                                            `required` tinyint(1) NULL DEFAULT NULL COMMENT '是否必填',
+                                            `inserted` tinyint(1) NULL DEFAULT NULL COMMENT '是否为插入字段',
+                                            `edit` tinyint(1) NULL DEFAULT NULL COMMENT '是否编辑字段',
+                                            `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                            `create_by` bigint NULL DEFAULT NULL COMMENT '创建人ID',
+                                            `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人名称',
+                                            `last_modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+                                            `last_modify_by` bigint NULL DEFAULT NULL COMMENT '最后修改人ID',
+                                            `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后修改人名称',
+                                            `deleted` bit(1) NULL DEFAULT b'0' COMMENT '逻辑删除标记 (0: 未删除, 1: 已删除)',
+                                            `tenant_id` bigint NULL DEFAULT NULL COMMENT '租户ID',
+                                            `generate` tinyint(1) NULL DEFAULT 1 COMMENT '当前字段是否需要生成',
+                                            `list` tinyint(1) NULL DEFAULT 1 COMMENT '当前字段是否列表展示',
+                                            `search` tinyint(1) NULL DEFAULT 0 COMMENT '当前字段是否作为查询条件',
+                                            `search_condition` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '查询条件',
+                                            PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1892201850338459653 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '代码生成表列' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of c_generate_table_column
+-- ----------------------------
+INSERT INTO `c_generate_table_column` VALUES (1893154833150754817, 'b_message_channel', 'id', 1, 'bigint', 'ID', 'Long', 'id', NULL, 1, 1, 0, 0, 0, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 0, 0, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` VALUES (1893154833184309249, 'b_message_channel', 'title', 2, 'varchar', '渠道标题', 'String', 'title', NULL, 0, 0, 1, 1, 1, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` VALUES (1893154833196892161, 'b_message_channel', 'type', 3, 'varchar', '消息类型', 'String', 'type', NULL, 0, 0, 1, 1, 1, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` VALUES (1893154833196892162, 'b_message_channel', 'status', 4, 'bit', '状态（0=禁用;1=启用）', 'Boolean', 'status', NULL, 0, 0, 1, 1, 1, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` VALUES (1893154833205280769, 'b_message_channel', 'setting', 5, 'json', '设置（JSON）', 'String', 'setting', NULL, 0, 0, 1, 1, 1, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` VALUES (1893154833209475073, 'b_message_channel', 'tenant_id', 6, 'bigint', '租户ID', 'Long', 'tenantId', NULL, 0, 0, 1, 0, 0, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` VALUES (1893154833209475074, 'b_message_channel', 'description', 7, 'varchar', '描述信息', 'String', 'description', NULL, 0, 0, 1, 1, 1, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` VALUES (1893154833217863682, 'b_message_channel', 'deleted', 8, 'bit', '', 'Boolean', 'deleted', NULL, 0, 0, 1, 0, 0, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` VALUES (1893154833222057986, 'b_message_channel', 'created_by', 9, 'bigint', '创建人id', 'Long', 'createdBy', NULL, 0, 0, 1, 0, 0, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` VALUES (1893154833222057987, 'b_message_channel', 'created_name', 10, 'varchar', '创建人名称', 'String', 'createdName', NULL, 0, 0, 1, 0, 0, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` VALUES (1893154833230446593, 'b_message_channel', 'created_time', 11, 'datetime', '创建时间', 'Date', 'createdTime', 'java.util.Date', 0, 0, 1, 0, 0, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` VALUES (1893154833259806722, 'b_message_channel', 'last_modified_by', 12, 'bigint', '更新人id', 'Long', 'lastModifiedBy', NULL, 0, 0, 1, 0, 0, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` VALUES (1893154833293361153, 'b_message_channel', 'last_modified_name', 13, 'varchar', '更新人名称', 'String', 'lastModifiedName', NULL, 0, 0, 1, 0, 0, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` VALUES (1893154833293361154, 'b_message_channel', 'last_modified_time', 14, 'datetime', '更新时间', 'Date', 'lastModifiedTime', 'java.util.Date', 0, 0, 1, 0, 0, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 0, 1, 0, 'LIKE');
+
+-- ----------------------------
+-- Table structure for c_generate_template
+-- ----------------------------
+DROP TABLE IF EXISTS `c_generate_template`;
+CREATE TABLE `c_generate_template`  (
+                                        `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                        `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板名称',
+                                        `generate_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板路径',
+                                        `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板描述',
+                                        `code` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板代码',
+                                        `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                        `create_by` bigint NULL DEFAULT NULL COMMENT '创建人ID',
+                                        `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人名称',
+                                        `last_modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+                                        `last_modify_by` bigint NULL DEFAULT NULL COMMENT '最后修改人ID',
+                                        `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后修改人名称',
+                                        `deleted` bit(1) NULL DEFAULT b'0' COMMENT '逻辑删除标记 (0: 未删除, 1: 已删除)',
+                                        `tenant_id` bigint NULL DEFAULT NULL COMMENT '租户ID',
+                                        PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1872465281231159298 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用于存储代码生成模板的信息' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of c_generate_template
+-- ----------------------------
+INSERT INTO `c_generate_template` VALUES (1872172480907972610, 'wp规范service', 'backend/src/main/java/${packagePath}/${moduleName}/service/${ClassName}Service.java', '', 'package ${package}.${moduleName}.service;\n\nimport com.baomidou.mybatisplus.core.metadata.IPage;\nimport com.wemirr.framework.db.mybatisplus.ext.SuperService;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}PageReq;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}SaveReq;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}PageResp;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}DetailResp;\nimport ${package}.${moduleName}.domain.entity.${ClassName};\n\npublic interface ${ClassName}Service extends SuperService<${ClassName}>{\n\n    /**\n    * 分页查询\n    * @param req 分页请求参数\n    * @return 分页结果\n    */\n    IPage<${ClassName}PageResp> pageList(${ClassName}PageReq req);\n\n     /**\n     * 通过id查询详情\n     * @param id 实体ID\n     * @return 详情响应\n     */\n     ${ClassName}DetailResp detail(Long id);\n\n     /**\n     * 新增实体\n     * @param req 新增请求参数\n     */\n     void create(${ClassName}SaveReq req);\n\n     /**\n     * 修改实体\n     * @param id 实体ID\n     * @param req 修改请求参数\n     */\n     void modify(Long id, ${ClassName}SaveReq req);\n\n     /**\n     * 通过id删除实体\n     * @param id 实体ID\n     */\n     void removeById(Long id);\n }', '2024-12-26 14:47:57', 1, '平台管理员', '2025-02-22 11:58:16', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` VALUES (1872172659639848962, 'wp规范serviceImpl', 'backend/src/main/java/${packagePath}/${moduleName}/service/impl/${ClassName}ServiceImpl.java', '', 'package ${package}.${moduleName}.service.impl;\n\nimport cn.hutool.core.bean.BeanUtil;\nimport com.wemirr.framework.commons.BeanUtilPlus;\nimport com.baomidou.mybatisplus.core.metadata.IPage;\nimport com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;\nimport com.wemirr.framework.commons.exception.CheckedException;\nimport com.wemirr.framework.db.mybatisplus.wrap.Wraps;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}PageReq;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}SaveReq;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}PageResp;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}DetailResp;\nimport ${package}.${moduleName}.domain.entity.${ClassName};\nimport ${package}.${moduleName}.repository.${ClassName}Mapper;\nimport ${package}.${moduleName}.service.${ClassName}Service;\nimport lombok.RequiredArgsConstructor;\nimport org.springframework.stereotype.Service;\nimport org.springframework.transaction.annotation.Transactional;\n\nimport java.util.Optional;\n\n@Service\n@RequiredArgsConstructor\npublic class ${ClassName}ServiceImpl extends SuperServiceImpl<${ClassName}Mapper, ${ClassName}> implements ${ClassName}Service {\n\n    private final ${ClassName}Mapper ${businessName}Mapper;\n\n    @Override\n    public IPage<${ClassName}PageResp> pageList(${ClassName}PageReq req) {\n       return this.baseMapper.selectPage(req.buildPage(), null)\n       .convert(x -> BeanUtil.toBean(x, ${ClassName}PageResp.class));\n     }\n\n     @Override\n     public ${ClassName}DetailResp detail(Long id) {\n     ${ClassName} ${businessName} = this.baseMapper.selectById(id);\n        Optional.ofNullable(${businessName})\n        .orElseThrow(() -> CheckedException.notFound(\"实体不存在\"));\n        return BeanUtil.toBean(${businessName}, ${ClassName}DetailResp.class);\n     }\n\n     @Override\n     public void create(${ClassName}SaveReq req) {\n         ${ClassName} ${businessName} = BeanUtil.toBean(req, ${ClassName}.class);\n         this.baseMapper.insert(${businessName});\n     }\n\n     @Override\n     public void modify(Long id, ${ClassName}SaveReq req) {\n          Optional.ofNullable(this.baseMapper.selectById(id))\n          .orElseThrow(() -> CheckedException.notFound(\"实体不存在\"));\n          ${ClassName} ${businessName} = BeanUtilPlus.toBean(id,req, ${ClassName}.class);\n          this.baseMapper.updateById(${businessName});\n     }\n\n     @Override\n     public void removeById(Long id) {\n       this.baseMapper.deleteById(id);\n     }\n }', '2024-12-26 14:48:40', 1, '平台管理员', '2025-02-22 11:58:17', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` VALUES (1872172878448300033, 'wp规范entity', 'backend/src/main/java/${packagePath}/${moduleName}/domain/entity/${ClassName}.java', '', 'package ${package}.${moduleName}.domain.entity;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.baomidou.mybatisplus.annotation.*;\nimport com.wemirr.framework.commons.entity.SuperEntity;\nimport lombok.AllArgsConstructor;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\nimport lombok.NoArgsConstructor;\nimport lombok.experimental.SuperBuilder;\n\n\n/**\n* <p>\n* ${table.comment!}\n* </p>\n*\n* @author ${author}\n* @since ${date}\n*/\n@EqualsAndHashCode(callSuper = true)\n@Data\n@SuperBuilder\n@NoArgsConstructor\n@AllArgsConstructor\n@TableName(\"${table.name}\")\n<#if swagger>\n@Schema(description = \"${table.comment!}\")\n</#if>\npublic class ${ClassName} extends SuperEntity<Long>{\n\n    <#-- ----------  BEGIN 字段循环遍历  ---------->\n    <#list columns as field>\n       <#if  field.generate>\n        <#if field.comment?has_content>\n        /**\n         * ${field.comment}\n         **/\n        </#if>\n        <#if swagger>\n        @Schema(description = \"${field.comment!}\")\n        </#if>\n        private ${field.propertyType} ${field.propertyName};\n        </#if>\n    </#list>\n    <#-- ----------  END 字段循环遍历  ---------->\n\n}', '2024-12-26 14:49:32', 1, '平台管理员', '2025-02-22 11:58:17', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` VALUES (1872173056794300417, 'wp规范DetailResp', 'backend/src/main/java/${packagePath}/${moduleName}/domain/dto/resp/${ClassName}DetailResp.java', '', 'package ${package}.${moduleName}.domain.dto.resp;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.baomidou.mybatisplus.annotation.*;\nimport com.wemirr.framework.commons.entity.SuperEntity;\nimport lombok.AllArgsConstructor;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\nimport lombok.NoArgsConstructor;\nimport lombok.experimental.SuperBuilder;\n\n\n/**\n* <p>\n    * ${table.comment!}\n    * </p>\n*\n* @author ${author}\n* @since ${date}\n*/\n@Data\n<#if swagger>\n@Schema(description = \"${ClassName}DetailResp\")\n</#if>\npublic class ${ClassName}DetailResp {\n\n    <#-- ----------  BEGIN 字段循环遍历  ---------->\n    <#list columns as field>\n        <#if  field.generate>\n            <#if field.comment?has_content>\n            /**\n            * ${field.comment}\n            **/\n            </#if>\n            <#if swagger>\n            @Schema(description = \"${field.comment!}\")\n            </#if>\n            private ${field.propertyType} ${field.propertyName};\n        </#if>\n    </#list>\n    <#-- ----------  END 字段循环遍历  ---------->\n\n}', '2024-12-26 14:50:15', 1, '平台管理员', '2025-02-22 11:58:18', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` VALUES (1872173195764174850, 'wp规范PageResp', 'backend/src/main/java/${packagePath}/${moduleName}/domain/dto/resp/${ClassName}PageResp.java', '', 'package ${package}.${moduleName}.domain.dto.resp;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.wemirr.framework.db.mybatisplus.page.PageRequest;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\n\n/**\n* <p>\n    * ${table.comment!}\n    *</p>\n*\n* @author ${author}\n* @since ${date}\n*/\n<#if swagger>\n@Schema(description = \"${ClassName}PageReq\")\n</#if>\n@Data\npublic class ${ClassName}PageResp {\n\n<#-- ----------  BEGIN 字段循环遍历  ---------->\n<#list columns as field>\n    <#if field.list || field.pk>\n        <#if field.comment?has_content>\n            /**\n            * ${field.comment}\n            **/\n        </#if>\n        <#if swagger>\n         @Schema(description = \"${field.comment!}\")\n        </#if>\n        private ${field.propertyType} ${field.propertyName};\n    </#if>\n</#list>\n<#-- ----------  END 字段循环遍历  ---------->\n\n}\n', '2024-12-26 14:50:48', 1, '平台管理员', '2025-02-22 12:53:02', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` VALUES (1872173350030675970, 'wp规范PageReq', 'backend/src/main/java/${packagePath}/${moduleName}/domain/dto/req/${ClassName}PageReq.java', '', 'package ${package}.${moduleName}.domain.dto.req;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.wemirr.framework.db.mybatisplus.page.PageRequest;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\n\n/**\n* <p>\n* ${table.comment!}\n*</p>\n*\n* @author ${author}\n* @since ${date}\n*/\n@Data\n@EqualsAndHashCode(callSuper = true)\n<#if swagger>\n@Schema(description = \"${ClassName}PageReq\")\n</#if>\npublic class ${ClassName}PageReq extends PageRequest {\n\n<#-- ----------  BEGIN 字段循环遍历  ---------->\n<#list columns as field>\n    <#if field.search>\n    <#if field.comment?has_content>\n    /**\n    * ${field.comment}\n    **/\n    </#if>\n    <#if swagger>\n    @Schema(description = \"${field.comment!}\")\n    </#if>\n    private ${field.propertyType} ${field.propertyName};\n    </#if>\n</#list>\n<#-- ----------  END 字段循环遍历  ---------->\n\n}\n', '2024-12-26 14:51:25', 1, '平台管理员', '2025-02-22 13:00:49', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` VALUES (1872173466347114497, 'wp规范SaveReq', 'backend/src/main/java/${packagePath}/${moduleName}/domain/dto/req/${ClassName}SaveReq.java', '', 'package ${package}.${moduleName}.domain.dto.req;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.wemirr.framework.db.mybatisplus.page.PageRequest;\nimport jakarta.validation.constraints.NotBlank;\nimport jakarta.validation.constraints.NotNull;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\n\n/**\n* <p>\n* ${table.comment!}\n*</p>\n*\n* @author ${author}\n* @since ${date}\n*/\n@Data\n<#if swagger>\n@Schema(description = \"${ClassName}PageReq\")\n</#if>\npublic class ${ClassName}SaveReq  {\n\n<#-- ----------  BEGIN 字段循环遍历  ---------->\n<#list columns as field>\n    <#if field.pk >\n     /**\n      * ${field.comment}\n     **/\n    <#if swagger>\n    @Schema(description = \"${field.comment!}\")\n    </#if>\n    private ${field.propertyType} ${field.propertyName};\n    </#if>\n    <#if field.inserted  >\n    <#if field.comment?has_content>\n     /**\n      * ${field.comment}\n     **/\n    </#if>\n    <#if swagger>\n    @Schema(description = \"${field.comment!}\")\n    </#if>\n     <#if field.propertyType == \"String\">\n    @NotBlank(message = \"${field.comment}不能为空\")\n     </#if>\n    <#if field.propertyType != \"String\">\n    @NotNull(message = \"${field.comment}不能为空\")\n    </#if>\n    private ${field.propertyType} ${field.propertyName};\n    </#if>\n</#list>\n<#-- ----------  END 字段循环遍历  ---------->\n\n}\n', '2024-12-26 14:51:52', 1, '平台管理员', '2025-02-22 11:58:19', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` VALUES (1872173626129125378, 'wp规范control', 'backend/src/main/java/${packagePath}/${moduleName}/controller/${ClassName}Controller.java', '', 'package ${package}.${moduleName}.controller;\n                     \nimport com.baomidou.mybatisplus.core.metadata.IPage;\nimport org.springframework.web.bind.annotation.RequestMapping;\nimport ${package}.${moduleName}.domain.entity.${ClassName};\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}PageResp;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}DetailResp;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}PageReq;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}SaveReq;\nimport ${package}.${moduleName}.service.${ClassName}Service;\nimport lombok.AllArgsConstructor;\nimport org.springframework.web.bind.annotation.*;\nimport org.springframework.web.bind.annotation.RestController;\n\n\n\n/**\n * ${table.comment!} 控制器\n * @author ${author}\n * @since ${date}\n */\n@RestController\n@AllArgsConstructor\n@RequestMapping(\"/<#if businessName??>${businessName}</#if>\")\npublic class ${ClassName}Controller {\n\n    private final ${ClassName}Service ${businessName}Service;\n\n    /**\n    * 分页查询\n    */\n    @GetMapping(\"/page\")\n    public IPage<${ClassName}PageResp> pageList(${ClassName}PageReq req) {\n        return ${businessName}Service.pageList(req);\n    }\n\n    /**\n    * 通过id查询 ${table.comment!}\n    *\n    * @param id id\n    * @return ${ClassName}DetailResp\n    */\n    @GetMapping(\"/{id}\")\n    public ${ClassName}DetailResp detail(@PathVariable(\"id\") Long id) {\n        return ${businessName}Service.detail(id);\n    }\n\n    /**\n    * 新增${table.comment!}\n    *\n    * @param ${businessName} ${businessName}\n    */\n    @PostMapping(\"/create\")\n    public void create(@RequestBody ${ClassName}SaveReq ${businessName}) {\n        ${businessName}Service.create(${businessName});\n    }\n\n    /**\n    * 修改\n    *\n    * @param id      id\n    * @param ${businessName} ${businessName}\n    */\n    @PutMapping(\"/{id}/modify\")\n    public void modify(@PathVariable(\"id\") Long id ,@RequestBody ${ClassName}SaveReq req) {\n        ${businessName}Service.modify(id,req);\n    }\n\n    /**\n    * 通过id删除${table.comment!}\n    *\n    * @param id id\n    */\n    @DeleteMapping(\"/{id}\")\n    public void remove(@PathVariable Long id) {\n        ${businessName}Service.removeById(id);\n    }\n}\n\n\n\n\n', '2024-12-26 14:52:30', 1, '平台管理员', '2025-02-22 11:58:20', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` VALUES (1872173774800424962, 'wp规范mapper', 'backend/src/main/java/${packagePath}/${moduleName}/repository/${ClassName}Mapper.java', '', 'package ${package}.${moduleName}.repository;\n\nimport com.wemirr.framework.db.mybatisplus.ext.SuperMapper;\nimport ${package}.${moduleName}.domain.entity.${ClassName};\nimport org.springframework.stereotype.Repository;\n\n/**\n * ${table.comment!}接口层\n *\n * @author ${author}\n * @since ${date}\n */\n\n@Repository\npublic interface ${ClassName}Mapper extends SuperMapper<${ClassName}> {\n\n}\n', '2024-12-26 14:53:06', 1, '平台管理员', '2025-02-22 11:58:21', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` VALUES (1872180426937208833, 'wp规范crud', 'front/crud.tsx', '', 'import type {\nCreateCrudOptionsProps,\nCreateCrudOptionsRet,\n} from \'@fast-crud/fast-crud\';\nimport * as api from \"./api\";\nimport { dict } from \"@fast-crud/fast-crud\";\nimport dayjs from \"dayjs\";\n\nexport default function (props: CreateCrudOptionsProps): CreateCrudOptionsRet {\nreturn {\ncrudOptions: {\nrequest: {\npageRequest: async (query) => await api.pageList(query),\naddRequest: async ({ form }) => await api.create(form),\neditRequest: async ({ form }) => await api.modify(form),\ndelRequest: async ({ row }) => await api.remove(row.id),\n},\ntoolbar: {},\nactionbar: {\nshow: true,\nbuttons: {},\n},\nrowHandle: {\nwidth: 270,\nbuttons: {\n\n},\n},\ncolumns: {\n// ----------  BEGIN 字段循环遍历  ----------\n<#list columns as field>\n    <#if field.list || field.pk >\n        ${field.propertyName}: {\n        title: \'${field.comment!}\',\n        <#if field.propertyType == \'String\'>\n            type: \"text\",\n        </#if>\n        <#if field.propertyType == \'Instant\'>\n            type: \'datetime\',\n        </#if>\n        <#if field.propertyType == \'Boolean\'>\n            type: \'dict-radio\',\n            // 字典配置\n            dict: dict({\n            data: [\n            { value: true, label: \"启用\", color: \"success\" },\n            { value: false, label: \"禁用\", color: \"error\" },\n            ],\n            }),\n        </#if>\n        <#if field.search>\n            search: { show: true },\n        <#else>\n            search: { show: false },\n        </#if>\n         <#if field.list && !field.pk>\n            column: { show: true, width: 160 },\n        <#else>\n            column: { show: false },\n        </#if>\n         \n        <#if field.edit>\n            form: {\n            // 表单配置\n            rules: [\n            { required: false, message: \"请输入${field.comment!}\" },\n            ],\n            },\n        <#else>\n            form: { show: false },\n        </#if>\n        }\n\n        <#if field_has_next>,</#if>\n    </#if>\n</#list>\n// ----------  END 字段循环遍历  ----------\n},\n},\n};\n}', '2024-12-26 15:19:32', 1, '平台管理员', '2025-02-22 12:48:27', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` VALUES (1872187788049780738, 'wp规范api', 'front/api.ts', '', 'import { defHttp } from \'#/api/request\';\n\nconst apiPrefix = \"/<#if moduleName??>${moduleName}</#if>/<#if businessName??>${businessName}</#if>\";\n\nexport function pageList(query : any) {\n    return defHttp.get(apiPrefix + \'/page\', { params: query });\n}\nexport function create(obj  : any) {\n    return defHttp.post(apiPrefix + `/create`,obj);\n}\n\nexport function modify(row : any) {\n    return defHttp.put(apiPrefix + `<#noparse>/${row.id}/modify</#noparse>`, row);\n}\n\nexport function remove(id : any) {\n    return defHttp.delete(apiPrefix + `<#noparse>/${id}</#noparse>`);\n}', '2024-12-26 15:48:47', 1, '平台管理员', '2025-02-22 12:30:53', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` VALUES (1872188138236416002, 'wp规范index', 'front/index.vue', '', '<template>\n    <fs-page class=\"page-layout-card\">\n        <fs-crud ref=\"crudRef\" v-bind=\"crudBinding\"/>\n    </fs-page>\n</template>\n\n<script lang=\"ts\">\n    import {defineComponent, onMounted} from \"vue\";\n    import {useFs} from \"@fast-crud/fast-crud\";\n    import createCrudOptions from \"./crud\";\n\n    //此处为组件定义\nexport default defineComponent({\n    name: \'${ClassName}\',\n    setup() {\n        const {crudRef, crudBinding, crudExpose} = useFs({createCrudOptions, context: {}});\n        // 页面打开后获取列表数据\n        onMounted(() => {\n            crudExpose.doRefresh();\n        });\n        return {\n            crudBinding,\n            crudRef,\n        };\n    },\n});\n</script>\n', '2024-12-26 15:50:10', 1, '平台管理员', '2025-02-22 11:58:23', NULL, NULL, b'0', 1);
+
+-- ----------------------------
+-- Table structure for c_generate_template_group
+-- ----------------------------
+DROP TABLE IF EXISTS `c_generate_template_group`;
+CREATE TABLE `c_generate_template_group`  (
+                                              `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                              `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '分组名称',
+                                              `desciption` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板描述',
+                                              `is_default` bit(1) NULL DEFAULT b'0' COMMENT '是否作为默认生成分组 (0: 不是, 1: 是)',
+                                              `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                              `create_by` bigint NULL DEFAULT NULL COMMENT '创建人ID',
+                                              `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人名称',
+                                              `last_modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+                                              `last_modify_by` bigint NULL DEFAULT NULL COMMENT '最后修改人ID',
+                                              `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后修改人名称',
+                                              `deleted` bit(1) NULL DEFAULT b'0' COMMENT '逻辑删除标记 (0: 未删除, 1: 已删除)',
+                                              `tenant_id` bigint NULL DEFAULT NULL COMMENT '租户ID',
+                                              PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1872173937937879041 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '模板分组' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of c_generate_template_group
+-- ----------------------------
+INSERT INTO `c_generate_template_group` VALUES (1872173937937879041, 'wp规范模板组', 'wp规范模板组', b'1', '2024-12-26 14:53:45', 1, '平台管理员', '2025-02-22 11:58:33', 1, '平台管理员', b'0', 1);
+
+-- ----------------------------
+-- Table structure for c_generate_template_group_relation
+-- ----------------------------
+DROP TABLE IF EXISTS `c_generate_template_group_relation`;
+CREATE TABLE `c_generate_template_group_relation`  (
+                                                       `template_id` bigint NOT NULL COMMENT '模板ID',
+                                                       `group_id` bigint NOT NULL COMMENT '分组id'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of c_generate_template_group_relation
+-- ----------------------------
+INSERT INTO `c_generate_template_group_relation` VALUES (1871561649547747329, 1871842432833343490);
+INSERT INTO `c_generate_template_group_relation` VALUES (1871561649547747329, 1871886476003246081);
+INSERT INTO `c_generate_template_group_relation` VALUES (1872188138236416002, 1872173937937879041);
+INSERT INTO `c_generate_template_group_relation` VALUES (1872187788049780738, 1872173937937879041);
+INSERT INTO `c_generate_template_group_relation` VALUES (1872180426937208833, 1872173937937879041);
+INSERT INTO `c_generate_template_group_relation` VALUES (1872173774800424962, 1872173937937879041);
+INSERT INTO `c_generate_template_group_relation` VALUES (1872173466347114497, 1872173937937879041);
+INSERT INTO `c_generate_template_group_relation` VALUES (1872173626129125378, 1872173937937879041);
+INSERT INTO `c_generate_template_group_relation` VALUES (1872173350030675970, 1872173937937879041);
+INSERT INTO `c_generate_template_group_relation` VALUES (1872173195764174850, 1872173937937879041);
+INSERT INTO `c_generate_template_group_relation` VALUES (1872173056794300417, 1872173937937879041);
+INSERT INTO `c_generate_template_group_relation` VALUES (1872172878448300033, 1872173937937879041);
+INSERT INTO `c_generate_template_group_relation` VALUES (1872172659639848962, 1872173937937879041);
+INSERT INTO `c_generate_template_group_relation` VALUES (1872172480907972610, 1872173937937879041);
 
 SET FOREIGN_KEY_CHECKS = 1;

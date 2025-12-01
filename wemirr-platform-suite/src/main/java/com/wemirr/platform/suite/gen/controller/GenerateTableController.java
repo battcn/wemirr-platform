@@ -27,7 +27,7 @@ import java.util.Map;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/generate-tables")
+@RequestMapping("/generate-table")
 @Tag(name = "代码生成表配置", description = "代码生成表配置")
 public class GenerateTableController {
 

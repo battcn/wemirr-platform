@@ -24,7 +24,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/generate-templates")
+@RequestMapping("/generate-template")
 @Tag(name = "代码生成模板", description = "代码生成模板")
 public class GenerateTemplateController {
 
