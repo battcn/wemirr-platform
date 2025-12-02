@@ -37,7 +37,7 @@ public interface AuthenticationContext {
         return null;
     }
 
-    default Object getContext() {
+    default AuthenticationDetails getContext() {
         return null;
     }
 

@@ -20,6 +20,7 @@
 package com.wemirr.framework.security.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wemirr.framework.commons.security.AuthenticationDetails;
 import com.wemirr.framework.commons.security.DataPermission;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -42,7 +43,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfoDetails implements Serializable {
+public class UserInfoDetails implements Serializable, AuthenticationDetails {
 
     @Serial
     private static final long serialVersionUID = 1L;
