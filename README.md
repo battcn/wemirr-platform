@@ -32,7 +32,7 @@
 
 | 版本     | 描述                                                                                                     |
 |--------|--------------------------------------------------------------------------------------------------------|
-| v4-dev | JDK17、SCA2023、SC2024、Sa-Token、审批流(warm-flow) 新用户推荐使用 v4-dev 分支（强烈推荐,后期重心在它）等SC版本稳定会升级JDK21和SpringBoot4 |
+| v4-dev | JDK17、SCA2023、SC2024、Sa-Token、审批流(warm-flow)、AI(SNAPSHOT) 新用户推荐使用 v4-dev 分支（强烈推荐,后期重心在它）等SC版本稳定会升级JDK21和SpringBoot4 |
 | v3-dev | JDK17、SCA2023、SC2024、Sa-Token、审批流(camunda)                                                             |
 | v2-dev | JDK17、SCA2022、SC2023、OAuth2.1、Security 请使用 v2-dev 分支（只提供BUG修复）                                         |
 | v1-dev | ~~~JDK8 - JDK11 的请使用 vben 分支（废弃）~~~                                                                    |
