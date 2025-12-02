@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.ai.repository.VectorMetadataMapper">
+
+    <!-- 批量插入向量元数据 -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO ai_vector_metadata (
+            vector_id, kb_id, item_id, chunk_id, metadata, 
+            create_time, update_time
+        ) VALUES
+        <foreach collection="list" item="metadata" separator=",">
+            (
+                #{metadata.vectorId}, #{metadata.kbId}, #{metadata.itemId}, 
+                #{metadata.chunkId}, 
+                #{metadata.metadata,typeHandler=com.wemirr.framework.db.mybatisplus.handler.type.JsonTypeHandler}, 
+                #{metadata.createTime}, #{metadata.updateTime}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

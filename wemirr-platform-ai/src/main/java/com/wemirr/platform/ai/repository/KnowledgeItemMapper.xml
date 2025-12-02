@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.ai.repository.KnowledgeItemMapper">
+
+    <!-- 根据知识库ID查询知识条目 -->
+    <select id="selectByKbId" resultType="com.wemirr.platform.ai.domain.entity.KnowledgeItem">
+        SELECT * FROM ai_kb_knowledge_item
+        WHERE kb_id = #{kbId} 
+        AND deleted = 0
+        ORDER BY create_time DESC
+    </select>
+    
+    <!-- 根据知识库ID和类型查询知识条目 -->
+    <select id="selectByKbIdAndType" resultType="com.wemirr.platform.ai.domain.entity.KnowledgeItem">
+        SELECT * FROM ai_kb_knowledge_item
+        WHERE kb_id = #{kbId} 
+        AND type = #{type}
+        AND deleted = 0
+        ORDER BY create_time DESC
+    </select>
+    
+    <!-- 根据来源ID查询知识条目 -->
+    <select id="selectBySourceId" resultType="com.wemirr.platform.ai.domain.entity.KnowledgeItem">
+        SELECT * FROM ai_kb_knowledge_item
+        WHERE source_id = #{sourceId} 
+        AND deleted = 0
+        LIMIT 1
+    </select>
+    
+    <!-- 统计知识库中各类型知识条目数量 -->
+    <select id="countByKbIdGroupByType" resultType="com.wemirr.platform.ai.repository.KnowledgeItemMapper$KnowledgeItemTypeCount">
+        SELECT type, COUNT(*) as count 
+        FROM ai_kb_knowledge_item
+        WHERE kb_id = #{kbId} 
+        AND deleted = 0
+        GROUP BY type
+    </select>
+
+</mapper>
