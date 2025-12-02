@@ -72,6 +72,7 @@ public class PlatformGatewayStrategyRouteFilter implements GlobalFilter {
         ServerHttpRequest mutatedRequest = exchange.getRequest().mutate().header(TRACE_ID_HEADER, traceId).build();
         ServerWebExchange mutatedExchange = exchange.mutate().request(mutatedRequest).build();
         return chain.filter(mutatedExchange)
+                .contextWrite(Context.of(TRACE_ID_HEADER, traceId))
                 .then(Mono.fromRunnable(() -> {
                     long executeTime = System.currentTimeMillis() - startTime;
                     int statusCode = mutatedExchange.getResponse().getStatusCode() != null ? mutatedExchange.getResponse().getStatusCode().value() : 0;
@@ -84,7 +85,6 @@ public class PlatformGatewayStrategyRouteFilter implements GlobalFilter {
                     } else {
                         log.info("[请求] traceId => {},耗时={}ms, 状态码={},方法名={}, 路径={}", traceId, executeTime, statusCode, method, path);
                     }
-                }))
-                .contextWrite(Context.of(TRACE_ID_HEADER, traceId)).then();
+                }));
     }
 }
