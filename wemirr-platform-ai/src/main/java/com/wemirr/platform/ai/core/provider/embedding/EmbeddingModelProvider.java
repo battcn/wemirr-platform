@@ -5,7 +5,7 @@ import dev.langchain4j.model.embedding.EmbeddingModel;
 
 /**
  * @author xJh
- * @date 2025/10/12
+ * @since 2025/10/12
  **/
 public interface EmbeddingModelProvider {
 

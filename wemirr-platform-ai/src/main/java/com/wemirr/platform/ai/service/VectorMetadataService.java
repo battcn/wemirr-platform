@@ -10,7 +10,7 @@ import java.util.Map;
  * 向量元数据服务接口
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  */
 public interface VectorMetadataService extends SuperService<VectorMetadata> {
 

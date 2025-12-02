@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * 专门负责将文本分片转换为向量表示并存储
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 @Slf4j
 @Component

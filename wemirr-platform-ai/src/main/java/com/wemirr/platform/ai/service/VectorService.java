@@ -12,7 +12,7 @@ import java.util.List;
  * 提供异步向量化处理和检索功能
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 public interface VectorService extends SuperService<VectorizationTask> {
 

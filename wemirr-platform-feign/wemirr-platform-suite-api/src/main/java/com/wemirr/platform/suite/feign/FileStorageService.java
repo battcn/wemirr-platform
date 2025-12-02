@@ -12,7 +12,7 @@ import static com.wemirr.platform.suite.feign.FileStorageService.FEIGN_CLIENT_NA
 
 /**
  * @author xJh
- * @date 2025/11/6
+ * @since 2025/11/6
  **/
 @FeignClient(name = FEIGN_CLIENT_NAME, dismiss404 = true,path = "/file-storage")
 public interface FileStorageService {

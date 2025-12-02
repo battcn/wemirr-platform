@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
  * 提供基于知识库的检索增强生成对话功能
  *
  * @author xJh
- * @date 2025/10/21
+ * @since 2025/10/21
  **/
 @Slf4j
 @RestController

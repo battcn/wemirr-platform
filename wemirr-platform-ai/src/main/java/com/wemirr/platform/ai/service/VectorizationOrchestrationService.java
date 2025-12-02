@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * 负责协调文档处理和向量化过程
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  */
 @Slf4j
 @Service

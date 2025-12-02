@@ -12,7 +12,7 @@ import java.util.Map;
  * 知识分片服务接口
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 public interface KnowledgeChunkService extends SuperService<KnowledgeChunk> {
 

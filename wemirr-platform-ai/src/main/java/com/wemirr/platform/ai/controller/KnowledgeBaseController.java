@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * 知识库控制器
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 @Slf4j
 @RestController

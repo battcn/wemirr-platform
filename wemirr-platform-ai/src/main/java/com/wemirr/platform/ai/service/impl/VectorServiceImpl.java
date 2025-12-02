@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * 主要负责向量化任务的管理和调度，委托实际的向量化处理给VectorizationProcessor
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 @Slf4j
 @Service

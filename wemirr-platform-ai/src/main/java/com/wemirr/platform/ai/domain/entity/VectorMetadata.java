@@ -18,7 +18,7 @@ import java.util.Map;
  * 用于存储向量在向量数据库中的元数据信息
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

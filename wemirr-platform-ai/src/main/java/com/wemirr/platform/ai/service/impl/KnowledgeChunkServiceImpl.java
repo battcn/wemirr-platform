@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * 负责知识分片的创建和管理，不直接处理向量化
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 @Slf4j
 @Service

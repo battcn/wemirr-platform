@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * @author xJh
- * @date 2025/10/11
+ * @since 2025/10/11
  **/
 public interface ConversationService extends SuperService<Conversation> {
 

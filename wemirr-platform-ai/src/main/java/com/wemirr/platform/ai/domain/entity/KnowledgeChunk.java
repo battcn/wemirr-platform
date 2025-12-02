@@ -18,7 +18,7 @@ import java.util.Map;
  * 用于统一管理不同类型知识的向量化分片
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data

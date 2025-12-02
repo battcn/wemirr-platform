@@ -7,6 +7,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
+ * @author xJh
+ * @since 2025/09/29
  * AI应用启动类
  */
 @SpringBootApplication

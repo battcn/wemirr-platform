@@ -18,7 +18,7 @@ import java.util.List;
  * 提供对知识库内容进行向量化的接口
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 @Slf4j
 @RestController

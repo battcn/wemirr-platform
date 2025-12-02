@@ -10,7 +10,7 @@ import java.util.Map;
  * AI对话请求参数
  *
  * @author xJh
- * @date 2025/10/11
+ * @since 2025/10/11
  */
 @Data
 @Schema(description = "AI对话请求参数")

@@ -2,7 +2,7 @@ package com.wemirr.platform.ai.core.enums;
 
 /**
  * @author xJh
- * @date 2025/10/9
+ * @since 2025/10/9
  *
  * 模型类型枚举
  **/

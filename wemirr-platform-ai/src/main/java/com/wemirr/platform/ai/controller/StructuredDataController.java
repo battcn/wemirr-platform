@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * 结构化数据控制器
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 @Slf4j
 @RestController

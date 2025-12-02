@@ -5,7 +5,7 @@ import com.wemirr.platform.ai.domain.entity.ConversationMessage;
 
 /**
  * @author xiao1
- * @date 2025-10
+ * @since 2025-10
  */
 public interface ConversationMessageService extends SuperService<ConversationMessage> {
     /**

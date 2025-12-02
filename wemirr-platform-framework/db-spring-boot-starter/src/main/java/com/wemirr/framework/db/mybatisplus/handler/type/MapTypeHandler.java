@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * @author xJh
- * @date 2025/10/21
+ * @since 2025/10/21
  **/
 @MappedTypes(value = {Map.class})
 public class MapTypeHandler extends AbstractJsonTypeHandler<Map<String, Object>> {

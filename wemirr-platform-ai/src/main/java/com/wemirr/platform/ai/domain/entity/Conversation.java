@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 
 /**
  * @author xJh
- * @date 2025/10/11
+ * @since 2025/10/11
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * @author xiao1
- * @date 2025-10
+ * @since 2025-10
  */
 @Mapper
 @Repository

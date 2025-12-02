@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**
  * @author xJh
- * @date 2025/10/11
+ * @since 2025/10/11
  **/
 @RestController
 @RequestMapping("/cov")

@@ -19,7 +19,7 @@ import java.util.Map;
  * 统一管理不同类型的知识，包括文档、问答对、结构化数据等
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data

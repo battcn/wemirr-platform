@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * 基于Langchain4j的文档处理器
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 @Slf4j
 @Component

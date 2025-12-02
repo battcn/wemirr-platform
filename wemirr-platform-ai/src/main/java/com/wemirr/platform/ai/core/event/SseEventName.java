@@ -2,7 +2,7 @@ package com.wemirr.platform.ai.core.event;
 
 /**
  * @author xJh
- * @date 2025/9/29
+ * @since 2025/9/29
  * SSE 事件名称常量
  **/
 public class SseEventName {

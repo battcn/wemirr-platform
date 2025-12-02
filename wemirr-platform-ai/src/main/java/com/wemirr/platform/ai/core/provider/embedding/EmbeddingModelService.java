@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author xJh
- * @date 2025/10/12
+ * @since 2025/10/12
  **/
 @Service
 public class EmbeddingModelService {

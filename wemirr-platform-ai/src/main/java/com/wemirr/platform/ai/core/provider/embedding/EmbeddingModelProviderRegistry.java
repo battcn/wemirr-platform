@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author xJh
- * @date 2025/10/12
+ * @since 2025/10/12
  **/
 @Component
 public class EmbeddingModelProviderRegistry {

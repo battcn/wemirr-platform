@@ -15,7 +15,7 @@ import java.util.List;
  * 智能体服务接口
  *
  * @author xJh
- * @date 2025/11/4
+ * @since 2025/11/4
  **/
 public interface ChatAgentService extends SuperService<ChatAgent> {
 

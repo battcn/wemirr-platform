@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * 向量、文本搜索
  *
  * @author xJh
- * @date 2025/10/21
+ * @since 2025/10/21
  **/
 @Slf4j
 @Service

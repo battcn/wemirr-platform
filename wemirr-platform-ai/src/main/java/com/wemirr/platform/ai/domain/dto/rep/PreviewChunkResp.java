@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
  * 文档分块预览响应
  *
  * @author xiao1
- * @date 2025-10
+ * @since 2025-10
  */
 @Data
 @Builder

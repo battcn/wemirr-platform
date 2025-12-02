@@ -7,7 +7,7 @@ import lombok.Data;
 
 /**
  * @author xJh
- * @date 2025/10/31
+ * @since 2025/10/31
  **/
 @Data
 @Schema(name = "ModelConfigPageReq")

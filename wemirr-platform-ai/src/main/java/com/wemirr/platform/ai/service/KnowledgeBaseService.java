@@ -11,7 +11,7 @@ import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
  * 知识库服务接口
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 public interface KnowledgeBaseService extends SuperService<KnowledgeBase> {
 

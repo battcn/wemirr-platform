@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
  * 知识条目服务实现类
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 @Slf4j
 @Service

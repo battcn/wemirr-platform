@@ -6,7 +6,7 @@ import lombok.Data;
 
 /**
  * @author xJh
- * @date 2025/11/4
+ * @since 2025/11/4
  **/
 @Data
 @Schema(description = "智能体分页查询请求")

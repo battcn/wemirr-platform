@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 向量元数据Mapper
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  */
 @Mapper
 public interface VectorMetadataMapper extends SuperMapper<VectorMetadata> {

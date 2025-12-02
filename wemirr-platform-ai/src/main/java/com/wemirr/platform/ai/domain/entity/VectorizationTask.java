@@ -17,7 +17,7 @@ import java.util.Map;
  * 向量化任务实体
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data

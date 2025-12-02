@@ -10,7 +10,7 @@ import com.wemirr.platform.ai.domain.entity.ModelConfig;
 
 /**
  * @author xJh
- * @date 2025/10/11
+ * @since 2025/10/11
  **/
 public interface ModelConfigService extends SuperService<ModelConfig> {
 

@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 支持知识库专用的向量存储创建
  * 
  * @author xiao1
- * @date 2025-10
+ * @since 2025-10
  */
 @Slf4j
 @Component

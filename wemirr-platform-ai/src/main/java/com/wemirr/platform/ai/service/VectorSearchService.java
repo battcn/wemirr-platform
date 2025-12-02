@@ -14,7 +14,7 @@ import java.util.Map;
  * 专门处理向量搜索相关功能
  *
  * @author xJh
- * @date 2025/10/21
+ * @since 2025/10/21
  **/
 public interface VectorSearchService {
 

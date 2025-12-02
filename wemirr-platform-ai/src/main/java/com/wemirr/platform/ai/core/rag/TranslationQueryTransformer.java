@@ -19,7 +19,7 @@ import static java.util.Collections.singletonList;
  * 使用 LLM 进行高质量翻译，并保留原始上下文。
  *
  * @author xJh
- * @date 2025/11/3
+ * @since 2025/11/3
  **/
 public class TranslationQueryTransformer implements QueryTransformer {
 

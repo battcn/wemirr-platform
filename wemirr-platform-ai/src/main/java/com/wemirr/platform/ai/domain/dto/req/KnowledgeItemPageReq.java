@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  * 知识条目分页查询请求
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 @Data
 @EqualsAndHashCode(callSuper = true)

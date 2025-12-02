@@ -17,7 +17,7 @@ import static dev.langchain4j.data.message.ChatMessageSerializer.messagesToJson;
 
 /**
  * @author xJh
- * @date 2025/10/11
+ * @since 2025/10/11
  **/
 
 @Slf4j

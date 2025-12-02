@@ -28,7 +28,7 @@ import java.util.concurrent.Executors;
 
 /**
  * @author xJh
- * @date 2025/10/22
+ * @since 2025/10/22
  **/
 @Slf4j
 public class RetrievalAugmentorBuilder {

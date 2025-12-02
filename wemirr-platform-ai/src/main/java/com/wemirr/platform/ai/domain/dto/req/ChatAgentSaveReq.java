@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 
 /**
  * @author xJh
- * @date 2025/11/4
+ * @since 2025/11/4
  **/
 @Data
 @Schema(description = "智能体保存请求")

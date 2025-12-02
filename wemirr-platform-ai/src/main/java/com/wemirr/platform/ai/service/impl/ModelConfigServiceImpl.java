@@ -19,7 +19,7 @@ import java.util.Optional;
 
 /**
  * @author xJh
- * @date 2025/10/11
+ * @since 2025/10/11
  **/
 @Service
 public class ModelConfigServiceImpl extends SuperServiceImpl<ModelConfigMapper, ModelConfig> implements ModelConfigService  {

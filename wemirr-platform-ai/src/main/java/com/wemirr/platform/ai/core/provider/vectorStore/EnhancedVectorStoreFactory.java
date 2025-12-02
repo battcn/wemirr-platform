@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 支持知识库与向量数据库集合的映射关系
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  */
 @Slf4j
 @Component

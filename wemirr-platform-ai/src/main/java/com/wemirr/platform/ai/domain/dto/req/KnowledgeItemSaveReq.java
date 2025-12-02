@@ -11,7 +11,7 @@ import java.util.Map;
  * 知识条目保存请求
  *
  * @author xJh
- * @date 2025/10/20
+ * @since 2025/10/20
  **/
 @Data
 @Schema(description = "知识条目保存请求")

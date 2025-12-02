@@ -8,7 +8,7 @@ import java.util.Map;
  * 提供语义搜索、关键词搜索和混合搜索功能
  *
  * @author xJh
- * @date 2025/10/21
+ * @since 2025/10/21
  **/
 public interface KnowledgeSearchService {
 

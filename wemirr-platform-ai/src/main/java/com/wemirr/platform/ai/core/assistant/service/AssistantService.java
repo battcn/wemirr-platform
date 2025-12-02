@@ -49,7 +49,7 @@ import static dev.langchain4j.store.embedding.filter.MetadataFilterBuilder.metad
 
 /**
  * @author xJh
- * @date 2025/10/11
+ * @since 2025/10/11
  * todo Langchain4j暂未集成稀疏向量用于多路检索
  **/
 @Slf4j

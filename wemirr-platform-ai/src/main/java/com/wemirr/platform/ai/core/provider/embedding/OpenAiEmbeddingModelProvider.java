@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author xJh
- * @date 2025/10/12
+ * @since 2025/10/12
  **/
 @Component
 public class OpenAiEmbeddingModelProvider implements EmbeddingModelProvider {
