@@ -23,7 +23,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/generate-template-groups")
+@RequestMapping("/generate-template-group")
 @Tag(name = "代码生成模板组", description = "代码生成模板组")
 public class GenerateTemplateGroupController {
     private final GenerateTemplateGroupService generateTemplateGroupService;
