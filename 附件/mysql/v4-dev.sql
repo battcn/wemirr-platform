@@ -3959,7 +3959,7 @@ DROP TABLE IF EXISTS `c_generate_template_group`;
 CREATE TABLE `c_generate_template_group`  (
                                               `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
                                               `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '分组名称',
-                                              `desciption` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板描述',
+                                              `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板描述',
                                               `is_default` bit(1) NULL DEFAULT b'0' COMMENT '是否作为默认生成分组 (0: 不是, 1: 是)',
                                               `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                                               `create_by` bigint NULL DEFAULT NULL COMMENT '创建人ID',
