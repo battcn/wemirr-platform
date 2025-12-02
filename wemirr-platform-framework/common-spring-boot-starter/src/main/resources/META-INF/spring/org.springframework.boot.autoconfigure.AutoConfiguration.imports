@@ -9,3 +9,4 @@ com.wemirr.framework.boot.async.AsyncConfiguration
 com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration
 com.wemirr.framework.boot.response.GlobalJsonDeserializer
 com.wemirr.framework.boot.remote.configuration.RemoteAloneRedisAutoConfiguration
+com.wemirr.framework.boot.mdc.MdcContextLifterConfiguration

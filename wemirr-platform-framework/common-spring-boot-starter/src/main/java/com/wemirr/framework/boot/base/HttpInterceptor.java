@@ -19,11 +19,13 @@
 
 package com.wemirr.framework.boot.base;
 
+import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.commons.threadlocal.ThreadLocalHolder;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.util.Locale;
@@ -36,11 +38,16 @@ import java.util.Locale;
 @Slf4j
 public class HttpInterceptor implements HandlerInterceptor {
 
+    private static final String TRACE_ID_HEADER = "n-d-trace-id";
     @Override
     public boolean preHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler) {
         // 从请求头中获取地区信息
         Locale locale = request.getLocale();
         ThreadLocalHolder.setLocal(locale);
+        String traceId = request.getHeader(TRACE_ID_HEADER);
+        if (StrUtil.isNotBlank(traceId)) {
+            MDC.put(TRACE_ID_HEADER, traceId);
+        }
         log.debug("http header locale - {}", locale);
         return true;
     }
@@ -48,5 +55,6 @@ public class HttpInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object object, Exception exception) {
         ThreadLocalHolder.clear();
+        MDC.remove(TRACE_ID_HEADER);
     }
 }

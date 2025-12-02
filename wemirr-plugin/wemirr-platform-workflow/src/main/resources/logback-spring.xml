@@ -1,84 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <!-- 应用名称-->
-    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="bpm.log"/>
-    <!-- 普通日志信息：看看SQL、LOG之类的 -->
-    <property name="ORDINARY_LOG_FILE_NAME_PATTERN" value="logs/${appName}/ordinary.%d{yyyy-MM-dd}.log.gz"/>
-    <!-- 关键信息：用于排查问题 -->
-    <property name="CRUX_LOG_FILE_NAME_PATTERN" value="logs/${appName}/crux.%d{yyyy-MM-dd}.log.gz"/>
-    <!-- 日志格式 -->
+
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="workflow.log"/>
+
+    <property name="LOG_HOME" value="logs/${appName}"/>
+    <property name="MAX_HISTORY" value="15"/>
+    <property name="MAX_FILE_SIZE" value="100MB"/>
+    <property name="TOTAL_SIZE_CAP" value="5GB"/>
+
     <property name="CONSOLE_LOG_PATTERN"
-              value="%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} - [%X{n-d-trace-id}] -%clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%c){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%-5level) %clr(%X{n-d-trace-id:-N/A}){yellow} %clr(|){faint} %clr(%-15.15t){faint} %clr(|){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
     <property name="FILE_LOG_PATTERN"
-              value="%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} - [%X{n-d-trace-id}] - ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %c : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
-    <!--输出到控制台-->
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5level | %X{n-d-trace-id:-} | ${PID:- } | %-15.15t | %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 
-    <!--输出到普通信息文件-->
-    <appender name="ordinaryFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${ORDINARY_LOG_FILE_NAME_PATTERN}</fileNamePattern>
-            <!-- 日志保留天数 -->
-            <maxHistory>30</maxHistory>
-            <!-- 日志文件上限大小，达到指定大小后删除旧的日志文件 -->
-            <totalSizeCap>2GB</totalSizeCap>
-            <!-- 每个日志文件的最大值 -->
-            <!--<timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>50MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>-->
+    <appender name="ALL_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/all.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/archived/all.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <totalSizeCap>${TOTAL_SIZE_CAP}</totalSizeCap>
         </rollingPolicy>
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 
-
-    <appender name="cruxFileWarn" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${CRUX_LOG_FILE_NAME_PATTERN}</fileNamePattern>
-            <!-- 日志保留天数 -->
-            <maxHistory>30</maxHistory>
-            <!-- 日志文件上限大小，达到指定大小后删除旧的日志文件 -->
-            <totalSizeCap>1GB</totalSizeCap>
-            <!-- 每个日志文件的最大值 -->
-            <!--<timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>-->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/archived/error.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <totalSizeCap>${TOTAL_SIZE_CAP}</totalSizeCap>
         </rollingPolicy>
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>warn</level>
+            <level>WARN</level>
         </filter>
     </appender>
 
-    <!-- region 根据不同的环境设置不同的日志输出级别 -->
-    <springProfile name="default,local,dev">
-        <root level="info">
-            <appender-ref ref="console"/>
-            <appender-ref ref="ordinaryFile"/>
-            <appender-ref ref="cruxFileWarn"/>
+    <appender name="ASYNC_ALL" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>1024</queueSize>
+        <appender-ref ref="ALL_FILE"/>
+    </appender>
+
+    <appender name="ASYNC_ERROR" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>1024</queueSize>
+        <appender-ref ref="ERROR_FILE"/>
+    </appender>
+
+
+    <springProfile name="default,local,dev,demo">
+        <logger name="com.wemirr" level="DEBUG"/>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ALL_FILE"/>
+            <appender-ref ref="ERROR_FILE"/>
         </root>
-        <logger name="com.wemirr" level="debug"/>
-        <logger name="org.dromara.warm.flow" level="debug"/>
     </springProfile>
 
     <springProfile name="prod,pre,test">
-        <root level="info">
-            <appender-ref ref="console"/>
-            <appender-ref ref="ordinaryFile"/>
-            <appender-ref ref="cruxFileWarn"/>
+        <logger name="com.wemirr" level="DEBUG"/>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+
+            <appender-ref ref="ASYNC_ALL"/>
+            <appender-ref ref="ASYNC_ERROR"/>
         </root>
-        <logger name="com.wemirr" level="debug"/>
-        <logger name="org.dromara.warm.flow" level="debug"/>
     </springProfile>
+
+    <logger name="com.alibaba.nacos" level="WARN"/>
+    <logger name="org.springframework.amqp.rabbit" level="WARN"/>
+    <logger name="io.lettuce" level="WARN"/>
+    <logger name="io.netty" level="WARN"/>
+    <logger name="org.apache.catalina.connector.CoyoteAdapter" level="WARN"/>
 
 </configuration>

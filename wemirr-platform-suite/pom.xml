@@ -17,6 +17,17 @@
     </properties>
     
     <dependencies>
+        <!-- Spring Boot 3.x + Spring Cloud 2023.x/2025.x -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+            <!-- 或使用 OpenTelemetry -->
+            <!-- <artifactId>micrometer-tracing-bridge-otel</artifactId> -->
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-observation</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
