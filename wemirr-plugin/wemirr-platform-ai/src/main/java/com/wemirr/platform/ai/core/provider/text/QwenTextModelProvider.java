@@ -6,10 +6,8 @@ import com.wemirr.platform.ai.domain.entity.ModelConfig;
 import com.wemirr.platform.ai.listener.CustomizeChatModelListener;
 import dev.langchain4j.community.model.dashscope.QwenChatModel;
 import dev.langchain4j.community.model.dashscope.QwenStreamingChatModel;
-import dev.langchain4j.model.Tokenizer;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.chat.StreamingChatLanguageModel;
-import dev.langchain4j.model.openai.OpenAiTokenizer;
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +33,7 @@ public class QwenTextModelProvider implements TextModelProvider {
     }
 
     @Override
-    public ChatLanguageModel createModel(ModelConfig config) {
+    public ChatModel createModel(ModelConfig config) {
         QwenChatModel.QwenChatModelBuilder builder  = QwenChatModel.builder()
 //                .baseUrl(config.getBaseUrl())
                 .apiKey(config.getApiKey())
@@ -54,7 +52,7 @@ public class QwenTextModelProvider implements TextModelProvider {
     }
 
     @Override
-    public StreamingChatLanguageModel createStreamModel(ModelConfig config) {
+    public StreamingChatModel createStreamModel(ModelConfig config) {
         QwenStreamingChatModel.QwenStreamingChatModelBuilder builder = QwenStreamingChatModel.builder()
 //                .baseUrl(config.getBaseUrl())
                 .modelName(config.getModelName())
@@ -71,10 +69,6 @@ public class QwenTextModelProvider implements TextModelProvider {
         return builder.build();
     }
 
-    @Override
-    public Tokenizer createTokenizer(ModelConfig config) {
-        return new OpenAiTokenizer(config.getModelName());
-    }
 
     @Override
     public String providerId() {

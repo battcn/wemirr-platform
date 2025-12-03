@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.core.rag;
 
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.input.Prompt;
 import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.rag.query.Query;
@@ -41,13 +41,13 @@ public class TranslationQueryTransformer implements QueryTransformer {
     );
 
     protected final PromptTemplate promptTemplate;
-    protected final ChatLanguageModel chatLanguageModel;
+    protected final ChatModel chatLanguageModel;
 
-    public TranslationQueryTransformer(ChatLanguageModel chatLanguageModel) {
+    public TranslationQueryTransformer(ChatModel chatLanguageModel) {
         this(chatLanguageModel, DEFAULT_PROMPT_TEMPLATE);
     }
 
-    public TranslationQueryTransformer(ChatLanguageModel chatLanguageModel, PromptTemplate promptTemplate) {
+    public TranslationQueryTransformer(ChatModel chatLanguageModel, PromptTemplate promptTemplate) {
         this.chatLanguageModel = ensureNotNull(chatLanguageModel, "chatLanguageModel");
         this.promptTemplate = getOrDefault(promptTemplate, DEFAULT_PROMPT_TEMPLATE);
     }
@@ -105,13 +105,13 @@ public class TranslationQueryTransformer implements QueryTransformer {
     }
 
     public static class TranslationQueryTransformerBuilder {
-        private ChatLanguageModel chatLanguageModel;
+        private ChatModel chatLanguageModel;
         private PromptTemplate promptTemplate;
 
         TranslationQueryTransformerBuilder() {
         }
 
-        public TranslationQueryTransformerBuilder chatLanguageModel(ChatLanguageModel chatLanguageModel) {
+        public TranslationQueryTransformerBuilder chatLanguageModel(ChatModel chatLanguageModel) {
             this.chatLanguageModel = chatLanguageModel;
             return this;
         }

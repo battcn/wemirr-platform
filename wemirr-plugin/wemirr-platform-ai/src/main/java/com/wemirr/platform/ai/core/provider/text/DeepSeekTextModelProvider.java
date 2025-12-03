@@ -3,12 +3,10 @@ package com.wemirr.platform.ai.core.provider.text;
 import com.wemirr.platform.ai.core.enums.AiProvider;
 import com.wemirr.platform.ai.core.enums.ModelParam;
 import com.wemirr.platform.ai.domain.entity.ModelConfig;
-import dev.langchain4j.model.Tokenizer;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.chat.StreamingChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
-import dev.langchain4j.model.openai.OpenAiTokenizer;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -29,7 +27,7 @@ public class DeepSeekTextModelProvider implements TextModelProvider {
     }
 
     @Override
-    public ChatLanguageModel createModel(ModelConfig config) {
+    public ChatModel createModel(ModelConfig config) {
         OpenAiChatModel.OpenAiChatModelBuilder builder  = OpenAiChatModel.builder()
                 .baseUrl(config.getBaseUrl())
                 .apiKey(config.getApiKey())
@@ -59,7 +57,7 @@ public class DeepSeekTextModelProvider implements TextModelProvider {
     }
 
     @Override
-    public StreamingChatLanguageModel createStreamModel(ModelConfig config) {
+    public StreamingChatModel createStreamModel(ModelConfig config) {
         return OpenAiStreamingChatModel.builder()
                 .baseUrl(config.getBaseUrl())
                 .apiKey(config.getApiKey())
@@ -69,10 +67,7 @@ public class DeepSeekTextModelProvider implements TextModelProvider {
                 .build();
     }
 
-    @Override
-    public Tokenizer createTokenizer(ModelConfig config) {
-        return new OpenAiTokenizer(config.getModelName());
-    }
+
 
     @Override
     public String providerId() {

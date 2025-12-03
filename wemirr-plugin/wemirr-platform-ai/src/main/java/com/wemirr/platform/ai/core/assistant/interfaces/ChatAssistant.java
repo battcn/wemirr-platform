@@ -3,6 +3,7 @@ package com.wemirr.platform.ai.core.assistant.interfaces;
 import dev.langchain4j.data.message.ImageContent;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.service.*;
+import dev.langchain4j.service.memory.ChatMemoryAccess;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
 package com.wemirr.platform.ai.controller;
 
 import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
+import com.wemirr.platform.ai.core.sse.SseChatHelper;
 import com.wemirr.platform.ai.domain.dto.req.AskReq;
 import com.wemirr.platform.ai.service.ChatService;
-import com.wemirr.platform.ai.core.sse.SseChatHelper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
