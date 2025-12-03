@@ -23,26 +23,22 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class VectorStoreServiceImpl extends SuperServiceImpl<VectorStoreMapper, VectorStore> implements VectorStoreService {
 
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long storeVector(String kbId, String text, Map<String, Object> metadata) {
         // 1. 生成向量
         String vector = generateVector(text);
-        
         // 2. 存储向量
         VectorStore vectorStore = VectorStore.builder()
                 .kbId(kbId)
                 .text(text)
                 .vector(vector)
-                .dimension(768) // 假设向量维度为768
+                // 假设向量维度为768
+                .dimension(768)
                 .storeType("elasticsearch")
                 .metadata(metadata)
                 .build();
-        
         baseMapper.insert(vectorStore);
-
-        
         return vectorStore.getId();
     }
 
@@ -65,7 +61,7 @@ public class VectorStoreServiceImpl extends SuperServiceImpl<VectorStoreMapper, 
     public void deleteByKbId(String kbId) {
         baseMapper.deleteByKbId(kbId);
     }
-    
+
     /**
      * 生成文本向量
      *

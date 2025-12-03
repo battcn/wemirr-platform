@@ -1,4 +1,4 @@
-package com.wemirr.platform.ai.config;
+package com.wemirr.platform.ai.listener;
 
 import dev.langchain4j.model.chat.listener.ChatModelErrorContext;
 import dev.langchain4j.model.chat.listener.ChatModelListener;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
  * @author xJh
  * @since 2025/10/16
  **/
-@Component
 @Slf4j
+@Component
 public class CustomizeChatModelListener implements ChatModelListener {
     @Override
     public void onRequest(final ChatModelRequestContext requestContext) {

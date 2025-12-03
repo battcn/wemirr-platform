@@ -11,5 +11,4 @@ public interface ChatService {
 
     SseEmitter chatStream(AskReq askReq);
 
-
 }

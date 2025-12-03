@@ -2,7 +2,7 @@ package com.wemirr.platform.ai.repository;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.ai.domain.entity.VectorMetadata;
-import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * 向量元数据Mapper
@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @author xJh
  * @since 2025/10/20
  */
-@Mapper
+@Repository
 public interface VectorMetadataMapper extends SuperMapper<VectorMetadata> {
 
     /**

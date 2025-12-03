@@ -2,7 +2,6 @@ package com.wemirr.platform.ai.repository;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.ai.domain.entity.ConversationMessage;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Repository;
  * @author xiao1
  * @since 2025-10
  */
-@Mapper
 @Repository
 public interface ConversationMessageMapper extends SuperMapper<ConversationMessage> {
 

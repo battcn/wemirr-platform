@@ -22,22 +22,21 @@ import java.util.Optional;
  * @since 2025/10/11
  **/
 @Service
-public class ModelConfigServiceImpl extends SuperServiceImpl<ModelConfigMapper, ModelConfig> implements ModelConfigService  {
+public class ModelConfigServiceImpl extends SuperServiceImpl<ModelConfigMapper, ModelConfig> implements ModelConfigService {
 
     @Override
     public IPage<ModelConfigPageRep> pageList(ModelConfigPageReq req) {
         return this.baseMapper.selectPage(req.buildPage(), Wraps.<ModelConfig>lbQ()
-                .eq(ModelConfig::getProvider, req.getProvider())
-                .eq(ModelConfig::getModelType, req.getModelType())
-                .eq(ModelConfig::getModelName, req.getModelName()))
-            .convert(x -> BeanUtil.toBean(x, ModelConfigPageRep.class));
+                        .eq(ModelConfig::getProvider, req.getProvider())
+                        .eq(ModelConfig::getModelType, req.getModelType())
+                        .eq(ModelConfig::getModelName, req.getModelName()))
+                .convert(x -> BeanUtil.toBean(x, ModelConfigPageRep.class));
     }
 
     @Override
     public ModelConfigDetailRep detail(Long id) {
-        ModelConfig modelConfig = this.baseMapper.selectById(id);
-        Optional.ofNullable(modelConfig)
-            .orElseThrow(() -> CheckedException.notFound("模型配置不存在"));
+        ModelConfig modelConfig = Optional.ofNullable(this.baseMapper.selectById(id))
+                .orElseThrow(() -> CheckedException.notFound("模型配置不存在"));
         return BeanUtil.toBean(modelConfig, ModelConfigDetailRep.class);
     }
 
@@ -49,8 +48,7 @@ public class ModelConfigServiceImpl extends SuperServiceImpl<ModelConfigMapper, 
 
     @Override
     public void modify(Long id, ModelConfigSaveReq req) {
-        Optional.ofNullable(this.baseMapper.selectById(id))
-            .orElseThrow(() -> CheckedException.notFound("模型配置不存在"));
+        Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("模型配置不存在"));
         ModelConfig modelConfig = BeanUtilPlus.toBean(id, req, ModelConfig.class);
         this.baseMapper.updateById(modelConfig);
     }

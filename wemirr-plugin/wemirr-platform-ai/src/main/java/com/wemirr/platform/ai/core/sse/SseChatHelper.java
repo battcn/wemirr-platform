@@ -1,4 +1,4 @@
-package com.wemirr.platform.ai.utils;
+package com.wemirr.platform.ai.core.sse;
 
 import com.wemirr.platform.ai.core.event.SseEventName;
 import com.wemirr.platform.ai.domain.dto.req.AskReq;
@@ -15,9 +15,10 @@ import java.util.function.Consumer;
 
 /**
  * SSE 聊天辅助服务
+ * @author xJh
  */
-@Component
 @Slf4j
+@Component
 public class SseChatHelper {
 
     private static final Duration DEFAULT_TIMEOUT = Duration.ofMinutes(5);
@@ -65,8 +66,8 @@ public class SseChatHelper {
     /**
      * 将聊天流转换为 SSE 响应
      */
-    public  void chatStreamToSse(AskReq askReq, SseEmitter emitter, TokenStream tokenStream,
-                                       Consumer<Map<String,Object>> onComplete) {
+    public void chatStreamToSse(AskReq askReq, SseEmitter emitter, TokenStream tokenStream,
+                                Consumer<Map<String, Object>> onComplete) {
         StringBuilder responseBuilder = new StringBuilder();
 
         tokenStream.onPartialResponse(token -> {
@@ -92,7 +93,7 @@ public class SseChatHelper {
                 Map<String, Object> result = Map.of(
                         "content", responseBuilder.toString(),
                         "inputTokens", i,
-                        "outputTokens",o
+                        "outputTokens", o
                 );
                 if (onComplete != null) {
                     onComplete.accept(result);

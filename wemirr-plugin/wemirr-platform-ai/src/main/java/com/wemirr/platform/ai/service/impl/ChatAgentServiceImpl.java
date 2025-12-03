@@ -26,6 +26,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -37,45 +38,33 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ChatAgentServiceImpl extends SuperServiceImpl<ChatAgentMapper, ChatAgent> implements ChatAgentService {
 
-    private final AuthenticationContext authenticationContext;
-
+    private final AuthenticationContext context;
     private final FileStorageService fileStorageService;
-
     private final ConversationService conversationService;
 
     @Override
     public IPage<ChatAgentPageRep> pageList(ChatAgentPageReq req) {
-        return this.baseMapper.selectPage(req.buildPage(),
-                        Wraps.<ChatAgent>lbQ()
-                                .like(ChatAgent::getName, req.getName())
-//                                .like(ChatAgent::getModelName, req.getModelName())
-                                .eq(ChatAgent::getKbId, req.getKnowledgeBaseId())
-                                .eq(ChatAgent::getUserId, req.getUserId())
-                                .orderByDesc(ChatAgent::getLastModifyTime))
-                .convert(x -> BeanUtil.toBean(x, ChatAgentPageRep.class));
+        return this.baseMapper.selectPage(req.buildPage(), Wraps.<ChatAgent>lbQ().like(ChatAgent::getName, req.getName())
+                .eq(ChatAgent::getKbId, req.getKnowledgeBaseId()).eq(ChatAgent::getUserId, req.getUserId())
+                .orderByDesc(ChatAgent::getLastModifyTime)).convert(x -> BeanUtil.toBean(x, ChatAgentPageRep.class));
     }
 
     @Override
     public ChatAgentDetailRep detail(Long id) {
-        ChatAgent chatAgent = this.baseMapper.selectById(id);
-        Optional.ofNullable(chatAgent)
-                .orElseThrow(() -> CheckedException.notFound("智能体不存在"));
+        ChatAgent chatAgent = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("智能体不存在"));
         return BeanUtil.toBean(chatAgent, ChatAgentDetailRep.class);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(ChatAgentSaveReq req) {
-        Long userId = authenticationContext.userId();
-
+        Long userId = context.userId();
         // 检查智能体名称是否重复
         if (existsByName(req.getName(), userId, null)) {
             throw CheckedException.badRequest("智能体名称已存在");
         }
-
         ChatAgent chatAgent = BeanUtil.toBean(req, ChatAgent.class);
         chatAgent.setUserId(userId);
-
         this.baseMapper.insert(chatAgent);
         log.info("创建智能体成功，ID: {}, 名称: {}", chatAgent.getId(), chatAgent.getName());
     }
@@ -83,26 +72,20 @@ public class ChatAgentServiceImpl extends SuperServiceImpl<ChatAgentMapper, Chat
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void modify(Long id, ChatAgentSaveReq req) {
-        ChatAgent existAgent = this.baseMapper.selectById(id);
-        Optional.ofNullable(existAgent)
-                .orElseThrow(() -> CheckedException.notFound("智能体不存在"));
-
-        Long userId = authenticationContext.userId();
-
+        ChatAgent existAgent = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("智能体不存在"));
+        Long userId = context.userId();
         // 检查权限：只能修改自己创建的智能体
-        if (!userId.equals(existAgent.getUserId())) {
+        if (!Objects.equals(existAgent.getUserId(), userId)) {
             throw CheckedException.forbidden("无权限修改此智能体");
         }
-
         // 检查智能体名称是否重复（排除当前记录）
         if (existsByName(req.getName(), userId, id)) {
             throw CheckedException.badRequest("智能体名称已存在");
         }
-
         ChatAgent chatAgent = BeanUtil.toBean(req, ChatAgent.class);
         chatAgent.setId(id);
-        chatAgent.setUserId(existAgent.getUserId()); // 保持原用户ID
-
+        // 保持原用户ID
+        chatAgent.setUserId(existAgent.getUserId());
         this.baseMapper.updateById(chatAgent);
         log.info("修改智能体成功，ID: {}, 名称: {}", id, chatAgent.getName());
     }
@@ -110,27 +93,19 @@ public class ChatAgentServiceImpl extends SuperServiceImpl<ChatAgentMapper, Chat
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void remove(Long id) {
-        ChatAgent existAgent = this.baseMapper.selectById(id);
-        Optional.ofNullable(existAgent)
-                .orElseThrow(() -> CheckedException.notFound("智能体不存在"));
-
-        Long userId = authenticationContext.userId();
-
+        ChatAgent existAgent = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("智能体不存在"));
+        Long userId = context.userId();
         // 检查权限：只能删除自己创建的智能体
-        if (!userId.equals(existAgent.getUserId())) {
+        if (!Objects.equals(existAgent.getUserId(), userId)) {
             throw CheckedException.forbidden("无权限删除此智能体");
         }
-
         this.baseMapper.deleteById(id);
         log.info("删除智能体成功，ID: {}", id);
     }
 
     @Override
     public List<ChatAgent> listByUserId(Long userId) {
-        return this.baseMapper.selectList(
-                Wraps.<ChatAgent>lbQ()
-                        .eq(ChatAgent::getUserId, userId)
-                        .orderByDesc(ChatAgent::getLastModifyTime));
+        return this.baseMapper.selectList(Wraps.<ChatAgent>lbQ().eq(ChatAgent::getUserId, userId).orderByDesc(ChatAgent::getLastModifyTime));
     }
 
 
@@ -139,12 +114,8 @@ public class ChatAgentServiceImpl extends SuperServiceImpl<ChatAgentMapper, Chat
         if (!StringUtils.hasText(name) || userId == null) {
             return false;
         }
-
-        return this.baseMapper.selectCount(
-                Wraps.<ChatAgent>lbQ()
-                        .eq(ChatAgent::getName, name)
-                        .eq(ChatAgent::getUserId, userId)
-                        .ne(id != null, ChatAgent::getId, id)) > 0;
+        return this.baseMapper.selectCount(Wraps.<ChatAgent>lbQ().eq(ChatAgent::getName, name)
+                .eq(ChatAgent::getUserId, userId).ne(id != null, ChatAgent::getId, id)) > 0;
     }
 
     @Override
@@ -162,10 +133,7 @@ public class ChatAgentServiceImpl extends SuperServiceImpl<ChatAgentMapper, Chat
 
     @Override
     public List<ChatAgent> listByModelId(String modelId) {
-        return this.baseMapper.selectList(
-                Wraps.<ChatAgent>lbQ()
-                        .eq(ChatAgent::getModelId, modelId)
-                        .orderByDesc(ChatAgent::getLastModifyTime));
+        return this.baseMapper.selectList(Wraps.<ChatAgent>lbQ().eq(ChatAgent::getModelId, modelId).orderByDesc(ChatAgent::getLastModifyTime));
 
     }
 }

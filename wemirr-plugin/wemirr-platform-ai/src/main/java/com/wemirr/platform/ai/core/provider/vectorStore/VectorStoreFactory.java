@@ -86,14 +86,14 @@ public class VectorStoreFactory {
 
     private EmbeddingStore<TextSegment> createMilvus() {
         VectorStoreProperties.MilvusConfig c = properties.getMilvus();
-        MilvusServiceClient customMilvusClient = new MilvusServiceClient(
+        MilvusServiceClient milvusClient = new MilvusServiceClient(
                 ConnectParam.newBuilder()
                         .withHost(c.getHost())
                         .withPort(c.getPort())
                         .build()
         );
         return MilvusEmbeddingStore.builder()
-                .milvusClient(customMilvusClient)
+                .milvusClient(milvusClient)
                 .collectionName(c.getCollectionName())
                 .dimension(c.getDimension())
                 .build();

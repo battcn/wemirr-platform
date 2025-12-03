@@ -2,7 +2,6 @@ package com.wemirr.platform.ai.repository;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.ai.domain.entity.VectorizationTask;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +15,6 @@ import java.util.Map;
  * @since 2025/10/20
  **/
 @Repository
-@Mapper
 public interface VectorizationTaskMapper extends SuperMapper<VectorizationTask> {
 
     /**

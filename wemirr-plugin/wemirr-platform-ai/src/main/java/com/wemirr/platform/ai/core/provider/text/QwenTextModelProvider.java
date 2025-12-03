@@ -1,9 +1,9 @@
 package com.wemirr.platform.ai.core.provider.text;
 
-import com.wemirr.platform.ai.config.CustomizeChatModelListener;
 import com.wemirr.platform.ai.core.enums.AiProvider;
 import com.wemirr.platform.ai.core.enums.ModelParam;
 import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.listener.CustomizeChatModelListener;
 import dev.langchain4j.community.model.dashscope.QwenChatModel;
 import dev.langchain4j.community.model.dashscope.QwenStreamingChatModel;
 import dev.langchain4j.model.Tokenizer;

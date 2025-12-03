@@ -37,7 +37,7 @@ public class VectorStoreProperties {
         private String token;
         private String database = "default";
         private String uri;
-        
+
         /**
          * 集合命名策略
          * PREFIX: 使用前缀 + 知识库ID
@@ -45,39 +45,39 @@ public class VectorStoreProperties {
          * CUSTOM: 自定义命名规则
          */
         private CollectionNamingStrategy namingStrategy = CollectionNamingStrategy.PREFIX;
-        
+
         /**
          * 集合名称前缀
          */
         private String collectionPrefix = "kb_";
-        
+
         /**
          * 集合名称后缀
          */
         private String collectionSuffix = "_vectors";
 
-        
+
         /**
          * 索引类型
          */
         private String indexType = "HNSW";
-        
+
         /**
          * 相似度度量类型
          */
         private String metricType = "COSINE";
-        
+
         /**
          * 索引参数
          */
         private Map<String, Object> indexParams = new HashMap<>();
-        
+
         /**
          * 集合参数
          */
         private Map<String, Object> collectionParams = new HashMap<>();
     }
-    
+
     /**
      * 集合命名策略枚举
      */
@@ -105,9 +105,9 @@ public class VectorStoreProperties {
 
     @Data
     public static class ElasticsearchConfig {
-        private String host="localhost";
-        private int port=9200;
-        private String indexName="rag_test01";
-        private int topK=10;
+        private String host = "localhost";
+        private int port = 9200;
+        private String indexName = "rag_test01";
+        private int topK = 10;
     }
 }
