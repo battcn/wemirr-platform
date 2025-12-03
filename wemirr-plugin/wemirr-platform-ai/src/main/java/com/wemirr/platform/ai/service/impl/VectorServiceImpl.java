@@ -150,9 +150,13 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
         for (Map.Entry<Long, List<String>> entry : kbIdToVectorIds.entrySet()) {
             Long kbId = entry.getKey();
             List<String> vectorIds = entry.getValue();
-            if (vectorIds.isEmpty()) continue;
+            if (vectorIds.isEmpty()) {
+                continue;
+            }
             KnowledgeBase kb = knowledgeBaseService.getById(kbId);
-            if (kb == null) continue;
+            if (kb == null) {
+                continue;
+            }
             ModelConfig modelConfig = modelConfigService.getById(kb.getEmbeddingModelId());
             totalDeleted += vectorizationProcessor.batchDeleteVectors(vectorIds, kb, modelConfig);
         }

@@ -123,7 +123,9 @@ public class SseChatHelper {
     }
 
     private void sendEvent(SseEmitter emitter, String eventName, Object data) {
-        if (emitter == null) return;
+        if (emitter == null) {
+            return;
+        }
         try {
             emitter.send(SseEmitter.event().name(eventName).data(data));
         } catch (IOException e) {

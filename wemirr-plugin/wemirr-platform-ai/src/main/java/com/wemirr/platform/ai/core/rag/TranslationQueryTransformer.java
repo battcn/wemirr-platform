@@ -95,7 +95,9 @@ public class TranslationQueryTransformer implements QueryTransformer {
     }
 
     private String cleanTranslatedText(String text) {
-        if (text == null) return "";
+        if (text == null) {
+            return "";
+        }
 
         // 移除可能的提示词前缀
         return text.replaceAll("^(翻译后的查询|Translated query|中文查询):\\s*", "")
