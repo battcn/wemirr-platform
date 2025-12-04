@@ -41,7 +41,6 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
 
 
     @Override
-    @Async
     public void vectorizeKnowledgeItem(Long itemId) {
         KnowledgeItem item = knowledgeItemService.getById(itemId);
         item.setStatus(KnowledgeItemStatus.PROCESSING);
@@ -53,7 +52,6 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
     }
 
     @Override
-    @Async
     public String vectorizeKnowledgeItems(List<Long> itemIds) {
         String taskId = IdUtil.fastSimpleUUID();
         createTask(taskId, null, null, "BATCH");
@@ -77,7 +75,6 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
     }
 
     @Override
-    @Async
     public String vectorizeDocument(Long docId) {
         String taskId = IdUtil.fastSimpleUUID();
         createTask(taskId, null, null, "DOCUMENT");
@@ -86,7 +83,6 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
     }
 
     @Override
-    @Async
     public String vectorizeFAQ(Long faqId) {
         String taskId = IdUtil.fastSimpleUUID();
         createTask(taskId, null, faqId, "FAQ");
@@ -95,7 +91,6 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
     }
 
     @Override
-    @Async
     public String vectorizeStructuredData(Long structuredDataId) {
         String taskId = IdUtil.fastSimpleUUID();
         createTask(taskId, null, structuredDataId, "STRUCTURED");
