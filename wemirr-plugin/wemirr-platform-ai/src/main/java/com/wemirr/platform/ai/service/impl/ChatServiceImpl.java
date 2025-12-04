@@ -51,7 +51,6 @@ public class ChatServiceImpl implements ChatService {
     @Override
     @Transactional
     public SseEmitter chatStream(AskReq askReq) {
-
         SseEmitter emitter = sseChatHelper.createEmitter(String.valueOf(authenticationContext.userId()));
         switch (askReq.getChatType()) {
             case NORMAL_TEXT -> handleTextChat(askReq, emitter);

@@ -58,7 +58,6 @@ public class ConversationMessageServiceImpl extends SuperServiceImpl<Conversatio
         return message;
     }
 
-    @Async
     @Transactional(propagation = Propagation.NESTED)
     @Override
     public void saveAssistantMessageAsync(
@@ -113,7 +112,6 @@ public class ConversationMessageServiceImpl extends SuperServiceImpl<Conversatio
         }
     }
 
-    @Async
     @Transactional(propagation = Propagation.NESTED)
     @Override
     public void updateMessageStatusAsync(Long messageId, Integer status) {
