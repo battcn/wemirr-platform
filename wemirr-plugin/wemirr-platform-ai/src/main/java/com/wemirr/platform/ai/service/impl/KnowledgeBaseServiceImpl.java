@@ -5,11 +5,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.platform.ai.core.enums.KnowledgeItemType;
 import com.wemirr.platform.ai.domain.dto.rep.KnowledgeBaseResp;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeBasePageReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeBaseSaveReq;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
+import com.wemirr.platform.ai.domain.entity.KnowledgeItem;
 import com.wemirr.platform.ai.repository.KnowledgeBaseMapper;
+import com.wemirr.platform.ai.repository.KnowledgeItemMapper;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
 import com.wemirr.platform.ai.service.VectorStoreService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +35,8 @@ public class KnowledgeBaseServiceImpl extends SuperServiceImpl<KnowledgeBaseMapp
 
 
     private final VectorStoreService vectorStoreService;
+
+    private final KnowledgeItemMapper knowledgeItemMapper;
 
     @Override
     public IPage<KnowledgeBaseResp> pageList(KnowledgeBasePageReq req) {
@@ -97,12 +102,13 @@ public class KnowledgeBaseServiceImpl extends SuperServiceImpl<KnowledgeBaseMapp
         KnowledgeBaseResp resp = BeanUtil.toBean(knowledgeBase, KnowledgeBaseResp.class);
         
 //        // 统计文档、FAQ、结构化数据数量
-//        String kbId = String.valueOf(knowledgeBase.getId());
-//        Integer documentCount = documentMapper.countByKbId(kbId);
+          String kbId = String.valueOf(knowledgeBase.getId());
+          Long documentCount = knowledgeItemMapper.selectCount(Wraps.<KnowledgeItem>lbQ().eq(KnowledgeItem::getType, KnowledgeItemType.DOCUMENT)
+                .eq(KnowledgeItem::getId, kbId));
 //        Integer faqCount = faqMapper.countByKbId(kbId);
 //        Integer structuredDataCount = structuredDataMapper.countByKbId(kbId);
 //
-//        resp.setDocumentCount(documentCount);
+          resp.setDocumentCount(Math.toIntExact(documentCount));
 //        resp.setFaqCount(faqCount);
 //        resp.setStructuredDataCount(structuredDataCount);
         

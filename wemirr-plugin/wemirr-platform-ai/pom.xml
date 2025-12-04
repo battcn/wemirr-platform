@@ -163,10 +163,6 @@
 
     <dependency>
         <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-elasticsearch</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
         <artifactId>langchain4j-document-parser-apache-poi</artifactId>
     </dependency>
 
