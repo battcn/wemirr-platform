@@ -31,8 +31,9 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.Collection;
-import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Levin
@@ -41,43 +42,54 @@ import java.util.Enumeration;
 @RequiredArgsConstructor
 public class FeignPluginInterceptor implements RequestInterceptor {
 
-    /**
-     * 需要排除的头部字段
-     */
-    public static final String[] EXCLUDED_DEFAULT_HEADERS = {HttpHeaders.CONTENT_LENGTH, HttpHeaders.COOKIE};
-    public final String X_MOCK_APPLICATION = "x-mock-application";
-    public final String IGNORE_HEADER = "ignore-header";
     private final FeignPluginProperties properties;
 
-    private boolean isExcluded(String headerKey) {
-        for (String header : EXCLUDED_DEFAULT_HEADERS) {
-            if (headerKey.contains(header) || StrUtil.equalsIgnoreCase(headerKey, header)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    /**
+     * 定义这一组“永远需要透传”的默认 Header
+     */
+    private static final Set<String> CORE_HEADERS = new HashSet<>();
 
+    static {
+        // 这是一个标准头，Spring MVC 会自动识别它设置 LocaleContext
+        CORE_HEADERS.add(HttpHeaders.ACCEPT_LANGUAGE);
+        CORE_HEADERS.add(HttpHeaders.AUTHORIZATION);
+        CORE_HEADERS.add(HttpHeaders.DATE);
+        // 时区
+        CORE_HEADERS.add("x-time-zone");
+        // --- 链路追踪 / 租户 ---
+        CORE_HEADERS.add("x-request-id");
+        CORE_HEADERS.add("x-tenant-id");
+        // mock
+        CORE_HEADERS.add("x-mock-application");
+    }
 
     @Override
     public void apply(RequestTemplate template) {
+        if (!properties.isEnabled()) {
+            return;
+        }
+
         final RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        final Collection<String> ignoreHeader = template.headers().get(IGNORE_HEADER);
-        if (requestAttributes != null && properties.isEnabled()) {
+        if (requestAttributes != null) {
             HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-            final Enumeration<?> headerNames = request.getHeaderNames();
-            while (headerNames.hasMoreElements()) {
-                final String headerKey = (String) headerNames.nextElement();
-                final String headerValue = request.getHeader(headerKey);
-                if (isExcluded(headerKey) || ignoreHeader != null && ignoreHeader.contains(headerKey)) {
+            Set<String> finalAllowedHeaders = new HashSet<>(CORE_HEADERS);
+            // 追加 YAML 里配置的 Header (如果有)
+            List<String> configHeaders = properties.getAllowedHeaders();
+            if (configHeaders != null && !configHeaders.isEmpty()) {
+                finalAllowedHeaders.addAll(configHeaders);
+            }
+            for (String headerName : finalAllowedHeaders) {
+                String headerValue = request.getHeader(headerName);
+                // 只有上游传了，才透传。上游没传，不瞎传。
+                if (StrUtil.isBlank(headerValue)) {
                     continue;
                 }
-                template.header(headerKey, headerValue);
+                template.header(headerName, headerValue);
             }
         }
+        // Mock 逻辑
         if (properties.getMock() != null && properties.getMock().isEnabled()) {
-            log.debug("mock interceptor .....");
-            template.header(X_MOCK_APPLICATION, "true");
+            template.header("x-mock-application", "true");
         }
     }
 }

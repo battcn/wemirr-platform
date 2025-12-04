@@ -10,10 +10,10 @@
     <property name="TOTAL_SIZE_CAP" value="5GB"/>
 
     <property name="CONSOLE_LOG_PATTERN"
-              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%-5level) %clr(%X{n-d-trace-id:-N/A}){yellow} %clr(|){faint} %clr(%-15.15t){faint} %clr(|){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%-5level) %clr(%X{x-request-id:-N/A}){yellow} %clr(|){faint} %clr(%-15.15t){faint} %clr(|){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
 
     <property name="FILE_LOG_PATTERN"
-              value="%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5level | %X{n-d-trace-id:-} | ${PID:- } | %-15.15t | %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5level | %X{x-request-id:-} | ${PID:- } | %-15.15t | %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
 
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">

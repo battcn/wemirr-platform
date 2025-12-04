@@ -21,19 +21,21 @@ package com.wemirr.platform.gateway.filter;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import com.wemirr.platform.gateway.configuration.rule.BlacklistHelper;
-import com.wemirr.platform.gateway.configuration.rule.LimitHelper;
-import com.wemirr.platform.gateway.utils.MonoHelper;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.route.Route;
+import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.util.context.Context;
+
+import java.net.InetSocketAddress;
+import java.net.URI;
 
 /**
  * 平台网关策略路由过滤器
@@ -46,45 +48,81 @@ import reactor.util.context.Context;
 @Component
 public class PlatformGatewayStrategyRouteFilter implements GlobalFilter {
 
-    private static final String TRACE_ID_HEADER = "n-d-trace-id";
+    private static final String TRACE_ID_HEADER = "x-request-id";
     private static final long SLOW_REQUEST_THRESHOLD = 1000;
-
-    @Resource
-    private BlacklistHelper blacklistHelper;
-    @Resource
-    private LimitHelper limitHelper;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        // 黑名单校验
-        if (blacklistHelper.valid(exchange)) {
-            return MonoHelper.wrap(exchange, "访问失败,您已进入黑名单");
-        }
-        // 限流校验
-        if (limitHelper.hostTrace(exchange)) {
-            return MonoHelper.wrap(exchange, "访问失败,已达到最大阈值");
-        }
-        // 生成 TraceId (如果没有则生成，有则沿用，保证链路连贯)
+        // 生成 TraceId
         final String traceId = StrUtil.blankToDefault(exchange.getRequest().getHeaders().getFirst(TRACE_ID_HEADER), IdUtil.fastSimpleUUID());
         // 记录开始时间
         long startTime = System.currentTimeMillis();
-        // 构建新的 Request (将 TraceId 放入 Header 传给下游微服务)
+        // 构建新的 Request (传递 TraceId)
         ServerHttpRequest mutatedRequest = exchange.getRequest().mutate().header(TRACE_ID_HEADER, traceId).build();
         ServerWebExchange mutatedExchange = exchange.mutate().request(mutatedRequest).build();
+
         return chain.filter(mutatedExchange)
-                .contextWrite(Context.of(TRACE_ID_HEADER, traceId))
                 .then(Mono.fromRunnable(() -> {
+                    MDC.put(TRACE_ID_HEADER, traceId);
                     long executeTime = System.currentTimeMillis() - startTime;
                     int statusCode = mutatedExchange.getResponse().getStatusCode() != null ? mutatedExchange.getResponse().getStatusCode().value() : 0;
-                    // 获取 Request 信息
+                    // 1. 获取基本请求信息
                     String method = mutatedExchange.getRequest().getMethod().name();
                     String path = mutatedExchange.getRequest().getURI().getPath();
-                    // 这里 log 输出时，MDC 还是空的，需要配合下面的第二步才能生效
-                    if (executeTime >= SLOW_REQUEST_THRESHOLD) {
-                        log.warn("[慢请求] traceId => {},耗时={}ms, 状态码={},方法名={}, 路径={}", traceId, executeTime, statusCode, method, path);
-                    } else {
-                        log.info("[请求] traceId => {},耗时={}ms, 状态码={},方法名={}, 路径={}", traceId, executeTime, statusCode, method, path);
+
+                    // 2. 获取客户端 IP
+                    String clientIp = getClientIp(mutatedExchange.getRequest());
+
+                    // 3. 获取目标服务名 (Gateway 路由匹配后会放入 Attribute 中)
+                    String serviceName = "unknown";
+                    Route route = mutatedExchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
+                    if (route != null) {
+                        // 如果是 lb://iam-service，getHost() 就是 iam-service
+                        serviceName = route.getUri().getHost();
                     }
-                }));
+
+                    // 4. 获取实际转发的具体节点 IP (包含负载均衡后的真实IP和端口)
+                    URI targetUri = mutatedExchange.getAttribute(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR);
+                    String targetNode = "unknown";
+                    if (targetUri != null) {
+                        targetNode = targetUri.getAuthority();
+                    }
+                    // 日志输出
+                    if (executeTime >= SLOW_REQUEST_THRESHOLD) {
+                        log.warn("[慢请求] 服务={}, 节点={}, 客户端IP={}, 耗时={}ms, 状态码={}, 方法={}, 路径={}, traceId={}",
+                                serviceName, targetNode, clientIp, executeTime, statusCode, method, path, traceId);
+                    } else {
+                        log.info("[请求] 服务={}, 节点={}, 客户端IP={}, 耗时={}ms, 状态码={}, 方法={}, 路径={}, traceId={}",
+                                serviceName, targetNode, clientIp, executeTime, statusCode, method, path, traceId);
+                    }
+                }))
+                // 【重要】contextWrite 必须放在最后，才能覆盖上面的 then 逻辑
+                .contextWrite(Context.of(TRACE_ID_HEADER, traceId)).then();
+    }
+
+    /**
+     * 获取客户端 IP 辅助方法
+     */
+    private String getClientIp(ServerHttpRequest request) {
+        // 优先获取 X-Forwarded-For (防止经过 Nginx 后拿不到真实 IP)
+        String ip = request.getHeaders().getFirst("X-Forwarded-For");
+        if (StrUtil.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeaders().getFirst("Proxy-Client-IP");
+        }
+        if (StrUtil.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeaders().getFirst("WL-Proxy-Client-IP");
+        }
+        if (StrUtil.isBlank(ip) || "unknown".equalsIgnoreCase(ip)) {
+            InetSocketAddress remoteAddress = request.getRemoteAddress();
+            if (remoteAddress != null) {
+                ip = remoteAddress.getAddress().getHostAddress();
+            }
+        }
+        // 对于多级代理的情况，第一个 IP 才是真实客户端 IP
+        if (ip != null && ip.contains(",")) {
+            ip = ip.split(",")[0].trim();
+        }
+        return ip;
     }
 }
+

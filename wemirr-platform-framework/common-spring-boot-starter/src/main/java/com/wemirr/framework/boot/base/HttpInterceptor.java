@@ -38,7 +38,7 @@ import java.util.Locale;
 @Slf4j
 public class HttpInterceptor implements HandlerInterceptor {
 
-    private static final String TRACE_ID_HEADER = "n-d-trace-id";
+    private static final String TRACE_ID_HEADER = "x-request-id";
     @Override
     public boolean preHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler) {
         // 从请求头中获取地区信息
