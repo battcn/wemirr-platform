@@ -27,6 +27,8 @@ import cn.dev33.satoken.same.SaSameUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -39,11 +41,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class OAuth2AutoConfiguration implements WebMvcConfigurer {
     @Resource
     private SecurityExtProperties extProperties;
+    @Resource
+    HttpServletRequest request;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 注册 Sa-Token 拦截器，定义详细认证规则
         registry.addInterceptor(new SaInterceptor(handler -> {
+            // 兼容sse关闭请求时的异步回调处理
+            if (request != null && request.getDispatcherType() == DispatcherType.ASYNC) {
+                return;
+            }
             // 拦截的 path 列表，可以写多个 /**
             SaRouter.match("/**")
                     .notMatch(extProperties.getDefaultIgnoreUrls())
