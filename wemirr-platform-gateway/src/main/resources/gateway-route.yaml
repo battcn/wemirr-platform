@@ -103,6 +103,13 @@ spring:
               filters:
                 - StripPrefix=1
                 - PreserveHostHeader
+            - id: wemirr-platform-ai
+              uri: lb://wemirr-platform-ai
+              predicates:
+                - Path=/ai/**
+              filters:
+                - StripPrefix=1
+                - PreserveHostHeader
           loadbalancer:
             use404: true
           httpclient:
