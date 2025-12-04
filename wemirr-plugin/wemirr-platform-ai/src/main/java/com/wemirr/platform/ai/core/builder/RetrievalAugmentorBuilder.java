@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.core.builder;
 
 import dev.langchain4j.data.segment.TextSegment;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.rag.DefaultRetrievalAugmentor;
 import dev.langchain4j.rag.RetrievalAugmentor;
@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
 @Slf4j
 public class RetrievalAugmentorBuilder {
 
-    private ChatLanguageModel chatModel;
+    private ChatModel chatModel;
     private EmbeddingModel embeddingModel;
     private EmbeddingStore<TextSegment> embeddingStore;
 
@@ -61,7 +61,7 @@ public class RetrievalAugmentorBuilder {
 
     // === 配置方法（链式调用）===
 
-    public RetrievalAugmentorBuilder chatModel(ChatLanguageModel chatModel) {
+    public RetrievalAugmentorBuilder chatModel(ChatModel chatModel) {
         this.chatModel = chatModel;
         return this;
     }
@@ -167,7 +167,7 @@ public class RetrievalAugmentorBuilder {
 
         // Query Router
         QueryRouter queryRouter = LanguageModelQueryRouter.builder()
-                .chatLanguageModel(chatModel)
+                .chatModel(chatModel)
                 .retrieverToDescription(retrieverToDescription)
                 .build();
 

@@ -1,9 +1,9 @@
 package com.wemirr.platform.ai.core.provider.text;
 
+import com.alibaba.dashscope.tokenizers.Tokenization;
 import com.wemirr.platform.ai.domain.entity.ModelConfig;
-import dev.langchain4j.model.Tokenizer;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.chat.StreamingChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
 
 /**
  * @author xJh
@@ -19,17 +19,16 @@ public interface TextModelProvider {
     /**
      * 创建同步聊天模型
      */
-    ChatLanguageModel createModel(ModelConfig config);
+    ChatModel createModel(ModelConfig config);
 
     /**
      * 创建流式聊天模型
      */
-    StreamingChatLanguageModel createStreamModel(ModelConfig config);
+    StreamingChatModel createStreamModel(ModelConfig config);
 
     /**
-     * 创建 Tokenizer
+     * TODO Tokenizer
      */
-    Tokenizer createTokenizer(ModelConfig config);
 
     /**
      * 获取提供商标识（使用枚举 code）

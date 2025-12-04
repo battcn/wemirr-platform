@@ -12,8 +12,8 @@ import com.wemirr.platform.ai.service.KnowledgeBaseService;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.ChatMemoryProvider;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.chat.StreamingChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.rag.DefaultRetrievalAugmentor;
 import dev.langchain4j.rag.RetrievalAugmentor;
@@ -78,12 +78,12 @@ public class AssistantService {
      */
     public ChatAssistant createMemoryAssistant(ModelConfig modelConfig) {
 
-        ChatLanguageModel chatModel = textModelService.model(modelConfig);
-        StreamingChatLanguageModel streamModel = textModelService.streamModel(modelConfig);
+        ChatModel chatModel = textModelService.model(modelConfig);
+        StreamingChatModel streamModel = textModelService.streamModel(modelConfig);
 
         return AiServices.builder(ChatAssistant.class)
-                .chatLanguageModel(chatModel)
-                 .streamingChatLanguageModel(streamModel)
+                .chatModel(chatModel)
+                 .streamingChatModel(streamModel)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(DEFAULT_MAX_MESSAGES))
                 .chatMemoryProvider(createMemoryProvider())
                 .build();
@@ -98,8 +98,8 @@ public class AssistantService {
     public ChatAssistant createMemoryRagAssistant(Long kbId,ModelConfig textModelConfig,ModelConfig embeddingModelConfig) {
         KnowledgeBase knowledgeBase = knowledgeBaseService.getById(kbId);
         EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, embeddingModelConfig);
-        ChatLanguageModel chatModel = textModelService.model(textModelConfig);
-        StreamingChatLanguageModel streamModel = textModelService.streamModel(textModelConfig);
+        ChatModel chatModel = textModelService.model(textModelConfig);
+        StreamingChatModel streamModel = textModelService.streamModel(textModelConfig);
         EmbeddingModel embeddingModel = embeddingModelProviderRegistry.getProvider(embeddingModelConfig).createModel(embeddingModelConfig);
 
 
@@ -160,8 +160,8 @@ public class AssistantService {
                 .build();
 
         return AiServices.builder(ChatAssistant.class)
-                .chatLanguageModel(chatModel)
-                .streamingChatLanguageModel(streamModel)
+                .chatModel(chatModel)
+                .streamingChatModel(streamModel)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(DEFAULT_MAX_MESSAGES))
                 .chatMemoryProvider(createMemoryProvider())
                 .retrievalAugmentor(retrievalAugmentor)
@@ -174,8 +174,8 @@ public class AssistantService {
     public ChatAssistant createMemoryRagAssistant(RagAssistantParams params) {
         KnowledgeBase knowledgeBase = knowledgeBaseService.getById(params.getKbId());
         EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, params.getEmbeddingModelConfig());
-        ChatLanguageModel chatModel = textModelService.model(params.getTextModelConfig());
-        StreamingChatLanguageModel streamModel = textModelService.streamModel(params.getTextModelConfig());
+        ChatModel chatModel = textModelService.model(params.getTextModelConfig());
+        StreamingChatModel streamModel = textModelService.streamModel(params.getTextModelConfig());
         EmbeddingModel embeddingModel = embeddingModelProviderRegistry.getProvider(params.getEmbeddingModelConfig()).createModel(params.getEmbeddingModelConfig());
 
         //元数据过滤
@@ -220,8 +220,8 @@ public class AssistantService {
 
         int maxMessages = params.getMaxMessages() != null ? params.getMaxMessages() : DEFAULT_MAX_MESSAGES;
         return AiServices.builder(ChatAssistant.class)
-                .chatLanguageModel(chatModel)
-                .streamingChatLanguageModel(streamModel)
+                .chatModel(chatModel)
+                .streamingChatModel(streamModel)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(maxMessages))
                 .chatMemoryProvider(createMemoryProvider())
                 .retrievalAugmentor(retrievalAugmentor)
@@ -240,7 +240,7 @@ public class AssistantService {
                 .build();
     }
 
-    public RetrievalAugmentor buildAdvancedRetrievalAugmentor(ChatLanguageModel chatModel,EmbeddingStore embeddingStore,EmbeddingModel embeddingModel) {
+    public RetrievalAugmentor buildAdvancedRetrievalAugmentor(ChatModel chatModel,EmbeddingStore embeddingStore,EmbeddingModel embeddingModel) {
         // Query 转换器。也可以什么换用 ExpandingQueryTransformer 进行 Query 扩展
         QueryTransformer queryTransformer = new CompressingQueryTransformer(chatModel);
         // web 搜索引擎，此处选择的是 tavily 搜索引擎
@@ -259,7 +259,7 @@ public class AssistantService {
                 .build();
         //  Query 路由，让大模型决定选择哪一个检索器或者哪几个检索器。retrieverToDescription 属性的 key 为检索器，value 为检索器的描述
         QueryRouter queryRouter = LanguageModelQueryRouter.builder()
-                .chatLanguageModel(chatModel)
+                .chatModel(chatModel)
                 .retrieverToDescription(Map.of(
                         webSearchContentRetriever, "Web Search",
                         embeddingStoreContentRetriever, "Embedding Database"

@@ -1,9 +1,8 @@
 package com.wemirr.platform.ai.core.provider.text;
 
 import com.wemirr.platform.ai.domain.entity.ModelConfig;
-import dev.langchain4j.model.Tokenizer;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.chat.StreamingChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,16 +20,12 @@ public class TextModelService {
         this.registry = registry;
     }
 
-    public ChatLanguageModel model(ModelConfig config) {
+    public ChatModel model(ModelConfig config) {
         return cache.getModel(config);
     }
 
-    public StreamingChatLanguageModel streamModel(ModelConfig config) {
+    public StreamingChatModel streamModel(ModelConfig config) {
         return cache.getStreamModel(config);
-    }
-
-    public Tokenizer tokenizer(ModelConfig config) {
-        return cache.getTokenizer(config);
     }
 
     public TextModelProvider getProvider(ModelConfig config) {
