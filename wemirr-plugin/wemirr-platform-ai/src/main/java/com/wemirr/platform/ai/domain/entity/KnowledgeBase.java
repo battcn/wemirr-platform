@@ -57,7 +57,7 @@ public class KnowledgeBase extends SuperEntity<Long> {
     @Schema(description = "聊天模型ID")
     private Long chatModelId;
 
-    @Schema(description = "向量模型ID")
+    @Schema(description = "向量模型ID,一旦选定默认不允许修改")
     private Long embeddingModelId;
 
     @Schema(description = "版本号")

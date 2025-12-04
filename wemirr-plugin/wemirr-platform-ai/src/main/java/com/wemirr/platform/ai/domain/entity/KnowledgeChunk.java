@@ -66,12 +66,6 @@ public class KnowledgeChunk extends SuperEntity<Long> {
     private String vectorRef;
     
     /**
-     * 向量维度
-     */
-    @TableField("dimension")
-    private Integer dimension;
-    
-    /**
      * 分片序号
      * 对于文档分片，表示在原文中的顺序
      */
@@ -89,12 +83,7 @@ public class KnowledgeChunk extends SuperEntity<Long> {
      */
     @TableField("end_position")
     private Integer endPosition;
-    
-    /**
-     * Token数量
-     */
-    @TableField("token_count")
-    private Integer tokenCount;
+
     
     /**
      * 分片元数据

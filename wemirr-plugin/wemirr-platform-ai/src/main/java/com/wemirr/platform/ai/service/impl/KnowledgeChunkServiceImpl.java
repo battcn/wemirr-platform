@@ -66,7 +66,6 @@ public class KnowledgeChunkServiceImpl extends SuperServiceImpl<KnowledgeChunkMa
                 .chunkType(chunkType)
                 .content(text)
                 .contentHash(contentHash)
-             //   .dimension(768) // TODO 按配置修改
                 .metadata(metadata)
                 .deleted(false)
                 .build();
@@ -98,9 +97,7 @@ public class KnowledgeChunkServiceImpl extends SuperServiceImpl<KnowledgeChunkMa
                         .chunkType(chunkType)
                         .content(text)
                         .contentHash(contentHash)
-                       // .dimension(768) //todo 假设向量维度为768
                         .chunkIndex(i)
-                        .tokenCount(documentProcessor.countTokens(text))
                         .metadata(metadata)
                         .deleted(false)
                         .build();
