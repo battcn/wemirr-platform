@@ -19,7 +19,6 @@
 
 package com.wemirr.framework.robot.message.push;
 
-import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.robot.emums.NotifyType;
 

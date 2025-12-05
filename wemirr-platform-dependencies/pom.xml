@@ -27,9 +27,9 @@
         <spring-ai.version>1.1.0</spring-ai.version>
         <!-- Spring Boot 相关 版本-->
         <spring-boot-admin.version>3.5.6</spring-boot-admin.version>
-        <spring-boot.version>3.5.7</spring-boot.version>
-        <spring-cloud.version>2025.0.0</spring-cloud.version>
-        <spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
+        <spring-boot.version>4.0.0</spring-boot.version>
+        <spring-cloud.version>2025.1.0</spring-cloud.version>
+        <spring-cloud-alibaba.version>2025.1.0.0-SNAPSHOT</spring-cloud-alibaba.version>
         <!-- DB 相关 -->
         <mybatis-plus.version>3.5.15</mybatis-plus.version>
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
@@ -258,7 +258,7 @@
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
                 <artifactId>diff-log-spring-boot-starter</artifactId>
-                <version>${wemirr-framework.version}</version>
+                <version>${wemirr-platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
@@ -379,8 +379,18 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
+        <!-- https://gitlab.xuxiaowei.com.cn/xuxiaowei-com-cn/spring-cloud-alibaba/-/packages -->
+        <repository>
+            <id>xuxiaowei-spring-cloud-alibaba-gitlab-maven</id>
+            <url>https://gitlab.xuxiaowei.com.cn/api/v4/projects/430/packages/maven</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
     </repositories>
-
 
 
     <!-- 资源文件拷贝插件 -->

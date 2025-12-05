@@ -22,7 +22,7 @@ package com.wemirr.platform.iam.auth.listener;
 import com.wemirr.framework.redis.plus.listener.AbstractMessageEventListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.Topic;
 
@@ -40,9 +40,9 @@ import java.util.Objects;
 @Deprecated
 @RequiredArgsConstructor
 public class WpTokenRedisQueueListener implements AbstractMessageEventListener<String> {
-    
-    private final RedisProperties properties;
-    
+
+    private final DataRedisProperties properties;
+
     @Override
     public void handleMessage(String message) {
         if (Objects.isNull(message)) {
@@ -51,13 +51,12 @@ public class WpTokenRedisQueueListener implements AbstractMessageEventListener<S
         }
         log.info("receiver wp-token redis message: - {}", message);
     }
-    
+
     @Override
     public Topic topic() {
-        int database = properties.getDatabase();
-        return new PatternTopic("__keyevent@" + database + "__:expired");
+        return new PatternTopic("__keyevent@" + properties.getDatabase() + "__:expired");
     }
-    
+
     @Override
     public Type type() {
         return String.class;

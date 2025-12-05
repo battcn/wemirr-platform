@@ -3,26 +3,18 @@ package com.wemirr.framework.boot.remote.configuration;
 import com.wemirr.framework.boot.remote.exception.RemoteAloneRedisException;
 import com.wemirr.framework.boot.remote.properties.RemoteProperties;
 import com.wemirr.framework.redis.plus.RedisPlusAutoConfiguration;
-import io.lettuce.core.api.StatefulConnection;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.connection.*;
-import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.support.collections.RedisProperties;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author YanCh

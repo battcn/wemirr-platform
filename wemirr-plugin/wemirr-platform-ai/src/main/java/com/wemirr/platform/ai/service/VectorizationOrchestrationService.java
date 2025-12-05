@@ -3,7 +3,6 @@ package com.wemirr.platform.ai.service;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemStatus;
 import com.wemirr.platform.ai.core.processor.VectorizationProcessor;
 import com.wemirr.platform.ai.core.provider.vectorStore.EnhancedVectorStoreFactory;
-import com.wemirr.platform.ai.domain.entity.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -21,7 +21,6 @@ package com.wemirr.platform.gateway.configuration;
 
 import com.wemirr.platform.gateway.configuration.rule.BlacklistHelper;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.server.autoconfigure.ServerProperties;
