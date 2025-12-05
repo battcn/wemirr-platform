@@ -41,7 +41,7 @@ public List<User> exportList() {
 
 ``` java
 @SneakyThrows
-@IgnoreAuthorize
+@IgnoreFeignAuthorize
 @PostMapping("/import1")
 @Operation(summary = "普通导入 - 1")
 public ValidateAnalysisEventListener<?> import1(@RequestParam MultipartFile file) {
@@ -54,7 +54,7 @@ public ValidateAnalysisEventListener<?> import1(@RequestParam MultipartFile file
 **注解导入，省时省力，缺点就是不能根据条件动态去设置文件和Sheet**
 
 ``` java
-@IgnoreAuthorize
+@IgnoreFeignAuthorize
 @PostMapping("/import2")
 @Operation(summary = "普通导入 - 2")
 @Parameter(name = "file")

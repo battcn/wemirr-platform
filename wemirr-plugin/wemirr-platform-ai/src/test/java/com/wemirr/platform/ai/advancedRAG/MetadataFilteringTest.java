@@ -11,7 +11,7 @@ import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
@@ -59,7 +59,7 @@ class MetadataFilteringTest {
 
     private EmbeddingStore<TextSegment> embeddingStore;
     private EmbeddingModel embeddingModel;
-    private ChatLanguageModel chatModel;
+    private ChatModel chatModel;
 
     @BeforeEach
     void setUp() {
@@ -129,7 +129,7 @@ class MetadataFilteringTest {
                 .build();
 
         Assistant assistant = AiServices.builder(Assistant.class)
-                .chatLanguageModel(chatModel)
+                .chatModel(chatModel)
                 .contentRetriever(contentRetriever)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
@@ -179,7 +179,7 @@ class MetadataFilteringTest {
                 .build();
 
         PersonalizedAssistant personalizedAssistant = AiServices.builder(PersonalizedAssistant.class)
-                .chatLanguageModel(chatModel)
+                .chatModel(chatModel)
                 .contentRetriever(contentRetriever)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();

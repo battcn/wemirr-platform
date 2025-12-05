@@ -22,7 +22,7 @@ package com.wemirr.framework.security.configuration;
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
+import com.wemirr.framework.security.configuration.client.annotation.IgnoreFeignAuthorize;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +53,7 @@ public class SecurityInnerServiceAspect implements Ordered {
     private final SecurityExtProperties properties;
     
     @Around("@annotation(authorize)")
-    public Object around(ProceedingJoinPoint point, IgnoreAuthorize authorize) throws Throwable {
+    public Object around(ProceedingJoinPoint point, IgnoreFeignAuthorize authorize) throws Throwable {
         if (authorize.global()) {
             return point.proceed();
         }

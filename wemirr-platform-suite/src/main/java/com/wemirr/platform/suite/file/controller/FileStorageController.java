@@ -56,7 +56,7 @@ public class FileStorageController {
         // return Result.ok(storageOperation.token(key, random));
     }
 
-    // @IgnoreAuthorize
+    // @IgnoreFeignAuthorize
     // @Parameters({@Parameter(name = "id", description = "文件ID", in = ParameterIn.PATH),})
     // @GetMapping("/{id}/download")
     // @Operation(summary = "文件下载 - [Levin] - [DONE]")
@@ -76,7 +76,7 @@ public class FileStorageController {
     // }
     // }
     //
-    // @IgnoreAuthorize
+    // @IgnoreFeignAuthorize
     // @Parameters({@Parameter(name = "id", description = "文件KEY", in = ParameterIn.PATH),})
     // @GetMapping("/{id}/preview")
     // @Operation(summary = "文件预览 - [Levin] - [DONE]")

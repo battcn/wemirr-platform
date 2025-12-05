@@ -14,7 +14,7 @@
     <description>wemirr-platform-ai AI应用模块</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <langchain4j.version>1.9.1</langchain4j.version>
         <langchain4j.community.version>1.9.1-beta17</langchain4j.community.version>
         <langgraph4j.version>1.6.0-beta3</langgraph4j.version>
@@ -37,7 +37,6 @@
     <dependency>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-suite-api</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>

@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.controller;
 
-import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
+import com.wemirr.framework.security.configuration.client.annotation.IgnoreFeignAuthorize;
 import com.wemirr.platform.ai.core.sse.SseChatHelper;
 import com.wemirr.platform.ai.domain.dto.req.AskReq;
 import com.wemirr.platform.ai.service.ChatService;
@@ -30,7 +30,7 @@ public class ChatController {
     /**
      * 流式对话记忆
      */
-    @IgnoreAuthorize
+    @IgnoreFeignAuthorize
     @PostMapping(value = "/chat/stream", produces = "text/event-stream")
     @Operation(summary = "流式对话记忆")
     public SseEmitter chatTestStream(@RequestBody AskReq askReq) {

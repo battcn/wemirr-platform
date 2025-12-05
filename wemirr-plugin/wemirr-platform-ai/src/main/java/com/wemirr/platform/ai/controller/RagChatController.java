@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.controller;
 
-import com.wemirr.framework.security.configuration.client.annotation.IgnoreAuthorize;
+import com.wemirr.framework.security.configuration.client.annotation.IgnoreFeignAuthorize;
 import com.wemirr.platform.ai.core.enums.ConversationType;
 import com.wemirr.platform.ai.domain.dto.req.AskReq;
 import com.wemirr.platform.ai.service.ChatService;
@@ -34,7 +34,7 @@ public class RagChatController {
      * RAG流式对话
      * 基于知识库进行检索增强生成
      */
-    @IgnoreAuthorize
+    @IgnoreFeignAuthorize
     @PostMapping(value = "/chat/stream", produces = "text/event-stream")
     @Operation(summary = "RAG流式对话", description = "基于知识库的检索增强生成对话")
     public SseEmitter ragChatStream(@RequestBody AskReq askReq) {

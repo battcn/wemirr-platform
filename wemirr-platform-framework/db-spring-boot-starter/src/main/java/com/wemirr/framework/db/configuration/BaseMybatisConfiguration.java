@@ -125,10 +125,6 @@ public abstract class BaseMybatisConfiguration {
             // 防止全表更新与删除插件: BlockAttackInnerInterceptor
             interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
         }
-        if (intercept.isIllegalSql()) {
-            // SQL性能规范插件，限制比较多，慎用哦
-            interceptor.addInnerInterceptor(new IllegalSQLInnerInterceptor());
-        }
         if (properties.getAudit().isEnabled()) {
             interceptor.addInnerInterceptor(new AuditInterceptor(properties.getAudit()));
         }

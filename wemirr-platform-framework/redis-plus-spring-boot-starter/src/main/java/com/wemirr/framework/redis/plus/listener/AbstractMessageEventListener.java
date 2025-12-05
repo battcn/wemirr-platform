@@ -21,6 +21,8 @@ package com.wemirr.framework.redis.plus.listener;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -31,6 +33,8 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  * @author Levin
  */
 public interface AbstractMessageEventListener<T> extends MessageEventListener {
+
+    Logger LOGGER = LoggerFactory.getLogger(AbstractMessageEventListener.class);
 
     /**
      * 公共消息处理
@@ -50,8 +54,12 @@ public interface AbstractMessageEventListener<T> extends MessageEventListener {
             String body = stringSerializer.deserialize(bodyBytes);
             try {
                 handleMessage(JSON.parseObject(body, type()));
-            } catch (Exception ex) {
-                handleMessage((T) body);
+            } catch (Exception e) {
+                try {
+                    handleMessage((T) body);
+                } catch (Exception ex) {
+                    LOGGER.error("类型转换异常 => {}", ex.getLocalizedMessage());
+                }
             }
         }
     }
