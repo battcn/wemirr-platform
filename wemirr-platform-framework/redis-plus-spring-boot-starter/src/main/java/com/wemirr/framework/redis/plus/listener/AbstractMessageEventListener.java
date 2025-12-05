@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.redis.plus.listener;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import org.slf4j.Logger;
@@ -43,23 +44,25 @@ public interface AbstractMessageEventListener<T> extends MessageEventListener {
      * @param pattern pattern matching the channel (if specified) - can be {@literal null}.
      */
     @Override
+    @SuppressWarnings("unchecked")
     default void onMessage(Message message, byte[] pattern) {
         byte[] channelBytes = message.getChannel();
         final StringRedisTemplate template = SpringUtil.getBean(StringRedisTemplate.class);
         final RedisSerializer<String> stringSerializer = template.getStringSerializer();
         String channelTopic = stringSerializer.deserialize(channelBytes);
         String topic = topic().getTopic();
-        if (topic.equals(channelTopic)) {
-            byte[] bodyBytes = message.getBody();
-            String body = stringSerializer.deserialize(bodyBytes);
-            try {
-                handleMessage(JSON.parseObject(body, type()));
-            } catch (Exception e) {
-                try {
-                    handleMessage((T) body);
-                } catch (Exception ex) {
-                    LOGGER.error("类型转换异常 => {}", ex.getLocalizedMessage());
-                }
+        if (!StrUtil.equals(topic, channelTopic)) {
+            return;
+        }
+        byte[] bodyBytes = message.getBody();
+        String body = stringSerializer.deserialize(bodyBytes);
+        try {
+            handleMessage(JSON.parseObject(body, type()));
+        } catch (Exception e) {
+            if (type().equals(String.class)) {
+                handleMessage((T) body);
+            } else {
+                LOGGER.error("Redis 消息格式错误！无法转换为类型: {}。原有消息内容: {}", type().getTypeName(), body);
             }
         }
     }
