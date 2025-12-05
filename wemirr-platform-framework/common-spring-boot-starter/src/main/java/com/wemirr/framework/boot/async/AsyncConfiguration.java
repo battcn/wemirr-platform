@@ -41,10 +41,10 @@ import java.util.concurrent.Executors;
  *
  * @author Levin
  */
-@Configuration
 @EnableAsync
-@EnableConfigurationProperties(AsyncProperties.class)
+@Configuration
 @RequiredArgsConstructor
+@EnableConfigurationProperties(AsyncProperties.class)
 public class AsyncConfiguration implements AsyncConfigurer {
 
     private final AsyncProperties properties;
@@ -64,26 +64,17 @@ public class AsyncConfiguration implements AsyncConfigurer {
     }
 
 
-    @Bean("virtualThreadPerTaskExecutor")
-    public ExecutorService virtualThreadPerTaskExecutor() {
-        return Executors.newVirtualThreadPerTaskExecutor();
-    }
-
     @Bean
-    public VirtualThreadService virtualThreadUtils(
-            @Qualifier("virtualThreadPerTaskExecutor")
-            ExecutorService virtualThreadPerTaskExecutor
-    ) {
-        return new VirtualThreadService(virtualThreadPerTaskExecutor);
+    public VirtualThreadService virtualThreadUtils() {
+        return new VirtualThreadService();
     }
 
     /**
      * 异步线程池的时候 request 上下文复制
      */
     private static class RequestAttributesTaskDecorator implements TaskDecorator {
-
-        @Override
         @Nonnull
+        @Override
         public Runnable decorate(@Nonnull Runnable runnable) {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             return () -> {
