@@ -35,13 +35,13 @@
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
         <mysql.version>9.1.0</mysql.version>
         <redisson.version>3.52.0</redisson.version>
-        <!-- 文件存储 -->
+        <!-- 文件存储:spring7后替换成 rustfs -->
         <minio.version>8.5.11</minio.version>
         <aliyun-sdk-oss.version>3.18.3</aliyun-sdk-oss.version>
         <qiniu-java-sdk.version>7.19.0</qiniu-java-sdk.version>
         <cos_api.version>5.6.191</cos_api.version>
         <x-file-storage-spring.version>2.3.0</x-file-storage-spring.version>
-        <aws-java-sdk-s3.version>2.39.0</aws-java-sdk-s3.version>
+        <aws-java-sdk-s3.version>1.12.429</aws-java-sdk-s3.version>
         <!-- 工具包 -->
         <guava.version>33.5.0-jre</guava.version>
         <hutool.version>5.8.42</hutool.version>
@@ -153,8 +153,8 @@
                 <version>${x-file-storage-spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>software.amazon.awssdk</groupId>
-                <artifactId>s3</artifactId>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-s3</artifactId>
                 <version>${aws-java-sdk-s3.version}</version>
             </dependency>
             <dependency>
@@ -184,7 +184,22 @@
             </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
+                <artifactId>hutool-core</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-extra</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-db</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-http</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
             <!-- spring-boot-admin -->

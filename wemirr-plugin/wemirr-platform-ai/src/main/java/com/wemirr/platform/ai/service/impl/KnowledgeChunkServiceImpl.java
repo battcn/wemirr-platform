@@ -2,7 +2,7 @@ package com.wemirr.platform.ai.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.digest.DigestUtil;
+import com.wemirr.framework.commons.util.DigestUtil;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.platform.ai.core.enums.ChunkType;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemType;

@@ -19,8 +19,8 @@
 
 package com.wemirr.framework.robot.message.push;
 
-import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.robot.emums.NotifyType;
 
 import java.util.Map;
@@ -61,7 +61,8 @@ public interface RobotMessageHandler {
     NotifyType notifyType();
 
     default String request(Map<String, Object> body) {
-        return HttpUtil.post(this.getUrl(), JSON.toJSONString(body));
+//        return HttpUtil.post(this.getUrl(), JSON.toJSONString(body));
+        throw CheckedException.notFound("重构");
     }
 
 }

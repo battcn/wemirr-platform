@@ -32,12 +32,20 @@ import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;
 import com.wemirr.platform.suite.file.repository.FileStorageSettingMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.x.file.storage.core.FileStorageProperties;
+import org.dromara.x.file.storage.core.FileStorageService;
+import org.dromara.x.file.storage.core.FileStorageServiceBuilder;
+import org.dromara.x.file.storage.core.platform.FileStorage;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import static com.wemirr.platform.suite.file.domain.constants.StorageConstants.STORAGE_SETTING_DEFAULT_SETTING;
 
 /**
  * @author xiao1
@@ -51,6 +59,7 @@ public class StorageSettingTemplate implements ApplicationRunner {
     private final AuthenticationContext context;
     private final FileStorageSettingMapper fileStorageSettingMapper;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final FileStorageService fileStorageService;
 
     @Override
     public void run(ApplicationArguments args) {
@@ -62,6 +71,23 @@ public class StorageSettingTemplate implements ApplicationRunner {
         for (FileStorageSetting setting : storageSettingList) {
             publish(setting, 1);
         }
+        CopyOnWriteArrayList<FileStorage> fileStorageList = fileStorageService.getFileStorageList();
+        List<FileStorageProperties.AmazonS3Config> amazonS3ConfigList = new ArrayList<>();
+        for (FileStorageSetting setting : storageSettingList) {
+            FileStorageProperties.AmazonS3Config s3Config = new FileStorageProperties.AmazonS3Config();
+            String platform = setting.getPlatform();
+            s3Config.setPlatform(platform);
+            s3Config.setAccessKey(setting.getAccessKey());
+            s3Config.setSecretKey(setting.getSecretKey());
+            s3Config.setRegion(setting.getRegion());
+            s3Config.setEndPoint(setting.getEndPoint());
+            s3Config.setBucketName(setting.getBucketName());
+            s3Config.setDomain(setting.getDomain());
+            s3Config.setBasePath(setting.getBasePath());
+            amazonS3ConfigList.add(s3Config);
+            redisTemplate.opsForHash().put(STORAGE_SETTING_DEFAULT_SETTING, setting.getTenantId().toString(), JSON.toJSONString(setting));
+        }
+        fileStorageList.addAll(FileStorageServiceBuilder.buildAmazonS3FileStorage(amazonS3ConfigList, null));
         log.info("==================== 存储设置初始化-End ====================");
     }
 

@@ -38,6 +38,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.*;
 import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.cloud.openfeign.loadbalancer.LoadBalancerFeignRequestTransformer;
@@ -142,10 +143,10 @@ public class FeignPluginConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = AutoRefreshTokenProperties.TOKEN_PREFIX, name = "enabled", havingValue = "true")
-    public AutoRefreshTokenInterceptor feignTokenInterceptor(AutoRefreshTokenProperties properties) {
+    public AutoRefreshTokenInterceptor feignTokenInterceptor(DiscoveryClient discoveryClient, AutoRefreshTokenProperties properties) {
         final AutoRefreshTokenProperties.Cache cache = properties.getCache();
         Cache<String, String> tokenCache = CacheBuilder.newBuilder().initialCapacity(cache.getInitialCapacity())
                 .maximumSize(cache.getMaximumSize()).expireAfterWrite(cache.getExpire(), TimeUnit.SECONDS).build();
-        return new AutoRefreshTokenInterceptor(properties, tokenCache);
+        return new AutoRefreshTokenInterceptor(discoveryClient, properties, tokenCache);
     }
 }

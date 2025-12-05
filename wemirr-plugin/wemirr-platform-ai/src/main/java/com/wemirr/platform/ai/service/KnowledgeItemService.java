@@ -5,6 +5,7 @@ import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemType;
 import com.wemirr.platform.ai.domain.dto.rep.KnowledgeItemResp;
 import com.wemirr.platform.ai.domain.dto.rep.PreviewChunkResp;
+import com.wemirr.platform.ai.domain.dto.req.DocumentSaveReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemPageReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemSaveReq;
 import com.wemirr.platform.ai.domain.entity.KnowledgeItem;
@@ -129,7 +130,7 @@ public interface KnowledgeItemService extends SuperService<KnowledgeItem> {
     /**
      * 直接创建/更新/上传文档型 KnowledgeItem
      */
-    Long createDocument(Long kbId, String title, String content, String contentType, String filePath, Long fileSize, Map<String, Object> metadata);
+    Long createDocument(DocumentSaveReq req);
 
     void updateDocument(Long id, String title, String content, String contentType, String filePath, Long fileSize, Map<String, Object> metadata);
 

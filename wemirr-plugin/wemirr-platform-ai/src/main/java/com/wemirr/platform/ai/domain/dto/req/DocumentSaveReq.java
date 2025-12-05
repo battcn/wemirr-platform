@@ -2,6 +2,7 @@ package com.wemirr.platform.ai.domain.dto.req;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Map;
  * @since 2025/10/20
  **/
 @Data
+@Builder
 @Schema(description = "文档保存请求")
 public class DocumentSaveReq {
 

@@ -20,10 +20,7 @@
 package com.wemirr.framework.feign.plugin.token;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
-import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.JSONPath;
 import com.google.common.cache.Cache;
 import com.wemirr.framework.commons.exception.CheckedException;
 import feign.RequestInterceptor;
@@ -45,6 +42,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AutoRefreshTokenInterceptor implements RequestInterceptor {
 
+    private final DiscoveryClient discoveryClient;
     private final AutoRefreshTokenProperties properties;
     private final Cache<String, String> tokenCache;
 
@@ -77,20 +75,19 @@ public class AutoRefreshTokenInterceptor implements RequestInterceptor {
         String url = properties.getUri();
         if (properties.isLoadBalance()) {
             // 没找到好方案,只能用这种笨办法了
-            final DiscoveryClient client = SpringUtil.getBean(DiscoveryClient.class);
             final URI uri = new URI(properties.getUri());
             final String serviceId = uri.getHost();
-            final ServiceInstance instance = client.getInstances(serviceId).get(0);
+            final ServiceInstance instance = discoveryClient.getInstances(serviceId).getFirst();
             final String hostAndPort = instance.getHost() + ":" + instance.getPort();
             url = StrUtil.replace(url, serviceId, hostAndPort);
         }
-        final String response = HttpUtil.createPost(url).body(params.toJSONString())
-                .basicAuth(auth.getClientId(), auth.getClientSecret()).execute().body();
-        log.info("自动获取Token响应结果 - {}", response);
-        final String accessToken = (String) JSONPath.eval(response, "data.accessToken");
-        if (StrUtil.isBlank(accessToken)) {
-            throw CheckedException.badRequest("未获取到有效的 Token 数据");
-        }
-        return "Bearer " + accessToken;
+        throw CheckedException.badRequest("需要重构");
+//        final String response = HttpUtil.createPost(url).body(params.toJSONString()).basicAuth(auth.getClientId(), auth.getClientSecret()).execute().body();
+//        log.info("自动获取Token响应结果 - {}", response);
+//        final String accessToken = (String) JSONPath.eval(response, "data.accessToken");
+//        if (StrUtil.isBlank(accessToken)) {
+//            throw CheckedException.badRequest("未获取到有效的 Token 数据");
+//        }
+//        return "Bearer " + accessToken;
     }
 }

@@ -21,7 +21,9 @@ package com.wemirr.framework.boot.async;
 
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskDecorator;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
@@ -31,16 +33,18 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 异步线程支持
  *
  * @author Levin
  */
-@Configuration
 @EnableAsync
-@EnableConfigurationProperties(AsyncProperties.class)
+@Configuration
 @RequiredArgsConstructor
+@EnableConfigurationProperties(AsyncProperties.class)
 public class AsyncConfiguration implements AsyncConfigurer {
 
     private final AsyncProperties properties;
@@ -59,13 +63,18 @@ public class AsyncConfiguration implements AsyncConfigurer {
         return executor;
     }
 
+
+    @Bean
+    public VirtualThreadService virtualThreadUtils() {
+        return new VirtualThreadService();
+    }
+
     /**
      * 异步线程池的时候 request 上下文复制
      */
     private static class RequestAttributesTaskDecorator implements TaskDecorator {
-
-        @Override
         @Nonnull
+        @Override
         public Runnable decorate(@Nonnull Runnable runnable) {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             return () -> {

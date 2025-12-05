@@ -2,6 +2,7 @@ package com.wemirr.platform.ai.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.io.FileUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
@@ -11,6 +12,7 @@ import com.wemirr.platform.ai.core.enums.KnowledgeItemType;
 import com.wemirr.platform.ai.core.processor.DocumentProcessor;
 import com.wemirr.platform.ai.domain.dto.rep.KnowledgeItemResp;
 import com.wemirr.platform.ai.domain.dto.rep.PreviewChunkResp;
+import com.wemirr.platform.ai.domain.dto.req.DocumentSaveReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemPageReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemSaveReq;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
@@ -21,10 +23,13 @@ import com.wemirr.platform.ai.repository.KnowledgeItemMapper;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
 import com.wemirr.platform.ai.service.KnowledgeChunkService;
 import com.wemirr.platform.ai.service.KnowledgeItemService;
+import com.wemirr.platform.suite.feign.FileStorageService;
+import com.wemirr.platform.suite.feign.domain.resp.FileStorageRep;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,9 +48,14 @@ import java.util.stream.Collectors;
 public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapper, KnowledgeItem> implements KnowledgeItemService {
 
     private final KnowledgeChunkMapper knowledgeChunkMapper;
+
     private final KnowledgeChunkService knowledgeChunkService;
+
     private final DocumentProcessor documentProcessor;
+
     private final KnowledgeBaseService knowledgeBaseService;
+
+    private final FileStorageService fileStorageService;
 
     @Override
     public IPage<KnowledgeItemResp> pageList(KnowledgeItemPageReq req) {
@@ -270,25 +280,25 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long createDocument(Long kbId, String title, String content, String contentType, String filePath, Long fileSize, Map<String, Object> metadata) {
+    public Long createDocument(DocumentSaveReq req) {
         KnowledgeItem item = KnowledgeItem.builder()
-                .kbId(kbId)
+                .kbId(req.getKbId())
                 .type(KnowledgeItemType.DOCUMENT)
-                .title(title)
-                .content(content)
-                .contentType(contentType)
-                .filePath(filePath)
-                .fileSize(fileSize)
+                .title(req.getTitle())
+                .content(req.getContent())
+                .contentType(req.getContentType())
+                .filePath(req.getFilePath())
+                .fileSize(req.getFileSize())
                 .status(KnowledgeItemStatus.PENDING)
                 .vectorized(false)
                 .version(1)
-                .metadata(metadata)
+                .metadata(req.getMetadata())
                 .deleted(false)
                 .build();
         baseMapper.insert(item);
-        KnowledgeBase knb = knowledgeBaseService.getById(kbId);
-        if (content != null && !content.isEmpty()) {
-            knowledgeChunkService.createDocumentChunks(knb, item.getId(), String.valueOf(item.getId()), content);
+        KnowledgeBase knb = knowledgeBaseService.getById(req.getKbId());
+        if (req.getContent() != null && !req.getContent().isEmpty()) {
+            knowledgeChunkService.createDocumentChunks(knb, item.getId(), String.valueOf(item.getId()), req.getContent());
         }
         return item.getId();
     }
@@ -317,17 +327,25 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long uploadAndProcess(Long kbId, org.springframework.web.multipart.MultipartFile file) throws IOException {
+    public Long uploadAndProcess(Long kbId, MultipartFile file) throws IOException {
+        FileStorageRep uploadResp = fileStorageService.upload(file);
+        DocumentSaveReq req = DocumentSaveReq.builder()
+                .filePath(uploadResp.getPath())
+                .fileSize(uploadResp.getSize())
+                .contentType(uploadResp.getExt())
+                .kbId(kbId)
+                .title(uploadResp.getOriginalFilename())
+                .build();
         String originalFilename = file.getOriginalFilename();
         String contentType = file.getContentType();
-        long fileSize = file.getSize();
         File tempFile = File.createTempFile("upload_", "_" + originalFilename);
         try {
             file.transferTo(tempFile);
             String content = documentProcessor.extractText(tempFile, contentType);
-            return createDocument(kbId, originalFilename, content, contentType, originalFilename, fileSize, null);
+            req.setContent(content);
+            return createDocument(req);
         } finally {
-//            cn.hutool.core.io.FileUtil.del(tempFile);
+//            FileUtil.del(tempFile);
         }
     }
 

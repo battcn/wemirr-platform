@@ -62,94 +62,64 @@ public class FileStorage extends SuperEntity<Long> {
     @TableField(value = "base_path")
     @Schema(description = "基础存储路径")
     private String basePath;
-    
-    /**
-     * 存储路径
-     */
+
+    @Schema(description = "存储路径")
     @TableField(value = "path")
     private String path;
-    
-    /**
-     * 文件扩展名
-     */
+
+    @Schema(description = "文件扩展名")
     @TableField(value = "ext")
     private String ext;
     
-    /**
-     * MIME类型
-     */
+    @Schema(description = "MIME类型")
     @TableField(value = "content_type")
     private String contentType;
-    
-    /**
-     * 存储平台
-     */
+
+    @Schema(description = "存储平台")
     @TableField(value = "platform")
     private String platform;
     
-    /**
-     * 缩略图访问路径
-     */
+    @Schema(description = "缩略图访问路径")
     @TableField(value = "th_url")
     private String thUrl;
-    
-    /**
-     * 缩略图名称
-     */
+
+    @Schema(description = "缩略图名称")
     @TableField(value = "th_filename")
     private String thFilename;
-    
-    /**
-     * 缩略图大小，单位字节
-     */
+
+    @Schema(description = "缩略图大小，单位字节")
     @TableField(value = "th_size")
     private Long thSize;
-    
-    /**
-     * 缩略图MIME类型
-     */
+
+    @Schema(description = "缩略图MIME类型")
     @TableField(value = "th_content_type")
     private String thContentType;
-    
-    /**
-     * 文件所属对象id
-     */
+
+    @Schema(description = "文件所属对象id")
     @TableField(value = "object_id")
     private String objectId;
-    
-    /**
-     * 文件所属对象类型，例如用户头像，评价图片
-     */
+
+    @Schema(description = "文件所属对象类型")
     @TableField(value = "object_type")
     private String objectType;
-    
-    /**
-     * 文件元数据
-     */
+
+    @Schema(description = "文件元数据")
     @TableField(value = "metadata")
     private String metadata;
     
-    /**
-     * 文件用户元数据
-     */
+    @Schema(description = "文件用户元数据")
     @TableField(value = "user_metadata")
     private String userMetadata;
-    
-    /**
-     * 缩略图元数据
-     */
+
+    @Schema(description = "缩略图元数据")
     @TableField(value = "th_metadata")
     private String thMetadata;
-    
-    /**
-     * 缩略图用户元数据
-     */
+
+    @Schema(description = "缩略图用户元数据")
     @TableField(value = "th_user_metadata")
     private String thUserMetadata;
-    
-    /**
-     * 附加属性
-     */
+
+    @Schema(description = "附加属性")
     @TableField(value = "attr")
     private String attr;
     

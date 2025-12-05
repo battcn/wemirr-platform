@@ -1,4 +1,3 @@
 com.wemirr.framework.db.configuration.BaseMybatisConfiguration
-com.wemirr.framework.db.encode.EncryptHikariDataSourceConfiguration
 com.wemirr.framework.db.dynamic.DynamicDataSourceEventBusAutoConfiguration
 com.wemirr.framework.db.dynamic.DynamicDatasourceWebAutoConfigurer
