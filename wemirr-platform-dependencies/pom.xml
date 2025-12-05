@@ -35,7 +35,7 @@
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
         <mysql.version>9.1.0</mysql.version>
         <redisson.version>3.52.0</redisson.version>
-        <!-- 文件存储 -->
+        <!-- 文件存储:spring7后替换成 rustfs -->
         <minio.version>8.5.11</minio.version>
         <aliyun-sdk-oss.version>3.18.3</aliyun-sdk-oss.version>
         <qiniu-java-sdk.version>7.19.0</qiniu-java-sdk.version>
