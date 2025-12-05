@@ -19,8 +19,8 @@
 
 package com.wemirr.framework.redis.plus.utils;
 
-import cn.hutool.crypto.digest.MD5;
 import com.alibaba.fastjson2.JSONObject;
+import com.wemirr.framework.commons.util.DigestUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
@@ -42,12 +42,12 @@ public class RedisAopUtils {
     /**
      * parser 解析器
      */
-    private static final ExpressionParser parser = new SpelExpressionParser();
+    private static final ExpressionParser PARSER = new SpelExpressionParser();
     /**
      * 它使用JDK 8的反射功能
      * 用于内省参数名称（基于 -parameters 编译器标志）
      */
-    private static final StandardReflectionParameterNameDiscoverer discoverer = new StandardReflectionParameterNameDiscoverer();
+    private static final StandardReflectionParameterNameDiscoverer DISCOVERER = new StandardReflectionParameterNameDiscoverer();
 
     /**
      * 解析spring EL表达式,无参数方法
@@ -63,14 +63,14 @@ public class RedisAopUtils {
         if (!useArgs) {
             return parseDefaultKey(key, false, method, point);
         }
-        String[] params = discoverer.getParameterNames(method);
+        String[] params = DISCOVERER.getParameterNames(method);
         // 指定spel表达式，并且有适配参数时
         if (Objects.nonNull(params) && Objects.nonNull(key)) {
             EvaluationContext context = new StandardEvaluationContext();
             for (int i = 0; i < params.length; i++) {
                 context.setVariable(params[i], args[i]);
             }
-            return parser.parseExpression(key).getValue(context, String.class);
+            return PARSER.parseExpression(key).getValue(context, String.class);
         } else {
             return parseDefaultKey(key, true, method, point);
         }
@@ -103,7 +103,7 @@ public class RedisAopUtils {
         // key表达式
         key = StringUtils.isEmpty(key) ? "" : "_" + key;
         // 使用MD5生成位移key
-        return MD5.create().digestHex(JSONObject.toJSONString(keyMap) + key).toUpperCase();
+        return DigestUtil.md5Hex(JSONObject.toJSONString(keyMap) + key).toUpperCase();
     }
 
 }

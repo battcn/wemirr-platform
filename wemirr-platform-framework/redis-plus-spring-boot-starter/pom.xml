@@ -29,6 +29,10 @@
             <version>${jetcache.latest.version}</version>
         </dependency>-->
         <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2-extension</artifactId>
         </dependency>

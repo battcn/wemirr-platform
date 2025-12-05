@@ -18,18 +18,6 @@ spring:
               predicates:
                 - Path=/iam/**
               filters:
-                # 密码加密过滤器，如果配置了那么在前端传递的 password 请进行 AES 加密
-                - name: PasswordDecoderFilter
-                  args:
-                    password: 'password'
-                    loginUrl: '/oauth2/token'
-                    # 要 16 位
-                    encodeKey: 'we-wemirr-groups'
-                #            - name: BlackWhiteList
-                #              args:
-                #                type: BLACK_LIST
-                #                ip-list: 127.0.0.1,0:0:0:0:0:0:0:1
-                #                ignore-intranet: true
                 - name: RequestRateLimiter
                   args:
                     redis-rate-limiter.replenishRate: 100   # 允许用户每秒处理多少个请求

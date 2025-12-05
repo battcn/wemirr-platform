@@ -22,7 +22,6 @@ package com.wemirr.platform.gateway.configuration.rule;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -38,6 +37,7 @@ import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.cloud.gateway.route.CompositeRouteDefinitionLocator;
 import org.springframework.cloud.gateway.route.RouteDefinition;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -58,7 +58,8 @@ import static java.util.stream.Collectors.toMap;
 @Component
 @RequiredArgsConstructor
 public class RouteRuleHelper {
-    
+
+    private final ApplicationContext applicationContext;
     private final StringRedisTemplate stringRedisTemplate;
     private final RedisRouteDynamicGatewayService redisRouteDynamicGatewayService;
     private final DiscoveryClient discoveryClient;
@@ -147,7 +148,7 @@ public class RouteRuleHelper {
     }
     
     public List<RouteRule> query() {
-        final CompositeRouteDefinitionLocator routeDefinitionLocator = SpringUtil.getBean(CompositeRouteDefinitionLocator.class);
+        final CompositeRouteDefinitionLocator routeDefinitionLocator = applicationContext.getBean(CompositeRouteDefinitionLocator.class);
         List<RouteDefinition> routeDefinitions = Lists.newArrayList();
         routeDefinitionLocator.getRouteDefinitions().subscribe(routeDefinitions::add);
         final List<String> services = discoveryClient.getServices();

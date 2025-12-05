@@ -22,8 +22,8 @@ package com.wemirr.framework.redis.plus.cache;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.digest.MD5;
 import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.commons.util.DigestUtil;
 import com.wemirr.framework.redis.plus.RedisPlusProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -87,7 +87,7 @@ public class RedisCacheAutoConfiguration implements CachingConfigurer {
             }
             final String jsonText = JSON.toJSONString(keyMap);
             // 使用MD5生成位移key
-            return MD5.create().digestHex(jsonText);
+            return DigestUtil.md5Hex(jsonText);
         };
     }
 
