@@ -66,4 +66,9 @@ public class AccessLogAutoConfiguration {
         return new AccessLogListener(feign::listener);
     }
 
+    @Bean
+    public GlobalLogAspect globalLogAspect() {
+        return new GlobalLogAspect();
+    }
+
 }

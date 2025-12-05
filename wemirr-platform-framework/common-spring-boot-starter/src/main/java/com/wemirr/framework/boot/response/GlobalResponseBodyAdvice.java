@@ -72,14 +72,22 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             return body;
         }
         if (REWRITE.equals(isReWrite) || StringUtils.isBlank(isReWrite)) {
-            if (body == null) {
-                return Result.success();
-            }
-            if (body instanceof Result) {
-                return body;
-            }
-            if (body instanceof Byte[]) {
-                return body;
+            switch (body) {
+                case null -> {
+                    return Result.success();
+                }
+                case Result<?> ignored -> {
+                    return body;
+                }
+                case Byte[] ignored -> {
+                    return body;
+                }
+                case String ignored -> {
+                    serverHttpResponse.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+                    return Result.success(body).toString();
+                }
+                default -> {
+                }
             }
             return Result.success(body);
         } else {
