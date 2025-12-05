@@ -50,16 +50,17 @@ public class FeignPluginInterceptor implements RequestInterceptor {
     private static final Set<String> CORE_HEADERS = new HashSet<>();
 
     static {
-        // 这是一个标准头，Spring MVC 会自动识别它设置 LocaleContext
         CORE_HEADERS.add(HttpHeaders.ACCEPT_LANGUAGE);
         CORE_HEADERS.add(HttpHeaders.AUTHORIZATION);
         CORE_HEADERS.add(HttpHeaders.DATE);
+
+        // --- 链路追踪 ---
+        CORE_HEADERS.add("x-request-id");
+        CORE_HEADERS.add("TraceId");
+        CORE_HEADERS.add("SpanId");
         // 时区
         CORE_HEADERS.add("x-time-zone");
-        // --- 链路追踪 / 租户 ---
-        CORE_HEADERS.add("x-request-id");
         CORE_HEADERS.add("x-tenant-id");
-        // mock
         CORE_HEADERS.add("x-mock-application");
     }
 

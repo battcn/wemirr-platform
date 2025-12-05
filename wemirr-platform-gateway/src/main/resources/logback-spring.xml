@@ -9,11 +9,20 @@
     <property name="MAX_FILE_SIZE" value="100MB"/>
     <property name="TOTAL_SIZE_CAP" value="5GB"/>
 
+    <!--
+        【优化点 1】控制台日志格式：
+        - [ReqId:%X{x-request-id:-N/A}]: 显示业务传递的 request-id，黄色高亮
+        - [TraceId:%X{traceId:-},SpanId:%X{spanId:-}]: 显示 Micrometer 生成的链路 ID，洋红色高亮
+    -->
     <property name="CONSOLE_LOG_PATTERN"
-              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%-5level) %clr(%X{x-request-id:-N/A}){yellow} %clr(|){faint} %clr(%-15.15t){faint} %clr(|){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%-5level) %clr([ReqId:%X{x-request-id:-N/A}]){yellow} %clr([TraceId:%X{traceId:-},SpanId:%X{spanId:-}]){magenta} %clr(|){faint} %clr(%-15.15t){faint} %clr(|){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
 
+    <!--
+        【优化点 2】文件日志格式：
+        - 纯文本格式，包含同样的 ID 信息，方便 grep 和 ELK 收集
+    -->
     <property name="FILE_LOG_PATTERN"
-              value="%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5level | %X{x-request-id:-} | ${PID:- } | %-15.15t | %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5level | [ReqId:%X{x-request-id:-}] | [TraceId:%X{traceId:-},SpanId:%X{spanId:-}] | ${PID:- } | %-15.15t | %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
 
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -54,15 +63,22 @@
         </filter>
     </appender>
 
+    <!--
+        【优化点 3】异步输出增强：
+        - discardingThreshold=20: 队列快满时丢弃 INFO/DEBUG，保留 WARN/ERROR (防止生产环境磁盘IO打满拖死业务)
+        - includeCallerData=false: 极其重要，设为 false 可大幅提升性能
+    -->
     <appender name="ASYNC_ALL" class="ch.qos.logback.classic.AsyncAppender">
-        <discardingThreshold>0</discardingThreshold>
-        <queueSize>1024</queueSize>
+        <discardingThreshold>20</discardingThreshold>
+        <queueSize>2048</queueSize>
+        <includeCallerData>false</includeCallerData>
         <appender-ref ref="ALL_FILE"/>
     </appender>
 
     <appender name="ASYNC_ERROR" class="ch.qos.logback.classic.AsyncAppender">
-        <discardingThreshold>0</discardingThreshold>
+        <discardingThreshold>0</discardingThreshold> <!-- ERROR 永不丢弃 -->
         <queueSize>1024</queueSize>
+        <includeCallerData>false</includeCallerData>
         <appender-ref ref="ERROR_FILE"/>
     </appender>
 
@@ -72,26 +88,27 @@
 
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
-            <appender-ref ref="ALL_FILE"/>
-            <appender-ref ref="ERROR_FILE"/>
-        </root>
-    </springProfile>
-
-    <springProfile name="prod,pre,test">
-        <logger name="com.wemirr" level="DEBUG"/>
-
-        <root level="INFO">
-            <appender-ref ref="CONSOLE"/>
-
             <appender-ref ref="ASYNC_ALL"/>
             <appender-ref ref="ASYNC_ERROR"/>
         </root>
     </springProfile>
 
+    <springProfile name="prod,pre,test">
+        <logger name="com.wemirr" level="INFO"/>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ASYNC_ALL"/>
+            <appender-ref ref="ASYNC_ERROR"/>
+        </root>
+    </springProfile>
+
+    <!-- 第三方库降噪 -->
     <logger name="com.alibaba.nacos" level="WARN"/>
     <logger name="org.springframework.amqp.rabbit" level="WARN"/>
     <logger name="io.lettuce" level="WARN"/>
     <logger name="io.netty" level="WARN"/>
     <logger name="org.apache.catalina.connector.CoyoteAdapter" level="WARN"/>
+    <logger name="org.springframework.cloud.gateway" level="WARN"/>
 
 </configuration>

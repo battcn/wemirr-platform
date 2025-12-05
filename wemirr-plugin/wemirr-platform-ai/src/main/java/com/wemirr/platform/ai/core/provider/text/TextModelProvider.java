@@ -1,6 +1,5 @@
 package com.wemirr.platform.ai.core.provider.text;
 
-import com.alibaba.dashscope.tokenizers.Tokenization;
 import com.wemirr.platform.ai.domain.entity.ModelConfig;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.StreamingChatModel;

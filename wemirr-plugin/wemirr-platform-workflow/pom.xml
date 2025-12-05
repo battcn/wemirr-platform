@@ -30,6 +30,10 @@
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>
+            <artifactId>feign-plugin-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
             <artifactId>common-spring-boot-starter</artifactId>
             <exclusions>
                 <exclusion>
