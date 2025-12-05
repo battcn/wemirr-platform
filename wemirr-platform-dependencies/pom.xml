@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-dependencies</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>wemirr-platform-dependencies</name>
     <description>wemirr 平台包版本管理</description>
@@ -44,14 +44,14 @@
         <aws-java-sdk-s3.version>2.39.0</aws-java-sdk-s3.version>
         <!-- 工具包 -->
         <guava.version>33.5.0-jre</guava.version>
-        <hutool.version>5.8.41</hutool.version>
+        <hutool.version>5.8.42</hutool.version>
         <fastjson2.version>2.0.59</fastjson2.version>
         <springdoc-openapi.version>1.8.0</springdoc-openapi.version>
         <knife4j.version>4.6.0</knife4j.version>
         <knife4j-springdoc-ui.version>3.0.3</knife4j-springdoc-ui.version>
         <transmittable.version>2.14.5</transmittable.version>
         <!-- D-ORM依赖 -->
-        <anyline.version>8.7.2-20241022</anyline.version>
+        <anyline.version>8.7.3-jdk21-20251120</anyline.version>
         <!-- 自定义SDK版本 -->
         <wemirr-framework.version>3.0.0-SNAPSHOT</wemirr-framework.version>
         <jakarta-validation.version>3.1.0</jakarta-validation.version>
@@ -65,7 +65,7 @@
             <!--<dependency>
                 <groupId>com.fhs-opensource</groupId>
                 <artifactId>easy-trans-spring-boot-starter</artifactId>
-                <version>3.1.1</version>
+                <version>3.1.2</version>
             </dependency>-->
             <dependency>
                 <groupId>cn.dev33</groupId>
@@ -157,14 +157,6 @@
                 <artifactId>s3</artifactId>
                 <version>${aws-java-sdk-s3.version}</version>
             </dependency>
-            <!--
-            好像还没发布到 maven 仓库
-            <dependency>
-                <groupId>org.apache.fesod</groupId>
-                <artifactId>fesod</artifactId>
-                <version>${fesod.version}</version>
-            </dependency>
-            -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus</artifactId>
@@ -195,6 +187,7 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+            <!-- spring-boot-admin -->
             <dependency>
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-client</artifactId>
@@ -210,7 +203,6 @@
                 <artifactId>spring-boot-admin-server-ui</artifactId>
                 <version>${spring-boot-admin.version}</version>
             </dependency>
-            <!-- Nacos -->
             <dependency>
                 <groupId>com.alibaba.fastjson2</groupId>
                 <artifactId>fastjson2</artifactId>
@@ -226,7 +218,7 @@
                 <artifactId>fastjson2-extension-spring6</artifactId>
                 <version>${fastjson2.version}</version>
             </dependency>
-            <!-- redission -->
+            <!-- redisson -->
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>

@@ -5,10 +5,10 @@
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>4.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>wemirr-platform-wms</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -65,7 +65,7 @@
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>pdf-spring-boot-starter</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <version>4.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
