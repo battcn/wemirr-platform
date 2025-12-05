@@ -9,6 +9,7 @@ spring:
     import:
       - optional:nacos:${spring.application.name}.properties
       - optional:nacos:redis.properties
+      - optional:nacos:cloud-default.yaml
       - optional:classpath:gateway-swagger.yaml
       - optional:classpath:gateway-route.yaml
   cloud:

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.ai.repository.KnowledgeChunkMapper">
+
+    <!-- 根据知识条目ID查询分片 -->
+    <select id="selectByItemId" resultType="com.wemirr.platform.ai.domain.entity.KnowledgeChunk">
+        SELECT * FROM ai_kb_knowledge_chunk
+        WHERE item_id = #{itemId} 
+        AND deleted = 0
+        ORDER BY create_time ASC
+    </select>
+    
+    <!-- 根据知识条目ID和分片类型查询分片 -->
+    <select id="selectByItemIdAndType" resultType="com.wemirr.platform.ai.domain.entity.KnowledgeChunk">
+        SELECT * FROM ai_kb_knowledge_chunk
+        WHERE item_id = #{itemId} 
+        AND chunk_type = #{chunkType}
+        AND deleted = 0
+        ORDER BY create_time ASC
+    </select>
+    
+    <!-- 根据知识库ID查询分片 -->
+    <select id="selectByKbId" resultType="com.wemirr.platform.ai.domain.entity.KnowledgeChunk">
+        SELECT * FROM ai_kb_knowledge_chunk
+        WHERE kb_id = #{kbId} 
+        AND deleted = 0
+        ORDER BY create_time ASC
+    </select>
+    
+    <!-- 根据知识条目ID删除分片 -->
+    <update id="deleteByItemId">
+        UPDATE ai_kb_knowledge_chunk
+        SET deleted = 1, update_time = NOW()
+        WHERE item_id = #{itemId}
+    </update>
+    
+    <!-- 根据知识库ID删除分片 -->
+    <update id="deleteByKbId">
+        UPDATE ai_kb_knowledge_chunk
+        SET deleted = 1, update_time = NOW()
+        WHERE kb_id = #{kbId}
+    </update>
+    
+    <!-- 统计知识条目的分片数量 -->
+    <select id="countByItemId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM ai_kb_knowledge_chunk
+        WHERE item_id = #{itemId} 
+        AND deleted = 0
+    </select>
+    
+    <!-- 根据关键词搜索分片 -->
+    <select id="searchByKeyword" resultType="com.wemirr.platform.ai.domain.entity.KnowledgeChunk">
+        SELECT * FROM ai_kb_knowledge_chunk
+        WHERE kb_id = #{kbId}
+        AND deleted = 0
+        AND content LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY 
+            CASE 
+                WHEN content LIKE CONCAT('%', #{keyword}, '%') THEN 1
+                ELSE 2
+            END,
+            create_time DESC
+        LIMIT #{limit}
+    </select>
+    
+    <!-- 批量插入分片 -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO ai_kb_knowledge_chunk (
+            kb_id, item_id, chunk_type, content, content_hash, 
+            dimension, metadata, deleted, create_time, update_time
+        ) VALUES
+        <foreach collection="chunks" item="chunk" separator=",">
+            (
+                #{chunk.kbId}, #{chunk.itemId}, #{chunk.chunkType}, 
+                #{chunk.content}, #{chunk.contentHash}, #{chunk.dimension}, 
+                #{chunk.metadata,typeHandler=com.wemirr.framework.db.mybatisplus.handler.type.JsonTypeHandler}, 
+                #{chunk.deleted}, #{chunk.createTime}, #{chunk.updateTime}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

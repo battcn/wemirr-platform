@@ -22,7 +22,7 @@ public class GenerateTemplateGroupPageRep {
     /**
      * 分组描述
      */
-    private String desciption;
+    private String description;
 
     /**
      * 是否作为默认分组

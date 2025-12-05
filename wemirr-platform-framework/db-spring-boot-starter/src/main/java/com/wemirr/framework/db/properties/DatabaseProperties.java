@@ -85,11 +85,6 @@ public class DatabaseProperties {
          * 攻击 SQL 阻断解析器
          */
         private boolean blockAttack = true;
-
-        /**
-         * SQL性能规范插件，限制比较多，慎用哦
-         */
-        private boolean illegalSql = false;
     }
 
     @Data

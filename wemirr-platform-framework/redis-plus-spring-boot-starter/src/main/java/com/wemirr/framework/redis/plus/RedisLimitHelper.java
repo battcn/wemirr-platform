@@ -41,7 +41,7 @@ public class RedisLimitHelper {
 
     /**
      * 直接使用redisson限流器
-     * 参考:https://github.com/redisson/redisson/wiki
+     * 参考:<a href="https://github.com/redisson/redisson/wiki">redisson-wiki</a>
      * 限流器redisson3.7.1版本
      * 本处默认配置都是秒，可以手动修改
      * 重启服务，可以手动清除一下redis库

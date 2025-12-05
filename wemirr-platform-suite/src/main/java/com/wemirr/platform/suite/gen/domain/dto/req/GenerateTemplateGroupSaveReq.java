@@ -29,7 +29,7 @@ public class GenerateTemplateGroupSaveReq {
      */
     @Schema(description = "分组描述")
     @NotBlank(message = "分组描述不能为空")
-    private String desciption;
+    private String description;
 
     /**
      * 是否作为默认分组

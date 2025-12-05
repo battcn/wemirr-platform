@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.wemirr</groupId>
     <artifactId>wemirr-platform-dependencies</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>wemirr-platform-dependencies</name>
     <description>wemirr 平台包版本管理</description>
@@ -13,10 +13,10 @@
         <!-- 打包跳过单元测试 -->
         <skipTests>true</skipTests>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>17</java.version>
-        <jdk.version>17</jdk.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <java.version>21</java.version>
+        <jdk.version>21</jdk.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
@@ -24,14 +24,14 @@
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-checkstyle-plugin.version>3.2.1</maven-checkstyle-plugin.version>
         <spotless-maven-plugin.version>2.22.1</spotless-maven-plugin.version>
-        <spring-ai.version>1.0.0-M3</spring-ai.version>
+        <spring-ai.version>1.1.0</spring-ai.version>
         <!-- Spring Boot 相关 版本-->
-        <spring-boot-admin.version>3.3.6</spring-boot-admin.version>
-        <spring-boot.version>4.0.0</spring-boot.version>
-        <spring-cloud.version>2025.1.0</spring-cloud.version>
+        <spring-boot-admin.version>3.5.6</spring-boot-admin.version>
+        <spring-boot.version>3.5.7</spring-boot.version>
+        <spring-cloud.version>2025.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
         <!-- DB 相关 -->
-        <mybatis-plus.version>3.5.14</mybatis-plus.version>
+        <mybatis-plus.version>3.5.15</mybatis-plus.version>
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
         <mysql.version>9.1.0</mysql.version>
         <redisson.version>3.52.0</redisson.version>
@@ -44,16 +44,16 @@
         <aws-java-sdk-s3.version>2.39.0</aws-java-sdk-s3.version>
         <!-- 工具包 -->
         <guava.version>33.5.0-jre</guava.version>
-        <hutool.version>5.8.41</hutool.version>
+        <hutool.version>5.8.42</hutool.version>
         <fastjson2.version>2.0.59</fastjson2.version>
         <springdoc-openapi.version>1.8.0</springdoc-openapi.version>
         <knife4j.version>4.6.0</knife4j.version>
         <knife4j-springdoc-ui.version>3.0.3</knife4j-springdoc-ui.version>
         <transmittable.version>2.14.5</transmittable.version>
         <!-- D-ORM依赖 -->
-        <anyline.version>8.7.2-20241022</anyline.version>
+        <anyline.version>8.7.3-jdk21-20251120</anyline.version>
         <!-- 自定义SDK版本 -->
-        <wemirr-framework.version>3.0.0-SNAPSHOT</wemirr-framework.version>
+        <wemirr-platform.version>4.0.0-SNAPSHOT</wemirr-platform.version>
         <jakarta-validation.version>3.1.0</jakarta-validation.version>
         <sa-token.version>1.44.0</sa-token.version>
         <warm-flow.version>1.8.3</warm-flow.version>
@@ -65,7 +65,7 @@
             <!--<dependency>
                 <groupId>com.fhs-opensource</groupId>
                 <artifactId>easy-trans-spring-boot-starter</artifactId>
-                <version>3.1.1</version>
+                <version>3.1.2</version>
             </dependency>-->
             <dependency>
                 <groupId>cn.dev33</groupId>
@@ -157,14 +157,6 @@
                 <artifactId>s3</artifactId>
                 <version>${aws-java-sdk-s3.version}</version>
             </dependency>
-            <!--
-            好像还没发布到 maven 仓库
-            <dependency>
-                <groupId>org.apache.fesod</groupId>
-                <artifactId>fesod</artifactId>
-                <version>${fesod.version}</version>
-            </dependency>
-            -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus</artifactId>
@@ -195,6 +187,7 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+            <!-- spring-boot-admin -->
             <dependency>
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-client</artifactId>
@@ -210,7 +203,6 @@
                 <artifactId>spring-boot-admin-server-ui</artifactId>
                 <version>${spring-boot-admin.version}</version>
             </dependency>
-            <!-- Nacos -->
             <dependency>
                 <groupId>com.alibaba.fastjson2</groupId>
                 <artifactId>fastjson2</artifactId>
@@ -226,11 +218,26 @@
                 <artifactId>fastjson2-extension-spring6</artifactId>
                 <version>${fastjson2.version}</version>
             </dependency>
-            <!-- redission -->
+            <!-- redisson -->
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wemirr</groupId>
+                <artifactId>wemirr-platform-iam-api</artifactId>
+                <version>${wemirr-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wemirr</groupId>
+                <artifactId>wemirr-platform-workflow-api</artifactId>
+                <version>${wemirr-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wemirr</groupId>
+                <artifactId>wemirr-platform-suite-api</artifactId>
+                <version>${wemirr-platform.version}</version>
             </dependency>
             <!-- 自定义SDK -->
             <dependency>
@@ -241,65 +248,58 @@
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
                 <artifactId>robot-spring-boot-starter</artifactId>
-                <version>${wemirr-framework.version}</version>
+                <version>${wemirr-platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
                 <artifactId>redis-plus-spring-boot-starter</artifactId>
-                <version>${wemirr-framework.version}</version>
+                <version>${wemirr-platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
                 <artifactId>i18n-spring-boot-starter</artifactId>
-                <version>${wemirr-framework.version}</version>
+                <version>${wemirr-platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
                 <artifactId>security-spring-boot-starter</artifactId>
-                <version>${wemirr-framework.version}</version>
+                <version>${wemirr-platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
                 <artifactId>common-framework-core</artifactId>
-                <version>${wemirr-framework.version}</version>
+                <version>${wemirr-platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
                 <artifactId>db-spring-boot-starter</artifactId>
-                <version>${wemirr-framework.version}</version>
+                <version>${wemirr-platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
                 <artifactId>common-spring-boot-starter</artifactId>
-                <version>${wemirr-framework.version}</version>
+                <version>${wemirr-platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
                 <artifactId>easyexcel-spring-boot-starter</artifactId>
-                <version>${wemirr-framework.version}</version>
+                <version>${wemirr-platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
                 <artifactId>feign-plugin-spring-boot-starter</artifactId>
-                <version>${wemirr-framework.version}</version>
+                <version>${wemirr-platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wemirr.framework</groupId>
                 <artifactId>websocket-spring-boot-starter</artifactId>
-                <version>${wemirr-framework.version}</version>
+                <version>${wemirr-platform.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-starter-tomcat</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.ai</groupId>
-                <artifactId>spring-ai-bom</artifactId>
-                <version>${spring-ai.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>

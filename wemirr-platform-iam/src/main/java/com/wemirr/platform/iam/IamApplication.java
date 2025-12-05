@@ -52,9 +52,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableRedisWebSocket
 @EnableDiscoveryClient
 @SpringBootApplication
+@EnableDiffLog(serviceName = "基础服务")
 @EnableFeignClients(basePackages = "com.wemirr")
 @MapperScan(value = "com.wemirr.**.repository", annotationClass = Repository.class)
-@EnableDiffLog(serviceName = "基础服务")
 public class IamApplication {
     
     /**

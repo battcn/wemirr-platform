@@ -308,18 +308,18 @@ public class GenerateTableServiceImpl extends SuperServiceImpl<GenerateTableMapp
         List<GenerateTableColumn> tableColumns = new ArrayList<>();
         columns.forEach((columnName, column) -> {
             GenerateTableColumn tableColumn = new GenerateTableColumn();
-            tableColumn.setPk(column.isPrimaryKey() == 1);
+            tableColumn.setPk(column.isPrimaryKey());
             tableColumn.setName(column.getName());
             tableColumn.setComment(column.getComment());
             tableColumn.setType(column.getTypeName().toLowerCase());
             tableColumn.setSort(column.getPosition());
             tableColumn.setTableName(tableName);
-            tableColumn.setRequired(column.isNullable() == 1);
-            tableColumn.setIncrement(column.isAutoIncrement() == 1);
+            tableColumn.setRequired(column.isNullable());
+            tableColumn.setIncrement(column.isAutoIncrement());
             //默认不是主键且需要生成列
-            tableColumn.setInserted(column.isPrimaryKey() != 1 && isNeedGenerate(column.getName()));
-            tableColumn.setEdit(column.isPrimaryKey() != 1 && isNeedGenerate(column.getName()));
-            tableColumn.setList(column.isPrimaryKey() != 1 || isNeedGenerate(column.getName()));
+            tableColumn.setInserted(!column.isPrimaryKey() && isNeedGenerate(column.getName()));
+            tableColumn.setEdit(!column.isPrimaryKey() && isNeedGenerate(column.getName()));
+            tableColumn.setList(!column.isPrimaryKey() || isNeedGenerate(column.getName()));
             tableColumn.setSearch(false);
             tableColumn.setSearchCondition("LIKE");// EQ LIKE
             tableColumn.setDeleted(false);

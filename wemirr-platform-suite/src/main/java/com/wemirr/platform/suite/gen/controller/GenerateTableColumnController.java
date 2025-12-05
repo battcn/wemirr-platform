@@ -21,7 +21,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/generate-table-columns")
+@RequestMapping("/generate-table-column")
 @Tag(name = "代码生成列配置", description = "代码生成列配置")
 public class GenerateTableColumnController {
 

@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>4.0.0-SNAPSHOT</version>
     </parent>
     <groupId>com.wemirr.feign</groupId>
     <artifactId>wemirr-platform-feign</artifactId>
@@ -19,7 +19,7 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <!-- 打包跳过单元测试 -->
         <skipTests>true</skipTests>
     </properties>

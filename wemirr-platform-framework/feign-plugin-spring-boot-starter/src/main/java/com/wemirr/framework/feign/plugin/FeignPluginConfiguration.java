@@ -37,8 +37,8 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.*;
 import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.cloud.openfeign.loadbalancer.LoadBalancerFeignRequestTransformer;
 import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomizer;
@@ -66,6 +66,40 @@ public class FeignPluginConfiguration {
     public Logger.Level feignLoggerLevel(FeignPluginProperties properties) {
         log.info("=============================== Feign Full Logger =============================== ");
         return properties.getLevel() != null ? properties.getLevel() : Logger.Level.BASIC;
+    }
+
+    @Bean
+    public LoadBalancerLifecycle<Object, Object, ServiceInstance> logIpWhenError() {
+        return new LoadBalancerLifecycle<>() {
+
+            @Override
+            public void onStart(Request<Object> request) {
+                // 请求开始前，暂时不需要做啥
+                log.debug("request => {}", request);
+            }
+
+            @Override
+            public void onStartRequest(Request<Object> request, Response<ServiceInstance> lbResponse) {
+                // 选完 IP，发起请求前。如果想看这次选了谁，也可以在这里打日志
+                ServiceInstance instance = lbResponse.getServer();
+                log.debug("instance => {}", instance);
+            }
+
+            @Override
+            public void onComplete(CompletionContext<Object, ServiceInstance, Object> completionContext) {
+                ServiceInstance instance = completionContext.getLoadBalancerResponse().getServer();
+                if (instance == null) {
+                    return;
+                }
+                if (completionContext.status() == CompletionContext.Status.FAILED) {
+                    Throwable error = completionContext.getThrowable();
+                    log.error("LoadBalancer调用失败 - 目标服务: {} , 地址: {}:{} - 异常信息: {}", instance.getServiceId(), instance.getHost(), instance.getPort(),
+                            error != null ? error.getMessage() : "未知错误", error);
+                } else {
+                    log.debug("LoadBalancer调用成功 - 目标服务: {} , 地址: {}:{}", instance.getServiceId(), instance.getHost(), instance.getPort());
+                }
+            }
+        };
     }
 
     @Bean

@@ -39,12 +39,12 @@ import java.net.InetAddress;
  * @author Levin
  */
 @Slf4j
+@EnableFileStorage
 @EnableOAuth2Client
 @EnableDiscoveryClient
-@SpringBootApplication(exclude = MongoAutoConfiguration.class)
 @EnableFeignClients("com.wemirr")
+@SpringBootApplication(exclude = MongoAutoConfiguration.class)
 @MapperScan(value = "com.wemirr.**.repository", annotationClass = Repository.class)
-@EnableFileStorage
 public class SuiteApplication {
     
     @SneakyThrows

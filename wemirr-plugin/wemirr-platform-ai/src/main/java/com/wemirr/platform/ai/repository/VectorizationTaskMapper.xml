@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.ai.repository.VectorizationTaskMapper">
+
+    <!-- 根据任务ID查询任务 -->
+    <select id="selectByTaskId" resultType="com.wemirr.platform.ai.domain.entity.VectorizationTask">
+        SELECT * FROM ai_kb_vectorization_task
+        WHERE task_id = #{taskId}
+        LIMIT 1
+    </select>
+    
+    <!-- 根据知识条目ID查询任务 -->
+    <select id="selectByItemId" resultType="com.wemirr.platform.ai.domain.entity.VectorizationTask">
+        SELECT * FROM ai_kb_vectorization_task
+        WHERE item_id = #{itemId}
+        ORDER BY create_time DESC
+    </select>
+    
+    <!-- 根据知识库ID查询任务 -->
+    <select id="selectByKbId" resultType="com.wemirr.platform.ai.domain.entity.VectorizationTask">
+        SELECT * FROM ai_kb_vectorization_task
+        WHERE kb_id = #{kbId}
+        ORDER BY create_time DESC
+    </select>
+    
+    <!-- 根据状态查询任务 -->
+    <select id="selectByStatus" resultType="com.wemirr.platform.ai.domain.entity.VectorizationTask">
+        SELECT * FROM ai_kb_vectorization_task
+        WHERE status = #{status}
+        ORDER BY create_time DESC
+    </select>
+    
+    <!-- 更新任务状态 -->
+    <update id="updateStatus">
+        UPDATE ai_kb_vectorization_task
+        SET status = #{status}, 
+            progress = #{progress}, 
+            error_message = #{errorMessage}
+        WHERE task_id = #{taskId}
+    </update>
+    
+    <!-- 更新任务向量ID -->
+    <update id="updateVectorIds">
+        UPDATE ai_kb_vectorization_task
+        SET vector_ids = #{vectorIds,typeHandler=com.wemirr.framework.db.mybatisplus.handler.type.JsonTypeHandler}
+        WHERE task_id = #{taskId}
+    </update>
+
+</mapper>

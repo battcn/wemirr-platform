@@ -58,7 +58,7 @@ public class DemoGlobalFilter implements GlobalFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         HttpMethod method = exchange.getRequest().getMethod();
         if (method == HttpMethod.PUT || method == HttpMethod.DELETE || isReject(exchange)) {
-            return MonoHelper.wrap(exchange, "演示环境,禁止破坏基础数据,请下载代码自行部署");
+            return MonoHelper.wrap(exchange, "演示环境,禁止破坏基础数据,请下载代码自行部署（部署后请移除 gateway 服务中的 DemoGlobalFilter ）");
         }
         return chain.filter(exchange);
     }

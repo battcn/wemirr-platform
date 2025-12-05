@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.ai.repository.VectorStoreMapper">
+
+    <!-- 根据知识库ID查询向量存储 -->
+    <select id="selectByKbId" resultType="com.wemirr.platform.ai.domain.entity.VectorStore">
+        SELECT * FROM ai_kb_vector_store
+        WHERE kb_id = #{kbId}
+        ORDER BY create_time DESC
+    </select>
+    
+    <!-- 根据知识库ID删除向量存储 -->
+    <delete id="deleteByKbId">
+        DELETE FROM ai_kb_vector_store
+        WHERE kb_id = #{kbId}
+    </delete>
+
+</mapper>
