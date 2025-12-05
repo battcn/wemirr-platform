@@ -21,7 +21,9 @@ package com.wemirr.framework.boot.async;
 
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskDecorator;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
@@ -31,6 +33,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 异步线程支持
@@ -57,6 +61,20 @@ public class AsyncConfiguration implements AsyncConfigurer {
         executor.setTaskDecorator(new RequestAttributesTaskDecorator());
         executor.initialize();
         return executor;
+    }
+
+
+    @Bean("virtualThreadPerTaskExecutor")
+    public ExecutorService virtualThreadPerTaskExecutor() {
+        return Executors.newVirtualThreadPerTaskExecutor();
+    }
+
+    @Bean
+    public VirtualThreadService virtualThreadUtils(
+            @Qualifier("virtualThreadPerTaskExecutor")
+            ExecutorService virtualThreadPerTaskExecutor
+    ) {
+        return new VirtualThreadService(virtualThreadPerTaskExecutor);
     }
 
     /**
