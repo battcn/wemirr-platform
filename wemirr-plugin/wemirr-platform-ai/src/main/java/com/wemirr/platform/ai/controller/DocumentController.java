@@ -55,13 +55,7 @@ public class DocumentController {
     @Operation(summary = "创建文档")
     public void create(@Valid @RequestBody DocumentSaveReq req) {
         knowledgeItemService.createDocument(
-                req.getKbId(),
-                req.getTitle(),
-                req.getContent(),
-                req.getContentType(),
-                req.getFilePath(),
-                req.getFileSize(),
-                req.getMetadata()
+                req
         );
     }
 
