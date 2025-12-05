@@ -39,7 +39,6 @@ public class AccessLogListener {
 
     private final Consumer<AccessLogInfo> consumer;
 
-    @Async
     @Order
     @EventListener(AccessLogEvent.class)
     public void accessLogListener(AccessLogEvent event) {
