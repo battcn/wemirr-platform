@@ -47,7 +47,7 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
             }
 
             // 2. 获取默认的嵌入模型配置
-            ModelConfig embeddingModel = getDefaultEmbeddingModel();
+            ModelConfig embeddingModel = getEmbeddingModelById(knowledgeBase.getEmbeddingModelId());
             if (embeddingModel == null) {
                 log.warn("未找到可用的嵌入模型配置，使用关键词搜索替代");
                 return keywordSearch(kbId, query, topK);
@@ -205,26 +205,15 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
     /**
      * 获取默认的嵌入模型配置
      */
-    private ModelConfig getDefaultEmbeddingModel() {
+    private ModelConfig getEmbeddingModelById(Long modelId) {
         try {
-            // 查询可用的嵌入模型配置
-            // 这里可以根据实际业务需求来选择默认模型
-            // 例如：选择第一个可用的嵌入模型，或者根据优先级选择
-            List<ModelConfig> embeddingModels = modelConfigService.list(
-                Wraps.<ModelConfig>lbQ()
-                    .eq(ModelConfig::getModelType, "EMBEDDING")
-//                    .eq(ModelConfig::getEnabled, true)
-            );
-            
-            if (embeddingModels.isEmpty()) {
+            ModelConfig modelConfig = modelConfigService.getById(modelId);
+
+            if (modelConfig==null) {
                 log.warn("未找到可用的嵌入模型配置");
                 return null;
             }
-            
-            // 返回第一个可用的嵌入模型
-            ModelConfig defaultModel = embeddingModels.get(0);
-            log.info("使用默认嵌入模型: {}", defaultModel.getModelName());
-            return defaultModel;
+            return modelConfig;
             
         } catch (Exception e) {
             log.error("获取默认嵌入模型失败", e);

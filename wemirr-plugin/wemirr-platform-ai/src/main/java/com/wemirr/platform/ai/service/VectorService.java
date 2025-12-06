@@ -2,6 +2,7 @@ package com.wemirr.platform.ai.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
+import com.wemirr.platform.ai.domain.dto.rep.VectorizationRep;
 import com.wemirr.platform.ai.domain.dto.req.VectorizationTaskPageReq;
 import com.wemirr.platform.ai.domain.entity.VectorizationTask;
 
@@ -110,6 +111,8 @@ public interface VectorService extends SuperService<VectorizationTask> {
      * @return 向量化任务列表
      */
     IPage<VectorizationTask> pageList(VectorizationTaskPageReq req);
+
+    VectorizationRep getVectorizeStatus(Long itemId);
 
     /**
      * 向量化任务状态枚举

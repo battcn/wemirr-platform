@@ -41,4 +41,9 @@ public class RagChatController {
         askReq.setChatType(ConversationType.KNOWLEDGE_BASE);
         return chatService.chatStream(askReq);
     }
+
+    /**
+     * 召回测试
+     */
+
 }

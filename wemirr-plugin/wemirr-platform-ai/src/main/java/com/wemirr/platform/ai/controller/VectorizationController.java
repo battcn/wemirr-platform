@@ -1,6 +1,7 @@
 package com.wemirr.platform.ai.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.platform.ai.domain.dto.rep.VectorizationRep;
 import com.wemirr.platform.ai.domain.dto.req.VectorizationTaskPageReq;
 import com.wemirr.platform.ai.domain.entity.VectorizationTask;
 import com.wemirr.platform.ai.service.VectorService;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -70,6 +72,13 @@ public class VectorizationController {
     @Operation(summary = "查询向量化任务状态")
     public VectorizationTaskStatus getTaskStatus(@PathVariable String taskId) {
         return vectorService.getTaskStatus(taskId);
+    }
+
+    @Operation(summary = "查询文档向量化状态")
+    @GetMapping("/{itemId}/vectorize-status")
+    public VectorizationRep getVectorizeStatus(@PathVariable Long itemId) {
+
+        return vectorService.getVectorizeStatus(itemId);
     }
 
     @DeleteMapping("/vector/{baseItemId}")

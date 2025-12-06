@@ -2,10 +2,12 @@ package com.wemirr.platform.ai.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemStatus;
 import com.wemirr.platform.ai.core.processor.VectorizationProcessor;
+import com.wemirr.platform.ai.domain.dto.rep.VectorizationRep;
 import com.wemirr.platform.ai.domain.dto.req.VectorizationTaskPageReq;
 import com.wemirr.platform.ai.domain.entity.*;
 import com.wemirr.platform.ai.repository.VectorizationTaskMapper;
@@ -222,6 +224,15 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
         );
     }
 
+    @Override
+    public VectorizationRep getVectorizeStatus(Long itemId) {
+        VectorizationTask vectorizationTask = this.baseMapper.selectOne(Wraps.<VectorizationTask>lbQ().eq(VectorizationTask::getItemId, itemId));
+        if (vectorizationTask != null){
+            return BeanUtilPlus.toBean(vectorizationTask, VectorizationRep.class);
+        }
+        return null;
+    }
+
     /**
      * 创建向量化任务
      *
@@ -262,7 +273,9 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
         if (status == VectorizationTaskStatus.COMPLETED) {
             VectorizationTask task = baseMapper.selectByTaskId(taskId);
             if (task != null) {
-                task.setVectorized(true);
+                task.setVectorized(false);
+                task.setProgress(progress);
+                task.setTaskStatus(status);
                 baseMapper.updateById(task);
             }
         }
