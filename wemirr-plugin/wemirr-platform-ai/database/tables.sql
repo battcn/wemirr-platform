@@ -199,7 +199,8 @@ CREATE TABLE ai_kb_vectorization_task (
     status VARCHAR(50) COMMENT '任务状态',
     progress INT COMMENT '处理进度（百分比）',
     vector_ids JSON COMMENT '结果向量ID列表（JSON格式）',
-    error_message TEXT COMMENT '错误信息'
+    error_message TEXT COMMENT '错误信息',
+    token_usage INT COMMENT 'Token使用量'
 ) COMMENT '向量化任务';
 
 -- 多模态模型配置表
@@ -240,7 +241,8 @@ CREATE TABLE ai_chat_agent (
                                  ai_system_message VARCHAR(500) COMMENT '智能体角色预设',
                                  kb_id BIGINT  COMMENT '关联知识库id',
                                  tools  VARCHAR(500) COMMENT '工具配置',
-                                 tenant_id BIGINT COMMENT '租户ID'
+                                 tenant_id BIGINT COMMENT '租户ID',
+                                 mcp_server_ids  VARCHAR(255) 'mcp服务器配置'
 ) COMMENT '智能体配置';
 
 

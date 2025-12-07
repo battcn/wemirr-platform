@@ -86,7 +86,13 @@ public class VectorizationTask extends SuperEntity<Long> {
      */
     @TableField("error_message")
     private String errorMessage;
-    
+
+    /**
+     * 消耗的token
+     */
+    @TableField("token_usage")
+    private Integer tokenUsage;
+
     /**
      * 获取任务状态枚举
      */

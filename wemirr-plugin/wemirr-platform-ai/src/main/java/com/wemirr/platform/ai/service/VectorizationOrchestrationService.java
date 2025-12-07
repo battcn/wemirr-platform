@@ -88,7 +88,7 @@ public class VectorizationOrchestrationService {
                     })
                     .collect(Collectors.toList());
             
-            // 执行批量向量化
+            // 执行批量向量化,todo 记录消耗的token
             CompletableFuture<List<String>> future = vectorizationProcessor.batchVectorizeAndStore(texts, metadataList, kb, modelConfig);
             List<String> vectorIds = future.get(); // 等待完成
             

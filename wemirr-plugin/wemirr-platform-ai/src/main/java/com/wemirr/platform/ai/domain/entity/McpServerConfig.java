@@ -15,14 +15,6 @@ import lombok.experimental.SuperBuilder;
  * @author xJh
  * @since 2025/12/07
  * @description:
- * {
- *   "name": "Gitee MCP",
- *   "type": "STDIO",
- *   "command": "E:\\codeEnv\\nvm\\node\\npx.cmd",
- *   "args": "[\"-y\", \"@gitee/mcp-gitee@latest\"]",
- *   "env": "{\"GITEE_API_BASE\": \"https://gitee.com/api/v5\", \"GITEE_ACCESS_TOKEN\": \"f11a6cd31db6ac1490ab375fe4ebb749\"}",
- *   "status": true
- * }
  */
 @Data
 @SuperBuilder
