@@ -1,8 +1,9 @@
-package com.wemirr.platform.ai.service;
+package com.wemirr.platform.ai.core.provider.mcp;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wemirr.platform.ai.domain.entity.McpServerConfig;
+import com.wemirr.platform.ai.service.McpServerConfigService;
 import dev.langchain4j.mcp.client.DefaultMcpClient;
 import dev.langchain4j.mcp.client.McpClient;
 import dev.langchain4j.mcp.client.transport.McpTransport;

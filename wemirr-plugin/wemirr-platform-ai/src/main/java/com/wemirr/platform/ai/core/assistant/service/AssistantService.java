@@ -13,7 +13,7 @@ import com.wemirr.platform.ai.core.rag.TranslationQueryTransformer;
 import com.wemirr.platform.ai.domain.entity.ChatAgent;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.ModelConfig;
-import com.wemirr.platform.ai.service.DynamicMcpToolProvider;
+import com.wemirr.platform.ai.core.provider.mcp.DynamicMcpToolProvider;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
 import com.wemirr.platform.ai.service.ToolService;
 import dev.langchain4j.data.segment.TextSegment;

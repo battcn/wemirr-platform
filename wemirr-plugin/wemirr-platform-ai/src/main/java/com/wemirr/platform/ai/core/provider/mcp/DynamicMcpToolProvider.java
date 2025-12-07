@@ -1,4 +1,4 @@
-package com.wemirr.platform.ai.service;
+package com.wemirr.platform.ai.core.provider.mcp;
 
 import dev.langchain4j.agent.tool.ToolSpecification;
 import dev.langchain4j.mcp.McpToolExecutor;
