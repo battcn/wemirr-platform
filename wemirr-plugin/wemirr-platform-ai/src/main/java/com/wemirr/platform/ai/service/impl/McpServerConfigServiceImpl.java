@@ -13,8 +13,7 @@ import com.wemirr.platform.ai.domain.dto.req.McpServerConfigPageReq;
 import com.wemirr.platform.ai.domain.dto.req.McpServerConfigSaveReq;
 import com.wemirr.platform.ai.domain.entity.McpServerConfig;
 import com.wemirr.platform.ai.repository.McpServerConfigMapper;
-import com.wemirr.platform.ai.core.provider.mcp.DynamicMcpToolProvider;
-import com.wemirr.platform.ai.core.provider.mcp.McpClientFactory;
+import com.wemirr.platform.ai.service.McpConnectionManager;
 import com.wemirr.platform.ai.service.McpServerConfigService;
 import dev.langchain4j.agent.tool.ToolSpecification;
 import dev.langchain4j.mcp.client.McpClient;
@@ -35,8 +34,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerConfigMapper, McpServerConfig> implements McpServerConfigService {
 
-    private final DynamicMcpToolProvider dynamicMcpToolProvider;
-    private final McpClientFactory mcpClientFactory;
+    private final McpConnectionManager mcpConnectionManager;
 
     @Override
     public IPage<McpServerConfig> pageList(McpServerConfigPageReq req) {
@@ -59,14 +57,14 @@ public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerConfig
         McpServerConfig config = BeanUtilPlus.toBean(id, req, McpServerConfig.class);
         this.baseMapper.updateById(config);
         // 刷新连接缓存
-        dynamicMcpToolProvider.refreshProvider(id);
+        mcpConnectionManager.refreshClient(id);
     }
 
     @Override
     public void remove(Long id) {
         this.baseMapper.deleteById(id);
         // 关闭连接
-        dynamicMcpToolProvider.refreshProvider(id);
+        mcpConnectionManager.closeClient(id);
     }
 
     @Override
@@ -77,7 +75,7 @@ public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerConfig
 
     @Override
     public void refresh(Long id) {
-        dynamicMcpToolProvider.refreshProvider(id);
+        mcpConnectionManager.refreshClient(id);
     }
 
     @Override
@@ -86,10 +84,10 @@ public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerConfig
         
         try {
             // 先关闭已有连接
-            dynamicMcpToolProvider.refreshProvider(id);
+            mcpConnectionManager.refreshClient(id);
             
             // 创建新连接
-            McpClient client = mcpClientFactory.getClient(id);
+            McpClient client = mcpConnectionManager.getClient(id);
             
             // 获取工具列表（验证连接是否真正可用）
             List<ToolSpecification> tools = client.listTools();
@@ -120,7 +118,7 @@ public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerConfig
 
     @Override
     public List<McpToolInfoRep> getTools(Long id) {
-        McpClient client = mcpClientFactory.getClient(id);
+        McpClient client = mcpConnectionManager.getClient(id);
         List<ToolSpecification> toolSpecs = client.listTools();
         
         if (toolSpecs == null || toolSpecs.isEmpty()) {
@@ -149,7 +147,7 @@ public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerConfig
         
         // 如果禁用，关闭连接
         if (Boolean.FALSE.equals(status)) {
-            dynamicMcpToolProvider.refreshProvider(id);
+            mcpConnectionManager.closeClient(id);
         }
     }
 }

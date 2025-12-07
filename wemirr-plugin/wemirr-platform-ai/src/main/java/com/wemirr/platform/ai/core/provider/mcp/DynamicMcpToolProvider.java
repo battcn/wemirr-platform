@@ -1,5 +1,6 @@
 package com.wemirr.platform.ai.core.provider.mcp;
 
+import com.wemirr.platform.ai.service.McpConnectionManager;
 import dev.langchain4j.agent.tool.ToolSpecification;
 import dev.langchain4j.mcp.McpToolExecutor;
 import dev.langchain4j.mcp.client.McpClient;
@@ -24,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DynamicMcpToolProvider implements ToolProvider {
 
-    private final McpClientFactory mcpClientFactory;
+    private final McpConnectionManager mcpConnectionManager;
     
     // 存储当前智能体的 MCP 配置 ID 列表
     private ThreadLocal<List<Long>> agentMcpServerIds = new ThreadLocal<>();
@@ -60,7 +61,7 @@ public class DynamicMcpToolProvider implements ToolProvider {
         // 只加载智能体配置的 MCP 服务器
         for (Long configId : mcpServerIds) {
             try {
-                McpClient client = mcpClientFactory.getClient(configId);
+                McpClient client = mcpConnectionManager.getClient(configId);
                 List<ToolSpecification> tools = client.listTools();
 
                 if (tools != null) {
@@ -90,12 +91,5 @@ public class DynamicMcpToolProvider implements ToolProvider {
         
         log.info("Loaded {} MCP tools from {} servers", totalTools, mcpServerIds.size());
         return builder.build();
-    }
-
-    /**
-     * 刷新 Provider 缓存
-     */
-    public void refreshProvider(Long configId) {
-        mcpClientFactory.closeClient(configId);
     }
 }
