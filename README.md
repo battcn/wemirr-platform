@@ -84,6 +84,7 @@ Vue、Spring Cloud Alibaba 2023、Spring Cloud 2023、Nacos、Sentinel、 Mybati
 - 性能高效：集成链路追踪在2M网络环境下接口最慢不超过 `300毫秒` 普遍 `10-150 毫秒` 之间
 - 标准文档：集成标准的 `SpringDoc => Swagger V3` 功能更强大,UI更优美
 - 分布式任务：整合 `snail-job` 替换 `xxl-job` 提供分布式调度任务功能
+- Ai集成：基于Langchain4j集成RAG、Tools、Mcp等，该模块正在开发中
 
 > Vue 开发只需要几行简短的代码即可完成单表的CRUD，大大提升开发效率
 
