@@ -45,7 +45,7 @@ public class ChatAgentServiceImpl extends SuperServiceImpl<ChatAgentMapper, Chat
     @Override
     public IPage<ChatAgentPageRep> pageList(ChatAgentPageReq req) {
         return this.baseMapper.selectPage(req.buildPage(), Wraps.<ChatAgent>lbQ().like(ChatAgent::getName, req.getName())
-                .eq(ChatAgent::getKbId, req.getKnowledgeBaseId()).eq(ChatAgent::getUserId, req.getUserId())
+                .eq(ChatAgent::getUserId, req.getUserId())
                 .orderByDesc(ChatAgent::getLastModifyTime)).convert(x -> BeanUtil.toBean(x, ChatAgentPageRep.class));
     }
 
@@ -133,7 +133,7 @@ public class ChatAgentServiceImpl extends SuperServiceImpl<ChatAgentMapper, Chat
 
     @Override
     public List<ChatAgent> listByModelId(String modelId) {
-        return this.baseMapper.selectList(Wraps.<ChatAgent>lbQ().eq(ChatAgent::getModelId, modelId).orderByDesc(ChatAgent::getLastModifyTime));
+        return this.baseMapper.selectList(Wraps.<ChatAgent>lbQ().eq(ChatAgent::getChatModelId, modelId).orderByDesc(ChatAgent::getLastModifyTime));
 
     }
 }

@@ -1,6 +1,7 @@
 package com.wemirr.platform.ai.service.impl;
 
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.platform.ai.domain.dto.rep.EmbeddingMatchRep;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.KnowledgeChunk;
 import com.wemirr.platform.ai.domain.entity.ModelConfig;
@@ -38,47 +39,42 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
     private final VectorSearchService vectorSearchService;
 
     @Override
-    public List<Map<String, Object>> semanticSearch(Long kbId, String query, int topK) {
+    public List<EmbeddingMatchRep> semanticSearch(Long kbId, String query, int topK) {
         try {
-            // 1. 获取知识库信息
             KnowledgeBase knowledgeBase = knowledgeBaseService.getById(kbId);
             if (knowledgeBase == null) {
                 throw new IllegalArgumentException("知识库不存在: " + kbId);
             }
 
-            // 2. 获取默认的嵌入模型配置
             ModelConfig embeddingModel = getEmbeddingModelById(knowledgeBase.getEmbeddingModelId());
             if (embeddingModel == null) {
-                log.warn("未找到可用的嵌入模型配置，使用关键词搜索替代");
-                return keywordSearch(kbId, query, topK);
+                log.warn("未找到可用的嵌入模型配置....");
+                return null;
             }
 
-            // 3. 检查向量存储是否可用
             if (!vectorSearchService.isVectorStoreAvailable(knowledgeBase, embeddingModel)) {
-                log.warn("向量存储不可用，使用关键词搜索替代");
-                return keywordSearch(kbId, query, topK);
+                log.warn("向量存储不可用...");
+                return null;
             }
 
-            // 4. 执行向量搜索
             List<EmbeddingMatch<TextSegment>> matches = vectorSearchService.search(knowledgeBase, embeddingModel, query, topK);
             
-            // 5. 转换为结果格式
             return matches.stream()
                     .map(match -> {
-                        Map<String, Object> result = new HashMap<>();
-                        result.put("content", match.embedded().text());
-                        result.put("score", match.score());
-                        result.put("metadata", match.embedded().metadata().toMap());
-                        result.put("searchType", "semantic");
-                        return result;
+                        return EmbeddingMatchRep.builder()
+                                .content(match.embedded().text())
+                                .score(match.score())
+                                .metadata(match.embedded().metadata().toMap())
+                                //语义搜索（向量）
+                                .searchType("semantic")
+                                .build();
                     })
                     .collect(Collectors.toList());
                     
         } catch (Exception e) {
             log.error("语义搜索失败: kbId={}, query={}", kbId, query, e);
-            // 如果向量搜索失败，降级到关键词搜索
-            log.warn("向量搜索失败，降级到关键词搜索");
-            return keywordSearch(kbId, query, topK);
+            log.warn("向量搜索失败....");
+            return null;
         }
     }
 
@@ -112,7 +108,7 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
     public List<Map<String, Object>> hybridSearch(Long kbId, String query, int topK) {
         try {
             // 执行语义搜索
-            List<Map<String, Object>> semanticResults = semanticSearch(kbId, query, topK);
+            List<Map<String, Object>> semanticResults = semanticSearchMap(kbId, query, topK);
             
             // 执行关键词搜索
             List<Map<String, Object>> keywordResults = keywordSearch(kbId, query, topK);
@@ -174,6 +170,44 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
         } catch (Exception e) {
             log.error("内容召回失败: kbId={}, query={}", kbId, query, e);
             throw new RuntimeException("内容召回失败: " + e.getMessage(), e);
+        }
+    }
+
+    public List<Map<String, Object>> semanticSearchMap(Long kbId, String query, int topK) {
+        try {
+            KnowledgeBase knowledgeBase = knowledgeBaseService.getById(kbId);
+            if (knowledgeBase == null) {
+                throw new IllegalArgumentException("知识库不存在: " + kbId);
+            }
+
+            ModelConfig embeddingModel = getEmbeddingModelById(knowledgeBase.getEmbeddingModelId());
+            if (embeddingModel == null) {
+                log.warn("未找到可用的嵌入模型配置，使用关键词搜索替代");
+                return keywordSearch(kbId, query, topK);
+            }
+
+            if (!vectorSearchService.isVectorStoreAvailable(knowledgeBase, embeddingModel)) {
+                log.warn("向量存储不可用，使用关键词搜索替代");
+                return keywordSearch(kbId, query, topK);
+            }
+
+            List<EmbeddingMatch<TextSegment>> matches = vectorSearchService.search(knowledgeBase, embeddingModel, query, topK);
+
+            return matches.stream()
+                    .map(match -> {
+                        Map<String, Object> result = new HashMap<>();
+                        result.put("content", match.embedded().text());
+                        result.put("score", match.score());
+                        result.put("metadata", match.embedded().metadata().toMap());
+                        result.put("searchType", "semantic");
+                        return result;
+                    })
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            log.error("语义搜索失败: kbId={}, query={}", kbId, query, e);
+            log.warn("向量搜索失败，降级到关键词搜索");
+            return keywordSearch(kbId, query, topK);
         }
     }
 

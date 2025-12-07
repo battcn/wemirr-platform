@@ -113,8 +113,6 @@ public class VectorizationOrchestrationService {
                         .itemId(chunk.getItemId())
                         .chunkId(chunk.getId())
                         .chunkType(chunk.getChunkType())
-                        //.dimension(384) // TODO 默认维度，应该从模型配置获取
-                        .storeType("milvus") //TODO 根据配置确定
                         .collectionName(generateCollectionName(kb))
                         .textContent(chunk.getContent())
                         .textHash(chunk.getContentHash())
@@ -275,7 +273,6 @@ public class VectorizationOrchestrationService {
         try {
             // 先删除现有向量
             deleteVectorForItem(itemId);
-            
             // 重新向量化
             return vectorizeKnowledgeItem(itemId);
         } catch (Exception e) {

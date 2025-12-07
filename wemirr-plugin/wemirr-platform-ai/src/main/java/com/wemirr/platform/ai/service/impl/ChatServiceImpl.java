@@ -9,6 +9,7 @@ import com.wemirr.platform.ai.core.enums.ModelType;
 import com.wemirr.platform.ai.core.provider.text.TextModelService;
 import com.wemirr.platform.ai.core.sse.SseChatHelper;
 import com.wemirr.platform.ai.domain.dto.req.AskReq;
+import com.wemirr.platform.ai.domain.entity.ChatAgent;
 import com.wemirr.platform.ai.domain.entity.ConversationMessage;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.ModelConfig;
@@ -20,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,6 +48,8 @@ public class ChatServiceImpl implements ChatService {
 
     private final KnowledgeBaseService knowledgeBaseService;
 
+    private final ChatAgentService chatAgentService;
+
     @Override
     @Transactional
     public SseEmitter chatStream(AskReq askReq) {
@@ -55,7 +57,7 @@ public class ChatServiceImpl implements ChatService {
         switch (askReq.getChatType()) {
             case NORMAL_TEXT -> handleTextChat(askReq, emitter);
             case KNOWLEDGE_BASE -> handleKnowledgeChat(askReq, emitter);
-//            case AGENT_GENERAL, AGENT_PLATFORM -> handleAgentChat(askReq, sseEmitter);
+            case GENERAL_AGENT, PLATFORM_AGENT -> handleAgentChat(askReq, emitter);
 //            case IMAGE_GENERATION -> handleImageGeneration(askReq, sseEmitter);
             default -> throw new IllegalArgumentException("不支持的对话类型: " + askReq.getChatType());
         }
@@ -148,7 +150,7 @@ public class ChatServiceImpl implements ChatService {
                             .embeddingModelConfig(embeddingModelConfig)
                             .build();
             ChatAssistant memoryRagAssistant = assistantService.createMemoryRagAssistant(params);
-            TokenStream tokenStream = memoryRagAssistant.chat(conversationId, askReq.getPrompt(),new ArrayList<>());
+            TokenStream tokenStream = memoryRagAssistant.chatStream(conversationId, askReq.getPrompt());
             
             // 7. 处理流式响应
             sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, (result) -> {
@@ -185,6 +187,73 @@ public class ChatServiceImpl implements ChatService {
                 log.error("发送错误信息失败", ex);
             }
         }
+    }
+
+    private void handleAgentChat(AskReq askReq, SseEmitter sseEmitter) {
+        Long userId = authenticationContext.userId();
+        Long tenantId = authenticationContext.tenantId();
+        Long conversationId = askReq.getConversationId();
+        String userPrompt = askReq.getPrompt();
+
+        ConversationMessage conversationMessage = conversationMessageService.saveUserMessage(
+                conversationId,
+                userId,
+                tenantId,
+                userPrompt,
+                userPrompt,
+                0
+        );
+
+        ChatAgent chatAgent = chatAgentService.getById(askReq.getAgentId());
+        if (chatAgent == null) {
+            throw new IllegalArgumentException("智能体不存在");
+        }
+
+        ModelConfig textModelConfig = modelConfigService.getOne(
+                Wraps.<ModelConfig>lbQ().eq(ModelConfig::getId, chatAgent.getChatModelId())
+                        .eq(ModelConfig::getModelType, ModelType.TEXT)
+        );
+        if (textModelConfig == null) {
+            throw new IllegalArgumentException("模型配置不存在: " + chatAgent.getChatModelId());
+        }
+
+        RagAssistantParams ragParams = null;
+        if (chatAgent.getKbId() != null) {
+            KnowledgeBase knowledgeBase = knowledgeBaseService.getById(chatAgent.getKbId());
+            if (knowledgeBase != null) {
+                ModelConfig embeddingModelConfig = modelConfigService.getOne(Wraps.<ModelConfig>lbQ().eq(ModelConfig::getId, knowledgeBase.getEmbeddingModelId())
+                        .eq(ModelConfig::getModelType, ModelType.EMBEDDING));
+                ragParams = RagAssistantParams.builder()
+                        .kbId(chatAgent.getKbId())
+                        .textModelConfig(textModelConfig)
+                        .embeddingModelConfig(embeddingModelConfig)
+                        .build();
+            }
+        }
+
+        ChatAssistant assistant = assistantService.createAgentAssistant(chatAgent, textModelConfig, ragParams);
+        TokenStream tokenStream = assistant.chatStream(conversationId, userPrompt);
+
+        sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, (result) -> {
+            String rawContent = (String) result.get("content");
+            Integer promptTokens = (Integer) result.get("inputTokens");
+            Integer completionTokens = (Integer) result.get("outputTokens");
+            conversationMessageService.saveAssistantMessageAsync(
+                    conversationId,
+                    userId,
+                    tenantId,
+                    rawContent,
+                    rawContent,
+                    null,
+                    String.valueOf(chatAgent.getChatModelId()),//todo 转成模型名称
+                    textModelConfig.getProvider(),
+                    promptTokens,
+                    completionTokens,
+                    null,
+                    null,
+                    conversationMessage.getId()
+            );
+        });
     }
     
     /**

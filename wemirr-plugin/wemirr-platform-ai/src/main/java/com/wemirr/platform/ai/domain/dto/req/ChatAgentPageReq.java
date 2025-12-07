@@ -18,12 +18,6 @@ public class ChatAgentPageReq extends PageRequest {
     @Schema(description = "智能体名称")
     private String name;
 
-    @Schema(description = "模型名称")
-    private String modelName;
-
-    @Schema(description = "关联知识库ID")
-    private Long knowledgeBaseId;
-
     @Schema(description = "用户ID")
     private Long userId;
 }

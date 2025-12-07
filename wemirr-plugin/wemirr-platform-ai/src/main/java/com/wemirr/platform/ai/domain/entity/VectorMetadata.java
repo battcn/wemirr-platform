@@ -58,17 +58,6 @@ public class VectorMetadata extends SuperEntity<Long> {
     @TableField("chunk_type")
     private ChunkType chunkType;
 
-    /**
-     * 向量维度
-     */
-    @TableField("dimension")
-    private Integer dimension;
-
-    /**
-     * 向量存储类型（milvus、pgvector等）
-     */
-    @TableField("store_type")
-    private String storeType;
 
     /**
      * 向量数据库集合名称

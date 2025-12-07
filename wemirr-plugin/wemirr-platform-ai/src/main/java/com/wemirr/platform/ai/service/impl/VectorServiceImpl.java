@@ -3,6 +3,7 @@ package com.wemirr.platform.ai.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
+import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemStatus;
@@ -42,13 +43,18 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
 
 
     @Override
-    public void vectorizeKnowledgeItem(Long itemId) {
+    public Result vectorizeKnowledgeItem(Long itemId) {
         KnowledgeItem item = knowledgeItemService.getById(itemId);
+        VectorizationTask vectorizationTask = this.baseMapper.selectOne(Wraps.<VectorizationTask>lbQ().eq(VectorizationTask::getItemId, itemId));
+        if(vectorizationTask!=null&&vectorizationTask.getTaskStatus()!= VectorizationTaskStatus.FAILED){
+            return Result.fail("不可再次创建任务");
+        }
         item.setStatus(KnowledgeItemStatus.PROCESSING);
         knowledgeItemService.updateById(item);
         String taskId = IdUtil.fastSimpleUUID();
         createTask(taskId, item.getKbId(), itemId, "KNOWLEDGE_ITEM");
         runAsyncTask(taskId, () -> vectorizationOrchestrationService.vectorizeKnowledgeItem(itemId));
+        return Result.success();
         
     }
 

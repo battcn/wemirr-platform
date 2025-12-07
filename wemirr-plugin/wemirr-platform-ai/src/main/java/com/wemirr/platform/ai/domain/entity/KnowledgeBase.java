@@ -17,12 +17,12 @@ import java.util.Map;
  * @author xJh
  * @since 2025/10/17
  **/
-@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("ai_kb_knowledge_base")
+@EqualsAndHashCode(callSuper = true)
 public class KnowledgeBase extends SuperEntity<Long> {
 
     @Schema(description = "知识库名称")
@@ -54,7 +54,7 @@ public class KnowledgeBase extends SuperEntity<Long> {
     private Integer retrieveMaxResults;
 
 
-    @Schema(description = "聊天模型ID")
+    @Schema(description = "聊天模型ID，仅对纯知识库问答生效")
     private Long chatModelId;
 
     @Schema(description = "向量模型ID,一旦选定默认不允许修改")

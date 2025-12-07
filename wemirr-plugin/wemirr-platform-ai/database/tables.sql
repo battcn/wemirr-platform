@@ -221,3 +221,24 @@ CREATE TABLE ai_model_config (
     variables JSON COMMENT '模型配置属性',
     tenant_id BIGINT COMMENT '租户ID'
 ) COMMENT '多模态模型配置';
+
+-- 智能体配置
+CREATE TABLE ai_chat_agent (
+                                 id BIGINT PRIMARY KEY COMMENT 'ID',
+                                 create_by BIGINT COMMENT '创建人ID',
+                                 create_name VARCHAR(255) COMMENT '创建人名称',
+                                 create_time DATETIME COMMENT '创建时间',
+                                 last_modify_time DATETIME COMMENT '最后修改时间',
+                                 last_modify_by BIGINT COMMENT '最后修改人ID',
+                                 last_modify_name VARCHAR(255) COMMENT '最后修改人名称',
+                                 deleted BOOLEAN DEFAULT FALSE COMMENT '逻辑删除',
+
+                                 userId BIGINT  COMMENT 'userID',
+                                 name VARCHAR(100) COMMENT '智能体名称',
+                                 chat_model_id BIGINT COMMENT '绑定会话模型',
+                                 description VARCHAR(255) COMMENT '智能体描述',
+                                 ai_system_message VARCHAR(500) COMMENT '智能体角色预设',
+                                 kb_id BIGINT  COMMENT '关联知识库id',
+                                 tools  VARCHAR(500) COMMENT '工具配置',
+                                 tenant_id BIGINT COMMENT '租户ID'
+) COMMENT '智能体配置';

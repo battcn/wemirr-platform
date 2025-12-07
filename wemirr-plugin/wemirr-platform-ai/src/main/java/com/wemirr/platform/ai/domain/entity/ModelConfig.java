@@ -18,12 +18,12 @@ import java.util.Map;
  * @author xJh
  * @since 2025/10/9
  **/
-@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("ai_model_config")
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "多模态模型配置实体")
 public class ModelConfig extends SuperEntity<Long> {
 

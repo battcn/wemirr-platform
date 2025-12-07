@@ -19,11 +19,11 @@ import java.util.Map;
  * @author xJh
  * @since 2025/10/20
  **/
-@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @TableName("ai_kb_vectorization_task")
 public class VectorizationTask extends SuperEntity<Long> {
 

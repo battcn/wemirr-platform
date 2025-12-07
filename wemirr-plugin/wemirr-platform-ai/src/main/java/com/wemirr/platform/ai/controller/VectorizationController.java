@@ -1,6 +1,7 @@
 package com.wemirr.platform.ai.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.ai.domain.dto.rep.VectorizationRep;
 import com.wemirr.platform.ai.domain.dto.req.VectorizationTaskPageReq;
 import com.wemirr.platform.ai.domain.entity.VectorizationTask;
@@ -40,8 +41,8 @@ public class VectorizationController {
 
     @PostMapping("/knowledge-item/{itemId}")
     @Operation(summary = "对知识条目进行向量化")
-    public void vectorizeKnowledgeItem(@PathVariable Long itemId) {
-         vectorService.vectorizeKnowledgeItem(itemId);
+    public Result vectorizeKnowledgeItem(@PathVariable Long itemId) {
+        return vectorService.vectorizeKnowledgeItem(itemId);
     }
 
     @PostMapping("/knowledge-items")

@@ -23,20 +23,21 @@ public class ChatAgentPageRep {
     private String name;
 
     @Schema(description = "绑定模型名称")
-    private String modelName;
+    private Long chatModelId;
 
     @Schema(description = "智能体描述")
     private String description;
+
+    @Schema(description = "智能体角色预设")
+    private String aiSystemMessage;
 
     @Schema(description = "智能体头像")
     private String avatar;
 
     @Schema(description = "关联知识库ID")
-    private Long knowledgeBaseId;
+    private Long kbId;
 
-    @Schema(description = "创建时间")
-    private LocalDateTime createdTime;
-
-    @Schema(description = "更新时间")
-    private LocalDateTime updatedTime;
+    // JSON格式存储工具名称列表，如：["平台菜单查询工具"]
+    @Schema(description = "智能体工具配置")
+    private String tools;
 }

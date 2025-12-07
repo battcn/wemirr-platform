@@ -1,5 +1,7 @@
 package com.wemirr.platform.ai.service;
 
+import com.wemirr.platform.ai.domain.dto.rep.EmbeddingMatchRep;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +23,7 @@ public interface KnowledgeSearchService {
      * @param topK 返回结果数量
      * @return 搜索结果列表
      */
-    List<Map<String, Object>> semanticSearch(Long kbId, String query, int topK);
+    List<EmbeddingMatchRep> semanticSearch(Long kbId, String query, int topK);
 
     /**
      * 关键词搜索

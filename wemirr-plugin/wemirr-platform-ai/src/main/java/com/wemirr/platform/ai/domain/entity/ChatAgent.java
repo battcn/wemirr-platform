@@ -13,13 +13,13 @@ import lombok.experimental.SuperBuilder;
  * @author xJh
  * @since 2025/11/4
  **/
-@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("ai_chat_agent")
 @Schema(description = "聊天智能体实体")
+@EqualsAndHashCode(callSuper = true)
 public class ChatAgent extends SuperEntity<Long> {
 
     @Schema(description = "用户ID")
@@ -28,9 +28,8 @@ public class ChatAgent extends SuperEntity<Long> {
     @Schema(description = "智能体名称")
     private String name;
 
-    //通过模型名称自然可以匹配创建到对应的模型策略
     @Schema(description = "绑定模型名称")
-    private String modelId;
+    private Long chatModelId;
 
     @Schema(description = "智能体描述")
     private String description;

@@ -1,6 +1,7 @@
 package com.wemirr.platform.ai.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.ai.domain.dto.rep.VectorizationRep;
 import com.wemirr.platform.ai.domain.dto.req.VectorizationTaskPageReq;
@@ -21,9 +22,9 @@ public interface VectorService extends SuperService<VectorizationTask> {
      * 对知识条目进行向量化
      * 
      * @param itemId 知识条目ID
-     * @return 任务ID
+     * @return 结果
      */
-    void vectorizeKnowledgeItem(Long itemId);
+    Result vectorizeKnowledgeItem(Long itemId);
     
     /**
      * 批量对知识条目进行向量化

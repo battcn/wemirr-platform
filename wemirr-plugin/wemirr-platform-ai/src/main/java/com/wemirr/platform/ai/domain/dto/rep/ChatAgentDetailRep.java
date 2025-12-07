@@ -23,7 +23,7 @@ public class ChatAgentDetailRep {
     private String name;
 
     @Schema(description = "绑定模型名称")
-    private String modelName;
+    private Long chatModelId;
 
     @Schema(description = "智能体描述")
     private String description;
@@ -35,27 +35,10 @@ public class ChatAgentDetailRep {
     private String avatar;
 
     @Schema(description = "关联知识库ID")
-    private Long knowledgeBaseId;
+    private Long kbId;
 
-    @Schema(description = "智能体工具配置（JSON格式）")
+    // JSON格式存储工具名称列表，如：["平台菜单查询工具"]
+    @Schema(description = "智能体工具配置")
     private String tools;
-
-    @Schema(description = "创建人ID")
-    private Long createdBy;
-
-    @Schema(description = "创建人名称")
-    private String createdName;
-
-    @Schema(description = "创建时间")
-    private LocalDateTime createdTime;
-
-    @Schema(description = "最后修改人ID")
-    private Long lastModifiedBy;
-
-    @Schema(description = "最后修改人名称")
-    private String lastModifiedName;
-
-    @Schema(description = "最后修改时间")
-    private LocalDateTime lastModifiedTime;
 
 }

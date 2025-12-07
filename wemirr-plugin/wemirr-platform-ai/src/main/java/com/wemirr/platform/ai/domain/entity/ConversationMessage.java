@@ -14,11 +14,11 @@ import lombok.experimental.SuperBuilder;
  * @author xiao1
  * @since 2025-10
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @TableName("ai_conversation_message")
 @Schema(description = "会话信息明细记录")
 public class ConversationMessage extends SuperEntity<Long> {

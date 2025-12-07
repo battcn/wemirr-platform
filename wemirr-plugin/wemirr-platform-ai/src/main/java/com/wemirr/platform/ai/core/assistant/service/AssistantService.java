@@ -1,14 +1,20 @@
 package com.wemirr.platform.ai.core.assistant.service;
 
+import cn.hutool.core.collection.CollUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wemirr.platform.ai.core.assistant.interfaces.ChatAssistant;
 import com.wemirr.platform.ai.core.enums.ChunkType;
 import com.wemirr.platform.ai.core.provider.embedding.EmbeddingModelProviderRegistry;
 import com.wemirr.platform.ai.core.provider.text.TextModelService;
 import com.wemirr.platform.ai.core.provider.vectorStore.EnhancedVectorStoreFactory;
 import com.wemirr.platform.ai.core.rag.TranslationQueryTransformer;
+import com.wemirr.platform.ai.domain.entity.ChatAgent;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.ModelConfig;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
+import com.wemirr.platform.ai.service.ToolService;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.ChatMemoryProvider;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -36,14 +42,17 @@ import dev.langchain4j.store.embedding.filter.Filter;
 import dev.langchain4j.store.memory.chat.ChatMemoryStore;
 import dev.langchain4j.web.search.tavily.TavilyWebSearchEngine;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static dev.langchain4j.store.embedding.filter.MetadataFilterBuilder.metadataKey;
 
@@ -69,7 +78,13 @@ public class AssistantService {
 
     private final EmbeddingModelProviderRegistry embeddingModelProviderRegistry;
 
+    private final ApplicationContext applicationContext;
+
+    private final ObjectMapper objectMapper;
+
     private final Executor executor = Executors.newCachedThreadPool();
+
+    private final ToolService toolService;
 
     /**
      * 创建普通记忆对话的 Assistant
@@ -169,30 +184,128 @@ public class AssistantService {
     }
 
     /**
+     * 创建智能体对话助手 (支持Tools和RAG)
+     */
+    @SneakyThrows
+    public ChatAssistant createAgentAssistant(ChatAgent chatAgent, ModelConfig modelConfig, RagAssistantParams ragParams) {
+        ChatModel chatModel = textModelService.model(modelConfig);
+        StreamingChatModel streamModel = textModelService.streamModel(modelConfig);
+
+        var builder = AiServices.builder(ChatAssistant.class)
+                .chatModel(chatModel)
+                .streamingChatModel(streamModel)
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(DEFAULT_MAX_MESSAGES))
+                .chatMemoryProvider(createMemoryProvider());
+
+        // Configure Tools
+        if (chatAgent.getTools() != null && !chatAgent.getTools().isEmpty()) {
+            List<String> toolNames = objectMapper.readValue(chatAgent.getTools(), new TypeReference<List<String>>() {});
+            if (toolNames != null && !toolNames.isEmpty()) {
+                List<Object> tools = toolNames.stream()
+                        .map(name -> {
+                            try {
+                                return applicationContext.getBean(name);
+                            } catch (Exception e) {
+                                log.warn("Tool bean not found: {}", name);
+                                return null;
+                            }
+                        })
+                        .filter(Objects::nonNull)
+                        .toList();
+                if (!tools.isEmpty()) {
+                    builder.tools(tools);
+                }
+            }
+        }
+        //todo 如果没有预制系统预设，则使用默认。有的话使用系统预设
+        builder.systemMessageProvider(memoryId -> {
+            StringBuilder sb = new StringBuilder();
+
+            // 基础角色预设 (用户配置的 "你是一个XX助手...")
+            if (StringUtils.isNotBlank(chatAgent.getAiSystemMessage())) {
+                sb.append(chatAgent.getAiSystemMessage()).append("\n\n");
+            }
+
+            // 能力自我认知增强
+            sb.append("### 当前具备的能力\n");
+
+            // RAG 能力
+            if (ragParams != null) {
+                sb.append("- 【知识库】：我连接了专属知识库，可以检索文档并回答相关问题。\n");
+            }
+
+            // Tools 能力 (利用 ToolService 获取描述)
+            if (chatAgent.getTools() != null) {
+                List<String> toolNames = null;
+                try {
+                    toolNames = objectMapper.readValue(chatAgent.getTools(), new TypeReference<List<String>>() {});
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+                if (CollUtil.isNotEmpty(toolNames)) {
+                    sb.append("- 【工具箱】：我可以调用以下工具辅助回答：\n");
+                    // 获取所有工具的详细信息，找到匹配的并追加描述
+                    Map<String, ToolService.ToolDTO> toolMap = toolService.getTools().stream()
+                            .collect(Collectors.toMap(ToolService.ToolDTO::getBeanName, Function.identity()));
+
+                    for (String name : toolNames) {
+                        ToolService.ToolDTO tool = toolMap.get(name);
+                        if (tool != null && CollUtil.isNotEmpty(tool.getMethods())) {
+                            // 取第一个方法的描述作为工具描述（简化处理）
+                            String desc = tool.getMethods().get(0).getDescription();
+                            // 如果注解没写描述，就用方法名
+                            if (StringUtils.isBlank(desc)) {
+                                desc = tool.getMethods().get(0).getName();
+                            }
+                            sb.append(String.format("  * %s: %s\n", name, desc));
+                        }
+                    }
+                }
+            }
+
+            sb.append("\n请根据上述能力回答用户的问题。当用户询问“你有什么功能”时，请基于以上信息进行总结。");
+            return sb.toString();
+        });
+
+        // Configure RAG
+        if (ragParams != null) {
+            RetrievalAugmentor retrievalAugmentor = buildRetrievalAugmentor(ragParams, chatModel);
+            builder.retrievalAugmentor(retrievalAugmentor);
+        }
+
+        return builder.build();
+    }
+
+    /**
      * 创建RAG的 Assistant
      */
     public ChatAssistant createMemoryRagAssistant(RagAssistantParams params) {
-        KnowledgeBase knowledgeBase = knowledgeBaseService.getById(params.getKbId());
-        EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, params.getEmbeddingModelConfig());
         ChatModel chatModel = textModelService.model(params.getTextModelConfig());
         StreamingChatModel streamModel = textModelService.streamModel(params.getTextModelConfig());
-        EmbeddingModel embeddingModel = embeddingModelProviderRegistry.getProvider(params.getEmbeddingModelConfig()).createModel(params.getEmbeddingModelConfig());
+        RetrievalAugmentor retrievalAugmentor = buildRetrievalAugmentor(params, chatModel);
 
-        //元数据过滤
-//        Function<Query, Filter> queryFilterFunction =
-//                (query) -> metadataKey("chunkType").isEqualTo(params.getFilterChunkType().getCode());
+        int maxMessages = params.getMaxMessages() != null ? params.getMaxMessages() : DEFAULT_MAX_MESSAGES;
+        return AiServices.builder(ChatAssistant.class)
+                .chatModel(chatModel)
+                .streamingChatModel(streamModel)
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(maxMessages))
+                .chatMemoryProvider(createMemoryProvider())
+                .retrievalAugmentor(retrievalAugmentor)
+                .build();
+    }
+
+    private RetrievalAugmentor buildRetrievalAugmentor(RagAssistantParams params, ChatModel chatModel) {
+        KnowledgeBase knowledgeBase = knowledgeBaseService.getById(params.getKbId());
+        EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, params.getEmbeddingModelConfig());
+        EmbeddingModel embeddingModel = embeddingModelProviderRegistry.getProvider(params.getEmbeddingModelConfig()).createModel(params.getEmbeddingModelConfig());
 
         ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
                 .embeddingStore(embeddingStore)
                 .embeddingModel(embeddingModel)
                 .maxResults(params.getMaxResults())
-//                .dynamicFilter(queryFilterFunction)
                 .minScore(params.getMinScore())
                 .build();
 
-//       QueryTransformer compressingQueryTransformer = new CompressingQueryTransformer(chatModel);
-//         QueryTransformer queryTransformer = query -> compressingQueryTransformer.transform(defaultQueryTransformer.transform(query));
-//        QueryTransformer queryTransformer = new DefaultQueryTransformer();
         // 创建翻译转换器
         QueryTransformer translationQueryTransformer = new TranslationQueryTransformer(chatModel);
         // 创建压缩转换器
@@ -210,21 +323,12 @@ public class AssistantService {
         ContentAggregator contentAggregator = new DefaultContentAggregator();
         ContentInjector contentInjector = new DefaultContentInjector();
 
-        RetrievalAugmentor retrievalAugmentor = DefaultRetrievalAugmentor.builder()
+        return DefaultRetrievalAugmentor.builder()
                 .queryTransformer(queryTransformer)
                 .queryRouter(queryRouter)
                 .contentAggregator(contentAggregator)
                 .contentInjector(contentInjector)
                 .executor(executor)
-                .build();
-
-        int maxMessages = params.getMaxMessages() != null ? params.getMaxMessages() : DEFAULT_MAX_MESSAGES;
-        return AiServices.builder(ChatAssistant.class)
-                .chatModel(chatModel)
-                .streamingChatModel(streamModel)
-                .chatMemory(MessageWindowChatMemory.withMaxMessages(maxMessages))
-                .chatMemoryProvider(createMemoryProvider())
-                .retrievalAugmentor(retrievalAugmentor)
                 .build();
     }
 

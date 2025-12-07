@@ -20,12 +20,12 @@ import java.util.Map;
  * @author xJh
  * @since 2025/10/20
  **/
-@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("ai_kb_knowledge_chunk")
+@EqualsAndHashCode(callSuper = true)
 public class KnowledgeChunk extends SuperEntity<Long> {
     
     /**

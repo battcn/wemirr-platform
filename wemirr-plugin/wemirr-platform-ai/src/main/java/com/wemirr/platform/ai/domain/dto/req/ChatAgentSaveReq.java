@@ -18,10 +18,8 @@ public class ChatAgentSaveReq {
     @Schema(description = "智能体名称")
     private String name;
 
-    @NotBlank(message = "模型名称不能为空")
-    @Length(max = 100, message = "模型名称长度不能超过{max}")
     @Schema(description = "绑定模型名称")
-    private String modelName;
+    private Long chatModelId;
 
     @Length(max = 500, message = "智能体描述长度不能超过{max}")
     @Schema(description = "智能体描述")
@@ -35,7 +33,7 @@ public class ChatAgentSaveReq {
     private String avatar;
 
     @Schema(description = "关联知识库ID")
-    private Long knowledgeBaseId;
+    private Long kbId;
 
     @Length(max = 2000, message = "智能体工具配置长度不能超过{max}")
     @Schema(description = "智能体工具配置（JSON格式）")

@@ -16,12 +16,12 @@ import java.util.Map;
  * @author xJh
  * @since 2025/10/17
  **/
-@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("ai_kb_vector_store")
+@EqualsAndHashCode(callSuper = true)
 public class VectorStore extends SuperEntity<Long> {
 
     /**
