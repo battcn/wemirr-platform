@@ -1,6 +1,5 @@
 package com.wemirr.platform.ai.service.impl;
 
-import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.ai.domain.dto.rep.EmbeddingMatchRep;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.KnowledgeChunk;

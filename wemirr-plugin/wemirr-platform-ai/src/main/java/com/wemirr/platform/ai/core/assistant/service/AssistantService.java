@@ -13,6 +13,7 @@ import com.wemirr.platform.ai.core.rag.TranslationQueryTransformer;
 import com.wemirr.platform.ai.domain.entity.ChatAgent;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.service.DynamicMcpToolProvider;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
 import com.wemirr.platform.ai.service.ToolService;
 import dev.langchain4j.data.segment.TextSegment;
@@ -48,7 +49,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.function.Function;
@@ -85,6 +89,8 @@ public class AssistantService {
     private final Executor executor = Executors.newCachedThreadPool();
 
     private final ToolService toolService;
+    
+    private final DynamicMcpToolProvider dynamicMcpToolProvider;
 
     /**
      * 创建普通记忆对话的 Assistant
@@ -184,7 +190,7 @@ public class AssistantService {
     }
 
     /**
-     * 创建智能体对话助手 (支持Tools和RAG)
+     * 创建智能体对话助手 (支持Tools和RAG、MCP工具)
      */
     @SneakyThrows
     public ChatAssistant createAgentAssistant(ChatAgent chatAgent, ModelConfig modelConfig, RagAssistantParams ragParams) {
@@ -217,6 +223,19 @@ public class AssistantService {
                 }
             }
         }
+        
+        // 配置 MCP 工具提供者
+        // 先设置智能体的 MCP 服务器配置
+        if (chatAgent.getMcpServerIds() != null && !chatAgent.getMcpServerIds().isEmpty()) {
+            try {
+                List<Long> mcpServerIds = objectMapper.readValue(chatAgent.getMcpServerIds(), new TypeReference<List<Long>>() {});
+                dynamicMcpToolProvider.setAgentMcpServerIds(mcpServerIds);
+                builder.toolProvider(dynamicMcpToolProvider);
+            } catch (Exception e) {
+                log.error("Failed to parse MCP server IDs for agent: {}", chatAgent.getId(), e);
+            }
+        }
+
         //todo 如果没有预制系统预设，则使用默认。有的话使用系统预设
         builder.systemMessageProvider(memoryId -> {
             StringBuilder sb = new StringBuilder();

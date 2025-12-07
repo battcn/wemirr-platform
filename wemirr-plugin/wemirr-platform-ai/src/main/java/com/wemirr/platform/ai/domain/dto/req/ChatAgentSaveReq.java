@@ -38,4 +38,8 @@ public class ChatAgentSaveReq {
     @Length(max = 2000, message = "智能体工具配置长度不能超过{max}")
     @Schema(description = "智能体工具配置（JSON格式）")
     private String tools;
+    
+    @Length(max = 1000, message = "MCP服务器配置长度不能超过{max}")
+    @Schema(description = "智能体MCP服务器配置（JSON格式，存储MCP配置ID列表，如：[1, 2, 3]）")
+    private String mcpServerIds;
 }

@@ -242,3 +242,29 @@ CREATE TABLE ai_chat_agent (
                                  tools  VARCHAR(500) COMMENT '工具配置',
                                  tenant_id BIGINT COMMENT '租户ID'
 ) COMMENT '智能体配置';
+
+
+-- Mcp配置
+CREATE TABLE ai_mcp_server_config (
+                               id BIGINT PRIMARY KEY COMMENT 'ID',
+                               create_by BIGINT COMMENT '创建人ID',
+                               create_name VARCHAR(255) COMMENT '创建人名称',
+                               create_time DATETIME COMMENT '创建时间',
+                               last_modify_time DATETIME COMMENT '最后修改时间',
+                               last_modify_by BIGINT COMMENT '最后修改人ID',
+                               last_modify_name VARCHAR(255) COMMENT '最后修改人名称',
+                               deleted BOOLEAN DEFAULT FALSE COMMENT '逻辑删除',
+
+                               name VARCHAR(100) COMMENT '服务名称',
+                               command VARCHAR(100) COMMENT 'STDIO命令',
+                               url VARCHAR(100) COMMENT 'SSE URL',
+                               env VARCHAR(100) COMMENT '环境变量(JSON)',
+                               status TINYINT COMMENT '状态',
+                               type VARCHAR(10) COMMENT '服务类型',
+                               args VARCHAR(255) COMMENT '启动参数',
+                               tenant_id BIGINT COMMENT '租户ID'
+
+
+) COMMENT 'Mcp配置';
+
+

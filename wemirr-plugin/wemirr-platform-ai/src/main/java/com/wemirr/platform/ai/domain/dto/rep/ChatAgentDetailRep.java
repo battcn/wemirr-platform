@@ -3,8 +3,6 @@ package com.wemirr.platform.ai.domain.dto.rep;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 /**
  * @author xJh
  * @since 2025/11/4
@@ -40,5 +38,9 @@ public class ChatAgentDetailRep {
     // JSON格式存储工具名称列表，如：["平台菜单查询工具"]
     @Schema(description = "智能体工具配置")
     private String tools;
+    
+    // JSON格式存储MCP服务器ID列表，如：[1, 2, 3]
+    @Schema(description = "智能体MCP服务器配置（存储MCP配置ID列表）")
+    private String mcpServerIds;
 
 }
