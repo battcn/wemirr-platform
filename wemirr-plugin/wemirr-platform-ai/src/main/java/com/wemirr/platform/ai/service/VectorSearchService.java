@@ -50,14 +50,6 @@ public interface VectorSearchService {
      */
     List<List<EmbeddingMatch<TextSegment>>> batchSearch(KnowledgeBase knowledgeBase, ModelConfig modelConfig, List<String> queries, int topK);
 
-    /**
-     * 获取查询向量的嵌入表示
-     *
-     * @param query 查询文本
-     * @param modelConfig 模型配置
-     * @return 嵌入向量
-     */
-    Embedding getQueryEmbedding(String query, ModelConfig modelConfig);
 
     /**
      * 检查向量存储是否可用
@@ -68,12 +60,5 @@ public interface VectorSearchService {
      */
     boolean isVectorStoreAvailable(KnowledgeBase knowledgeBase, ModelConfig modelConfig);
 
-    /**
-     * 获取向量存储统计信息
-     *
-     * @param knowledgeBase 知识库
-     * @param modelConfig 模型配置
-     * @return 统计信息
-     */
-    Map<String, Object> getVectorStoreStats(KnowledgeBase knowledgeBase, ModelConfig modelConfig);
+
 }

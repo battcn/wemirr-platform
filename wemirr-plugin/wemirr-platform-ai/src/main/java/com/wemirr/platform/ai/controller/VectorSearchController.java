@@ -58,29 +58,6 @@ public class VectorSearchController {
         }
     }
 
-    @GetMapping("/stats")
-    @Operation(summary = "获取向量存储统计信息")
-    public Result<Map<String, Object>> getVectorStoreStats(@RequestParam String kbId) {
-        try {
-            KnowledgeBase knowledgeBase = knowledgeBaseService.getById(kbId);
-            if (knowledgeBase == null) {
-                return Result.fail("知识库不存在: " + kbId);
-            }
-
-            // 获取默认模型配置
-            ModelConfig defaultModel = getDefaultEmbeddingModel();
-            if (defaultModel == null) {
-                return Result.fail("未找到可用的嵌入模型配置");
-            }
-
-            Map<String, Object> stats = vectorSearchService.getVectorStoreStats(knowledgeBase, defaultModel);
-            return Result.success(stats);
-            
-        } catch (Exception e) {
-            log.error("获取向量存储统计信息失败: kbId={}", kbId, e);
-            return Result.fail("获取统计信息失败: " + e.getMessage());
-        }
-    }
 
     @GetMapping("/check")
     @Operation(summary = "检查向量存储可用性")
@@ -115,14 +92,12 @@ public class VectorSearchController {
             List<ModelConfig> embeddingModels = modelConfigService.list(
                 com.wemirr.framework.db.mybatisplus.wrap.Wraps.<ModelConfig>lbQ()
                     .eq(ModelConfig::getModelType, "EMBEDDING")
-//                    .eq(ModelConfig::getEnabled, true)
             );
             
             if (embeddingModels.isEmpty()) {
                 log.warn("未找到可用的嵌入模型配置");
                 return null;
             }
-            
             // 返回第一个可用的嵌入模型
             return embeddingModels.get(0);
             

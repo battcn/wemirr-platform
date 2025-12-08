@@ -54,4 +54,12 @@ public class ModelConfig extends SuperEntity<Long> {
     @Schema(description = "租户ID")
     @TableField("tenant_id")
     private Long tenantId;
+
+    @TableField(exist = false)
+    @Schema(description = "是否返回深度思考结果")
+    private Boolean returnThinking;
+
+    @TableField(exist = false)
+    @Schema(description = "是否联网搜索")
+    private Boolean enableWebSearch;
 }

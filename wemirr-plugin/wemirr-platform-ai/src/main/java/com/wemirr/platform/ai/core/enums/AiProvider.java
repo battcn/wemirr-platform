@@ -8,73 +8,114 @@ import lombok.Getter;
 @Getter
 public enum AiProvider {
 
-    /**
-     * DeepSeek
-     */
-    DEEP_SEEK("deepseek", "DeepSeek", "深度求索", true, new String[]{"deepseek-chat-r1", "deepseek-chat-r3"}, ModelType.TEXT, ModelType.EMBEDDING),
+    DEEP_SEEK("deepseek", "DeepSeek", "深度求索", true,
+            new ModelCapability[]{
+                    new ModelCapability("deepseek-chat-r1", true,false, ModelType.TEXT),
+                    new ModelCapability("deepseek-chat-r3", true,false,ModelType.TEXT)
+            },
+            ModelType.TEXT, ModelType.EMBEDDING
+    ),
 
-    /**
-     * OpenAI
-     */
-    OPEN_AI("openai", "OpenAI", "开放人工智能", true, new String[]{"gpt-3.5-turbo", "gpt-4", "gpt-4o"}, ModelType.TEXT, ModelType.EMBEDDING),
+    OPEN_AI("openai", "OpenAI", "开放人工智能", true,
+            new ModelCapability[]{
+                    new ModelCapability("gpt-3.5-turbo", false,false, ModelType.TEXT),
+                    new ModelCapability("gpt-4", true,false, ModelType.TEXT),
+                    new ModelCapability("gpt-4o", true,false, ModelType.TEXT)
+            },
+            ModelType.TEXT, ModelType.EMBEDDING
+    ),
 
-    /**
-     * 通义千问（Qwen）
-     */
-    QWEN("qwen", "Qwen", "通义千问", true, new String[]{"qwen-max", "qwen-plus", "qwen-turbo","text-embedding-v2"}, ModelType.TEXT, ModelType.EMBEDDING),
+    QWEN("qwen", "Qwen", "通义千问", true,
+            new ModelCapability[]{
+                    new ModelCapability("qwen-turbo", false,true, ModelType.TEXT),
+                    new ModelCapability("qwen-plus", true,true, ModelType.TEXT),
+                    new ModelCapability("qwen-max", true,true, ModelType.TEXT),
+                    new ModelCapability("text-embedding-v2", false,false, ModelType.EMBEDDING)
+            },
+            ModelType.TEXT, ModelType.EMBEDDING
+    ),
 
-    /**
-     * 百度文心一言
-     */
-    ERNIE("ernie", "ERNIE", "文心一言", true, new String[]{"ernie-4.5", "ernie-3.5"}, ModelType.TEXT);
+    ERNIE("ernie", "ERNIE", "文心一言", true,
+            new ModelCapability[]{
+                    new ModelCapability("ernie-3.5", false,false, ModelType.TEXT),
+                    new ModelCapability("ernie-4.5", true,false, ModelType.TEXT)
+            },
+            ModelType.TEXT
+    );
 
-    /**
-     * 英文标识（用于配置、API、缓存 key）
-     */
     private final String code;
-
-    /**
-     * 英文显示名
-     */
     private final String enName;
-
-    /**
-     * 中文显示名
-     */
     private final String cnName;
-
-    /**
-     * 是否启用（可用于动态开关）
-     */
     private final boolean enabled;
-
-    /**
-     * 支持的模型列表（可选，用于校验或前端展示）
-     */
-    private final String[] supportedModels;
-
-    /**
-     * 支持的模型类型
-     */
+    private final ModelCapability[] modelCapabilities;
     private final ModelType[] supportedTypes;
 
-
-
-
-    AiProvider(String code, String enName, String cnName, boolean enabled, String[] supportedModels, ModelType... supportedTypes) {
+    AiProvider(String code, String enName, String cnName, boolean enabled,
+               ModelCapability[] modelCapabilities, ModelType... supportedTypes) {
         this.code = code;
         this.enName = enName;
         this.cnName = cnName;
         this.enabled = enabled;
-        this.supportedModels = supportedModels != null ? supportedModels.clone() : new String[0];
+        this.modelCapabilities = modelCapabilities != null ? modelCapabilities.clone() : new ModelCapability[0];
         this.supportedTypes = supportedTypes != null ? supportedTypes.clone() : new ModelType[0];
     }
 
-    /**
-     * 根据 code 查找枚举（忽略大小写）
-     */
+    // 根据模型名判断是否支持深度思考
+    public boolean supportsDeepThinking(String modelName) {
+        if (modelName == null){
+            return false;
+        }
+        for (ModelCapability cap : modelCapabilities) {
+            // 支持精确匹配或前缀匹配（如 qwen-max-latest）
+            if (modelName.equals(cap.getModelName()) || modelName.startsWith(cap.getModelName() + "-")) {
+                return cap.isSupportsDeepThinking();
+            }
+        }
+        // 未知模型默认不支持
+        return false;
+    }
+
+    // 根据模型名判断是否支持联网搜索
+    public boolean supportsWebSearch(String modelName) {
+        if (modelName == null){
+            return false;
+        }
+        for (ModelCapability cap : modelCapabilities) {
+            // 支持精确匹配或前缀匹配（如 qwen-max-latest）
+            if (modelName.equals(cap.getModelName()) || modelName.startsWith(cap.getModelName() + "-")) {
+                return cap.isSupportsWebSearch();
+            }
+        }
+        // 未知模型默认不支持
+        return false;
+    }
+
+    public boolean supportsModel(String modelName) {
+        if (modelName == null){
+            return false;
+        }
+        for (ModelCapability cap : modelCapabilities) {
+            if (modelName.equals(cap.getModelName()) || modelName.startsWith(cap.getModelName() + "-")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean supportsType(ModelType type) {
+        if (type == null){
+            return false;
+        }
+        for (ModelType t : supportedTypes) {
+            if (t == type){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static AiProvider fromCode(String code) {
-        if (code == null || code.isBlank()) {
+        if (code == null || code.isBlank()){
             return null;
         }
         for (AiProvider provider : values()) {
@@ -85,30 +126,20 @@ public enum AiProvider {
         return null;
     }
 
-    /**
-     * 判断是否支持某个模型名（简单前缀或精确匹配）
-     */
-    public boolean supportsModel(String modelName) {
-        if (modelName == null) {
-            return false;
-        }
-        for (String model : supportedModels) {
-            if (modelName.equals(model) || modelName.startsWith(model + "-")) {
-                return true;
-            }
-        }
-        return false;
-    }
+    @Getter
+    public static class ModelCapability {
+        private final String modelName;
+        private final boolean supportsDeepThinking;
+        private final boolean supportsWebSearch;
+        private final ModelType type;
 
-    public boolean supportsType(ModelType type) {
-        if (type == null) {
-            return false;
+        public ModelCapability(String modelName, boolean supportsDeepThinking,
+                               boolean supportsWebSearch,
+                               ModelType type) {
+            this.modelName = modelName;
+            this.supportsDeepThinking = supportsDeepThinking;
+            this.supportsWebSearch = supportsWebSearch;
+            this.type = type;
         }
-        for (ModelType t : supportedTypes) {
-            if (t == type) {
-                return true;
-            }
-        }
-        return false;
     }
 }

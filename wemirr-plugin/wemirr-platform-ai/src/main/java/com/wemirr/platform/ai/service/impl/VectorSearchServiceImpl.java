@@ -121,24 +121,6 @@ public class VectorSearchServiceImpl implements VectorSearchService {
         }
     }
 
-    @Override
-    public Embedding getQueryEmbedding(String query, ModelConfig modelConfig) {
-        try {
-            // 创建嵌入模型实例
-            EmbeddingModel embeddingModel = embeddingModelService.getModel(modelConfig);
-            
-            // 生成查询向量
-            Embedding queryEmbedding = embeddingModel.embed(query).content();
-            
-            log.debug("生成查询向量: query={}, dimension={}", query, queryEmbedding.dimension());
-            
-            return queryEmbedding;
-            
-        } catch (Exception e) {
-            log.error("生成查询向量失败: query={}", query, e);
-            throw new RuntimeException("生成查询向量失败: " + e.getMessage(), e);
-        }
-    }
 
     @Override
     public boolean isVectorStoreAvailable(KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
@@ -159,30 +141,6 @@ public class VectorSearchServiceImpl implements VectorSearchService {
         }
     }
 
-    @Override
-    public Map<String, Object> getVectorStoreStats(KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
-        Map<String, Object> stats = new HashMap<>();
-        
-        try {
-            // 检查向量存储可用性
-            boolean available = isVectorStoreAvailable(knowledgeBase, modelConfig);
-            stats.put("available", available);
-            
-        if (available) {
-            // 这里可以添加更多统计信息
-            // 例如：向量数量、存储大小等
-            stats.put("storeType", "vector");
-            stats.put("modelName", modelConfig.getModelName());
-            stats.put("modelProvider", modelConfig.getProvider());
-        }
-            
-        } catch (Exception e) {
-            log.error("获取向量存储统计信息失败: kbId={}", knowledgeBase.getId(), e);
-            stats.put("error", e.getMessage());
-        }
-        
-        return stats;
-    }
 
     /**
      * 获取默认模型配置

@@ -38,13 +38,9 @@ public class ChatServiceImpl implements ChatService {
 
     private final ModelConfigService modelConfigService;
 
-    private final TextModelService textModelService;
-
     private final AssistantService assistantService;
 
     private final ConversationMessageService conversationMessageService;
-    
-    private final KnowledgeSearchService knowledgeSearchService;
 
     private final KnowledgeBaseService knowledgeBaseService;
 
@@ -69,7 +65,7 @@ public class ChatServiceImpl implements ChatService {
         Long tenantId = authenticationContext.tenantId();
         Long conversationId = askReq.getConversationId();
         String userPrompt = askReq.getPrompt();
-        String modelName = askReq.getModelName();
+        String modelId = askReq.getModelId();
         ConversationMessage conversationMessage = conversationMessageService.saveUserMessage(
                 conversationId,
                 userId,
@@ -81,11 +77,13 @@ public class ChatServiceImpl implements ChatService {
 
 
         ModelConfig modelConfig = modelConfigService.getOne(
-                Wraps.<ModelConfig>lbQ().eq(ModelConfig::getModelName, modelName)
+                Wraps.<ModelConfig>lbQ().eq(ModelConfig::getId, modelId)
         );
         if (modelConfig == null) {
-            throw new IllegalArgumentException("模型未配置: " + modelName);
+            throw new IllegalArgumentException("模型未配置: " + modelId);
         }
+        modelConfig.setReturnThinking(askReq.getReturnThinking());
+        modelConfig.setEnableWebSearch(askReq.getEnableWebSearch());
         ChatAssistant assistant = assistantService.createMemoryAssistant(modelConfig);
         TokenStream tokenStream = assistant.chatStream(
                 askReq.getConversationId(),
@@ -102,7 +100,7 @@ public class ChatServiceImpl implements ChatService {
                     rawContent,
                     rawContent, // 脱敏、格式化
                     null,
-                    modelName,
+                    modelConfig.getModelName(),
                     modelConfig.getProvider(), // 或从 modelConfig 获取
                     promptTokens,
                     completionTokens,
@@ -136,9 +134,11 @@ public class ChatServiceImpl implements ChatService {
         try {
             // 4. 获取模型配置,todo 这些都可以做缓存map，用模型id代替，不用模型名称
             ModelConfig textModelConfig = modelConfigService.getOne(
-                    Wraps.<ModelConfig>lbQ().eq(ModelConfig::getModelName, askReq.getModelName())
+                    Wraps.<ModelConfig>lbQ().eq(ModelConfig::getId, askReq.getModelId())
                             .eq(ModelConfig::getModelType, ModelType.TEXT)
             );
+            textModelConfig.setEnableWebSearch(askReq.getEnableWebSearch());
+            textModelConfig.setReturnThinking(askReq.getReturnThinking());
             ModelConfig embeddingModelConfig = modelConfigService.getOne(Wraps.<ModelConfig>lbQ().eq(ModelConfig::getId, knowledgeBase.getEmbeddingModelId())
                     .eq(ModelConfig::getModelType, ModelType.EMBEDDING));
 
@@ -166,7 +166,7 @@ public class ChatServiceImpl implements ChatService {
                         rawContent,
                         rawContent,
                         null,
-                        askReq.getModelName(),
+                        textModelConfig.getModelName(),
                         textModelConfig.getProvider(),
                         promptTokens,
                         completionTokens,

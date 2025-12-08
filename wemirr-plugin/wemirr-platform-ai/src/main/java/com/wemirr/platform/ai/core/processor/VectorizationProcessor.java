@@ -2,6 +2,7 @@ package com.wemirr.platform.ai.core.processor;
 
 import com.wemirr.platform.ai.core.provider.embedding.EmbeddingModelService;
 import com.wemirr.platform.ai.core.provider.vectorStore.EnhancedVectorStoreFactory;
+import com.wemirr.platform.ai.domain.dto.result.BatchVectorResult;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.KnowledgeItem;
 import com.wemirr.platform.ai.domain.entity.ModelConfig;
@@ -14,6 +15,7 @@ import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.embedding.EmbeddingModel;
+import dev.langchain4j.model.output.Response;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +23,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -126,8 +130,8 @@ public class VectorizationProcessor {
      * @param modelConfig 模型配置
      * @return 向量ID列表
      */
-    public CompletableFuture<List<String>> batchVectorizeAndStore(List<String> texts, List<Map<String, String>> metadataList,
-                                                                  KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
+    public CompletableFuture<BatchVectorResult> batchVectorAndStore(List<String> texts, List<Map<String, String>> metadataList,
+                                                                    KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 // 获取知识库专用的向量存储
@@ -135,10 +139,14 @@ public class VectorizationProcessor {
                 
                 // 动态获取嵌入模型
                 EmbeddingModel embeddingModel = embeddingModelService.getModel(modelConfig);
-                
+                AtomicInteger totalTokens = new AtomicInteger(0);
                 // 生成嵌入向量
                 List<Embedding> embeddings = texts.stream()
-                        .map(text -> embeddingModel.embed(text).content())
+                        .map(text ->{
+                            Response<Embedding> result = embeddingModel.embed(text);
+                            totalTokens.addAndGet(Objects.requireNonNull(result.tokenUsage()).totalTokenCount());
+                            return result.content();
+                        })
                         .collect(Collectors.toList());
 
                 // 创建文本分片
@@ -146,8 +154,10 @@ public class VectorizationProcessor {
 
                 // 存储向量
                 List<String> vectorIds = embeddingStore.addAll(embeddings, segments);
-
-                return vectorIds;
+                return BatchVectorResult.builder()
+                        .vectorIds(vectorIds)
+                        .tokenUsage(totalTokens.get())
+                        .build();
             } catch (Exception e) {
                 log.error("批量向量化处理失败: {}", e.getMessage(), e);
                 throw new RuntimeException("批量向量化处理失败", e);
@@ -163,7 +173,7 @@ public class VectorizationProcessor {
      * @param modelConfig 模型配置
      * @return 向量ID列表
      */
-    public CompletableFuture<List<String>> batchVectorizeAndStore(List<String> texts, List<Map<String, String>> metadataList, ModelConfig modelConfig) {
+    public CompletableFuture<List<String>> batchVectorAndStore(List<String> texts, List<Map<String, String>> metadataList, ModelConfig modelConfig) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 // 使用默认向量存储

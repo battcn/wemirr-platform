@@ -53,18 +53,43 @@ public class DeepSeekTextModelProvider implements TextModelProvider {
         if (presPenalty != null) {
             builder.presencePenalty(presPenalty);
         }
+        if (AiProvider.DEEP_SEEK.supportsDeepThinking(config.getModelName())&& config.getReturnThinking()){
+            builder.returnThinking(true);
+        }
         return builder.build();
     }
 
     @Override
     public StreamingChatModel createStreamModel(ModelConfig config) {
-        return OpenAiStreamingChatModel.builder()
+        OpenAiStreamingChatModel.OpenAiStreamingChatModelBuilder builder  = OpenAiStreamingChatModel.builder()
                 .baseUrl(config.getBaseUrl())
                 .apiKey(config.getApiKey())
-                .maxTokens((Integer) config.getVariables().get("max_tokens"))
-                .temperature((Double) config.getVariables().get("temperature"))
-//                .temperature(config.getTemperature())
-                .build();
+                .modelName(config.getModelName());
+        Map<String, Object> vars = config.getVariables();
+        Integer maxTokens = ModelParam.MAX_TOKENS.getValueFrom(vars);
+        Double temperature = ModelParam.TEMPERATURE.getValueFrom(vars);
+        Double topP = ModelParam.TOP_P.getValueFrom(vars);
+        Double freqPenalty = ModelParam.FREQUENCY_PENALTY.getValueFrom(vars);
+        Double presPenalty = ModelParam.PRESENCE_PENALTY.getValueFrom(vars);
+        if (maxTokens != null) {
+            builder.maxTokens(maxTokens);
+        }
+        if (temperature != null) {
+            builder.temperature(temperature);
+        }
+        if (topP != null) {
+            builder.topP(topP);
+        }
+        if (freqPenalty != null) {
+            builder.frequencyPenalty(freqPenalty);
+        }
+        if (presPenalty != null) {
+            builder.presencePenalty(presPenalty);
+        }
+        if (AiProvider.DEEP_SEEK.supportsDeepThinking(config.getModelName())&& config.getReturnThinking()){
+            builder.returnThinking(true);
+        }
+        return builder.build();
     }
 
 

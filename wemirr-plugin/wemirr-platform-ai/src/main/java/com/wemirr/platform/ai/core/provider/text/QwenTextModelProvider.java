@@ -41,13 +41,12 @@ public class QwenTextModelProvider implements TextModelProvider {
                 .modelName(config.getModelName());
         Map<String, Object> vars = config.getVariables();
         Integer maxTokens = ModelParam.MAX_TOKENS.getValueFrom(vars);
-//        Double topP = ModelParam.TOP_P.getValueFrom(vars);
         if (maxTokens != null) {
             builder.maxTokens(maxTokens);
         }
-//        if (topP != null) {
-//            builder.topP(topP);
-//        }
+        if (AiProvider.QWEN.supportsWebSearch(config.getModelName())&& config.getEnableWebSearch()){
+            builder.enableSearch(true);
+        }
         return builder.build();
     }
 
@@ -59,13 +58,12 @@ public class QwenTextModelProvider implements TextModelProvider {
                 .apiKey(config.getApiKey());
         Map<String, Object> vars = config.getVariables();
         Integer maxTokens = ModelParam.MAX_TOKENS.getValueFrom(vars);
-//        Double topP = ModelParam.TOP_P.getValueFrom(vars);
         if (maxTokens != null) {
             builder.maxTokens(maxTokens);
         }
-//        if (topP != null) {
-//            builder.topP(topP);
-//        }
+        if (AiProvider.QWEN.supportsWebSearch(config.getModelName())&& config.getEnableWebSearch()){
+            builder.enableSearch(true);
+        }
         return builder.build();
     }
 

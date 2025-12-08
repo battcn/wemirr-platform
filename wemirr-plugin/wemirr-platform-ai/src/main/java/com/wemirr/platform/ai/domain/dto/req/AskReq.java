@@ -20,7 +20,7 @@ public class AskReq {
     private ConversationType chatType;
 
     @Schema(description = "模型名称 (1.普通对话）")
-    private String modelName;
+    private String modelId;
 
     @Schema(description = "智能体id（2.通用智能体对话 3.平台智能体对话）")
     private Long agentId;
@@ -33,6 +33,12 @@ public class AskReq {
 
     @Schema(description = "提示词")
     private String prompt;
+
+    @Schema(description = "联网搜索",defaultValue = "false")
+    private Boolean enableWebSearch;
+
+    @Schema(description = "深度思考",defaultValue = "false")
+    private Boolean returnThinking;
 
     @Schema(description = "RAG元数据过滤（文档类型、文档id等）")
     private Map<String, String> metadataFilter;

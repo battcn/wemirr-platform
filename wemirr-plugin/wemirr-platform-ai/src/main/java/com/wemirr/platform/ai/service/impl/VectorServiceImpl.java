@@ -10,6 +10,7 @@ import com.wemirr.platform.ai.core.enums.KnowledgeItemStatus;
 import com.wemirr.platform.ai.core.processor.VectorizationProcessor;
 import com.wemirr.platform.ai.domain.dto.rep.VectorizationRep;
 import com.wemirr.platform.ai.domain.dto.req.VectorizationTaskPageReq;
+import com.wemirr.platform.ai.domain.dto.result.VectorizationResult;
 import com.wemirr.platform.ai.domain.entity.*;
 import com.wemirr.platform.ai.repository.VectorizationTaskMapper;
 import com.wemirr.platform.ai.service.*;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -300,16 +302,27 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
     /**
      * 统一的异步任务执行模板：负责状态机与异常处理
      */
-    private void runAsyncTask(String taskId, Runnable body) {
-        CompletableFuture.runAsync(() -> {
-            try {
-                updateTaskStatus(taskId, VectorizationTaskStatus.PROCESSING, 10, null);
-                body.run();
-                updateTaskStatus(taskId, VectorizationTaskStatus.COMPLETED, 100, null);
-            } catch (Exception e) {
-                log.error("向量化任务执行失败: taskId={}", taskId, e);
-                updateTaskStatus(taskId, VectorizationTaskStatus.FAILED, 0, e.getMessage());
-            }
-        });
+    private void runAsyncTask(String taskId, Supplier<VectorizationResult> taskSupplier ) {
+        CompletableFuture.supplyAsync(taskSupplier)
+                .thenAccept(result -> {
+                    // 成功：更新任务状态 + token 消耗
+                    updateTaskStatus(taskId, VectorizationTaskStatus.COMPLETED, 100, null);
+                    if (result != null && result.getTotalTokenUsage() != null) {
+                        updateTaskTokenUsage(taskId, result.getTotalTokenUsage());
+                    }
+                })
+                .exceptionally(throwable -> {
+                    log.error("向量化任务执行失败: taskId={}", taskId, throwable);
+                    updateTaskStatus(taskId, VectorizationTaskStatus.FAILED, 0, throwable.getMessage());
+                    return null;
+                });
+    }
+
+    private void updateTaskTokenUsage(String taskId, Integer totalTokenUsage) {
+        VectorizationTask task = baseMapper.selectByTaskId(taskId);
+        if (task != null) {
+            task.setTokenUsage(totalTokenUsage);
+            baseMapper.updateById(task);
+        }
     }
 }

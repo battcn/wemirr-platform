@@ -3,6 +3,8 @@ package com.wemirr.platform.ai.service;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemStatus;
 import com.wemirr.platform.ai.core.processor.VectorizationProcessor;
 import com.wemirr.platform.ai.core.provider.vectorStore.EnhancedVectorStoreFactory;
+import com.wemirr.platform.ai.domain.dto.result.BatchVectorResult;
+import com.wemirr.platform.ai.domain.dto.result.VectorizationResult;
 import com.wemirr.platform.ai.domain.entity.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +45,7 @@ public class VectorizationOrchestrationService {
      * @return 向量化任务ID
      */
     @Transactional(rollbackFor = Exception.class)
-    public String vectorizeKnowledgeItem(Long itemId) {
+    public VectorizationResult vectorizeKnowledgeItem(Long itemId) {
         // 获取知识条目
         KnowledgeItem item = knowledgeItemService.getById(itemId);
         try {
@@ -54,10 +56,7 @@ public class VectorizationOrchestrationService {
             // 获取知识库和模型配置
             KnowledgeBase kb = knowledgeBaseService.getById(item.getKbId());
             ModelConfig modelConfig = modelConfigService.getById(kb.getEmbeddingModelId());
-            
-            // 获取知识库专用的向量存储（用于后续扩展）
-            // EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createForKnowledgeBase(kb, modelConfig);
-            
+
             // 获取相关的知识分片
             List<KnowledgeChunk> chunks = knowledgeChunkService.listByItemId(itemId);
             if (chunks.isEmpty()) {
@@ -88,10 +87,11 @@ public class VectorizationOrchestrationService {
                     })
                     .collect(Collectors.toList());
             
-            // 执行批量向量化,todo 记录消耗的token
-            CompletableFuture<List<String>> future = vectorizationProcessor.batchVectorizeAndStore(texts, metadataList, kb, modelConfig);
-            List<String> vectorIds = future.get(); // 等待完成
-            
+            // 执行批量向量化
+            CompletableFuture<BatchVectorResult> future = vectorizationProcessor.batchVectorAndStore(texts, metadataList, kb, modelConfig);
+            BatchVectorResult batchVectorDTO = future.get(); // 等待完成
+            List<String> vectorIds = batchVectorDTO.getVectorIds();
+            Integer tokenUsage = batchVectorDTO.getTokenUsage();
             // 保存向量元数据
             List<VectorMetadata> vectorMetadataList = new ArrayList<>();
             for (int i = 0; i < chunks.size() && i < vectorIds.size(); i++) {
@@ -140,8 +140,10 @@ public class VectorizationOrchestrationService {
             item.setVectorized(true);
             item.setStatus(KnowledgeItemStatus.PROCESSED);
             knowledgeItemService.updateById(item);
-            
-            return "vectorization_task_" + itemId;
+
+            String taskId= "vectorization_task_" + itemId;
+            return new VectorizationResult(taskId, tokenUsage);
+
         } catch (Exception e) {
             item.setStatus(KnowledgeItemStatus.FAILED);
             knowledgeItemService.updateById(item);
@@ -163,7 +165,7 @@ public class VectorizationOrchestrationService {
      * @param docId 文档ID
      * @return 向量化任务ID
      */
-    public String vectorizeDocument(Long docId) {
+    public VectorizationResult vectorizeDocument(Long docId) {
         try {
             // 查找关联的知识条目
             KnowledgeItem item = knowledgeItemService.selectBySourceId(docId);
@@ -185,7 +187,7 @@ public class VectorizationOrchestrationService {
      * @return 向量化任务ID
      */
     public String vectorizeFAQ(Long faqId) {
-        return vectorizeKnowledgeItem(faqId);
+        return vectorizeKnowledgeItem(faqId).getTaskId();
     }
     
     /**
@@ -195,7 +197,7 @@ public class VectorizationOrchestrationService {
      * @return 向量化任务ID
      */
     public String vectorizeStructuredData(Long structuredDataId) {
-        return vectorizeKnowledgeItem(structuredDataId);
+        return vectorizeKnowledgeItem(structuredDataId).getTaskId();
     }
     
     /**
@@ -274,7 +276,7 @@ public class VectorizationOrchestrationService {
             // 先删除现有向量
             deleteVectorForItem(itemId);
             // 重新向量化
-            return vectorizeKnowledgeItem(itemId);
+            return vectorizeKnowledgeItem(itemId).getTaskId();
         } catch (Exception e) {
             log.error("重新向量化知识条目失败: itemId={}", itemId, e);
             throw new RuntimeException("重新向量化知识条目失败", e);

@@ -23,8 +23,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @Tag(name = "普通聊天测试",description = "普通聊天测试接口")
 public class ChatController {
 
-    private final SseChatHelper sseChatHelper;
-
     private final ChatService chatService;
 
     /**
