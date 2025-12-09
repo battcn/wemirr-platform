@@ -30,12 +30,15 @@ import java.util.stream.Collectors;
 /**
  *
  * @author YanCh
- * Created on: 2025-12-05 15:56
+ * @since 2025-12-05 15:56
  **/
-@Aspect
 @Slf4j
+@Aspect
 public class GlobalLogAspect {
-    // 日志输出控制常量, 全局约束字段长度与性能阈值
+
+    /**
+     * 日志输出控制常量, 全局约束字段长度与性能阈值
+     */
     private static final int MAX_RESPONSE_PREVIEW_LENGTH = 500;
     private static final int MAX_ARGUMENT_PREVIEW_LENGTH = 1000;
     private static final int MAX_REQUEST_URI_LENGTH = 200;
@@ -45,11 +48,19 @@ public class GlobalLogAspect {
     public void logPointCut() {
     }
 
-    // 统一切入 Controller 接口, 根据环境输出不同日志
+    /**
+     * 统一切入 Controller 接口, 根据环境输出不同日志
+     * @param joinPoint joinPoint
+     * @param operation operation
+     * @return Object
+     * @throws Throwable Throwable
+     */
     @Around("logPointCut() && @annotation(operation)")
     public Object logAround(ProceedingJoinPoint joinPoint, Operation operation) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (attributes == null || operation.hidden()) return joinPoint.proceed();
+        if (attributes == null || operation.hidden()) {
+            return joinPoint.proceed();
+        }
         HttpServletRequest request = attributes.getRequest();
         long startTime = System.currentTimeMillis();
         Object ret;
@@ -113,9 +124,15 @@ public class GlobalLogAspect {
         return sb.toString();
     }
 
-    // 安全序列化方法
+    /**
+     * 安全序列化方法
+     * @param obj obj
+     * @return String
+     */
     private String safeSerialize(Object obj) {
-        if (obj == null) return "null";
+        if (obj == null) {
+            return "null";
+        }
         try {
             return JacksonUtils.toJson(obj);
         } catch (Exception e) {
@@ -192,7 +209,11 @@ public class GlobalLogAspect {
         return value.substring(0, maxLength) + "...Length(" + value.length() + ")";
     }
 
-    // Authorization 只保留前缀, 防止泄漏敏感信息
+    /**
+     * Authorization 只保留前缀, 防止泄漏敏感信息
+     * @param authorization authorization
+     * @return String
+     */
     private String maskAuthorization(String authorization) {
         if (!StringUtils.hasText(authorization)) {
             return "";

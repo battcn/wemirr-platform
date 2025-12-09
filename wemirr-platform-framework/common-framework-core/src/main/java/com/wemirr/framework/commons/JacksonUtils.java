@@ -34,9 +34,10 @@ import java.util.TimeZone;
  *
  *
  * @author YanCh
- * Created on: 2025-12-05 16:31
+ * @since 2025-12-05 16:31
  **/
 public final class JacksonUtils {
+
     private static final String NORM_DATE_PATTERN = "yyyy-MM-dd";
     private static final String NORM_TIME_PATTERN = "HH:mm:ss";
     private static final String NORM_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
