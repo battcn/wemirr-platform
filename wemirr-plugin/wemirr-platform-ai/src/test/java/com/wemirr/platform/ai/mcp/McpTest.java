@@ -1,8 +1,8 @@
 package com.wemirr.platform.ai.mcp;
 
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
 import com.wemirr.platform.ai.core.provider.mcp.DynamicMcpToolProvider;
 import com.wemirr.platform.ai.core.provider.mcp.McpClientFactory;
+import com.wemirr.platform.ai.domain.entity.ModelConfig;
 import com.wemirr.platform.ai.service.ModelConfigService;
 import dev.langchain4j.agent.tool.ToolSpecification;
 import dev.langchain4j.community.model.dashscope.QwenChatModel;

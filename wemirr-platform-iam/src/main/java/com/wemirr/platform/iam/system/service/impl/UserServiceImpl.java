@@ -76,7 +76,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -247,8 +246,9 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
                 List<Long> resIdList = this.baseMapper.selectResByUserId(userId);
                 wrapper.in(Resource::getId, resIdList);
             }
+            wrapper.isNotNull(Resource::getPermission);
             List<String> permission = TenantHelper.executeWithMaster(() -> this.resourceMapper.selectList(wrapper)
-                    .stream().filter(Objects::nonNull).map(Resource::getPermission).distinct().toList());
+                    .stream().map(Resource::getPermission).distinct().toList());
             info.setFuncPermissions(permission);
         } else {
             List<String> permission = this.resourceMapper.selectPermissionByUserId(userId);

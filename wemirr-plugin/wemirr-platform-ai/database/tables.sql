@@ -242,7 +242,7 @@ CREATE TABLE ai_chat_agent (
                                  kb_id BIGINT  COMMENT '关联知识库id',
                                  tools  VARCHAR(500) COMMENT '工具配置',
                                  tenant_id BIGINT COMMENT '租户ID',
-                                 mcp_server_ids  VARCHAR(255) 'mcp服务器配置'
+                                 mcp_server_ids  VARCHAR(255) COMMENT 'mcp服务器配置'
 ) COMMENT '智能体配置';
 
 

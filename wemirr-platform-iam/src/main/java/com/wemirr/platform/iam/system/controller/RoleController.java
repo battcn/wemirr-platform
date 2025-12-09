@@ -22,7 +22,6 @@ package com.wemirr.platform.iam.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.system.domain.dto.req.RolePageReq;
@@ -62,11 +61,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "角色管理", description = "角色管理")
 public class RoleController {
-    
+
     private final RoleService roleService;
     private final RoleResService roleResService;
     private final UserRoleService userRoleService;
-    
+
     @PostMapping("/page")
     @Parameters({
             @Parameter(description = "名称", name = "name", in = ParameterIn.QUERY),
@@ -75,17 +74,16 @@ public class RoleController {
     @SaCheckPermission(value = {"sys:role:page"})
     public IPage<RolePageResp> pageList(@RequestBody RolePageReq req) {
         return this.roleService.page(req.buildPage(), Wraps.<Role>lbQ().like(Role::getName, req.getName())
-                .eq(Role::getStatus, req.getStatus()).eq(Role::getScopeType, req.getScopeType()))
+                        .eq(Role::getStatus, req.getStatus()).eq(Role::getScopeType, req.getScopeType()))
                 .convert(x -> BeanUtil.toBean(x, RolePageResp.class));
     }
-    
+
     @GetMapping("/{id}/detail")
     @Operation(summary = "角色详情")
-    public RoleDetailResp details(@PathVariable Long id) {
-        Role role = roleService.getById(id);
-        return BeanUtilPlus.toBean(role, RoleDetailResp.class);
+    public RoleDetailResp detail(@PathVariable Long id) {
+        return roleService.detail(id);
     }
-    
+
     @PostMapping("/create")
     @AccessLog(module = "角色管理", description = "添加角色")
     @Operation(summary = "添加角色")
@@ -93,7 +91,7 @@ public class RoleController {
     public void create(@Validated @RequestBody RoleSaveReq req) {
         roleService.create(req);
     }
-    
+
     @PutMapping("/{id}")
     @AccessLog(module = "角色管理", description = "编辑角色")
     @Operation(summary = "编辑角色")
@@ -101,7 +99,7 @@ public class RoleController {
     public void modify(@PathVariable Long id, @Validated @RequestBody RoleSaveReq req) {
         roleService.modify(id, req);
     }
-    
+
     @DeleteMapping("/{id}")
     @AccessLog(module = "角色管理", description = "删除角色")
     @Operation(summary = "删除角色")
@@ -109,38 +107,38 @@ public class RoleController {
     public void remove(@PathVariable Long id) {
         this.roleService.removeByRoleId(id);
     }
-    
+
     @Operation(summary = "角色关联的用户")
     @GetMapping("/{roleId}/users")
     public UserRoleResp userByRoleId(@PathVariable Long roleId) {
         return userRoleService.findUserByRoleId(roleId);
     }
-    
+
     @GetMapping("/{role_id}/permissions")
     @Operation(summary = "资源权限", description = "只能看到自身权限")
     public RolePermissionResp permission(@PathVariable("role_id") Long roleId) {
         return this.roleService.findRolePermissionById(roleId);
     }
-    
+
     @Operation(summary = "角色关联的资源")
     @GetMapping("/{roleId}/role_res")
     public List<RoleRes> resByRoleId(@PathVariable Long roleId) {
         return roleResService.list(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, roleId));
     }
-    
+
     @Operation(summary = "分配资源")
     @PutMapping("/{roleId}/assign-resources")
     @SaCheckPermission(value = {"sys:role:assign-resource"})
     public void assignResource(@PathVariable Long roleId, @RequestBody RoleResSaveReq req) {
         this.roleResService.assignResource(req);
-        
+
     }
-    
+
     @Operation(summary = "分配用户")
     @PutMapping("/{roleId}/assign-users")
     @SaCheckPermission(value = {"sys:role:assign-users"})
     public void assignUser(@PathVariable Long roleId, @RequestBody RoleUserSaveReq req) {
         this.roleService.assignUser(roleId, req.getUserIdList());
     }
-    
+
 }

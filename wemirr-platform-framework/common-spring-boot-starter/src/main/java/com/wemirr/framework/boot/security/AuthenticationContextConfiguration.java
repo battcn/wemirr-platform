@@ -120,15 +120,17 @@ public class AuthenticationContextConfiguration {
                 // 放到上下文，提升匿名场景下的性能
                 return (boolean) ThreadLocalHolder.get(ANONYMOUS, () -> {
                     try {
+                        // 如果已登录，返回 false (代表不是匿名)
                         if (StpUtil.isLogin() || getContext() != null) {
                             return false;
                         }
                     } catch (Exception ex) {
                         log.error("API 访问异常 - {}", ex.getLocalizedMessage());
+                        // 发生异常视作匿名，但不一定想缓存异常状态
                         return true;
                     }
                     return true;
-                });
+                }, Boolean.FALSE::equals);
             }
         };
     }

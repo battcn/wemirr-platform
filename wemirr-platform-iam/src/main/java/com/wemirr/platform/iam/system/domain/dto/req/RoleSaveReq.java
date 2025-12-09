@@ -61,6 +61,6 @@ public class RoleSaveReq {
     @NotNull(message = "数据权限类型不能为空")
     private DataScopeType scopeType;
     
-    @Schema(description = "关联的组织id")
-    private List<Long> orgList;
+    @Schema(description = "关联的组织ID")
+    private List<Long> orgIdList;
 }

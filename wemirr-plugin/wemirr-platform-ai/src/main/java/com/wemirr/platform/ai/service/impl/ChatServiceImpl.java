@@ -6,7 +6,6 @@ import com.wemirr.platform.ai.core.assistant.interfaces.ChatAssistant;
 import com.wemirr.platform.ai.core.assistant.service.AssistantService;
 import com.wemirr.platform.ai.core.assistant.service.RagAssistantParams;
 import com.wemirr.platform.ai.core.enums.ModelType;
-import com.wemirr.platform.ai.core.provider.text.TextModelService;
 import com.wemirr.platform.ai.core.sse.SseChatHelper;
 import com.wemirr.platform.ai.domain.dto.req.AskReq;
 import com.wemirr.platform.ai.domain.entity.ChatAgent;

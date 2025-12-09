@@ -25,10 +25,10 @@ import com.wemirr.framework.commons.security.DataPermission;
 import com.wemirr.framework.commons.security.DataResourceType;
 import com.wemirr.framework.db.mybatisplus.datascope.service.DataScopeService;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.iam.system.domain.entity.DataPermissionResource;
+import com.wemirr.platform.iam.system.domain.entity.DataPermissionRef;
 import com.wemirr.platform.iam.system.domain.entity.Role;
 import com.wemirr.platform.iam.system.domain.entity.User;
-import com.wemirr.platform.iam.system.repository.DataPermissionResourceMapper;
+import com.wemirr.platform.iam.system.repository.DataPermissionRefMapper;
 import com.wemirr.platform.iam.system.repository.RoleMapper;
 import com.wemirr.platform.iam.system.repository.UserMapper;
 import com.wemirr.platform.iam.system.service.OrgService;
@@ -52,7 +52,7 @@ import static com.wemirr.framework.commons.security.DataScopeType.*;
 public class DataScopeServiceImpl implements DataScopeService {
     
     private final RoleMapper roleMapper;
-    private final DataPermissionResourceMapper dataPermissionResourceMapper;
+    private final DataPermissionRefMapper dataPermissionRefMapper;
     private final UserMapper userMapper;
     private final OrgService orgService;
     
@@ -80,11 +80,11 @@ public class DataScopeServiceImpl implements DataScopeService {
         DataPermission permission = DataPermission.builder().scopeType(role.getScopeType()).build();
         List<Long> userIdList = null;
         if (role.getScopeType() == CUSTOMIZE) {
-            List<Long> orgIdList = dataPermissionResourceMapper.selectList(Wraps.<DataPermissionResource>lbQ().select(DataPermissionResource::getDataId)
-                    .eq(DataPermissionResource::getOwnerId, role.getId())
-                    .eq(DataPermissionResource::getOwnerType, DataResourceType.ROLE)
-                    .eq(DataPermissionResource::getDataType, DataResourceType.ORG))
-                    .stream().map(DataPermissionResource::getDataId).distinct().toList();
+            List<Long> orgIdList = dataPermissionRefMapper.selectList(Wraps.<DataPermissionRef>lbQ().select(DataPermissionRef::getDataId)
+                    .eq(DataPermissionRef::getOwnerId, role.getId())
+                    .eq(DataPermissionRef::getOwnerType, DataResourceType.ROLE)
+                    .eq(DataPermissionRef::getDataType, DataResourceType.ORG))
+                    .stream().map(DataPermissionRef::getDataId).distinct().toList();
             userIdList = this.userMapper.selectList(Wraps.<User>lbQ().select(User::getId).in(User::getOrgId, orgIdList))
                     .stream().map(Entity::getId).toList();
         } else if (role.getScopeType() == THIS_LEVEL) {

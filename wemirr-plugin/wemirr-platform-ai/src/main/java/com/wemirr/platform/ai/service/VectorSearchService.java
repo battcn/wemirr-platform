@@ -2,12 +2,10 @@ package com.wemirr.platform.ai.service;
 
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.ModelConfig;
-import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 向量搜索服务接口

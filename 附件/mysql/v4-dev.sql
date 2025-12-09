@@ -11,7 +11,7 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 02/12/2025 11:28:49
+ Date: 09/12/2025 15:28:40
 */
 
 SET NAMES utf8mb4;
@@ -71,7 +71,7 @@ CREATE TABLE `b_message_notify` (
   `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1994273599468744706 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='消息通知';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='消息通知';
 
 -- ----------------------------
 -- Records of b_message_notify
@@ -662,25 +662,58 @@ INSERT INTO `plat_plan_subscription` (`id`, `plan_id`, `tenant_id`, `user_num`, 
 COMMIT;
 
 -- ----------------------------
--- Table structure for sys_data_permission_resource
+-- Table structure for sys_data_permission_ref
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_data_permission_resource`;
-CREATE TABLE `sys_data_permission_resource` (
+DROP TABLE IF EXISTS `sys_data_permission_ref`;
+CREATE TABLE `sys_data_permission_ref` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
   `owner_id` bigint NOT NULL COMMENT '拥有者',
   `owner_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '拥有类型（角色，用户）',
   `data_id` bigint NOT NULL COMMENT '数据ID',
   `data_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '数据类型（机构、角色、租户等等）',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除标记',
   `create_by` bigint DEFAULT NULL COMMENT '创建人id',
   `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1813866396912828422 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='数据权限资源表';
+  `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
+  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
+  `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `data_perm_idx_owner_id` (`owner_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1998288725465235462 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='数据权限资源表';
 
 -- ----------------------------
--- Records of sys_data_permission_resource
+-- Records of sys_data_permission_ref
 -- ----------------------------
 BEGIN;
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065538, 1948195640893706241, 'role', 100, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065539, 1948195640893706241, 'role', 10001, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065540, 1948195640893706241, 'role', 10002, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065541, 1948195640893706241, 'role', 10004, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065542, 1948195640893706241, 'role', 10003, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065543, 1948195640893706241, 'role', 10005, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065544, 1948195640893706241, 'role', 10006, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065545, 1948195640893706241, 'role', 10101, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065546, 1948195640893706241, 'role', 10103, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065547, 1948195640893706241, 'role', 10102, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065548, 1948195640893706241, 'role', 10201, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065549, 1948195640893706241, 'role', 10203, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065550, 1948195640893706241, 'role', 10202, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065551, 1948195640893706241, 'role', 10204, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428614156290, 1950568775576129537, 'role', 100, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428614156291, 1950568775576129537, 'role', 10001, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350593, 1950568775576129537, 'role', 10101, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350594, 1950568775576129537, 'role', 10103, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350595, 1950568775576129537, 'role', 10102, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350596, 1950568775576129537, 'role', 10002, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350597, 1950568775576129537, 'role', 10201, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350598, 1950568775576129537, 'role', 10203, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350599, 1950568775576129537, 'role', 10202, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350600, 1950568775576129537, 'role', 10204, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998288725465235458, 1945395080805158913, 'role', 10001, 'org', 0, 1, '平台管理员', '2025-12-09 15:08:53', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998288725465235459, 1945395080805158913, 'role', 100, 'org', 0, 1, '平台管理员', '2025-12-09 15:08:53', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998288725465235460, 1945395080805158913, 'role', 10101, 'org', 0, 1, '平台管理员', '2025-12-09 15:08:53', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998288725465235461, 1945395080805158913, 'role', 10103, 'org', 0, 1, '平台管理员', '2025-12-09 15:08:53', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -739,7 +772,7 @@ CREATE TABLE `sys_org` (
   `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
   `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1976167146669129730 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='组织';
+) ENGINE=InnoDB AUTO_INCREMENT=1998225274298568706 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='组织';
 
 -- ----------------------------
 -- Records of sys_org
@@ -759,7 +792,6 @@ INSERT INTO `sys_org` (`id`, `label`, `tenant_id`, `alias`, `tel`, `parent_id`, 
 INSERT INTO `sys_org` (`id`, `label`, `tenant_id`, `alias`, `tel`, `parent_id`, `tree_path`, `sequence`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10202, '测试部', 1, '测试部', NULL, 10002, '0,100,10002', 1, b'1', b'0', '初始化数据', 2, '不告诉你', '2020-10-29 06:39:09', 2, '不告诉你', '2023-11-22 08:23:32');
 INSERT INTO `sys_org` (`id`, `label`, `tenant_id`, `alias`, `tel`, `parent_id`, `tree_path`, `sequence`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10203, '研发部', 1, '', NULL, 10002, '0,100,10002', 0, b'1', b'0', '初始化数据', 3, '3', '2019-11-12 11:38:50', 3, '3', '2023-11-22 08:23:34');
 INSERT INTO `sys_org` (`id`, `label`, `tenant_id`, `alias`, `tel`, `parent_id`, `tree_path`, `sequence`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10204, '销售部', 1, '', NULL, 10002, '0,100,10002', 2, b'1', b'0', '初始化数据', 3, '3', '2019-11-12 11:39:00', 3, '3', '2023-11-22 08:23:35');
-INSERT INTO `sys_org` (`id`, `label`, `tenant_id`, `alias`, `tel`, `parent_id`, `tree_path`, `sequence`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1976167146669129729, '深圳腾讯科技股份有限公司', 3, '', NULL, 0, NULL, 0, b'1', b'0', '不可删除不可修改', 1, '平台管理员', '2025-10-09 14:05:38', 0, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1024,9 +1056,9 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3010103, '删除', 'sys:user:remove', 30101, '', NULL, 3010103, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3010104, '重置密码', 'sys:user:reset', 30101, '', NULL, 3010104, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3010105, '导出', 'sys:user:export', 30101, '', NULL, 0, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '用户导出', b'0', 1, '平台管理员', '2024-12-25 10:58:09', NULL, NULL, NULL);
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3010201, '添加', 'sys:user:add', 30102, '', NULL, 3010201, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3010202, '编辑', 'sys:user:edit', 30102, '', NULL, 3010202, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '编辑按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:17', 1, '平台管理员', '2024-12-07 17:52:00');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3010203, '删除', 'sys:user:remove', 30102, '', NULL, 3010203, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3010201, '添加', 'sys:org:add', 30102, '', NULL, 3010201, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3010202, '编辑', 'sys:org:edit', 30102, '', NULL, 3010202, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '编辑按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:17', 1, '平台管理员', '2024-12-07 17:52:00');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3010203, '删除', 'sys:org:remove', 30102, '', NULL, 3010203, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3010301, '添加', 'sys:position:add', 30103, '', NULL, 3010301, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3010302, '编辑', 'sys:position:edit', 30103, '', NULL, 3010302, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '编辑按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3010303, '删除', 'sys:position:remove', 30103, '', NULL, 3010303, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
@@ -1055,7 +1087,7 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户编码',
   `code` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '角色编码',
   `name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL DEFAULT '' COMMENT '名称',
   `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '描述信息',
@@ -1095,11 +1127,10 @@ INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope
 INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1921135289484414977, 1, 'kongong', 'kongong', 'kongong', 10, 1, 0, 0, 1, '平台管理员', '2025-05-10 17:28:41', 0, NULL, NULL);
 INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1921741691844268033, 1, 'HEIHEI-ADMIN', '嘿嘿管理员', NULL, 50, 1, 0, 0, 1, '平台管理员', '2025-05-12 09:38:18', 0, NULL, NULL);
 INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1922905551099891714, 1, 'suk0001', 'suk0001', NULL, 50, 1, 0, 0, 1, '平台管理员', '2025-05-15 14:43:04', 0, NULL, NULL);
-INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1925546740416483330, 1, '1111', '测试', NULL, 10, 1, 0, 0, 1, '平台管理员', '2025-05-22 21:38:13', 0, NULL, NULL);
 INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1942423291313459201, 1, '1234', '123', NULL, 40, 1, 0, 0, 1, '平台管理员', '2025-07-08 11:19:36', 0, NULL, NULL);
-INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1945395080805158913, 1, '23321', '1', NULL, 10, 1, 0, 0, 1, '平台管理员', '2025-07-16 16:08:26', 0, NULL, NULL);
-INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1948195640893706241, 1, 'LTP', 'LTP测试', NULL, 50, 1, 0, 0, 1, '平台管理员', '2025-07-24 09:36:51', 0, NULL, NULL);
-INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1950568775576129537, 1, '111', '111', NULL, 10, 1, 0, 0, 1, '平台管理员', '2025-07-30 22:46:51', 0, NULL, NULL);
+INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1945395080805158913, 1, '23321', '1', NULL, 20, 1, 0, 0, 1, '平台管理员', '2025-07-16 16:08:26', 0, NULL, '2025-12-09 04:35:17');
+INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1948195640893706241, 1, 'LTP', 'LTP测试', NULL, 20, 1, 0, 0, 1, '平台管理员', '2025-07-24 09:36:51', 0, NULL, '2025-12-09 04:35:08');
+INSERT INTO `sys_role` (`id`, `tenant_id`, `code`, `name`, `description`, `scope_type`, `status`, `super`, `readonly`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1950568775576129537, 1, '111', '111', NULL, 20, 1, 0, 0, 1, '平台管理员', '2025-07-30 22:46:51', 0, NULL, '2025-12-09 04:34:53');
 COMMIT;
 
 -- ----------------------------
@@ -1107,50 +1138,60 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_org`;
 CREATE TABLE `sys_role_org` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `role_id` bigint NOT NULL COMMENT '角色ID',
   `org_id` bigint NOT NULL COMMENT '组织ID',
-  UNIQUE KEY `role_id` (`role_id`,`org_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户角色表';
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  `create_by` bigint DEFAULT NULL COMMENT '创建人',
+  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
+  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
+  `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`id`),
+  KEY `sys_role_org_idx_role_id` (`role_id`),
+  KEY `sys_role_org_idx_org_id` (`org_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of sys_role_org
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (5, 100);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (5, 101);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (5, 102);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (5, 10001);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (5, 10005);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (5, 10007);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (5, 10009);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (5, 10010);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (5, 10011);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (5, 10018);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 100);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 101);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 102);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 10001);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 10002);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 10003);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 10004);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 10005);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 10006);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 10007);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 10009);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 10010);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 10011);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (7, 10018);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (8, 10001);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (8, 10002);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (8, 10003);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (8, 10004);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (8, 10005);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (8, 10006);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (8, 10007);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (8, 10009);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (8, 10010);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (8, 10011);
-INSERT INTO `sys_role_org` (`role_id`, `org_id`) VALUES (8, 10018);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 5, 100, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (2, 5, 101, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3, 5, 102, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (4, 5, 10001, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (5, 5, 10005, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (6, 5, 10007, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (7, 5, 10009, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (8, 5, 10010, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (9, 5, 10011, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10, 5, 10018, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (11, 7, 100, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (12, 7, 101, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (13, 7, 102, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (14, 7, 10001, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (15, 7, 10002, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (16, 7, 10003, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (17, 7, 10004, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (18, 7, 10005, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (19, 7, 10006, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (20, 7, 10007, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (21, 7, 10009, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (22, 7, 10010, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (23, 7, 10011, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (24, 7, 10018, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (25, 8, 10001, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (26, 8, 10002, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (27, 8, 10003, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (28, 8, 10004, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (29, 8, 10005, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (30, 8, 10006, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (31, 8, 10007, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (32, 8, 10009, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (33, 8, 10010, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (34, 8, 10011, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_org` (`id`, `role_id`, `org_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (35, 8, 10018, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1158,289 +1199,178 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_res`;
 CREATE TABLE `sys_role_res` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `role_id` bigint NOT NULL COMMENT '角色ID',
-  `res_id` bigint NOT NULL COMMENT '菜单ID',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  UNIQUE KEY `idx_role_res` (`role_id`,`res_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='角色权限表';
+  `res_id` bigint NOT NULL COMMENT '资源ID',
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  `create_by` bigint DEFAULT NULL COMMENT '创建人',
+  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
+  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
+  `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=420 DEFAULT CHARSET=utf8mb3 COMMENT='角色权限表';
 
 -- ----------------------------
 -- Records of sys_role_res
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 11, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 50, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 60, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 104, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 105, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 107, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 151, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 152, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 153, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 161, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 162, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 163, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 164, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 165, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 166, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 168, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 301, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 302, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 303, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 306, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 310, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 320, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 350, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1101, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1102, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1104, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1106, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5003, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5005, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5050, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 5069, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 6001, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 6003, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10401, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10402, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10501, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10502, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10503, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10706, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 10707, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15101, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15102, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15103, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15201, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15202, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15203, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15204, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15205, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15206, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15207, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 15301, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16101, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16102, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16103, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16108, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16201, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16401, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16408, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16501, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16502, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16601, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 16608, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30101, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30102, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30103, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30201, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30202, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30301, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30303, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30604, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30605, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30606, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30607, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 30608, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 31003, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 31005, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 31006, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 32002, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 32003, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 35005, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110101, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110102, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110107, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110108, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110201, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110202, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110203, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110401, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110402, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110403, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110404, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 110601, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160001, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160002, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160005, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160006, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160010, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160011, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 160012, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 161001, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 161002, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 161003, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 162002, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 163001, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 163002, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500301, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500302, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500304, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500308, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500501, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500502, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 500503, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 506901, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 506902, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 506903, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 506904, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 600101, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 600301, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040101, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040102, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040103, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040105, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040106, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1040107, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1050101, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1050102, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1050103, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1070601, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1070602, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1070603, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 1070605, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010101, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010102, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010103, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010104, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010105, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010201, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010202, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010203, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010301, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010302, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3010303, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020101, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020102, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020103, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020201, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020202, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020203, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020207, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3020208, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3030101, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3030102, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3030103, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3060501, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3060502, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3060503, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 3060504, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 50030801, '2025-12-02 01:19:04');
-INSERT INTO `sys_role_res` (`role_id`, `res_id`, `create_time`) VALUES (1, 50030802, '2025-12-02 01:19:04');
-COMMIT;
-
--- ----------------------------
--- Table structure for sys_site_message
--- ----------------------------
-DROP TABLE IF EXISTS `sys_site_message`;
-CREATE TABLE `sys_site_message` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `level` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息级别',
-  `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
-  `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
-  `mark` bit(1) DEFAULT b'0' COMMENT '状态（0=未读 1=已读）',
-  `receive_id` bigint DEFAULT NULL COMMENT '接收人ID',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='站内消息';
-
--- ----------------------------
--- Records of sys_site_message
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, '1', '测试消息', '<p>测试消息</p>', '测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-12 20:05:39', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (5, '1', '测试消息', '<p>测试消息</p>', '测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-13 09:26:59', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (7, '1', '测试消息', '<p>测试消息</p>', '测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-13 09:26:59', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (9, '1', '测试消息', '<p>测试消息</p>', '测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-13 09:26:59', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (16, '1', '测试消息', '<p>测试消息</p>', '测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-13 09:27:06', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (18, '1', '测试消息', '<p>测试消息</p>', '测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-13 09:27:11', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (28, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-13 09:28:06', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (34, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-13 10:01:48', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (37, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-14 17:33:41', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (39, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-14 17:33:41', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (41, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-14 17:33:42', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (49, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-14 17:33:56', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (51, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-14 17:33:56', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (53, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-14 17:33:57', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (59, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-14 17:51:42', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (61, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-14 17:51:42', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (63, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-14 17:51:43', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (71, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-14 17:51:52', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (72, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '管理员', '2021-07-15 20:10:36', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (76, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦', '2021-07-21 15:43:40', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (78, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦', '2021-07-21 15:43:40', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (80, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦', '2021-07-21 15:43:40', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (83, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦', '2021-07-21 15:43:44', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (87, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦', '2021-07-21 15:43:48', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (89, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦', '2021-07-22 10:59:20', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (90, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'1', 1, b'0', 1, '长风一梦', '2021-07-22 10:59:20', 1, '长风一梦', '2021-07-27 10:51:14');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (91, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2021-11-16 19:06:34', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (92, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'1', 1, b'0', 1, '长风一梦8888', '2021-11-16 19:06:34', 1, '长风一梦8888', '2022-06-07 07:23:03');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (93, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'0', 1, '长风一梦8888', '2021-11-16 19:06:38', 1, '长风一梦8888', '2022-06-07 07:23:04');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (94, '2', '测试待办', '<p>测试待办</p><img src=\"http://www.docmirror.cn:7070/api/upload/form/download?key=file/2021/7/15/30369909559790.png\" contenteditable=\"false\"/>', '测试待办', b'1', 1, b'0', 1, '长风一梦8888', '2021-11-16 19:06:39', 1, '长风一梦8888', '2022-06-07 07:23:02');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (95, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 14:35:27', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (96, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'0', 1, '长风一梦8888', '2023-05-18 14:35:27', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (97, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 14:35:28', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (98, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'0', 1, '长风一梦8888', '2023-05-18 14:35:28', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (99, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 14:35:52', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (100, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'0', 1, '长风一梦8888', '2023-05-18 14:35:52', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (101, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 14:35:53', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (102, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'0', 1, '长风一梦8888', '2023-05-18 14:35:53', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (103, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'0', 1, '长风一梦8888', '2023-05-18 14:35:53', 1, '长风一梦8888', '2023-05-18 07:29:03');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (104, '2', '测试待办', '<p>测试待办</p><img src=\"http://www.docmirror.cn:7070/api/upload/form/download?key=file/2021/7/15/30369909559790.png\" contenteditable=\"false\"/>', '测试待办', b'0', 1, b'0', 1, '长风一梦8888', '2023-05-18 14:35:54', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (105, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 14:36:09', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (106, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'0', 1, '长风一梦8888', '2023-05-18 14:36:09', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (107, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 14:36:25', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (108, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'0', 1, '长风一梦8888', '2023-05-18 14:36:25', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (109, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'0', 1, '长风一梦8888', '2023-05-18 14:36:26', 1, '长风一梦8888', '2023-05-18 07:29:03');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (110, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 14:36:28', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (111, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'1', 1, '长风一梦8888', '2023-05-18 14:36:28', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (112, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 14:57:41', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (113, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'1', 1, '长风一梦8888', '2023-05-18 14:57:41', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (114, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 14:57:42', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (115, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'1', 1, '长风一梦8888', '2023-05-18 14:57:42', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (116, '2', '测试待办', '<p>测试待办</p><img src=\"http://www.docmirror.cn:7070/api/upload/form/download?key=file/2021/7/15/30369909559790.png\" contenteditable=\"false\"/>', '测试待办', b'0', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:13:02', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (117, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 15:13:08', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (118, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:13:08', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (119, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 15:13:08', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (120, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:13:08', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (121, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:13:08', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (122, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 15:13:09', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (123, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:13:09', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (124, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:14:50', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (125, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:14:50', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (126, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:14:50', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (127, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:14:50', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (128, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 15:15:11', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (129, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:15:11', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (130, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 15:15:11', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (131, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:15:11', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (132, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-05-18 15:15:12', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (133, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:15:12', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (134, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:15:19', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (135, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'1', 1, '长风一梦8888', '2023-05-18 15:15:19', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (136, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'1', 1, '长风一梦8888', '2023-09-16 20:53:55', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (137, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'1', 1, '长风一梦8888', '2023-09-16 20:54:25', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (138, '2', '测试待办', '<p>测试待办</p><img src=\"http://www.docmirror.cn:7070/api/upload/form/download?key=file/2021/7/15/30369909559790.png\" contenteditable=\"false\"/>', '测试待办', b'0', 1, b'1', 1, '长风一梦8888', '2023-09-17 16:56:25', 1, '长风一梦8888', '2023-09-17 09:24:16');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (139, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'1', 1, '长风一梦8888', '2023-09-17 16:56:26', 1, '长风一梦8888', '2023-09-17 09:24:22');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (140, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-09-17 16:56:27', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (141, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'1', 1, '长风一梦8888', '2023-09-17 16:56:27', 1, '长风一梦8888', '2023-09-17 09:24:14');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (142, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'0', 1, '长风一梦8888', '2023-09-17 17:24:40', 1, '长风一梦8888', '2023-11-23 17:39:20');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (143, '0', '测试通知', '<p>测试通知</p>', '测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知测试通知', b'1', 1, b'0', 1, '长风一梦8888', '2023-09-17 17:24:45', 1, '长风一梦8888', '2023-09-17 14:18:41');
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (144, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 2, b'0', 1, '长风一梦8888', '2023-09-17 21:46:34', NULL, NULL, NULL);
-INSERT INTO `sys_site_message` (`id`, `level`, `title`, `content`, `description`, `mark`, `receive_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (145, '1', '测试消息', '<p>测试消息</p>', '测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息测试消息', b'0', 1, b'1', 1, '长风一梦8888', '2023-09-17 21:46:34', 1, '长风一梦8888', '2023-11-25 14:11:32');
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (165, 1, 1, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (166, 1, 3, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (167, 1, 11, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (168, 1, 15, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (169, 1, 16, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (170, 1, 50, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (171, 1, 60, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (172, 1, 104, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (173, 1, 105, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (174, 1, 107, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (175, 1, 151, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (176, 1, 152, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (177, 1, 153, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (178, 1, 160, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (179, 1, 161, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (180, 1, 162, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (181, 1, 163, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (182, 1, 166, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (183, 1, 301, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (184, 1, 302, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (185, 1, 303, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (186, 1, 306, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (187, 1, 310, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (188, 1, 320, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (189, 1, 350, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (190, 1, 1101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (191, 1, 1102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (192, 1, 1104, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (193, 1, 1106, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (194, 1, 5003, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (195, 1, 5005, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (196, 1, 5050, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (197, 1, 5069, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (198, 1, 6001, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (199, 1, 6003, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (200, 1, 10401, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (201, 1, 10402, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (202, 1, 10501, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (203, 1, 10502, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (204, 1, 10503, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (205, 1, 10706, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (206, 1, 10707, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (207, 1, 15101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (208, 1, 15102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (209, 1, 15103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (210, 1, 15201, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (211, 1, 15202, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (212, 1, 15203, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (213, 1, 15204, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (214, 1, 15205, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (215, 1, 15206, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (216, 1, 15207, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (217, 1, 15301, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (218, 1, 16101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (219, 1, 16102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (220, 1, 16103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (221, 1, 16108, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (222, 1, 16201, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (223, 1, 16501, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (224, 1, 16502, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (225, 1, 16601, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (226, 1, 30101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (227, 1, 30102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (228, 1, 30103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (229, 1, 30201, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (230, 1, 30202, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (231, 1, 30301, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (232, 1, 30303, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (233, 1, 30604, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (234, 1, 30605, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (235, 1, 30606, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (236, 1, 30607, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (237, 1, 30608, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (238, 1, 31003, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (239, 1, 31005, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (240, 1, 31006, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (241, 1, 32002, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (242, 1, 32003, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (243, 1, 35005, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (244, 1, 110101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (245, 1, 110102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (246, 1, 110107, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (247, 1, 110108, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (248, 1, 110201, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (249, 1, 110401, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (250, 1, 110402, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (251, 1, 110403, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (252, 1, 110601, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (253, 1, 160001, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (254, 1, 160002, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (255, 1, 160005, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (256, 1, 160006, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (257, 1, 160010, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (258, 1, 160011, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (259, 1, 160012, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (260, 1, 161001, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (261, 1, 161002, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (262, 1, 161003, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (263, 1, 162002, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (264, 1, 163001, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (265, 1, 163002, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (266, 1, 500301, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (267, 1, 500302, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (268, 1, 500304, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (269, 1, 500308, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (270, 1, 500501, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (271, 1, 500502, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (272, 1, 500503, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (273, 1, 506901, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (274, 1, 506902, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (275, 1, 506903, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (276, 1, 506904, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (277, 1, 600101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (278, 1, 600301, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (279, 1, 1040101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (280, 1, 1040102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (281, 1, 1040103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (282, 1, 1040105, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (283, 1, 1040106, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (284, 1, 1040107, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (285, 1, 1050101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (286, 1, 1050102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (287, 1, 1050103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (288, 1, 1070601, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (289, 1, 1070602, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (290, 1, 1070603, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (291, 1, 1070605, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (292, 1, 3010101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (293, 1, 3010102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (294, 1, 3010103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (295, 1, 3010104, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (296, 1, 3010105, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (297, 1, 3010201, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (298, 1, 3010202, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (299, 1, 3010203, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (300, 1, 3010301, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (301, 1, 3010302, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (302, 1, 3010303, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (303, 1, 3020101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (304, 1, 3020102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (305, 1, 3020103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (306, 1, 3020201, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (307, 1, 3020202, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (308, 1, 3020203, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (309, 1, 3020207, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (310, 1, 3020208, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (311, 1, 3030101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (312, 1, 3030102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (313, 1, 3030103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (314, 1, 3060501, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (315, 1, 3060502, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (316, 1, 3060503, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (317, 1, 3060504, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (318, 1, 50030801, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (319, 1, 50030802, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1529,33 +1459,35 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `user_id` bigint NOT NULL COMMENT '用户ID',
   `role_id` bigint NOT NULL COMMENT '角色ID',
-  UNIQUE KEY `role_id` (`user_id`,`role_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户角色表';
+  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+  `create_by` bigint DEFAULT NULL COMMENT '创建人',
+  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
+  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
+  `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8mb3 COMMENT='角色权限表';
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1, 1);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1, 2);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (2, 2);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (3, 2);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (8, 1);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (10, 2);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (12, 4);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (14, 2);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (19, 2);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (20, 2);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (21, 2);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (22, 2);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (24, 1892780582101815297);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (32, 2);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1727970480594255873, 2);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1728688350949179394, 2);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1729447031536721922, 2);
-INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1976167146983702529, 2);
+INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (165, 1, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (166, 1, 2, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (167, 2, 2, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (168, 3, 2, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (169, 8, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (170, 10, 2, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (171, 12, 4, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (172, 14, 2, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (173, 19, 2, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (174, 20, 2, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (175, 21, 2, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (176, 22, 2, 0, NULL, NULL, NULL, NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1925,7 +1857,7 @@ CREATE TABLE `t_user` (
 -- Records of t_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '平台管理员', 100, 100, b'0', '1837307557@qq.com', '13002171111', '000000000000000000', 1, b'1', 'http://127.0.0.1:19000/wp-local/dev/6766346cd59052dfcedc7531.png', '平台最帅的超级管理员', 'mz_daiz', 'SUOSHI', 'QUIT', '2023-10-14', '192.168.19.166', '2025-12-02 11:08:18', b'0', 0, '系统管理员', '2020-10-16 03:25:36', NULL, NULL, NULL);
+INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '平台管理员', 100, 100, b'0', '1837307557@qq.com', '13002171111', '000000000000000000', 1, b'1', 'http://127.0.0.1:19000/wp-local/dev/6766346cd59052dfcedc7531.png', '平台最帅的超级管理员', 'mz_daiz', 'SUOSHI', 'QUIT', '2023-10-14', '127.0.0.1', '2025-12-09 10:31:18', b'0', 0, '系统管理员', '2020-10-16 03:25:36', NULL, NULL, NULL);
 INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (2, 1, 'test', '{bcrypt}$2a$10$j1U0rIRl8ODzc2j5rkLx8OSvjjEZ.cJ/Xe8DzkqL2jgAyX2c3x.4C', '测试管理员', 1001, 100, b'0', '1837307557@qq.com', '13002171921', '000000000000000000', 1, b'0', '', '测试管理员', 'mz_daiz', 'SUOSHI', 'QUIT', '2023-10-14', NULL, NULL, b'0', 0, '系统管理员', '2022-12-04 08:05:29', 0, '系统管理员', '2025-10-09 06:14:06');
 COMMIT;
 
@@ -2005,6 +1937,7 @@ COMMIT;
 DROP TABLE IF EXISTS `tms_driver`;
 CREATE TABLE `tms_driver` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '驾驶员ID',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
   `id_card_no` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证号',
   `id_card_start_date` date DEFAULT NULL COMMENT '身份证有效期开始日期',
   `id_card_end_date` date DEFAULT NULL COMMENT '身份证有效期结束日期',
@@ -2017,7 +1950,6 @@ CREATE TABLE `tms_driver` (
   `certificate_start` date DEFAULT NULL COMMENT '证书有效期开始日期',
   `certificate_end` date DEFAULT NULL COMMENT '证书有效期结束日期',
   `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
-  `tenant_id` int DEFAULT NULL COMMENT '租户ID',
   `enabled` tinyint(1) DEFAULT NULL COMMENT '启用状态',
   `file_portrait_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '人像照片ID',
   `file_id_card_front` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证正面照片ID',
@@ -2052,7 +1984,7 @@ CREATE TABLE `tms_driver` (
 -- Records of tms_driver
 -- ----------------------------
 BEGIN;
-INSERT INTO `tms_driver` (`id`, `id_card_no`, `id_card_start_date`, `id_card_end_date`, `license_code`, `license_type`, `driver_license_start`, `driver_license_end`, `driver_license_issue_org`, `certificate_code`, `certificate_start`, `certificate_end`, `remark`, `tenant_id`, `enabled`, `file_portrait_id`, `file_id_card_front`, `file_id_card_back`, `file_driver_license`, `file_certificate`, `file_other`, `real_name`, `mobile`, `adapt_id_no`, `driver_type`, `default_truck_id`, `adapt_id_issue_date`, `adapt_id_due_date`, `file_adapt_id`, `approval_status`, `bpm_status`, `approval_id`, `approval_name`, `approval_desc`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, '431103199008255733', '2023-09-05', '2023-09-05', 'HX0102', 'C2', '2023-09-01', '2023-09-22', NULL, NULL, '2023-09-01', '2023-09-05', '备注信息', 1, 1, '1698991906406989826', '1698991906406989826', '1698991906406989826', '1698991906406989826', '1698991906406989826', '1698991906406989826', '哈哈哈', '13000001111', 'AI13213123', 'C2', 1739846242807664641, '2023-09-05', '2023-09-23', NULL, NULL, NULL, NULL, NULL, NULL, b'0', 1, '系统管理员', '2023-09-05 05:09:41', 1, '平台管理员', '2024-12-19 22:06:24');
+INSERT INTO `tms_driver` (`id`, `tenant_id`, `id_card_no`, `id_card_start_date`, `id_card_end_date`, `license_code`, `license_type`, `driver_license_start`, `driver_license_end`, `driver_license_issue_org`, `certificate_code`, `certificate_start`, `certificate_end`, `remark`, `enabled`, `file_portrait_id`, `file_id_card_front`, `file_id_card_back`, `file_driver_license`, `file_certificate`, `file_other`, `real_name`, `mobile`, `adapt_id_no`, `driver_type`, `default_truck_id`, `adapt_id_issue_date`, `adapt_id_due_date`, `file_adapt_id`, `approval_status`, `bpm_status`, `approval_id`, `approval_name`, `approval_desc`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, '431103199008255733', '2023-09-05', '2023-09-05', 'HX0102', 'C2', '2023-09-01', '2023-09-22', NULL, NULL, '2023-09-01', '2023-09-05', '备注信息', 1, '1698991906406989826', '1698991906406989826', '1698991906406989826', '1698991906406989826', '1698991906406989826', '1698991906406989826', '哈哈哈', '13000001111', 'AI13213123', 'C2', 1739846242807664641, '2023-09-05', '2023-09-23', NULL, NULL, NULL, NULL, NULL, NULL, b'0', 1, '系统管理员', '2023-09-05 05:09:41', 1, '平台管理员', '2024-12-19 22:06:24');
 COMMIT;
 
 -- ----------------------------

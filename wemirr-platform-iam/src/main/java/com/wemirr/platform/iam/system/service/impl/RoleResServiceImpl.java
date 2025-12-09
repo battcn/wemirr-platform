@@ -38,6 +38,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * 角色资源
  *
@@ -47,19 +49,19 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes> implements RoleResService {
-    
+
     private final UserRoleMapper userRoleMapper;
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public boolean assignUser(UserRoleSaveReq req) {
         userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, req.getRoleId()));
         List<UserRole> list = req.getUserIdList().stream()
-                .map(userId -> UserRole.builder().userId(userId).roleId(req.getRoleId()).build()).toList();
+                .map(userId -> UserRole.builder().userId(userId).roleId(req.getRoleId()).build()).collect(toList());
         userRoleMapper.insertBatchSomeColumn(list);
         return true;
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void assignResource(RoleResSaveReq req) {
@@ -67,16 +69,14 @@ public class RoleResServiceImpl extends SuperServiceImpl<RoleResMapper, RoleRes>
         super.remove(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, req.getRoleId()));
         resHandler(req, req.getRoleId());
     }
-    
+
     private void resHandler(RoleResSaveReq data, Long roleId) {
         final Set<Long> resIdList = data.getResIdList();
         if (CollUtil.isEmpty(resIdList)) {
             return;
         }
-        final List<RoleRes> list = resIdList.stream()
-                .filter(Objects::nonNull)
-                .map(resId -> RoleRes.builder().resId(resId).roleId(roleId).build())
-                .toList();
+        final List<RoleRes> list = resIdList.stream().filter(Objects::nonNull)
+                .map(resId -> RoleRes.builder().resId(resId).roleId(roleId).build()).collect(toList());
         this.baseMapper.insertBatchSomeColumn(list);
     }
 }

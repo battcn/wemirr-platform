@@ -26,9 +26,11 @@ import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.DataResourceType;
+import com.wemirr.framework.commons.security.DataScopeType;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.system.domain.dto.req.RoleSaveReq;
+import com.wemirr.platform.iam.system.domain.dto.resp.RoleDetailResp;
 import com.wemirr.platform.iam.system.domain.dto.resp.RolePermissionResp;
 import com.wemirr.platform.iam.system.domain.entity.*;
 import com.wemirr.platform.iam.system.domain.enums.ResourceType;
@@ -55,17 +57,34 @@ import static java.util.stream.Collectors.toList;
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implements RoleService {
-    
+
     private final RoleResMapper roleResMapper;
-    private final DataPermissionResourceMapper dataPermissionResourceMapper;
+    private final DataPermissionRefMapper dataPermissionRefMapper;
     private final UserRoleMapper userRoleMapper;
     private final ResourceMapper resourceMapper;
-    
+
     @Override
     public List<Role> list() {
         return baseMapper.list();
     }
-    
+
+
+    @Override
+    public RoleDetailResp detail(Long id) {
+        var role = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("角色不存在"));
+        var bean = BeanUtilPlus.toBean(role, RoleDetailResp.class);
+        if (bean.getScopeType() != DataScopeType.CUSTOMIZE) {
+            return bean;
+        }
+        var dataList = this.dataPermissionRefMapper.selectList(Wraps.<DataPermissionRef>lbQ().eq(DataPermissionRef::getOwnerId, id)
+                .eq(DataPermissionRef::getOwnerType, DataResourceType.ROLE).eq(DataPermissionRef::getDataType, DataResourceType.ORG));
+        if (CollUtil.isEmpty(dataList)) {
+            return bean;
+        }
+        bean.setOrgIdList(dataList.stream().map(DataPermissionRef::getDataId).distinct().toList());
+        return bean;
+    }
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void removeByRoleId(Long roleId) {
@@ -77,22 +96,22 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
             throw CheckedException.badRequest("超级角色无法删除");
         }
         baseMapper.deleteById(roleId);
-        dataPermissionResourceMapper.delete(Wraps.<DataPermissionResource>lbQ()
-                .eq(DataPermissionResource::getOwnerId, roleId)
-                .eq(DataPermissionResource::getOwnerType, DataResourceType.ROLE));
+        dataPermissionRefMapper.delete(Wraps.<DataPermissionRef>lbQ()
+                .eq(DataPermissionRef::getOwnerId, roleId)
+                .eq(DataPermissionRef::getOwnerType, DataResourceType.ROLE));
         roleResMapper.delete(Wraps.<RoleRes>lbQ().eq(RoleRes::getRoleId, roleId));
         userRoleMapper.delete(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId));
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void create(RoleSaveReq req) {
         Role role = BeanUtil.toBean(req, Role.class);
         role.setReadonly(false);
         super.save(role);
-        addDataPermission(role.getId(), req.getOrgList());
+        addDataPermission(role.getId(), req.getOrgIdList());
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void modify(Long roleId, RoleSaveReq req) {
@@ -109,9 +128,9 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         }
         var bean = BeanUtilPlus.toBean(roleId, req, Role.class);
         this.baseMapper.updateById(bean);
-        addDataPermission(role.getId(), req.getOrgList());
+        addDataPermission(role.getId(), req.getOrgIdList());
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void assignUser(Long roleId, List<Long> userIdList) {
@@ -121,28 +140,22 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         }
         final List<UserRole> userRoles = userIdList.stream()
                 .map(userId -> UserRole.builder().roleId(roleId).userId(userId).build())
-                .toList();
+                .collect(toList());
         this.userRoleMapper.insertBatchSomeColumn(userRoles);
     }
-    
+
     private void addDataPermission(Long roleId, List<Long> orgList) {
-        dataPermissionResourceMapper.delete(Wraps.<DataPermissionResource>lbQ()
-                .eq(DataPermissionResource::getOwnerId, roleId)
-                .eq(DataPermissionResource::getOwnerType, DataResourceType.ROLE)
-                .eq(DataPermissionResource::getDataType, DataResourceType.ORG));
+        dataPermissionRefMapper.delete(Wraps.<DataPermissionRef>lbQ().eq(DataPermissionRef::getOwnerId, roleId)
+                .eq(DataPermissionRef::getOwnerType, DataResourceType.ROLE).eq(DataPermissionRef::getDataType, DataResourceType.ORG));
         if (CollectionUtil.isEmpty(orgList)) {
             return;
         }
         // 根据 数据范围类型 和 勾选的组织ID， 重新计算全量的组织ID
-        List<DataPermissionResource> list = orgList.stream()
-                .map(orgId -> DataPermissionResource.builder().dataId(orgId)
-                        .dataType(DataResourceType.ORG)
-                        .ownerType(DataResourceType.ROLE)
-                        .ownerId(roleId).build())
-                .collect(toList());
-        dataPermissionResourceMapper.insertBatchSomeColumn(list);
+        List<DataPermissionRef> list = orgList.stream().map(orgId -> DataPermissionRef.builder().dataId(orgId)
+                .dataType(DataResourceType.ORG).ownerType(DataResourceType.ROLE).ownerId(roleId).build()).collect(toList());
+        dataPermissionRefMapper.insertBatchSomeColumn(list);
     }
-    
+
     @Override
     public RolePermissionResp findRolePermissionById(Long roleId) {
         final List<Resource> resourceList = resourceMapper.selectList();
@@ -163,4 +176,5 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
                 .toList();
         return RolePermissionResp.builder().menuIdList(menuIdList).buttonIdList(buttonIdList).build();
     }
+
 }

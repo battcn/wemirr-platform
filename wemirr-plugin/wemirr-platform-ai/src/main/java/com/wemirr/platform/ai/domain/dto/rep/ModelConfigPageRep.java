@@ -1,5 +1,6 @@
 package com.wemirr.platform.ai.domain.dto.rep;
 
+import com.wemirr.framework.boot.sensitive.Sensitive;
 import com.wemirr.platform.ai.core.enums.ModelType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -27,6 +28,10 @@ public class ModelConfigPageRep {
 
     @Schema(description = "基础URL")
     private String baseUrl;
+
+    @Sensitive(type = Sensitive.Type.PASSWORD)
+    @Schema(description = "API密钥")
+    private String apiKey;
 
     @Schema(description = "创建人")
     private String createName;

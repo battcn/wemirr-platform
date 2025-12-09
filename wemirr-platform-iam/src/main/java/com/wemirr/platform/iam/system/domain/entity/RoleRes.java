@@ -20,11 +20,10 @@
 package com.wemirr.platform.iam.system.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 /**
  * 角色的资源
@@ -32,12 +31,13 @@ import lombok.NoArgsConstructor;
  * @author Levin
  */
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("sys_role_res")
-public class RoleRes {
-    
+@EqualsAndHashCode(callSuper = true)
+public class RoleRes extends SuperEntity<Long> {
+
     @Schema(description = "资源ID")
     private Long resId;
     

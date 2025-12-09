@@ -228,10 +228,10 @@ BEGIN;
 COMMIT;
 
 -- ----------------------------
--- Table structure for sys_data_permission_resource
+-- Table structure for sys_data_permission_ref
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_data_permission_resource`;
-CREATE TABLE `sys_data_permission_resource` (
+DROP TABLE IF EXISTS `sys_data_permission_ref`;
+CREATE TABLE `sys_data_permission_ref` (
     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
     `owner_id` bigint NOT NULL COMMENT '拥有者',
     `owner_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '拥有类型（角色，用户）',
@@ -244,7 +244,7 @@ CREATE TABLE `sys_data_permission_resource` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='数据权限资源表';
 
 -- ----------------------------
--- Records of sys_data_permission_resource
+-- Records of sys_data_permission_ref
 -- ----------------------------
 BEGIN;
 COMMIT;

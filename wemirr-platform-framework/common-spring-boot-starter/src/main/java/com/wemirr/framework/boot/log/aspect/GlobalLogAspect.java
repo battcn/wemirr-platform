@@ -117,10 +117,8 @@ public class GlobalLogAspect {
         if (responsePreview != null) {
             sb.append("Response      :  ").append(responsePreview).append("\n");
         }
-        sb.append("**************************")
-                .append(DateUtil.now())
-                .append("***********************************")
-                .append("\n");
+        sb.append("**************************").append(DateUtil.now())
+                .append("***********************************").append("\n");
         return sb.toString();
     }
 

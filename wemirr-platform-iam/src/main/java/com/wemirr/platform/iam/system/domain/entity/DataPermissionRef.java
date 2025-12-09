@@ -39,9 +39,9 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_data_permission_resource")
+@TableName("sys_data_permission_ref")
 @EqualsAndHashCode(callSuper = true)
-public class DataPermissionResource extends Entity<Long> {
+public class DataPermissionRef extends Entity<Long> {
     
     @Schema(description = "所有者 ID")
     @TableField("owner_id")

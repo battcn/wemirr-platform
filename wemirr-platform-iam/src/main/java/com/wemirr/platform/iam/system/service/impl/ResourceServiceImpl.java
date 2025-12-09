@@ -47,6 +47,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -113,7 +114,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
         // 给管理员角色挂载权限
         final List<RoleRes> roleResList = roles.stream()
                 .map(role -> RoleRes.builder().roleId(role.getId()).resId(resource.getId()).build())
-                .toList();
+                .collect(Collectors.toList());
         roleResMapper.insertBatchSomeColumn(roleResList);
     }
 

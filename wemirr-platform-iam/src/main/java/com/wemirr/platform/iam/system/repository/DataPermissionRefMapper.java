@@ -20,13 +20,13 @@
 package com.wemirr.platform.iam.system.repository;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.platform.iam.system.domain.entity.DataPermissionResource;
+import com.wemirr.platform.iam.system.domain.entity.DataPermissionRef;
 import org.springframework.stereotype.Repository;
 
 /**
  * @author Levin
  */
 @Repository
-public interface DataPermissionResourceMapper extends SuperMapper<DataPermissionResource> {
+public interface DataPermissionRefMapper extends SuperMapper<DataPermissionRef> {
     
 }

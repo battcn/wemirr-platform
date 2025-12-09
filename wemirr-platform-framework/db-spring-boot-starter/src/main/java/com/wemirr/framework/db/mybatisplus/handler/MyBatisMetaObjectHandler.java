@@ -61,7 +61,7 @@ public class MyBatisMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         if (context.anonymous()) {
-            log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作......");
+            log.warn("匿名接口导致无法获取用户信息,本次跳过织入动作...");
             return;
         }
         Object object = metaObject.getOriginalObject();
