@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.wemirr.framework.boot.log.configuration;
+package com.wemirr.framework.boot.log.aspect;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.StrUtil;

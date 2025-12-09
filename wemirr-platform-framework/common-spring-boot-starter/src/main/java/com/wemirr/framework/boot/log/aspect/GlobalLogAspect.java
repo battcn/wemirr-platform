@@ -1,4 +1,4 @@
-package com.wemirr.framework.boot.log.configuration;
+package com.wemirr.framework.boot.log.aspect;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
