@@ -29,11 +29,13 @@ import com.wemirr.framework.commons.entity.Dict;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
 import com.wemirr.platform.iam.base.domain.dto.req.DictSaveReq;
 import com.wemirr.platform.iam.base.domain.entity.SysDict;
 import com.wemirr.platform.iam.base.repository.I18nLocaleMessageMapper;
 import com.wemirr.platform.iam.base.repository.SysDictMapper;
 import com.wemirr.platform.iam.base.service.DictService;
+import com.wemirr.platform.iam.tenant.domain.entity.TenantDict;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -108,7 +110,12 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         if (dict.getType() == 0) {
             throw CheckedException.notFound("内置数据无法删除");
         }
-        this.baseMapper.deleteById(id);
+        LbqWrapper<SysDict> wrapper = Wraps.<SysDict>lbQ().eq(SysDict::getId, dict.getId());
+        if (dict.getParentId() == null || dict.getParentId() == 0L) {
+            this.baseMapper.delete(wrapper.or().eq(SysDict::getParentId, dict.getId()));
+        } else {
+            this.baseMapper.delete(wrapper);
+        }
     }
 
     @Override

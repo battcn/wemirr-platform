@@ -23,6 +23,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -33,6 +34,7 @@ import com.wemirr.platform.iam.system.domain.enums.ResourceType;
 import com.wemirr.platform.iam.system.repository.ResourceMapper;
 import com.wemirr.platform.iam.tenant.domain.dto.req.PlanDefPermissionReq;
 import com.wemirr.platform.iam.tenant.domain.dto.req.PlanDefinitionSaveReq;
+import com.wemirr.platform.iam.tenant.domain.dto.resp.PlanDefinitionDetailResp;
 import com.wemirr.platform.iam.tenant.domain.entity.PlanDefinition;
 import com.wemirr.platform.iam.tenant.domain.entity.PlanDefinitionRes;
 import com.wemirr.platform.iam.tenant.domain.entity.PlanSubscription;
@@ -57,12 +59,12 @@ import static java.util.stream.Collectors.toList;
 @Service
 @RequiredArgsConstructor
 public class ProductDefinitionServiceImpl extends SuperServiceImpl<PlanDefinitionMapper, PlanDefinition> implements ProductDefinitionService {
-    
+
     private final PlanDefResMapper planDefResMapper;
     private final PlanSubscriptionMapper planSubscriptionMapper;
     private final ResourceMapper resourceMapper;
     private final RedisSequenceHelper sequenceHelper;
-    
+
     @Override
     public void create(PlanDefinitionSaveReq req) {
         final long count = count(Wraps.<PlanDefinition>lbQ().eq(PlanDefinition::getName, req.getName()));
@@ -73,8 +75,9 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<PlanDefinitio
         String code = sequenceHelper.generate(TenantSequence.PRODUCT_DEFINITION_NO);
         bean.setCode(code);
         this.baseMapper.insert(bean);
+        refHandler(bean.getId(), req.getItemIdList());
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void modify(Long id, PlanDefinitionSaveReq req) {
@@ -84,11 +87,21 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<PlanDefinitio
         if (count > 0) {
             throw CheckedException.badRequest("该套餐名称已存在");
         }
-        this.baseMapper.updateById(PlanDefinition.builder()
-                .id(id).name(req.getName()).logo(req.getLogo()).description(req.getDescription())
-                .build());
+        this.baseMapper.updateById(PlanDefinition.builder().id(id).name(req.getName()).logo(req.getLogo()).description(req.getDescription()).build());
+        refHandler(id, req.getItemIdList());
     }
-    
+
+    public void refHandler(Long planId, Set<Long> itemIdList) {
+        // 删除角色和资源的关联
+        this.planDefResMapper.delete(Wraps.<PlanDefinitionRes>lbQ().eq(PlanDefinitionRes::getPlanId, planId));
+        if (CollUtil.isEmpty(itemIdList)) {
+            return;
+        }
+        final List<PlanDefinitionRes> resList = itemIdList.stream().filter(Objects::nonNull)
+                .map(resId -> PlanDefinitionRes.builder().resId(resId).planId(planId).build()).collect(toList());
+        this.planDefResMapper.insertBatch(resList);
+    }
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void permissions(Long planId, PlanDefPermissionReq req) {
@@ -103,7 +116,7 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<PlanDefinitio
                 .collect(toList());
         planDefResMapper.insertBatch(resList);
     }
-    
+
     @Override
     public RolePermissionResp findPermissions(Long id) {
         final List<Resource> resourceList = resourceMapper.selectList();
@@ -124,7 +137,7 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<PlanDefinitio
                 .toList();
         return RolePermissionResp.builder().menuIdList(menuIdList).buttonIdList(buttonIdList).build();
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void delete(Long id) {
@@ -138,5 +151,18 @@ public class ProductDefinitionServiceImpl extends SuperServiceImpl<PlanDefinitio
             throw CheckedException.badRequest("套餐已被订阅,删除失败");
         }
     }
-    
+
+    @Override
+    public PlanDefinitionDetailResp detail(Long id) {
+        var entity = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("套餐不存在"));
+        var bean = BeanUtilPlus.toBean(entity, PlanDefinitionDetailResp.class);
+        List<PlanDefinitionRes> resList = this.planDefResMapper.selectList(PlanDefinitionRes::getPlanId, id);
+        if (CollUtil.isEmpty(resList)) {
+            return bean;
+        }
+        List<Long> itemIdList = resList.stream().map(PlanDefinitionRes::getResId).distinct().toList();
+        bean.setItemIdList(itemIdList);
+        return bean;
+    }
+
 }

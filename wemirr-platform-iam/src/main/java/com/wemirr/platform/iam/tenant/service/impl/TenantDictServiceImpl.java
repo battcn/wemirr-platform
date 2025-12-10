@@ -111,9 +111,9 @@ public class TenantDictServiceImpl extends SuperServiceImpl<TenantDictMapper, Te
         final TenantDict dict = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("字典不存在"));
         LbqWrapper<TenantDict> wrapper = Wraps.<TenantDict>lbQ().eq(TenantDict::getId, dict.getId());
         if (dict.getParentId() == null || dict.getParentId() == 0L) {
-            this.baseMapper.delete(wrapper);
+            this.baseMapper.delete(wrapper.or().eq(TenantDict::getParentId, dict.getId()));
         } else {
-            this.baseMapper.delete(wrapper.or().eq(TenantDict::getParentId, dict.getParentId()));
+            this.baseMapper.delete(wrapper);
         }
     }
 
