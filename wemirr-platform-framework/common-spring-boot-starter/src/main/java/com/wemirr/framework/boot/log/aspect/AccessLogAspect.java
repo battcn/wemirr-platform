@@ -6,8 +6,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import cn.hutool.http.useragent.UserAgent;
-import cn.hutool.http.useragent.UserAgentUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONWriter;
@@ -16,6 +14,7 @@ import com.wemirr.framework.boot.log.AccessLogProperties;
 import com.wemirr.framework.boot.log.event.AccessLogEvent;
 import com.wemirr.framework.boot.log.handler.AbstractLogHandler;
 import com.wemirr.framework.commons.JacksonUtils;
+import com.wemirr.framework.commons.NativeUserAgent;
 import com.wemirr.framework.commons.RegionUtils;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.entity.Result;
@@ -216,13 +215,11 @@ public class AccessLogAspect {
             logInfo.setLocation(RegionUtils.getRegion(logInfo.getIp()));
             logInfo.setUri(URLUtil.getPath(request.getRequestURI()));
             logInfo.setHttpMethod(request.getMethod());
-            UserAgent userAgent = UserAgentUtil.parse(request.getHeader(HttpHeaders.USER_AGENT));
-            if (userAgent != null) {
-                logInfo.setEngine(userAgent.getEngine().getName());
-                logInfo.setOs(userAgent.getOs().getName());
-                logInfo.setPlatform(userAgent.getPlatform().getName());
-                logInfo.setBrowser(userAgent.getBrowser().getName());
-            }
+            var userAgent = NativeUserAgent.parse(request.getHeader(HttpHeaders.USER_AGENT));
+            logInfo.setEngine(userAgent.engine());
+            logInfo.setOs(userAgent.os());
+            logInfo.setPlatform(userAgent.platform());
+            logInfo.setBrowser(userAgent.browser());
         }
         logInfo.setStartTime(Instant.now());
     }

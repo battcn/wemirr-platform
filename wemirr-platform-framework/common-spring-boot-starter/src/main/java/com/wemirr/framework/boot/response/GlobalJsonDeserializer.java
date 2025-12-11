@@ -19,13 +19,13 @@
 
 package com.wemirr.framework.boot.response;
 
-import cn.hutool.http.HtmlUtil;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.wemirr.framework.commons.exception.CheckedException;
 import org.springframework.boot.jackson.JsonComponent;
+import org.springframework.web.util.HtmlUtils;
 
 import java.io.IOException;
 
@@ -50,7 +50,7 @@ public class GlobalJsonDeserializer {
                 throw CheckedException.badRequest("存在SQL注入风险,已拦截");
             }
             // 替换 HTML 标签
-            return HtmlUtil.escape(value);
+            return HtmlUtils.htmlEscape(value);
         }
     }
 }

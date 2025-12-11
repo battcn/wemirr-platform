@@ -5,8 +5,7 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.http.useragent.UserAgent;
-import cn.hutool.http.useragent.UserAgentUtil;
+import com.wemirr.framework.commons.NativeUserAgent;
 import com.wemirr.framework.commons.RegionUtils;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
@@ -219,11 +218,11 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
             variables.put("ip", ip);
             variables.put("uri", URLUtil.getPath(request.getRequestURI()));
             variables.put("location", RegionUtils.getRegion(ip));
-            final UserAgent userAgent = UserAgentUtil.parse(request.getHeader(USER_AGENT));
-            variables.put("engine", userAgent.getEngine().getName());
-            variables.put("os", userAgent.getOs().getName());
-            variables.put("platform", userAgent.getPlatform().getName());
-            variables.put("browser", userAgent.getBrowser().getName());
+            var userAgent = NativeUserAgent.parse(request.getHeader(USER_AGENT));
+            variables.put("engine", userAgent.engine());
+            variables.put("os", userAgent.os());
+            variables.put("platform", userAgent.platform());
+            variables.put("browser", userAgent.browser());
         }
         DiffLogInfo diffLogInfo = DiffLogInfo.builder()
                 .serviceName(serviceName)

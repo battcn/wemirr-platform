@@ -24,10 +24,8 @@ import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.stp.parameter.SaLoginParameter;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.http.useragent.Browser;
-import cn.hutool.http.useragent.UserAgent;
-import cn.hutool.http.useragent.UserAgentUtil;
 import com.alibaba.fastjson2.JSONObject;
+import com.wemirr.framework.commons.NativeUserAgent;
 import com.wemirr.framework.commons.RegionUtils;
 import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.framework.security.configuration.SecurityExtProperties;
@@ -71,24 +69,16 @@ public class WpTokenListener implements SaTokenListener {
         String ip = JakartaServletUtil.getClientIP(request);
         String region = RegionUtils.getRegion(ip);
         String ua = request.getHeader(USER_AGENT);
-        final UserAgent userAgent = UserAgentUtil.parse(ua);
-        final Browser browser = userAgent.getBrowser();
+        var userAgent = NativeUserAgent.parse(ua);
         final long userId = (long) loginId;
         String principal = SaHolder.getStorage().getString(AuthenticationPrincipal.PRINCIPAL);
         String principalType = SaHolder.getStorage().getString(AuthenticationPrincipal.PRINCIPAL_TYPE);
         UserTenantAuthentication authentication = SaHolder.getStorage().getModel(AuthenticationPrincipal.AUTHENTICATION, UserTenantAuthentication.class);
         UserInfoDetails info = this.userService.userinfo(authentication);
-        LoginLog loginLog = LoginLog.builder().principal(principal)
-                .clientId(loginParameter.getDeviceType())
-                .tenantId(info.getTenantId()).tenantCode(info.getTenantCode())
-                .location(region).ip(ip)
-                .platform(userAgent.getPlatform().getName())
-                .engine(userAgent.getEngine().getName())
-                .browser(browser.getName())
-                .os(userAgent.getOs().getName())
-                .loginType(principalType)
-                .createBy(userId).createTime(Instant.now()).createName(info.getNickName())
-                .build();
+        LoginLog loginLog = LoginLog.builder().principal(principal).clientId(loginParameter.getDeviceType())
+                .tenantId(info.getTenantId()).tenantCode(info.getTenantCode()).location(region).ip(ip)
+                .platform(userAgent.platform()).engine(userAgent.engine()).browser(userAgent.browser()).os(userAgent.os())
+                .loginType(principalType).createBy(userId).createTime(Instant.now()).createName(info.getNickName()).build();
         info.setLoginLog(JSONObject.from(loginLog));
         StpUtil.getTokenSessionByToken(tokenValue).set(extProperties.getServer().getTokenInfoKey(), info);
         // 记录登录日志
