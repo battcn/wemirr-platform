@@ -48,6 +48,7 @@ public class ${ClassName} extends SuperEntity<Long>{
             </#if>
             private ${field.propertyType} ${field.propertyName};
         </#if>
+
     </#list>
     <#-- ----------  END 字段循环遍历  ---------->
 

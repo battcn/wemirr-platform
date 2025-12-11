@@ -54,7 +54,7 @@ public IPage<${ClassName}PageResp> pageList(${ClassName}PageReq req) {
  }
 
  @Override
- public void removeById(Long id) {
+ public void delete(Long id) {
  this.baseMapper.deleteById(id);
  }
  }

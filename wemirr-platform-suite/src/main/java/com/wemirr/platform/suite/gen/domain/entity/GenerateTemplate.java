@@ -16,18 +16,15 @@ import lombok.experimental.SuperBuilder;
  * @author xiao1
  * @since 2024-12
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @TableName("c_generate_template")
 public class GenerateTemplate extends SuperEntity<Long> {
 
-    /**
-     * 模板名称
-     */
-    @Schema(description = "模板名称")
+
     @NotBlank(message = "模板名称不能为空")
     private String name;
 
@@ -37,28 +34,22 @@ public class GenerateTemplate extends SuperEntity<Long> {
      * wp/src/main/java/${packagePath}/${moduleName}/controller/${ClassName}Controller.java
      */
     @Schema(description = "模板路径")
-    @NotBlank(message = "模板路径不能为空")
     private String generatePath;
 
     /**
      * 模板描述
      */
     @Schema(description = "模板描述")
-    @NotBlank(message = "模板描述不能为空")
     private String description;
 
     /**
      * 模板代码
      */
     @Schema(description = "模板代码")
-    @NotBlank(message = "模板代码不能为空")
     private String code;
 
 
     @Schema(description = "租户ID")
     private Long tenantId;
-
-
-    //TODO: 自定义模板映射值
 
 }

@@ -1,20 +1,19 @@
-package com.wemirr.platform.suite.gen.domain.dto.rep;
+package com.wemirr.platform.suite.gen.domain.dto.resp;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import java.time.Instant;
 
 /**
  * @author xiao1
  * @since 2024-12
  */
 @Data
-public class GenerateTemplateDetailRep {
+public class GenerateTemplatePageResp {
 
-    /*
-        id
-     */
+    @Schema(description = "ID")
     private Long id;
-
 
     /**
      * 模板名称
@@ -34,11 +33,14 @@ public class GenerateTemplateDetailRep {
      * 模板描述
      */
     @Schema(description = "模板描述")
-    private String desc;
+    private String description;
 
-    /**
-     * 模板代码
-     */
-    @Schema(description = "模板代码")
-    private String code;
+    @Schema(description = "模板内容")
+    private String templateContent;
+
+    @Schema(description = "创建人")
+    private String createName;
+
+    @Schema(description = "创建时间")
+    private Instant createTime;
 }

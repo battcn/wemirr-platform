@@ -21,7 +21,6 @@ package com.wemirr.framework.boot.log.configuration;
 
 import com.wemirr.framework.boot.log.AccessLogProperties;
 import com.wemirr.framework.boot.log.aspect.AccessLogAspect;
-import com.wemirr.framework.boot.log.aspect.GlobalLogAspect;
 import com.wemirr.framework.boot.log.event.AccessLogListener;
 import com.wemirr.framework.boot.log.feign.AccessLogFeign;
 import com.wemirr.framework.boot.log.handler.AbstractLogHandler;
@@ -66,11 +65,6 @@ public class AccessLogAutoConfiguration {
     @ConditionalOnExpression("'${extend.boot.log.strategy}'.equalsIgnoreCase('feign')")
     public AccessLogListener accessLogListener(AccessLogFeign feign) {
         return new AccessLogListener(feign::listener);
-    }
-
-    @Bean
-    public GlobalLogAspect globalLogAspect() {
-        return new GlobalLogAspect();
     }
 
 }

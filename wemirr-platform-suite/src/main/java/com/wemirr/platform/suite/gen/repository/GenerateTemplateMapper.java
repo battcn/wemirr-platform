@@ -12,5 +12,12 @@ import java.util.List;
  */
 @Repository
 public interface GenerateTemplateMapper extends SuperMapper<GenerateTemplate> {
+
+    /**
+     * 根据模板组ID查询
+     * @param templateGroupId 模板组ID
+     * @return 查询结果
+     */
     List<GenerateTemplate> getTemplateDetailByGroupId(Long templateGroupId);
+
 }

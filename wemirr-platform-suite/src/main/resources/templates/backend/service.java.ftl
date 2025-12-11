@@ -41,5 +41,5 @@ IPage<${ClassName}PageResp> pageList(${ClassName}PageReq req);
  * 通过id删除实体
  * @param id 实体ID
  */
- void removeById(Long id);
+ void delete(Long id);
  }

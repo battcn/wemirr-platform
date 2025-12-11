@@ -1,9 +1,9 @@
 package com.wemirr.platform.suite.gen.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.platform.suite.gen.domain.dto.rep.GenerateTableColumnPageRep;
 import com.wemirr.platform.suite.gen.domain.dto.req.GenerateTableColumnPageReq;
 import com.wemirr.platform.suite.gen.domain.dto.req.GenerateTableColumnSaveReq;
+import com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTableColumnPageResp;
 import com.wemirr.platform.suite.gen.service.GenerateTableColumnService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 /**
  * @author xiao1
  * @since 2024-12
@@ -27,12 +28,9 @@ public class GenerateTableColumnController {
 
     private final GenerateTableColumnService generateTableColumnService;
 
-    /**
-     * 分页查询 字段
-     */
-    @Operation(summary = "分页查询字段")
     @GetMapping("/page")
-    public IPage<GenerateTableColumnPageRep> pageList(GenerateTableColumnPageReq req) {
+    @Operation(summary = "分页查询")
+    public IPage<GenerateTableColumnPageResp> pageList(GenerateTableColumnPageReq req) {
         return generateTableColumnService.pageList(req);
     }
 

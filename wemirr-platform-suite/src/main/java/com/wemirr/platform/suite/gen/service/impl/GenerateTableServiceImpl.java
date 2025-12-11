@@ -10,10 +10,10 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.suite.gen.domain.dto.rep.GenerateTableDetailRep;
-import com.wemirr.platform.suite.gen.domain.dto.rep.GenerateTablePageRep;
 import com.wemirr.platform.suite.gen.domain.dto.req.GenerateTablePageReq;
 import com.wemirr.platform.suite.gen.domain.dto.req.GenerateTableSaveReq;
+import com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTableDetailResp;
+import com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTablePageResp;
 import com.wemirr.platform.suite.gen.domain.entity.GenerateTable;
 import com.wemirr.platform.suite.gen.domain.entity.GenerateTableColumn;
 import com.wemirr.platform.suite.gen.domain.entity.GenerateTemplate;
@@ -151,33 +151,35 @@ public class GenerateTableServiceImpl extends SuperServiceImpl<GenerateTableMapp
     }
 
     @Override
-    public IPage<GenerateTablePageRep> pageList(GenerateTablePageReq req) {
+    public IPage<GenerateTablePageResp> pageList(GenerateTablePageReq req) {
         return this.baseMapper.selectPage(req.buildPage(), Wraps.<GenerateTable>lbQ()
                         .like(GenerateTable::getName, req.getName()))
-                .convert(x -> BeanUtil.toBean(x, GenerateTablePageRep.class));
+                .convert(x -> BeanUtil.toBean(x, GenerateTablePageResp.class));
     }
 
     @Override
-    public GenerateTableDetailRep detail(Long id) {
+    public GenerateTableDetailResp detail(Long id) {
         GenerateTable generateTable = this.getById(id);
-        return BeanUtil.toBean(generateTable, GenerateTableDetailRep.class);
+        return BeanUtil.toBean(generateTable, GenerateTableDetailResp.class);
 
     }
 
     @Override
     public void modify(Long id, GenerateTableSaveReq req) {
-        Optional.ofNullable(this.baseMapper.selectById(id))
-                .orElseThrow(() -> CheckedException.notFound("表配置信息不存在"));
-        GenerateTable generateTable = BeanUtilPlus.toBean(id, req, GenerateTable.class);
+        long count = this.baseMapper.selectCount(GenerateTable::getId, id);
+        if (count == 0) {
+            throw CheckedException.notFound("表配置信息不存在");
+        }
+        var bean = BeanUtilPlus.toBean(id, req, GenerateTable.class);
         //修改配置后，应该针对 remove_prefix 进行处理逻辑
         if (req.getRemovePrefix()) {
-            generateTable.setBusinessName(convertTableNameToBusinessNameRemovePre(generateTable.getName()));
-            generateTable.setClassName(convertTableNameToClassName(generateTable));
+            bean.setBusinessName(convertTableNameToBusinessNameRemovePre(bean.getName()));
+            bean.setClassName(convertTableNameToClassName(bean));
         } else {
-            generateTable.setBusinessName(convertTableNameToBusinessName(generateTable.getName()));
-            generateTable.setClassName(convertTableNameToClassName(generateTable));
+            bean.setBusinessName(convertTableNameToBusinessName(bean.getName()));
+            bean.setClassName(convertTableNameToClassName(bean));
         }
-        this.baseMapper.updateById(generateTable);
+        this.baseMapper.updateById(bean);
     }
 
     @Transactional

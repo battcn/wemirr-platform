@@ -1,24 +1,6 @@
-/*
- * Copyright (c) 2023 WEMIRR-PLATFORM Authors. All Rights Reserved.
- *
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.wemirr.framework.boot.log.aspect;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
@@ -29,274 +11,413 @@ import cn.hutool.http.useragent.UserAgentUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONWriter;
-import com.alibaba.ttl.TransmittableThreadLocal;
 import com.wemirr.framework.boot.log.AccessLogInfo;
 import com.wemirr.framework.boot.log.AccessLogProperties;
-import com.wemirr.framework.boot.log.AccessLogUtil;
 import com.wemirr.framework.boot.log.event.AccessLogEvent;
 import com.wemirr.framework.boot.log.handler.AbstractLogHandler;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.RegionUtils;
 import com.wemirr.framework.commons.annotation.log.AccessLog;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.AnnotatedElementUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Method;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Consumer;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
- * 操作日志切面，使用Spring事件机制异步入库。
+ * 统一日志切面
  * <p>
- * 该类用于拦截带有 @AccessLog 注解的方法，并记录相关操作日志。日志信息包括请求的参数、响应结果、异常信息等。
- * 所有日志记录过程通过异步事件处理，避免影响业务流程。
+ * 逻辑优先级：
+ * 1. 带有 @AccessLog：执行审计入库 + (Debug模式下) 打印控制台调试日志。
+ * 2. 只有 Controller/Swagger：不入库，只打印控制台调试日志。
  *
- * @author Levin
+ * @author Levin & YanCh
+ * @since 2025-12-11
  */
+@Slf4j
 @Aspect
 public class AccessLogAspect {
 
-    private static final Logger logger = LoggerFactory.getLogger(AccessLogAspect.class);
     /**
-     * 限制日志内容的最大长度
+     * 日志截断常量
      */
     private static final int MAX_LENGTH = 65535;
-    private static final TransmittableThreadLocal<AccessLogInfo> THREAD_LOCAL = new TransmittableThreadLocal<>();
-    private static final String USER_AGENT = "User-Agent";
+    private static final int MAX_DEBUG_LENGTH = 1000;
+    private static final int MAX_RESPONSE_PREVIEW_LENGTH = 500;
+    private static final int MAX_REQUEST_URI_LENGTH = 200;
 
-    /**
-     * 认证上下文，用于获取当前用户信息
-     */
     @Resource
     private AuthenticationContext context;
-    /**
-     * 日志处理器，用于处理和存储日志
-     */
-    @Resource
-    private AbstractLogHandler abstractLogHandler;
-    /**
-     * 配置文件，获取日志相关配置
-     */
+
     @Resource
     private AccessLogProperties accessLogProperties;
 
     /**
-     * 定义切点：拦截所有 public 方法，且该方法带有 @AccessLog 注解。
+     * 允许为空，若未实现 LogHandler 则不进行持久化
      */
-    @Pointcut("execution(public * com.wemirr..*.*(..)) && @annotation(com.wemirr.framework.commons.annotation.log.AccessLog)")
-    public void accessLogAspect() {
-    }
+    @Autowired(required = false)
+    private AbstractLogHandler abstractLogHandler;
 
     /**
-     * 获取当前线程的日志信息，如果线程本地没有记录则创建一个新的日志信息。
-     *
-     * @return 当前线程的 AccessLogInfo 对象
+     * 定义切点：
+     * 1. 带有 @AccessLog 注解的方法
+     * 2. 或者 com.wemirr 包下的 Controller 方法
      */
-    private AccessLogInfo getLogInfo() {
-        return Optional.ofNullable(THREAD_LOCAL.get()).orElseGet(AccessLogInfo::new);
+    @Pointcut("@annotation(com.wemirr.framework.commons.annotation.log.AccessLog) || execution(* com.wemirr..*controller..*Controller.*(..))")
+    public void accessLogPointCut() {
     }
 
-    /**
-     * 安全执行日志记录操作，捕获异常避免影响主流程。
-     *
-     * @param action 执行的操作
-     */
-    private void safeExecute(Consumer<Void> action) {
-        try {
-            action.accept(null);
-        } catch (Exception e) {
-            logger.warn("日志记录异常", e);
-            // 清除线程局部变量
-            THREAD_LOCAL.remove();
+    @Around("accessLogPointCut()")
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Method method = signature.getMethod();
+
+        // 1. 优先处理 @AccessLog (既要入库，也要看控制台)
+        AccessLog accessLog = AnnotatedElementUtils.findMergedAnnotation(method, AccessLog.class);
+        if (accessLog != null) {
+            return handleAccessLog(joinPoint, accessLog);
         }
-    }
 
-    /**
-     * 处理正常返回结果，记录日志信息。
-     *
-     * @param joinPoint 切点信息
-     * @param ret       返回结果
-     */
-    @AfterReturning(returning = "ret", pointcut = "accessLogAspect()")
-    public void handleReturn(JoinPoint joinPoint, Object ret) {
-        safeExecute(ignore -> {
-            AccessLog annotation = AccessLogUtil.getTargetAnnotation(joinPoint);
-            if (annotation == null) {
-                return;
-            }
-            AccessLogInfo log = getLogInfo();
-            log.setStartTime(Instant.now()); // 记录操作开始时间
-            if (ret instanceof Result<?> result && !result.isSuccessful()) {
-                log.setMessage(result.getMessage()); // 记录失败的消息
-            }
-            if (annotation.response()) {
-                log.setResponse(getSafeText(JSON.toJSONString(ret, JSONWriter.Feature.WriteMapNullValue)));
-            }
-            publishEvent(log); // 发布日志事件
-        });
-    }
-
-    /**
-     * 处理异常情况，记录异常日志信息。
-     *
-     * @param joinPoint 切点信息
-     * @param e         异常信息
-     */
-    @AfterThrowing(pointcut = "accessLogAspect()", throwing = "e")
-    public void handleException(JoinPoint joinPoint, Throwable e) {
-        safeExecute(ignore -> {
-            AccessLog annotation = AccessLogUtil.getTargetAnnotation(joinPoint);
-            if (annotation == null) {
-                return;
-            }
-            AccessLogInfo log = getLogInfo();
-            HttpServletRequest request = getRequest();
-            log.setRequest(getArgs(annotation, joinPoint.getArgs(), request));
-            log.setMessage(getErrorMessage(e)); // 记录错误信息
-            log.setResponse(e.getMessage()); // 记录异常消息
-            publishEvent(log); // 发布日志事件
-        });
-    }
-
-    /**
-     * 记录日志信息，在方法执行前准备好相关数据。
-     *
-     * @param joinPoint 切点信息
-     */
-    @Before("accessLogAspect()")
-    public void recordLog(JoinPoint joinPoint) {
-        safeExecute(ignore -> {
-            AccessLog annotation = AccessLogUtil.getTargetAnnotation(joinPoint);
-            if (annotation == null) {
-                return;
-            }
-            populateLogDetails(annotation, joinPoint); // 填充日志详细信息
-        });
-    }
-
-    /**
-     * 填充日志的详细信息，包括用户信息、请求参数、IP等。
-     *
-     * @param annotation AccessLog 注解对象
-     * @param joinPoint  切点信息
-     */
-    private void populateLogDetails(AccessLog annotation, JoinPoint joinPoint) {
-        AccessLogInfo log = getLogInfo();
-        if (context != null) {
-            log.setTenantId(context.tenantId());
-            log.setTenantCode(context.tenantCode());
-            log.setCreateBy(context.userId());
-            log.setCreateName(context.nickName());
+        // 2. 其次处理 Swagger / Controller 日志 (只看控制台，不入库)
+        Operation operation = AnnotatedElementUtils.findMergedAnnotation(method, Operation.class);
+        if (operation != null && !operation.hidden()) {
+            // 传 null 表示没有自定义描述，需内部去解析 Swagger
+            return handleDebugLog(joinPoint, null);
         }
+
+        // 3. 既没有 AccessLog 也没有 Swagger Operation，直接放行
+        return joinPoint.proceed();
+    }
+
+    /**
+     * 处理 @AccessLog 逻辑 (持久化 + 可选的控制台打印)
+     */
+    private Object handleAccessLog(ProceedingJoinPoint joinPoint, AccessLog accessLog) throws Throwable {
+        AccessLogInfo logInfo = new AccessLogInfo();
         HttpServletRequest request = getRequest();
-        log.setTrace(MDC.get(accessLogProperties.getTrace()));
-        log.setModule(annotation.module());
-        log.setDescription(annotation.description());
-        log.setAction(joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName());
-        log.setRequest(getArgs(annotation, joinPoint.getArgs(), request));
-        log.setToken(getRequestToken(request));
-        log.setIp(JakartaServletUtil.getClientIP(request));
-        log.setLocation(RegionUtils.getRegion(log.getIp()));
-        log.setUri(URLUtil.getPath(request.getRequestURI()));
-        log.setHttpMethod(request.getMethod());
-        UserAgent userAgent = UserAgentUtil.parse(request.getHeader(USER_AGENT));
-        log.setEngine(userAgent.getEngine().getName());
-        log.setOs(userAgent.getOs().getName());
-        log.setPlatform(userAgent.getPlatform().getName());
-        log.setBrowser(userAgent.getBrowser().getName());
-        log.setStartTime(Instant.now());
-        // 设置线程局部变量
-        THREAD_LOCAL.set(log);
+        long startTime = System.currentTimeMillis();
+
+        // 1. 预填充请求信息
+        try {
+            populateAccessLogDetails(logInfo, accessLog, joinPoint, request);
+        } catch (Exception e) {
+            log.warn("AccessLog build details failed", e);
+        }
+
+        Object ret = null;
+        Throwable ex = null;
+        try {
+            // 2. 执行业务逻辑
+            ret = joinPoint.proceed();
+
+            // 3. 填充响应信息 (用于入库)
+            if (ret instanceof Result<?> result && !result.isSuccessful()) {
+                logInfo.setMessage(result.getMessage());
+            }
+            if (accessLog.response()) {
+                logInfo.setResponse(truncate(JSON.toJSONString(ret, JSONWriter.Feature.WriteMapNullValue), MAX_LENGTH));
+            }
+            return ret;
+        } catch (Throwable e) {
+            ex = e;
+            // 4. 填充异常信息 (用于入库)
+            logInfo.setMessage(e instanceof CheckedException ? e.getLocalizedMessage() : ExceptionUtil.stacktraceToString(e, MAX_LENGTH));
+            logInfo.setResponse(e.getMessage());
+            throw e;
+        } finally {
+            long executionTime = System.currentTimeMillis() - startTime;
+
+            // 5. 控制台打印逻辑 (即使是 AccessLog，开启 Debug 也要打印)
+            if (log.isDebugEnabled()) {
+                // 使用 AccessLog 的 description 作为日志描述
+                String description = accessLog.description();
+                if (ex != null) {
+                    log.error(formatDebugLog(joinPoint, description, ex, executionTime, request));
+                } else {
+                    log.debug(formatDebugLog(joinPoint, description, ret, executionTime, request));
+                }
+            }
+
+            // 6. 异步发布事件/入库
+            publishEvent(logInfo);
+        }
     }
 
     /**
-     * 获取当前请求对象。
-     *
-     * @return HttpServletRequest 请求对象
+     * 处理纯 Debug Log 逻辑 (只打印控制台)
      */
-    private HttpServletRequest getRequest() {
-        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+    private Object handleDebugLog(ProceedingJoinPoint joinPoint, String description) throws Throwable {
+        HttpServletRequest request = getRequest();
+        if (request == null) {
+            return joinPoint.proceed();
+        }
+
+        long startTime = System.currentTimeMillis();
+        Object ret;
+        try {
+            ret = joinPoint.proceed();
+        } catch (Throwable ex) {
+            long executionTime = System.currentTimeMillis() - startTime;
+            // 异常时打印 Error 级别日志
+            log.error(formatDebugLog(joinPoint, description, ex, executionTime, request));
+            throw ex;
+        }
+        long executionTime = System.currentTimeMillis() - startTime;
+
+        // 成功时打印 Debug 级别日志
+        if (log.isDebugEnabled()) {
+            log.debug(formatDebugLog(joinPoint, description, ret, executionTime, request));
+        }
+        return ret;
     }
 
-    /**
-     * 获取请求参数，转换为JSON格式。
-     *
-     * @param annotation AccessLog 注解对象
-     * @param args       方法参数
-     * @param request    请求对象
-     * @return JSON 格式的请求参数
-     */
-    private String getArgs(AccessLog annotation, Object[] args, HttpServletRequest request) {
-        if (!annotation.request() || StrUtil.contains(request.getContentType(), MediaType.MULTIPART_FORM_DATA_VALUE)) {
+    // ===========================================================================================
+    // ================================ AccessLog 核心辅助方法 ====================================
+    // ===========================================================================================
+
+    private void populateAccessLogDetails(AccessLogInfo logInfo, AccessLog annotation, JoinPoint joinPoint, HttpServletRequest request) {
+        if (context != null) {
+            logInfo.setTenantId(context.tenantId());
+            logInfo.setTenantCode(context.tenantCode());
+            logInfo.setCreateBy(context.userId());
+            logInfo.setCreateName(context.nickName());
+        }
+        logInfo.setTrace(MDC.get(accessLogProperties.getRequestId()));
+        logInfo.setModule(annotation.module());
+        logInfo.setDescription(annotation.description());
+        logInfo.setAction(joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName());
+        logInfo.setRequest(getSafeArgs(annotation.request(), joinPoint.getArgs(), request));
+        logInfo.setToken(getRequestToken(request));
+
+        if (request != null) {
+            logInfo.setIp(JakartaServletUtil.getClientIP(request));
+            logInfo.setLocation(RegionUtils.getRegion(logInfo.getIp()));
+            logInfo.setUri(URLUtil.getPath(request.getRequestURI()));
+            logInfo.setHttpMethod(request.getMethod());
+            UserAgent userAgent = UserAgentUtil.parse(request.getHeader(HttpHeaders.USER_AGENT));
+            if (userAgent != null) {
+                logInfo.setEngine(userAgent.getEngine().getName());
+                logInfo.setOs(userAgent.getOs().getName());
+                logInfo.setPlatform(userAgent.getPlatform().getName());
+                logInfo.setBrowser(userAgent.getBrowser().getName());
+            }
+        }
+        logInfo.setStartTime(Instant.now());
+    }
+
+    private void publishEvent(AccessLogInfo logInfo) {
+        logInfo.setEndTime(Instant.now());
+        if (logInfo.getStartTime() != null) {
+            logInfo.setDuration(Duration.between(logInfo.getStartTime(), logInfo.getEndTime()).toMillis());
+        }
+
+        // 核心优化：如果没有注入 LogHandler (说明没配置存储策略)，直接返回，不发布事件
+        if (abstractLogHandler == null) {
+            return;
+        }
+
+        CompletableFuture.runAsync(() -> {
+            try {
+                abstractLogHandler.handler(logInfo);
+                SpringUtil.publishEvent(new AccessLogEvent(logInfo));
+            } catch (Exception e) {
+                log.error("AccessLog event publish failed", e);
+            }
+        });
+    }
+
+    private String getSafeArgs(boolean recordRequest, Object[] args, HttpServletRequest request) {
+        if (!recordRequest || (request != null && StrUtil.contains(request.getContentType(), MediaType.MULTIPART_FORM_DATA_VALUE))) {
             return "";
         }
         try {
-            return JSONObject.toJSONString(args, JSONWriter.Feature.WriteMapNullValue);
+            List<Object> arguments = Arrays.stream(args)
+                    .filter(arg -> !(arg instanceof ServletRequest || arg instanceof ServletResponse || arg instanceof MultipartFile))
+                    .collect(Collectors.toList());
+            return JSONObject.toJSONString(arguments, JSONWriter.Feature.WriteMapNullValue);
         } catch (Exception e) {
-            logger.warn("参数解析失败", e);
-            return "参数解析异常";
+            return "Args serialization failed";
         }
     }
 
-    /**
-     * 获取异常信息的详细描述。
-     *
-     * @param e 异常对象
-     * @return 错误信息
-     */
-    private String getErrorMessage(Throwable e) {
-        return e instanceof CheckedException ? e.getLocalizedMessage() : ExceptionUtil.stacktraceToString(e, MAX_LENGTH);
-    }
-
-    /**
-     * 截取指定长度的字符串，防止日志内容过长。
-     *
-     * @param text 要处理的文本
-     * @return 截取后的字符串
-     */
-    private String getSafeText(String text) {
-        if (text != null && text.length() > MAX_LENGTH) {
-            logger.warn("响应内容过长，长度: {}", text.length());
-            // 截取最大长度
-            return text.substring(0, MAX_LENGTH);
-        }
-        return text;
-    }
-
-    /**
-     * 获取请求中的Token，可能从header、参数或者请求属性中获取。
-     *
-     * @param request 请求对象
-     * @return Token值
-     */
     private String getRequestToken(HttpServletRequest request) {
+        if (request == null) {
+            return null;
+        }
         return Optional.ofNullable(request.getHeader(accessLogProperties.getToken()))
                 .orElseGet(() -> Optional.ofNullable(request.getParameter(accessLogProperties.getToken()))
                         .orElse((String) request.getAttribute(accessLogProperties.getToken())));
     }
 
+    // ===========================================================================================
+    // ================================ DebugLog 核心辅助方法 =====================================
+    // ===========================================================================================
+
     /**
-     * 发布日志事件，异步处理日志。
+     * 格式化控制台日志文本
      *
-     * @param log 日志信息
+     * @param descStr 优先使用传入的描述（来自 AccessLog），如果没有则尝试去拿 Swagger
      */
-    private void publishEvent(AccessLogInfo log) {
-        log.setEndTime(Instant.now());
-        log.setDuration(Duration.between(log.getStartTime(), log.getEndTime()).toMillis());
-        abstractLogHandler.handler(log);
-        // 发布日志事件
-        SpringUtil.publishEvent(new AccessLogEvent(log));
+    private String formatDebugLog(JoinPoint joinPoint, String descStr, Object ret, long executionTime, HttpServletRequest request) {
+        String className = joinPoint.getTarget().getClass().getName();
+        String methodName = joinPoint.getSignature().getName() + "()";
+
+        // 解析描述：如果有传入(AccessLog)则用传入的，否则尝试找 Swagger
+        String apiDesc = descStr;
+        if (!StringUtils.hasText(apiDesc)) {
+            Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+            Operation operation = AnnotatedElementUtils.findMergedAnnotation(method, Operation.class);
+            apiDesc = resolveApiDescription(joinPoint, operation);
+        }
+
+        String methodParam = serializeDebugArguments(joinPoint);
+        String requestParamPayload = buildReadableParamPayload(request);
+        Map<String, Object> methodParamMap = transStringToMap(requestParamPayload);
+
+        String requestUri = truncate(request.getRequestURI(), MAX_REQUEST_URI_LENGTH);
+        String contentType = StringUtils.hasText(request.getContentType()) ? request.getContentType() : "FORM";
+        String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String userAgentStr = request.getHeader(HttpHeaders.USER_AGENT);
+        UserAgent userAgent = UserAgentUtil.parse(userAgentStr);
+
+        StringBuilder sb = new StringBuilder(512);
+        sb.append("\n")
+                .append("*********************************Request请求***************************************").append("\n")
+                .append("ClassName     :  ").append(className).append("\n")
+                .append("RequestMethod :  ").append(methodName).append("\n")
+                .append("MethodParam   :  ").append(methodParam).append("\n")
+                .append("ContentType   :  ").append(contentType).append("\n")
+                .append("RequestParams :  ").append(methodParamMap.isEmpty() ? "" : methodParamMap).append("\n")
+                .append("RequestType   :  ").append(request.getMethod()).append("\n")
+                .append("Description   :  ").append(apiDesc == null ? "" : apiDesc).append("\n")
+                .append("ServerAddr    :  ").append(request.getScheme()).append("://").append(request.getServerName()).append(":").append(request.getServerPort()).append("\n")
+                .append("RemoteAddr    :  ").append(JakartaServletUtil.getClientIP(request)).append("\n")
+                .append("DeviceName    :  ").append(userAgent.getPlatform().getName()).append("\n")
+                .append("BrowserName   :  ").append(userAgent.getBrowser().getName()).append("\n")
+                .append("UserAgent     :  ").append(userAgentStr).append("\n")
+                .append("RequestUri    :  ").append(requestUri).append("\n")
+                .append("Header        :  ").append("{Authorization=").append(authorization).append("}\n")
+                .append("ExecutionTime :  ").append(executionTime).append(" ms\n");
+
+        if (ret != null) {
+            sb.append("Response      :  ").append(buildResponsePreview(ret)).append("\n");
+        }
+        sb.append("**************************").append(DateUtil.now()).append("***********************************").append("\n");
+        return sb.toString();
+    }
+
+    private String resolveApiDescription(JoinPoint joinPoint, Operation operation) {
+        if (operation == null) {
+            return "No Description";
+        }
+        Tag tag = joinPoint.getTarget().getClass().getAnnotation(Tag.class);
+        return tag != null ? tag.name() + "-" + operation.summary() : operation.summary();
+    }
+
+    private String serializeDebugArguments(JoinPoint joinPoint) {
+        List<Object> arguments = Arrays.stream(joinPoint.getArgs())
+                .filter(arg -> !(arg instanceof ServletRequest || arg instanceof ServletResponse || arg instanceof MultipartFile))
+                .collect(Collectors.toList());
+        return truncate(safeJsonSerialize(arguments), MAX_DEBUG_LENGTH);
+    }
+
+    private String buildReadableParamPayload(HttpServletRequest request) {
+        String queryString = request.getQueryString();
+        if (StringUtils.hasText(queryString)) {
+            try {
+                return URLDecoder.decode(queryString, StandardCharsets.UTF_8);
+            } catch (Exception ex) {
+                return queryString;
+            }
+        }
+        return "";
+    }
+
+    private Map<String, Object> transStringToMap(String mapString) {
+        if (!StringUtils.hasText(mapString)) {
+            return Collections.emptyMap();
+        }
+        String[] pairs = mapString.split("&");
+        Map<String, Object> result = new LinkedHashMap<>(pairs.length);
+        for (String pair : pairs) {
+            int idx = pair.indexOf('=');
+            if (idx > 0) {
+                result.put(pair.substring(0, idx), pair.substring(idx + 1));
+            }
+        }
+        return result;
+    }
+
+    private String buildResponsePreview(Object ret) {
+        if (ret instanceof Throwable t) {
+            return truncate(t.getClass().getName() + ": " + t.getMessage(), MAX_RESPONSE_PREVIEW_LENGTH);
+        }
+        return truncate(safeJsonSerialize(ret), MAX_RESPONSE_PREVIEW_LENGTH);
+    }
+
+    private String maskAuthorization(String authorization) {
+        if (!StringUtils.hasText(authorization)) {
+            return "";
+        }
+        if (authorization.length() <= 16) {
+            return "***";
+        }
+        return authorization.substring(0, 12) + "...Length(" + authorization.length() + ")";
+    }
+
+    private String safeJsonSerialize(Object obj) {
+        if (obj == null) {
+            return "null";
+        }
+        try {
+            return JacksonUtils.toJson(obj);
+        } catch (Exception e) {
+            return "[Unserializable]";
+        }
+    }
+
+    // ===========================================================================================
+    // ==================================== 通用工具方法 =======================================
+    // ===========================================================================================
+
+    private HttpServletRequest getRequest() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        return attributes != null ? attributes.getRequest() : null;
+    }
+
+    private String truncate(String value, int maxLength) {
+        if (!StringUtils.hasText(value) || value.length() <= maxLength) {
+            return value == null ? "" : value;
+        }
+        return value.substring(0, maxLength) + "...";
     }
 }

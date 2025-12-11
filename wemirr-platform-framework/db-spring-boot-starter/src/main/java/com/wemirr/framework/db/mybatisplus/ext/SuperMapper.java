@@ -95,8 +95,9 @@ public interface SuperMapper<T> extends BaseMapper<T> {
      * @param value 值
      * @return 统计结果
      */
-    default Long selectCount(SFunction<T, ?> field, Object value) {
-        return selectCount(Wraps.<T>lbQ().eq(field, value));
+    default long selectCount(SFunction<T, ?> field, Object value) {
+        Long count = selectCount(Wraps.<T>lbQ().eq(field, value));
+        return count != null ? count : 0;
     }
 
     default long selectCount(SFunction<T, ?> field, Object value, SFunction<T, ?> field2, Object value2) {

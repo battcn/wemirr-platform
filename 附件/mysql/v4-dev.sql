@@ -11,7 +11,7 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 09/12/2025 15:28:40
+ Date: 11/12/2025 12:46:42
 */
 
 SET NAMES utf8mb4;
@@ -22,21 +22,21 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `b_message_channel`;
 CREATE TABLE `b_message_channel` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '渠道标题',
-  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息类型',
-  `status` bit(1) DEFAULT b'1' COMMENT '状态（0=禁用;1=启用）',
-  `setting` json DEFAULT NULL COMMENT '设置（JSON）',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述信息',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                     `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                     `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '渠道标题',
+                                     `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息类型',
+                                     `status` bit(1) DEFAULT b'1' COMMENT '状态（0=禁用;1=启用）',
+                                     `setting` json DEFAULT NULL COMMENT '设置（JSON）',
+                                     `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                                     `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述信息',
+                                     `deleted` bit(1) DEFAULT b'0',
+                                     `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                                     `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                     `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                     `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
+                                     `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                     `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1864548132428439555 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='消息通知';
 
 -- ----------------------------
@@ -53,24 +53,24 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `b_message_notify`;
 CREATE TABLE `b_message_notify` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '标题',
-  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息类型',
-  `template_id` bigint DEFAULT NULL COMMENT '消息模板ID',
-  `variables` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息变量',
-  `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `user_id` bigint DEFAULT NULL COMMENT '接收用户ID',
-  `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `subscribe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '订阅人 比如 邮箱,手机号,钉钉ID等',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                    `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                    `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '标题',
+                                    `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息类型',
+                                    `template_id` bigint DEFAULT NULL COMMENT '消息模板ID',
+                                    `variables` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息变量',
+                                    `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                    `user_id` bigint DEFAULT NULL COMMENT '接收用户ID',
+                                    `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                    `subscribe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '订阅人 比如 邮箱,手机号,钉钉ID等',
+                                    `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                                    `deleted` bit(1) DEFAULT b'0',
+                                    `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                                    `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                    `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                    `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
+                                    `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                    `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='消息通知';
 
 -- ----------------------------
@@ -84,22 +84,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `b_message_template`;
 CREATE TABLE `b_message_template` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '模板编码',
-  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '模板名称',
-  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '模板类型',
-  `subject` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息标题（如邮件标题）',
-  `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息标题（如邮件标题）',
-  `status` bit(1) DEFAULT b'1' COMMENT '状态（0=禁用;1=启用）',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                      `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                      `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '模板编码',
+                                      `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '模板名称',
+                                      `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '模板类型',
+                                      `subject` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息标题（如邮件标题）',
+                                      `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息标题（如邮件标题）',
+                                      `status` bit(1) DEFAULT b'1' COMMENT '状态（0=禁用;1=启用）',
+                                      `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                                      `deleted` bit(1) DEFAULT b'0',
+                                      `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                                      `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                      `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                      `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
+                                      `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                      `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                      PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1863835249327370242 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='站内消息';
 
 -- ----------------------------
@@ -114,20 +114,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_diff_log`;
 CREATE TABLE `c_diff_log` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
-  `variables` json DEFAULT NULL COMMENT '变量信息，JSON格式',
-  `service_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '服务名称',
-  `business_group` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '业务组',
-  `business_tag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '业务标签',
-  `business_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '业务关键字',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '描述信息',
-  `status` int DEFAULT NULL COMMENT '状态',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `create_by` bigint DEFAULT NULL COMMENT '创建者ID',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建者名称',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `extra` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '额外信息，JSON格式',
-  PRIMARY KEY (`id`) USING BTREE
+                              `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
+                              `variables` json DEFAULT NULL COMMENT '变量信息，JSON格式',
+                              `service_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '服务名称',
+                              `business_group` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '业务组',
+                              `business_tag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '业务标签',
+                              `business_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '业务关键字',
+                              `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '描述信息',
+                              `status` int DEFAULT NULL COMMENT '状态',
+                              `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                              `create_by` bigint DEFAULT NULL COMMENT '创建者ID',
+                              `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建者名称',
+                              `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                              `extra` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '额外信息，JSON格式',
+                              PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='通用差异日志表';
 
 -- ----------------------------
@@ -141,10 +141,10 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_gen_demo`;
 CREATE TABLE `c_gen_demo` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '名称',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+                              `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                              `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '名称',
+                              `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                              PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 
 -- ----------------------------
@@ -158,29 +158,29 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_generate_table`;
 CREATE TABLE `c_generate_table` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表名称',
-  `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表描述',
-  `class_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '实体类名称(首字母大写)',
-  `package_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '生成包路径',
-  `module_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '生成模块名',
-  `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '作者',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '邮箱',
-  `business_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '业务名称 [英文，用于api路径命名]',
-  `remove_prefix` tinyint(1) DEFAULT '0' COMMENT '是否去掉前缀',
-  `prefix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '前缀',
-  `template_group_id` bigint DEFAULT NULL COMMENT '关联模板组',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
-  `last_modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人ID',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '最后修改人名称',
-  `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除标记 (0: 未删除, 1: 已删除)',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `swagger` tinyint(1) DEFAULT '1' COMMENT '是否开启swagger配置',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1893154833356275715 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='代码生成表';
+                                    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                    `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表名称',
+                                    `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表描述',
+                                    `class_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '实体类名称(首字母大写)',
+                                    `package_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '生成包路径',
+                                    `module_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '生成模块名',
+                                    `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '作者',
+                                    `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '邮箱',
+                                    `business_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '业务名称 [英文，用于api路径命名]',
+                                    `remove_prefix` tinyint(1) DEFAULT '0' COMMENT '是否去掉前缀',
+                                    `prefix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '前缀',
+                                    `template_group_id` bigint DEFAULT NULL COMMENT '关联模板组',
+                                    `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                    `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                    `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+                                    `last_modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+                                    `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人ID',
+                                    `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '最后修改人名称',
+                                    `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除标记 (0: 未删除, 1: 已删除)',
+                                    `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                                    `swagger` tinyint(1) DEFAULT '1' COMMENT '是否开启swagger配置',
+                                    PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1998692347235778562 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='代码生成表';
 
 -- ----------------------------
 -- Records of c_generate_table
@@ -190,6 +190,8 @@ INSERT INTO `c_generate_table` (`id`, `name`, `comment`, `class_name`, `package_
 INSERT INTO `c_generate_table` (`id`, `name`, `comment`, `class_name`, `package_name`, `module_name`, `author`, `email`, `business_name`, `remove_prefix`, `prefix`, `template_group_id`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `swagger`) VALUES (1893152402421485569, 'b_message_notify', '消息通知', 'BMessageNotify', 'com.wemirr.platform', 'GenCode', '平台管理员', NULL, 'bMessageNotify', 0, '', 1872173937937879041, '2025-02-10 09:32:36', 1, '平台管理员', '2025-02-22 12:14:40', 1, '平台管理员', b'1', 1, 1);
 INSERT INTO `c_generate_table` (`id`, `name`, `comment`, `class_name`, `package_name`, `module_name`, `author`, `email`, `business_name`, `remove_prefix`, `prefix`, `template_group_id`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `swagger`) VALUES (1893152842248863745, 'b_message_template', '站内消息', 'BMessageTemplate', 'com.wemirr.platform', 'GenCode', '平台管理员', NULL, 'bMessageTemplate', 0, '', 1872173937937879041, '2025-02-10 09:32:36', 1, '平台管理员', '2025-02-22 12:16:25', 1, '平台管理员', b'1', 1, 1);
 INSERT INTO `c_generate_table` (`id`, `name`, `comment`, `class_name`, `package_name`, `module_name`, `author`, `email`, `business_name`, `remove_prefix`, `prefix`, `template_group_id`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `swagger`) VALUES (1893154833356275714, 'b_message_channel', '消息通知', 'MessageChannel', 'com.wemirr.platform', 'suite', '平台管理员', NULL, 'messageChannel', 1, 'b_', 1872173937937879041, '2025-02-10 09:32:36', 1, '平台管理员', '2025-02-22 12:26:19', 1, '平台管理员', b'0', 1, 1);
+INSERT INTO `c_generate_table` (`id`, `name`, `comment`, `class_name`, `package_name`, `module_name`, `author`, `email`, `business_name`, `remove_prefix`, `prefix`, `template_group_id`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `swagger`) VALUES (1998677670455832577, 'b_message_notify', '消息通知', 'MessageNotify', 'com.wemirr.platform', 'GenCode', '平台管理员', NULL, 'messageNotify', 1, 'b_', 1872173937937879041, '2025-08-26 01:37:11', 1, '平台管理员', '2025-12-10 17:52:25', 1, '平台管理员', b'0', NULL, 1);
+INSERT INTO `c_generate_table` (`id`, `name`, `comment`, `class_name`, `package_name`, `module_name`, `author`, `email`, `business_name`, `remove_prefix`, `prefix`, `template_group_id`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `swagger`) VALUES (1998692347235778561, 'c_diff_log', '通用差异日志表', 'DiffLog', 'com.wemirr.platform', 'GenCode', '平台管理员', NULL, 'diffLog', 1, 'c_', 1872173937937879041, '2025-08-26 01:37:11', 1, '平台管理员', '2025-12-10 17:52:57', 1, '平台管理员', b'0', NULL, 1);
 COMMIT;
 
 -- ----------------------------
@@ -197,34 +199,34 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_generate_table_column`;
 CREATE TABLE `c_generate_table_column` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `table_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表名称 [ alipan 是用表名称进行关联的 ]',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字段名称',
-  `sort` int DEFAULT NULL COMMENT '排序',
-  `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字段类型',
-  `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '注释',
-  `property_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '属性类型',
-  `property_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '属性名',
-  `property_package` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '属性所属的包',
-  `pk` tinyint(1) DEFAULT NULL COMMENT '主键 0：否 1：是',
-  `increment` tinyint(1) DEFAULT NULL COMMENT '是否自增',
-  `required` tinyint(1) DEFAULT NULL COMMENT '是否必填',
-  `inserted` tinyint(1) DEFAULT NULL COMMENT '是否为插入字段',
-  `edit` tinyint(1) DEFAULT NULL COMMENT '是否编辑字段',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
-  `last_modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人ID',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '最后修改人名称',
-  `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除标记 (0: 未删除, 1: 已删除)',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `generate` tinyint(1) DEFAULT '1' COMMENT '当前字段是否需要生成',
-  `list` tinyint(1) DEFAULT '1' COMMENT '当前字段是否列表展示',
-  `search` tinyint(1) DEFAULT '0' COMMENT '当前字段是否作为查询条件',
-  `search_condition` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '查询条件',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1893154833293361155 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='代码生成表列';
+                                           `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                           `table_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表名称 [ alipan 是用表名称进行关联的 ]',
+                                           `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字段名称',
+                                           `sort` int DEFAULT NULL COMMENT '排序',
+                                           `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字段类型',
+                                           `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '注释',
+                                           `property_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '属性类型',
+                                           `property_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '属性名',
+                                           `property_package` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '属性所属的包',
+                                           `pk` tinyint(1) DEFAULT NULL COMMENT '主键 0：否 1：是',
+                                           `increment` tinyint(1) DEFAULT NULL COMMENT '是否自增',
+                                           `required` tinyint(1) DEFAULT NULL COMMENT '是否必填',
+                                           `inserted` tinyint(1) DEFAULT NULL COMMENT '是否为插入字段',
+                                           `edit` tinyint(1) DEFAULT NULL COMMENT '是否编辑字段',
+                                           `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                           `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                           `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+                                           `last_modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+                                           `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人ID',
+                                           `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '最后修改人名称',
+                                           `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除标记 (0: 未删除, 1: 已删除)',
+                                           `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                                           `generate` tinyint(1) DEFAULT '1' COMMENT '当前字段是否需要生成',
+                                           `list` tinyint(1) DEFAULT '1' COMMENT '当前字段是否列表展示',
+                                           `search` tinyint(1) DEFAULT '0' COMMENT '当前字段是否作为查询条件',
+                                           `search_condition` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '查询条件',
+                                           PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1998692347156086786 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='代码生成表列';
 
 -- ----------------------------
 -- Records of c_generate_table_column
@@ -244,6 +246,36 @@ INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type
 INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1893154833259806722, 'b_message_channel', 'last_modified_by', 12, 'bigint', '更新人id', 'Long', 'lastModifiedBy', NULL, 0, 0, 1, 0, 0, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 0, 1, 0, 'LIKE');
 INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1893154833293361153, 'b_message_channel', 'last_modified_name', 13, 'varchar', '更新人名称', 'String', 'lastModifiedName', NULL, 0, 0, 1, 0, 0, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 0, 1, 0, 'LIKE');
 INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1893154833293361154, 'b_message_channel', 'last_modified_time', 14, 'datetime', '更新时间', 'Date', 'lastModifiedTime', 'java.util.Date', 0, 0, 1, 0, 0, '2025-02-22 12:24:20', 1, '平台管理员', '2025-02-22 12:24:20', NULL, NULL, b'0', 1, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670292254721, 'b_message_notify', 'id', 1, 'bigint', 'ID', 'Long', 'id', NULL, 1, 1, 0, 0, 0, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 0, 0, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670304837634, 'b_message_notify', 'title', 2, 'varchar', '标题', 'String', 'title', NULL, 0, 0, 1, 1, 1, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670304837635, 'b_message_notify', 'type', 3, 'varchar', '消息类型', 'String', 'type', NULL, 0, 0, 1, 1, 1, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670309031937, 'b_message_notify', 'template_id', 4, 'bigint', '消息模板ID', 'Long', 'templateId', NULL, 0, 0, 1, 1, 1, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670309031938, 'b_message_notify', 'variables', 5, 'varchar', '消息变量', 'String', 'variables', NULL, 0, 0, 1, 1, 1, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670309031939, 'b_message_notify', 'content', 6, 'varchar', '', 'String', 'content', NULL, 0, 0, 1, 1, 1, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670313226241, 'b_message_notify', 'user_id', 7, 'bigint', '接收用户ID', 'Long', 'userId', NULL, 0, 0, 1, 1, 1, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670313226242, 'b_message_notify', 'nickname', 8, 'varchar', '', 'String', 'nickname', NULL, 0, 0, 1, 1, 1, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670313226243, 'b_message_notify', 'subscribe', 9, 'varchar', '订阅人 比如 邮箱,手机号,钉钉ID等', 'String', 'subscribe', NULL, 0, 0, 1, 1, 1, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670317420545, 'b_message_notify', 'tenant_id', 10, 'bigint', '租户ID', 'Long', 'tenantId', NULL, 0, 0, 1, 0, 0, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670317420546, 'b_message_notify', 'deleted', 11, 'bit', '', 'Boolean', 'deleted', NULL, 0, 0, 1, 0, 0, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670317420547, 'b_message_notify', 'create_by', 12, 'bigint', '创建人id', 'Long', 'createBy', NULL, 0, 0, 1, 0, 0, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670321614849, 'b_message_notify', 'create_name', 13, 'varchar', '创建人名称', 'String', 'createName', NULL, 0, 0, 1, 0, 0, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670321614850, 'b_message_notify', 'create_time', 14, 'datetime', '创建时间', 'Date', 'createTime', 'java.util.Date', 0, 0, 1, 0, 0, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670330003457, 'b_message_notify', 'last_modify_by', 15, 'bigint', '更新人id', 'Long', 'lastModifyBy', NULL, 0, 0, 1, 0, 0, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670334197762, 'b_message_notify', 'last_modify_name', 16, 'varchar', '更新人名称', 'String', 'lastModifyName', NULL, 0, 0, 1, 0, 0, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998677670338392066, 'b_message_notify', 'last_modify_time', 17, 'datetime', '更新时间', 'Date', 'lastModifyTime', 'java.util.Date', 0, 0, 1, 0, 0, '2025-12-10 16:54:25', 1, '平台管理员', '2025-12-10 08:54:24', NULL, NULL, b'0', NULL, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998692347059617794, 'c_diff_log', 'id', 1, 'bigint', '主键，自增', 'Long', 'id', NULL, 1, 1, 0, 0, 0, '2025-12-10 17:52:44', 1, '平台管理员', '2025-12-10 09:52:44', NULL, NULL, b'0', NULL, 0, 0, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998692347072200705, 'c_diff_log', 'variables', 2, 'json', '变量信息，JSON格式', 'String', 'variables', NULL, 0, 0, 1, 1, 1, '2025-12-10 17:52:44', 1, '平台管理员', '2025-12-10 09:52:44', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998692347076395009, 'c_diff_log', 'service_name', 3, 'varchar', '服务名称', 'String', 'serviceName', NULL, 0, 0, 1, 1, 1, '2025-12-10 17:52:44', 1, '平台管理员', '2025-12-10 09:52:44', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998692347076395010, 'c_diff_log', 'business_group', 4, 'varchar', '业务组', 'String', 'businessGroup', NULL, 0, 0, 1, 1, 1, '2025-12-10 17:52:44', 1, '平台管理员', '2025-12-10 09:52:44', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998692347080589313, 'c_diff_log', 'business_tag', 5, 'varchar', '业务标签', 'String', 'businessTag', NULL, 0, 0, 1, 1, 1, '2025-12-10 17:52:44', 1, '平台管理员', '2025-12-10 09:52:44', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998692347080589314, 'c_diff_log', 'business_key', 6, 'varchar', '业务关键字', 'String', 'businessKey', NULL, 0, 0, 1, 1, 1, '2025-12-10 17:52:44', 1, '平台管理员', '2025-12-10 09:52:44', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998692347084783618, 'c_diff_log', 'description', 7, 'text', '描述信息', 'String', 'description', NULL, 0, 0, 1, 1, 1, '2025-12-10 17:52:44', 1, '平台管理员', '2025-12-10 09:52:44', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998692347084783619, 'c_diff_log', 'status', 8, 'int', '状态', 'Integer', 'status', NULL, 0, 0, 1, 1, 1, '2025-12-10 17:52:44', 1, '平台管理员', '2025-12-10 09:52:44', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998692347084783620, 'c_diff_log', 'tenant_id', 9, 'bigint', '租户ID', 'Long', 'tenantId', NULL, 0, 0, 1, 0, 0, '2025-12-10 17:52:44', 1, '平台管理员', '2025-12-10 09:52:44', NULL, NULL, b'0', NULL, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998692347088977922, 'c_diff_log', 'create_by', 10, 'bigint', '创建者ID', 'Long', 'createBy', NULL, 0, 0, 1, 0, 0, '2025-12-10 17:52:44', 1, '平台管理员', '2025-12-10 09:52:44', NULL, NULL, b'0', NULL, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998692347088977923, 'c_diff_log', 'create_name', 11, 'varchar', '创建者名称', 'String', 'createName', NULL, 0, 0, 1, 0, 0, '2025-12-10 17:52:44', 1, '平台管理员', '2025-12-10 09:52:44', NULL, NULL, b'0', NULL, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998692347093172226, 'c_diff_log', 'create_time', 12, 'timestamp', '创建时间', 'Date', 'createTime', 'java.util.Date', 0, 0, 1, 0, 0, '2025-12-10 17:52:44', 1, '平台管理员', '2025-12-10 09:52:44', NULL, NULL, b'0', NULL, 0, 1, 0, 'LIKE');
+INSERT INTO `c_generate_table_column` (`id`, `table_name`, `name`, `sort`, `type`, `comment`, `property_type`, `property_name`, `property_package`, `pk`, `increment`, `required`, `inserted`, `edit`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`, `generate`, `list`, `search`, `search_condition`) VALUES (1998692347156086785, 'c_diff_log', 'extra', 13, 'text', '额外信息，JSON格式', 'String', 'extra', NULL, 0, 0, 1, 1, 1, '2025-12-10 17:52:44', 1, '平台管理员', '2025-12-10 09:52:44', NULL, NULL, b'0', NULL, 1, 1, 0, 'LIKE');
 COMMIT;
 
 -- ----------------------------
@@ -251,38 +283,39 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_generate_template`;
 CREATE TABLE `c_generate_template` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板名称',
-  `generate_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板路径',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板描述',
-  `code` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板代码',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
-  `last_modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人ID',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '最后修改人名称',
-  `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除标记 (0: 未删除, 1: 已删除)',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1872465281231159298 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用于存储代码生成模板的信息';
+                                       `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                       `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板名称',
+                                       `generate_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板路径',
+                                       `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板描述',
+                                       `code` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板代码',
+                                       `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                       `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                       `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+                                       `last_modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+                                       `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人ID',
+                                       `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '最后修改人名称',
+                                       `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除标记 (0: 未删除, 1: 已删除)',
+                                       `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                                       PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1998666639570522114 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用于存储代码生成模板的信息';
 
 -- ----------------------------
 -- Records of c_generate_template
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872172480907972610, 'wp规范service', 'backend/src/main/java/${packagePath}/${moduleName}/service/${ClassName}Service.java', '123', 'package ${package}.${moduleName}.service;\n\nimport com.baomidou.mybatisplus.core.metadata.IPage;\nimport com.wemirr.framework.db.mybatisplus.ext.SuperService;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}PageReq;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}SaveReq;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}PageResp;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}DetailResp;\nimport ${package}.${moduleName}.domain.entity.${ClassName};\n\npublic interface ${ClassName}Service extends SuperService<${ClassName}>{\n\n    /**\n    * 分页查询\n    * @param req 分页请求参数\n    * @return 分页结果\n    */\n    IPage<${ClassName}PageResp> pageList(${ClassName}PageReq req);\n\n     /**\n     * 通过id查询详情\n     * @param id 实体ID\n     * @return 详情响应\n     */\n     ${ClassName}DetailResp detail(Long id);\n\n     /**\n     * 新增实体\n     * @param req 新增请求参数\n     */\n     void create(${ClassName}SaveReq req);\n\n     /**\n     * 修改实体\n     * @param id 实体ID\n     * @param req 修改请求参数\n     */\n     void modify(Long id, ${ClassName}SaveReq req);\n\n     /**\n     * 通过id删除实体\n     * @param id 实体ID\n     */\n     void removeById(Long id);\n }', '2024-12-26 14:47:57', 1, '平台管理员', '2025-12-02 01:47:03', 1, '平台管理员', b'0', 1);
-INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872172659639848962, 'wp规范serviceImpl', 'backend/src/main/java/${packagePath}/${moduleName}/service/impl/${ClassName}ServiceImpl.java', '123', 'package ${package}.${moduleName}.service.impl;\n\nimport cn.hutool.core.bean.BeanUtil;\nimport com.wemirr.framework.commons.BeanUtilPlus;\nimport com.baomidou.mybatisplus.core.metadata.IPage;\nimport com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;\nimport com.wemirr.framework.commons.exception.CheckedException;\nimport com.wemirr.framework.db.mybatisplus.wrap.Wraps;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}PageReq;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}SaveReq;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}PageResp;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}DetailResp;\nimport ${package}.${moduleName}.domain.entity.${ClassName};\nimport ${package}.${moduleName}.repository.${ClassName}Mapper;\nimport ${package}.${moduleName}.service.${ClassName}Service;\nimport lombok.RequiredArgsConstructor;\nimport org.springframework.stereotype.Service;\nimport org.springframework.transaction.annotation.Transactional;\n\nimport java.util.Optional;\n\n@Service\n@RequiredArgsConstructor\npublic class ${ClassName}ServiceImpl extends SuperServiceImpl<${ClassName}Mapper, ${ClassName}> implements ${ClassName}Service {\n\n    private final ${ClassName}Mapper ${businessName}Mapper;\n\n    @Override\n    public IPage<${ClassName}PageResp> pageList(${ClassName}PageReq req) {\n       return this.baseMapper.selectPage(req.buildPage(), null)\n       .convert(x -> BeanUtil.toBean(x, ${ClassName}PageResp.class));\n     }\n\n     @Override\n     public ${ClassName}DetailResp detail(Long id) {\n     ${ClassName} ${businessName} = this.baseMapper.selectById(id);\n        Optional.ofNullable(${businessName})\n        .orElseThrow(() -> CheckedException.notFound(\"实体不存在\"));\n        return BeanUtil.toBean(${businessName}, ${ClassName}DetailResp.class);\n     }\n\n     @Override\n     public void create(${ClassName}SaveReq req) {\n         ${ClassName} ${businessName} = BeanUtil.toBean(req, ${ClassName}.class);\n         this.baseMapper.insert(${businessName});\n     }\n\n     @Override\n     public void modify(Long id, ${ClassName}SaveReq req) {\n          Optional.ofNullable(this.baseMapper.selectById(id))\n          .orElseThrow(() -> CheckedException.notFound(\"实体不存在\"));\n          ${ClassName} ${businessName} = BeanUtilPlus.toBean(id,req, ${ClassName}.class);\n          this.baseMapper.updateById(${businessName});\n     }\n\n     @Override\n     public void removeById(Long id) {\n       this.baseMapper.deleteById(id);\n     }\n }', '2024-12-26 14:48:40', 1, '平台管理员', '2025-12-02 01:47:06', 1, '平台管理员', b'0', 1);
-INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872172878448300033, 'wp规范entity', 'backend/src/main/java/${packagePath}/${moduleName}/domain/entity/${ClassName}.java', '123', 'package ${package}.${moduleName}.domain.entity;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.baomidou.mybatisplus.annotation.*;\nimport com.wemirr.framework.commons.entity.SuperEntity;\nimport lombok.AllArgsConstructor;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\nimport lombok.NoArgsConstructor;\nimport lombok.experimental.SuperBuilder;\n\n\n/**\n* <p>\n* ${table.comment!}\n* </p>\n*\n* @author ${author}\n* @since ${date}\n*/\n@EqualsAndHashCode(callSuper = true)\n@Data\n@SuperBuilder\n@NoArgsConstructor\n@AllArgsConstructor\n@TableName(\"${table.name}\")\n<#if swagger>\n@Schema(description = \"${table.comment!}\")\n</#if>\npublic class ${ClassName} extends SuperEntity<Long>{\n\n    <#-- ----------  BEGIN 字段循环遍历  ---------->\n    <#list columns as field>\n       <#if  field.generate>\n        <#if field.comment?has_content>\n        /**\n         * ${field.comment}\n         **/\n        </#if>\n        <#if swagger>\n        @Schema(description = \"${field.comment!}\")\n        </#if>\n        private ${field.propertyType} ${field.propertyName};\n        </#if>\n    </#list>\n    <#-- ----------  END 字段循环遍历  ---------->\n\n}', '2024-12-26 14:49:32', 1, '平台管理员', '2025-12-02 01:47:06', 1, '平台管理员', b'0', 1);
-INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173056794300417, 'wp规范DetailResp', 'backend/src/main/java/${packagePath}/${moduleName}/domain/dto/resp/${ClassName}DetailResp.java', '123', 'package ${package}.${moduleName}.domain.dto.resp;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.baomidou.mybatisplus.annotation.*;\nimport com.wemirr.framework.commons.entity.SuperEntity;\nimport lombok.AllArgsConstructor;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\nimport lombok.NoArgsConstructor;\nimport lombok.experimental.SuperBuilder;\n\n\n/**\n* <p>\n    * ${table.comment!}\n    * </p>\n*\n* @author ${author}\n* @since ${date}\n*/\n@Data\n<#if swagger>\n@Schema(description = \"${ClassName}DetailResp\")\n</#if>\npublic class ${ClassName}DetailResp {\n\n    <#-- ----------  BEGIN 字段循环遍历  ---------->\n    <#list columns as field>\n        <#if  field.generate>\n            <#if field.comment?has_content>\n            /**\n            * ${field.comment}\n            **/\n            </#if>\n            <#if swagger>\n            @Schema(description = \"${field.comment!}\")\n            </#if>\n            private ${field.propertyType} ${field.propertyName};\n        </#if>\n    </#list>\n    <#-- ----------  END 字段循环遍历  ---------->\n\n}', '2024-12-26 14:50:15', 1, '平台管理员', '2025-12-02 01:47:06', 1, '平台管理员', b'0', 1);
-INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173195764174850, 'wp规范PageResp', 'backend/src/main/java/${packagePath}/${moduleName}/domain/dto/resp/${ClassName}PageResp.java', '123', 'package ${package}.${moduleName}.domain.dto.resp;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.wemirr.framework.db.mybatisplus.page.PageRequest;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\n\n/**\n* <p>\n    * ${table.comment!}\n    *</p>\n*\n* @author ${author}\n* @since ${date}\n*/\n<#if swagger>\n@Schema(description = \"${ClassName}PageReq\")\n</#if>\n@Data\npublic class ${ClassName}PageResp {\n\n<#-- ----------  BEGIN 字段循环遍历  ---------->\n<#list columns as field>\n    <#if field.list || field.pk>\n        <#if field.comment?has_content>\n            /**\n            * ${field.comment}\n            **/\n        </#if>\n        <#if swagger>\n         @Schema(description = \"${field.comment!}\")\n        </#if>\n        private ${field.propertyType} ${field.propertyName};\n    </#if>\n</#list>\n<#-- ----------  END 字段循环遍历  ---------->\n\n}\n', '2024-12-26 14:50:48', 1, '平台管理员', '2025-12-02 01:47:06', 1, '平台管理员', b'0', 1);
-INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173350030675970, 'wp规范PageReq', 'backend/src/main/java/${packagePath}/${moduleName}/domain/dto/req/${ClassName}PageReq.java', '123', 'package ${package}.${moduleName}.domain.dto.req;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.wemirr.framework.db.mybatisplus.page.PageRequest;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\n\n/**\n* <p>\n* ${table.comment!}\n*</p>\n*\n* @author ${author}\n* @since ${date}\n*/\n@Data\n@EqualsAndHashCode(callSuper = true)\n<#if swagger>\n@Schema(description = \"${ClassName}PageReq\")\n</#if>\npublic class ${ClassName}PageReq extends PageRequest {\n\n<#-- ----------  BEGIN 字段循环遍历  ---------->\n<#list columns as field>\n    <#if field.search>\n    <#if field.comment?has_content>\n    /**\n    * ${field.comment}\n    **/\n    </#if>\n    <#if swagger>\n    @Schema(description = \"${field.comment!}\")\n    </#if>\n    private ${field.propertyType} ${field.propertyName};\n    </#if>\n</#list>\n<#-- ----------  END 字段循环遍历  ---------->\n\n}\n', '2024-12-26 14:51:25', 1, '平台管理员', '2025-12-02 01:47:06', 1, '平台管理员', b'0', 1);
-INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173466347114497, 'wp规范SaveReq', 'backend/src/main/java/${packagePath}/${moduleName}/domain/dto/req/${ClassName}SaveReq.java', '123', 'package ${package}.${moduleName}.domain.dto.req;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.wemirr.framework.db.mybatisplus.page.PageRequest;\nimport jakarta.validation.constraints.NotBlank;\nimport jakarta.validation.constraints.NotNull;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\n\n/**\n* <p>\n* ${table.comment!}\n*</p>\n*\n* @author ${author}\n* @since ${date}\n*/\n@Data\n<#if swagger>\n@Schema(description = \"${ClassName}PageReq\")\n</#if>\npublic class ${ClassName}SaveReq  {\n\n<#-- ----------  BEGIN 字段循环遍历  ---------->\n<#list columns as field>\n    <#if field.pk >\n     /**\n      * ${field.comment}\n     **/\n    <#if swagger>\n    @Schema(description = \"${field.comment!}\")\n    </#if>\n    private ${field.propertyType} ${field.propertyName};\n    </#if>\n    <#if field.inserted  >\n    <#if field.comment?has_content>\n     /**\n      * ${field.comment}\n     **/\n    </#if>\n    <#if swagger>\n    @Schema(description = \"${field.comment!}\")\n    </#if>\n     <#if field.propertyType == \"String\">\n    @NotBlank(message = \"${field.comment}不能为空\")\n     </#if>\n    <#if field.propertyType != \"String\">\n    @NotNull(message = \"${field.comment}不能为空\")\n    </#if>\n    private ${field.propertyType} ${field.propertyName};\n    </#if>\n</#list>\n<#-- ----------  END 字段循环遍历  ---------->\n\n}\n', '2024-12-26 14:51:52', 1, '平台管理员', '2025-12-02 01:47:06', 1, '平台管理员', b'0', 1);
-INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173626129125378, 'wp规范control', 'backend/src/main/java/${packagePath}/${moduleName}/controller/${ClassName}Controller.java', '123', 'package ${package}.${moduleName}.controller;\n                     \nimport com.baomidou.mybatisplus.core.metadata.IPage;\nimport org.springframework.web.bind.annotation.RequestMapping;\nimport ${package}.${moduleName}.domain.entity.${ClassName};\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}PageResp;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}DetailResp;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}PageReq;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}SaveReq;\nimport ${package}.${moduleName}.service.${ClassName}Service;\nimport lombok.AllArgsConstructor;\nimport org.springframework.web.bind.annotation.*;\nimport org.springframework.web.bind.annotation.RestController;\n\n\n\n/**\n * ${table.comment!} 控制器\n * @author ${author}\n * @since ${date}\n */\n@RestController\n@AllArgsConstructor\n@RequestMapping(\"/<#if businessName??>${businessName}</#if>\")\npublic class ${ClassName}Controller {\n\n    private final ${ClassName}Service ${businessName}Service;\n\n    /**\n    * 分页查询\n    */\n    @GetMapping(\"/page\")\n    public IPage<${ClassName}PageResp> pageList(${ClassName}PageReq req) {\n        return ${businessName}Service.pageList(req);\n    }\n\n    /**\n    * 通过id查询 ${table.comment!}\n    *\n    * @param id id\n    * @return ${ClassName}DetailResp\n    */\n    @GetMapping(\"/{id}\")\n    public ${ClassName}DetailResp detail(@PathVariable(\"id\") Long id) {\n        return ${businessName}Service.detail(id);\n    }\n\n    /**\n    * 新增${table.comment!}\n    *\n    * @param ${businessName} ${businessName}\n    */\n    @PostMapping(\"/create\")\n    public void create(@RequestBody ${ClassName}SaveReq ${businessName}) {\n        ${businessName}Service.create(${businessName});\n    }\n\n    /**\n    * 修改\n    *\n    * @param id      id\n    * @param ${businessName} ${businessName}\n    */\n    @PutMapping(\"/{id}/modify\")\n    public void modify(@PathVariable(\"id\") Long id ,@RequestBody ${ClassName}SaveReq req) {\n        ${businessName}Service.modify(id,req);\n    }\n\n    /**\n    * 通过id删除${table.comment!}\n    *\n    * @param id id\n    */\n    @DeleteMapping(\"/{id}\")\n    public void remove(@PathVariable Long id) {\n        ${businessName}Service.removeById(id);\n    }\n}\n\n\n\n\n', '2024-12-26 14:52:30', 1, '平台管理员', '2025-12-02 01:47:06', 1, '平台管理员', b'0', 1);
-INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173774800424962, 'wp规范mapper', 'backend/src/main/java/${packagePath}/${moduleName}/repository/${ClassName}Mapper.java', '123', 'package ${package}.${moduleName}.repository;\n\nimport com.wemirr.framework.db.mybatisplus.ext.SuperMapper;\nimport ${package}.${moduleName}.domain.entity.${ClassName};\nimport org.springframework.stereotype.Repository;\n\n/**\n * ${table.comment!}接口层\n *\n * @author ${author}\n * @since ${date}\n */\n\n@Repository\npublic interface ${ClassName}Mapper extends SuperMapper<${ClassName}> {\n\n}\n', '2024-12-26 14:53:06', 1, '平台管理员', '2025-12-02 01:47:06', 1, '平台管理员', b'0', 1);
-INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872180426937208833, 'wp规范crud', 'front/crud.tsx', '123', 'import type {\nCreateCrudOptionsProps,\nCreateCrudOptionsRet,\n} from \'@fast-crud/fast-crud\';\nimport * as api from \"./api\";\nimport { dict } from \"@fast-crud/fast-crud\";\nimport dayjs from \"dayjs\";\n\nexport default function (props: CreateCrudOptionsProps): CreateCrudOptionsRet {\nreturn {\ncrudOptions: {\nrequest: {\npageRequest: async (query) => await api.pageList(query),\naddRequest: async ({ form }) => await api.create(form),\neditRequest: async ({ form }) => await api.modify(form),\ndelRequest: async ({ row }) => await api.remove(row.id),\n},\ntoolbar: {},\nactionbar: {\nshow: true,\nbuttons: {},\n},\nrowHandle: {\nwidth: 270,\nbuttons: {\n\n},\n},\ncolumns: {\n// ----------  BEGIN 字段循环遍历  ----------\n<#list columns as field>\n    <#if field.list || field.pk >\n        ${field.propertyName}: {\n        title: \'${field.comment!}\',\n        <#if field.propertyType == \'String\'>\n            type: \"text\",\n        </#if>\n        <#if field.propertyType == \'Instant\'>\n            type: \'datetime\',\n        </#if>\n        <#if field.propertyType == \'Boolean\'>\n            type: \'dict-radio\',\n            // 字典配置\n            dict: dict({\n            data: [\n            { value: true, label: \"启用\", color: \"success\" },\n            { value: false, label: \"禁用\", color: \"error\" },\n            ],\n            }),\n        </#if>\n        <#if field.search>\n            search: { show: true },\n        <#else>\n            search: { show: false },\n        </#if>\n         <#if field.list && !field.pk>\n            column: { show: true, width: 160 },\n        <#else>\n            column: { show: false },\n        </#if>\n         \n        <#if field.edit>\n            form: {\n            // 表单配置\n            rules: [\n            { required: false, message: \"请输入${field.comment!}\" },\n            ],\n            },\n        <#else>\n            form: { show: false },\n        </#if>\n        }\n\n        <#if field_has_next>,</#if>\n    </#if>\n</#list>\n// ----------  END 字段循环遍历  ----------\n},\n},\n};\n}', '2024-12-26 15:19:32', 1, '平台管理员', '2025-12-02 01:47:06', 1, '平台管理员', b'0', 1);
-INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872187788049780738, 'wp规范api', 'front/api.ts', '123', 'import { defHttp } from \'#/api/request\';\n\nconst apiPrefix = \"/<#if moduleName??>${moduleName}</#if>/<#if businessName??>${businessName}</#if>\";\n\nexport function pageList(query : any) {\n    return defHttp.get(apiPrefix + \'/page\', { params: query });\n}\nexport function create(obj  : any) {\n    return defHttp.post(apiPrefix + `/create`,obj);\n}\n\nexport function modify(row : any) {\n    return defHttp.put(apiPrefix + `<#noparse>/${row.id}/modify</#noparse>`, row);\n}\n\nexport function remove(id : any) {\n    return defHttp.delete(apiPrefix + `<#noparse>/${id}</#noparse>`);\n}', '2024-12-26 15:48:47', 1, '平台管理员', '2025-12-02 01:47:06', 1, '平台管理员', b'0', 1);
-INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872188138236416002, 'wp规范index', 'front/index.vue', '123', '<template>\n    <fs-page class=\"page-layout-card\">\n        <fs-crud ref=\"crudRef\" v-bind=\"crudBinding\"/>\n    </fs-page>\n</template>\n\n<script lang=\"ts\">\n    import {defineComponent, onMounted} from \"vue\";\n    import {useFs} from \"@fast-crud/fast-crud\";\n    import createCrudOptions from \"./crud\";\n\n    //此处为组件定义\nexport default defineComponent({\n    name: \'${ClassName}\',\n    setup() {\n        const {crudRef, crudBinding, crudExpose} = useFs({createCrudOptions, context: {}});\n        // 页面打开后获取列表数据\n        onMounted(() => {\n            crudExpose.doRefresh();\n        });\n        return {\n            crudBinding,\n            crudRef,\n        };\n    },\n});\n</script>\n', '2024-12-26 15:50:10', 1, '平台管理员', '2025-12-02 01:47:06', NULL, NULL, b'0', 1);
+INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872172480907972610, 'WP规范（service）', 'backend/src/main/java/${packagePath}/${moduleName}/service/${ClassName}Service.java', 'WP规范（service）', 'package ${package}.${moduleName}.service;\n\nimport com.baomidou.mybatisplus.core.metadata.IPage;\nimport com.wemirr.framework.db.mybatisplus.ext.SuperService;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}PageReq;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}SaveReq;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}PageResp;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}DetailResp;\nimport ${package}.${moduleName}.domain.entity.${ClassName};\n\npublic interface ${ClassName}Service extends SuperService<${ClassName}>{\n\n    /**\n    * 分页查询\n    * @param req 分页请求参数\n    * @return 分页结果\n    */\n    IPage<${ClassName}PageResp> pageList(${ClassName}PageReq req);\n\n     /**\n     * 通过id查询详情\n     * @param id 实体ID\n     * @return 详情响应\n     */\n     ${ClassName}DetailResp detail(Long id);\n\n     /**\n     * 新增实体\n     * @param req 新增请求参数\n     */\n     void create(${ClassName}SaveReq req);\n\n     /**\n     * 修改实体\n     * @param id 实体ID\n     * @param req 修改请求参数\n     */\n     void modify(Long id, ${ClassName}SaveReq req);\n\n     /**\n     * 通过id删除实体\n     * @param id 实体ID\n     */\n     void delete(Long id);\n }', '2024-12-26 14:47:57', 1, '平台管理员', '2025-12-10 17:34:54', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872172659639848962, 'WP规范（serviceImpl）', 'backend/src/main/java/${packagePath}/${moduleName}/service/impl/${ClassName}ServiceImpl.java', 'WP规范（serviceImpl）', 'package ${package}.${moduleName}.service.impl;\n\nimport cn.hutool.core.bean.BeanUtil;\nimport com.wemirr.framework.commons.BeanUtilPlus;\nimport com.baomidou.mybatisplus.core.metadata.IPage;\nimport com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;\nimport com.wemirr.framework.commons.exception.CheckedException;\nimport com.wemirr.framework.db.mybatisplus.wrap.Wraps;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}PageReq;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}SaveReq;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}PageResp;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}DetailResp;\nimport ${package}.${moduleName}.domain.entity.${ClassName};\nimport ${package}.${moduleName}.repository.${ClassName}Mapper;\nimport ${package}.${moduleName}.service.${ClassName}Service;\nimport lombok.RequiredArgsConstructor;\nimport org.springframework.stereotype.Service;\nimport org.springframework.transaction.annotation.Transactional;\n\nimport java.util.Optional;\n\n@Service\n@RequiredArgsConstructor\npublic class ${ClassName}ServiceImpl extends SuperServiceImpl<${ClassName}Mapper, ${ClassName}> implements ${ClassName}Service {\n\n    private final ${ClassName}Mapper ${businessName}Mapper;\n\n    @Override\n    public IPage<${ClassName}PageResp> pageList(${ClassName}PageReq req) {\n       return this.baseMapper.selectPage(req.buildPage(), null)\n       .convert(x -> BeanUtil.toBean(x, ${ClassName}PageResp.class));\n     }\n\n     @Override\n     public ${ClassName}DetailResp detail(Long id) {\n     ${ClassName} ${businessName} = this.baseMapper.selectById(id);\n        Optional.ofNullable(${businessName})\n        .orElseThrow(() -> CheckedException.notFound(\"实体不存在\"));\n        return BeanUtil.toBean(${businessName}, ${ClassName}DetailResp.class);\n     }\n\n     @Override\n     public void create(${ClassName}SaveReq req) {\n         ${ClassName} ${businessName} = BeanUtil.toBean(req, ${ClassName}.class);\n         this.baseMapper.insert(${businessName});\n     }\n\n     @Override\n     public void modify(Long id, ${ClassName}SaveReq req) {\n          Optional.ofNullable(this.baseMapper.selectById(id))\n          .orElseThrow(() -> CheckedException.notFound(\"实体不存在\"));\n          ${ClassName} ${businessName} = BeanUtilPlus.toBean(id,req, ${ClassName}.class);\n          this.baseMapper.updateById(${businessName});\n     }\n\n     @Override\n     public void delete(Long id) {\n       this.baseMapper.deleteById(id);\n     }\n }', '2024-12-26 14:48:40', 1, '平台管理员', '2025-12-10 17:35:07', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872172878448300033, 'WP规范（entity）', 'backend/src/main/java/${packagePath}/${moduleName}/domain/entity/${ClassName}.java', 'WP规范（entity）', 'package ${package}.${moduleName}.domain.entity;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.baomidou.mybatisplus.annotation.*;\nimport com.wemirr.framework.commons.entity.SuperEntity;\nimport lombok.AllArgsConstructor;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\nimport lombok.NoArgsConstructor;\nimport lombok.experimental.SuperBuilder;\n\n\n/**\n* <p>\n* ${table.comment!}\n* </p>\n*\n* @author ${author}\n* @since ${date}\n*/\n@EqualsAndHashCode(callSuper = true)\n@Data\n@SuperBuilder\n@NoArgsConstructor\n@AllArgsConstructor\n@TableName(\"${table.name}\")\n<#if swagger>\n@Schema(description = \"${table.comment!}\")\n</#if>\npublic class ${ClassName} extends SuperEntity<Long>{\n\n    <#-- ----------  BEGIN 字段循环遍历  ---------->\n    <#list columns as field>\n       <#if  field.generate>\n        <#if field.comment?has_content>\n        /**\n         * ${field.comment}\n         **/\n        </#if>\n        <#if swagger>\n        @Schema(description = \"${field.comment!}\")\n        </#if>\n        private ${field.propertyType} ${field.propertyName};\n        </#if>\n    </#list>\n    <#-- ----------  END 字段循环遍历  ---------->\n\n}', '2024-12-26 14:49:32', 1, '平台管理员', '2025-12-10 17:35:18', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173056794300417, 'WP规范（DetailResp）', 'backend/src/main/java/${packagePath}/${moduleName}/domain/dto/resp/${ClassName}DetailResp.java', 'WP规范（DetailResp）', 'package ${package}.${moduleName}.domain.dto.resp;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.baomidou.mybatisplus.annotation.*;\nimport com.wemirr.framework.commons.entity.SuperEntity;\nimport lombok.AllArgsConstructor;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\nimport lombok.NoArgsConstructor;\nimport lombok.experimental.SuperBuilder;\n\n\n/**\n* <p>\n    * ${table.comment!}\n    * </p>\n*\n* @author ${author}\n* @since ${date}\n*/\n@Data\n<#if swagger>\n@Schema(description = \"${ClassName}DetailResp\")\n</#if>\npublic class ${ClassName}DetailResp {\n\n    <#-- ----------  BEGIN 字段循环遍历  ---------->\n    <#list columns as field>\n        <#if  field.generate>\n            <#if field.comment?has_content>\n            /**\n            * ${field.comment}\n            **/\n            </#if>\n            <#if swagger>\n            @Schema(description = \"${field.comment!}\")\n            </#if>\n            private ${field.propertyType} ${field.propertyName};\n        </#if>\n    </#list>\n    <#-- ----------  END 字段循环遍历  ---------->\n\n}', '2024-12-26 14:50:15', 1, '平台管理员', '2025-12-10 17:35:30', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173195764174850, 'WP规范（PageResp）', 'backend/src/main/java/${packagePath}/${moduleName}/domain/dto/resp/${ClassName}PageResp.java', 'WP规范（PageResp）', 'package ${package}.${moduleName}.domain.dto.resp;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.wemirr.framework.db.mybatisplus.page.PageRequest;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\n\n/**\n* <p>\n    * ${table.comment!}\n    *</p>\n*\n* @author ${author}\n* @since ${date}\n*/\n<#if swagger>\n@Schema(description = \"${ClassName}PageReq\")\n</#if>\n@Data\npublic class ${ClassName}PageResp {\n\n<#-- ----------  BEGIN 字段循环遍历  ---------->\n<#list columns as field>\n    <#if field.list || field.pk>\n        <#if field.comment?has_content>\n            /**\n            * ${field.comment}\n            **/\n        </#if>\n        <#if swagger>\n         @Schema(description = \"${field.comment!}\")\n        </#if>\n        private ${field.propertyType} ${field.propertyName};\n    </#if>\n</#list>\n<#-- ----------  END 字段循环遍历  ---------->\n\n}\n', '2024-12-26 14:50:48', 1, '平台管理员', '2025-12-10 17:35:51', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173350030675970, 'WP规范（PageReq）', 'backend/src/main/java/${packagePath}/${moduleName}/domain/dto/req/${ClassName}PageReq.java', 'WP规范（PageReq）', 'package ${package}.${moduleName}.domain.dto.req;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.wemirr.framework.db.mybatisplus.page.PageRequest;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\n\n/**\n* <p>\n* ${table.comment!}\n*</p>\n*\n* @author ${author}\n* @since ${date}\n*/\n@Data\n@EqualsAndHashCode(callSuper = true)\n<#if swagger>\n@Schema(description = \"${ClassName}PageReq\")\n</#if>\npublic class ${ClassName}PageReq extends PageRequest {\n\n<#-- ----------  BEGIN 字段循环遍历  ---------->\n<#list columns as field>\n    <#if field.search>\n    <#if field.comment?has_content>\n    /**\n    * ${field.comment}\n    **/\n    </#if>\n    <#if swagger>\n    @Schema(description = \"${field.comment!}\")\n    </#if>\n    private ${field.propertyType} ${field.propertyName};\n    </#if>\n</#list>\n<#-- ----------  END 字段循环遍历  ---------->\n\n}\n', '2024-12-26 14:51:25', 1, '平台管理员', '2025-12-10 17:35:40', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173466347114497, 'WP规范（SaveReq）', 'backend/src/main/java/${packagePath}/${moduleName}/domain/dto/req/${ClassName}SaveReq.java', 'WP规范（SaveReq）', 'package ${package}.${moduleName}.domain.dto.req;\n<#if importList?has_content>\n    <#list importList as pkg>\nimport ${pkg};\n    </#list>\n</#if>\n<#if swagger>\nimport io.swagger.v3.oas.annotations.media.Schema;\n</#if>\nimport com.wemirr.framework.db.mybatisplus.page.PageRequest;\nimport jakarta.validation.constraints.NotBlank;\nimport jakarta.validation.constraints.NotNull;\nimport lombok.Data;\nimport lombok.EqualsAndHashCode;\n\n/**\n* <p>\n* ${table.comment!}\n*</p>\n*\n* @author ${author}\n* @since ${date}\n*/\n@Data\n<#if swagger>\n@Schema(description = \"${ClassName}PageReq\")\n</#if>\npublic class ${ClassName}SaveReq  {\n\n<#-- ----------  BEGIN 字段循环遍历  ---------->\n<#list columns as field>\n    <#if field.pk >\n     /**\n      * ${field.comment}\n     **/\n    <#if swagger>\n    @Schema(description = \"${field.comment!}\")\n    </#if>\n    private ${field.propertyType} ${field.propertyName};\n    </#if>\n    <#if field.inserted  >\n    <#if field.comment?has_content>\n     /**\n      * ${field.comment}\n     **/\n    </#if>\n    <#if swagger>\n    @Schema(description = \"${field.comment!}\")\n    </#if>\n     <#if field.propertyType == \"String\">\n    @NotBlank(message = \"${field.comment}不能为空\")\n     </#if>\n    <#if field.propertyType != \"String\">\n    @NotNull(message = \"${field.comment}不能为空\")\n    </#if>\n    private ${field.propertyType} ${field.propertyName};\n    </#if>\n</#list>\n<#-- ----------  END 字段循环遍历  ---------->\n\n}\n', '2024-12-26 14:51:52', 1, '平台管理员', '2025-12-10 17:34:38', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173626129125378, 'WP规范（control）', 'backend/src/main/java/${packagePath}/${moduleName}/controller/${ClassName}Controller.java', 'WP规范（control）', 'package ${package}.${moduleName}.controller;\n                     \nimport com.baomidou.mybatisplus.core.metadata.IPage;\nimport org.springframework.web.bind.annotation.RequestMapping;\nimport ${package}.${moduleName}.domain.entity.${ClassName};\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}PageResp;\nimport ${package}.${moduleName}.domain.dto.resp.${ClassName}DetailResp;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}PageReq;\nimport ${package}.${moduleName}.domain.dto.req.${ClassName}SaveReq;\nimport ${package}.${moduleName}.service.${ClassName}Service;\nimport lombok.AllArgsConstructor;\nimport org.springframework.web.bind.annotation.*;\nimport org.springframework.web.bind.annotation.RestController;\n\n\n\n/**\n * ${table.comment!} 控制器\n * @author ${author}\n * @since ${date}\n */\n@RestController\n@AllArgsConstructor\n@RequestMapping(\"/<#if businessName??>${businessName}</#if>\")\npublic class ${ClassName}Controller {\n\n    private final ${ClassName}Service ${businessName}Service;\n\n    /**\n    * 分页查询\n    */\n    @GetMapping(\"/page\")\n    public IPage<${ClassName}PageResp> pageList(${ClassName}PageReq req) {\n        return ${businessName}Service.pageList(req);\n    }\n\n    /**\n    * 通过id查询 ${table.comment!}\n    *\n    * @param id id\n    * @return ${ClassName}DetailResp\n    */\n    @GetMapping(\"/{id}\")\n    public ${ClassName}DetailResp detail(@PathVariable(\"id\") Long id) {\n        return ${businessName}Service.detail(id);\n    }\n\n    /**\n    * 新增${table.comment!}\n    *\n    * @param ${businessName} ${businessName}\n    */\n    @PostMapping(\"/create\")\n    public void create(@RequestBody ${ClassName}SaveReq ${businessName}) {\n        ${businessName}Service.create(${businessName});\n    }\n\n    /**\n    * 修改\n    *\n    * @param id      id\n    * @param ${businessName} ${businessName}\n    */\n    @PutMapping(\"/{id}/modify\")\n    public void modify(@PathVariable(\"id\") Long id ,@RequestBody ${ClassName}SaveReq req) {\n        ${businessName}Service.modify(id,req);\n    }\n\n    /**\n    * 通过id删除${table.comment!}\n    *\n    * @param id id\n    */\n    @DeleteMapping(\"/{id}\")\n    public void remove(@PathVariable Long id) {\n        ${businessName}Service.delete(id);\n    }\n}\n\n\n\n\n', '2024-12-26 14:52:30', 1, '平台管理员', '2025-12-10 17:34:25', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173774800424962, 'WP规范（mapper）', 'backend/src/main/java/${packagePath}/${moduleName}/repository/${ClassName}Mapper.java', 'WP规范（mapper）', 'package ${package}.${moduleName}.repository;\n\nimport com.wemirr.framework.db.mybatisplus.ext.SuperMapper;\nimport ${package}.${moduleName}.domain.entity.${ClassName};\nimport org.springframework.stereotype.Repository;\n\n/**\n * ${table.comment!}接口层\n *\n * @author ${author}\n * @since ${date}\n */\n\n@Repository\npublic interface ${ClassName}Mapper extends SuperMapper<${ClassName}> {\n\n}\n', '2024-12-26 14:53:06', 1, '平台管理员', '2025-12-10 17:32:19', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872180426937208833, 'WP规范（crud）', 'front/crud.tsx', 'WP规范（crud）', 'import type {\nCreateCrudOptionsProps,\nCreateCrudOptionsRet,\n} from \'@fast-crud/fast-crud\';\nimport * as api from \"./api\";\nimport { dict } from \"@fast-crud/fast-crud\";\nimport dayjs from \"dayjs\";\n\nexport default function (props: CreateCrudOptionsProps): CreateCrudOptionsRet {\nreturn {\ncrudOptions: {\nrequest: {\npageRequest: async (query) => await api.pageList(query),\naddRequest: async ({ form }) => await api.create(form),\neditRequest: async ({ form }) => await api.modify(form),\ndelRequest: async ({ row }) => await api.remove(row.id),\n},\ntoolbar: {},\nactionbar: {\nshow: true,\nbuttons: {},\n},\nrowHandle: {\nwidth: 270,\nbuttons: {\n\n},\n},\ncolumns: {\n// ----------  BEGIN 字段循环遍历  ----------\n<#list columns as field>\n    <#if field.list || field.pk >\n        ${field.propertyName}: {\n        title: \'${field.comment!}\',\n        <#if field.propertyType == \'String\'>\n            type: \"text\",\n        </#if>\n        <#if field.propertyType == \'Instant\'>\n            type: \'datetime\',\n        </#if>\n        <#if field.propertyType == \'Boolean\'>\n            type: \'dict-radio\',\n            // 字典配置\n            dict: dict({\n            data: [\n            { value: true, label: \"启用\", color: \"success\" },\n            { value: false, label: \"禁用\", color: \"error\" },\n            ],\n            }),\n        </#if>\n        <#if field.search>\n            search: { show: true },\n        <#else>\n            search: { show: false },\n        </#if>\n         <#if field.list && !field.pk>\n            column: { show: true, width: 160 },\n        <#else>\n            column: { show: false },\n        </#if>\n         \n        <#if field.edit>\n            form: {\n            // 表单配置\n            rules: [\n            { required: false, message: \"请输入${field.comment!}\" },\n            ],\n            },\n        <#else>\n            form: { show: false },\n        </#if>\n        }\n\n        <#if field_has_next>,</#if>\n    </#if>\n</#list>\n// ----------  END 字段循环遍历  ----------\n},\n},\n};\n}', '2024-12-26 15:19:32', 1, '平台管理员', '2025-12-10 17:32:43', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872187788049780738, 'WP规范（api）', 'front/api.ts', 'WP规范（api）', 'import { defHttp } from \'#/api/request\';\n\nconst apiPrefix = \"/<#if moduleName??>${moduleName}</#if>/<#if businessName??>${businessName}</#if>\";\n\nexport function pageList(query : any) {\n    return defHttp.get(apiPrefix + \'/page\', { params: query });\n}\nexport function create(obj  : any) {\n    return defHttp.post(apiPrefix + `/create`,obj);\n}\n\nexport function modify(row : any) {\n    return defHttp.put(apiPrefix + `<#noparse>/${row.id}/modify</#noparse>`, row);\n}\n\nexport function remove(id : any) {\n    return defHttp.delete(apiPrefix + `<#noparse>/${id}</#noparse>`);\n}', '2024-12-26 15:48:47', 1, '平台管理员', '2025-12-10 17:32:28', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872188138236416002, 'WP规范（index）', 'front/index.vue', 'WP规范（index）', '<template>\n    <fs-page class=\"page-layout-card\">\n        <fs-crud ref=\"crudRef\" v-bind=\"crudBinding\"/>\n    </fs-page>\n</template>\n\n<script lang=\"ts\">\n    import {defineComponent, onMounted} from \"vue\";\n    import {useFs} from \"@fast-crud/fast-crud\";\n    import createCrudOptions from \"./crud\";\n\n    //此处为组件定义\nexport default defineComponent({\n    name: \'${ClassName}\',\n    setup() {\n        const {crudRef, crudBinding, crudExpose} = useFs({createCrudOptions, context: {}});\n        // 页面打开后获取列表数据\n        onMounted(() => {\n            crudExpose.doRefresh();\n        });\n        return {\n            crudBinding,\n            crudRef,\n        };\n    },\n});\n</script>\n', '2024-12-26 15:50:10', 1, '平台管理员', '2025-12-10 17:32:24', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template` (`id`, `name`, `generate_path`, `description`, `code`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1998666639570522113, '123123', '23', '123123213', '3123123123', '2025-12-10 16:10:35', 1, '平台管理员', '2025-12-10 16:45:54', 1, '平台管理员', b'1', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -290,26 +323,26 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_generate_template_group`;
 CREATE TABLE `c_generate_template_group` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '分组名称',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板描述',
-  `is_default` bit(1) DEFAULT b'0' COMMENT '是否作为默认生成分组 (0: 不是, 1: 是)',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
-  `last_modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人ID',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '最后修改人名称',
-  `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除标记 (0: 未删除, 1: 已删除)',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  PRIMARY KEY (`id`) USING BTREE
+                                             `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                             `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '分组名称',
+                                             `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板描述',
+                                             `is_default` bit(1) DEFAULT b'0' COMMENT '是否作为默认生成分组 (0: 不是, 1: 是)',
+                                             `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                             `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                             `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+                                             `last_modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+                                             `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人ID',
+                                             `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '最后修改人名称',
+                                             `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除标记 (0: 未删除, 1: 已删除)',
+                                             `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                                             PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1872173937937879042 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='模板分组';
 
 -- ----------------------------
 -- Records of c_generate_template_group
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_generate_template_group` (`id`, `name`, `description`, `is_default`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173937937879041, 'wp规范模板组', 'wp规范模板组', b'1', '2024-12-26 14:53:45', 1, '平台管理员', '2025-02-22 11:58:33', 1, '平台管理员', b'0', 1);
+INSERT INTO `c_generate_template_group` (`id`, `name`, `description`, `is_default`, `create_time`, `create_by`, `create_name`, `last_modify_time`, `last_modify_by`, `last_modify_name`, `deleted`, `tenant_id`) VALUES (1872173937937879041, 'WP默认模板组', 'WP默认模板组', b'1', '2024-12-26 14:53:45', 1, '平台管理员', '2025-12-10 17:22:43', 1, '平台管理员', b'0', 1);
 COMMIT;
 
 -- ----------------------------
@@ -317,28 +350,61 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_generate_template_group_relation`;
 CREATE TABLE `c_generate_template_group_relation` (
-  `template_id` bigint NOT NULL COMMENT '模板ID',
-  `group_id` bigint NOT NULL COMMENT '分组id'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+                                                      `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                                      `template_id` bigint NOT NULL COMMENT '模板ID',
+                                                      `group_id` bigint NOT NULL COMMENT '分组id',
+                                                      `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+                                                      `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                                      `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人名称',
+                                                      `create_time` datetime DEFAULT NULL COMMENT '创建人时间',
+                                                      `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人ID',
+                                                      `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '最近修改人名称',
+                                                      `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
+                                                      PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1998684793084473348 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of c_generate_template_group_relation
 -- ----------------------------
 BEGIN;
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1871561649547747329, 1871842432833343490);
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1871561649547747329, 1871886476003246081);
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1872188138236416002, 1872173937937879041);
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1872187788049780738, 1872173937937879041);
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1872180426937208833, 1872173937937879041);
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1872173774800424962, 1872173937937879041);
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1872173466347114497, 1872173937937879041);
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1872173626129125378, 1872173937937879041);
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1872173350030675970, 1872173937937879041);
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1872173195764174850, 1872173937937879041);
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1872173056794300417, 1872173937937879041);
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1872172878448300033, 1872173937937879041);
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1872172659639848962, 1872173937937879041);
-INSERT INTO `c_generate_template_group_relation` (`template_id`, `group_id`) VALUES (1872172480907972610, 1872173937937879041);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1871561649547747329, 1871842432833343490, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (2, 1871561649547747329, 1871886476003246081, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3, 1872188138236416002, 1872173937937879041, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (4, 1872187788049780738, 1872173937937879041, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (5, 1872180426937208833, 1872173937937879041, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (6, 1872173774800424962, 1872173937937879041, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (7, 1872173466347114497, 1872173937937879041, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (8, 1872173626129125378, 1872173937937879041, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (9, 1872173350030675970, 1872173937937879041, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10, 1872173195764174850, 1872173937937879041, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (11, 1872173056794300417, 1872173937937879041, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (12, 1872172878448300033, 1872173937937879041, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (13, 1872172659639848962, 1872173937937879041, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (14, 1872172480907972610, 1872173937937879041, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684742694105090, 1872172480907972610, 1872173937937879041, 1, 1, '平台管理员', '2025-12-10 17:22:31', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684742702493697, 1872172659639848962, 1872173937937879041, 1, 1, '平台管理员', '2025-12-10 17:22:31', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684742702493698, 1872172878448300033, 1872173937937879041, 1, 1, '平台管理员', '2025-12-10 17:22:31', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684742706688002, 1872173056794300417, 1872173937937879041, 1, 1, '平台管理员', '2025-12-10 17:22:31', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684742706688003, 1872173195764174850, 1872173937937879041, 1, 1, '平台管理员', '2025-12-10 17:22:31', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684742706688004, 1872173350030675970, 1872173937937879041, 1, 1, '平台管理员', '2025-12-10 17:22:31', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684742706688005, 1872173626129125378, 1872173937937879041, 1, 1, '平台管理员', '2025-12-10 17:22:31', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684742706688006, 1872173466347114497, 1872173937937879041, 1, 1, '平台管理员', '2025-12-10 17:22:31', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684742710882306, 1872173774800424962, 1872173937937879041, 1, 1, '平台管理员', '2025-12-10 17:22:31', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684742710882307, 1872180426937208833, 1872173937937879041, 1, 1, '平台管理员', '2025-12-10 17:22:31', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684742710882308, 1872187788049780738, 1872173937937879041, 1, 1, '平台管理员', '2025-12-10 17:22:31', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684742710882309, 1872188138236416002, 1872173937937879041, 1, 1, '平台管理员', '2025-12-10 17:22:31', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684793067696130, 1872188138236416002, 1872173937937879041, 0, 1, '平台管理员', '2025-12-10 17:22:43', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684793076084737, 1872187788049780738, 1872173937937879041, 0, 1, '平台管理员', '2025-12-10 17:22:43', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684793076084738, 1872180426937208833, 1872173937937879041, 0, 1, '平台管理员', '2025-12-10 17:22:43', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684793076084739, 1872173774800424962, 1872173937937879041, 0, 1, '平台管理员', '2025-12-10 17:22:43', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684793076084740, 1872173626129125378, 1872173937937879041, 0, 1, '平台管理员', '2025-12-10 17:22:43', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684793080279041, 1872173466347114497, 1872173937937879041, 0, 1, '平台管理员', '2025-12-10 17:22:43', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684793080279042, 1872173350030675970, 1872173937937879041, 0, 1, '平台管理员', '2025-12-10 17:22:43', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684793080279043, 1872173195764174850, 1872173937937879041, 0, 1, '平台管理员', '2025-12-10 17:22:43', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684793080279044, 1872173056794300417, 1872173937937879041, 0, 1, '平台管理员', '2025-12-10 17:22:43', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684793084473345, 1872172878448300033, 1872173937937879041, 0, 1, '平台管理员', '2025-12-10 17:22:43', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684793084473346, 1872172659639848962, 1872173937937879041, 0, 1, '平台管理员', '2025-12-10 17:22:43', NULL, NULL, NULL);
+INSERT INTO `c_generate_template_group_relation` (`id`, `template_id`, `group_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998684793084473347, 1872172480907972610, 1872173937937879041, 0, 1, '平台管理员', '2025-12-10 17:22:43', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -346,18 +412,18 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_i18n_data`;
 CREATE TABLE `c_i18n_data` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `code` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '唯一标识 = 业务:关键词',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
-  `tenant_id` bigint DEFAULT NULL,
-  `deleted` bit(1) DEFAULT b'0' COMMENT '删除状态0：未删除，1：已删除',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                               `code` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '唯一标识 = 业务:关键词',
+                               `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+                               `tenant_id` bigint DEFAULT NULL,
+                               `deleted` bit(1) DEFAULT b'0' COMMENT '删除状态0：未删除，1：已删除',
+                               `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                               `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                               `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                               `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
+                               `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                               `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1724355494514126850 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='国际化信息';
 
 -- ----------------------------
@@ -375,14 +441,14 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_i18n_locale_message`;
 CREATE TABLE `c_i18n_locale_message` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `parent_id` bigint DEFAULT NULL COMMENT 'i18n_data.id',
-  `locale` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '语言',
-  `message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文本值，可以使用 {} 加角标，作为占位符',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                         `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                         `parent_id` bigint DEFAULT NULL COMMENT 'i18n_data.id',
+                                         `locale` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '语言',
+                                         `message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文本值，可以使用 {} 加角标，作为占位符',
+                                         `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                                         `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                         `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                         PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1864960309274497027 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='国际化信息';
 
 -- ----------------------------
@@ -402,22 +468,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_login_log`;
 CREATE TABLE `c_login_log` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `tenant_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '租户编码',
-  `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录IP',
-  `location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录地点',
-  `client_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人客户端ID',
-  `principal` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人账号',
-  `platform` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '平台',
-  `engine` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '引擎类型',
-  `browser` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器名称',
-  `os` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作系统',
-  `login_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录类型',
-  `create_by` bigint DEFAULT NULL,
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+                               `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                               `tenant_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '租户编码',
+                               `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录IP',
+                               `location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录地点',
+                               `client_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人客户端ID',
+                               `principal` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录人账号',
+                               `platform` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '平台',
+                               `engine` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '引擎类型',
+                               `browser` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器名称',
+                               `os` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作系统',
+                               `login_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登录类型',
+                               `create_by` bigint DEFAULT NULL,
+                               `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                               `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='登录日志';
 
 -- ----------------------------
@@ -431,32 +497,32 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `c_opt_log`;
 CREATE TABLE `c_opt_log` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `tenant_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '租户编码',
-  `module` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '日志模块',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作描述',
-  `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作IP（支持IPv6）',
-  `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '地址',
-  `trace` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '日志链路追踪id日志标志',
-  `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类路径',
-  `uri` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '请求地址',
-  `http_method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT 'GET' COMMENT '请求类型ENUM(''GET'', ''POST'', ''PUT'', ''DELETE'', ''PATCH'', ''TRACE'', ''HEAD'', ''OPTIONS'')',
-  `request` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '请求参数',
-  `response` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '返回值',
-  `message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '执行消息',
-  `status` bit(1) DEFAULT NULL COMMENT '日志状态（true=正常;false=异常）',
-  `start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
-  `end_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
-  `duration` bigint DEFAULT '0' COMMENT '消耗时间',
-  `browser` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器名称',
-  `os` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作系统',
-  `engine` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器引擎',
-  `platform` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '平台信息',
-  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '请求令牌',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作人',
-  PRIMARY KEY (`id`) USING BTREE
+                             `id` bigint NOT NULL AUTO_INCREMENT,
+                             `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                             `tenant_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '租户编码',
+                             `module` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '日志模块',
+                             `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作描述',
+                             `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作IP（支持IPv6）',
+                             `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '地址',
+                             `trace` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '日志链路追踪id日志标志',
+                             `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类路径',
+                             `uri` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '请求地址',
+                             `http_method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT 'GET' COMMENT '请求类型ENUM(''GET'', ''POST'', ''PUT'', ''DELETE'', ''PATCH'', ''TRACE'', ''HEAD'', ''OPTIONS'')',
+                             `request` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '请求参数',
+                             `response` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '返回值',
+                             `message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '执行消息',
+                             `status` bit(1) DEFAULT NULL COMMENT '日志状态（true=正常;false=异常）',
+                             `start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
+                             `end_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
+                             `duration` bigint DEFAULT '0' COMMENT '消耗时间',
+                             `browser` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器名称',
+                             `os` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作系统',
+                             `engine` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '浏览器引擎',
+                             `platform` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '平台信息',
+                             `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '请求令牌',
+                             `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                             `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作人',
+                             PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='系统日志';
 
 -- ----------------------------
@@ -470,19 +536,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `plat_plan_def_res`;
 CREATE TABLE `plat_plan_def_res` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `plan_id` bigint NOT NULL COMMENT '角色ID',
-  `res_id` bigint NOT NULL COMMENT '菜单ID',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除标记',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '修改人',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_role_res` (`plan_id`,`res_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='角色权限表';
+                                     `id` bigint NOT NULL AUTO_INCREMENT,
+                                     `plan_id` bigint NOT NULL COMMENT '角色ID',
+                                     `res_id` bigint NOT NULL COMMENT '菜单ID',
+                                     `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除标记',
+                                     `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                     `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                     `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                     `last_modify_by` bigint DEFAULT NULL COMMENT '修改人',
+                                     `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                     `last_modify_time` datetime DEFAULT NULL COMMENT '修改时间',
+                                     PRIMARY KEY (`id`),
+                                     KEY `def_res_idx_plan_id` (`plan_id`),
+                                     KEY `def_res_idx_res_id` (`res_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1998653455220494339 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='角色权限表';
 
 -- ----------------------------
 -- Records of plat_plan_def_res
@@ -560,6 +627,122 @@ INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_b
 INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (70, 1871796003473084418, 3060502, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
 INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (71, 1871796003473084418, 3060503, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
 INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (72, 1871796003473084418, 3060504, NULL, NULL, NULL, '2024-12-25 05:53:27', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998636742525472769, 1971026559142187010, 10401, 1, 1, '平台管理员', '2025-12-10 14:11:47', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998636742533861378, 1971026559142187010, 1, 1, 1, '平台管理员', '2025-12-10 14:11:47', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998636742533861379, 1971026559142187010, 104, 1, 1, '平台管理员', '2025-12-10 14:11:47', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998636742533861380, 1971026559142187010, 1040102, 1, 1, '平台管理员', '2025-12-10 14:11:47', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998636742533861381, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:11:47', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639156066406402, 1971026559142187010, 1, 1, 1, '平台管理员', '2025-12-10 14:21:22', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639156070600705, 1971026559142187010, 10401, 1, 1, '平台管理员', '2025-12-10 14:21:22', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639156070600706, 1971026559142187010, 104, 1, 1, '平台管理员', '2025-12-10 14:21:22', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639156074795009, 1971026559142187010, 1040102, 1, 1, '平台管理员', '2025-12-10 14:21:22', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639156074795010, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:21:22', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639156188041217, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:21:22', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639196805681154, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:21:32', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639196906344450, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:21:32', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639262094217218, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:21:48', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639262186491905, 1971026559142187010, 10401, 1, 1, '平台管理员', '2025-12-10 14:21:48', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639262190686210, 1971026559142187010, 1, 1, 1, '平台管理员', '2025-12-10 14:21:48', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639262190686211, 1971026559142187010, 104, 1, 1, '平台管理员', '2025-12-10 14:21:48', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639262194880514, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:21:48', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639718967169026, 1971026559142187010, 1, 1, 1, '平台管理员', '2025-12-10 14:23:37', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639718971363329, 1971026559142187010, 10401, 1, 1, '平台管理员', '2025-12-10 14:23:37', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639718975557633, 1971026559142187010, 104, 1, 1, '平台管理员', '2025-12-10 14:23:37', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639718975557634, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:23:37', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639719072026625, 1971026559142187010, 10401, 1, 1, '平台管理员', '2025-12-10 14:23:37', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639719076220930, 1971026559142187010, 1, 1, 1, '平台管理员', '2025-12-10 14:23:37', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639719076220931, 1971026559142187010, 104, 1, 1, '平台管理员', '2025-12-10 14:23:37', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639719076220932, 1971026559142187010, 1040102, 1, 1, '平台管理员', '2025-12-10 14:23:37', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639719076220933, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:23:37', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639759333150721, 1971026559142187010, 1, 1, 1, '平台管理员', '2025-12-10 14:23:46', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639759341539330, 1971026559142187010, 10401, 1, 1, '平台管理员', '2025-12-10 14:23:46', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639759341539331, 1971026559142187010, 104, 1, 1, '平台管理员', '2025-12-10 14:23:46', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639759341539332, 1971026559142187010, 1040102, 1, 1, '平台管理员', '2025-12-10 14:23:46', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639759345733634, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:23:46', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639759458979842, 1971026559142187010, 1040106, 1, 1, '平台管理员', '2025-12-10 14:23:46', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639759463174145, 1971026559142187010, 1040105, 1, 1, '平台管理员', '2025-12-10 14:23:46', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639759463174146, 1971026559142187010, 1040103, 1, 1, '平台管理员', '2025-12-10 14:23:46', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639759467368450, 1971026559142187010, 1040102, 1, 1, '平台管理员', '2025-12-10 14:23:46', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998639759467368451, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:23:46', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998640129849577474, 1971026559142187010, 1040106, 1, 1, '平台管理员', '2025-12-10 14:25:15', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998640129853771777, 1971026559142187010, 1040105, 1, 1, '平台管理员', '2025-12-10 14:25:15', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998640129853771778, 1971026559142187010, 1040103, 1, 1, '平台管理员', '2025-12-10 14:25:15', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998640129853771779, 1971026559142187010, 1040102, 1, 1, '平台管理员', '2025-12-10 14:25:15', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998640129857966081, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:25:15', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644809883340802, 1971026559142187010, 1040106, 1, 1, '平台管理员', '2025-12-10 14:43:50', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644809887535106, 1971026559142187010, 1040105, 1, 1, '平台管理员', '2025-12-10 14:43:50', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644809887535107, 1971026559142187010, 1040103, 1, 1, '平台管理员', '2025-12-10 14:43:50', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644809891729410, 1971026559142187010, 1040102, 1, 1, '平台管理员', '2025-12-10 14:43:50', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644809891729411, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:43:50', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644839004393474, 1971026559142187010, 1040106, 1, 1, '平台管理员', '2025-12-10 14:43:57', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644839012782082, 1971026559142187010, 1040105, 1, 1, '平台管理员', '2025-12-10 14:43:57', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644839016976385, 1971026559142187010, 1040103, 1, 1, '平台管理员', '2025-12-10 14:43:57', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644839016976386, 1971026559142187010, 1040102, 1, 1, '平台管理员', '2025-12-10 14:43:57', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644839016976387, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:43:57', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644864388321282, 1971026559142187010, 1040106, 1, 1, '平台管理员', '2025-12-10 14:44:03', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644864392515586, 1971026559142187010, 1040105, 1, 1, '平台管理员', '2025-12-10 14:44:03', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644864392515587, 1971026559142187010, 1040103, 1, 1, '平台管理员', '2025-12-10 14:44:03', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644864396709890, 1971026559142187010, 1040102, 1, 1, '平台管理员', '2025-12-10 14:44:03', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644864396709891, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:44:03', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644947695587329, 1971026559142187010, 1040106, 1, 1, '平台管理员', '2025-12-10 14:44:23', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644947703975938, 1971026559142187010, 1040105, 1, 1, '平台管理员', '2025-12-10 14:44:23', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644947703975939, 1971026559142187010, 1040103, 1, 1, '平台管理员', '2025-12-10 14:44:23', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644947703975940, 1971026559142187010, 1040102, 1, 1, '平台管理员', '2025-12-10 14:44:23', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998644947703975941, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:44:23', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998645282442989569, 1971026559142187010, 1040106, 1, 1, '平台管理员', '2025-12-10 14:45:43', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998645282451378177, 1971026559142187010, 1040105, 1, 1, '平台管理员', '2025-12-10 14:45:43', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998645282451378178, 1971026559142187010, 1040103, 1, 1, '平台管理员', '2025-12-10 14:45:43', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998645282451378179, 1971026559142187010, 1040102, 1, 1, '平台管理员', '2025-12-10 14:45:43', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998645282451378180, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 14:45:43', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998645535086891009, 1871796003473084418, 1040107, 1, 1, '平台管理员', '2025-12-10 14:46:43', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998645601142984706, 1871796003473084418, 1040107, 1, 1, '平台管理员', '2025-12-10 14:46:59', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998645601147179009, 1871796003473084418, 1040106, 1, 1, '平台管理员', '2025-12-10 14:46:59', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998645601147179010, 1871796003473084418, 1040105, 1, 1, '平台管理员', '2025-12-10 14:46:59', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998647624655589378, 1971026559142187010, 1040107, 1, 1, '平台管理员', '2025-12-10 14:55:01', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651017373569026, 1971026559142187010, 1040107, 1, 1, '平台管理员', '2025-12-10 15:08:30', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651017377763330, 1971026559142187010, 6004, 1, 1, '平台管理员', '2025-12-10 15:08:30', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651017377763331, 1971026559142187010, 600401, 1, 1, '平台管理员', '2025-12-10 15:08:30', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651017381957633, 1971026559142187010, 600402, 1, 1, '平台管理员', '2025-12-10 15:08:30', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651033278369793, 1871796003473084418, 1040107, 1, 1, '平台管理员', '2025-12-10 15:08:34', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651033282564097, 1871796003473084418, 6004, 1, 1, '平台管理员', '2025-12-10 15:08:34', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651033282564098, 1871796003473084418, 1040106, 1, 1, '平台管理员', '2025-12-10 15:08:34', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651033282564099, 1871796003473084418, 1040105, 1, 1, '平台管理员', '2025-12-10 15:08:34', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651033282564100, 1871796003473084418, 600401, 1, 1, '平台管理员', '2025-12-10 15:08:34', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651033286758401, 1871796003473084418, 600402, 1, 1, '平台管理员', '2025-12-10 15:08:34', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651082058125313, 1871796003473084418, 1040101, 1, 1, '平台管理员', '2025-12-10 15:08:46', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651139234877441, 1871796003473084418, 1040101, 1, 1, '平台管理员', '2025-12-10 15:08:59', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651277680463873, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 15:09:32', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651434790703105, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 15:10:10', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998651486691020802, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 15:10:22', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652079757217794, 1971026559142187010, 10401, 1, 1, '平台管理员', '2025-12-10 15:12:44', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652079761412097, 1971026559142187010, 1040102, 1, 1, '平台管理员', '2025-12-10 15:12:44', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652079761412098, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 15:12:44', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652121431822338, 1971026559142187010, 10401, 1, 1, '平台管理员', '2025-12-10 15:12:54', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652121436016642, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 15:12:54', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652757003096066, 1971026559142187010, 10401, 1, 1, '平台管理员', '2025-12-10 15:15:25', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652757007290369, 1971026559142187010, 1, 1, 1, '平台管理员', '2025-12-10 15:15:25', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652757007290370, 1971026559142187010, 104, 1, 1, '平台管理员', '2025-12-10 15:15:25', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652757011484673, 1971026559142187010, 1040102, 1, 1, '平台管理员', '2025-12-10 15:15:25', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652757011484674, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 15:15:25', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652776489832450, 1971026559142187010, 10401, 1, 1, '平台管理员', '2025-12-10 15:15:30', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652776498221058, 1971026559142187010, 1, 1, 1, '平台管理员', '2025-12-10 15:15:30', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652776498221059, 1971026559142187010, 104, 1, 1, '平台管理员', '2025-12-10 15:15:30', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652776498221060, 1971026559142187010, 1040101, 1, 1, '平台管理员', '2025-12-10 15:15:30', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652797075476482, 1971026559142187010, 1, 0, 1, '平台管理员', '2025-12-10 15:15:35', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652797083865089, 1971026559142187010, 10401, 0, 1, '平台管理员', '2025-12-10 15:15:35', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652797083865090, 1971026559142187010, 104, 0, 1, '平台管理员', '2025-12-10 15:15:35', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652797083865091, 1971026559142187010, 1040102, 0, 1, '平台管理员', '2025-12-10 15:15:35', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998652797083865092, 1971026559142187010, 1040101, 0, 1, '平台管理员', '2025-12-10 15:15:35', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998653429660405762, 1871796003473084418, 10401, 0, 1, '平台管理员', '2025-12-10 15:18:05', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998653429668794370, 1871796003473084418, 1, 0, 1, '平台管理员', '2025-12-10 15:18:05', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998653429668794371, 1871796003473084418, 104, 0, 1, '平台管理员', '2025-12-10 15:18:05', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998653429668794372, 1871796003473084418, 1040102, 0, 1, '平台管理员', '2025-12-10 15:18:05', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998653429668794373, 1871796003473084418, 1040101, 0, 1, '平台管理员', '2025-12-10 15:18:05', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998653455207911425, 1871786068400021505, 10401, 0, 1, '平台管理员', '2025-12-10 15:18:12', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998653455216300033, 1871786068400021505, 1, 0, 1, '平台管理员', '2025-12-10 15:18:12', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998653455216300034, 1871786068400021505, 10402, 0, 1, '平台管理员', '2025-12-10 15:18:12', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998653455216300035, 1871786068400021505, 104, 0, 1, '平台管理员', '2025-12-10 15:18:12', NULL, NULL, NULL);
+INSERT INTO `plat_plan_def_res` (`id`, `plan_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998653455220494338, 1871786068400021505, 1040101, 0, 1, '平台管理员', '2025-12-10 15:18:12', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -567,29 +750,29 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `plat_plan_definition`;
 CREATE TABLE `plat_plan_definition` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '产品定义ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '产品名称',
-  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品Logo链接',
-  `status` tinyint(1) DEFAULT '1' COMMENT '启用状态（租户字典 0=禁用;1=启用）',
-  `deleted` bit(1) DEFAULT b'0',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '产品详情',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                        `id` bigint NOT NULL AUTO_INCREMENT COMMENT '产品定义ID',
+                                        `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '产品名称',
+                                        `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                        `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品Logo链接',
+                                        `status` tinyint(1) DEFAULT '1' COMMENT '启用状态（租户字典 0=禁用;1=启用）',
+                                        `deleted` bit(1) DEFAULT b'0',
+                                        `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '产品详情',
+                                        `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                                        `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                        `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                        `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
+                                        `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                        `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                        PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1971026559142187011 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='产品定义表';
 
 -- ----------------------------
 -- Records of plat_plan_definition
 -- ----------------------------
 BEGIN;
-INSERT INTO `plat_plan_definition` (`id`, `name`, `code`, `logo`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871786068400021505, '审批管理', 'PD202412250001', 'http://127.0.0.1:19000/wp-local/dev/676b943291326cc9f14145b1.png', 1, b'0', 'BPM 审批产品', 1, '平台管理员', '2024-12-25 13:12:29', 0, NULL, '2024-12-25 05:51:07');
-INSERT INTO `plat_plan_definition` (`id`, `name`, `code`, `logo`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871796003473084418, '租户测试项目', 'PD202412250002', 'http://127.0.0.1:19000/wp-local/dev/676b9d7b91326cc9f14145b2.png', 1, b'0', '租户测试项目', 1, '平台管理员', '2024-12-25 13:51:58', 0, NULL, '2024-12-25 05:52:06');
-INSERT INTO `plat_plan_definition` (`id`, `name`, `code`, `logo`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1971026559142187010, '21312', 'PD202509250001', NULL, 1, b'0', '123', 1, '平台管理员', '2025-09-25 09:38:46', 0, NULL, NULL);
+INSERT INTO `plat_plan_definition` (`id`, `name`, `code`, `logo`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871786068400021505, '审批管理', 'PD202412250001', 'http://127.0.0.1:19000/wp-local/dev/676b943291326cc9f14145b1.png', 1, b'0', 'BPM 审批产品', 1, '平台管理员', '2024-12-25 13:12:29', 1, '平台管理员', '2025-12-10 15:18:12');
+INSERT INTO `plat_plan_definition` (`id`, `name`, `code`, `logo`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1871796003473084418, '租户测试项目', 'PD202412250002', 'http://127.0.0.1:19000/wp-local/dev/676b9d7b91326cc9f14145b2.png', 1, b'0', '租户测试项目', 1, '平台管理员', '2024-12-25 13:51:58', 1, '平台管理员', '2025-12-10 15:18:05');
+INSERT INTO `plat_plan_definition` (`id`, `name`, `code`, `logo`, `status`, `deleted`, `description`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1971026559142187010, '21312', 'PD202509250001', NULL, 1, b'0', '123', 1, '平台管理员', '2025-09-25 09:38:46', 1, '平台管理员', '2025-12-10 15:15:35');
 COMMIT;
 
 -- ----------------------------
@@ -597,24 +780,24 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `plat_plan_pricing`;
 CREATE TABLE `plat_plan_pricing` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `plan_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '套餐ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '定价名称',
-  `user_num` int DEFAULT NULL COMMENT '用户数量',
-  `month_num` int DEFAULT NULL COMMENT '月数',
-  `amount` decimal(10,0) DEFAULT NULL COMMENT '总价',
-  `unit_price` decimal(10,0) DEFAULT NULL COMMENT '用户单价',
-  `over_price` decimal(10,2) DEFAULT NULL COMMENT '超额单价',
-  `status` bit(1) DEFAULT b'0' COMMENT '状态(1=启用;0=禁用)',
-  `description` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述信息',
-  `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除（0=未删除;1=已删除）',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人id',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                     `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                     `plan_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '套餐ID',
+                                     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '定价名称',
+                                     `user_num` int DEFAULT NULL COMMENT '用户数量',
+                                     `month_num` int DEFAULT NULL COMMENT '月数',
+                                     `amount` decimal(10,0) DEFAULT NULL COMMENT '总价',
+                                     `unit_price` decimal(10,0) DEFAULT NULL COMMENT '用户单价',
+                                     `over_price` decimal(10,2) DEFAULT NULL COMMENT '超额单价',
+                                     `status` bit(1) DEFAULT b'0' COMMENT '状态(1=启用;0=禁用)',
+                                     `description` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述信息',
+                                     `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除（0=未删除;1=已删除）',
+                                     `create_by` bigint DEFAULT NULL COMMENT '创建人id',
+                                     `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                     `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                     `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
+                                     `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                     `last_modify_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+                                     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='产品定价表';
 
 -- ----------------------------
@@ -628,28 +811,28 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `plat_plan_subscription`;
 CREATE TABLE `plat_plan_subscription` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `plan_id` bigint DEFAULT NULL COMMENT '产品ID',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `user_num` int DEFAULT NULL COMMENT '用户数量',
-  `month_num` int DEFAULT NULL COMMENT '月数',
-  `license_price` decimal(19,2) DEFAULT NULL COMMENT '用户单价',
-  `total_amount` decimal(19,2) DEFAULT NULL COMMENT '总金额',
-  `discount_amount` decimal(19,2) DEFAULT NULL COMMENT '优惠金额',
-  `statement_amount` decimal(19,2) DEFAULT NULL COMMENT '结算金额',
-  `statement_price` decimal(19,2) DEFAULT NULL COMMENT '结算单价',
-  `start_time` datetime DEFAULT NULL COMMENT '开始时间',
-  `end_time` datetime DEFAULT NULL COMMENT '结束时间',
-  `payment_status` tinyint DEFAULT NULL COMMENT '支付状态(0=待支付;10=部分支付;20=已支付)',
-  `description` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述信息',
-  `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人id',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                          `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                          `plan_id` bigint DEFAULT NULL COMMENT '产品ID',
+                                          `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                                          `user_num` int DEFAULT NULL COMMENT '用户数量',
+                                          `month_num` int DEFAULT NULL COMMENT '月数',
+                                          `license_price` decimal(19,2) DEFAULT NULL COMMENT '用户单价',
+                                          `total_amount` decimal(19,2) DEFAULT NULL COMMENT '总金额',
+                                          `discount_amount` decimal(19,2) DEFAULT NULL COMMENT '优惠金额',
+                                          `statement_amount` decimal(19,2) DEFAULT NULL COMMENT '结算金额',
+                                          `statement_price` decimal(19,2) DEFAULT NULL COMMENT '结算单价',
+                                          `start_time` datetime DEFAULT NULL COMMENT '开始时间',
+                                          `end_time` datetime DEFAULT NULL COMMENT '结束时间',
+                                          `payment_status` tinyint DEFAULT NULL COMMENT '支付状态(0=待支付;10=部分支付;20=已支付)',
+                                          `description` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述信息',
+                                          `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除',
+                                          `create_by` bigint DEFAULT NULL COMMENT '创建人id',
+                                          `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                          `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                          `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
+                                          `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                          `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                          PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1994243308565958659 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='产品订阅信息';
 
 -- ----------------------------
@@ -666,21 +849,21 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_data_permission_ref`;
 CREATE TABLE `sys_data_permission_ref` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `owner_id` bigint NOT NULL COMMENT '拥有者',
-  `owner_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '拥有类型（角色，用户）',
-  `data_id` bigint NOT NULL COMMENT '数据ID',
-  `data_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '数据类型（机构、角色、租户等等）',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除标记',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人id',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `data_perm_idx_owner_id` (`owner_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1998288725465235462 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='数据权限资源表';
+                                           `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                           `owner_id` bigint NOT NULL COMMENT '拥有者',
+                                           `owner_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '拥有类型（角色，用户）',
+                                           `data_id` bigint NOT NULL COMMENT '数据ID',
+                                           `data_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '数据类型（机构、角色、租户等等）',
+                                           `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除标记',
+                                           `create_by` bigint DEFAULT NULL COMMENT '创建人id',
+                                           `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                           `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                           `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
+                                           `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
+                                           `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
+                                           PRIMARY KEY (`id`) USING BTREE,
+                                           KEY `data_perm_idx_owner_id` (`owner_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1998704186745139212 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='数据权限资源表';
 
 -- ----------------------------
 -- Records of sys_data_permission_ref
@@ -700,20 +883,21 @@ INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`
 INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065549, 1948195640893706241, 'role', 10203, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
 INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065550, 1948195640893706241, 'role', 10202, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
 INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998250033728065551, 1948195640893706241, 'role', 10204, 'org', 0, 1, '平台管理员', '2025-12-09 12:35:08', NULL, NULL, NULL);
-INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428614156290, 1950568775576129537, 'role', 100, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
-INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428614156291, 1950568775576129537, 'role', 10001, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
-INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350593, 1950568775576129537, 'role', 10101, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
-INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350594, 1950568775576129537, 'role', 10103, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
-INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350595, 1950568775576129537, 'role', 10102, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
-INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350596, 1950568775576129537, 'role', 10002, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
-INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350597, 1950568775576129537, 'role', 10201, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
-INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350598, 1950568775576129537, 'role', 10203, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
-INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350599, 1950568775576129537, 'role', 10202, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
-INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998286428618350600, 1950568775576129537, 'role', 10204, 'org', 0, 1, '平台管理员', '2025-12-09 14:59:46', NULL, NULL, NULL);
 INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998288725465235458, 1945395080805158913, 'role', 10001, 'org', 0, 1, '平台管理员', '2025-12-09 15:08:53', NULL, NULL, NULL);
 INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998288725465235459, 1945395080805158913, 'role', 100, 'org', 0, 1, '平台管理员', '2025-12-09 15:08:53', NULL, NULL, NULL);
 INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998288725465235460, 1945395080805158913, 'role', 10101, 'org', 0, 1, '平台管理员', '2025-12-09 15:08:53', NULL, NULL, NULL);
 INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998288725465235461, 1945395080805158913, 'role', 10103, 'org', 0, 1, '平台管理员', '2025-12-09 15:08:53', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998704186745139201, 1950568775576129537, 'role', 10204, 'org', 0, 1, '平台管理员', '2025-12-10 18:39:47', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998704186745139202, 1950568775576129537, 'role', 10202, 'org', 0, 1, '平台管理员', '2025-12-10 18:39:47', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998704186745139203, 1950568775576129537, 'role', 10203, 'org', 0, 1, '平台管理员', '2025-12-10 18:39:47', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998704186745139204, 1950568775576129537, 'role', 10201, 'org', 0, 1, '平台管理员', '2025-12-10 18:39:47', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998704186745139205, 1950568775576129537, 'role', 10002, 'org', 0, 1, '平台管理员', '2025-12-10 18:39:47', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998704186745139206, 1950568775576129537, 'role', 10102, 'org', 0, 1, '平台管理员', '2025-12-10 18:39:47', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998704186745139207, 1950568775576129537, 'role', 10103, 'org', 0, 1, '平台管理员', '2025-12-10 18:39:47', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998704186745139208, 1950568775576129537, 'role', 10101, 'org', 0, 1, '平台管理员', '2025-12-10 18:39:47', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998704186745139209, 1950568775576129537, 'role', 10001, 'org', 0, 1, '平台管理员', '2025-12-10 18:39:47', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998704186745139210, 1950568775576129537, 'role', 100, 'org', 0, 1, '平台管理员', '2025-12-10 18:39:47', NULL, NULL, NULL);
+INSERT INTO `sys_data_permission_ref` (`id`, `owner_id`, `owner_type`, `data_id`, `data_type`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998704186745139211, 1950568775576129537, 'role', 10004, 'org', 0, 1, '平台管理员', '2025-12-10 18:39:47', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -721,31 +905,31 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict`;
 CREATE TABLE `sys_dict` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '名称',
-  `code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '编码\n一颗树仅仅有一个统一的编码',
-  `parent_id` bigint DEFAULT NULL COMMENT '父级字典ID',
-  `parent_code` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '父级字典编码',
-  `full_code_path` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '完整路径',
-  `type` smallint DEFAULT NULL COMMENT '字典类型(0=平台字典;1=租户字典)',
-  `description` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '描述',
-  `status` bit(1) DEFAULT b'0' COMMENT '状态',
-  `sequence` int DEFAULT '0' COMMENT '排序',
-  `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除标记',
-  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `last_modify_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+                            `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                            `name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '名称',
+                            `code` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '编码\n一颗树仅仅有一个统一的编码',
+                            `parent_id` bigint DEFAULT NULL COMMENT '父级字典ID',
+                            `parent_code` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '父级字典编码',
+                            `full_code_path` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '完整路径',
+                            `type` smallint DEFAULT NULL COMMENT '字典类型(0=平台字典;1=租户字典)',
+                            `description` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '描述',
+                            `status` bit(1) DEFAULT b'0' COMMENT '状态',
+                            `sequence` int DEFAULT '0' COMMENT '排序',
+                            `deleted` bit(1) DEFAULT b'0' COMMENT '逻辑删除标记',
+                            `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '创建人id',
+                            `create_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '创建人名称',
+                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                            `last_modify_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '更新人id',
+                            `last_modify_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '更新人名称',
+                            `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1951122262522572867 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='字典类型';
 
 -- ----------------------------
 -- Records of sys_dict
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_dict` (`id`, `name`, `code`, `parent_id`, `parent_code`, `full_code_path`, `type`, `description`, `status`, `sequence`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1951120008197382146, '租户字典', 'TENANT-DICT', 0, NULL, 'TENANT-DICT', 1, '租户字典', b'1', 22, b'0', '1', '平台管理员', '2025-08-01 11:17:15', NULL, NULL, NULL);
+INSERT INTO `sys_dict` (`id`, `name`, `code`, `parent_id`, `parent_code`, `full_code_path`, `type`, `description`, `status`, `sequence`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1951120008197382146, '租户字典', 'TENANT-DICT', 0, NULL, 'TENANT-DICT', 1, '租户字典', b'1', 22, b'0', '1', '平台管理员', '2025-08-01 11:17:15', '1', '平台管理员', '2025-12-10 15:17:20');
 INSERT INTO `sys_dict` (`id`, `name`, `code`, `parent_id`, `parent_code`, `full_code_path`, `type`, `description`, `status`, `sequence`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1951122262522572801, 'HAHA', 'H01', 1951120008197382146, 'TENANT-DICT', NULL, 1, '123', b'1', 0, b'0', '1', '平台管理员', '2025-08-01 11:26:12', '1', '平台管理员', '2025-08-01 11:27:23');
 COMMIT;
 
@@ -754,24 +938,24 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_org`;
 CREATE TABLE `sys_org` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '名称',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '简称',
-  `tel` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系方式',
-  `parent_id` bigint DEFAULT '0' COMMENT '父ID',
-  `tree_path` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '树节点路径',
-  `sequence` int DEFAULT '1' COMMENT '排序',
-  `status` bit(1) DEFAULT b'1' COMMENT '状态',
-  `deleted` bit(1) DEFAULT b'0',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '描述',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                           `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                           `label` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '名称',
+                           `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                           `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '简称',
+                           `tel` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系方式',
+                           `parent_id` bigint DEFAULT '0' COMMENT '父ID',
+                           `tree_path` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '树节点路径',
+                           `sequence` int DEFAULT '1' COMMENT '排序',
+                           `status` bit(1) DEFAULT b'1' COMMENT '状态',
+                           `deleted` bit(1) DEFAULT b'0',
+                           `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '描述',
+                           `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                           `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                           `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                           `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
+                           `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                           `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                           PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1998225274298568706 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='组织';
 
 -- ----------------------------
@@ -799,22 +983,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_position`;
 CREATE TABLE `sys_position` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '名称',
-  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '编码',
-  `sequence` tinyint DEFAULT NULL COMMENT '排序',
-  `org_id` bigint DEFAULT '0' COMMENT '组织ID',
-  `status` bit(1) DEFAULT b'1' COMMENT '状态',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '描述',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `create_by` bigint DEFAULT NULL,
-  `last_modify_by` bigint DEFAULT NULL,
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE
+                                `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                                `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '名称',
+                                `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '编码',
+                                `sequence` tinyint DEFAULT NULL COMMENT '排序',
+                                `org_id` bigint DEFAULT '0' COMMENT '组织ID',
+                                `status` bit(1) DEFAULT b'1' COMMENT '状态',
+                                `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '描述',
+                                `deleted` bit(1) DEFAULT b'0',
+                                `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+                                `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                `create_by` bigint DEFAULT NULL,
+                                `last_modify_by` bigint DEFAULT NULL,
+                                `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1865020143000756227 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='岗位';
 
 -- ----------------------------
@@ -847,28 +1031,28 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_registered_client`;
 CREATE TABLE `sys_registered_client` (
-  `id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `client_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `client_id_issued_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `client_secret` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `client_secret_expires_at` timestamp NULL DEFAULT NULL,
-  `client_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `client_authentication_methods` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `grant_types` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `redirect_uris` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `post_logout_redirect_uris` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `scopes` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `client_settings` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `token_settings` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `status` bit(1) DEFAULT b'1' COMMENT '0=禁用;1=启用',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人id',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                         `id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+                                         `client_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+                                         `client_id_issued_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                         `client_secret` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                         `client_secret_expires_at` timestamp NULL DEFAULT NULL,
+                                         `client_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+                                         `client_authentication_methods` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                         `grant_types` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+                                         `redirect_uris` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                         `post_logout_redirect_uris` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                         `scopes` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+                                         `client_settings` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                         `token_settings` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+                                         `status` bit(1) DEFAULT b'1' COMMENT '0=禁用;1=启用',
+                                         `deleted` bit(1) DEFAULT b'0',
+                                         `create_by` bigint DEFAULT NULL COMMENT '创建人id',
+                                         `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                         `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                         `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
+                                         `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                         `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                         PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
@@ -884,38 +1068,38 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_resource`;
 CREATE TABLE `sys_resource` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '名称',
-  `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '权限',
-  `parent_id` bigint DEFAULT '0' COMMENT '父级菜单ID',
-  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '路径',
-  `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '组件',
-  `sequence` int DEFAULT '1' COMMENT '排序',
-  `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '菜单图标',
-  `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '类型 directory=目录;menu=菜单;iframe=内嵌;link=外链;button=按钮',
-  `status` bit(1) DEFAULT b'1' COMMENT '1=启用;0=禁用',
-  `keep_alive` bit(1) DEFAULT NULL COMMENT '开启后页面会缓存，不会重新加载，仅在标签页启用时有效',
-  `readonly` bit(1) DEFAULT b'0' COMMENT '内置菜单（0=否;1=是）',
-  `global` bit(1) DEFAULT b'0' COMMENT '公共资源\nTrue是无需分配所有人就可以访问的',
-  `visible` bit(1) DEFAULT b'1' COMMENT '0=隐藏;1=显示',
-  `meta` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '菜单 meta 可以覆盖',
-  `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '描述',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人id',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `INX_STATUS` (`global`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1897112430936297475 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='菜单';
+                                `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '名称',
+                                `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '权限',
+                                `parent_id` bigint DEFAULT '0' COMMENT '父级菜单ID',
+                                `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '路径',
+                                `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '组件',
+                                `sequence` int DEFAULT '1' COMMENT '排序',
+                                `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '菜单图标',
+                                `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '类型 directory=目录;menu=菜单;iframe=内嵌;link=外链;button=按钮',
+                                `status` bit(1) DEFAULT b'1' COMMENT '1=启用;0=禁用',
+                                `keep_alive` bit(1) DEFAULT NULL COMMENT '开启后页面会缓存，不会重新加载，仅在标签页启用时有效',
+                                `readonly` bit(1) DEFAULT b'0' COMMENT '内置菜单（0=否;1=是）',
+                                `global` bit(1) DEFAULT b'0' COMMENT '公共资源\nTrue是无需分配所有人就可以访问的',
+                                `visible` bit(1) DEFAULT b'1' COMMENT '0=隐藏;1=显示',
+                                `meta` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '菜单 meta 可以覆盖',
+                                `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '描述',
+                                `deleted` bit(1) DEFAULT b'0',
+                                `create_by` bigint DEFAULT NULL COMMENT '创建人id',
+                                `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
+                                `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                PRIMARY KEY (`id`) USING BTREE,
+                                KEY `INX_STATUS` (`global`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1998928507266641923 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='菜单';
 
 -- ----------------------------
 -- Records of sys_resource
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, '平台管理', NULL, 0, '/plat', 'BasicLayout', 1, 'clarity-thin-client-line', 'directory', b'1', NULL, b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, '平台管理', NULL, 0, '/plat', 'BasicLayout', 0, 'clarity-thin-client-line', 'directory', b'1', b'1', b'0', b'0', b'1', NULL, '123123', b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2025-12-10 19:26:44');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3, '系统管理', NULL, 0, '/sys', 'BasicLayout', 3, 'ant-design:dashboard-filled', 'directory', b'1', NULL, b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (11, '审批管理', NULL, 0, '/workflow', 'BasicLayout', 11, 'ant-design:appstore-twotone', 'directory', b'1', NULL, b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2022-09-09 14:55:58', 1, '长风一梦8888', NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (15, '运输管理', NULL, 0, '/tms/management', 'BasicLayout', 10, 'ant-design:dropbox-outlined', 'directory', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', 1, '长风一梦8888', '2023-09-05 04:57:58', 1, '长风一梦8888', NULL);
@@ -953,11 +1137,14 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (5069, '代码生成', NULL, 50, '/develop/gen', '', 0, 'ant-design:appstore-filled', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-12 13:11:50', 1, '平台管理员', '2025-02-22 22:26:20');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (6001, '私有模型', NULL, 60, '/ai/local', NULL, 6001, 'carbon:navaid-private', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-01-10 09:47:40', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (6003, '共享模型', NULL, 60, '/ai/cloud', NULL, 6003, 'lineicons:open-ai', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-01-10 09:47:40', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (6004, '智能体', NULL, 60, '/ai/agent', NULL, 6004, 'mingcute:robot-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-12-09 08:07:09', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (6005, '知识库', NULL, 60, '/ai/rag', NULL, 6005, 'mingcute:book-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-12-09 08:07:09', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (6006, '模型中心', NULL, 60, '/ai/model', NULL, 6006, 'mingcute:box-3-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-12-09 08:07:09', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10401, '租户中心', 'tenant:list', 104, '/plat/tenant/list', '/wemirr/platform/tenant/index', 10401, 'ant-design:code-sandbox-outlined', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10402, '多数据源', NULL, 104, '/plat/db/list', '/wemirr/platform/db/index', 10402, 'ant-design:database-filled', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', NULL, NULL, '2024-12-06 17:07:02');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10501, '产品定义', 'plat:plan:definition', 105, '/platform/plan/definition', '/wemirr/platform/plan/definition/index', 1, 'fluent-mdl2:product-list', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:59:39', NULL, NULL, NULL);
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10502, '产品定价', 'plat: plan:pricing', 105, '/platform/plan/pricing', '/wemirr/platform/plan/pricing/index', 2, 'arcticons:pricespy', 'menu', b'0', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:59:39', NULL, NULL, NULL);
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10503, '产品订阅', 'plat: plan:subscribe', 105, '/platform/plan/subscribe', '/wemirr/platform/plan/subscribe/index', 3, 'material-symbols:package-2-sharp', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:59:39', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10501, '套餐定义', 'plat:plan:definition', 105, '/platform/plan/definition', '/wemirr/platform/plan/definition/index', 1, 'fluent-mdl2:product-list', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:59:39', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10502, '套餐定价', 'plat: plan:pricing', 105, '/platform/plan/pricing', '/wemirr/platform/plan/pricing/index', 2, 'arcticons:pricespy', 'menu', b'0', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:59:39', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10503, '套餐订阅', 'plat: plan:subscribe', 105, '/platform/plan/subscribe', '/wemirr/platform/plan/subscribe/index', 3, 'material-symbols:package-2-sharp', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2023-09-23 06:59:39', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10706, '数据字典', 'dict:list', 107, '/plat/setting/dict', '/wemirr/platform/basic/dict/index', 10706, 'bx-bxs-data', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (10707, '地区信息', NULL, 107, '/plat/setting/area', '/wemirr/platform/basic/area/index', 10707, 'ant-design:area-chart-outlined', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (15101, '司机管理', NULL, 151, '/tms/resource/driver', '/wemirr/tms/resource/driver/index', 0, 'ant-design:dribbble-outlined', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', 1, '长风一梦8888', '2023-09-05 05:05:43', 1, '长风一梦8888', NULL);
@@ -1032,12 +1219,17 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500501, '限流规则', 'dev:gateway:limit', 5005, '/dev/gateway/limit', '/wemirr/develop/gateway/limit/index', 500501, 'carbon-rule', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500502, '限访名单', 'dev:gateway:blacklist', 5005, '/dev/gateway/blacklist', '/wemirr/develop/gateway/blacklist/index', 500502, 'carbon-ai-status-rejected', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500503, '网关路由', 'dev:gateway:route', 5005, '/dev/gateway/route', '/wemirr/develop/gateway/route/index', 500503, 'mdi-router-wireless-settings', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, NULL, b'0', 1, '平台管理员', '2024-12-06 14:52:11', 1, '平台管理员', '2024-12-06 14:52:11');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (506901, '生成配置', NULL, 5069, '/develop/gen/table', '/wemirr/develop/gen/generate-table', 0, 'tabler:table', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:55');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (506902, '模板配置', NULL, 5069, '/develop/gen/template', '/wemirr/develop/gen/generate-template', 0, 'tabler:template', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:51');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (506903, '列配置', NULL, 5069, '/develop/gen/column', '/wemirr/develop/gen/generate-table-column', 0, 'tabler:table-column', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:48');
-INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (506904, '模板组', NULL, 5069, '/develop/gen/template-group', '/wemirr/develop/gen/generate-template-group', 0, 'tabler:template', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:45');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (506901, '生成配置', NULL, 5069, '/develop/gen/table', '/wemirr/develop/gen/table/index', 0, 'tabler:table', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:55');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (506902, '模板配置', NULL, 5069, '/develop/gen/template', '/wemirr/develop/gen/template/index', 0, 'tabler:template', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:51');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (506903, '列配置', NULL, 5069, '/develop/gen/column', '/wemirr/develop/gen/table-column/index', 0, 'tabler:table-column', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:48');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (506904, '模板组', NULL, 5069, '/develop/gen/template-group', '/wemirr/develop/gen/template-group/index', 0, 'tabler:template', 'menu', b'1', b'1', b'0', b'0', b'1', '', '', b'0', NULL, '', '2024-12-13 08:40:43', 1, '平台管理员', '2025-02-22 22:26:45');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (600101, '智能问答', NULL, 6001, '/ai/local/talk', '/wemirr/ai/local/talk', 60001, 'mingcute:kakao-talk-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-01-10 09:50:35', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (600301, '智能问答', NULL, 6003, '/ai/cloud/chat', '/wemirr/ai/cloud/chat', 6003, 'mingcute:kakao-talk-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-01-10 09:50:35', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (600401, '智能体配置', NULL, 6004, '/ai/agent/config', '/wemirr/ai/agent/config/index', 600401, 'mingcute:settings-2-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-12-09 08:07:09', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (600402, 'MCP 协议', NULL, 6004, '/ai/agent/mcp', '/wemirr/ai/agent/mcp/index', 600402, 'mingcute:plugin-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-12-09 08:07:09', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (600501, '参数配置', NULL, 6005, '/ai/rag/config', '/wemirr/ai/rag/config/index', 600501, 'mingcute:equalizer-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-12-09 08:07:09', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (600502, '文档管理', NULL, 6005, '/ai/rag/doc', '/wemirr/ai/rag/doc/index', 600502, 'mingcute:file-check-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-12-09 08:07:09', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (600601, '模型接入', NULL, 6006, '/ai/model/config', '/wemirr/ai/model/config/index', 600601, 'mingcute:api-line', 'menu', b'1', b'1', b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2025-12-09 08:07:09', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1040101, '添加', 'tenant:add', 10401, '', NULL, 1040101, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1040102, '编辑', 'tenant:edit', 10401, '', NULL, 1040102, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '编辑按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:17', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1040103, '删除', 'tenant:remove', 10401, '', NULL, 1040103, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
@@ -1047,6 +1239,7 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1050101, '添加', 'plan:definition:add', 10501, '', NULL, 1050101, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1050102, '编辑', 'plan:definition:edit', 10501, '', NULL, 1050102, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '编辑按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:17', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1050103, '删除', 'plan:definition:remove', 10501, '', NULL, 1050103, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1050108, '授权', 'plan:definition:assign', 10501, '', NULL, 1050108, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '授权按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1070601, '添加', 'dict:add', 10706, '', NULL, 1070601, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '新增按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:00', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1070602, '编辑', 'dict:edit', 10706, '', NULL, 1070602, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '编辑按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:17', 1, '平台管理员', '2024-12-07 17:52:00');
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1070603, '删除', 'dict:remove', 10706, '', NULL, 1070603, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '删除按钮权限', b'0', 1, '平台管理员', '2024-12-07 17:52:36', 1, '平台管理员', '2024-12-07 17:52:00');
@@ -1079,6 +1272,9 @@ INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `c
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (3060504, '推送', 'message:template:publish', 30605, '', NULL, 3060504, '', 'button', b'1', NULL, b'0', b'0', b'1', NULL, '', b'0', NULL, NULL, '2024-12-07 10:30:13', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (50030801, '学生管理', NULL, 500308, '/dev/online/demo/student', '/wemirr/develop/online/reader', 1, 'ph:student-fill', 'menu', b'1', b'1', b'0', b'0', b'1', '{\"query\":{\"definitionKey\":\"student\"}}', '', b'0', NULL, NULL, '2025-01-08 09:38:42', NULL, NULL, NULL);
 INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (50030802, '老师管理', NULL, 500308, '/dev/online/demo/teacher', '/wemirr/develop/online/reader', 2, 'mdi:teacher', 'menu', b'1', b'1', b'0', b'0', b'1', '{\"query\":{\"definitionKey\":\"teacher\"}}', '', b'0', NULL, NULL, '2025-01-08 09:38:42', NULL, NULL, NULL);
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998921037957804033, '213', NULL, 0, '123', 'BasicLayout', 0, 'ant-design:alipay-square-filled', 'directory', b'1', b'1', b'0', b'0', b'1', NULL, '', b'1', 1, '平台管理员', '2025-12-11 09:01:28', 1, '平台管理员', '2025-12-11 09:01:31');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998928433723715585, '123', NULL, 1, '213', 'BasicLayout', 1, '', 'directory', b'1', NULL, b'0', b'0', b'1', NULL, '', b'1', 1, '平台管理员', '2025-12-11 09:30:52', 1, '平台管理员', '2025-12-11 09:30:55');
+INSERT INTO `sys_resource` (`id`, `title`, `permission`, `parent_id`, `path`, `component`, `sequence`, `icon`, `type`, `status`, `keep_alive`, `readonly`, `global`, `visible`, `meta`, `description`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998928507266641922, '123123', NULL, 1, '123', 'BasicLayout', 1, '', 'directory', b'1', NULL, b'0', b'0', b'1', NULL, '', b'1', 1, '平台管理员', '2025-12-11 09:31:09', 1, '平台管理员', '2025-12-11 09:31:12');
 COMMIT;
 
 -- ----------------------------
@@ -1086,22 +1282,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户编码',
-  `code` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '角色编码',
-  `name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL DEFAULT '' COMMENT '名称',
-  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '描述信息',
-  `scope_type` tinyint DEFAULT NULL COMMENT '数据权限范围，值越大，权限越大',
-  `status` tinyint(1) DEFAULT '0' COMMENT '0=正常1=禁用',
-  `super` tinyint(1) DEFAULT '0' COMMENT '0=非 1=管理员',
-  `readonly` tinyint(1) DEFAULT '0' COMMENT '是否内置角色',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                            `id` bigint NOT NULL AUTO_INCREMENT,
+                            `tenant_id` bigint DEFAULT NULL COMMENT '租户编码',
+                            `code` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '角色编码',
+                            `name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL DEFAULT '' COMMENT '名称',
+                            `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT '描述信息',
+                            `scope_type` tinyint DEFAULT NULL COMMENT '数据权限范围，值越大，权限越大',
+                            `status` tinyint(1) DEFAULT '0' COMMENT '0=正常1=禁用',
+                            `super` tinyint(1) DEFAULT '0' COMMENT '0=非 1=管理员',
+                            `readonly` tinyint(1) DEFAULT '0' COMMENT '是否内置角色',
+                            `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                            `create_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+                            `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                            `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
+                            `last_modify_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+                            `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                            PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1950568775576129538 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='角色';
 
 -- ----------------------------
@@ -1138,19 +1334,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_org`;
 CREATE TABLE `sys_role_org` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `role_id` bigint NOT NULL COMMENT '角色ID',
-  `org_id` bigint NOT NULL COMMENT '组织ID',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
-  PRIMARY KEY (`id`),
-  KEY `sys_role_org_idx_role_id` (`role_id`),
-  KEY `sys_role_org_idx_org_id` (`org_id`)
+                                `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                `role_id` bigint NOT NULL COMMENT '角色ID',
+                                `org_id` bigint NOT NULL COMMENT '组织ID',
+                                `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+                                `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+                                `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
+                                `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
+                                `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
+                                PRIMARY KEY (`id`),
+                                KEY `sys_role_org_idx_role_id` (`role_id`),
+                                KEY `sys_role_org_idx_org_id` (`org_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户角色表';
 
 -- ----------------------------
@@ -1199,178 +1395,199 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_res`;
 CREATE TABLE `sys_role_res` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `role_id` bigint NOT NULL COMMENT '角色ID',
-  `res_id` bigint NOT NULL COMMENT '资源ID',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=420 DEFAULT CHARSET=utf8mb3 COMMENT='角色权限表';
+                                `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                `role_id` bigint NOT NULL COMMENT '角色ID',
+                                `res_id` bigint NOT NULL COMMENT '资源ID',
+                                `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+                                `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+                                `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
+                                `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
+                                `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
+                                PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1998928507325362179 DEFAULT CHARSET=utf8mb3 COMMENT='角色权限表';
 
 -- ----------------------------
 -- Records of sys_role_res
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (165, 1, 1, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (166, 1, 3, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (167, 1, 11, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (168, 1, 15, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (169, 1, 16, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (170, 1, 50, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (171, 1, 60, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (172, 1, 104, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (173, 1, 105, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (174, 1, 107, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (175, 1, 151, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (176, 1, 152, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (177, 1, 153, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (178, 1, 160, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (179, 1, 161, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (180, 1, 162, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (181, 1, 163, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (182, 1, 166, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (183, 1, 301, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (184, 1, 302, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (185, 1, 303, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (186, 1, 306, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (187, 1, 310, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (188, 1, 320, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (189, 1, 350, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (190, 1, 1101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (191, 1, 1102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (192, 1, 1104, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (193, 1, 1106, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (194, 1, 5003, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (195, 1, 5005, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (196, 1, 5050, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (197, 1, 5069, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (198, 1, 6001, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (199, 1, 6003, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (200, 1, 10401, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (201, 1, 10402, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (202, 1, 10501, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (203, 1, 10502, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (204, 1, 10503, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (205, 1, 10706, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (206, 1, 10707, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (207, 1, 15101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (208, 1, 15102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (209, 1, 15103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (210, 1, 15201, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (211, 1, 15202, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (212, 1, 15203, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (213, 1, 15204, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (214, 1, 15205, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (215, 1, 15206, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (216, 1, 15207, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (217, 1, 15301, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (218, 1, 16101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (219, 1, 16102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (220, 1, 16103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (221, 1, 16108, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (222, 1, 16201, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (223, 1, 16501, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (224, 1, 16502, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (225, 1, 16601, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (226, 1, 30101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (227, 1, 30102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (228, 1, 30103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (229, 1, 30201, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (230, 1, 30202, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (231, 1, 30301, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (232, 1, 30303, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (233, 1, 30604, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (234, 1, 30605, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (235, 1, 30606, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (236, 1, 30607, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (237, 1, 30608, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (238, 1, 31003, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (239, 1, 31005, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (240, 1, 31006, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (241, 1, 32002, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (242, 1, 32003, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (243, 1, 35005, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (244, 1, 110101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (245, 1, 110102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (246, 1, 110107, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (247, 1, 110108, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (248, 1, 110201, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (249, 1, 110401, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (250, 1, 110402, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (251, 1, 110403, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (252, 1, 110601, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (253, 1, 160001, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (254, 1, 160002, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (255, 1, 160005, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (256, 1, 160006, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (257, 1, 160010, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (258, 1, 160011, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (259, 1, 160012, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (260, 1, 161001, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (261, 1, 161002, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (262, 1, 161003, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (263, 1, 162002, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (264, 1, 163001, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (265, 1, 163002, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (266, 1, 500301, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (267, 1, 500302, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (268, 1, 500304, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (269, 1, 500308, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (270, 1, 500501, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (271, 1, 500502, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (272, 1, 500503, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (273, 1, 506901, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (274, 1, 506902, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (275, 1, 506903, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (276, 1, 506904, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (277, 1, 600101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (278, 1, 600301, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (279, 1, 1040101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (280, 1, 1040102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (281, 1, 1040103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (282, 1, 1040105, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (283, 1, 1040106, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (284, 1, 1040107, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (285, 1, 1050101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (286, 1, 1050102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (287, 1, 1050103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (288, 1, 1070601, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (289, 1, 1070602, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (290, 1, 1070603, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (291, 1, 1070605, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (292, 1, 3010101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (293, 1, 3010102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (294, 1, 3010103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (295, 1, 3010104, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (296, 1, 3010105, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (297, 1, 3010201, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (298, 1, 3010202, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (299, 1, 3010203, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (300, 1, 3010301, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (301, 1, 3010302, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (302, 1, 3010303, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (303, 1, 3020101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (304, 1, 3020102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (305, 1, 3020103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (306, 1, 3020201, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (307, 1, 3020202, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (308, 1, 3020203, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (309, 1, 3020207, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (310, 1, 3020208, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (311, 1, 3030101, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (312, 1, 3030102, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (313, 1, 3030103, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (314, 1, 3060501, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (315, 1, 3060502, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (316, 1, 3060503, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (317, 1, 3060504, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (318, 1, 50030801, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
-INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (319, 1, 50030802, 0, NULL, NULL, '2025-12-09 07:25:49', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (420, 1, 1, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (421, 1, 3, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (422, 1, 11, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (423, 1, 15, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (424, 1, 16, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (425, 1, 50, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (426, 1, 60, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (427, 1, 104, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (428, 1, 105, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (429, 1, 107, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (430, 1, 151, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (431, 1, 152, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (432, 1, 153, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (433, 1, 160, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (434, 1, 161, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (435, 1, 162, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (436, 1, 163, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (437, 1, 164, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (438, 1, 165, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (439, 1, 166, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (440, 1, 168, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (441, 1, 301, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (442, 1, 302, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (443, 1, 303, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (444, 1, 306, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (445, 1, 310, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (446, 1, 320, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (447, 1, 350, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (448, 1, 1101, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (449, 1, 1102, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (450, 1, 1104, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (451, 1, 1106, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (452, 1, 5003, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (453, 1, 5005, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (454, 1, 5050, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (455, 1, 5069, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (456, 1, 6001, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (457, 1, 6003, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (458, 1, 6004, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (459, 1, 6005, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (460, 1, 6006, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (461, 1, 10401, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (462, 1, 10402, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (463, 1, 10501, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (464, 1, 10502, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (465, 1, 10503, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (466, 1, 10706, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (467, 1, 10707, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (468, 1, 15101, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (469, 1, 15102, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (470, 1, 15103, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (471, 1, 15201, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (472, 1, 15202, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (473, 1, 15203, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (474, 1, 15204, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (475, 1, 15205, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (476, 1, 15206, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (477, 1, 15207, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (478, 1, 15301, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (479, 1, 16101, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (480, 1, 16102, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (481, 1, 16103, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (482, 1, 16108, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (483, 1, 16201, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (484, 1, 16401, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (485, 1, 16408, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (486, 1, 16501, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (487, 1, 16502, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (488, 1, 16601, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (489, 1, 16608, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (490, 1, 30101, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (491, 1, 30102, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (492, 1, 30103, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (493, 1, 30201, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (494, 1, 30202, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (495, 1, 30301, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (496, 1, 30303, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (497, 1, 30604, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (498, 1, 30605, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (499, 1, 30606, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (500, 1, 30607, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (501, 1, 30608, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (502, 1, 31003, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (503, 1, 31005, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (504, 1, 31006, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (505, 1, 32002, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (506, 1, 32003, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (507, 1, 35005, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (508, 1, 110101, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (509, 1, 110102, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (510, 1, 110107, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (511, 1, 110108, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (512, 1, 110201, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (513, 1, 110202, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (514, 1, 110203, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (515, 1, 110401, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (516, 1, 110402, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (517, 1, 110403, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (518, 1, 110404, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (519, 1, 110601, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (520, 1, 160001, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (521, 1, 160002, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (522, 1, 160005, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (523, 1, 160006, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (524, 1, 160010, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (525, 1, 160011, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (526, 1, 160012, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (527, 1, 161001, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (528, 1, 161002, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (529, 1, 161003, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (530, 1, 162002, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (531, 1, 163001, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (532, 1, 163002, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (533, 1, 500301, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (534, 1, 500302, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (535, 1, 500304, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (536, 1, 500308, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (537, 1, 500501, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (538, 1, 500502, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (539, 1, 500503, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (540, 1, 506901, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (541, 1, 506902, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (542, 1, 506903, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (543, 1, 506904, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (544, 1, 600101, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (545, 1, 600301, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (546, 1, 600401, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (547, 1, 600402, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (548, 1, 600501, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (549, 1, 600502, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (550, 1, 600601, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (551, 1, 1040101, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (552, 1, 1040102, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (553, 1, 1040103, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (554, 1, 1040105, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (555, 1, 1040106, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (556, 1, 1040107, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (557, 1, 1050101, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (558, 1, 1050102, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (559, 1, 1050103, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (560, 1, 1070601, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (561, 1, 1070602, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (562, 1, 1070603, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (563, 1, 1070605, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (564, 1, 3010101, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (565, 1, 3010102, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (566, 1, 3010103, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (567, 1, 3010104, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (568, 1, 3010105, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (569, 1, 3010201, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (570, 1, 3010202, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (571, 1, 3010203, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (572, 1, 3010301, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (573, 1, 3010302, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (574, 1, 3010303, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (575, 1, 3020101, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (576, 1, 3020102, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (577, 1, 3020103, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (578, 1, 3020201, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (579, 1, 3020202, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (580, 1, 3020203, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (581, 1, 3020207, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (582, 1, 3020208, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (583, 1, 3030101, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (584, 1, 3030102, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (585, 1, 3030103, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (586, 1, 3060501, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (587, 1, 3060502, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (588, 1, 3060503, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (589, 1, 3060504, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (590, 1, 50030801, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (591, 1, 50030802, 0, NULL, NULL, '2025-12-09 08:07:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (592, 1, 1050108, 0, NULL, NULL, '2025-12-10 13:30:34', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998921038033301505, 1, 1998921037957804033, 1, 1, '平台管理员', '2025-12-11 09:01:28', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998928433790824450, 1, 1998928433723715585, 1, 1, '平台管理员', '2025-12-11 09:30:52', NULL, NULL, NULL);
+INSERT INTO `sys_role_res` (`id`, `role_id`, `res_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998928507325362178, 1, 1998928507266641922, 1, 1, '平台管理员', '2025-12-11 09:31:09', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1378,23 +1595,23 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_site_notify`;
 CREATE TABLE `sys_site_notify` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `level` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息级别',
-  `status` tinyint(1) DEFAULT NULL COMMENT '0=为发布;1=已发布',
-  `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '编码',
-  `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
-  `receiver` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '接受者ID',
-  `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                                   `level` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息级别',
+                                   `status` tinyint(1) DEFAULT NULL COMMENT '0=为发布;1=已发布',
+                                   `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '编码',
+                                   `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
+                                   `receiver` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '接受者ID',
+                                   `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                   `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
+                                   `deleted` bit(1) DEFAULT b'0',
+                                   `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                                   `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
+                                   `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                   `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1863776323592458243 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='站内消息';
 
 -- ----------------------------
@@ -1412,22 +1629,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_station`;
 CREATE TABLE `sys_station` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '名称',
-  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '编码',
-  `sequence` tinyint DEFAULT NULL COMMENT '排序',
-  `org_id` bigint DEFAULT '0' COMMENT '组织ID',
-  `status` bit(1) DEFAULT b'1' COMMENT '状态',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '描述',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `create_by` bigint DEFAULT NULL,
-  `last_modify_by` bigint DEFAULT NULL,
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                               `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                               `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '名称',
+                               `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '编码',
+                               `sequence` tinyint DEFAULT NULL COMMENT '排序',
+                               `org_id` bigint DEFAULT '0' COMMENT '组织ID',
+                               `status` bit(1) DEFAULT b'1' COMMENT '状态',
+                               `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '描述',
+                               `deleted` bit(1) DEFAULT b'0',
+                               `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+                               `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                               `create_by` bigint DEFAULT NULL,
+                               `last_modify_by` bigint DEFAULT NULL,
+                               `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                               `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=10129 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='岗位';
 
 -- ----------------------------
@@ -1459,17 +1676,17 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `user_id` bigint NOT NULL COMMENT '用户ID',
-  `role_id` bigint NOT NULL COMMENT '角色ID',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
-  PRIMARY KEY (`id`)
+                                 `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                 `user_id` bigint NOT NULL COMMENT '用户ID',
+                                 `role_id` bigint NOT NULL COMMENT '角色ID',
+                                 `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+                                 `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                 `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+                                 `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                 `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
+                                 `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
+                                 `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
+                                 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8mb3 COMMENT='角色权限表';
 
 -- ----------------------------
@@ -1495,23 +1712,23 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_db_setting`;
 CREATE TABLE `t_db_setting` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '连接名',
-  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '用户名',
-  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '密码',
-  `db_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '数据库类型',
-  `driver_class_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `host` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'localhost' COMMENT '数据库连接',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述信息',
-  `locked` bit(1) DEFAULT b'0' COMMENT '0=正常1=禁用',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最后修改人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                `id` bigint NOT NULL AUTO_INCREMENT,
+                                `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '连接名',
+                                `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '用户名',
+                                `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '密码',
+                                `db_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '数据库类型',
+                                `driver_class_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                `host` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'localhost' COMMENT '数据库连接',
+                                `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述信息',
+                                `locked` bit(1) DEFAULT b'0' COMMENT '0=正常1=禁用',
+                                `deleted` bit(1) DEFAULT b'0',
+                                `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                                `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
+                                `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最后修改人名称',
+                                `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1735576153244049410 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='动态数据源';
 
 -- ----------------------------
@@ -1528,47 +1745,53 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_file_storage`;
 CREATE TABLE `t_file_storage` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '文件id',
-  `platform` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存储平台',
-  `url` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '预览地址',
-  `size` bigint DEFAULT NULL COMMENT '文件大小，单位字节',
-  `format_size` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `filename` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件名称',
-  `original_filename` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '原始文件名',
-  `base_path` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基础存储路径',
-  `path` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存储路径',
-  `ext` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件扩展名',
-  `content_type` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'MIME类型',
-  `th_url` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '缩略图访问路径',
-  `th_filename` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '缩略图名称',
-  `th_size` bigint DEFAULT NULL COMMENT '缩略图大小，单位字节',
-  `th_content_type` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '缩略图MIME类型',
-  `object_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件所属对象id',
-  `object_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件所属对象类型，例如用户头像，评价图片',
-  `metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '文件元数据',
-  `user_metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '文件用户元数据',
-  `th_metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '缩略图元数据',
-  `th_user_metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '缩略图用户元数据',
-  `attr` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '附加属性',
-  `file_acl` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件ACL',
-  `th_file_acl` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '缩略图文件ACL',
-  `hash_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '哈希信息',
-  `category` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `tenant_id` bigint DEFAULT NULL,
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `last_modify_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `last_modify_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文件记录表';
+                                  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '文件id',
+                                  `platform` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存储平台',
+                                  `url` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '预览地址',
+                                  `size` bigint DEFAULT NULL COMMENT '文件大小，单位字节',
+                                  `format_size` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                  `filename` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件名称',
+                                  `original_filename` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '原始文件名',
+                                  `base_path` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基础存储路径',
+                                  `path` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存储路径',
+                                  `ext` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件扩展名',
+                                  `content_type` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'MIME类型',
+                                  `th_url` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '缩略图访问路径',
+                                  `th_filename` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '缩略图名称',
+                                  `th_size` bigint DEFAULT NULL COMMENT '缩略图大小，单位字节',
+                                  `th_content_type` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '缩略图MIME类型',
+                                  `object_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件所属对象id',
+                                  `object_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件所属对象类型，例如用户头像，评价图片',
+                                  `metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '文件元数据',
+                                  `user_metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '文件用户元数据',
+                                  `th_metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '缩略图元数据',
+                                  `th_user_metadata` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '缩略图用户元数据',
+                                  `attr` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '附加属性',
+                                  `file_acl` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件ACL',
+                                  `th_file_acl` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '缩略图文件ACL',
+                                  `hash_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '哈希信息',
+                                  `category` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                  `tenant_id` bigint DEFAULT NULL,
+                                  `deleted` bit(1) DEFAULT b'0',
+                                  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                  `create_time` datetime DEFAULT NULL,
+                                  `last_modify_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                  `last_modify_time` datetime DEFAULT NULL,
+                                  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1998974316859228163 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文件记录表';
 
 -- ----------------------------
 -- Records of t_file_storage
 -- ----------------------------
 BEGIN;
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998970669089931265, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/693a462128a03a64591b9433.vsix', 1399063, '1.33 MB', '693a462128a03a64591b9433.vsix', 'codepool-1.0.32.vsix', 'dev/', '', 'vsix', 'application/octet-stream', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'OTHER', 1, b'1', '1', '平台管理员', '2025-12-11 12:18:41', '1', '平台管理员', '2025-12-11 12:22:46');
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998971035697152001, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/693a467828a0c534f08220d9.png', 3906621, '3.73 MB', '693a467828a0c534f08220d9.png', '新对话.png', 'dev/', '', 'png', 'image/png', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'IMAGE', 1, b'0', '1', '平台管理员', '2025-12-11 12:20:08', NULL, NULL, NULL);
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998972795144765442, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/693a481c28a0c534f08220da.xlsx', 24327, '23.76 KB', '693a481c28a0c534f08220da.xlsx', '进出存管理导出 (4).xlsx', 'dev/', '', 'xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'DOCUMENT', 1, b'0', '1', '平台管理员', '2025-12-11 12:27:08', NULL, NULL, NULL);
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998973945210339330, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/693a492e28a0c534f08220db.docx', 197822, '193.19 KB', '693a492e28a0c534f08220db.docx', '1【Alita】数据合规审核意见（初稿）-20251208V2 (1).docx', 'dev/', '', 'docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'DOCUMENT', 1, b'1', '1', '平台管理员', '2025-12-11 12:31:42', '1', '平台管理员', '2025-12-11 12:33:07');
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998973961937223682, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/693a493228a0c534f08220dc.pdf', 60913, '59.49 KB', '693a493228a0c534f08220dc.pdf', 'X-API-Invoice-620986 (1).pdf', 'dev/', '', 'pdf', 'application/pdf', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'DOCUMENT', 1, b'0', '1', '平台管理员', '2025-12-11 12:31:46', NULL, NULL, NULL);
+INSERT INTO `t_file_storage` (`id`, `platform`, `url`, `size`, `format_size`, `filename`, `original_filename`, `base_path`, `path`, `ext`, `content_type`, `th_url`, `th_filename`, `th_size`, `th_content_type`, `object_id`, `object_type`, `metadata`, `user_metadata`, `th_metadata`, `th_user_metadata`, `attr`, `file_acl`, `th_file_acl`, `hash_info`, `category`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998974316859228162, 's3-wp-local', 'http://127.0.0.1:19000/wp-local/dev/693a498628a0c534f08220dd.docx', 204766, '199.97 KB', '693a498628a0c534f08220dd.docx', '【Alita】数据合规审核意见（初稿）-20251208V2 (1).docx', 'dev/', '', 'docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', NULL, NULL, NULL, NULL, NULL, NULL, '{}', '{}', '{}', '{}', '{}', NULL, NULL, '{}', 'DOCUMENT', 1, b'0', '1', '平台管理员', '2025-12-11 12:33:11', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1576,26 +1799,26 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_file_storage_setting`;
 CREATE TABLE `t_file_storage_setting` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `tenant_id` bigint DEFAULT NULL,
-  `platform` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'type+bucket_name 组合',
-  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类型（七牛云、阿里云、腾讯云、Minio、其他S3）',
-  `status` tinyint DEFAULT '0' COMMENT '状态',
-  `access_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'AccessKey',
-  `secret_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'SecretKey',
-  `region` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存储区域',
-  `domain` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '域名',
-  `bucket_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存储桶',
-  `base_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基础路径',
-  `end_point` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '服务端点',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `create_time` timestamp NULL DEFAULT NULL,
-  `last_modify_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `last_modify_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                                          `id` bigint NOT NULL AUTO_INCREMENT,
+                                          `tenant_id` bigint DEFAULT NULL,
+                                          `platform` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'type+bucket_name 组合',
+                                          `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类型（七牛云、阿里云、腾讯云、Minio、其他S3）',
+                                          `status` tinyint DEFAULT '0' COMMENT '状态',
+                                          `access_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'AccessKey',
+                                          `secret_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'SecretKey',
+                                          `region` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存储区域',
+                                          `domain` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '域名',
+                                          `bucket_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存储桶',
+                                          `base_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基础路径',
+                                          `end_point` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '服务端点',
+                                          `deleted` bit(1) DEFAULT b'0',
+                                          `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                          `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                          `create_time` timestamp NULL DEFAULT NULL,
+                                          `last_modify_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                          `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                          `last_modify_time` datetime DEFAULT NULL,
+                                          PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1868599415401865218 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
@@ -1611,19 +1834,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_gateway_route`;
 CREATE TABLE `t_gateway_route` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `route_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '路由ID',
-  `uri` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '企业邮箱',
-  `order` tinyint DEFAULT '0' COMMENT '排序',
-  `predicates` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '谓语条件',
-  `filters` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '过滤器',
-  `locked` bit(1) DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `unique_route_id` (`route_id`) USING BTREE COMMENT '路由ID唯一索引'
+                                   `id` bigint NOT NULL AUTO_INCREMENT,
+                                   `route_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '路由ID',
+                                   `uri` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '企业邮箱',
+                                   `order` tinyint DEFAULT '0' COMMENT '排序',
+                                   `predicates` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '谓语条件',
+                                   `filters` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '过滤器',
+                                   `locked` bit(1) DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+                                   `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `last_modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+                                   `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人',
+                                   PRIMARY KEY (`id`) USING BTREE,
+                                   UNIQUE KEY `unique_route_id` (`route_id`) USING BTREE COMMENT '路由ID唯一索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='网关路由表';
 
 -- ----------------------------
@@ -1637,19 +1860,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_online_form_data`;
 CREATE TABLE `t_online_form_data` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `definition_key` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '业务组标识',
-  `form_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '动态表单数据',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx_business_group_key` (`definition_key`)
+                                      `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                      `definition_key` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '业务组标识',
+                                      `form_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '动态表单数据',
+                                      `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                                      `deleted` bit(1) DEFAULT b'0',
+                                      `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                                      `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                      `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                      `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
+                                      `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                      `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                      PRIMARY KEY (`id`),
+                                      KEY `idx_business_group_key` (`definition_key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1876938407108820994 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='动态表单数据表';
 
 -- ----------------------------
@@ -1667,23 +1890,23 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_online_model`;
 CREATE TABLE `t_online_model` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '标题',
-  `definition_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '定义KEY',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
-  `version` int NOT NULL DEFAULT '1' COMMENT '版本号',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
-  `form_script` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '脚本',
-  `form_schemas` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '表单配置',
-  `form_crud_config` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '表单CRUD配置',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+                                  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '标题',
+                                  `definition_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '定义KEY',
+                                  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
+                                  `version` int NOT NULL DEFAULT '1' COMMENT '版本号',
+                                  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
+                                  `form_script` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '脚本',
+                                  `form_schemas` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '表单配置',
+                                  `form_crud_config` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '表单CRUD配置',
+                                  `deleted` bit(1) DEFAULT b'0',
+                                  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                                  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
+                                  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1876935098889273347 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='在线模型表';
 
 -- ----------------------------
@@ -1699,36 +1922,36 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_tenant`;
 CREATE TABLE `t_tenant` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '租户编码',
-  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '租户名称',
-  `type` tinyint DEFAULT '0' COMMENT '0=其它,1=企业',
-  `alias` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '简称',
-  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'LOGO',
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '租户邮箱',
-  `status` bit(1) DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
-  `contact_person` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人',
-  `contact_phone` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人方式',
-  `industry` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '行业',
-  `province_id` int DEFAULT NULL COMMENT '省份',
-  `province_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省份',
-  `city_id` int DEFAULT NULL COMMENT '市',
-  `city_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市',
-  `address` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '详细地址',
-  `district_id` int DEFAULT NULL COMMENT '区县',
-  `district_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区县',
-  `credit_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '统一信用代码',
-  `legal_person_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '法人',
-  `web_site` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '企业网址',
-  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                            `id` bigint NOT NULL AUTO_INCREMENT,
+                            `code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '租户编码',
+                            `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '租户名称',
+                            `type` tinyint DEFAULT '0' COMMENT '0=其它,1=企业',
+                            `alias` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '简称',
+                            `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'LOGO',
+                            `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '租户邮箱',
+                            `status` bit(1) DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+                            `contact_person` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人',
+                            `contact_phone` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人方式',
+                            `industry` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '行业',
+                            `province_id` int DEFAULT NULL COMMENT '省份',
+                            `province_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省份',
+                            `city_id` int DEFAULT NULL COMMENT '市',
+                            `city_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市',
+                            `address` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '详细地址',
+                            `district_id` int DEFAULT NULL COMMENT '区县',
+                            `district_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区县',
+                            `credit_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '统一信用代码',
+                            `legal_person_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '法人',
+                            `web_site` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '企业网址',
+                            `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
+                            `deleted` bit(1) DEFAULT b'0',
+                            `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                            `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                            `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                            `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
+                            `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                            `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                            PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1864956411491020802 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='租户信息';
 
 -- ----------------------------
@@ -1749,27 +1972,27 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_tenant_dict`;
 CREATE TABLE `t_tenant_dict` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '雪花算法ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '编码',
-  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '名称',
-  `parent_id` bigint DEFAULT NULL COMMENT '父级ID',
-  `parent_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '上级编码',
-  `full_code_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '完整编码路径',
-  `status` bit(1) DEFAULT b'1' COMMENT '状态',
-  `readonly` bit(1) DEFAULT b'0' COMMENT '0=否；1=是；只读数据不允许删除',
-  `sequence` tinyint DEFAULT NULL COMMENT '排序',
-  `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
-  `tenant_id` bigint NOT NULL COMMENT '租户ID t_tenant.id',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_code` (`code`) USING BTREE COMMENT '租户字典索引'
-) ENGINE=InnoDB AUTO_INCREMENT=1977911359849271299 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+                                 `id` bigint NOT NULL AUTO_INCREMENT COMMENT '雪花算法ID',
+                                 `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '编码',
+                                 `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '名称',
+                                 `parent_id` bigint DEFAULT NULL COMMENT '父级ID',
+                                 `parent_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '上级编码',
+                                 `full_code_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '完整编码路径',
+                                 `status` bit(1) DEFAULT b'1' COMMENT '状态',
+                                 `readonly` bit(1) DEFAULT b'0' COMMENT '0=否；1=是；只读数据不允许删除',
+                                 `sequence` tinyint DEFAULT NULL COMMENT '排序',
+                                 `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
+                                 `tenant_id` bigint NOT NULL COMMENT '租户ID t_tenant.id',
+                                 `deleted` bit(1) DEFAULT b'0',
+                                 `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                 `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                 `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                 `last_modify_by` bigint DEFAULT NULL COMMENT '更新人ID',
+                                 `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                 `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                 PRIMARY KEY (`id`) USING BTREE,
+                                 KEY `idx_code` (`code`) USING BTREE COMMENT '租户字典索引'
+) ENGINE=InnoDB AUTO_INCREMENT=1998611247671013379 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of t_tenant_dict
@@ -1782,7 +2005,25 @@ INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `
 INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1865705185339424769, 'PAYMENT_TYPE', '付款类型', 0, NULL, 'PAYMENT_TYPE', b'1', b'1', 1, '付款类型', 1, b'0', 1, '平台管理员', '2024-12-08 18:29:14', NULL, NULL, NULL);
 INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1865705185343619074, 'PAYMENT_METHOD', '付款方法', 0, NULL, 'PAYMENT_METHOD', b'1', b'1', 1, '付款方法', 1, b'0', 1, '平台管理员', '2024-12-08 18:29:14', NULL, NULL, NULL);
 INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1865705185352007681, 'CONTRACT_SEAL_TYPE', '用印类型', 0, NULL, 'CONTRACT_SEAL_TYPE', b'1', b'1', 1, '用印类型', 1, b'0', 1, '平台管理员', '2024-12-08 18:29:14', NULL, NULL, NULL);
-INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1977911359849271298, '123', '123', 1865705185326841858, 'TENANT-DICT', NULL, b'1', b'0', 0, '12312', 1, b'1', 1, '平台管理员', '2025-10-14 09:36:31', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1977911359849271298, '123', '123', 1865705185326841858, 'TENANT-DICT', NULL, b'1', b'0', 0, '12312', 1, b'0', 1, '平台管理员', '2025-10-14 09:36:31', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998595099038470145, '123', '123', 0, NULL, '123', b'1', b'0', 99, '123', 1, b'0', 1, '平台管理员', '2025-12-10 11:26:18', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998595128939663362, '2', '2', 0, NULL, '2', b'1', b'0', 99, '2', 1, b'0', 1, '平台管理员', '2025-12-10 11:26:25', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998595142919278594, '3', '3', 0, NULL, '3', b'1', b'0', 99, '3', 1, b'0', 1, '平台管理员', '2025-12-10 11:26:29', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998595155095343105, '4', '4', 0, NULL, '4', b'1', b'0', 99, '4', 1, b'0', 1, '平台管理员', '2025-12-10 11:26:32', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998595168181571585, '5', '5', 0, NULL, '5', b'1', b'0', 99, '5', 1, b'0', 1, '平台管理员', '2025-12-10 11:26:35', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998606127377829890, '123', '123', 1865705185326841858, 'TENANT-DICT', NULL, b'1', b'0', 0, '123', 1, b'0', 1, '平台管理员', '2025-12-10 12:10:08', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998606144087937026, '12312', '123', 1865705185326841858, 'TENANT-DICT', NULL, b'1', b'0', 0, '231', 1, b'0', 1, '平台管理员', '2025-12-10 12:10:12', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998606183573114881, '123123', '123', 1865705185326841858, 'TENANT-DICT', NULL, b'1', b'0', 0, '123321', 1, b'0', 1, '平台管理员', '2025-12-10 12:10:21', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998606197338820610, '213123', '123', 1865705185326841858, 'TENANT-DICT', NULL, b'1', b'0', 0, '213', 1, b'0', 1, '平台管理员', '2025-12-10 12:10:24', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998606663057559554, '22', '22', 1865705185326841858, 'TENANT-DICT', NULL, b'1', b'0', 0, '22', 1, b'0', 1, '平台管理员', '2025-12-10 12:12:15', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998606678719090690, '222', '222', 1865705185326841858, 'TENANT-DICT', NULL, b'1', b'0', 0, '222', 1, b'0', 1, '平台管理员', '2025-12-10 12:12:19', 1, '平台管理员', '2025-12-10 12:16:41');
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998608013766041602, '55', '55', 1998595168181571585, '5', NULL, b'1', b'0', 0, '55', 1, b'0', 1, '平台管理员', '2025-12-10 12:17:37', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998608031013019650, '25', '25', 1998595168181571585, '5', NULL, b'1', b'0', 0, '25', 1, b'0', 1, '平台管理员', '2025-12-10 12:17:42', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998608979089420289, '11', '1', 1998595168181571585, '5', NULL, b'1', b'0', 0, '11', 1, b'0', 1, '平台管理员', '2025-12-10 12:21:28', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998610563470979073, '123123', '1231', 1998595155095343105, '4', NULL, b'1', b'0', 0, '3123', 1, b'0', 1, '平台管理员', '2025-12-10 12:27:45', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998610792110878722, '123', '123', 1998595142919278594, '3', NULL, b'1', b'0', 0, '123', 1, b'0', 1, '平台管理员', '2025-12-10 12:28:40', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998610904849575938, '123', '123', 1998595128939663362, '2', NULL, b'1', b'0', 0, '123', 1, b'0', 1, '平台管理员', '2025-12-10 12:29:07', NULL, NULL, NULL);
+INSERT INTO `t_tenant_dict` (`id`, `code`, `name`, `parent_id`, `parent_code`, `full_code_path`, `status`, `readonly`, `sequence`, `description`, `tenant_id`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1998611247671013378, '123', '123', 1998595099038470145, '123', NULL, b'1', b'0', 0, '123', 1, b'0', 1, '平台管理员', '2025-12-10 12:30:29', NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1790,21 +2031,21 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_tenant_setting`;
 CREATE TABLE `t_tenant_setting` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `tenant_id` bigint NOT NULL COMMENT '租户ID',
-  `site_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '站点',
-  `site_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '站点标题',
-  `site_sub_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '子标题',
-  `site_logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'LOGO',
-  `db_id` bigint DEFAULT NULL,
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT NULL,
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `last_modify_by` bigint DEFAULT NULL,
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `last_modify_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                                    `id` bigint NOT NULL AUTO_INCREMENT,
+                                    `tenant_id` bigint NOT NULL COMMENT '租户ID',
+                                    `site_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '站点',
+                                    `site_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '站点标题',
+                                    `site_sub_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '子标题',
+                                    `site_logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'LOGO',
+                                    `db_id` bigint DEFAULT NULL,
+                                    `deleted` bit(1) DEFAULT b'0',
+                                    `create_by` bigint DEFAULT NULL,
+                                    `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                    `create_time` datetime DEFAULT NULL,
+                                    `last_modify_by` bigint DEFAULT NULL,
+                                    `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                    `last_modify_time` datetime DEFAULT NULL,
+                                    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='租户配置信息';
 
 -- ----------------------------
@@ -1821,43 +2062,43 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '账号',
-  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '密码',
-  `nick_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '昵称',
-  `org_id` bigint DEFAULT NULL COMMENT '组织ID',
-  `position_id` bigint DEFAULT NULL COMMENT '岗位ID',
-  `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否内置',
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮箱',
-  `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '手机',
-  `id_card` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证',
-  `sex` tinyint DEFAULT '1' COMMENT '性别',
-  `status` bit(1) DEFAULT b'0' COMMENT '状态 \n1启用 0禁用',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '头像',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
-  `nation` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '民族',
-  `education` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '学历',
-  `position_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '职位状态',
-  `birthday` date DEFAULT NULL COMMENT '生日',
-  `last_login_ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最后一次登录IP',
-  `last_login_time` datetime DEFAULT NULL COMMENT '最后一次登录时间',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UN_ACCOUNT_TENANT` (`username`,`tenant_id`) USING BTREE COMMENT '账号唯一约束'
+                          `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                          `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                          `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '账号',
+                          `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '密码',
+                          `nick_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '昵称',
+                          `org_id` bigint DEFAULT NULL COMMENT '组织ID',
+                          `position_id` bigint DEFAULT NULL COMMENT '岗位ID',
+                          `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否内置',
+                          `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮箱',
+                          `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '手机',
+                          `id_card` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证',
+                          `sex` tinyint DEFAULT '1' COMMENT '性别',
+                          `status` bit(1) DEFAULT b'0' COMMENT '状态 \n1启用 0禁用',
+                          `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '' COMMENT '头像',
+                          `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
+                          `nation` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '民族',
+                          `education` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '学历',
+                          `position_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '职位状态',
+                          `birthday` date DEFAULT NULL COMMENT '生日',
+                          `last_login_ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最后一次登录IP',
+                          `last_login_time` datetime DEFAULT NULL COMMENT '最后一次登录时间',
+                          `deleted` bit(1) DEFAULT b'0',
+                          `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                          `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                          `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                          `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
+                          `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                          `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                          PRIMARY KEY (`id`) USING BTREE,
+                          UNIQUE KEY `UN_ACCOUNT_TENANT` (`username`,`tenant_id`) USING BTREE COMMENT '账号唯一约束'
 ) ENGINE=InnoDB AUTO_INCREMENT=1976167146983702530 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户';
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '平台管理员', 100, 100, b'0', '1837307557@qq.com', '13002171111', '000000000000000000', 1, b'1', 'http://127.0.0.1:19000/wp-local/dev/6766346cd59052dfcedc7531.png', '平台最帅的超级管理员', 'mz_daiz', 'SUOSHI', 'QUIT', '2023-10-14', '127.0.0.1', '2025-12-09 10:31:18', b'0', 0, '系统管理员', '2020-10-16 03:25:36', NULL, NULL, NULL);
+INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (1, 1, 'admin', '{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K', '平台管理员', 100, 100, b'0', '1837307557@qq.com', '13002171111', '000000000000000000', 1, b'1', 'http://127.0.0.1:19000/wp-local/dev/6766346cd59052dfcedc7531.png', '平台最帅的超级管理员', 'mz_daiz', 'SUOSHI', 'QUIT', '2023-10-14', '192.168.12.149', '2025-12-10 16:06:42', b'0', 0, '系统管理员', '2020-10-16 03:25:36', NULL, NULL, NULL);
 INSERT INTO `t_user` (`id`, `tenant_id`, `username`, `password`, `nick_name`, `org_id`, `position_id`, `readonly`, `email`, `mobile`, `id_card`, `sex`, `status`, `avatar`, `description`, `nation`, `education`, `position_status`, `birthday`, `last_login_ip`, `last_login_time`, `deleted`, `create_by`, `create_name`, `create_time`, `last_modify_by`, `last_modify_name`, `last_modify_time`) VALUES (2, 1, 'test', '{bcrypt}$2a$10$j1U0rIRl8ODzc2j5rkLx8OSvjjEZ.cJ/Xe8DzkqL2jgAyX2c3x.4C', '测试管理员', 1001, 100, b'0', '1837307557@qq.com', '13002171921', '000000000000000000', 1, b'0', '', '测试管理员', 'mz_daiz', 'SUOSHI', 'QUIT', '2023-10-14', NULL, NULL, b'0', 0, '系统管理员', '2022-12-04 08:05:29', 0, '系统管理员', '2025-10-09 06:14:06');
 COMMIT;
 
@@ -1866,27 +2107,27 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user_third_account`;
 CREATE TABLE `t_user_third_account` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键 ID',
-  `user_id` bigint DEFAULT NULL COMMENT '用户ID',
-  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '平台类型',
-  `account_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '第三方平台用户唯一标识',
-  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '用户名',
-  `nickname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '昵称',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '用户邮箱',
-  `avatar` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '用户头像 URL',
-  `access_token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '访问令牌',
-  `refresh_token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '刷新令牌',
-  `token_expire_time` datetime DEFAULT NULL COMMENT '令牌过期时间',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT '0' COMMENT '创建人id',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_user_platform` (`type`,`account_id`),
-  KEY `idx_create_time` (`create_time`)
+                                        `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键 ID',
+                                        `user_id` bigint DEFAULT NULL COMMENT '用户ID',
+                                        `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '平台类型',
+                                        `account_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '第三方平台用户唯一标识',
+                                        `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '用户名',
+                                        `nickname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '昵称',
+                                        `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '用户邮箱',
+                                        `avatar` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '用户头像 URL',
+                                        `access_token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '访问令牌',
+                                        `refresh_token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '刷新令牌',
+                                        `token_expire_time` datetime DEFAULT NULL COMMENT '令牌过期时间',
+                                        `deleted` bit(1) DEFAULT b'0',
+                                        `create_by` bigint DEFAULT '0' COMMENT '创建人id',
+                                        `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                        `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                        `last_modify_by` bigint DEFAULT '0' COMMENT '更新人id',
+                                        `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                        `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                        PRIMARY KEY (`id`),
+                                        UNIQUE KEY `idx_user_platform` (`type`,`account_id`),
+                                        KEY `idx_create_time` (`create_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1875008671508062211 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='第三方授权账户表';
 
 -- ----------------------------
@@ -1901,26 +2142,26 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_accident`;
 CREATE TABLE `tms_accident` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '事故ID',
-  `accident_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '事故编号',
-  `truck_id` bigint DEFAULT NULL COMMENT '卡车ID',
-  `plate_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号',
-  `driver_id` bigint DEFAULT NULL COMMENT '驾驶员ID',
-  `driver_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶员姓名',
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '事故地点',
-  `responsible_party` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '责任方',
-  `accident_amount` decimal(10,2) NOT NULL COMMENT '事故金额',
-  `accident_date` date DEFAULT NULL COMMENT '事故日期',
-  `agent_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '经办人姓名',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '修改人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                `id` bigint NOT NULL AUTO_INCREMENT COMMENT '事故ID',
+                                `accident_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '事故编号',
+                                `truck_id` bigint DEFAULT NULL COMMENT '卡车ID',
+                                `plate_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号',
+                                `driver_id` bigint DEFAULT NULL COMMENT '驾驶员ID',
+                                `driver_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶员姓名',
+                                `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '事故地点',
+                                `responsible_party` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '责任方',
+                                `accident_amount` decimal(10,2) NOT NULL COMMENT '事故金额',
+                                `accident_date` date DEFAULT NULL COMMENT '事故日期',
+                                `agent_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '经办人姓名',
+                                `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+                                `deleted` bit(1) DEFAULT b'0',
+                                `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                `last_modify_by` bigint DEFAULT NULL COMMENT '修改人ID',
+                                `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1739954453250420738 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='车辆事故表';
 
 -- ----------------------------
@@ -1936,48 +2177,48 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_driver`;
 CREATE TABLE `tms_driver` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '驾驶员ID',
-  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-  `id_card_no` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证号',
-  `id_card_start_date` date DEFAULT NULL COMMENT '身份证有效期开始日期',
-  `id_card_end_date` date DEFAULT NULL COMMENT '身份证有效期结束日期',
-  `license_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证号',
-  `license_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证类型',
-  `driver_license_start` date DEFAULT NULL COMMENT '驾驶证有效期开始日期',
-  `driver_license_end` date DEFAULT NULL COMMENT '驾驶证有效期结束日期',
-  `driver_license_issue_org` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证发放机关',
-  `certificate_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '证书编号',
-  `certificate_start` date DEFAULT NULL COMMENT '证书有效期开始日期',
-  `certificate_end` date DEFAULT NULL COMMENT '证书有效期结束日期',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
-  `enabled` tinyint(1) DEFAULT NULL COMMENT '启用状态',
-  `file_portrait_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '人像照片ID',
-  `file_id_card_front` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证正面照片ID',
-  `file_id_card_back` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证背面照片ID',
-  `file_driver_license` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证照片ID',
-  `file_certificate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '证书照片ID',
-  `file_other` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '其他照片ID',
-  `real_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '真实姓名',
-  `mobile` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '手机号',
-  `adapt_id_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '适用证件号',
-  `driver_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶员类型',
-  `default_truck_id` bigint DEFAULT NULL COMMENT '默认车辆ID',
-  `adapt_id_issue_date` date DEFAULT NULL COMMENT '适用证件发放日期',
-  `adapt_id_due_date` date DEFAULT NULL COMMENT '适用证件有效期至',
-  `file_adapt_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '适用证件照片ID',
-  `approval_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批状态',
-  `bpm_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'BPM状态',
-  `approval_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批用户ID',
-  `approval_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批用户名',
-  `approval_desc` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '审批描述',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+                              `id` bigint NOT NULL AUTO_INCREMENT COMMENT '驾驶员ID',
+                              `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                              `id_card_no` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证号',
+                              `id_card_start_date` date DEFAULT NULL COMMENT '身份证有效期开始日期',
+                              `id_card_end_date` date DEFAULT NULL COMMENT '身份证有效期结束日期',
+                              `license_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证号',
+                              `license_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证类型',
+                              `driver_license_start` date DEFAULT NULL COMMENT '驾驶证有效期开始日期',
+                              `driver_license_end` date DEFAULT NULL COMMENT '驾驶证有效期结束日期',
+                              `driver_license_issue_org` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证发放机关',
+                              `certificate_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '证书编号',
+                              `certificate_start` date DEFAULT NULL COMMENT '证书有效期开始日期',
+                              `certificate_end` date DEFAULT NULL COMMENT '证书有效期结束日期',
+                              `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
+                              `enabled` tinyint(1) DEFAULT NULL COMMENT '启用状态',
+                              `file_portrait_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '人像照片ID',
+                              `file_id_card_front` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证正面照片ID',
+                              `file_id_card_back` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '身份证背面照片ID',
+                              `file_driver_license` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证照片ID',
+                              `file_certificate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '证书照片ID',
+                              `file_other` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '其他照片ID',
+                              `real_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '真实姓名',
+                              `mobile` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '手机号',
+                              `adapt_id_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '适用证件号',
+                              `driver_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶员类型',
+                              `default_truck_id` bigint DEFAULT NULL COMMENT '默认车辆ID',
+                              `adapt_id_issue_date` date DEFAULT NULL COMMENT '适用证件发放日期',
+                              `adapt_id_due_date` date DEFAULT NULL COMMENT '适用证件有效期至',
+                              `file_adapt_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '适用证件照片ID',
+                              `approval_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批状态',
+                              `bpm_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'BPM状态',
+                              `approval_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批用户ID',
+                              `approval_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批用户名',
+                              `approval_desc` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '审批描述',
+                              `deleted` bit(1) DEFAULT b'0',
+                              `create_by` bigint NOT NULL COMMENT '创建人ID',
+                              `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                              `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                              `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                              `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                              `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                              PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1698999611146285058 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='司机信息表';
 
 -- ----------------------------
@@ -1992,24 +2233,24 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_expense`;
 CREATE TABLE `tms_expense` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `expense_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '费用编号',
-  `expense_item` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '费用项目',
-  `truck_id` bigint DEFAULT NULL COMMENT '卡车ID',
-  `plate_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号',
-  `expiry_date` date DEFAULT NULL COMMENT '到期日期',
-  `amount` decimal(10,2) DEFAULT NULL COMMENT '金额',
-  `handling_date` date DEFAULT NULL COMMENT '管理日期',
-  `agent_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '经办人姓名',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '修改人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                               `expense_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '费用编号',
+                               `expense_item` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '费用项目',
+                               `truck_id` bigint DEFAULT NULL COMMENT '卡车ID',
+                               `plate_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号',
+                               `expiry_date` date DEFAULT NULL COMMENT '到期日期',
+                               `amount` decimal(10,2) DEFAULT NULL COMMENT '金额',
+                               `handling_date` date DEFAULT NULL COMMENT '管理日期',
+                               `agent_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '经办人姓名',
+                               `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+                               `deleted` bit(1) DEFAULT b'0',
+                               `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                               `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                               `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                               `last_modify_by` bigint DEFAULT NULL COMMENT '修改人ID',
+                               `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                               `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1739953184926445571 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='费用表';
 
 -- ----------------------------
@@ -2026,21 +2267,21 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_fleet`;
 CREATE TABLE `tms_fleet` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '车辆ID',
-  `leader_real_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '队长姓名',
-  `leader_mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '队长手机号',
-  `leader_user_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '队长用户ID',
-  `fleet_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车队名称',
-  `remark` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
-  `enabled` bit(1) DEFAULT b'1' COMMENT 'true = 启用/ false = 禁用',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '修改人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+                             `id` bigint NOT NULL AUTO_INCREMENT COMMENT '车辆ID',
+                             `leader_real_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '队长姓名',
+                             `leader_mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '队长手机号',
+                             `leader_user_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '队长用户ID',
+                             `fleet_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车队名称',
+                             `remark` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+                             `enabled` bit(1) DEFAULT b'1' COMMENT 'true = 启用/ false = 禁用',
+                             `deleted` bit(1) DEFAULT b'0',
+                             `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                             `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                             `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                             `last_modify_by` bigint DEFAULT NULL COMMENT '修改人ID',
+                             `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                             `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                             PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1739849003846684674 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='运输车队';
 
 -- ----------------------------
@@ -2056,51 +2297,51 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_order`;
 CREATE TABLE `tms_order` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `custom_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '客户单号',
-  `order_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '平台订单号;系统自动生成',
-  `waybill_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '运输单号',
-  `project_id` bigint NOT NULL COMMENT '项目id(dic_project.id)',
-  `project_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '项目名称(dic_project.name)',
-  `transport_type` int NOT NULL DEFAULT '0' COMMENT '运输方式(dic_transport_type.id)',
-  `cargo_desc` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '货物信息',
-  `quantity` int NOT NULL DEFAULT '0' COMMENT '总数量',
-  `detail_quantity` int DEFAULT '0' COMMENT '订单明细数量',
-  `gross_weight` decimal(20,5) DEFAULT '0.00000' COMMENT '毛重',
-  `volume` decimal(20,5) DEFAULT '0.00000' COMMENT '体积',
-  `qty_unit` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单位',
-  `check_quantity` int DEFAULT '0' COMMENT '确认数量',
-  `check_weight` decimal(20,5) DEFAULT '0.00000' COMMENT '确认重量',
-  `check_volume` decimal(20,5) DEFAULT '0.00000' COMMENT '确认体积',
-  `declare_value` decimal(20,2) DEFAULT '0.00' COMMENT '声明价值',
-  `etd` datetime DEFAULT NULL COMMENT '预计发货时间',
-  `atd` datetime DEFAULT NULL COMMENT '实际发货时间',
-  `eta` datetime DEFAULT NULL COMMENT '预计到达时间',
-  `ata` datetime DEFAULT NULL COMMENT '实际到达时间',
-  `pick_time` datetime DEFAULT NULL COMMENT '提货时间',
-  `pod_time` datetime DEFAULT NULL COMMENT '签收时间',
-  `latest_event_type` int DEFAULT '0' COMMENT '最后一个节点类型(dic_event_type.id)',
-  `latest_event_id` bigint DEFAULT NULL COMMENT '最后一个节点id(tms_order_event.id)',
-  `order_status` int NOT NULL DEFAULT '0' COMMENT '订单状态:-10取消,0新建,10提货,20到达始发站,30离开始发站,40到达目的站,50离开目的站,60签收,70回单,80完成',
-  `remark` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '订单备注',
-  `operator_id` bigint DEFAULT '0' COMMENT '操作人员ID(user.id)',
-  `transport_line_id` bigint DEFAULT '0' COMMENT '运输线路id(tms_transport_line.id)',
-  `has_epod` bit(1) DEFAULT b'0' COMMENT '是否有电子回单',
-  `source_type` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `oo_system_no` (`custom_no`) USING BTREE,
-  KEY `oo_order_no` (`order_no`) USING BTREE,
-  KEY `oo_waybill_no` (`waybill_no`) USING BTREE,
-  KEY `oo_operator_id` (`operator_id`) USING BTREE,
-  KEY `oo_project_id` (`project_id`) USING BTREE,
-  KEY `oo_latest_event_type` (`latest_event_type`) USING BTREE
+                             `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+                             `custom_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '客户单号',
+                             `order_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '平台订单号;系统自动生成',
+                             `waybill_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '运输单号',
+                             `project_id` bigint NOT NULL COMMENT '项目id(dic_project.id)',
+                             `project_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '项目名称(dic_project.name)',
+                             `transport_type` int NOT NULL DEFAULT '0' COMMENT '运输方式(dic_transport_type.id)',
+                             `cargo_desc` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '货物信息',
+                             `quantity` int NOT NULL DEFAULT '0' COMMENT '总数量',
+                             `detail_quantity` int DEFAULT '0' COMMENT '订单明细数量',
+                             `gross_weight` decimal(20,5) DEFAULT '0.00000' COMMENT '毛重',
+                             `volume` decimal(20,5) DEFAULT '0.00000' COMMENT '体积',
+                             `qty_unit` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单位',
+                             `check_quantity` int DEFAULT '0' COMMENT '确认数量',
+                             `check_weight` decimal(20,5) DEFAULT '0.00000' COMMENT '确认重量',
+                             `check_volume` decimal(20,5) DEFAULT '0.00000' COMMENT '确认体积',
+                             `declare_value` decimal(20,2) DEFAULT '0.00' COMMENT '声明价值',
+                             `etd` datetime DEFAULT NULL COMMENT '预计发货时间',
+                             `atd` datetime DEFAULT NULL COMMENT '实际发货时间',
+                             `eta` datetime DEFAULT NULL COMMENT '预计到达时间',
+                             `ata` datetime DEFAULT NULL COMMENT '实际到达时间',
+                             `pick_time` datetime DEFAULT NULL COMMENT '提货时间',
+                             `pod_time` datetime DEFAULT NULL COMMENT '签收时间',
+                             `latest_event_type` int DEFAULT '0' COMMENT '最后一个节点类型(dic_event_type.id)',
+                             `latest_event_id` bigint DEFAULT NULL COMMENT '最后一个节点id(tms_order_event.id)',
+                             `order_status` int NOT NULL DEFAULT '0' COMMENT '订单状态:-10取消,0新建,10提货,20到达始发站,30离开始发站,40到达目的站,50离开目的站,60签收,70回单,80完成',
+                             `remark` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '订单备注',
+                             `operator_id` bigint DEFAULT '0' COMMENT '操作人员ID(user.id)',
+                             `transport_line_id` bigint DEFAULT '0' COMMENT '运输线路id(tms_transport_line.id)',
+                             `has_epod` bit(1) DEFAULT b'0' COMMENT '是否有电子回单',
+                             `source_type` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+                             `deleted` bit(1) DEFAULT b'0',
+                             `create_by` bigint NOT NULL COMMENT '创建人ID',
+                             `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                             `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                             `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                             `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                             `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                             PRIMARY KEY (`id`) USING BTREE,
+                             KEY `oo_system_no` (`custom_no`) USING BTREE,
+                             KEY `oo_order_no` (`order_no`) USING BTREE,
+                             KEY `oo_waybill_no` (`waybill_no`) USING BTREE,
+                             KEY `oo_operator_id` (`operator_id`) USING BTREE,
+                             KEY `oo_project_id` (`project_id`) USING BTREE,
+                             KEY `oo_latest_event_type` (`latest_event_type`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1775347830765010946 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单表';
 
 -- ----------------------------
@@ -2125,37 +2366,37 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_order_address`;
 CREATE TABLE `tms_order_address` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `order_id` bigint NOT NULL COMMENT '订单ID(tms_order.id)',
-  `company` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公司/商店/站点名称',
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人姓名',
-  `phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '固定电话',
-  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '手机',
-  `province_id` int DEFAULT NULL COMMENT '省份',
-  `province_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省份',
-  `city_id` int DEFAULT NULL COMMENT '市',
-  `city_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市',
-  `district_id` int DEFAULT NULL COMMENT '区县',
-  `district_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区县',
-  `address` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '详细地址',
-  `warehouse` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '幢/码头/库位',
-  `position` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '幢号/码头号/库位号',
-  `sys_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '地图解析的编码',
-  `sys_province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的省份',
-  `sys_city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的城市',
-  `sys_district` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的区县',
-  `longitude` decimal(20,6) DEFAULT '0.000000' COMMENT '地理经度',
-  `latitude` decimal(20,6) DEFAULT '0.000000' COMMENT '地理纬度',
-  `type` int DEFAULT '0' COMMENT '地址类型(0=发;1=收)',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `oc_order_id` (`order_id`) USING BTREE
+                                     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+                                     `order_id` bigint NOT NULL COMMENT '订单ID(tms_order.id)',
+                                     `company` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公司/商店/站点名称',
+                                     `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人姓名',
+                                     `phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '固定电话',
+                                     `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '手机',
+                                     `province_id` int DEFAULT NULL COMMENT '省份',
+                                     `province_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省份',
+                                     `city_id` int DEFAULT NULL COMMENT '市',
+                                     `city_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市',
+                                     `district_id` int DEFAULT NULL COMMENT '区县',
+                                     `district_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区县',
+                                     `address` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '详细地址',
+                                     `warehouse` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '幢/码头/库位',
+                                     `position` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '幢号/码头号/库位号',
+                                     `sys_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '地图解析的编码',
+                                     `sys_province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的省份',
+                                     `sys_city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的城市',
+                                     `sys_district` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的区县',
+                                     `longitude` decimal(20,6) DEFAULT '0.000000' COMMENT '地理经度',
+                                     `latitude` decimal(20,6) DEFAULT '0.000000' COMMENT '地理纬度',
+                                     `type` int DEFAULT '0' COMMENT '地址类型(0=发;1=收)',
+                                     `deleted` bit(1) DEFAULT b'0',
+                                     `create_by` bigint NOT NULL COMMENT '创建人ID',
+                                     `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                                     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                     `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                     `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                     `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                     PRIMARY KEY (`id`) USING BTREE,
+                                     KEY `oc_order_id` (`order_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1775347830794371074 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单发货人表';
 
 -- ----------------------------
@@ -2215,36 +2456,36 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_order_consignee`;
 CREATE TABLE `tms_order_consignee` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `order_id` bigint NOT NULL COMMENT '订单ID(tms_order.id)',
-  `company` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公司/商店/站点名称',
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人姓名',
-  `phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '固定电话',
-  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '手机',
-  `province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省份',
-  `city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '城市',
-  `district` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区县',
-  `street` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '街道',
-  `address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '地址',
-  `warehouse` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '幢/码头/库位',
-  `position` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '幢号/码头号/库位号',
-  `sys_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '地图解析的编码',
-  `sys_province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的省份',
-  `sys_city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的城市',
-  `sys_district` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的区县',
-  `longitude` decimal(20,6) DEFAULT '0.000000' COMMENT '地理经度',
-  `latitude` decimal(20,6) DEFAULT '0.000000' COMMENT '地理纬度',
-  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
-  `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `oc_order_id` (`order_id`) USING BTREE
+                                       `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+                                       `order_id` bigint NOT NULL COMMENT '订单ID(tms_order.id)',
+                                       `company` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公司/商店/站点名称',
+                                       `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人姓名',
+                                       `phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '固定电话',
+                                       `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '手机',
+                                       `province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省份',
+                                       `city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '城市',
+                                       `district` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区县',
+                                       `street` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '街道',
+                                       `address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '地址',
+                                       `warehouse` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '幢/码头/库位',
+                                       `position` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '幢号/码头号/库位号',
+                                       `sys_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '地图解析的编码',
+                                       `sys_province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的省份',
+                                       `sys_city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的城市',
+                                       `sys_district` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '地图解析的区县',
+                                       `longitude` decimal(20,6) DEFAULT '0.000000' COMMENT '地理经度',
+                                       `latitude` decimal(20,6) DEFAULT '0.000000' COMMENT '地理纬度',
+                                       `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+                                       `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+                                       `deleted` bit(1) DEFAULT b'0',
+                                       `create_by` bigint NOT NULL COMMENT '创建人ID',
+                                       `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                                       `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                       `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                       `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                       `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                       PRIMARY KEY (`id`) USING BTREE,
+                                       KEY `oc_order_id` (`order_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1707711819457609730 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单收货人表';
 
 -- ----------------------------
@@ -2267,39 +2508,39 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_order_event`;
 CREATE TABLE `tms_order_event` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `order_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
-  `system_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '平台单号(tms_order.system_number)',
-  `province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省份',
-  `city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '城市',
-  `district` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区县',
-  `longitude` decimal(20,6) DEFAULT '0.000000' COMMENT '经度',
-  `latitude` decimal(20,6) DEFAULT '0.000000' COMMENT '纬度',
-  `record_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录时间',
-  `event_type` int NOT NULL DEFAULT '0' COMMENT '节点状态ID(dic_event_type.id)',
-  `operator_id` bigint DEFAULT '0' COMMENT '操作人员ID(user.id)',
-  `remark` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '节点备注',
-  `quantity` int NOT NULL DEFAULT '0' COMMENT '总数量',
-  `gross_weight` decimal(20,5) DEFAULT '0.00000' COMMENT '毛重',
-  `volume` decimal(20,5) DEFAULT '0.00000' COMMENT '体积',
-  `sku_id` bigint DEFAULT NULL COMMENT '订单货物ID(tms_order_sku.id)',
-  `station_id` bigint DEFAULT NULL COMMENT '站点ID(tms_station.id)',
-  `task_id` bigint DEFAULT NULL COMMENT '任务ID(tms_task.id)',
-  `driver_id` bigint DEFAULT NULL COMMENT '司机ID(tms_driver.id)',
-  `driver_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机姓名(tms_driver.name)',
-  `driver_mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机手机号(tms_driver.mobile)',
-  `truck_id` bigint DEFAULT NULL COMMENT '车辆id(tms_truck.id)',
-  `plate_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号(tms_truck.plate_number)',
-  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
-  `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `event_order_id` (`order_id`) USING BTREE
+                                   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+                                   `order_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
+                                   `system_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '平台单号(tms_order.system_number)',
+                                   `province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省份',
+                                   `city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '城市',
+                                   `district` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区县',
+                                   `longitude` decimal(20,6) DEFAULT '0.000000' COMMENT '经度',
+                                   `latitude` decimal(20,6) DEFAULT '0.000000' COMMENT '纬度',
+                                   `record_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录时间',
+                                   `event_type` int NOT NULL DEFAULT '0' COMMENT '节点状态ID(dic_event_type.id)',
+                                   `operator_id` bigint DEFAULT '0' COMMENT '操作人员ID(user.id)',
+                                   `remark` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '节点备注',
+                                   `quantity` int NOT NULL DEFAULT '0' COMMENT '总数量',
+                                   `gross_weight` decimal(20,5) DEFAULT '0.00000' COMMENT '毛重',
+                                   `volume` decimal(20,5) DEFAULT '0.00000' COMMENT '体积',
+                                   `sku_id` bigint DEFAULT NULL COMMENT '订单货物ID(tms_order_sku.id)',
+                                   `station_id` bigint DEFAULT NULL COMMENT '站点ID(tms_station.id)',
+                                   `task_id` bigint DEFAULT NULL COMMENT '任务ID(tms_task.id)',
+                                   `driver_id` bigint DEFAULT NULL COMMENT '司机ID(tms_driver.id)',
+                                   `driver_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机姓名(tms_driver.name)',
+                                   `driver_mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机手机号(tms_driver.mobile)',
+                                   `truck_id` bigint DEFAULT NULL COMMENT '车辆id(tms_truck.id)',
+                                   `plate_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号(tms_truck.plate_number)',
+                                   `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+                                   `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+                                   `create_by` bigint NOT NULL COMMENT '创建人ID',
+                                   `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                                   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                   `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                   `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                   PRIMARY KEY (`id`) USING BTREE,
+                                   KEY `event_order_id` (`order_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1707640174810255363 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单节点表';
 
 -- ----------------------------
@@ -2323,21 +2564,21 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_order_event_file`;
 CREATE TABLE `tms_order_event_file` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `order_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
-  `event_id` bigint NOT NULL DEFAULT '0' COMMENT '订单节点ID(tms_order_event.id)',
-  `file_id` bigint NOT NULL DEFAULT '0' COMMENT '订单节点ID(tms_order_event.id)',
-  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
-  `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `event_order_id` (`order_id`) USING BTREE,
-  KEY `event_event_id` (`event_id`) USING BTREE
+                                        `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+                                        `order_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
+                                        `event_id` bigint NOT NULL DEFAULT '0' COMMENT '订单节点ID(tms_order_event.id)',
+                                        `file_id` bigint NOT NULL DEFAULT '0' COMMENT '订单节点ID(tms_order_event.id)',
+                                        `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+                                        `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+                                        `create_by` bigint NOT NULL COMMENT '创建人ID',
+                                        `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                                        `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                        `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                        `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                        `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                        PRIMARY KEY (`id`) USING BTREE,
+                                        KEY `event_order_id` (`order_id`) USING BTREE,
+                                        KEY `event_event_id` (`event_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1707641509819514883 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单节点文件表';
 
 -- ----------------------------
@@ -2354,19 +2595,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_order_file`;
 CREATE TABLE `tms_order_file` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `order_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
-  `file_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
-  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
-  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `event_order_id` (`order_id`) USING BTREE
+                                  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+                                  `order_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
+                                  `file_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
+                                  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+                                  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+                                  `create_by` bigint NOT NULL COMMENT '创建人ID',
+                                  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                                  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                  PRIMARY KEY (`id`) USING BTREE,
+                                  KEY `event_order_id` (`order_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单文件表';
 
 -- ----------------------------
@@ -2380,33 +2621,33 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_order_sku`;
 CREATE TABLE `tms_order_sku` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `order_id` bigint NOT NULL COMMENT '订单ID(tms_order.id)',
-  `sku_master_id` bigint DEFAULT NULL COMMENT '货物规格id(dic_sku_master.id)',
-  `item_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '货号',
-  `box_no` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '箱号',
-  `cargo_desc` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '货物信息',
-  `al` decimal(20,2) DEFAULT NULL COMMENT '长',
-  `aw` decimal(20,2) DEFAULT NULL COMMENT '宽',
-  `ah` decimal(20,2) DEFAULT NULL COMMENT '高',
-  `quantity` int DEFAULT NULL COMMENT '数量',
-  `weight` decimal(20,5) DEFAULT NULL COMMENT '毛重',
-  `volume` decimal(20,5) DEFAULT NULL COMMENT '体积',
-  `qty_unit` int DEFAULT NULL COMMENT '单位',
-  `remark` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '货物备注',
-  `check_quantity` int DEFAULT '0' COMMENT '确认数量',
-  `check_weight` decimal(20,5) DEFAULT '0.00000' COMMENT '确认重量',
-  `check_volume` decimal(20,5) DEFAULT '0.00000' COMMENT '确认体积',
-  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
-  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `osku_order_id` (`order_id`) USING BTREE
+                                 `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+                                 `order_id` bigint NOT NULL COMMENT '订单ID(tms_order.id)',
+                                 `sku_master_id` bigint DEFAULT NULL COMMENT '货物规格id(dic_sku_master.id)',
+                                 `item_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '货号',
+                                 `box_no` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '箱号',
+                                 `cargo_desc` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '货物信息',
+                                 `al` decimal(20,2) DEFAULT NULL COMMENT '长',
+                                 `aw` decimal(20,2) DEFAULT NULL COMMENT '宽',
+                                 `ah` decimal(20,2) DEFAULT NULL COMMENT '高',
+                                 `quantity` int DEFAULT NULL COMMENT '数量',
+                                 `weight` decimal(20,5) DEFAULT NULL COMMENT '毛重',
+                                 `volume` decimal(20,5) DEFAULT NULL COMMENT '体积',
+                                 `qty_unit` int DEFAULT NULL COMMENT '单位',
+                                 `remark` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '货物备注',
+                                 `check_quantity` int DEFAULT '0' COMMENT '确认数量',
+                                 `check_weight` decimal(20,5) DEFAULT '0.00000' COMMENT '确认重量',
+                                 `check_volume` decimal(20,5) DEFAULT '0.00000' COMMENT '确认体积',
+                                 `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+                                 `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+                                 `create_by` bigint NOT NULL COMMENT '创建人ID',
+                                 `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                                 `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                 `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                 `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                 `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                 PRIMARY KEY (`id`) USING BTREE,
+                                 KEY `osku_order_id` (`order_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1740187006553120771 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='订单货物明细表';
 
 -- ----------------------------
@@ -2442,24 +2683,24 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_part_purchase`;
 CREATE TABLE `tms_part_purchase` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `purchase_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '采购编号',
-  `part_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '零件名称',
-  `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '型号',
-  `quantity` int DEFAULT NULL COMMENT '数量',
-  `quantity_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '数量单位',
-  `available_quantity` int DEFAULT NULL COMMENT '可用数量',
-  `unit_price` int DEFAULT NULL COMMENT '单价',
-  `subtotal_price` int DEFAULT NULL COMMENT '小计价格',
-  `in_stock` tinyint(1) DEFAULT '0' COMMENT '是否入库',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '是否删除(0=未删除;1=已删除)',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '修改人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                     `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                     `purchase_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '采购编号',
+                                     `part_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '零件名称',
+                                     `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '型号',
+                                     `quantity` int DEFAULT NULL COMMENT '数量',
+                                     `quantity_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '数量单位',
+                                     `available_quantity` int DEFAULT NULL COMMENT '可用数量',
+                                     `unit_price` int DEFAULT NULL COMMENT '单价',
+                                     `subtotal_price` int DEFAULT NULL COMMENT '小计价格',
+                                     `in_stock` tinyint(1) DEFAULT '0' COMMENT '是否入库',
+                                     `deleted` tinyint(1) DEFAULT '0' COMMENT '是否删除(0=未删除;1=已删除)',
+                                     `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                     `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                     `last_modify_by` bigint DEFAULT NULL COMMENT '修改人ID',
+                                     `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                     `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1739939803553181699 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='配件采购';
 
 -- ----------------------------
@@ -2476,31 +2717,31 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_peccancy`;
 CREATE TABLE `tms_peccancy` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `peccancy_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '违章编号',
-  `truck_id` bigint DEFAULT NULL COMMENT '卡车ID',
-  `plate_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号',
-  `driver_id` bigint DEFAULT NULL COMMENT '驾驶员ID',
-  `driver_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶员姓名',
-  `peccancy_item` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '违章项目',
-  `point_deduction` int DEFAULT NULL COMMENT '扣分',
-  `category_city_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '违章地点',
-  `category_city_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '违章地点ID',
-  `fine_amount` decimal(10,2) NOT NULL COMMENT '罚款金额',
-  `company_payable` decimal(10,2) DEFAULT NULL COMMENT '公司应付',
-  `driver_payable` decimal(10,2) DEFAULT NULL COMMENT '司机应付',
-  `peccancy_date` date DEFAULT NULL COMMENT '违章日期',
-  `expense_date` date DEFAULT NULL COMMENT '费用日期',
-  `agent_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '经办人姓名',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '修改人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                `peccancy_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '违章编号',
+                                `truck_id` bigint DEFAULT NULL COMMENT '卡车ID',
+                                `plate_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号',
+                                `driver_id` bigint DEFAULT NULL COMMENT '驾驶员ID',
+                                `driver_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶员姓名',
+                                `peccancy_item` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '违章项目',
+                                `point_deduction` int DEFAULT NULL COMMENT '扣分',
+                                `category_city_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '违章地点',
+                                `category_city_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '违章地点ID',
+                                `fine_amount` decimal(10,2) NOT NULL COMMENT '罚款金额',
+                                `company_payable` decimal(10,2) DEFAULT NULL COMMENT '公司应付',
+                                `driver_payable` decimal(10,2) DEFAULT NULL COMMENT '司机应付',
+                                `peccancy_date` date DEFAULT NULL COMMENT '违章日期',
+                                `expense_date` date DEFAULT NULL COMMENT '费用日期',
+                                `agent_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '经办人姓名',
+                                `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+                                `deleted` bit(1) DEFAULT b'0',
+                                `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                `last_modify_by` bigint DEFAULT NULL COMMENT '修改人ID',
+                                `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1739952107560742914 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='车辆违章表';
 
 -- ----------------------------
@@ -2517,36 +2758,36 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_task`;
 CREATE TABLE `tms_task` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增长ID',
-  `task_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '调度计划名称',
-  `task_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '调度号',
-  `project_id` bigint NOT NULL COMMENT '项目id(dic_project.id)',
-  `transport_type` int NOT NULL DEFAULT '0' COMMENT '运输方式(dic_transport_type.id)',
-  `truck_type` int DEFAULT NULL COMMENT '车辆类型ID(dic_truck_type.id)',
-  `etd` datetime DEFAULT NULL COMMENT '预计提货时间',
-  `atd` datetime DEFAULT NULL COMMENT '实际提货时间',
-  `eta` datetime DEFAULT NULL COMMENT '预计到达时间',
-  `ata` datetime DEFAULT NULL COMMENT '实际到达时间',
-  `station_from` bigint DEFAULT NULL COMMENT '始发站点ID',
-  `station_to` bigint DEFAULT NULL COMMENT '目的站点ID',
-  `driver_id` bigint DEFAULT NULL COMMENT '司机ID(tms_driver.id)',
-  `driver_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机姓名(tms_driver.name)',
-  `driver_mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机手机号(tms_driver.mobile)',
-  `truck_id` bigint DEFAULT NULL COMMENT '车辆id(tms_truck.id)',
-  `plate_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号(tms_truck.plate_number)',
-  `remark` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '任务备注',
-  `task_status` int NOT NULL DEFAULT '0' COMMENT '订单状态:-10取消,0新建,10出发,20运输中,30到达,40完成',
-  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
-  `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `tt_task_no` (`task_no`) USING BTREE,
-  KEY `tt_project_id` (`project_id`) USING BTREE
+                            `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增长ID',
+                            `task_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '调度计划名称',
+                            `task_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '调度号',
+                            `project_id` bigint NOT NULL COMMENT '项目id(dic_project.id)',
+                            `transport_type` int NOT NULL DEFAULT '0' COMMENT '运输方式(dic_transport_type.id)',
+                            `truck_type` int DEFAULT NULL COMMENT '车辆类型ID(dic_truck_type.id)',
+                            `etd` datetime DEFAULT NULL COMMENT '预计提货时间',
+                            `atd` datetime DEFAULT NULL COMMENT '实际提货时间',
+                            `eta` datetime DEFAULT NULL COMMENT '预计到达时间',
+                            `ata` datetime DEFAULT NULL COMMENT '实际到达时间',
+                            `station_from` bigint DEFAULT NULL COMMENT '始发站点ID',
+                            `station_to` bigint DEFAULT NULL COMMENT '目的站点ID',
+                            `driver_id` bigint DEFAULT NULL COMMENT '司机ID(tms_driver.id)',
+                            `driver_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机姓名(tms_driver.name)',
+                            `driver_mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机手机号(tms_driver.mobile)',
+                            `truck_id` bigint DEFAULT NULL COMMENT '车辆id(tms_truck.id)',
+                            `plate_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号(tms_truck.plate_number)',
+                            `remark` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '任务备注',
+                            `task_status` int NOT NULL DEFAULT '0' COMMENT '订单状态:-10取消,0新建,10出发,20运输中,30到达,40完成',
+                            `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+                            `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+                            `create_by` bigint NOT NULL COMMENT '创建人ID',
+                            `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                            `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                            `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                            `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                            `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                            PRIMARY KEY (`id`) USING BTREE,
+                            KEY `tt_task_no` (`task_no`) USING BTREE,
+                            KEY `tt_project_id` (`project_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='调度计划表';
 
 -- ----------------------------
@@ -2560,20 +2801,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_task_order`;
 CREATE TABLE `tms_task_order` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `task_id` bigint NOT NULL DEFAULT '0' COMMENT '调度计划ID(tms_task.id)',
-  `order_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
-  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
-  `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `tos_task_id` (`task_id`) USING BTREE,
-  KEY `tos_order_id` (`order_id`) USING BTREE
+                                  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+                                  `task_id` bigint NOT NULL DEFAULT '0' COMMENT '调度计划ID(tms_task.id)',
+                                  `order_id` bigint NOT NULL DEFAULT '0' COMMENT '订单ID(tms_order.id)',
+                                  `source_id` int DEFAULT '0' COMMENT '数据来源(dic_source.id)',
+                                  `locked` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否启用 0=未锁定 1=锁定(逻辑删除用)',
+                                  `create_by` bigint NOT NULL COMMENT '创建人ID',
+                                  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                                  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                  PRIMARY KEY (`id`) USING BTREE,
+                                  KEY `tos_task_id` (`task_id`) USING BTREE,
+                                  KEY `tos_order_id` (`order_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='调度订单关联表';
 
 -- ----------------------------
@@ -2587,53 +2828,53 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tms_truck`;
 CREATE TABLE `tms_truck` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '车辆ID',
-  `plate_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号',
-  `is_external` tinyint(1) DEFAULT NULL COMMENT '是否外协',
-  `truck_model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '卡车型号',
-  `truck_length` decimal(10,2) DEFAULT NULL COMMENT '卡车长度',
-  `truck_width` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '卡车宽度',
-  `energy_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '能源类型（租户字典 TMS_ENERGY_TYPE）',
-  `tires_count` int DEFAULT NULL COMMENT '轮胎数量',
-  `axles_count` int DEFAULT NULL COMMENT '轴数',
-  `file_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '档案编号',
-  `plate_color` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌颜色（租户字典 TMS_PLATE_COLOR）',
-  `usage_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '使用性质',
-  `brand` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌',
-  `truck_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车辆识别代码',
-  `engine_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '发动机号码',
-  `approved_passenger` int DEFAULT NULL COMMENT '核定载客人数',
-  `total_weight` decimal(10,2) DEFAULT NULL COMMENT '总质量',
-  `curb_weight` decimal(10,2) DEFAULT NULL COMMENT '整备质量',
-  `approved_weight` decimal(10,2) DEFAULT NULL COMMENT '核定载重',
-  `tow_weight` decimal(10,2) DEFAULT NULL COMMENT '牵引质量',
-  `scrap_date` datetime DEFAULT NULL COMMENT '报废日期',
-  `road_certificate_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '道路运输证号',
-  `road_certificate_due_date` date DEFAULT NULL COMMENT '道路运输证到期日期',
-  `owner_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所有人',
-  `owner_id_card_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所有人证件号',
-  `is_affiliation` tinyint(1) DEFAULT NULL COMMENT '是否隶属',
-  `subordination` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '挂靠单位',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
-  `default_driver_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '默认司机ID',
-  `fleet_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车队ID',
-  `trailer_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '挂车ID',
-  `file_driver_and_vehicle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证照片ID',
-  `file_road_certificate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证照片ID',
-  `file_other` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证照片ID',
-  `enabled` bit(1) DEFAULT b'1' COMMENT '启用状态',
-  `approval_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批状态',
-  `approval_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批用户ID',
-  `approval_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批用户名',
-  `approval_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批描述',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '修改人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+                             `id` bigint NOT NULL AUTO_INCREMENT COMMENT '车辆ID',
+                             `plate_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌号',
+                             `is_external` tinyint(1) DEFAULT NULL COMMENT '是否外协',
+                             `truck_model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '卡车型号',
+                             `truck_length` decimal(10,2) DEFAULT NULL COMMENT '卡车长度',
+                             `truck_width` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '卡车宽度',
+                             `energy_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '能源类型（租户字典 TMS_ENERGY_TYPE）',
+                             `tires_count` int DEFAULT NULL COMMENT '轮胎数量',
+                             `axles_count` int DEFAULT NULL COMMENT '轴数',
+                             `file_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '档案编号',
+                             `plate_color` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车牌颜色（租户字典 TMS_PLATE_COLOR）',
+                             `usage_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '使用性质',
+                             `brand` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌',
+                             `truck_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车辆识别代码',
+                             `engine_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '发动机号码',
+                             `approved_passenger` int DEFAULT NULL COMMENT '核定载客人数',
+                             `total_weight` decimal(10,2) DEFAULT NULL COMMENT '总质量',
+                             `curb_weight` decimal(10,2) DEFAULT NULL COMMENT '整备质量',
+                             `approved_weight` decimal(10,2) DEFAULT NULL COMMENT '核定载重',
+                             `tow_weight` decimal(10,2) DEFAULT NULL COMMENT '牵引质量',
+                             `scrap_date` datetime DEFAULT NULL COMMENT '报废日期',
+                             `road_certificate_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '道路运输证号',
+                             `road_certificate_due_date` date DEFAULT NULL COMMENT '道路运输证到期日期',
+                             `owner_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所有人',
+                             `owner_id_card_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所有人证件号',
+                             `is_affiliation` tinyint(1) DEFAULT NULL COMMENT '是否隶属',
+                             `subordination` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '挂靠单位',
+                             `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+                             `default_driver_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '默认司机ID',
+                             `fleet_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '车队ID',
+                             `trailer_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '挂车ID',
+                             `file_driver_and_vehicle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证照片ID',
+                             `file_road_certificate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证照片ID',
+                             `file_other` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '驾驶证照片ID',
+                             `enabled` bit(1) DEFAULT b'1' COMMENT '启用状态',
+                             `approval_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批状态',
+                             `approval_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批用户ID',
+                             `approval_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批用户名',
+                             `approval_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '审批描述',
+                             `deleted` bit(1) DEFAULT b'0',
+                             `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                             `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                             `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                             `last_modify_by` bigint DEFAULT NULL COMMENT '修改人ID',
+                             `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                             `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                             PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1739846242807664642 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='车辆信息表';
 
 -- ----------------------------
@@ -2648,21 +2889,21 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_aisle`;
 CREATE TABLE `wms_aisle` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '巷道编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '巷道名称',
-  `status` tinyint NOT NULL COMMENT '是否启用',
-  `length` decimal(10,2) DEFAULT NULL COMMENT '长度',
-  `width` decimal(10,2) DEFAULT NULL COMMENT '宽度',
-  `height` decimal(10,2) DEFAULT NULL COMMENT '高度',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  PRIMARY KEY (`id`) USING BTREE
+                             `id` bigint NOT NULL COMMENT 'ID',
+                             `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '巷道编号',
+                             `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '巷道名称',
+                             `status` tinyint NOT NULL COMMENT '是否启用',
+                             `length` decimal(10,2) DEFAULT NULL COMMENT '长度',
+                             `width` decimal(10,2) DEFAULT NULL COMMENT '宽度',
+                             `height` decimal(10,2) DEFAULT NULL COMMENT '高度',
+                             `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                             `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                             `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                             `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                             `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                             `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                             `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                             PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='巷道表';
 
 -- ----------------------------
@@ -2681,36 +2922,36 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_brand`;
 CREATE TABLE `wms_brand` (
-  `id` bigint NOT NULL COMMENT '对象存储主键',
-  `code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌编号',
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌名称',
-  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌状态',
-  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌类型',
-  `country` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌所属国家',
-  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌logo',
-  `website` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌官方网站URL',
-  `contact_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌联系人',
-  `contact_phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人电话',
-  `owner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌所有者',
-  `company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌公司',
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人邮箱',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '品牌备注',
-  `province_id` bigint DEFAULT NULL COMMENT '省',
-  `province_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省名称',
-  `city_id` bigint DEFAULT NULL COMMENT '市',
-  `city_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市名称',
-  `district_id` bigint DEFAULT NULL COMMENT '区',
-  `district_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区名称',
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '详细地址',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌描述，详细介绍品牌信息',
-  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  PRIMARY KEY (`id`) USING BTREE
+                             `id` bigint NOT NULL COMMENT '对象存储主键',
+                             `code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌编号',
+                             `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌名称',
+                             `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌状态',
+                             `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌类型',
+                             `country` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌所属国家',
+                             `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌logo',
+                             `website` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌官方网站URL',
+                             `contact_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌联系人',
+                             `contact_phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人电话',
+                             `owner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌所有者',
+                             `company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌公司',
+                             `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人邮箱',
+                             `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '品牌备注',
+                             `province_id` bigint DEFAULT NULL COMMENT '省',
+                             `province_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省名称',
+                             `city_id` bigint DEFAULT NULL COMMENT '市',
+                             `city_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市名称',
+                             `district_id` bigint DEFAULT NULL COMMENT '区',
+                             `district_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区名称',
+                             `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '详细地址',
+                             `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '品牌描述，详细介绍品牌信息',
+                             `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
+                             `create_time` datetime NOT NULL COMMENT '创建时间',
+                             `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                             `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
+                             `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                             `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                             `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                             PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='品牌表';
 
 -- ----------------------------
@@ -2726,38 +2967,38 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_carrier`;
 CREATE TABLE `wms_carrier` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '承运商编码',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '承运商名称',
-  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '承运商类型：外贸、内贸',
-  `service_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '服务类型：陆运、海运、空运',
-  `effective_date` date DEFAULT NULL COMMENT '合同起始日期',
-  `expiration_date` date DEFAULT NULL COMMENT '合同结束日期',
-  `payment_term` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '付款条款',
-  `settlement_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '结算方式',
-  `contact_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人',
-  `postcode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮编',
-  `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '手机号',
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '电子邮箱',
-  `fax` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '传真',
-  `province_id` bigint DEFAULT NULL COMMENT '省ID',
-  `province_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省',
-  `city_id` bigint DEFAULT NULL COMMENT '市ID',
-  `city_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市',
-  `district_id` bigint DEFAULT NULL COMMENT '区ID',
-  `district_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区',
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '详细地址',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
-  `attachment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '合同文件',
-  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` bigint NOT NULL COMMENT 'ID',
+                               `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '承运商编码',
+                               `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '承运商名称',
+                               `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '承运商类型：外贸、内贸',
+                               `service_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '服务类型：陆运、海运、空运',
+                               `effective_date` date DEFAULT NULL COMMENT '合同起始日期',
+                               `expiration_date` date DEFAULT NULL COMMENT '合同结束日期',
+                               `payment_term` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '付款条款',
+                               `settlement_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '结算方式',
+                               `contact_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人',
+                               `postcode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮编',
+                               `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '手机号',
+                               `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '电子邮箱',
+                               `fax` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '传真',
+                               `province_id` bigint DEFAULT NULL COMMENT '省ID',
+                               `province_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省',
+                               `city_id` bigint DEFAULT NULL COMMENT '市ID',
+                               `city_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市',
+                               `district_id` bigint DEFAULT NULL COMMENT '区ID',
+                               `district_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区',
+                               `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '详细地址',
+                               `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
+                               `attachment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '合同文件',
+                               `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态',
+                               `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                               `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                               `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                               `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                               `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                               `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                               `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='承运商表';
 
 -- ----------------------------
@@ -2773,20 +3014,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_container`;
 CREATE TABLE `wms_container` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '容器编码',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '容器名称',
-  `spec_id` bigint NOT NULL COMMENT '容器规格',
-  `remark` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '占用任务类型',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  KEY `container_spec_id` (`spec_id`) USING BTREE,
-  CONSTRAINT `wms_container_ibfk_1` FOREIGN KEY (`spec_id`) REFERENCES `wms_container_spec` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+                                 `id` bigint NOT NULL COMMENT 'ID',
+                                 `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '容器编码',
+                                 `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '容器名称',
+                                 `spec_id` bigint NOT NULL COMMENT '容器规格',
+                                 `remark` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '占用任务类型',
+                                 `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                 `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                 `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                 `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                                 `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                 `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                 `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                 KEY `container_spec_id` (`spec_id`) USING BTREE,
+                                 CONSTRAINT `wms_container_ibfk_1` FOREIGN KEY (`spec_id`) REFERENCES `wms_container_spec` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='容器表';
 
 -- ----------------------------
@@ -2802,25 +3043,25 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_container_log`;
 CREATE TABLE `wms_container_log` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `occupation_task_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '占用任务类型',
-  `task_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '任务号',
-  `doc_id` bigint DEFAULT NULL COMMENT '单据id',
-  `doc_item_id` bigint DEFAULT NULL COMMENT '单据行id',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态(占用、释放、异常)',
-  `end_time` datetime DEFAULT NULL COMMENT '结束时间',
-  `error_msg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '错误日志',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `container_id` bigint DEFAULT NULL COMMENT '容器ID',
-  `doc_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `doc_item_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                                     `id` bigint NOT NULL COMMENT 'ID',
+                                     `occupation_task_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '占用任务类型',
+                                     `task_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '任务号',
+                                     `doc_id` bigint DEFAULT NULL COMMENT '单据id',
+                                     `doc_item_id` bigint DEFAULT NULL COMMENT '单据行id',
+                                     `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态(占用、释放、异常)',
+                                     `end_time` datetime DEFAULT NULL COMMENT '结束时间',
+                                     `error_msg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '错误日志',
+                                     `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                     `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                     `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                                     `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                     `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                     `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                     `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                     `container_id` bigint DEFAULT NULL COMMENT '容器ID',
+                                     `doc_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                     `doc_item_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='容器规格表';
 
 -- ----------------------------
@@ -2834,25 +3075,25 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_container_spec`;
 CREATE TABLE `wms_container_spec` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '容器规格名称',
-  `length` decimal(10,2) NOT NULL COMMENT '长度',
-  `width` decimal(10,2) NOT NULL COMMENT '宽度',
-  `height` decimal(10,2) NOT NULL COMMENT '高度',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '1',
-  `self_weight` decimal(10,2) NOT NULL COMMENT '容器自重(单位KG)',
-  `load_length` decimal(10,2) NOT NULL COMMENT '可承载长度',
-  `load_width` decimal(10,2) NOT NULL COMMENT '可承载宽度',
-  `load_height` decimal(10,2) NOT NULL COMMENT '可承载高度',
-  `load_weight` decimal(10,2) NOT NULL COMMENT '可承载重量(单位KG)',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  PRIMARY KEY (`id`) USING BTREE
+                                      `id` bigint NOT NULL COMMENT 'ID',
+                                      `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '容器规格名称',
+                                      `length` decimal(10,2) NOT NULL COMMENT '长度',
+                                      `width` decimal(10,2) NOT NULL COMMENT '宽度',
+                                      `height` decimal(10,2) NOT NULL COMMENT '高度',
+                                      `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '1',
+                                      `self_weight` decimal(10,2) NOT NULL COMMENT '容器自重(单位KG)',
+                                      `load_length` decimal(10,2) NOT NULL COMMENT '可承载长度',
+                                      `load_width` decimal(10,2) NOT NULL COMMENT '可承载宽度',
+                                      `load_height` decimal(10,2) NOT NULL COMMENT '可承载高度',
+                                      `load_weight` decimal(10,2) NOT NULL COMMENT '可承载重量(单位KG)',
+                                      `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                      `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                      `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                      `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                                      `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                      `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                      `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                      PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='容器规格表';
 
 -- ----------------------------
@@ -2868,20 +3109,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_dock`;
 CREATE TABLE `wms_dock` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '月台编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '月台名称',
-  `spec` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '月台规格',
-  `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '类型',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '状态(空闲、占用、维护)',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  PRIMARY KEY (`id`) USING BTREE
+                            `id` bigint NOT NULL COMMENT 'ID',
+                            `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '月台编号',
+                            `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '月台名称',
+                            `spec` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '月台规格',
+                            `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '类型',
+                            `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '状态(空闲、占用、维护)',
+                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                            `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                            `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                            `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                            `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                            `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                            PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='月台管理表';
 
 -- ----------------------------
@@ -2897,22 +3138,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_inventory_receipt`;
 CREATE TABLE `wms_inventory_receipt` (
-  `id` bigint NOT NULL COMMENT '入库单主键',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `create_by` bigint NOT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `receipt_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '入库单编号',
-  `plan_id` bigint DEFAULT NULL COMMENT '关联的收货计划ID',
-  `plan_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货计划单编号',
-  `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
-  `supplier_id` bigint DEFAULT NULL COMMENT '供应商ID',
-  `status` int DEFAULT NULL COMMENT '状态',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
+                                         `id` bigint NOT NULL COMMENT '入库单主键',
+                                         `create_time` datetime NOT NULL COMMENT '创建时间',
+                                         `create_by` bigint NOT NULL COMMENT '创建人',
+                                         `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
+                                         `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                         `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                         `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                         `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                         `receipt_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '入库单编号',
+                                         `plan_id` bigint DEFAULT NULL COMMENT '关联的收货计划ID',
+                                         `plan_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货计划单编号',
+                                         `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
+                                         `supplier_id` bigint DEFAULT NULL COMMENT '供应商ID',
+                                         `status` int DEFAULT NULL COMMENT '状态',
+                                         `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
+                                         PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='入库单表';
 
 -- ----------------------------
@@ -2937,32 +3178,32 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_inventory_receipt_item`;
 CREATE TABLE `wms_inventory_receipt_item` (
-  `id` bigint NOT NULL COMMENT '明细行主键',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `create_by` bigint NOT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `receipt_id` bigint DEFAULT NULL COMMENT '入库单表ID',
-  `plan_item_id` bigint DEFAULT NULL COMMENT '关联的收货计划行项ID',
-  `location_id` bigint DEFAULT NULL COMMENT '储位ID',
-  `material_id` bigint NOT NULL COMMENT '物料ID',
-  `material_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料编号',
-  `material_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料描述',
-  `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '批次号',
-  `receiving_qty` decimal(18,2) NOT NULL COMMENT '收货数量',
-  `receiving_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '收货单位',
-  `qty` decimal(18,2) NOT NULL COMMENT '入库数量',
-  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '入库单位',
-  `receipt_time` datetime DEFAULT NULL COMMENT '入库时间',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
-  `production_date` date DEFAULT NULL COMMENT '生产日期',
-  `expiry_date` date DEFAULT NULL COMMENT '失效日期',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `receipt_id` (`receipt_id`) USING BTREE,
-  CONSTRAINT `wms_inventory_receipt_item_ibfk_1` FOREIGN KEY (`receipt_id`) REFERENCES `wms_inventory_receipt` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+                                              `id` bigint NOT NULL COMMENT '明细行主键',
+                                              `create_time` datetime NOT NULL COMMENT '创建时间',
+                                              `create_by` bigint NOT NULL COMMENT '创建人',
+                                              `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
+                                              `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                              `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                              `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                              `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                              `receipt_id` bigint DEFAULT NULL COMMENT '入库单表ID',
+                                              `plan_item_id` bigint DEFAULT NULL COMMENT '关联的收货计划行项ID',
+                                              `location_id` bigint DEFAULT NULL COMMENT '储位ID',
+                                              `material_id` bigint NOT NULL COMMENT '物料ID',
+                                              `material_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料编号',
+                                              `material_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料描述',
+                                              `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '批次号',
+                                              `receiving_qty` decimal(18,2) NOT NULL COMMENT '收货数量',
+                                              `receiving_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '收货单位',
+                                              `qty` decimal(18,2) NOT NULL COMMENT '入库数量',
+                                              `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '入库单位',
+                                              `receipt_time` datetime DEFAULT NULL COMMENT '入库时间',
+                                              `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
+                                              `production_date` date DEFAULT NULL COMMENT '生产日期',
+                                              `expiry_date` date DEFAULT NULL COMMENT '失效日期',
+                                              PRIMARY KEY (`id`) USING BTREE,
+                                              KEY `receipt_id` (`receipt_id`) USING BTREE,
+                                              CONSTRAINT `wms_inventory_receipt_item_ibfk_1` FOREIGN KEY (`receipt_id`) REFERENCES `wms_inventory_receipt` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='入库单明细行';
 
 -- ----------------------------
@@ -3005,30 +3246,30 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_location`;
 CREATE TABLE `wms_location` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '储位编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '储位名称',
-  `warehouse_id` bigint NOT NULL COMMENT '仓库id',
-  `storage_area_id` bigint NOT NULL COMMENT '所属库区',
-  `aisle_id` bigint NOT NULL COMMENT '所属巷道',
-  `spec_id` bigint NOT NULL COMMENT '储位规格',
-  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '储位类型（1=高储位;0=低储位）',
-  `shelf_layer` int NOT NULL COMMENT '位于货架第几层',
-  `picking_level` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '拣选储位销售等级',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `storage_area_id` (`storage_area_id`) USING BTREE,
-  KEY `aisle_id` (`aisle_id`) USING BTREE,
-  KEY `location_spec_id` (`spec_id`) USING BTREE,
-  CONSTRAINT `wms_location_ibfk_1` FOREIGN KEY (`storage_area_id`) REFERENCES `wms_storage_area` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  CONSTRAINT `wms_location_ibfk_2` FOREIGN KEY (`aisle_id`) REFERENCES `wms_aisle` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  CONSTRAINT `wms_location_ibfk_3` FOREIGN KEY (`spec_id`) REFERENCES `wms_location_spec` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+                                `id` bigint NOT NULL COMMENT 'ID',
+                                `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '储位编号',
+                                `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '储位名称',
+                                `warehouse_id` bigint NOT NULL COMMENT '仓库id',
+                                `storage_area_id` bigint NOT NULL COMMENT '所属库区',
+                                `aisle_id` bigint NOT NULL COMMENT '所属巷道',
+                                `spec_id` bigint NOT NULL COMMENT '储位规格',
+                                `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '储位类型（1=高储位;0=低储位）',
+                                `shelf_layer` int NOT NULL COMMENT '位于货架第几层',
+                                `picking_level` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '拣选储位销售等级',
+                                `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                                `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                PRIMARY KEY (`id`) USING BTREE,
+                                KEY `storage_area_id` (`storage_area_id`) USING BTREE,
+                                KEY `aisle_id` (`aisle_id`) USING BTREE,
+                                KEY `location_spec_id` (`spec_id`) USING BTREE,
+                                CONSTRAINT `wms_location_ibfk_1` FOREIGN KEY (`storage_area_id`) REFERENCES `wms_storage_area` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+                                CONSTRAINT `wms_location_ibfk_2` FOREIGN KEY (`aisle_id`) REFERENCES `wms_aisle` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+                                CONSTRAINT `wms_location_ibfk_3` FOREIGN KEY (`spec_id`) REFERENCES `wms_location_spec` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='储位表';
 
 -- ----------------------------
@@ -3046,22 +3287,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_location_spec`;
 CREATE TABLE `wms_location_spec` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '储位规格编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '储位规格名称',
-  `status` tinyint NOT NULL COMMENT '是否启用',
-  `length` decimal(10,2) NOT NULL COMMENT '长度',
-  `width` decimal(10,2) NOT NULL COMMENT '宽度',
-  `height` decimal(10,2) NOT NULL COMMENT '高度',
-  `load_capacity` decimal(10,2) NOT NULL COMMENT '承重',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  PRIMARY KEY (`id`) USING BTREE
+                                     `id` bigint NOT NULL COMMENT 'ID',
+                                     `code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '储位规格编号',
+                                     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '储位规格名称',
+                                     `status` tinyint NOT NULL COMMENT '是否启用',
+                                     `length` decimal(10,2) NOT NULL COMMENT '长度',
+                                     `width` decimal(10,2) NOT NULL COMMENT '宽度',
+                                     `height` decimal(10,2) NOT NULL COMMENT '高度',
+                                     `load_capacity` decimal(10,2) NOT NULL COMMENT '承重',
+                                     `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                     `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                     `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                     `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                                     `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                     `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                     `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='储位规格表';
 
 -- ----------------------------
@@ -3080,29 +3321,29 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_material`;
 CREATE TABLE `wms_material` (
-  `id` bigint NOT NULL COMMENT '主键',
-  `code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物料编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物料描述',
-  `category_id` bigint DEFAULT NULL COMMENT '物料类型ID',
-  `brand_id` bigint DEFAULT NULL COMMENT '品牌ID',
-  `unit` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单位',
-  `spec` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '规格',
-  `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '型号',
-  `bar_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '条码号',
-  `gross_weight` decimal(16,16) DEFAULT NULL COMMENT '毛重',
-  `net_weight` decimal(16,16) DEFAULT NULL COMMENT '净重',
-  `length` decimal(16,2) DEFAULT NULL COMMENT '长',
-  `width` decimal(16,2) DEFAULT NULL COMMENT '宽',
-  `height` decimal(16,2) DEFAULT NULL COMMENT '高',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                `id` bigint NOT NULL COMMENT '主键',
+                                `code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物料编号',
+                                `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物料描述',
+                                `category_id` bigint DEFAULT NULL COMMENT '物料类型ID',
+                                `brand_id` bigint DEFAULT NULL COMMENT '品牌ID',
+                                `unit` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单位',
+                                `spec` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '规格',
+                                `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '型号',
+                                `bar_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '条码号',
+                                `gross_weight` decimal(16,16) DEFAULT NULL COMMENT '毛重',
+                                `net_weight` decimal(16,16) DEFAULT NULL COMMENT '净重',
+                                `length` decimal(16,2) DEFAULT NULL COMMENT '长',
+                                `width` decimal(16,2) DEFAULT NULL COMMENT '宽',
+                                `height` decimal(16,2) DEFAULT NULL COMMENT '高',
+                                `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
+                                `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
+                                `create_time` datetime NOT NULL COMMENT '创建时间',
+                                `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='物料表';
 
 -- ----------------------------
@@ -3118,20 +3359,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_material_category`;
 CREATE TABLE `wms_material_category` (
-  `id` bigint NOT NULL COMMENT '对象存储主键',
-  `code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物料类型编号',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料类型名称',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否启用',
-  `parent_id` bigint DEFAULT NULL COMMENT '父类型ID',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `create_by` bigint NOT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  PRIMARY KEY (`id`) USING BTREE
+                                         `id` bigint NOT NULL COMMENT '对象存储主键',
+                                         `code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物料类型编号',
+                                         `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料类型名称',
+                                         `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否启用',
+                                         `parent_id` bigint DEFAULT NULL COMMENT '父类型ID',
+                                         `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+                                         `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                         `create_by` bigint NOT NULL COMMENT '创建人',
+                                         `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
+                                         `create_time` datetime NOT NULL COMMENT '创建时间',
+                                         `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                         `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                         `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                         PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='物料类型表';
 
 -- ----------------------------
@@ -3152,20 +3393,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_material_config`;
 CREATE TABLE `wms_material_config` (
-  `id` bigint NOT NULL COMMENT '对象存储主键',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime NOT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '更新人姓名',
-  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
-  `material_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物料编号',
-  `batch` tinyint DEFAULT NULL COMMENT '批次管理',
-  `validity_period` tinyint DEFAULT NULL COMMENT '有效期管理',
-  `min_stock_day` int DEFAULT NULL COMMENT '最小在库天数',
-  `danger` tinyint DEFAULT NULL COMMENT '危化品标识',
-  PRIMARY KEY (`id`) USING BTREE
+                                       `id` bigint NOT NULL COMMENT '对象存储主键',
+                                       `create_time` datetime NOT NULL COMMENT '创建时间',
+                                       `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                       `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
+                                       `last_modify_time` datetime NOT NULL COMMENT '更新时间',
+                                       `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                       `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '更新人姓名',
+                                       `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
+                                       `material_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物料编号',
+                                       `batch` tinyint DEFAULT NULL COMMENT '批次管理',
+                                       `validity_period` tinyint DEFAULT NULL COMMENT '有效期管理',
+                                       `min_stock_day` int DEFAULT NULL COMMENT '最小在库天数',
+                                       `danger` tinyint DEFAULT NULL COMMENT '危化品标识',
+                                       PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='物料表';
 
 -- ----------------------------
@@ -3179,32 +3420,32 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_outbound_plan`;
 CREATE TABLE `wms_outbound_plan` (
-  `id` bigint NOT NULL COMMENT '主键ID',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `create_by` bigint NOT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `plan_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '出库单编号',
-  `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
-  `supplier_id` bigint DEFAULT NULL COMMENT '供应商ID',
-  `dock_id` bigint DEFAULT NULL COMMENT '月台ID',
-  `carrier_id` bigint DEFAULT NULL COMMENT '承运商ID',
-  `delivery_date` date DEFAULT NULL COMMENT '计划发货日期',
-  `delivery_car_number` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '运单号或车辆车牌号',
-  `delivery_driver` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '运输人',
-  `driver_contact` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机联系方式',
-  `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '订单类型',
-  `customer_order_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '客户订单号',
-  `delivery_receiver` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货人',
-  `delivery_receiver_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货人电话',
-  `delivery_receiver_address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货人地址',
-  `delivery_mode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '送货方式',
-  `status` int DEFAULT NULL COMMENT '状态',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
+                                     `id` bigint NOT NULL COMMENT '主键ID',
+                                     `create_time` datetime NOT NULL COMMENT '创建时间',
+                                     `create_by` bigint NOT NULL COMMENT '创建人',
+                                     `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
+                                     `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                     `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                     `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                     `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                     `plan_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '出库单编号',
+                                     `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
+                                     `supplier_id` bigint DEFAULT NULL COMMENT '供应商ID',
+                                     `dock_id` bigint DEFAULT NULL COMMENT '月台ID',
+                                     `carrier_id` bigint DEFAULT NULL COMMENT '承运商ID',
+                                     `delivery_date` date DEFAULT NULL COMMENT '计划发货日期',
+                                     `delivery_car_number` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '运单号或车辆车牌号',
+                                     `delivery_driver` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '运输人',
+                                     `driver_contact` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机联系方式',
+                                     `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '订单类型',
+                                     `customer_order_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '客户订单号',
+                                     `delivery_receiver` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货人',
+                                     `delivery_receiver_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货人电话',
+                                     `delivery_receiver_address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货人地址',
+                                     `delivery_mode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '送货方式',
+                                     `status` int DEFAULT NULL COMMENT '状态',
+                                     `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
+                                     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='出库单';
 
 -- ----------------------------
@@ -3220,21 +3461,21 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_outbound_plan_item`;
 CREATE TABLE `wms_outbound_plan_item` (
-  `id` bigint NOT NULL COMMENT '主键ID',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `create_by` bigint NOT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `plan_id` bigint NOT NULL COMMENT '发货计划ID',
-  `plan_item_num` bigint DEFAULT NULL COMMENT '行号',
-  `material_id` bigint DEFAULT NULL COMMENT '物料ID',
-  `qty` decimal(18,2) NOT NULL COMMENT '计划发货数量',
-  `unit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计划发货单位',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
+                                          `id` bigint NOT NULL COMMENT '主键ID',
+                                          `create_time` datetime NOT NULL COMMENT '创建时间',
+                                          `create_by` bigint NOT NULL COMMENT '创建人',
+                                          `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
+                                          `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                          `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                          `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                          `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                          `plan_id` bigint NOT NULL COMMENT '发货计划ID',
+                                          `plan_item_num` bigint DEFAULT NULL COMMENT '行号',
+                                          `material_id` bigint DEFAULT NULL COMMENT '物料ID',
+                                          `qty` decimal(18,2) NOT NULL COMMENT '计划发货数量',
+                                          `unit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计划发货单位',
+                                          `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
+                                          PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='出库单行项';
 
 -- ----------------------------
@@ -3250,19 +3491,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_outbound_plan_item_stock`;
 CREATE TABLE `wms_outbound_plan_item_stock` (
-  `id` bigint NOT NULL COMMENT '主键ID',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `create_by` bigint NOT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `plan_item_id` bigint NOT NULL COMMENT '出库单行项ID',
-  `stock_id` bigint DEFAULT NULL COMMENT '库存余额ID',
-  `qty` decimal(18,2) NOT NULL COMMENT '计划发货数量',
-  `unit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计划发货单位',
-  PRIMARY KEY (`id`) USING BTREE
+                                                `id` bigint NOT NULL COMMENT '主键ID',
+                                                `create_time` datetime NOT NULL COMMENT '创建时间',
+                                                `create_by` bigint NOT NULL COMMENT '创建人',
+                                                `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
+                                                `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                                `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                                `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                                `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                                `plan_item_id` bigint NOT NULL COMMENT '出库单行项ID',
+                                                `stock_id` bigint DEFAULT NULL COMMENT '库存余额ID',
+                                                `qty` decimal(18,2) NOT NULL COMMENT '计划发货数量',
+                                                `unit` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计划发货单位',
+                                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='出库行项库存余额明细行';
 
 -- ----------------------------
@@ -3276,24 +3517,24 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_product`;
 CREATE TABLE `wms_product` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '编码',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
-  `brand` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌',
-  `spec` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '规格',
-  `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '型号',
-  `weight` decimal(10,2) DEFAULT NULL COMMENT '重量',
-  `volume` decimal(10,2) DEFAULT NULL COMMENT '体积',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '描述',
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人id',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                               `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                               `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '编码',
+                               `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
+                               `brand` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌',
+                               `spec` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '规格',
+                               `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '型号',
+                               `weight` decimal(10,2) DEFAULT NULL COMMENT '重量',
+                               `volume` decimal(10,2) DEFAULT NULL COMMENT '体积',
+                               `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '描述',
+                               `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                               `deleted` bit(1) DEFAULT b'0',
+                               `create_by` bigint DEFAULT NULL COMMENT '创建人id',
+                               `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                               `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                               `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
+                               `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                               `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                               PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1798255495128072195 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='产品';
 
 -- ----------------------------
@@ -3308,30 +3549,30 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_receiving_appointment`;
 CREATE TABLE `wms_receiving_appointment` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `appointment_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货预约编号',
-  `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
-  `warehouse_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `warehouse_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库名字',
-  `station_id` bigint DEFAULT NULL,
-  `station_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `station_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `inventory_company_id` bigint DEFAULT NULL COMMENT '存货公司ID',
-  `inventory_company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存货公司名称',
-  `contact_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存货公司联系人',
-  `contact_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存货公司电话',
-  `driver_mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机手机号',
-  `driver_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机名称',
-  `plan_arrival_time` timestamp NULL DEFAULT NULL COMMENT '预计到货时间',
-  `status` int DEFAULT NULL,
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                             `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                             `appointment_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货预约编号',
+                                             `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
+                                             `warehouse_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                             `warehouse_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库名字',
+                                             `station_id` bigint DEFAULT NULL,
+                                             `station_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                             `station_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                             `inventory_company_id` bigint DEFAULT NULL COMMENT '存货公司ID',
+                                             `inventory_company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存货公司名称',
+                                             `contact_person` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存货公司联系人',
+                                             `contact_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '存货公司电话',
+                                             `driver_mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机手机号',
+                                             `driver_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机名称',
+                                             `plan_arrival_time` timestamp NULL DEFAULT NULL COMMENT '预计到货时间',
+                                             `status` int DEFAULT NULL,
+                                             `deleted` bit(1) DEFAULT b'0',
+                                             `create_by` bigint NOT NULL COMMENT '创建人ID',
+                                             `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                                             `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                             `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                             `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                             `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                             PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1795373005188677634 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='收货预约';
 
 -- ----------------------------
@@ -3348,30 +3589,30 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_receiving_appointment_item`;
 CREATE TABLE `wms_receiving_appointment_item` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `receiving_appointment_id` bigint DEFAULT NULL COMMENT '预收货ID',
-  `goods_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品名称',
-  `quantity` bigint DEFAULT NULL COMMENT '数量',
-  `brand` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌',
-  `spec` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品规格',
-  `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品型号',
-  `weight` decimal(10,2) DEFAULT NULL COMMENT '重量',
-  `volume` decimal(10,2) DEFAULT NULL COMMENT '体积',
-  `dict_quantity_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '数量单位',
-  `dict_weight_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '重量单位',
-  `dict_volume_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '体积单位',
-  `dict_unit_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单位类型',
-  `dangerous` bit(1) DEFAULT b'0' COMMENT '是否危险',
-  `manufacture_date` timestamp NULL DEFAULT NULL COMMENT '生产日期',
-  `batch_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '生产批次',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人id',
-  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
-  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                                  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                                  `receiving_appointment_id` bigint DEFAULT NULL COMMENT '预收货ID',
+                                                  `goods_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品名称',
+                                                  `quantity` bigint DEFAULT NULL COMMENT '数量',
+                                                  `brand` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌',
+                                                  `spec` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品规格',
+                                                  `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品型号',
+                                                  `weight` decimal(10,2) DEFAULT NULL COMMENT '重量',
+                                                  `volume` decimal(10,2) DEFAULT NULL COMMENT '体积',
+                                                  `dict_quantity_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '数量单位',
+                                                  `dict_weight_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '重量单位',
+                                                  `dict_volume_unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '体积单位',
+                                                  `dict_unit_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单位类型',
+                                                  `dangerous` bit(1) DEFAULT b'0' COMMENT '是否危险',
+                                                  `manufacture_date` timestamp NULL DEFAULT NULL COMMENT '生产日期',
+                                                  `batch_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '生产批次',
+                                                  `deleted` bit(1) DEFAULT b'0',
+                                                  `create_by` bigint DEFAULT NULL COMMENT '创建人id',
+                                                  `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+                                                  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                                  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人id',
+                                                  `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人名称',
+                                                  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                                  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1795376732628955139 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='收货预约明细';
 
 -- ----------------------------
@@ -3391,32 +3632,32 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_receiving_plan`;
 CREATE TABLE `wms_receiving_plan` (
-  `id` bigint NOT NULL COMMENT '对象存储主键',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `create_by` bigint NOT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `plan_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货计划编号',
-  `receiving_notice_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '到货通知单编号',
-  `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
-  `dock_id` bigint DEFAULT NULL COMMENT '月台ID',
-  `supplier_id` bigint DEFAULT NULL COMMENT '供应商ID',
-  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类型',
-  `source` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '来源',
-  `delivery_date` date DEFAULT NULL COMMENT '发货日期',
-  `expected_arrival_time` date DEFAULT NULL COMMENT '预计到货时间',
-  `actual_arrival_time` date DEFAULT NULL COMMENT '实际到货时间',
-  `arrival_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '到货状态(已到货、延迟、未到货)',
-  `status` int DEFAULT NULL COMMENT '状态',
-  `delivery_car_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '送货车辆车牌号',
-  `delivery_driver` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '送货司机',
-  `driver_contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机联系方式',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
-  `container_id` bigint DEFAULT NULL COMMENT '容器ID',
-  PRIMARY KEY (`id`) USING BTREE
+                                      `id` bigint NOT NULL COMMENT '对象存储主键',
+                                      `create_time` datetime NOT NULL COMMENT '创建时间',
+                                      `create_by` bigint NOT NULL COMMENT '创建人',
+                                      `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
+                                      `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                      `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                      `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                      `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                      `plan_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '收货计划编号',
+                                      `receiving_notice_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '到货通知单编号',
+                                      `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
+                                      `dock_id` bigint DEFAULT NULL COMMENT '月台ID',
+                                      `supplier_id` bigint DEFAULT NULL COMMENT '供应商ID',
+                                      `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类型',
+                                      `source` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '来源',
+                                      `delivery_date` date DEFAULT NULL COMMENT '发货日期',
+                                      `expected_arrival_time` date DEFAULT NULL COMMENT '预计到货时间',
+                                      `actual_arrival_time` date DEFAULT NULL COMMENT '实际到货时间',
+                                      `arrival_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '到货状态(已到货、延迟、未到货)',
+                                      `status` int DEFAULT NULL COMMENT '状态',
+                                      `delivery_car_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '送货车辆车牌号',
+                                      `delivery_driver` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '送货司机',
+                                      `driver_contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '司机联系方式',
+                                      `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
+                                      `container_id` bigint DEFAULT NULL COMMENT '容器ID',
+                                      PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='收货计划表';
 
 -- ----------------------------
@@ -3436,28 +3677,28 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_receiving_plan_item`;
 CREATE TABLE `wms_receiving_plan_item` (
-  `id` bigint NOT NULL COMMENT '对象存储主键',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `create_by` bigint NOT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `receiving_plan_id` bigint DEFAULT NULL COMMENT '收货计划Id',
-  `plan_item_num` int DEFAULT NULL COMMENT '收货计划行号',
-  `receiving_notice_item_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '到货通知单行号',
-  `material_id` bigint NOT NULL COMMENT '物料ID',
-  `material_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料编号',
-  `material_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料描述',
-  `production_date` date DEFAULT NULL COMMENT '生产日期',
-  `expiry_date` date DEFAULT NULL COMMENT '失效日期',
-  `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '批次号',
-  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单位',
-  `qty` decimal(18,2) DEFAULT NULL COMMENT '数量',
-  `unit_price` decimal(18,2) DEFAULT NULL COMMENT '单位价格',
-  `material_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                                           `id` bigint NOT NULL COMMENT '对象存储主键',
+                                           `create_time` datetime NOT NULL COMMENT '创建时间',
+                                           `create_by` bigint NOT NULL COMMENT '创建人',
+                                           `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
+                                           `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                           `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                           `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                           `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                           `receiving_plan_id` bigint DEFAULT NULL COMMENT '收货计划Id',
+                                           `plan_item_num` int DEFAULT NULL COMMENT '收货计划行号',
+                                           `receiving_notice_item_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '到货通知单行号',
+                                           `material_id` bigint NOT NULL COMMENT '物料ID',
+                                           `material_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料编号',
+                                           `material_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料描述',
+                                           `production_date` date DEFAULT NULL COMMENT '生产日期',
+                                           `expiry_date` date DEFAULT NULL COMMENT '失效日期',
+                                           `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '批次号',
+                                           `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单位',
+                                           `qty` decimal(18,2) DEFAULT NULL COMMENT '数量',
+                                           `unit_price` decimal(18,2) DEFAULT NULL COMMENT '单位价格',
+                                           `material_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                           PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='收货计划明细表';
 
 -- ----------------------------
@@ -3479,25 +3720,25 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_scan_order`;
 CREATE TABLE `wms_scan_order` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `ref_id` bigint DEFAULT NULL COMMENT '单据ID',
-  `ref_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单据编码',
-  `company_id` bigint DEFAULT NULL COMMENT '客户ID',
-  `company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '客户名字',
-  `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
-  `warehouse_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库编码',
-  `warehouse_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库名字',
-  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作类型',
-  `quantity` bigint DEFAULT NULL COMMENT '数量',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '描述',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                  `ref_id` bigint DEFAULT NULL COMMENT '单据ID',
+                                  `ref_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单据编码',
+                                  `company_id` bigint DEFAULT NULL COMMENT '客户ID',
+                                  `company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '客户名字',
+                                  `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
+                                  `warehouse_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库编码',
+                                  `warehouse_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库名字',
+                                  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作类型',
+                                  `quantity` bigint DEFAULT NULL COMMENT '数量',
+                                  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '描述',
+                                  `deleted` bit(1) DEFAULT b'0',
+                                  `create_by` bigint NOT NULL COMMENT '创建人ID',
+                                  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                                  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='扫码订单';
 
 -- ----------------------------
@@ -3512,29 +3753,29 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_scan_order_detail`;
 CREATE TABLE `wms_scan_order_detail` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `assets_id` bigint DEFAULT NULL COMMENT '资产ID',
-  `assets_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '资产编码',
-  `ref_id` bigint DEFAULT NULL COMMENT '单据ID',
-  `ref_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单据编码',
-  `company_id` bigint DEFAULT NULL COMMENT '客户ID',
-  `company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '客户名字',
-  `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
-  `warehouse_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库编码',
-  `warehouse_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库名字',
-  `product_id` bigint DEFAULT NULL,
-  `product_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `product_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作类型',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '描述',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                         `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                         `assets_id` bigint DEFAULT NULL COMMENT '资产ID',
+                                         `assets_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '资产编码',
+                                         `ref_id` bigint DEFAULT NULL COMMENT '单据ID',
+                                         `ref_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '单据编码',
+                                         `company_id` bigint DEFAULT NULL COMMENT '客户ID',
+                                         `company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '客户名字',
+                                         `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
+                                         `warehouse_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库编码',
+                                         `warehouse_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库名字',
+                                         `product_id` bigint DEFAULT NULL,
+                                         `product_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                         `product_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                         `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作类型',
+                                         `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '描述',
+                                         `deleted` bit(1) DEFAULT b'0',
+                                         `create_by` bigint NOT NULL COMMENT '创建人ID',
+                                         `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                                         `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                         `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                         `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                         `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                         PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='扫码订单明细';
 
 -- ----------------------------
@@ -3549,27 +3790,27 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_stock`;
 CREATE TABLE `wms_stock` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `warehouse_id` bigint NOT NULL COMMENT '仓库ID',
-  `location_id` bigint NOT NULL COMMENT '储位ID',
-  `material_id` bigint NOT NULL COMMENT '物料ID',
-  `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '批次号',
-  `production_date` date DEFAULT NULL COMMENT '生产日期',
-  `expiry_date` date DEFAULT NULL COMMENT '失效日期',
-  `available_qty` decimal(18,2) DEFAULT NULL COMMENT '可用库存数量',
-  `qty` decimal(18,2) DEFAULT '0.00' COMMENT '库存数量',
-  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '库存单位',
-  `attribute` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '特殊属性',
-  `level` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料存货等级(良品、待检品、不良品、返工品、报废品、退货品)',
-  `unit_price` decimal(18,2) DEFAULT '0.00' COMMENT '单价',
-  PRIMARY KEY (`id`) USING BTREE
+                             `id` bigint NOT NULL COMMENT 'ID',
+                             `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                             `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                             `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                             `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                             `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                             `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                             `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                             `warehouse_id` bigint NOT NULL COMMENT '仓库ID',
+                             `location_id` bigint NOT NULL COMMENT '储位ID',
+                             `material_id` bigint NOT NULL COMMENT '物料ID',
+                             `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '批次号',
+                             `production_date` date DEFAULT NULL COMMENT '生产日期',
+                             `expiry_date` date DEFAULT NULL COMMENT '失效日期',
+                             `available_qty` decimal(18,2) DEFAULT NULL COMMENT '可用库存数量',
+                             `qty` decimal(18,2) DEFAULT '0.00' COMMENT '库存数量',
+                             `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '库存单位',
+                             `attribute` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '特殊属性',
+                             `level` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料存货等级(良品、待检品、不良品、返工品、报废品、退货品)',
+                             `unit_price` decimal(18,2) DEFAULT '0.00' COMMENT '单价',
+                             PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='库存余额表';
 
 -- ----------------------------
@@ -3600,31 +3841,31 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_stock_change`;
 CREATE TABLE `wms_stock_change` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `stock_id` bigint NOT NULL COMMENT '库存余额ID',
-  `warehouse_id` bigint NOT NULL COMMENT '仓库ID',
-  `location_id` bigint NOT NULL COMMENT '储位ID',
-  `material_id` bigint NOT NULL COMMENT '物料ID',
-  `change_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '库存变动类型(入库、出库、盘点、移库)',
-  `doc_id` bigint NOT NULL COMMENT '单据ID',
-  `doc_item_id` bigint NOT NULL COMMENT '单据行ID',
-  `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '批次号',
-  `production_date` date DEFAULT NULL COMMENT '生产日期',
-  `expiry_date` date DEFAULT NULL COMMENT '失效日期',
-  `qty` decimal(18,2) DEFAULT '0.00' COMMENT '变动数量',
-  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '库存单位',
-  `attribute` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '特殊属性',
-  `level` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料存货等级(良品、待检品、不良品、返工品、报废品、退货品)',
-  `unit_price` decimal(18,2) DEFAULT '0.00' COMMENT '单价',
-  `remarks` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
+                                    `id` bigint NOT NULL COMMENT 'ID',
+                                    `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                    `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                    `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                                    `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                    `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                    `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                    `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                    `stock_id` bigint NOT NULL COMMENT '库存余额ID',
+                                    `warehouse_id` bigint NOT NULL COMMENT '仓库ID',
+                                    `location_id` bigint NOT NULL COMMENT '储位ID',
+                                    `material_id` bigint NOT NULL COMMENT '物料ID',
+                                    `change_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '库存变动类型(入库、出库、盘点、移库)',
+                                    `doc_id` bigint NOT NULL COMMENT '单据ID',
+                                    `doc_item_id` bigint NOT NULL COMMENT '单据行ID',
+                                    `batch_num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '批次号',
+                                    `production_date` date DEFAULT NULL COMMENT '生产日期',
+                                    `expiry_date` date DEFAULT NULL COMMENT '失效日期',
+                                    `qty` decimal(18,2) DEFAULT '0.00' COMMENT '变动数量',
+                                    `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '库存单位',
+                                    `attribute` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '特殊属性',
+                                    `level` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '物料存货等级(良品、待检品、不良品、返工品、报废品、退货品)',
+                                    `unit_price` decimal(18,2) DEFAULT '0.00' COMMENT '单价',
+                                    `remarks` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+                                    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='库存余额变动表';
 
 -- ----------------------------
@@ -3651,28 +3892,28 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_stock_flow`;
 CREATE TABLE `wms_stock_flow` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
-  `warehouse_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库编码',
-  `warehouse_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库名字',
-  `company_id` bigint DEFAULT NULL,
-  `company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `ref_id` bigint DEFAULT NULL,
-  `ref_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `product_id` bigint DEFAULT NULL COMMENT '产品ID',
-  `product_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品编码',
-  `product_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品名字',
-  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作类型',
-  `quantity` bigint DEFAULT NULL COMMENT '数量(正整数就是增加  负数就是扣减)',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '描述',
-  `deleted` bit(1) DEFAULT b'0',
-  `create_by` bigint NOT NULL COMMENT '创建人ID',
-  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
-  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                  `warehouse_id` bigint DEFAULT NULL COMMENT '仓库ID',
+                                  `warehouse_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库编码',
+                                  `warehouse_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库名字',
+                                  `company_id` bigint DEFAULT NULL,
+                                  `company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                  `ref_id` bigint DEFAULT NULL,
+                                  `ref_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                  `product_id` bigint DEFAULT NULL COMMENT '产品ID',
+                                  `product_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品编码',
+                                  `product_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品名字',
+                                  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '操作类型',
+                                  `quantity` bigint DEFAULT NULL COMMENT '数量(正整数就是增加  负数就是扣减)',
+                                  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '描述',
+                                  `deleted` bit(1) DEFAULT b'0',
+                                  `create_by` bigint NOT NULL COMMENT '创建人ID',
+                                  `create_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人名称',
+                                  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                  `last_modify_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                  `last_modify_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+                                  `last_modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                                  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='库存流水';
 
 -- ----------------------------
@@ -3687,22 +3928,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_storage_area`;
 CREATE TABLE `wms_storage_area` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '库区编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '库区名称',
-  `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '库区类型',
-  `warehouse_id` bigint NOT NULL COMMENT '仓库id',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库状态',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `warehouse_id` (`warehouse_id`) USING BTREE,
-  CONSTRAINT `wms_storage_area_ibfk_1` FOREIGN KEY (`warehouse_id`) REFERENCES `wms_warehouse` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+                                    `id` bigint NOT NULL COMMENT 'ID',
+                                    `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '库区编号',
+                                    `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '库区名称',
+                                    `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '库区类型',
+                                    `warehouse_id` bigint NOT NULL COMMENT '仓库id',
+                                    `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库状态',
+                                    `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                    `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                    `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                                    `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                    `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                    `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                    `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                    PRIMARY KEY (`id`) USING BTREE,
+                                    KEY `warehouse_id` (`warehouse_id`) USING BTREE,
+                                    CONSTRAINT `wms_storage_area_ibfk_1` FOREIGN KEY (`warehouse_id`) REFERENCES `wms_warehouse` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='库区表';
 
 -- ----------------------------
@@ -3721,44 +3962,44 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_supplier`;
 CREATE TABLE `wms_supplier` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `name` varchar(52) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '供应商名称',
-  `contact_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人姓名',
-  `contact_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系电话',
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '电子邮件',
-  `address` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '地址',
-  `tel` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公司电话',
-  `establishment_date` date DEFAULT NULL COMMENT '成立日期',
-  `business_start_date` date DEFAULT NULL COMMENT '营业期限开始时间',
-  `business_end_date` date DEFAULT NULL COMMENT '营业期限截止时间',
-  `registration_authority` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登记机关',
-  `registration_address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '注册地址',
-  `business_scope` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '经营范围',
-  `enterprise_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '企业类型',
-  `legal_person` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '法定代表人',
-  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'LOGO（存储路径或URL）',
-  `credit_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '统一信用代码',
-  `credit_limit` decimal(10,2) DEFAULT NULL COMMENT '信用限额',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
-  `province_id` bigint DEFAULT NULL COMMENT '省',
-  `province_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省名称',
-  `city_id` bigint DEFAULT NULL COMMENT '市',
-  `city_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市名称',
-  `district_id` bigint DEFAULT NULL COMMENT '区',
-  `district_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区名称',
-  `deleted` tinyint(1) DEFAULT '0' COMMENT '是否删除',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `last_modify_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_supplier_name` (`name`) USING BTREE,
-  KEY `idx_contact_name` (`contact_name`) USING BTREE,
-  KEY `idx_create_by` (`create_by`) USING BTREE,
-  KEY `idx_last_modify_by` (`last_modify_by`) USING BTREE
+                                `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                `name` varchar(52) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '供应商名称',
+                                `contact_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人姓名',
+                                `contact_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系电话',
+                                `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '电子邮件',
+                                `address` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '地址',
+                                `tel` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公司电话',
+                                `establishment_date` date DEFAULT NULL COMMENT '成立日期',
+                                `business_start_date` date DEFAULT NULL COMMENT '营业期限开始时间',
+                                `business_end_date` date DEFAULT NULL COMMENT '营业期限截止时间',
+                                `registration_authority` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '登记机关',
+                                `registration_address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '注册地址',
+                                `business_scope` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '经营范围',
+                                `enterprise_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '企业类型',
+                                `legal_person` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '法定代表人',
+                                `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'LOGO（存储路径或URL）',
+                                `credit_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '统一信用代码',
+                                `credit_limit` decimal(10,2) DEFAULT NULL COMMENT '信用限额',
+                                `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
+                                `province_id` bigint DEFAULT NULL COMMENT '省',
+                                `province_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '省名称',
+                                `city_id` bigint DEFAULT NULL COMMENT '市',
+                                `city_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '市名称',
+                                `district_id` bigint DEFAULT NULL COMMENT '区',
+                                `district_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '区名称',
+                                `deleted` tinyint(1) DEFAULT '0' COMMENT '是否删除',
+                                `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                                `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                `last_modify_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                PRIMARY KEY (`id`) USING BTREE,
+                                KEY `idx_supplier_name` (`name`) USING BTREE,
+                                KEY `idx_contact_name` (`contact_name`) USING BTREE,
+                                KEY `idx_create_by` (`create_by`) USING BTREE,
+                                KEY `idx_last_modify_by` (`last_modify_by`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1808032660916916227 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='供应商基本信息表';
 
 -- ----------------------------
@@ -3773,21 +4014,21 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_unit`;
 CREATE TABLE `wms_unit` (
-  `id` bigint NOT NULL COMMENT '对象存储主键',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `create_by` bigint NOT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '计量单位中文名称',
-  `name_en` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计量单位英文名称',
-  `symbol` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计量单位符号',
-  `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计量单位类型',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态',
-  PRIMARY KEY (`id`) USING BTREE
+                            `id` bigint NOT NULL COMMENT '对象存储主键',
+                            `create_time` datetime NOT NULL COMMENT '创建时间',
+                            `create_by` bigint NOT NULL COMMENT '创建人',
+                            `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
+                            `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                            `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                            `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                            `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                            `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '计量单位中文名称',
+                            `name_en` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计量单位英文名称',
+                            `symbol` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计量单位符号',
+                            `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计量单位类型',
+                            `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+                            `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态',
+                            PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='基本计量单位表';
 
 -- ----------------------------
@@ -3805,22 +4046,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_unit_conv`;
 CREATE TABLE `wms_unit_conv` (
-  `id` bigint NOT NULL COMMENT '对象存储主键',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `create_by` bigint NOT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `unit_id` bigint NOT NULL COMMENT '基本计量单位ID',
-  `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基本计量单位',
-  `conv_unit_id` bigint DEFAULT NULL COMMENT '转换的计量单位ID',
-  `conv_unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '转换的基本计量单位',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
-  `numerator` decimal(10,2) DEFAULT NULL COMMENT '分子',
-  `denominator` decimal(10,2) DEFAULT NULL COMMENT '分母',
-  PRIMARY KEY (`id`) USING BTREE
+                                 `id` bigint NOT NULL COMMENT '对象存储主键',
+                                 `create_time` datetime NOT NULL COMMENT '创建时间',
+                                 `create_by` bigint NOT NULL COMMENT '创建人',
+                                 `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '创建人姓名',
+                                 `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                 `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                 `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                 `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                 `unit_id` bigint NOT NULL COMMENT '基本计量单位ID',
+                                 `unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基本计量单位',
+                                 `conv_unit_id` bigint DEFAULT NULL COMMENT '转换的计量单位ID',
+                                 `conv_unit` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '转换的基本计量单位',
+                                 `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
+                                 `numerator` decimal(10,2) DEFAULT NULL COMMENT '分子',
+                                 `denominator` decimal(10,2) DEFAULT NULL COMMENT '分母',
+                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='基本计量单位转换表';
 
 -- ----------------------------
@@ -3835,33 +4076,33 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_warehouse`;
 CREATE TABLE `wms_warehouse` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库名称',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库状态',
-  `timezone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '时区',
-  `attribute` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '属性',
-  `unit` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计量单位',
-  `contact_person` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人',
-  `contact_email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮箱',
-  `contact_phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系电话',
-  `postcode` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮编',
-  `province_id` int DEFAULT NULL COMMENT '省份ID',
-  `province_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `city_id` int DEFAULT NULL COMMENT '城市ID',
-  `city_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `district_id` int DEFAULT NULL COMMENT '区县ID',
-  `district_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  PRIMARY KEY (`id`) USING BTREE
+                                 `id` bigint NOT NULL COMMENT 'ID',
+                                 `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库编号',
+                                 `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库名称',
+                                 `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库状态',
+                                 `timezone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '时区',
+                                 `attribute` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '属性',
+                                 `unit` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '计量单位',
+                                 `contact_person` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系人',
+                                 `contact_email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮箱',
+                                 `contact_phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '联系电话',
+                                 `postcode` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮编',
+                                 `province_id` int DEFAULT NULL COMMENT '省份ID',
+                                 `province_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                 `city_id` int DEFAULT NULL COMMENT '城市ID',
+                                 `city_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                 `district_id` int DEFAULT NULL COMMENT '区县ID',
+                                 `district_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                 `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                 `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+                                 `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                 `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                 `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                 `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                                 `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                 `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                 `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='仓库表';
 
 -- ----------------------------
@@ -3878,24 +4119,24 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_workbench`;
 CREATE TABLE `wms_workbench` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '工作台编号',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '工作台名称',
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '是否启用',
-  `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '工作台类型',
-  `category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '工作台类别',
-  `review_mode` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '复核模式',
-  `task_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '任务类型',
-  `weight_mode` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '启用称重',
-  `mac_address` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'MAC地址',
-  `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` bigint DEFAULT NULL COMMENT '创建人',
-  `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
-  `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
-  `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
-  PRIMARY KEY (`id`) USING BTREE
+                                 `id` bigint NOT NULL COMMENT 'ID',
+                                 `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '工作台编号',
+                                 `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '工作台名称',
+                                 `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '是否启用',
+                                 `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '工作台类型',
+                                 `category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '工作台类别',
+                                 `review_mode` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '复核模式',
+                                 `task_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '任务类型',
+                                 `weight_mode` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '启用称重',
+                                 `mac_address` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'MAC地址',
+                                 `deleted` tinyint DEFAULT '0' COMMENT '是否删除',
+                                 `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                 `create_by` bigint DEFAULT NULL COMMENT '创建人',
+                                 `create_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人姓名',
+                                 `last_modify_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                 `last_modify_by` bigint DEFAULT NULL COMMENT '更新人',
+                                 `last_modify_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新人姓名',
+                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='工作台表';
 
 -- ----------------------------

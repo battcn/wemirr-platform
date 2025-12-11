@@ -39,9 +39,9 @@ public class AccessLogProperties {
     private String token = "Authorization";
 
     /**
-     * traceId
+     * requestId
      */
-    private String trace = "traceId";
+    private String requestId = "x-request-id";
     /**
      * 日志存储策略
      * 如果不是 authority 服务 请配置 feign 的策略

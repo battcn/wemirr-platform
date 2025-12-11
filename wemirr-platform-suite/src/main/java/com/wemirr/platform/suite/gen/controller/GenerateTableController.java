@@ -1,10 +1,10 @@
 package com.wemirr.platform.suite.gen.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.platform.suite.gen.domain.dto.rep.GenerateTableDetailRep;
-import com.wemirr.platform.suite.gen.domain.dto.rep.GenerateTablePageRep;
 import com.wemirr.platform.suite.gen.domain.dto.req.GenerateTablePageReq;
 import com.wemirr.platform.suite.gen.domain.dto.req.GenerateTableSaveReq;
+import com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTableDetailResp;
+import com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTablePageResp;
 import com.wemirr.platform.suite.gen.domain.entity.GenerateTable;
 import com.wemirr.platform.suite.gen.service.GenerateTableService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
 /**
  * @author xiao1
  * @since 2024-12
@@ -48,7 +49,7 @@ public class GenerateTableController {
 
     @GetMapping("/page")
     @Operation(summary = "分页查询 - [DONE]", description = "分页查询表配置信息")
-    public IPage<GenerateTablePageRep> pageList(GenerateTablePageReq req) {
+    public IPage<GenerateTablePageResp> pageList(GenerateTablePageReq req) {
         return generateTableService.pageList(req);
     }
 
@@ -57,15 +58,15 @@ public class GenerateTableController {
      */
     @Operation(summary = "获取表配置信息详情")
     @GetMapping("/{id}/detail")
-    public GenerateTableDetailRep detail(@PathVariable Long id) {
+    public GenerateTableDetailResp detail(@PathVariable Long id) {
         return generateTableService.detail(id);
     }
 
     /**
      * 更新表配置信息
      */
-    @Operation(summary = "更新表配置信息")
     @PutMapping("/{id}/modify")
+    @Operation(summary = "更新配置")
     public void modify(@PathVariable Long id, @Validated @RequestBody GenerateTableSaveReq req) {
         generateTableService.modify(id, req);
     }

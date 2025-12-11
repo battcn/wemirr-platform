@@ -35,7 +35,6 @@ import com.wemirr.platform.iam.base.domain.entity.SysDict;
 import com.wemirr.platform.iam.base.repository.I18nLocaleMessageMapper;
 import com.wemirr.platform.iam.base.repository.SysDictMapper;
 import com.wemirr.platform.iam.base.service.DictService;
-import com.wemirr.platform.iam.tenant.domain.entity.TenantDict;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

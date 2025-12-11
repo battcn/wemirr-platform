@@ -1,11 +1,11 @@
 package com.wemirr.platform.suite.gen.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.platform.suite.gen.domain.dto.rep.GenerateTemplateDetailRep;
-import com.wemirr.platform.suite.gen.domain.dto.rep.GenerateTemplateListRep;
-import com.wemirr.platform.suite.gen.domain.dto.rep.GenerateTemplatePageRep;
 import com.wemirr.platform.suite.gen.domain.dto.req.GenerateTemplatePageReq;
 import com.wemirr.platform.suite.gen.domain.dto.req.GenerateTemplateSaveReq;
+import com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTemplateDetailResp;
+import com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTemplateListResp;
+import com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTemplatePageResp;
 import com.wemirr.platform.suite.gen.service.GenerateTemplateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,7 +35,7 @@ public class GenerateTemplateController {
      */
     @Operation(summary = "分页查询模板")
     @GetMapping("/page")
-    public IPage<GenerateTemplatePageRep> pageList(GenerateTemplatePageReq req) {
+    public IPage<GenerateTemplatePageResp> pageList(GenerateTemplatePageReq req) {
         return generateTemplateService.pageList(req);
     }
 
@@ -62,7 +62,7 @@ public class GenerateTemplateController {
      */
     @Operation(summary = "模板详情")
     @GetMapping("/{id}/detail")
-    public GenerateTemplateDetailRep detail(@PathVariable("id") Long id) {
+    public GenerateTemplateDetailResp detail(@PathVariable("id") Long id) {
         return generateTemplateService.detail(id);
     }
 
@@ -80,10 +80,10 @@ public class GenerateTemplateController {
      */
     @Operation(summary = "查询所有的模板信息")
     @GetMapping("/list-all")
-    public List<GenerateTemplateListRep> listAll() {
+    public List<GenerateTemplateListResp> listAll() {
         return generateTemplateService.list().stream().map(
                 x -> {
-                    GenerateTemplateListRep rep = new GenerateTemplateListRep();
+                    GenerateTemplateListResp rep = new GenerateTemplateListResp();
                     rep.setId(x.getId());
                     rep.setName(x.getName());
                     return rep;

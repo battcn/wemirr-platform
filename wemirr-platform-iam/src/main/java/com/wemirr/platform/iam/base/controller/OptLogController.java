@@ -47,10 +47,9 @@ import java.time.temporal.ChronoUnit;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/opt_logs")
-@Tag(name = "操作日志", description = "操作日志")
-
 @RequiredArgsConstructor
+@RequestMapping("/opt-logs")
+@Tag(name = "操作日志", description = "操作日志")
 public class OptLogController {
     
     private final OptLogService optLogService;

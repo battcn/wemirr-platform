@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wemirr.platform.suite.gen.repository.GenerateTemplateGroupMapper">
+
+    <select id="selectPageList" resultType="com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTemplateGroupPageResp">
+        SELECT g.*, GROUP_CONCAT(r.template_id) AS templateIds
+        FROM c_generate_template_group g
+        LEFT JOIN c_generate_template_group_relation r ON g.id = r.group_id AND r.deleted = false
+        <where>
+            <if test="req.name != null and req.name != ''">
+                AND g.name LIKE CONCAT('%', #{req.name}, '%')
+            </if>
+        </where>
+        GROUP BY g.id
+    </select>
+</mapper>

@@ -41,7 +41,7 @@ public interface AccessLogFeign {
      *
      * @param info 日志信息
      */
-    @PostMapping("/opt_logs/listener")
+    @PostMapping("/opt-logs/listener")
     void listener(@RequestBody AccessLogInfo info);
 
 }

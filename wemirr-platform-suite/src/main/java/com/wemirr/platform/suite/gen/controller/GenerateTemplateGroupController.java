@@ -1,10 +1,10 @@
 package com.wemirr.platform.suite.gen.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.platform.suite.gen.domain.dto.rep.GenerateTemplateGroupListRep;
-import com.wemirr.platform.suite.gen.domain.dto.rep.GenerateTemplateGroupPageRep;
 import com.wemirr.platform.suite.gen.domain.dto.req.GenerateTemplateGroupPageReq;
 import com.wemirr.platform.suite.gen.domain.dto.req.GenerateTemplateGroupSaveReq;
+import com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTemplateGroupListRep;
+import com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTemplateGroupPageResp;
 import com.wemirr.platform.suite.gen.service.GenerateTemplateGroupService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,14 +26,12 @@ import java.util.List;
 @RequestMapping("/generate-template-group")
 @Tag(name = "代码生成模板组", description = "代码生成模板组")
 public class GenerateTemplateGroupController {
+
     private final GenerateTemplateGroupService generateTemplateGroupService;
 
-    /**
-     * 分页查询模板
-     */
-    @Operation(summary = "分页查询分组")
     @GetMapping("/page")
-    public IPage<GenerateTemplateGroupPageRep> pageList(GenerateTemplateGroupPageReq req) {
+    @Operation(summary = "分页查询")
+    public IPage<GenerateTemplateGroupPageResp> pageList(GenerateTemplateGroupPageReq req) {
         return generateTemplateGroupService.pageList(req);
     }
 

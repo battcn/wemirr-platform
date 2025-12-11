@@ -6,9 +6,9 @@ import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.suite.gen.domain.dto.rep.GenerateTableColumnPageRep;
 import com.wemirr.platform.suite.gen.domain.dto.req.GenerateTableColumnPageReq;
 import com.wemirr.platform.suite.gen.domain.dto.req.GenerateTableColumnSaveReq;
+import com.wemirr.platform.suite.gen.domain.dto.resp.GenerateTableColumnPageResp;
 import com.wemirr.platform.suite.gen.domain.entity.GenerateTableColumn;
 import com.wemirr.platform.suite.gen.repository.GenerateTableColumnMapper;
 import com.wemirr.platform.suite.gen.service.GenerateTableColumnService;
@@ -35,14 +35,14 @@ public class GenerateTableColumnServiceImpl extends SuperServiceImpl<GenerateTab
     }
 
     @Override
-    public IPage<GenerateTableColumnPageRep> pageList(GenerateTableColumnPageReq req) {
+    public IPage<GenerateTableColumnPageResp> pageList(GenerateTableColumnPageReq req) {
         return this.baseMapper.selectPage(req.buildPage(), Wraps.<GenerateTableColumn>lbQ()
                         .like(GenerateTableColumn::getName, req.getName())
                         .like(GenerateTableColumn::getTableName, req.getTableName())
                         .orderByAsc(GenerateTableColumn::getTableName)
                         .orderByAsc(GenerateTableColumn::getSort)
                 )
-                .convert(x -> BeanUtil.toBean(x, GenerateTableColumnPageRep.class));
+                .convert(x -> BeanUtil.toBean(x, GenerateTableColumnPageResp.class));
 
     }
 

@@ -15,10 +15,6 @@ import java.util.List;
 @Data
 public class GenerateTemplateSaveReq {
 
-
-    /**
-     * 模板名称
-     */
     @Schema(description = "模板名称")
     @NotBlank(message = "模板名称不能为空")
     private String name;
@@ -36,7 +32,6 @@ public class GenerateTemplateSaveReq {
      * 模板描述
      */
     @Schema(description = "模板描述")
-    //   @NotBlank(message = "模板描述不能为空")
     private String description;
 
     /**
@@ -51,7 +46,5 @@ public class GenerateTemplateSaveReq {
      */
     @Schema(description = "关联的模板ids")
     private List<Long> templateIds;
-
-    //TODO: 自定义模板映射值
 
 }

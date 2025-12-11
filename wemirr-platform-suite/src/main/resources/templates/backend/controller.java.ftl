@@ -73,7 +73,7 @@ public IPage<${ClassName}PageResp> pageList(${ClassName}PageReq req) {
     */
     @DeleteMapping("/{id}")
     public void remove(@PathVariable Long id) {
-    ${businessName}Service.removeById(id);
+    ${businessName}Service.delete(id);
     }
     }
 
