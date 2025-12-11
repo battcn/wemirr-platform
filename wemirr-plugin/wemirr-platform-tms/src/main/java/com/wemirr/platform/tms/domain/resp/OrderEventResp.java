@@ -38,7 +38,7 @@ public class OrderEventResp {
     private BigDecimal latitude;
 
     @Schema(description = "记录时间")
-    private LocalDateTime recordTime;
+    private Instant recordTime;
 
     @Schema(description = "节点状态ID")
     private Integer eventType;

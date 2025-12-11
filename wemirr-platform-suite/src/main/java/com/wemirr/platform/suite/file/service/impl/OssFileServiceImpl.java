@@ -28,14 +28,15 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.platform.suite.feign.domain.resp.OssFilePreviewResp;
 import com.wemirr.platform.suite.file.domain.dto.req.FileStoragePageReq;
-import com.wemirr.platform.suite.file.domain.dto.resp.FileStoragePageResp;
-import com.wemirr.platform.suite.file.domain.entity.FileStorage;
-import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;
+import com.wemirr.platform.suite.file.domain.dto.resp.OssFilePageResp;
+import com.wemirr.platform.suite.file.domain.entity.OssConfig;
+import com.wemirr.platform.suite.file.domain.entity.OssFile;
 import com.wemirr.platform.suite.file.domain.enums.MineType;
-import com.wemirr.platform.suite.file.event.StorageSettingTemplate;
-import com.wemirr.platform.suite.file.repository.FileStorageMapper;
-import com.wemirr.platform.suite.file.service.FileStorageService;
+import com.wemirr.platform.suite.file.event.OssConfigTemplate;
+import com.wemirr.platform.suite.file.repository.OssFileMapper;
+import com.wemirr.platform.suite.file.service.OssFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.x.file.storage.core.FileInfo;
@@ -43,8 +44,7 @@ import org.dromara.x.file.storage.core.hash.HashInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author xiao1
@@ -53,33 +53,33 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, FileStorage> implements FileStorageService {
-    
+public class OssFileServiceImpl extends SuperServiceImpl<OssFileMapper, OssFile> implements OssFileService {
+
     private final org.dromara.x.file.storage.core.FileStorageService fileStorageService;
-    private final StorageSettingTemplate storageSettingTemplate;
-    
+    private final OssConfigTemplate ossConfigTemplate;
+
     private static final long KB = 1024;
     private static final long MB = KB * 1024;
     private static final long GB = MB * 1024;
     private static final long TB = GB * 1024;
-    
+
     @Override
-    public FileStorage upload(MultipartFile file) {
-        FileStorageSetting setting = storageSettingTemplate.getDefaultStorageSetting();
+    public OssFile upload(MultipartFile file) {
+        OssConfig setting = ossConfigTemplate.getDefaultStorageSetting();
         String platform = setting.getPlatform();
         if (fileStorageService.getFileStorage(platform) == null) {
             throw CheckedException.badRequest("未找到对应的存储平台，请检查配置");
         }
         FileInfo info = fileStorageService.of(file).setPlatform(platform).upload();
-        FileStorage storage = toFileInfoRecord(info);
+        OssFile storage = toFileInfoRecord(info);
         storage.setCategory(MineType.ofName(info.getContentType()));
         storage.setPlatform(platform);
         this.baseMapper.insert(storage);
         return storage;
     }
-    
+
     @Override
-    public FileStorage uploadImage(MultipartFile file) {
+    public OssFile uploadImage(MultipartFile file) {
         FileInfo info = fileStorageService
                 .of(file)
                 // .setThumbnailSuffix() //指定缩略图后缀，必须是 thumbnailator 支持的图片格式，默认使用全局的
@@ -91,10 +91,10 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
                 .upload();
         return toFileInfoRecord(info);
     }
-    
+
     @Override
     public void delete(Long id) {
-        FileStorage storage = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("文件不存在"));
+        OssFile storage = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("文件不存在"));
         org.dromara.x.file.storage.core.platform.FileStorage fileStorage = fileStorageService.getFileStorage(storage.getPlatform());
         if (fileStorage == null) {
             throw CheckedException.badRequest("未找到对应的存储平台或对应平台未开启");
@@ -104,41 +104,55 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
             this.baseMapper.deleteById(id);
         }
     }
-    
+
     @Override
     public void rename(Long id, String originName) {
-        this.baseMapper.updateById(FileStorage.builder().id(id).originalFilename(originName).build());
+        this.baseMapper.updateById(OssFile.builder().id(id).originalFilename(originName).build());
     }
-    
+
     @Override
-    public IPage<FileStoragePageResp> pageList(FileStoragePageReq req) {
-        return this.baseMapper.selectPage(req.buildPage(), Wraps.<FileStorage>lbQ()
-                .eq(FileStorage::getCategory, req.getCategory())
-                .like(FileStorage::getOriginalFilename, req.getOriginalFilename())
-                .like(FileStorage::getCreateName, req.getCreateName()))
-                .convert(x -> BeanUtil.toBean(x, FileStoragePageResp.class));
+    public IPage<OssFilePageResp> pageList(FileStoragePageReq req) {
+        return this.baseMapper.selectPage(req.buildPage(), Wraps.<OssFile>lbQ()
+                        .eq(OssFile::getCategory, req.getCategory())
+                        .like(OssFile::getOriginalFilename, req.getOriginalFilename())
+                        .like(OssFile::getCreateName, req.getCreateName()))
+                .convert(x -> BeanUtil.toBean(x, OssFilePageResp.class));
     }
-    
+
+    @Override
+    public Map.Entry<String, String> preview(String filePath) {
+        return null;
+    }
+
+    @Override
+    public Collection<String> previewList(Set<String> req) {
+        return List.of();
+    }
+
+    @Override
+    public Map<String, OssFilePreviewResp> previewMap(Set<String> pathList) {
+        return Map.of();
+    }
+
     /**
      * 将 FileInfo 转为 FileInfoRecord
      */
-    public FileStorage toFileInfoRecord(FileInfo info) {
-        FileStorage detail = BeanUtil.copyProperties(
-                info, FileStorage.class, "metadata", "userMetadata", "thMetadata", "thUserMetadata", "attr", "hashInfo");
+    public OssFile toFileInfoRecord(FileInfo info) {
+        OssFile detail = BeanUtil.copyProperties(
+                info, OssFile.class, "metadata", "userMetadata", "thMetadata", "thUserMetadata", "attr", "hashInfo");
         detail.setMetadata(JSON.toJSONString(info.getMetadata()));
         detail.setUserMetadata(JSON.toJSONString(info.getUserMetadata()));
         detail.setThMetadata(JSON.toJSONString(info.getThMetadata()));
         detail.setThUserMetadata(JSON.toJSONString(info.getThUserMetadata()));
         detail.setAttr(JSON.toJSONString(info.getAttr()));
         detail.setHashInfo(JSON.toJSONString(info.getHashInfo()));
-        detail.setFormatSize(formatFileSize(info.getSize()));
         return detail;
     }
-    
+
     /**
      * 将 FileInfoRecord 转为 FileInfo
      */
-    public FileInfo toFileInfo(FileStorage detail) {
+    public FileInfo toFileInfo(OssFile detail) {
         FileInfo info = BeanUtil.copyProperties(detail, FileInfo.class, "metadata", "userMetadata", "thMetadata", "thUserMetadata", "attr", "hashInfo");
         // 这里手动获取数据库中的 json 字符串 并转成 元数据，方便使用
         info.setMetadata(jsonToMetadata(detail.getMetadata()));
@@ -151,7 +165,7 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
         info.setHashInfo(JSON.parseObject(detail.getHashInfo(), HashInfo.class));
         return info;
     }
-    
+
     /**
      * 将 json 字符串转换成元数据对象
      */
@@ -162,19 +176,5 @@ public class FileStorageServiceImpl extends SuperServiceImpl<FileStorageMapper, 
         return JSON.parseObject(json, new TypeReference<>() {
         });
     }
-    
-    public static String formatFileSize(long bytes) {
-        if (bytes >= TB) {
-            return String.format("%.2f TB", bytes / (double) TB);
-        } else if (bytes >= GB) {
-            return String.format("%.2f GB", bytes / (double) GB);
-        } else if (bytes >= MB) {
-            return String.format("%.2f MB", bytes / (double) MB);
-        } else if (bytes >= KB) {
-            return String.format("%.2f KB", bytes / (double) KB);
-        } else {
-            return String.format("%d B", bytes);
-        }
-    }
-    
+
 }

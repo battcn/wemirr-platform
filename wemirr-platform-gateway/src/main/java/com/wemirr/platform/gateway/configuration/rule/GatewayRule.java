@@ -34,6 +34,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.AntPathMatcher;
 
 import java.lang.reflect.Type;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -78,7 +79,7 @@ public interface GatewayRule<T> {
                 continue;
             }
             if (ObjectUtils.allNotNull(rule.getStartTime(), rule.getEndTime())) {
-                final LocalDateTime now = LocalDateTime.now();
+                final Instant now = Instant.now();
                 if (now.isBefore(rule.getStartTime()) || now.isAfter(rule.getEndTime())) {
                     continue;
                 }

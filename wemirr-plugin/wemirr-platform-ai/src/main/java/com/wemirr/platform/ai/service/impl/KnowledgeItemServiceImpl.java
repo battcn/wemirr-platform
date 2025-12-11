@@ -22,8 +22,8 @@ import com.wemirr.platform.ai.repository.KnowledgeItemMapper;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
 import com.wemirr.platform.ai.service.KnowledgeChunkService;
 import com.wemirr.platform.ai.service.KnowledgeItemService;
-import com.wemirr.platform.suite.feign.FileStorageService;
-import com.wemirr.platform.suite.feign.domain.resp.FileStorageRep;
+import com.wemirr.platform.suite.feign.OssFileFeign;
+import com.wemirr.platform.suite.feign.domain.resp.OssFileResp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -54,7 +54,7 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
 
     private final KnowledgeBaseService knowledgeBaseService;
 
-    private final FileStorageService fileStorageService;
+    private final OssFileFeign ossFileFeign;
 
     @Override
     public IPage<KnowledgeItemResp> pageList(KnowledgeItemPageReq req) {
@@ -327,7 +327,7 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long uploadAndProcess(Long kbId, MultipartFile file) throws IOException {
-        FileStorageRep uploadResp = fileStorageService.upload(file);
+        OssFileResp uploadResp = ossFileFeign.upload(file);
         DocumentSaveReq req = DocumentSaveReq.builder()
                 .filePath(uploadResp.getPath())
                 .fileSize(uploadResp.getSize())

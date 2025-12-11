@@ -31,7 +31,7 @@ import com.wemirr.framework.excel.annotation.ResponseExcel;
 import com.wemirr.platform.iam.system.domain.dto.req.UserPageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserUpdateReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.UserResp;
+import com.wemirr.platform.iam.system.domain.dto.resp.UserPageResp;
 import com.wemirr.platform.iam.system.domain.entity.User;
 import com.wemirr.platform.iam.system.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -63,11 +63,11 @@ public class UserController {
     @PostMapping("/page")
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
     @SaCheckPermission(value = {"sys:user:page"})
-    public IPage<UserResp> pageList(@RequestBody UserPageReq req) {
+    public IPage<UserPageResp> pageList(@RequestBody UserPageReq req) {
         return this.userService.pageList(req);
     }
     
-    @PutMapping("/{id}/reset_password")
+    @PutMapping("/{id}/reset-password")
     @SaCheckPermission(value = {"sys:user:reset"})
     @Operation(summary = "重置密码", description = "重置密码,并且将随机生成的密码通过邮箱/短信的形式发送")
     public void resetPassword(@PathVariable Long id) {
@@ -78,7 +78,7 @@ public class UserController {
     @Operation(summary = "用户列表 - [Levin] - [DONE]")
     @SaCheckPermission(value = {"sys:user:export"})
     @ResponseExcel(fileName = "用户列表")
-    public List<UserResp> exportList(@RequestBody UserPageReq req) {
+    public List<UserPageResp> exportList(@RequestBody UserPageReq req) {
         // 因为导出要全部数据
         req.setCurrent(1);
         req.setSize(-1);
@@ -106,27 +106,27 @@ public class UserController {
     @Operation(summary = "删除用户")
     @SaCheckPermission(value = {"sys:user:remove"})
     public void del(@PathVariable Long id) {
-        this.userService.deleteById(id);
+        this.userService.delete(id);
     }
     
     @PostMapping("/ids")
     @Operation(summary = "ID批量查询")
-    public List<UserResp> idList(@RequestBody Set<Long> ids) {
-        return BeanUtilPlus.toBeans(this.userService.listByIds(ids), UserResp.class);
+    public List<UserPageResp> idList(@RequestBody Set<Long> ids) {
+        return BeanUtilPlus.toBeans(this.userService.listByIds(ids), UserPageResp.class);
     }
     
     @PostMapping("/batch_ids")
     @Operation(summary = "ID批量查询")
-    public Map<Long, UserResp> batchIds(@RequestBody Set<Long> ids) {
+    public Map<Long, UserPageResp> batchIds(@RequestBody Set<Long> ids) {
         final List<User> users = this.userService.listByIds(ids);
-        return MapHelper.toHashMap(users, Entity::getId, x -> BeanUtil.toBean(x, UserResp.class));
+        return MapHelper.toHashMap(users, Entity::getId, x -> BeanUtil.toBean(x, UserPageResp.class));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "用户信息查询")
-    public UserResp getUser(@PathVariable Long id) {
+    public UserPageResp getUser(@PathVariable Long id) {
         final User user = this.userService.getById(id);
-        return BeanUtil.toBean(user, UserResp.class);
+        return BeanUtil.toBean(user, UserPageResp.class);
     }
     
     @GetMapping("/{id}/data_permission")

@@ -28,7 +28,7 @@ import com.wemirr.platform.iam.system.domain.dto.req.UserOnlinePageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserPageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserUpdateReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.UserResp;
+import com.wemirr.platform.iam.system.domain.dto.resp.UserPageResp;
 import com.wemirr.platform.iam.system.domain.entity.User;
 
 /**
@@ -63,7 +63,7 @@ public interface UserService extends SuperService<User> {
      * @param req req
      * @return 查询结果
      */
-    IPage<UserResp> pageList(UserPageReq req);
+    IPage<UserPageResp> pageList(UserPageReq req);
     
     /**
      * 修改密码
@@ -79,7 +79,7 @@ public interface UserService extends SuperService<User> {
      *
      * @param id id
      */
-    void deleteById(Long id);
+    void delete(Long id);
     
     /**
      * 修改用户信息

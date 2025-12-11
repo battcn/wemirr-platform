@@ -9,7 +9,7 @@ import lombok.Data;
  * @since 2025/11/6
  **/
 @Data
-public class FileStorageRep {
+public class OssFileResp {
 
     @Schema(description = "文件访问地址")
     private String url;

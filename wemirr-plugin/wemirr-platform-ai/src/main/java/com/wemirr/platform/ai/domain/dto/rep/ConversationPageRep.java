@@ -35,9 +35,9 @@ public class ConversationPageRep {
     private Boolean pinned;
 
     @Schema(description = "创建时间")
-    private LocalDateTime createdTime;
+    private Instant createdTime;
 
     @Schema(description = "更新时间")
-    private LocalDateTime updatedTime;
+    private Instant updatedTime;
 
 }

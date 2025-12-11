@@ -116,10 +116,10 @@ public class KnowledgeItemResp {
     private Map<String, Object> metadata;
 
     @Schema(description = "创建时间")
-    private LocalDateTime createdTime;
+    private Instant createdTime;
 
     @Schema(description = "更新时间")
-    private LocalDateTime updatedTime;
+    private Instant updatedTime;
 
     @Schema(description = "分片数量")
     private Integer chunkCount;

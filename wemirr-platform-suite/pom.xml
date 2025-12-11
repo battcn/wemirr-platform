@@ -104,6 +104,10 @@
             <groupId>org.anyline</groupId>
             <artifactId>anyline-data-jdbc-mysql</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.wemirr</groupId>
+            <artifactId>wemirr-platform-suite-api</artifactId>
+        </dependency>
     </dependencies>
     
     <build>

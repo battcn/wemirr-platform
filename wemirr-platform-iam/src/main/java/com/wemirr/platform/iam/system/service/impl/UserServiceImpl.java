@@ -56,7 +56,7 @@ import com.wemirr.platform.iam.system.domain.dto.req.UserOnlinePageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserPageReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.req.UserUpdateReq;
-import com.wemirr.platform.iam.system.domain.dto.resp.UserResp;
+import com.wemirr.platform.iam.system.domain.dto.resp.UserPageResp;
 import com.wemirr.platform.iam.system.domain.entity.Resource;
 import com.wemirr.platform.iam.system.domain.entity.Role;
 import com.wemirr.platform.iam.system.domain.entity.User;
@@ -126,21 +126,13 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
     @Override
     @RemoteResult
-    public IPage<UserResp> pageList(UserPageReq req) {
-        return DataPermissionUtils.executeWithDataPermissionRule(DataPermissionRule.builder()
-                        .columns(List.of(new DataPermissionRule.Column()))
-                        .build(),
-                () -> baseMapper.selectPage(req.buildPage(), Wraps.<User>lbQ()
-                        .eq(User::getTenantId, context.tenantId())
-                        .like(User::getUsername, req.getUsername())
-                        .like(User::getNickName, req.getNickName())
-                        .like(User::getEmail, req.getEmail())
-                        .eq(User::getStatus, req.getStatus())
-                        .eq(User::getEducation, req.getEducation())
-                        .eq(User::getDeleted, false)
-                        .eq(User::getSex, req.getSex())
-                        .in(User::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
-                        .eq(User::getMobile, req.getMobile())).convert(x -> BeanUtil.toBean(x, UserResp.class)));
+    public IPage<UserPageResp> pageList(UserPageReq req) {
+        return DataPermissionUtils.executeWithRule(DataPermissionRule.builder()
+                .columns(List.of(new DataPermissionRule.Column())).build(), () -> baseMapper.selectPage(req.buildPage(), Wraps.<User>lbQ()
+                .eq(User::getTenantId, context.tenantId()).eq(User::getStatus, req.getStatus())
+                .like(User::getUsername, req.getUsername()).like(User::getNickName, req.getNickName()).like(User::getEmail, req.getEmail())
+                .eq(User::getEducation, req.getEducation()).eq(User::getSex, req.getSex()).in(User::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
+                .eq(User::getMobile, req.getMobile())).convert(x -> BeanUtil.toBean(x, UserPageResp.class)));
     }
 
     @Override
@@ -154,7 +146,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
 
     @Override
     @DSTransactional(rollbackFor = Exception.class)
-    public void deleteById(Long id) {
+    public void delete(Long id) {
         final User user = Optional.ofNullable(getById(id)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
         if (user.getReadonly()) {
             throw CheckedException.badRequest("内置用户不允许删除");

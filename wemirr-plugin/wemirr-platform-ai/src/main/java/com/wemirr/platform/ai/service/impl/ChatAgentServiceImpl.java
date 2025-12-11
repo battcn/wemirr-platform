@@ -16,8 +16,8 @@ import com.wemirr.platform.ai.domain.entity.Conversation;
 import com.wemirr.platform.ai.repository.ChatAgentMapper;
 import com.wemirr.platform.ai.service.ChatAgentService;
 import com.wemirr.platform.ai.service.ConversationService;
-import com.wemirr.platform.suite.feign.FileStorageService;
-import com.wemirr.platform.suite.feign.domain.resp.FileStorageRep;
+import com.wemirr.platform.suite.feign.OssFileFeign;
+import com.wemirr.platform.suite.feign.domain.resp.OssFileResp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ import java.util.Optional;
 public class ChatAgentServiceImpl extends SuperServiceImpl<ChatAgentMapper, ChatAgent> implements ChatAgentService {
 
     private final AuthenticationContext context;
-    private final FileStorageService fileStorageService;
+    private final OssFileFeign ossFileFeign;
     private final ConversationService conversationService;
 
     @Override
@@ -120,7 +120,7 @@ public class ChatAgentServiceImpl extends SuperServiceImpl<ChatAgentMapper, Chat
 
     @Override
     public String uploadAvatar(MultipartFile file) {
-        FileStorageRep upload = fileStorageService.upload(file);
+        OssFileResp upload = ossFileFeign.upload(file);
         return upload.getUrl();
 
     }

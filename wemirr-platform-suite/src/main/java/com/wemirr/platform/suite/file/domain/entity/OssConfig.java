@@ -29,60 +29,60 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
- * 文件存储配置
+ * 对象存储配置
  *
  * @author xiao1
- * @since 2024-12
+ * @since 2025-12
  */
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName("t_file_storage_setting")
-public class FileStorageSetting extends SuperEntity<Long> {
-    
-    @Schema(description = "存储类型")
-    private String type;
-    
-    @Schema(description = "自动生成;由 type 与 bucket 组成")
-    private String platform;
-    
-    /**
-     * 是否启用存储 [true:启用;false:禁用]
-     * 同个租户下只能开启一个配置
-     */
-    private Boolean status;
-    /**
-     * 访问key
-     */
-    private String accessKey;
-    /**
-     * 密钥
-     */
-    private String secretKey;
-    /**
-     * 区域
-     */
-    private String region;
-    /**
-     * 访问域名
-     */
-    @Schema(description = "访问域名")
-    private String domain;
-    
-    @Schema(description = "存储桶名称")
-    private String bucketName;
-    /**
-     * 基础路径
-     */
-    private String basePath;
-    /**
-     * 连接地址
-     */
-    private String endPoint;
-    
+@TableName("oss_config")
+public class OssConfig extends SuperEntity<Long> {
+
     @Schema(description = "租户ID")
     private Long tenantId;
-    
+
+    @Schema(description = "存储类型 (MINIO, ALIYUN, TENCENT, QINIU, S3)")
+    private String type;
+
+    @Schema(description = "配置编码 (唯一标识, 如: minio_local)")
+    private String platform;
+
+    // ================== 认证信息 ==================
+
+    @Schema(description = "AccessKey")
+    private String accessKey;
+
+    @Schema(description = "SecretKey")
+    // 建议：如果返回前端不需要展示SK，可以加 @JsonIgnore 或在VO层处理
+    private String secretKey;
+
+    @Schema(description = "存储桶名称")
+    private String bucketName;
+
+    // ================== 网络配置 ==================
+
+    @Schema(description = "连接端点 (Endpoint)")
+    private String endPoint;
+
+    @Schema(description = "存储区域 (Region)")
+    private String region;
+
+    @Schema(description = "访问域名 (CDN/自定义域名)")
+    private String domain;
+
+    @Schema(description = "基础路径/前缀")
+    private String basePath;
+
+    // ================== 状态控制 ==================
+
+    /**
+     * 是否启用 [true:启用; false:禁用]
+     * 业务逻辑需保证：同个租户下只能开启一个配置 (is_default)
+     */
+    @Schema(description = "状态")
+    private Boolean status;
 }

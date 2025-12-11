@@ -27,7 +27,7 @@ import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.db.mybatisplus.datascope.annotation.DataColumn;
 import com.wemirr.framework.db.mybatisplus.datascope.annotation.DataScope;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.platform.iam.system.domain.dto.resp.UserResp;
+import com.wemirr.platform.iam.system.domain.dto.resp.UserPageResp;
 import com.wemirr.platform.iam.system.domain.entity.User;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
@@ -51,7 +51,7 @@ public interface UserMapper extends SuperMapper<User> {
      * @return 查询结果
      */
     @DataScope(columns = @DataColumn(name = Entity.CREATE_USER_COLUMN))
-    IPage<UserResp> findPage(@Param("page") IPage<User> page, @Param(Constants.WRAPPER) Wrapper<User> wrapper);
+    IPage<UserPageResp> findPage(@Param("page") IPage<User> page, @Param(Constants.WRAPPER) Wrapper<User> wrapper);
     
     /**
      * 查询用户

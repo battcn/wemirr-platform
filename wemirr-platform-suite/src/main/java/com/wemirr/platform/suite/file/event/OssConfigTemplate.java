@@ -28,8 +28,8 @@ import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.platform.suite.file.domain.constants.StorageConstants;
-import com.wemirr.platform.suite.file.domain.entity.FileStorageSetting;
-import com.wemirr.platform.suite.file.repository.FileStorageSettingMapper;
+import com.wemirr.platform.suite.file.domain.entity.OssConfig;
+import com.wemirr.platform.suite.file.repository.OssConfigMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.x.file.storage.core.FileStorageProperties;
@@ -54,26 +54,26 @@ import static com.wemirr.platform.suite.file.domain.constants.StorageConstants.S
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class StorageSettingTemplate implements ApplicationRunner {
+public class OssConfigTemplate implements ApplicationRunner {
 
     private final AuthenticationContext context;
-    private final FileStorageSettingMapper fileStorageSettingMapper;
+    private final OssConfigMapper ossConfigMapper;
     private final RedisTemplate<String, Object> redisTemplate;
     private final FileStorageService fileStorageService;
 
     @Override
     public void run(ApplicationArguments args) {
         log.info("==================== 存储设置初始化-Begin ====================");
-        List<FileStorageSetting> storageSettingList = TenantHelper.withIgnoreStrategy(() -> fileStorageSettingMapper.selectList(FileStorageSetting::getStatus, true));
+        List<OssConfig> storageSettingList = TenantHelper.withIgnoreStrategy(() -> ossConfigMapper.selectList(OssConfig::getStatus, true));
         if (CollUtil.isEmpty(storageSettingList)) {
             return;
         }
-        for (FileStorageSetting setting : storageSettingList) {
+        for (OssConfig setting : storageSettingList) {
             publish(setting, 1);
         }
         CopyOnWriteArrayList<FileStorage> fileStorageList = fileStorageService.getFileStorageList();
         List<FileStorageProperties.AmazonS3Config> amazonS3ConfigList = new ArrayList<>();
-        for (FileStorageSetting setting : storageSettingList) {
+        for (OssConfig setting : storageSettingList) {
             FileStorageProperties.AmazonS3Config s3Config = new FileStorageProperties.AmazonS3Config();
             String platform = setting.getPlatform();
             s3Config.setPlatform(platform);
@@ -91,13 +91,13 @@ public class StorageSettingTemplate implements ApplicationRunner {
         log.info("==================== 存储设置初始化-End ====================");
     }
 
-    public void publish(FileStorageSetting setting, int eventType) {
+    public void publish(OssConfig setting, int eventType) {
         log.info("redis publish - {},type -> {}", setting, eventType);
         // 构建后台存储配置的平台名称（租户ID + 平台名称）
         Long tenantId = setting.getTenantId();
         String platform = setting.getPlatform();
         // 构建并发布存储配置更新事件
-        StorageSettingEvent event = new StorageSettingEvent();
+        OssConfigEvent event = new OssConfigEvent();
         event.setPlatform(platform);
         event.setTenantId(tenantId);
         event.setUpdateType(eventType);
@@ -115,14 +115,14 @@ public class StorageSettingTemplate implements ApplicationRunner {
         SpringUtil.publishEvent(event);
     }
 
-    public FileStorageSetting getDefaultStorageSetting() {
+    public OssConfig getDefaultStorageSetting() {
         String json = (String) redisTemplate.opsForHash().get(StorageConstants.STORAGE_SETTING_DEFAULT_SETTING, context.tenantId().toString());
         if (StrUtil.isBlank(json)) {
-            FileStorageSetting setting = this.fileStorageSettingMapper.selectOne(Wraps.<FileStorageSetting>lbQ().eq(FileStorageSetting::getStatus, true)
-                    .eq(FileStorageSetting::getTenantId, context.tenantId()));
+            OssConfig setting = this.ossConfigMapper.selectOne(Wraps.<OssConfig>lbQ().eq(OssConfig::getStatus, true)
+                    .eq(OssConfig::getTenantId, context.tenantId()));
             redisTemplate.opsForHash().put(StorageConstants.STORAGE_SETTING_DEFAULT_SETTING, context.tenantId().toString(), JSONObject.toJSONString(setting));
             return setting;
         }
-        return JSON.parseObject(json, FileStorageSetting.class);
+        return JSON.parseObject(json, OssConfig.class);
     }
 }

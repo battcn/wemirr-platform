@@ -21,40 +21,70 @@ package com.wemirr.platform.suite.file.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
+import com.wemirr.platform.suite.feign.domain.resp.OssFilePreviewResp;
 import com.wemirr.platform.suite.file.domain.dto.req.FileStoragePageReq;
-import com.wemirr.platform.suite.file.domain.dto.resp.FileStoragePageResp;
-import com.wemirr.platform.suite.file.domain.entity.FileStorage;
+import com.wemirr.platform.suite.file.domain.dto.resp.OssFilePageResp;
+import com.wemirr.platform.suite.file.domain.entity.OssFile;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author xiao1
  * @since 2024-12
  */
-public interface FileStorageService extends SuperService<FileStorage> {
-    
+public interface OssFileService extends SuperService<OssFile> {
+
     /**
      * 文件上传
      *
      * @param file file
      * @return FileStorage
      */
-    FileStorage upload(MultipartFile file);
-    
+    OssFile upload(MultipartFile file);
+
     /**
      * 图片上传
      *
      * @param file 文件
      * @return 上传结果
      */
-    FileStorage uploadImage(MultipartFile file);
-    
+    OssFile uploadImage(MultipartFile file);
+
     /**
      * 文件删除
      */
     void delete(Long id);
-    
+
     void rename(Long id, String originName);
-    
-    IPage<FileStoragePageResp> pageList(FileStoragePageReq req);
-    
+
+    IPage<OssFilePageResp> pageList(FileStoragePageReq req);
+
+
+    /**
+     * 根据阿里云oss的url生成一个可以访问的url(通过临时token)
+     *
+     * @param filePath 路径
+     * @return 预览地址
+     */
+    Map.Entry<String, String> preview(String filePath);
+
+
+    /**
+     * 批量获取预下载的 url
+     * @param req req
+     * @return 预览结果
+     */
+    Collection<String> previewList(Set<String> req);
+
+    /**
+     * 批量获取预下载的url ,返回结果为一个map
+     * key为fileUrl,value为对应的预下载url
+     * @param pathList pathList
+     * @return 预览结果
+     */
+    Map<String, OssFilePreviewResp> previewMap(Set<String> pathList);
+
 }

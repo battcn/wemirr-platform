@@ -27,6 +27,7 @@ import com.wemirr.framework.commons.annotation.remote.Remote;
 import com.wemirr.framework.excel.convert.InstantConverter;
 import com.wemirr.framework.excel.convert.LocalDictConverter;
 import com.wemirr.platform.iam.system.domain.enums.Sex;
+import com.wemirr.platform.suite.feign.OssFileFeign;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -38,7 +39,7 @@ import java.time.LocalDate;
  */
 @Data
 @ColumnWidth(30)
-public class UserResp {
+public class UserPageResp {
 
     @ExcelIgnore
     @Schema(description = "ID")
@@ -73,8 +74,12 @@ public class UserResp {
     private Sex sex;
 
     @ExcelIgnore
+//    @Remote(beanClass = OssFileFeign.class, fields = {@Remote.FieldRef(source = "previewUrl", target = "ossPreviewUrl")}, split = true)
     @Schema(description = "头像")
     private String avatar;
+
+//    @Schema(description = "预览地址")
+//    private String ossPreviewUrl;
 
     @ExcelIgnore
     @Schema(description = "是否只读")

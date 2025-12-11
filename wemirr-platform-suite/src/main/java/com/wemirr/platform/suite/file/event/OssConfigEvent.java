@@ -17,65 +17,60 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.suite.file.domain.dto.resp;
+package com.wemirr.platform.suite.file.event;
 
 import lombok.Data;
 
-import java.time.Instant;
-
 /**
+ * 存储策略更新事件
+ *
  * @author xiao1
  * @since 2024-12
  */
 @Data
-public class FileStoragePageResp {
-    
-    private Long id;
+public class OssConfigEvent {
     
     /**
-     * 文件访问地址
+     * 租户id
      */
-    private String url;
+    private Long tenantId;
+    
+    private Boolean status;
+    /**
+     * 更新类型 1:新增 2：修改 3：删除
+     */
+    private Integer updateType;
     
     /**
-     * 文件大小，单位字节
-     */
-    private String formatSize;
-    
-    /**
-     * 原始文件名
-     */
-    private String originalFilename;
-    
-    /**
-     * 基础存储路径
-     */
-    private String basePath;
-    
-    /**
-     * 存储路径
-     */
-    private String path;
-    
-    /**
-     * 文件扩展名
-     */
-    private String ext;
-    /**
-     * 存储平台
+     * 平台名称
      */
     private String platform;
     /**
-     * 文件类型
+     * 访问key
      */
-    private String category;
+    private String accessKey;
     /**
-     * 上传者
+     * 密钥
      */
-    private String createName;
+    private String secretKey;
     /**
-     * 上传时间
+     * 区域
      */
-    private Instant createTime;
-    
+    private String region;
+    /**
+     * 访问域名
+     */
+    private String domain;
+    /**
+     * 桶名称
+     */
+    private String bucketName;
+    /**
+     * 基础路径
+     */
+    private String basePath;
+    /**
+     * 连接地址
+     */
+    private String endPoint;
 }

@@ -40,7 +40,7 @@ public class ConversationDetailRep {
     private String createdName;
 
     @Schema(description = "创建时间")
-    private LocalDateTime createdTime;
+    private Instant createdTime;
 
     @Schema(description = "最后修改人ID")
     private Long lastModifiedBy;
@@ -49,5 +49,5 @@ public class ConversationDetailRep {
     private String lastModifiedName;
 
     @Schema(description = "最后修改时间")
-    private LocalDateTime lastModifiedTime;
+    private Instant lastModifiedTime;
 }

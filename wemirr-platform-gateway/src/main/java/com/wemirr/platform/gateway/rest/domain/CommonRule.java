@@ -21,6 +21,7 @@ package com.wemirr.platform.gateway.rest.domain;
 
 import lombok.Data;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 /**
@@ -33,7 +34,7 @@ public class CommonRule {
     private String method;
     private String path;
     private Boolean status;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private Instant startTime;
+    private Instant endTime;
     
 }

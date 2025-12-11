@@ -67,6 +67,10 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>com.wemirr</groupId>
+            <artifactId>wemirr-platform-suite-api</artifactId>
+        </dependency>
     </dependencies>
     
     <build>

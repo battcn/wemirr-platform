@@ -19,6 +19,7 @@
 
 package com.wemirr.platform.suite.file.domain.dto.resp;
 
+import com.wemirr.framework.boot.sensitive.Sensitive;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -29,35 +30,50 @@ import java.time.Instant;
  * @since 2024-12
  */
 @Data
-public class FileStorageSettingPageResp {
-    
+public class OssConfigPageResp {
+
     @Schema(description = "ID")
     private Long id;
-    
-    @Schema(description = "存储类型")
+
+    @Schema(description = "租户ID")
+    private Long tenantId;
+
+    @Schema(description = "存储类型 (MINIO, ALIYUN, TENCENT, QINIU, S3)")
     private String type;
-    
-    @Schema(description = "是否开启配置")
-    private Boolean status;
-    
-    @Schema(description = "存储平台accessKey")
+
+    @Schema(description = "配置编码 (唯一标识, 如: minio_local)")
+    private String platform;
+
+    @Schema(description = "AccessKey")
+    @Sensitive(type = Sensitive.Type.PASSWORD)
     private String accessKey;
-    
-    @Schema(description = "存储平台secretKey")
+
+    @Schema(description = "SecretKey")
+    @Sensitive(type = Sensitive.Type.PASSWORD)
     private String secretKey;
-    
-    @Schema(description = "访问域名,需要以/结尾")
-    private String domain;
-    
-    @Schema(description = "桶名称")
+
+    @Schema(description = "存储桶名称")
     private String bucketName;
-    
-    @Schema(description = "基础路径")
-    private String basePath;
-    
-    @Schema(description = "连接地址")
+
+    @Schema(description = "连接端点 (Endpoint)")
     private String endPoint;
-    
+
+    @Schema(description = "存储区域 (Region)")
+    private String region;
+
+    @Schema(description = "访问域名 (CDN/自定义域名)")
+    private String domain;
+
+    @Schema(description = "基础路径/前缀")
+    private String basePath;
+
+    /**
+     * 是否启用 [true:启用; false:禁用]
+     * 业务逻辑需保证：同个租户下只能开启一个配置 (is_default)
+     */
+    @Schema(description = "状态")
+    private Boolean status;
+
     @Schema(description = "创建时间")
     private Instant createTime;
 }

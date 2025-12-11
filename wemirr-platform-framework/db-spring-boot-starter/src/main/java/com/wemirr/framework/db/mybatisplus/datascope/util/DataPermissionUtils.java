@@ -73,7 +73,7 @@ public final class DataPermissionUtils {
     public static <T> T executeDefaultDataPermissionRule(Supplier<T> supplier) {
         // 根据默认权限规则查询
         DataPermissionRule rule = DataPermissionRule.builder().columns(List.of(new DataPermissionRule.Column())).build();
-        return executeWithDataPermissionRule(rule, supplier);
+        return executeWithRule(rule, supplier);
     }
 
     /**
@@ -82,7 +82,7 @@ public final class DataPermissionUtils {
      * @param rule     当前任务执行时使用的数据权限规则
      * @param supplier 待执行的动作
      */
-    public static <T> T executeWithDataPermissionRule(DataPermissionRule rule, Supplier<T> supplier) {
+    public static <T> T executeWithRule(DataPermissionRule rule, Supplier<T> supplier) {
         DataPermissionRuleHolder.push(rule);
         try {
             return supplier.get();

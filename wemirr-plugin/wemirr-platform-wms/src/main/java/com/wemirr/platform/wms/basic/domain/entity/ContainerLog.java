@@ -55,7 +55,7 @@ public class ContainerLog extends SuperEntity<Long> {
     private ContainerStatus status;
 
     @Schema(description = "结束时间")
-    private LocalDateTime endTime;
+    private Instant endTime;
 
     @Schema(description = "错误日志")
     private String errorMsg;

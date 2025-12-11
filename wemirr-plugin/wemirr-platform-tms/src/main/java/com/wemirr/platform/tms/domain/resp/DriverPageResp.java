@@ -30,10 +30,10 @@ public class DriverPageResp {
     private Long defaultTruckId;
 
     @Schema(description = "身份证有效期开始日期")
-    private LocalDateTime idCardStartDate;
+    private Instant idCardStartDate;
 
     @Schema(description = "身份证有效期结束日期")
-    private LocalDateTime idCardEndDate;
+    private Instant idCardEndDate;
 
     @Schema(description = "驾驶证号")
     private String licenseCode;

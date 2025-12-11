@@ -28,8 +28,8 @@ import lombok.Data;
  * @since 2024-12
  */
 @Data
-@Schema(name = "FileStorageSettingSaveReq", description = "存储配置上传")
-public class FileStorageSettingSaveReq {
+@Schema(name = "OssConfigSaveReq", description = "存储配置上传")
+public class OssConfigSaveReq {
     
     @Schema(description = "存储类型")
     @NotBlank(message = "存储类型不能为空")
@@ -81,4 +81,5 @@ public class FileStorageSettingSaveReq {
     @NotBlank(message = "连接地址不能为空")
     @Schema(description = "连接地址", requiredMode = Schema.RequiredMode.REQUIRED, example = "http://192.168.241.131:9000")
     private String endPoint;
+
 }

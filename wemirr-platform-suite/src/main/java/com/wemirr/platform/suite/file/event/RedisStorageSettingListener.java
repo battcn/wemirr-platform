@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class RedisStorageSettingListener implements AbstractMessageEventListener<StorageSettingEvent> {
+public class RedisStorageSettingListener implements AbstractMessageEventListener<OssConfigEvent> {
     
     private final FileStorageService fileStorageService;
     
@@ -54,7 +54,7 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
      * @param event Redis 存储配置事件
      */
     @Override
-    public void handleMessage(StorageSettingEvent event) {
+    public void handleMessage(OssConfigEvent event) {
         log.info("租户ID:{}, 更新类型:{}", event.getTenantId(), event.getUpdateType());
         switch (event.getUpdateType()) {
             case 1 -> handleNewConfiguration(event);
@@ -75,7 +75,7 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
      *
      * @param event Redis存储配置事件
      */
-    private void handleNewConfiguration(StorageSettingEvent event) {
+    private void handleNewConfiguration(OssConfigEvent event) {
         log.info("新增类型 S3 文件上传 Bean Ref => {}", event.getPlatform());
         CopyOnWriteArrayList<FileStorage> list = fileStorageService.getFileStorageList();
         FileStorageProperties.AmazonS3Config amazonS3Config = createAmazonS3Config(event);
@@ -87,7 +87,7 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
      *
      * @param event Redis存储配置事件
      */
-    private void handleUpdateConfiguration(StorageSettingEvent event) {
+    private void handleUpdateConfiguration(OssConfigEvent event) {
         log.info("修改类型 S3 文件上传 Bean Ref => {}", event.getPlatform());
         CopyOnWriteArrayList<FileStorage> list = fileStorageService.getFileStorageList();
         FileStorage fileStorage = fileStorageService.getFileStorage(event.getPlatform());
@@ -102,7 +102,7 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
      *
      * @param event Redis存储配置事件
      */
-    private void handleDeleteConfiguration(StorageSettingEvent event) {
+    private void handleDeleteConfiguration(OssConfigEvent event) {
         log.info("删除类型 S3 文件上传 Bean Ref => {}", event.getPlatform());
         CopyOnWriteArrayList<FileStorage> list = fileStorageService.getFileStorageList();
         FileStorage fileStorage = fileStorageService.getFileStorage(event.getPlatform());
@@ -115,7 +115,7 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
      * @param event Redis存储配置事件
      * @return 配置好的AmazonS3Config对象
      */
-    private FileStorageProperties.AmazonS3Config createAmazonS3Config(StorageSettingEvent event) {
+    private FileStorageProperties.AmazonS3Config createAmazonS3Config(OssConfigEvent event) {
         FileStorageProperties.AmazonS3Config s3Config = new FileStorageProperties.AmazonS3Config();
         s3Config.setPlatform(event.getPlatform());
         s3Config.setAccessKey(event.getAccessKey());
@@ -135,7 +135,7 @@ public class RedisStorageSettingListener implements AbstractMessageEventListener
     
     @Override
     public Type type() {
-        return StorageSettingEvent.class;
+        return OssConfigEvent.class;
     }
     
 }
