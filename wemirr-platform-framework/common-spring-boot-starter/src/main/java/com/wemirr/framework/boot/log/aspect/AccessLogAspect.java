@@ -71,9 +71,8 @@ public class AccessLogAspect {
      * 日志截断常量
      */
     private static final int MAX_LENGTH = 65535;
-    private static final int MAX_DEBUG_LENGTH = 1000;
-    private static final int MAX_RESPONSE_PREVIEW_LENGTH = 500;
-    private static final int MAX_REQUEST_URI_LENGTH = 200;
+    private static final int MAX_RESPONSE_PREVIEW_LENGTH = 1000;
+    private static final int MAX_REQUEST_URI_LENGTH = 500;
 
     @Resource
     private AuthenticationContext context;
@@ -100,20 +99,17 @@ public class AccessLogAspect {
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-
         // 1. 优先处理 @AccessLog (既要入库，也要看控制台)
         AccessLog accessLog = AnnotatedElementUtils.findMergedAnnotation(method, AccessLog.class);
         if (accessLog != null) {
             return handleAccessLog(joinPoint, accessLog);
         }
-
         // 2. 其次处理 Swagger / Controller 日志 (只看控制台，不入库)
         Operation operation = AnnotatedElementUtils.findMergedAnnotation(method, Operation.class);
         if (operation != null && !operation.hidden()) {
             // 传 null 表示没有自定义描述，需内部去解析 Swagger
             return handleDebugLog(joinPoint, null);
         }
-
         // 3. 既没有 AccessLog 也没有 Swagger Operation，直接放行
         return joinPoint.proceed();
     }
@@ -200,9 +196,6 @@ public class AccessLogAspect {
         return ret;
     }
 
-    // ===========================================================================================
-    // ================================ AccessLog 核心辅助方法 ====================================
-    // ===========================================================================================
 
     private void populateAccessLogDetails(AccessLogInfo logInfo, AccessLog annotation, JoinPoint joinPoint, HttpServletRequest request) {
         if (context != null) {
@@ -302,29 +295,24 @@ public class AccessLogAspect {
         String methodParam = serializeDebugArguments(joinPoint);
         String requestParamPayload = buildReadableParamPayload(request);
         Map<String, Object> methodParamMap = transStringToMap(requestParamPayload);
-
         String requestUri = truncate(request.getRequestURI(), MAX_REQUEST_URI_LENGTH);
         String contentType = StringUtils.hasText(request.getContentType()) ? request.getContentType() : "FORM";
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         String userAgentStr = request.getHeader(HttpHeaders.USER_AGENT);
-        UserAgent userAgent = UserAgentUtil.parse(userAgentStr);
-
         StringBuilder sb = new StringBuilder(512);
         sb.append("\n")
                 .append("*********************************Request请求***************************************").append("\n")
                 .append("ClassName     :  ").append(className).append("\n")
                 .append("RequestMethod :  ").append(methodName).append("\n")
+                .append("RequestParams :  ").append(methodParamMap.isEmpty() ? "" : methodParamMap).append("\n")
                 .append("MethodParam   :  ").append(methodParam).append("\n")
                 .append("ContentType   :  ").append(contentType).append("\n")
-                .append("RequestParams :  ").append(methodParamMap.isEmpty() ? "" : methodParamMap).append("\n")
                 .append("RequestType   :  ").append(request.getMethod()).append("\n")
-                .append("Description   :  ").append(apiDesc == null ? "" : apiDesc).append("\n")
-                .append("ServerAddr    :  ").append(request.getScheme()).append("://").append(request.getServerName()).append(":").append(request.getServerPort()).append("\n")
-                .append("RemoteAddr    :  ").append(JakartaServletUtil.getClientIP(request)).append("\n")
-                .append("DeviceName    :  ").append(userAgent.getPlatform().getName()).append("\n")
-                .append("BrowserName   :  ").append(userAgent.getBrowser().getName()).append("\n")
-                .append("UserAgent     :  ").append(userAgentStr).append("\n")
                 .append("RequestUri    :  ").append(requestUri).append("\n")
+                .append("Description   :  ").append(apiDesc == null ? "" : apiDesc).append("\n")
+                .append("ServerAddr    :  ").append(resolveServerAddr(request)).append("\n")
+                .append("RemoteAddr    :  ").append(JakartaServletUtil.getClientIP(request)).append("\n")
+                .append("UserAgent     :  ").append(userAgentStr).append("\n")
                 .append("Header        :  ").append("{Authorization=").append(authorization).append("}\n")
                 .append("ExecutionTime :  ").append(executionTime).append(" ms\n");
 
@@ -333,6 +321,40 @@ public class AccessLogAspect {
         }
         sb.append("**************************").append(DateUtil.now()).append("***********************************").append("\n");
         return sb.toString();
+    }
+
+    /**
+     * 解析真实的请求入口地址 (适配 JDK 21+)
+     * 优先级：Origin (跨域/浏览器端) > Referer (来源) > X-Forwarded-Host (代理) > Host (直连)
+     */
+    private String resolveServerAddr(HttpServletRequest request) {
+        // 1. 优先获取 Origin (最准确反映前端域名)
+        String origin = request.getHeader(HttpHeaders.ORIGIN);
+        if (StringUtils.hasText(origin)) {
+            return origin;
+        }
+
+        // 2. 其次获取 Referer (适配 JDK 21，使用 URI 替代 URL)
+        String referer = request.getHeader(HttpHeaders.REFERER);
+        if (StringUtils.hasText(referer)) {
+            try {
+                // JDK 20+ 推荐用法：先构建 URI
+                java.net.URI uri = java.net.URI.create(referer);
+                return uri.getScheme() + "://" + uri.getAuthority();
+            } catch (Exception e) {
+                // 解析失败则忽略
+            }
+        }
+        // 3. 再次获取 X-Forwarded-Host (网关/Nginx 代理头)
+        String forwardedHost = request.getHeader("X-Forwarded-Host");
+        if (StringUtils.hasText(forwardedHost)) {
+            String forwardedProto = request.getHeader("X-Forwarded-Proto");
+            String scheme = StringUtils.hasText(forwardedProto) ? forwardedProto : request.getScheme();
+            return scheme + "://" + forwardedHost;
+        }
+
+        // 4. 最后回退到当前服务接收到的 Host
+        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
     }
 
     private String resolveApiDescription(JoinPoint joinPoint, Operation operation) {
@@ -347,19 +369,19 @@ public class AccessLogAspect {
         List<Object> arguments = Arrays.stream(joinPoint.getArgs())
                 .filter(arg -> !(arg instanceof ServletRequest || arg instanceof ServletResponse || arg instanceof MultipartFile))
                 .collect(Collectors.toList());
-        return truncate(safeJsonSerialize(arguments), MAX_DEBUG_LENGTH);
+        return truncate(safeJsonSerialize(arguments), MAX_LENGTH);
     }
 
     private String buildReadableParamPayload(HttpServletRequest request) {
         String queryString = request.getQueryString();
-        if (StringUtils.hasText(queryString)) {
-            try {
-                return URLDecoder.decode(queryString, StandardCharsets.UTF_8);
-            } catch (Exception ex) {
-                return queryString;
-            }
+        if (StrUtil.isBlank(queryString)) {
+            return "";
         }
-        return "";
+        try {
+            return URLDecoder.decode(queryString, StandardCharsets.UTF_8);
+        } catch (Exception ex) {
+            return queryString;
+        }
     }
 
     private Map<String, Object> transStringToMap(String mapString) {
@@ -384,16 +406,6 @@ public class AccessLogAspect {
         return truncate(safeJsonSerialize(ret), MAX_RESPONSE_PREVIEW_LENGTH);
     }
 
-    private String maskAuthorization(String authorization) {
-        if (!StringUtils.hasText(authorization)) {
-            return "";
-        }
-        if (authorization.length() <= 16) {
-            return "***";
-        }
-        return authorization.substring(0, 12) + "...Length(" + authorization.length() + ")";
-    }
-
     private String safeJsonSerialize(Object obj) {
         if (obj == null) {
             return "null";
@@ -404,10 +416,6 @@ public class AccessLogAspect {
             return "[Unserializable]";
         }
     }
-
-    // ===========================================================================================
-    // ==================================== 通用工具方法 =======================================
-    // ===========================================================================================
 
     private HttpServletRequest getRequest() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
