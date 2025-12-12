@@ -19,9 +19,7 @@
 
 package com.wemirr.platform.suite.file.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -112,7 +110,6 @@ public class OssFile extends SuperEntity<Long> {
     @Schema(description = "附加属性")
     private String attr;
 
-    @TableField(typeHandler = JacksonTypeHandler.class)
     @Schema(description = "文件元数据")
     private String metadata;
 

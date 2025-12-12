@@ -49,7 +49,7 @@ public class PageRequest {
 
     @Schema(description = "分页大小", example = "20")
     @Parameter(description = "分页大小", example = "20")
-    private long size = 20;
+    private long size = 10;
 
     @Schema(description = "排序字段", example = "id")
     @Parameter(description = "排序字段")

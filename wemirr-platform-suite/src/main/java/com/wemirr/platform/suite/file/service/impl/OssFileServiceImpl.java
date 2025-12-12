@@ -40,7 +40,9 @@ import com.wemirr.platform.suite.file.service.OssFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.x.file.storage.core.FileInfo;
+import org.dromara.x.file.storage.core.FileStorageService;
 import org.dromara.x.file.storage.core.hash.HashInfo;
+import org.dromara.x.file.storage.core.platform.FileStorage;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,13 +57,8 @@ import java.util.*;
 @RequiredArgsConstructor
 public class OssFileServiceImpl extends SuperServiceImpl<OssFileMapper, OssFile> implements OssFileService {
 
-    private final org.dromara.x.file.storage.core.FileStorageService fileStorageService;
+    private final FileStorageService fileStorageService;
     private final OssConfigTemplate ossConfigTemplate;
-
-    private static final long KB = 1024;
-    private static final long MB = KB * 1024;
-    private static final long GB = MB * 1024;
-    private static final long TB = GB * 1024;
 
     @Override
     public OssFile upload(MultipartFile file) {
@@ -71,17 +68,16 @@ public class OssFileServiceImpl extends SuperServiceImpl<OssFileMapper, OssFile>
             throw CheckedException.badRequest("未找到对应的存储平台，请检查配置");
         }
         FileInfo info = fileStorageService.of(file).setPlatform(platform).upload();
-        OssFile storage = toFileInfoRecord(info);
-        storage.setCategory(MineType.ofName(info.getContentType()));
-        storage.setPlatform(platform);
-        this.baseMapper.insert(storage);
-        return storage;
+        OssFile ossFile = toFileInfoRecord(info);
+        ossFile.setCategory(MineType.ofName(info.getContentType()));
+        ossFile.setPlatform(platform);
+        this.baseMapper.insert(ossFile);
+        return ossFile;
     }
 
     @Override
     public OssFile uploadImage(MultipartFile file) {
-        FileInfo info = fileStorageService
-                .of(file)
+        FileInfo info = fileStorageService.of(file)
                 // .setThumbnailSuffix() //指定缩略图后缀，必须是 thumbnailator 支持的图片格式，默认使用全局的
                 // .setSaveThFilename() //指定缩略图的保存文件名，注意此文件名不含后缀，默认自动生成
                 // 将图片大小调整到 1000*1000
@@ -95,7 +91,7 @@ public class OssFileServiceImpl extends SuperServiceImpl<OssFileMapper, OssFile>
     @Override
     public void delete(Long id) {
         OssFile storage = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("文件不存在"));
-        org.dromara.x.file.storage.core.platform.FileStorage fileStorage = fileStorageService.getFileStorage(storage.getPlatform());
+        FileStorage fileStorage = fileStorageService.getFileStorage(storage.getPlatform());
         if (fileStorage == null) {
             throw CheckedException.badRequest("未找到对应的存储平台或对应平台未开启");
         }
@@ -138,8 +134,10 @@ public class OssFileServiceImpl extends SuperServiceImpl<OssFileMapper, OssFile>
      * 将 FileInfo 转为 FileInfoRecord
      */
     public OssFile toFileInfoRecord(FileInfo info) {
-        OssFile detail = BeanUtil.copyProperties(
-                info, OssFile.class, "metadata", "userMetadata", "thMetadata", "thUserMetadata", "attr", "hashInfo");
+        OssFile detail = BeanUtil.copyProperties(info, OssFile.class, "metadata", "userMetadata", "thMetadata", "thUserMetadata", "attr", "hashInfo");
+        if (StrUtil.isBlank(detail.getThFilename())) {
+            detail.setThFilename(null);
+        }
         detail.setMetadata(JSON.toJSONString(info.getMetadata()));
         detail.setUserMetadata(JSON.toJSONString(info.getUserMetadata()));
         detail.setThMetadata(JSON.toJSONString(info.getThMetadata()));
@@ -154,6 +152,9 @@ public class OssFileServiceImpl extends SuperServiceImpl<OssFileMapper, OssFile>
      */
     public FileInfo toFileInfo(OssFile detail) {
         FileInfo info = BeanUtil.copyProperties(detail, FileInfo.class, "metadata", "userMetadata", "thMetadata", "thUserMetadata", "attr", "hashInfo");
+        if (StrUtil.isBlank(info.getThFilename())) {
+            info.setThFilename(null);
+        }
         // 这里手动获取数据库中的 json 字符串 并转成 元数据，方便使用
         info.setMetadata(jsonToMetadata(detail.getMetadata()));
         info.setUserMetadata(jsonToMetadata(detail.getUserMetadata()));
@@ -173,7 +174,7 @@ public class OssFileServiceImpl extends SuperServiceImpl<OssFileMapper, OssFile>
         if (StrUtil.isBlank(json)) {
             return null;
         }
-        return JSON.parseObject(json, new TypeReference<>() {
+        return JSON.parseObject(json.replaceAll("^\"|\"$", ""), new TypeReference<>() {
         });
     }
 
