@@ -49,9 +49,6 @@ spring:
               filters:
                 - StripPrefix=1
                 - PreserveHostHeader
-                - name: RequestSize
-                  args:
-                    maxSize: 50MB
             - id: wemirr-platform-monitor
               uri: lb://wemirr-platform-monitor
               predicates:
