@@ -17,39 +17,27 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.tenant.domain.dto.resp;
+package com.wemirr.framework.db.dynamic.core.local;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
+import com.wemirr.framework.db.dynamic.core.EventAction;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.context.ApplicationEvent;
 
 /**
- * @author levin
+ * @author Levin
  */
-@Data
-public class DbSettingPageResp {
-    
-    @Schema(description = "租户ID")
-    private Long tenantId;
-    @Schema(description = "租户编码")
-    private String tenantCode;
-    @Schema(description = "租户名称")
-    private String tenantName;
-    /**
-     * 数据库类型(只支持Mysql)
-     */
-    @Schema(description = "数据库类型(只支持Mysql)")
-    private String dbType;
-    
-    @Schema(description = "连接驱动")
-    private String driverClassName;
-    
-    @Schema(description = "用户名")
-    private String username;
-    
-    @Schema(description = "密码")
-    private String password;
-    
-    @Schema(description = "HOST")
-    private String host;
-    
+@Getter
+@Setter
+public class DynamicInstanceApplicationEvent extends ApplicationEvent {
+
+    private EventAction action;
+    private DynamicDatasourceEvent datasource;
+
+    public DynamicInstanceApplicationEvent(EventAction action, DynamicDatasourceEvent datasource) {
+        super(datasource);
+        this.datasource = datasource;
+        this.action = action;
+    }
 }

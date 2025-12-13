@@ -22,9 +22,9 @@ package com.wemirr.platform.iam.tenant.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.iam.tenant.domain.dto.req.DbSettingSaveReq;
-import com.wemirr.platform.iam.tenant.domain.entity.DbSetting;
-import com.wemirr.platform.iam.tenant.service.DbSettingService;
+import com.wemirr.platform.iam.tenant.domain.dto.req.DbInstanceSaveReq;
+import com.wemirr.platform.iam.tenant.domain.entity.DbInstance;
+import com.wemirr.platform.iam.tenant.service.DbInstanceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -38,53 +38,53 @@ import java.util.List;
  * @author Levin
  */
 @Slf4j
+@Validated
 @RestController
-@RequestMapping("/db-setting")
+@RequestMapping("/db-instances")
 @RequiredArgsConstructor
 @Tag(name = "数据源管理", description = "数据源管理")
-@Validated
-public class DbSettingController {
-    
-    private final DbSettingService dbSettingService;
-    
-    @Operation(summary = "分页查询", description = "分页查询")
+public class DbInstanceController {
+
+    private final DbInstanceService dbInstanceService;
+
     @GetMapping("/page")
-    public Page<DbSetting> page(PageRequest pageRequest, String dbType, Boolean locked) {
-        return dbSettingService.page(pageRequest.buildPage(),
-                Wraps.<DbSetting>lbQ().eq(DbSetting::getDbType, dbType).eq(DbSetting::getLocked, locked));
+    @Operation(summary = "分页查询", description = "分页查询")
+    public Page<DbInstance> page(PageRequest pageRequest, String dbType, Boolean status) {
+        return dbInstanceService.page(pageRequest.buildPage(),
+                Wraps.<DbInstance>lbQ().eq(DbInstance::getDbType, dbType).eq(DbInstance::getStatus, status));
     }
-    
-    @Operation(summary = "查询可用", description = "查询可用数据源")
+
     @GetMapping("/active")
-    public List<DbSetting> queryActive() {
-        return this.dbSettingService.list(Wraps.<DbSetting>lbQ().eq(DbSetting::getLocked, false));
+    @Operation(summary = "查询可用", description = "查询可用数据源")
+    public List<DbInstance> queryActive() {
+        return this.dbInstanceService.list(Wraps.<DbInstance>lbQ().eq(DbInstance::getStatus, true));
     }
-    
-    @Operation(summary = "Ping数据库")
+
     @GetMapping("/{id}/ping")
+    @Operation(summary = "Ping数据库")
     public void ping(@PathVariable Long id) {
-        this.dbSettingService.ping(id);
-        
+        this.dbInstanceService.ping(id);
+
     }
-    
-    @Operation(summary = "添加数据源")
+
     @PostMapping("/create")
-    public void create(@Validated @RequestBody DbSettingSaveReq req) {
-        dbSettingService.created(req);
-        
+    @Operation(summary = "添加数据源")
+    public void create(@Validated @RequestBody DbInstanceSaveReq req) {
+        dbInstanceService.created(req);
+
     }
-    
-    @Operation(summary = "编辑数据源")
+
     @PutMapping("/{id}/modify")
-    public void modify(@PathVariable Long id, @Validated @RequestBody DbSettingSaveReq req) {
-        dbSettingService.edit(id, req);
-        
+    @Operation(summary = "编辑数据源")
+    public void modify(@PathVariable Long id, @Validated @RequestBody DbInstanceSaveReq req) {
+        dbInstanceService.edit(id, req);
+
     }
-    
-    @Operation(summary = "删除数据源")
+
     @DeleteMapping("/{id}")
+    @Operation(summary = "删除数据源")
     public void remove(@PathVariable Long id) {
-        dbSettingService.delete(id);
-        
+        dbInstanceService.delete(id);
+
     }
 }

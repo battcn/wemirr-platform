@@ -33,6 +33,6 @@ public interface PlatService {
      * @param request http request
      * @return 站点详情
      */
-    SiteSettingDetailResp siteSetting(HttpServletRequest request);
+    SiteSettingDetailResp setting(HttpServletRequest request);
     
 }

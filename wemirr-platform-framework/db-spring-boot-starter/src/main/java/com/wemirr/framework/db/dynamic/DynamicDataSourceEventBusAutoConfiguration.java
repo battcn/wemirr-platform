@@ -24,8 +24,8 @@ import com.baomidou.dynamic.datasource.processor.DsJakartaSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
 import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEventPublish;
-import com.wemirr.framework.db.dynamic.core.local.DynamicDatasourceEvent;
 import com.wemirr.framework.db.dynamic.core.local.DynamicDatasourceLocalListener;
+import com.wemirr.framework.db.dynamic.core.local.DynamicInstanceApplicationEvent;
 import com.wemirr.framework.db.dynamic.core.redis.RedisDynamicDatasourceListener;
 import com.wemirr.framework.db.dynamic.core.redis.RedisDynamicDatasourcePublish;
 import com.wemirr.framework.db.dynamic.feign.TenantFeignClient;
@@ -69,7 +69,7 @@ public class DynamicDataSourceEventBusAutoConfiguration {
 
     @Bean
     @Order(value = Integer.MIN_VALUE)
-    public ApplicationListener<DynamicDatasourceEvent> applicationListener(DynamicDataSourceHandler handler) {
+    public ApplicationListener<DynamicInstanceApplicationEvent> applicationListener(DynamicDataSourceHandler handler) {
         return new DynamicDatasourceLocalListener(handler);
     }
 

@@ -21,23 +21,23 @@ package com.wemirr.platform.iam.tenant.service;
 
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.iam.tenant.domain.dto.req.DbSettingSaveReq;
-import com.wemirr.platform.iam.tenant.domain.dto.resp.DbSettingPageResp;
-import com.wemirr.platform.iam.tenant.domain.entity.DbSetting;
+import com.wemirr.platform.iam.tenant.domain.dto.req.DbInstanceSaveReq;
+import com.wemirr.platform.iam.tenant.domain.dto.resp.DbInstancePageResp;
+import com.wemirr.platform.iam.tenant.domain.entity.DbInstance;
 
 import java.util.List;
 
 /**
  * @author Levvin
  */
-public interface DbSettingService extends SuperService<DbSetting> {
+public interface DbInstanceService extends SuperService<DbInstance> {
     
     /**
      * 查询所有可用的动态数据源
      *
      * @return 查询结果
      */
-    List<DbSettingPageResp> selectTenantDynamicDatasource();
+    List<DbInstancePageResp> selectTenantDynamicDatasource();
     
     /**
      * ping 数据源
@@ -51,7 +51,7 @@ public interface DbSettingService extends SuperService<DbSetting> {
      *
      * @param req req
      */
-    void created(DbSettingSaveReq req);
+    void created(DbInstanceSaveReq req);
     
     /**
      * 添加或者保存动态数据源信息
@@ -59,7 +59,7 @@ public interface DbSettingService extends SuperService<DbSetting> {
      * @param id  id
      * @param req req
      */
-    void edit(Long id, DbSettingSaveReq req);
+    void edit(Long id, DbInstanceSaveReq req);
     
     /**
      * 删除数据源

@@ -17,50 +17,54 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.tenant.domain.entity;
+package com.wemirr.platform.iam.tenant.domain.dto.resp;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 /**
- * @author Levin
+ * @author levin
  */
 @Data
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
-@TableName("t_db_setting")
-@EqualsAndHashCode(callSuper = true)
-public class DbSetting extends SuperEntity<Long> {
-    
-    @Schema(description = "连接名")
+public class DbInstancePageResp {
+
+    @Schema(description = "租户ID")
+    private Long tenantId;
+
+    @Schema(description = "租户编码")
+    private String tenantCode;
+
+    @Schema(description = "租户名称")
+    private String tenantName;
+
+    @Schema(description = "隔离策略: DATABASE, SCHEMA, COLUMN")
+    private String strategy;
+
+    @Schema(description = "运行时Schema名称")
+    private String schemaName;
+
+    @Schema(description = "节点名称")
     private String name;
-    
-    @Schema(description = "数据库类型(只支持Mysql)")
+
+    @Schema(description = "数据库类型")
     private String dbType;
-    
+
     @Schema(description = "驱动类名")
     private String driverClassName;
-    
+
+    @Schema(description = "JDBC连接串")
+    private String jdbcUrl;
+
     @Schema(description = "用户名")
     private String username;
-    
+
     @Schema(description = "密码")
     private String password;
-    
-    @Schema(description = "host")
-    private String host;
-    
-    @Schema(description = "是否禁用")
-    private Boolean locked;
-    
+
+    @Schema(description = "是否启用(0=停用；1=启用)")
+    private Boolean status;
+
     @Schema(description = "描述")
     private String description;
-    
+
 }

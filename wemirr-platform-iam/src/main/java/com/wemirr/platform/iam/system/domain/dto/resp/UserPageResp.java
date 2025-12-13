@@ -27,7 +27,6 @@ import com.wemirr.framework.commons.annotation.remote.Remote;
 import com.wemirr.framework.excel.convert.InstantConverter;
 import com.wemirr.framework.excel.convert.LocalDictConverter;
 import com.wemirr.platform.iam.system.domain.enums.Sex;
-import com.wemirr.platform.suite.feign.OssFileFeign;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

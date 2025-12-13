@@ -81,7 +81,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
                 return null;
             }
             var roleResIdList = this.userMapper.selectResByUserId(req.getUserId());
-            return CollUtil.intersection(list, roleResIdList);
+            return CollUtil.union(list, roleResIdList);
         }, () -> {
             var roleResIdList = this.userMapper.selectResByUserId(req.getUserId());
             var productResIdList = this.planDefResMapper.selectDefRedByTenantId(context.tenantId());

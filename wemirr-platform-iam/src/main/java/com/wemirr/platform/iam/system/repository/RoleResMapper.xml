@@ -3,7 +3,9 @@
 <mapper namespace="com.wemirr.platform.iam.system.repository.RoleResMapper">
 
     <select id="selectTenantAdminResIdList" resultType="java.lang.Long">
-        SELECT res_id  FROM sys_role_res t1  WHERE
-            EXISTS ( SELECT	id  FROM sys_role  WHERE CODE = 'TENANT-ADMIN'  AND role_id = t1.role_id )
+        SELECT res_id
+        FROM sys_role_res t1
+        WHERE t1.deleted = FALSE
+          AND EXISTS (SELECT id FROM sys_role WHERE CODE = 'TENANT-ADMIN' AND role_id = t1.role_id)
     </select>
 </mapper>

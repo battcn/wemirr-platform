@@ -23,6 +23,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.BeanUtilPlus;
@@ -30,6 +31,7 @@ import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.dynamic.DynamicDataSourceHandler;
+import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -44,16 +46,20 @@ import com.wemirr.platform.iam.base.repository.SysDictMapper;
 import com.wemirr.platform.iam.system.domain.entity.*;
 import com.wemirr.platform.iam.system.repository.*;
 import com.wemirr.platform.iam.tenant.domain.dto.req.TenantConfigReq;
+import com.wemirr.platform.iam.tenant.domain.dto.req.TenantDbBindingSaveReq;
 import com.wemirr.platform.iam.tenant.domain.dto.req.TenantSaveReq;
 import com.wemirr.platform.iam.tenant.domain.dto.req.TenantSettingReq;
+import com.wemirr.platform.iam.tenant.domain.dto.resp.DbInstancePageResp;
+import com.wemirr.platform.iam.tenant.domain.dto.resp.TenantDbBindingResp;
 import com.wemirr.platform.iam.tenant.domain.dto.resp.TenantSettingResp;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
+import com.wemirr.platform.iam.tenant.domain.entity.TenantDbBinding;
 import com.wemirr.platform.iam.tenant.domain.entity.TenantDict;
-import com.wemirr.platform.iam.tenant.domain.entity.TenantSetting;
+import com.wemirr.platform.iam.tenant.repository.DbInstanceMapper;
+import com.wemirr.platform.iam.tenant.repository.TenantDbBindingMapper;
 import com.wemirr.platform.iam.tenant.repository.TenantDictMapper;
 import com.wemirr.platform.iam.tenant.repository.TenantMapper;
-import com.wemirr.platform.iam.tenant.repository.TenantSettingMapper;
-import com.wemirr.platform.iam.tenant.service.DbSettingService;
+import com.wemirr.platform.iam.tenant.service.DbInstanceService;
 import com.wemirr.platform.iam.tenant.service.TenantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -76,12 +82,13 @@ import java.util.stream.Collectors;
 public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> implements TenantService {
 
     private final AuthenticationContext context;
-    private final TenantSettingMapper tenantSettingMapper;
+    private final TenantDbBindingMapper tenantDbBindingMapper;
     private final AreaMapper areaMapper;
     private final RoleMapper roleMapper;
     private final RoleResMapper roleResMapper;
+    private final DbInstanceMapper dbInstanceMapper;
     private final UserRoleMapper userRoleMapper;
-    private final DbSettingService dbSettingService;
+    private final DbInstanceService dbInstanceService;
     private final DatabaseProperties properties;
     private final UserMapper userMapper;
     private final OrgMapper orgMapper;
@@ -104,11 +111,11 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     public void create(TenantSaveReq req) {
         // 随机生成租户编码
         // String tenantCode = RandomUtil.randomNumbers(4);
-        Long nameCount = this.baseMapper.selectCount(Tenant::getName, req.getName());
+        long nameCount = this.baseMapper.selectCount(Tenant::getName, req.getName());
         if (nameCount > 0) {
             throw CheckedException.badRequest("租户名称重复");
         }
-        Long codeCount = this.baseMapper.selectCount(Tenant::getCode, req.getCode());
+        long codeCount = this.baseMapper.selectCount(Tenant::getCode, req.getCode());
         if (codeCount > 0) {
             throw CheckedException.badRequest("租户编码重复");
         }
@@ -166,8 +173,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void initSqlScript(Long id) {
-        final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(id))
-                .orElseThrow(() -> CheckedException.notFound("租户信息不存在"));
+        var tenant = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("租户信息不存在"));
         if (!tenant.getStatus()) {
             throw CheckedException.badRequest("租户未启用");
         }
@@ -175,7 +181,6 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         if (isSuperTenant(tenant, multiTenant)) {
             throw CheckedException.badRequest("超级租户,禁止操作");
         }
-
         if (multiTenant.getType() == MultiTenantType.COLUMN) {
             initColumnTypeTenant(tenant);
         } else if (multiTenant.getType() == MultiTenantType.DATASOURCE) {
@@ -220,7 +225,10 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         Map<String, Object> variables = Maps.newHashMap();
         variables.put("tenant_id", tenant.getId());
         variables.put("tenant_name", tenant.getName());
-        dynamicDataSourceHandler.initSqlScript(tenant.getCode(), variables);
+        final DbInstancePageResp dbInstance = this.dbInstanceMapper.getTenantDynamicDatasourceByTenantId(tenant.getId());
+        log.debug("dbInstance => {}", JSON.toJSONString(dbInstance));
+        final DynamicDatasourceEvent event = BeanUtil.toBean(dbInstance, DynamicDatasourceEvent.class);
+        dynamicDataSourceHandler.initSqlScript(event, variables);
         final Role role = selectTenantAdminRole();
         List<RoleRes> list = this.roleResMapper.selectList(RoleRes::getRoleId, role.getId());
         TenantHelper.executeWithTenantDb(tenant.getCode(), () -> {
@@ -296,7 +304,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
 
     @Override
     public TenantSettingResp settingInfo(Long tenantId) {
-        TenantSetting setting = this.tenantSettingMapper.selectOne(TenantSetting::getTenantId, tenantId);
+        TenantDbBinding setting = this.tenantDbBindingMapper.selectOne(TenantDbBinding::getTenantId, tenantId);
         return BeanUtil.toBean(setting, TenantSettingResp.class);
     }
 
@@ -306,21 +314,40 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         validTenant(tenantId);
         String siteUrl = req.getSiteUrl();
         if (StrUtil.isNotBlank(siteUrl)) {
-            Long count = this.tenantSettingMapper.selectCount(Wraps.<TenantSetting>lbQ()
-                    .ne(TenantSetting::getTenantId, tenantId).eq(TenantSetting::getSiteUrl, req.getSiteUrl()));
-            if (count != null && count > 0) {
-                throw CheckedException.badRequest("该租户站点已存在");
-            }
+//            Long count = this.tenantSettingMapper.selectCount(Wraps.<TenantDb>lbQ()
+//                    .ne(TenantDb::getTenantId, tenantId).eq(TenantDb::getSiteUrl, req.getSiteUrl()));
+//            if (count != null && count > 0) {
+//                throw CheckedException.badRequest("该租户站点已存在");
+//            }
         }
-        TenantSetting setting = this.tenantSettingMapper.selectOne(TenantSetting::getTenantId, tenantId);
-        var bean = BeanUtil.toBean(req, TenantSetting.class);
+        TenantDbBinding setting = this.tenantDbBindingMapper.selectOne(TenantDbBinding::getTenantId, tenantId);
+        var bean = BeanUtil.toBean(req, TenantDbBinding.class);
         bean.setTenantId(tenantId);
         if (setting == null) {
-            this.tenantSettingMapper.insert(bean);
+            this.tenantDbBindingMapper.insert(bean);
         } else {
             bean.setId(setting.getId());
-            this.tenantSettingMapper.updateById(bean);
+            this.tenantDbBindingMapper.updateById(bean);
         }
-        dbSettingService.publishEvent(EventAction.INIT, tenantId);
+        dbInstanceService.publishEvent(EventAction.INIT, tenantId);
+    }
+
+    @Override
+    public TenantDbBindingResp dbRef(Long id) {
+        var bean = this.tenantDbBindingMapper.selectOne(TenantDbBinding::getTenantId, id);
+        return BeanUtil.toBean(bean, TenantDbBindingResp.class);
+    }
+
+    @Override
+    public void dbBinding(Long id, TenantDbBindingSaveReq req) {
+        var entity = this.tenantDbBindingMapper.selectOne(TenantDbBinding::getTenantId, id);
+        if (entity == null) {
+            var bean = BeanUtilPlus.toBean(req, TenantDbBinding.class);
+            this.tenantDbBindingMapper.insert(bean);
+        } else {
+            var bean = BeanUtilPlus.toBean(req, TenantDbBinding.class);
+            bean.setId(entity.getId());
+            this.tenantDbBindingMapper.updateById(bean);
+        }
     }
 }

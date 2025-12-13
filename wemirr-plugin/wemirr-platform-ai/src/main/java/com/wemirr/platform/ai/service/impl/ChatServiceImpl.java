@@ -70,7 +70,8 @@ public class ChatServiceImpl implements ChatService {
                 userId,
                 tenantId,
                 userPrompt,
-                userPrompt, // 如拼接知识库
+                // 如拼接知识库
+                userPrompt,
                 0
         );
 
@@ -125,7 +126,8 @@ public class ChatServiceImpl implements ChatService {
                 userId,
                 tenantId,
                 userPrompt,
-                userPrompt, // 如拼接知识库
+                // 如拼接知识库
+                userPrompt,
                 0
         );
         KnowledgeBase knowledgeBase = knowledgeBaseService.getById(askReq.getKbId());

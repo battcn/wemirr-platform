@@ -19,6 +19,7 @@
 
 package com.wemirr.platform.iam.tenant.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -40,25 +41,26 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName("t_tenant_setting")
-public class TenantSetting extends SuperEntity<Long> {
-    
+@TableName("t_tenant_db_binding")
+public class TenantDbBinding extends SuperEntity<Long> {
+
     @Schema(description = "租户ID")
     private Long tenantId;
-    
-    @Schema(description = "站点地址")
-    private String siteUrl;
-    
-    @Schema(description = "站点标题")
-    private String siteTitle;
-    
-    @Schema(description = "站点子标题")
-    private String siteSubTitle;
-    
-    @Schema(description = "站点LOGO")
-    private String siteLogo;
-    
-    @Schema(description = "DB-ID")
-    private Long dbId;
+
+    @Schema(description = "物理节点ID")
+    private Long dbInstanceId;
+
+    @Schema(description = "隔离策略: DATABASE, SCHEMA, COLUMN")
+    private String strategy;
+
+    @Schema(description = "运行时Schema名称")
+    private String schemaName;
+
+    @TableField(exist = false)
+    @Schema(description = "表前缀 (COLUMN模式用)")
+    private String tablePrefix;
+
+    @Schema(description = "是否为主数据源")
+    private Boolean isPrimary;
     
 }

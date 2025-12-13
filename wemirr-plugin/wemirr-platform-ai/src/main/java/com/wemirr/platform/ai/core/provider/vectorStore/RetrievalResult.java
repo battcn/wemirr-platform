@@ -20,7 +20,10 @@ public class RetrievalResult {
     private String title;
     private String content;
     private Double score;
-    private String source; // "semantic" 或 "keyword"
+    /**
+     *  // "semantic" 或 "keyword"
+     */
+    private String source;
     private Map<String, Object> metadata;
     private Double normalizedScore;
 

@@ -109,9 +109,12 @@ public class VectorStoreFactory {
                 .user(c.getUsername())
                 .password(c.getPassword())
                 .table(c.getTable())
-                .dimension(c.getDimension()) // 指定向量（embedding）的维度数
-                .createTable(c.isCreateTable()) // 自动建表
-                .dropTableFirst(c.isDropTableFirst()) // 是否在创建新表前先删除已存在的同名表
+                // 指定向量（embedding）的维度数
+                .dimension(c.getDimension())
+                // 自动建表
+                .createTable(c.isCreateTable())
+                // 是否在创建新表前先删除已存在的同名表
+                .dropTableFirst(c.isDropTableFirst())
                 .build();
     }
     

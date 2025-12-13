@@ -89,7 +89,8 @@ public class VectorizationOrchestrationService {
             
             // 执行批量向量化
             CompletableFuture<BatchVectorResult> future = vectorizationProcessor.batchVectorAndStore(texts, metadataList, kb, modelConfig);
-            BatchVectorResult batchVectorDTO = future.get(); // 等待完成
+            // 等待完成
+            BatchVectorResult batchVectorDTO = future.get();
             List<String> vectorIds = batchVectorDTO.getVectorIds();
             Integer tokenUsage = batchVectorDTO.getTokenUsage();
             // 保存向量元数据

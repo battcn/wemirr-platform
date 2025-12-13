@@ -343,12 +343,18 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_res`;
 CREATE TABLE `sys_role_res` (
-                                `role_id` bigint NOT NULL COMMENT '角色ID',
-                                `res_id` bigint NOT NULL COMMENT '菜单ID',
-                                `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                UNIQUE KEY `idx_role_res` (`role_id`,`res_id`) USING BTREE
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `role_id` bigint NOT NULL COMMENT '角色ID',
+    `res_id` bigint NOT NULL COMMENT '资源ID',
+    `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+    `create_by` bigint DEFAULT NULL COMMENT '创建人',
+    `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+    `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+    `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
+    `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
+    `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='角色权限表';
-
 -- ----------------------------
 -- Records of sys_role_res
 -- ----------------------------
@@ -390,10 +396,18 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role` (
-                                 `user_id` bigint NOT NULL COMMENT '用户ID',
-                                 `role_id` bigint NOT NULL COMMENT '角色ID',
-                                 UNIQUE KEY `role_id` (`user_id`,`role_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户角色表';
+     `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
+     `user_id` bigint NOT NULL COMMENT '用户ID',
+     `role_id` bigint NOT NULL COMMENT '角色ID',
+     `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
+     `create_by` bigint DEFAULT NULL COMMENT '创建人',
+     `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+     `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+     `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
+     `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
+     `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
+     PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='角色权限表';
 
 -- ----------------------------
 -- Records of sys_user_role

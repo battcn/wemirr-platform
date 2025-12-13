@@ -92,7 +92,8 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
     public Long create(KnowledgeItemSaveReq req) {
         KnowledgeItem item = BeanUtil.toBean(req, KnowledgeItem.class);
         item.setVersion(1);
-        item.setStatus(KnowledgeItemStatus.PENDING); // 初始状态为待处理
+        // 初始状态为待处理
+        item.setStatus(KnowledgeItemStatus.PENDING);
         baseMapper.insert(item);
         return item.getId();
     }

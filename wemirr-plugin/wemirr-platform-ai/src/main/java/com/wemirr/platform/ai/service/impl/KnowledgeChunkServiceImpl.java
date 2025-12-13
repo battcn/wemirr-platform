@@ -233,7 +233,8 @@ public class KnowledgeChunkServiceImpl extends SuperServiceImpl<KnowledgeChunkMa
                     }
                 }
                 if (!list.isEmpty()) {
-                    sb.setLength(sb.length() - 2); // 删除最后的逗号和空格
+                    // 删除最后的逗号和空格
+                    sb.setLength(sb.length() - 2);
                 }
             } else {
                 sb.append(value);

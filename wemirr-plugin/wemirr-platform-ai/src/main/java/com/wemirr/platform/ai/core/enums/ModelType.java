@@ -8,8 +8,20 @@ package com.wemirr.platform.ai.core.enums;
  **/
 public enum ModelType {
 
-    TEXT,       // 文本模型
-    EMBEDDING,  // 向量模型
-    IMAGE,      // 图像模型
-    AUDIO       // 音频模型
+    /**
+     * 文本模型
+     */
+    TEXT,
+    /**
+     * 向量模型
+     */
+    EMBEDDING,
+    /**
+     * 图像模型
+     */
+    IMAGE,
+    /**
+     * 音频模型
+     */
+    AUDIO
 }

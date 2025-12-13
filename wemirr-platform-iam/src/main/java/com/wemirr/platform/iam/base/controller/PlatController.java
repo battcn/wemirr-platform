@@ -49,7 +49,7 @@ public class PlatController {
     @GetMapping("/site-setting")
     @Operation(summary = "租户列表 - [Levin] - [DONE]")
     public SiteSettingDetailResp siteSetting(HttpServletRequest request) {
-        return platService.siteSetting(request);
+        return platService.setting(request);
     }
     
 }

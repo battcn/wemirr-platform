@@ -31,7 +31,7 @@ public class ConversationMessageServiceImpl extends SuperServiceImpl<Conversatio
             String promptContent,
             Integer promptTokens
     ) {
-        ConversationMessage message=null;
+        ConversationMessage message = null;
         try {
             Integer sequenceNum = getNextSequence(conversationId);
             message = ConversationMessage.builder()
@@ -41,12 +41,14 @@ public class ConversationMessageServiceImpl extends SuperServiceImpl<Conversatio
                     .role("user")
                     .rawContent(rawContent)
                     .promptContent(promptContent)
-                    .displayContent(rawContent) // 用户输入无需处理
+                    // 用户输入无需处理
+                    .displayContent(rawContent)
                     .promptTokens(promptTokens)
                     .completionTokens(0)
                     .totalTokens(promptTokens)
                     .sequenceNum(sequenceNum)
-                    .parentMessageId(null) // 用户消息无父消息
+                    // 用户消息无父消息
+                    .parentMessageId(null)
                     .deleted(false)
                     .build();
             messageMapper.insert(message);

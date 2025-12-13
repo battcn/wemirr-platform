@@ -6,11 +6,11 @@
     <select id="selectDefRedByTenantId" resultType="java.lang.Long">
         select t2.res_id
         from plat_plan_definition t1
-                 join plat_plan_def_res t2 on t1.id = t2.plan_id
+                 join plat_plan_def_res t2 on t1.id = t2.plan_id AND t2.deleted = FALSE
                  join plat_plan_subscription t3 on t2.plan_id = t3.plan_id
         where t1.status = 1
-        and t3.deleted is false
-        and t3.end_time > NOW()
+          and t3.deleted = FALSE
+          and t3.end_time > NOW()
           and t3.tenant_id = #{tenantId}
     </select>
 </mapper>

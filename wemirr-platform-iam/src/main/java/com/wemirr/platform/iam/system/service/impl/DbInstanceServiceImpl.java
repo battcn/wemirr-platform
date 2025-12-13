@@ -20,7 +20,7 @@
 package com.wemirr.platform.iam.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
@@ -29,15 +29,16 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
 import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEventPublish;
 import com.wemirr.framework.db.dynamic.core.EventAction;
+import com.wemirr.framework.db.dynamic.core.local.DynamicInstanceApplicationEvent;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
-import com.wemirr.platform.iam.tenant.domain.dto.req.DbSettingSaveReq;
-import com.wemirr.platform.iam.tenant.domain.dto.resp.DbSettingPageResp;
-import com.wemirr.platform.iam.tenant.domain.entity.DbSetting;
-import com.wemirr.platform.iam.tenant.repository.DbSettingMapper;
-import com.wemirr.platform.iam.tenant.service.DbSettingService;
+import com.wemirr.platform.iam.tenant.domain.dto.req.DbInstanceSaveReq;
+import com.wemirr.platform.iam.tenant.domain.dto.resp.DbInstancePageResp;
+import com.wemirr.platform.iam.tenant.domain.entity.DbInstance;
+import com.wemirr.platform.iam.tenant.repository.DbInstanceMapper;
+import com.wemirr.platform.iam.tenant.service.DbInstanceService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,78 +55,78 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DbSettingServiceImpl extends SuperServiceImpl<DbSettingMapper, DbSetting> implements DbSettingService {
-    
+public class DbInstanceServiceImpl extends SuperServiceImpl<DbInstanceMapper, DbInstance> implements DbInstanceService {
+
     private final DatabaseProperties databaseProperties;
     private final ApplicationContext applicationContext;
-    
+
     @Override
-    public List<DbSettingPageResp> selectTenantDynamicDatasource() {
+    public List<DbInstancePageResp> selectTenantDynamicDatasource() {
         return this.baseMapper.selectTenantDbById(null);
     }
-    
+
     @Override
     public void ping(Long id) {
         log.debug("查询结果 - {}", JSON.toJSONString(""));
     }
-    
+
     @PostConstruct
     public void init() {
-        final List<DbSettingPageResp> dataSourceList = this.baseMapper.selectTenantDbById(null);
-        if (CollectionUtil.isEmpty(dataSourceList)) {
-            log.warn("未找到符合条件的数据源...");
-            return;
-        }
         if (databaseProperties.getMultiTenant().getType() != MultiTenantType.DATASOURCE) {
             return;
         }
-        for (DbSettingPageResp dynamicDatasource : dataSourceList) {
+        final List<DbInstancePageResp> dataSourceList = this.baseMapper.selectTenantDbById(null);
+        if (CollUtil.isEmpty(dataSourceList)) {
+            log.warn("未找到符合条件的数据源...");
+            return;
+        }
+        for (DbInstancePageResp dynamicDatasource : dataSourceList) {
             publishEvent(true, EventAction.ADD, dynamicDatasource);
         }
     }
-    
+
     @Override
     @DSTransactional
-    public void created(DbSettingSaveReq req) {
-        final long count = super.count(Wraps.<DbSetting>lbQ().eq(DbSetting::getName, req.getName()));
+    public void created(DbInstanceSaveReq req) {
+        final long count = super.count(Wraps.<DbInstance>lbQ().eq(DbInstance::getName, req.getName()));
         if (count > 0) {
             throw CheckedException.badRequest("连接名称已存在");
         }
-        DbSetting bean = BeanUtilPlus.toBean(req, DbSetting.class);
+        DbInstance bean = BeanUtilPlus.toBean(req, DbInstance.class);
         this.baseMapper.insert(bean);
     }
-    
+
     @Override
     @DSTransactional
-    public void edit(Long id, DbSettingSaveReq req) {
-        final long count = super.count(Wraps.<DbSetting>lbQ()
-                .ne(DbSetting::getId, id)
-                .eq(DbSetting::getName, req.getName()));
+    public void edit(Long id, DbInstanceSaveReq req) {
+        final long count = super.count(Wraps.<DbInstance>lbQ()
+                .ne(DbInstance::getId, id)
+                .eq(DbInstance::getName, req.getName()));
         if (count > 0) {
             throw CheckedException.badRequest("连接名称已存在");
         }
-        DbSetting bean = BeanUtilPlus.toBean(id, req, DbSetting.class);
+        DbInstance bean = BeanUtilPlus.toBean(id, req, DbInstance.class);
         this.baseMapper.updateById(bean);
     }
-    
+
     @Override
     @DSTransactional
     public void delete(Long id) {
         Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("数据连接信息不存在"));
         this.baseMapper.deleteById(id);
-        final List<DbSettingPageResp> dataSourceList = this.baseMapper.selectTenantDbById(id);
-        for (DbSettingPageResp tenantDynamicDatasource : dataSourceList) {
+        final List<DbInstancePageResp> dataSourceList = this.baseMapper.selectTenantDbById(id);
+        for (DbInstancePageResp tenantDynamicDatasource : dataSourceList) {
             publishEvent(false, EventAction.DEL, tenantDynamicDatasource);
         }
     }
-    
+
     @Override
     public void publishEvent(EventAction action, Long tenantId) {
-        final DbSettingPageResp dbSetting = this.baseMapper.getTenantDynamicDatasourceByTenantId(tenantId);
+        final DbInstancePageResp dbSetting = this.baseMapper.getTenantDynamicDatasourceByTenantId(tenantId);
         publishEvent(false, action, dbSetting);
     }
-    
-    private void publishEvent(boolean init, EventAction action, DbSettingPageResp dbSetting) {
+
+    private void publishEvent(boolean init, EventAction action, DbInstancePageResp dbSetting) {
         if (Objects.isNull(dbSetting)) {
             throw CheckedException.notFound("租户未关联数据源信息");
         }
@@ -136,7 +137,7 @@ public class DbSettingServiceImpl extends SuperServiceImpl<DbSettingMapper, DbSe
         final DynamicDatasourceEvent event = BeanUtil.toBean(dbSetting, DynamicDatasourceEvent.class);
         event.setAction(action.getType());
         if (init) {
-            applicationContext.publishEvent(new com.wemirr.framework.db.dynamic.core.local.DynamicDatasourceEvent(action, event));
+            applicationContext.publishEvent(new DynamicInstanceApplicationEvent(action, event));
         } else {
             eventPublisher.publish(event);
         }
