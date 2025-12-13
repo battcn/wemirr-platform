@@ -31,7 +31,7 @@ import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.dynamic.DynamicDataSourceHandler;
-import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
+import com.wemirr.framework.db.dynamic.core.DynamicDataSourceEvent;
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -227,7 +227,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         variables.put("tenant_name", tenant.getName());
         final DbInstancePageResp dbInstance = this.dbInstanceMapper.getTenantDynamicDatasourceByTenantId(tenant.getId());
         log.debug("dbInstance => {}", JSON.toJSONString(dbInstance));
-        final DynamicDatasourceEvent event = BeanUtil.toBean(dbInstance, DynamicDatasourceEvent.class);
+        final DynamicDataSourceEvent event = BeanUtil.toBean(dbInstance, DynamicDataSourceEvent.class);
         dynamicDataSourceHandler.initSqlScript(event, variables);
         final Role role = selectTenantAdminRole();
         List<RoleRes> list = this.roleResMapper.selectList(RoleRes::getRoleId, role.getId());

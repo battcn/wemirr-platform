@@ -19,8 +19,12 @@
 
 package com.wemirr.platform.iam.system.service;
 
+import cloud.tianai.captcha.application.vo.ImageCaptchaVO;
+import cloud.tianai.captcha.common.response.ApiResponse;
 import cn.hutool.captcha.CircleCaptcha;
 import com.wemirr.framework.commons.entity.Result;
+import com.wemirr.platform.iam.base.domain.dto.req.CaptchaReq;
+import com.wemirr.platform.iam.base.domain.dto.resp.CaptchaResp;
 
 /**
  * @author Levin
@@ -45,5 +49,8 @@ public interface CaptchaService {
      * @return 验证结果
      */
     Result<Boolean> valid(String key, String value);
-    
+
+    ApiResponse<ImageCaptchaVO> captcha();
+
+    CaptchaResp check(CaptchaReq req);
 }

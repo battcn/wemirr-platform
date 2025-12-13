@@ -26,6 +26,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 /**
  * 获取验证码返回
  *
@@ -36,24 +38,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CaptchaResp {
-    
-    /**
-     * 验证码id
-     */
-    @Schema(description = "验证码ID")
-    private String captchaId;
-    
-    /**
-     * 验证码的值
-     */
-    @JsonIgnore
-    @Schema(description = "验证码")
-    private String code;
-    
-    /**
-     * 图片验证码的base64值
-     */
-    @Schema(description = "验证码BASE64")
-    private String imageData;
-    
+
+    @Schema(description = "临时令牌")
+    private String tmpToken;
+
+    @Schema(description = "签发时间")
+    private Instant issueTime;
+
+    @Schema(description = "失效时间")
+    private Instant expireTime;
+
+    @Schema(description = "时效（秒）")
+    private Integer period;
+
 }

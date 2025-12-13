@@ -19,14 +19,13 @@
 
 package com.wemirr.platform.iam.system.service.impl;
 
-import cn.dev33.satoken.dao.SaTokenDao;
-import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.NumberUtil;
-import cn.hutool.core.util.ObjUtil;
-import cn.hutool.core.util.RandomUtil;
-import cn.hutool.core.util.StrUtil;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.commons.compress.utils.Lists;
+import org.springframework.stereotype.Service;
+
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -45,7 +44,6 @@ import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.framework.log.diff.core.annotation.DiffLog;
-import com.wemirr.framework.log.diff.core.context.DiffLogContext;
 import com.wemirr.framework.security.configuration.SecurityExtProperties;
 import com.wemirr.framework.security.domain.UserInfoDetails;
 import com.wemirr.framework.security.utils.PasswordEncoderHelper;
@@ -69,14 +67,17 @@ import com.wemirr.platform.iam.system.service.OrgService;
 import com.wemirr.platform.iam.system.service.UserService;
 import com.wemirr.platform.iam.tenant.domain.entity.Tenant;
 import com.wemirr.platform.iam.tenant.repository.TenantMapper;
+
+import cn.dev33.satoken.dao.SaTokenDao;
+import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.ObjUtil;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.compress.utils.Lists;
-import org.springframework.stereotype.Service;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Levin
@@ -111,12 +112,14 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     @Override
     @DiffLog(group = "用户管理", tag = "编辑用户", businessKey = "{{#id}}",
             success = "更新用户信息 {_DIFF{#_newObj}}",
-            fail = "更新用户信息异常 {{#id}} 需要更新的数据 {{#req}}")
+            fail = "更新用户信息异常 {{#id}} 需要更新的数据 {{#req}}",
+            oldObj = "@userMapper.selectById(#id)",
+            newObj = "#toBean(#id, #req)")
     public void modify(Long id, UserUpdateReq req) {
-        User oldVal = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
-        User newVal = BeanUtilPlus.toBean(id, req, User.class);
-        DiffLogContext.putDiffItem(oldVal, newVal);
-        this.baseMapper.updateById(newVal);
+        int updated = this.baseMapper.updateById(BeanUtilPlus.toBean(id, req, User.class));
+        if (updated == 0) {
+            throw CheckedException.notFound("用户不存在");
+        }
     }
 
     @Override

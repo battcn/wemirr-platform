@@ -19,7 +19,8 @@
 
 package com.wemirr.platform.iam.auth.strategy;
 
-import com.wemirr.framework.commons.entity.Result;
+import cn.dev33.satoken.temp.SaTempUtil;
+import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.platform.iam.auth.support.AuthenticationPrincipal;
 import com.wemirr.platform.iam.system.service.CaptchaService;
@@ -32,27 +33,28 @@ import org.springframework.stereotype.Component;
  * @author Levin
  **/
 @Component
-public class VerificationCodeAuthenticatorStrategy extends UsernamePasswordAuthenticatorStrategy {
-    
-    private static final String VERIFICATION_CODE_AUTH_TYPE = "vc";
-    
+public class SliderCodeAuthenticatorStrategy extends UsernamePasswordAuthenticatorStrategy {
+
+    private static final String SLIDER_CODE_AUTH_TYPE = "slider";
+
     @Resource
     private CaptchaService captchaService;
-    
+
     @Override
     public void prepare(final AuthenticationPrincipal principal) {
-        String vcToken = principal.getParameter("vc_token");
-        String vcCode = principal.getParameter("vc_code");
-        // 验证验证码
-        final Result<Boolean> result = captchaService.valid(vcToken, vcCode);
-        if (!result.isSuccessful()) {
-            throw CheckedException.badRequest(result.getMessage());
+        String code = principal.getCode();
+        if (StrUtil.isBlank(code)) {
+            throw CheckedException.badRequest("验证码不存在");
+        }
+        var tmpToken = SaTempUtil.parseToken(code, String.class);
+        if (!StrUtil.equals(tmpToken, principal.getUsername())) {
+            throw CheckedException.badRequest("验证码已失效");
         }
         super.prepare(principal);
     }
-    
+
     @Override
     public String loginType() {
-        return VERIFICATION_CODE_AUTH_TYPE;
+        return SLIDER_CODE_AUTH_TYPE;
     }
 }

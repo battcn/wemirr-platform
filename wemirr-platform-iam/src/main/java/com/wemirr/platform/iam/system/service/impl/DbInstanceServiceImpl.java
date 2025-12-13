@@ -26,8 +26,8 @@ import com.alibaba.fastjson2.JSON;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
-import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEventPublish;
+import com.wemirr.framework.db.dynamic.core.DynamicDataSourceEvent;
+import com.wemirr.framework.db.dynamic.core.DynamicDataSourceEventPublisher;
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.db.dynamic.core.local.DynamicInstanceApplicationEvent;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
@@ -133,8 +133,8 @@ public class DbInstanceServiceImpl extends SuperServiceImpl<DbInstanceMapper, Db
         if (databaseProperties.getMultiTenant().getType() != MultiTenantType.DATASOURCE) {
             throw CheckedException.notFound("系统异常,请配置[动态数据源]模式");
         }
-        final DynamicDatasourceEventPublish eventPublisher = SpringUtil.getBean(DynamicDatasourceEventPublish.class);
-        final DynamicDatasourceEvent event = BeanUtil.toBean(dbSetting, DynamicDatasourceEvent.class);
+        final DynamicDataSourceEventPublisher eventPublisher = SpringUtil.getBean(DynamicDataSourceEventPublisher.class);
+        final DynamicDataSourceEvent event = BeanUtil.toBean(dbSetting, DynamicDataSourceEvent.class);
         event.setAction(action.getType());
         if (init) {
             applicationContext.publishEvent(new DynamicInstanceApplicationEvent(action, event));

@@ -37,6 +37,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthenticationPrincipal {
 
+    @Schema(description = "验证码")
+    private String code;
+
     @NotBlank(message = "登录类型不能为空")
     @Schema(description = "登录类型", requiredMode = Schema.RequiredMode.REQUIRED)
     private String loginType;
