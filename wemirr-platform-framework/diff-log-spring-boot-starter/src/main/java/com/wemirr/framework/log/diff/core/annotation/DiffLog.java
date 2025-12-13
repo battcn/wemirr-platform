@@ -1,6 +1,12 @@
 package com.wemirr.framework.log.diff.core.annotation;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author muzhantong
@@ -55,4 +61,8 @@ public @interface DiffLog {
      * @return 表示成功的表达式，默认为空，代表不抛异常为成功
      */
     String successCondition() default "";
+
+    String oldObj() default "";
+
+    String newObj() default "";
 }

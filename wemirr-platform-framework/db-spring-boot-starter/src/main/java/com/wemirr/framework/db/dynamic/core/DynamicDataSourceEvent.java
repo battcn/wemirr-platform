@@ -26,7 +26,7 @@ import lombok.Data;
  * @author levin
  */
 @Data
-public class DynamicDatasourceEvent implements java.io.Serializable {
+public class DynamicDataSourceEvent implements java.io.Serializable {
 
     @Schema(description = "租户ID")
     private Long tenantId;

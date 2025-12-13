@@ -42,7 +42,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "type", havingValue = "datasource")
-public class DynamicDatasourceWebAutoConfigurer implements WebMvcConfigurer {
+public class DynamicDataSourceWebMvcAutoConfiguration implements WebMvcConfigurer {
 
     //    @Resource
     private final AuthenticationContext context;

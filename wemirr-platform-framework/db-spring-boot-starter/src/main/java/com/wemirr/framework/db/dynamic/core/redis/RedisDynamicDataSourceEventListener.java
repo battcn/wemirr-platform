@@ -20,7 +20,7 @@
 package com.wemirr.framework.db.dynamic.core.redis;
 
 import com.wemirr.framework.db.dynamic.DynamicDataSourceHandler;
-import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
+import com.wemirr.framework.db.dynamic.core.DynamicDataSourceEvent;
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.redis.plus.listener.AbstractMessageEventListener;
 import lombok.RequiredArgsConstructor;
@@ -31,19 +31,20 @@ import org.springframework.data.redis.listener.Topic;
 import java.lang.reflect.Type;
 import java.util.Objects;
 
-import static com.wemirr.framework.db.dynamic.core.DynamicDatasourceEventPublish.DEFAULT_EVENT_TOPIC;
+import static com.wemirr.framework.db.dynamic.core.DynamicDataSourceEventPublisher.DEFAULT_EVENT_TOPIC;
+
 
 /**
  * @author Levin
  */
 @Slf4j
 @RequiredArgsConstructor
-public class RedisDynamicDatasourceListener implements AbstractMessageEventListener<DynamicDatasourceEvent> {
+public class RedisDynamicDataSourceEventListener implements AbstractMessageEventListener<DynamicDataSourceEvent> {
 
     private final DynamicDataSourceHandler dynamicDataSourceHandler;
 
     @Override
-    public void handleMessage(DynamicDatasourceEvent message) {
+    public void handleMessage(DynamicDataSourceEvent message) {
         if (Objects.isNull(message)) {
             log.warn("event dynamicDatasource is null....");
             return;
@@ -59,6 +60,6 @@ public class RedisDynamicDatasourceListener implements AbstractMessageEventListe
 
     @Override
     public Type type() {
-        return DynamicDatasourceEvent.class;
+        return DynamicDataSourceEvent.class;
     }
 }

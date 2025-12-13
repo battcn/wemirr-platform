@@ -20,7 +20,7 @@
 package com.wemirr.framework.db.dynamic;
 
 import cn.hutool.core.collection.CollUtil;
-import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
+import com.wemirr.framework.db.dynamic.core.DynamicDataSourceEvent;
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.db.dynamic.feign.TenantFeignClient;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class DynamicDataSourceLoad {
 
     public void init() {
         log.debug("extend.mybatis-plus.multi-tenant.strategy eq feign , pull dynamic begin...");
-        final List<DynamicDatasourceEvent> result = tenantFeignClient.selectActiveDbSetting();
+        final List<DynamicDataSourceEvent> result = tenantFeignClient.selectActiveDbList();
         if (CollUtil.isEmpty(result)) {
             log.warn("feign pull tenantDynamicDataSources is null......");
             return;

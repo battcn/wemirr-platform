@@ -18,4 +18,7 @@ public class DiffLogOps {
     private String extra;
     private String condition;
     private String isSuccess;
+
+    private String oldObj;
+    private String newObj;
 }

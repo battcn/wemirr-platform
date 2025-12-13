@@ -19,7 +19,7 @@
 
 package com.wemirr.framework.db.dynamic.core.local;
 
-import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
+import com.wemirr.framework.db.dynamic.core.DynamicDataSourceEvent;
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,9 +33,9 @@ import org.springframework.context.ApplicationEvent;
 public class DynamicInstanceApplicationEvent extends ApplicationEvent {
 
     private EventAction action;
-    private DynamicDatasourceEvent datasource;
+    private DynamicDataSourceEvent datasource;
 
-    public DynamicInstanceApplicationEvent(EventAction action, DynamicDatasourceEvent datasource) {
+    public DynamicInstanceApplicationEvent(EventAction action, DynamicDataSourceEvent datasource) {
         super(datasource);
         this.datasource = datasource;
         this.action = action;

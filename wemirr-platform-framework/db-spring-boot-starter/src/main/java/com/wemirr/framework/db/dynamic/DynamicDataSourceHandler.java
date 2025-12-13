@@ -26,7 +26,7 @@ import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
 import com.baomidou.dynamic.datasource.creator.hikaricp.HikariDataSourceCreator;
 import com.wemirr.framework.commons.MvelHelper;
 import com.wemirr.framework.commons.exception.CheckedException;
-import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEvent;
+import com.wemirr.framework.db.dynamic.core.DynamicDataSourceEvent;
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.utils.JdbcUrlUtils;
@@ -74,9 +74,9 @@ public class DynamicDataSourceHandler {
     /**
      * 事件响应入口
      */
-    public void handler(EventAction action, DynamicDatasourceEvent event) {
+    public void handler(EventAction action, DynamicDataSourceEvent event) {
         if (event == null || action == null) {
-            log.warn("DynamicDatasourceEvent is null, skip.");
+            log.warn("DynamicDataSourceEvent is null, skip.");
             return;
         }
         var dsKey = databaseProperties.getMultiTenant().getDsPrefix() + event.getTenantCode();
@@ -99,7 +99,7 @@ public class DynamicDataSourceHandler {
      * @param event     包含完整连接信息的数据对象
      * @param variables 模板变量 (e.g. tenant_id, tenant_name)
      */
-    public void initSqlScript(DynamicDatasourceEvent event, Map<String, Object> variables) {
+    public void initSqlScript(DynamicDataSourceEvent event, Map<String, Object> variables) {
         if (event == null || event.getTenantCode() == null) {
             throw CheckedException.badRequest("Event or TenantCode cannot be null");
         }
@@ -127,7 +127,7 @@ public class DynamicDataSourceHandler {
         runScript(dataSource, variables);
     }
 
-    private void ensureSchemaName(DynamicDatasourceEvent event) {
+    private void ensureSchemaName(DynamicDataSourceEvent event) {
         if (event.getSchemaName() != null && !event.getSchemaName().isBlank()) {
             return;
         }
@@ -151,7 +151,7 @@ public class DynamicDataSourceHandler {
 
     // =========================== 私有核心逻辑 ===========================
 
-    private void createPhysicalDatabase(DynamicDatasourceEvent event) {
+    private void createPhysicalDatabase(DynamicDataSourceEvent event) {
         // 关键点：创建数据库时不能依赖“目标库已存在”。
         // 当前 event.getJdbcUrl() 可能指向一个不存在的库（例如 v4-pit），会导致连接失败，进而无法执行 CREATE DATABASE。
         // 这里使用 bootstrapUrl：优先移除库名（jdbc:mysql://host:port/?...），否则回退到 /mysql。
@@ -177,7 +177,7 @@ public class DynamicDataSourceHandler {
         return JdbcUrlUtils.replaceSchema(jdbcUrl, "information_schema");
     }
 
-    private void addDataSource(String dsKey, DynamicDatasourceEvent event) {
+    private void addDataSource(String dsKey, DynamicDataSourceEvent event) {
         if (isPostgreSqlSchemaStrategy(event)) {
             addPostgreSqlSchemaDataSource(dsKey, event);
             return;
@@ -197,14 +197,14 @@ public class DynamicDataSourceHandler {
         log.info("DataSource [{}] added. URL: {}", dsKey, finalUrl);
     }
 
-    private boolean isPostgreSqlSchemaStrategy(DynamicDatasourceEvent event) {
+    private boolean isPostgreSqlSchemaStrategy(DynamicDataSourceEvent event) {
         return event.getDbType() != null
                 && "postgresql".equalsIgnoreCase(event.getDbType())
                 && event.getStrategy() != null
                 && "SCHEMA".equalsIgnoreCase(event.getStrategy());
     }
 
-    private void addPostgreSqlSchemaDataSource(String dsKey, DynamicDatasourceEvent event) {
+    private void addPostgreSqlSchemaDataSource(String dsKey, DynamicDataSourceEvent event) {
         var poolKey = event.getJdbcUrl() + "|" + event.getUsername();
         var shared = sharedPools.computeIfAbsent(poolKey, k -> {
             var poolName = "TenantSharedPool_" + Integer.toHexString(k.hashCode());
@@ -304,7 +304,7 @@ public class DynamicDataSourceHandler {
         }
     }
 
-    private DataSourceProperty createProperty(String poolName, DynamicDatasourceEvent event, String url) {
+    private DataSourceProperty createProperty(String poolName, DynamicDataSourceEvent event, String url) {
         var property = new DataSourceProperty();
         property.setPoolName(poolName);
         property.setDriverClassName(event.getDriverClassName());

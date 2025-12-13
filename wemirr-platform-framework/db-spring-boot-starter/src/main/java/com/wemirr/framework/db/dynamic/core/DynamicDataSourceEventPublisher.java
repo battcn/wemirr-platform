@@ -25,9 +25,9 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Levin
  */
-public interface DynamicDatasourceEventPublish {
+public interface DynamicDataSourceEventPublisher {
 
-    Logger log = LoggerFactory.getLogger(DynamicDatasourceEventPublish.class);
+    Logger log = LoggerFactory.getLogger(DynamicDataSourceEventPublisher.class);
 
     String DEFAULT_EVENT_TOPIC = "dynamic-db-topic";
 
@@ -36,6 +36,6 @@ public interface DynamicDatasourceEventPublish {
      *
      * @param message 数据源
      */
-    void publish(DynamicDatasourceEvent message);
+    void publish(DynamicDataSourceEvent message);
 
 }

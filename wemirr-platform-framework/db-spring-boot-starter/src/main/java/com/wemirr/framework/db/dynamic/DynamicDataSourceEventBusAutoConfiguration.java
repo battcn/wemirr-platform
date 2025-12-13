@@ -23,11 +23,11 @@ import com.baomidou.dynamic.datasource.processor.DsJakartaHeaderProcessor;
 import com.baomidou.dynamic.datasource.processor.DsJakartaSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
-import com.wemirr.framework.db.dynamic.core.DynamicDatasourceEventPublish;
-import com.wemirr.framework.db.dynamic.core.local.DynamicDatasourceLocalListener;
+import com.wemirr.framework.db.dynamic.core.DynamicDataSourceEventPublisher;
+import com.wemirr.framework.db.dynamic.core.local.DynamicDataSourceLocalListener;
 import com.wemirr.framework.db.dynamic.core.local.DynamicInstanceApplicationEvent;
-import com.wemirr.framework.db.dynamic.core.redis.RedisDynamicDatasourceListener;
-import com.wemirr.framework.db.dynamic.core.redis.RedisDynamicDatasourcePublish;
+import com.wemirr.framework.db.dynamic.core.redis.RedisDynamicDataSourceEventListener;
+import com.wemirr.framework.db.dynamic.core.redis.RedisDynamicDataSourceEventPublisher;
 import com.wemirr.framework.db.dynamic.feign.TenantFeignClient;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.redis.plus.listener.MessageEventListener;
@@ -70,20 +70,20 @@ public class DynamicDataSourceEventBusAutoConfiguration {
     @Bean
     @Order(value = Integer.MIN_VALUE)
     public ApplicationListener<DynamicInstanceApplicationEvent> applicationListener(DynamicDataSourceHandler handler) {
-        return new DynamicDatasourceLocalListener(handler);
+        return new DynamicDataSourceLocalListener(handler);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "db-notify", havingValue = "redis")
-    public DynamicDatasourceEventPublish redisDynamicDatasourcePublish(StringRedisTemplate redisTemplate) {
-        return new RedisDynamicDatasourcePublish(redisTemplate);
+    public DynamicDataSourceEventPublisher redisDynamicDatasourcePublish(StringRedisTemplate redisTemplate) {
+        return new RedisDynamicDataSourceEventPublisher(redisTemplate);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "db-notify", havingValue = "redis")
     @Order(value = Integer.MIN_VALUE)
-    public MessageEventListener redisDynamicDatasourceListener(DynamicDataSourceHandler handler) {
-        return new RedisDynamicDatasourceListener(handler);
+    public MessageEventListener redisDynamicDataSourceEventListener(DynamicDataSourceHandler handler) {
+        return new RedisDynamicDataSourceEventListener(handler);
     }
 
     @Bean

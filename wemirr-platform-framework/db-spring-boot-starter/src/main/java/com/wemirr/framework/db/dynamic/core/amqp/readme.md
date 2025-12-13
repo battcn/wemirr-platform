@@ -1,3 +1,3 @@
 ## AMQP 监听实现
 
-请参考 `RedisDynamicDatasourceEventListener` 的实现方式
+请参考 `RedisDynamicDataSourceEventListener` 的实现方式

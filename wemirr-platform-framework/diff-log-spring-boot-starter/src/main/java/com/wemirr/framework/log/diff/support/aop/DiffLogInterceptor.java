@@ -1,10 +1,30 @@
 package com.wemirr.framework.log.diff.support.aop;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.URLUtil;
-import cn.hutool.extra.servlet.JakartaServletUtil;
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.aop.framework.AopProxyUtils;
+import org.springframework.aop.support.AopUtils;
+import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.context.expression.AnnotatedElementKey;
+import org.springframework.expression.EvaluationContext;
+import static org.springframework.http.HttpHeaders.USER_AGENT;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StopWatch;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
 import com.wemirr.framework.commons.NativeUserAgent;
 import com.wemirr.framework.commons.RegionUtils;
 import com.wemirr.framework.commons.security.AuthenticationContext;
@@ -13,32 +33,22 @@ import com.wemirr.framework.log.diff.domain.DiffLogInfo;
 import com.wemirr.framework.log.diff.domain.DiffLogOps;
 import com.wemirr.framework.log.diff.domain.MethodExecute;
 import com.wemirr.framework.log.diff.service.IDiffLogPerformanceMonitor;
+import static com.wemirr.framework.log.diff.service.IDiffLogPerformanceMonitor.MONITOR_NAME;
+import static com.wemirr.framework.log.diff.service.IDiffLogPerformanceMonitor.MONITOR_TASK_AFTER_EXECUTE;
+import static com.wemirr.framework.log.diff.service.IDiffLogPerformanceMonitor.MONITOR_TASK_BEFORE_EXECUTE;
 import com.wemirr.framework.log.diff.service.IDiffLogService;
 import com.wemirr.framework.log.diff.service.IFunctionService;
 import com.wemirr.framework.log.diff.service.impl.DiffParseFunction;
 import com.wemirr.framework.log.diff.support.parse.DiffLogFunctionParser;
 import com.wemirr.framework.log.diff.support.parse.DiffLogValueParser;
+
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
-import org.springframework.aop.framework.AopProxyUtils;
-import org.springframework.aop.support.AopUtils;
-import org.springframework.beans.factory.SmartInitializingSingleton;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StopWatch;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.time.Instant;
-import java.util.*;
-
-import static com.wemirr.framework.log.diff.service.IDiffLogPerformanceMonitor.*;
-import static org.springframework.http.HttpHeaders.USER_AGENT;
-
 
 /**
  * 拦截器
@@ -77,6 +87,7 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
         Map<String, String> functionNameAndReturnMap = new HashMap<>();
         try {
             operations = diffLogOperationSource.computeDiffLogOperations(method, targetClass);
+            putOldObjSnapshotIfNecessary(operations, targetClass, method, args);
             List<String> spElTemplates = getBeforeExecuteFunctionTemplate(operations);
             functionNameAndReturnMap = processBeforeExecuteFunctionTemplate(spElTemplates, targetClass, method, args);
         } catch (Exception e) {
@@ -96,6 +107,7 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
         }
         stopWatch.start(MONITOR_TASK_AFTER_EXECUTE);
         try {
+            putNewObjSnapshotIfNecessary(methodExecute, operations);
             if (CollUtil.isNotEmpty(operations)) {
                 recordExecute(methodExecute, functionNameAndReturnMap, operations);
             }
@@ -158,7 +170,7 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
     private void successRecordExecute(MethodExecute methodExecute, Map<String, String> functionNameAndReturnMap,
                                       DiffLogOps ops) {
         // 若存在 isSuccess 条件模版，解析出成功/失败的模版
-        String action = "";
+        String action;
         boolean flag = true;
         if (!StrUtil.isEmpty(ops.getIsSuccess())) {
             String condition = singleProcessTemplate(methodExecute, ops.getIsSuccess(), functionNameAndReturnMap);
@@ -252,7 +264,75 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
     }
 
     private Class<?> getTargetClass(Object target) {
-        return AopProxyUtils.ultimateTargetClass(target);
+        return AopProxyUtils.ultimateTargetClass(Objects.requireNonNull(target, "target"));
+    }
+
+
+    private void putOldObjSnapshotIfNecessary(Collection<DiffLogOps> operations, Class<?> targetClass, Method method, Object[] args) {
+        if (CollectionUtils.isEmpty(operations)) {
+            return;
+        }
+        if (DiffLogContext.getMethodOrGlobal(DiffParseFunction.OLD_OBJECT) != null) {
+            return;
+        }
+        String expression = null;
+        for (DiffLogOps ops : operations) {
+            if (StrUtil.isNotBlank(ops.getOldObj())) {
+                expression = ops.getOldObj();
+                break;
+            }
+        }
+        if (StrUtil.isBlank(expression)) {
+            return;
+        }
+        try {
+            Method targetMethod = Objects.requireNonNull(method, "method");
+            EvaluationContext evaluationContext = expressionEvaluator.createEvaluationContext(targetMethod, args, targetClass, null, null, beanFactory);
+            AnnotatedElementKey annotatedElementKey = new AnnotatedElementKey(targetMethod, targetClass);
+            Object oldObj = expressionEvaluator.parseExpression(expression, annotatedElementKey, evaluationContext);
+            DiffLogContext.putVariable(DiffParseFunction.OLD_OBJECT, oldObj);
+        } catch (Exception e) {
+            log.error("diff log parse oldObj expression exception, expression={}", expression, e);
+            if (joinTransaction) {
+                throw (e instanceof RuntimeException re) ? re : new IllegalStateException(e);
+            }
+        }
+    }
+
+    private void putNewObjSnapshotIfNecessary(MethodExecute methodExecute, Collection<DiffLogOps> operations) {
+        if (CollectionUtils.isEmpty(operations)) {
+            return;
+        }
+        if (!methodExecute.isSuccess()) {
+            return;
+        }
+        if (DiffLogContext.getMethodOrGlobal(DiffParseFunction.NEW_OBJECT) != null) {
+            return;
+        }
+        String expression = null;
+        for (DiffLogOps ops : operations) {
+            if (StrUtil.isNotBlank(ops.getNewObj())) {
+                expression = ops.getNewObj();
+                break;
+            }
+        }
+        if (StrUtil.isBlank(expression)) {
+            return;
+        }
+        try {
+            Method method = Objects.requireNonNull(methodExecute.getMethod(), "method");
+            Class<?> targetClass = Objects.requireNonNull(methodExecute.getTargetClass(), "targetClass");
+            EvaluationContext evaluationContext = expressionEvaluator.createEvaluationContext(method,
+                    methodExecute.getArgs(), methodExecute.getTargetClass(), methodExecute.getResult(), methodExecute.getErrorMsg(), beanFactory);
+            AnnotatedElementKey annotatedElementKey = new AnnotatedElementKey(method, targetClass);
+            Object newObj = expressionEvaluator.parseExpression(expression, annotatedElementKey, evaluationContext);
+            DiffLogContext.putVariable(DiffParseFunction.NEW_OBJECT, newObj);
+        } catch (Exception e) {
+            log.error("diff log parse newObj expression exception, expression={}", expression, e);
+            if (joinTransaction) {
+                throw (e instanceof RuntimeException re) ? re : new IllegalStateException(e);
+            }
+        }
     }
 
 

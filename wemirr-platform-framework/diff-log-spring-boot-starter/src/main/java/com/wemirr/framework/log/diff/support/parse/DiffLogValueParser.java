@@ -1,18 +1,24 @@
 package com.wemirr.framework.log.diff.support.parse;
 
-import com.wemirr.framework.log.diff.domain.MethodExecute;
-import com.wemirr.framework.log.diff.service.impl.DiffParseFunction;
-import jakarta.annotation.Nullable;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.context.expression.AnnotatedElementKey;
 import org.springframework.expression.EvaluationContext;
 
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.wemirr.framework.log.diff.domain.MethodExecute;
+import com.wemirr.framework.log.diff.service.impl.DiffParseFunction;
+
+import jakarta.annotation.Nullable;
 
 /**
  * 解析需要存储的日志里面的SpeEL表达式
@@ -23,7 +29,7 @@ public class DiffLogValueParser implements BeanFactoryAware {
 
     public static final String COMMA = ",";
     private static final Pattern PATTERN = Pattern.compile("\\{\\s*(\\w*)\\s*\\{(.*?)}}");
-    private final DiffLogExpressionEvaluator expressionEvaluator = new DiffLogExpressionEvaluator();
+    protected final DiffLogExpressionEvaluator expressionEvaluator = new DiffLogExpressionEvaluator();
     protected BeanFactory beanFactory;
     protected boolean diffLog;
 

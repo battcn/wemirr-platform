@@ -33,7 +33,7 @@ import org.springframework.context.event.EventListener;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class DynamicDatasourceLocalListener implements ApplicationListener<DynamicInstanceApplicationEvent> {
+public class DynamicDataSourceLocalListener implements ApplicationListener<DynamicInstanceApplicationEvent> {
 
     private final DynamicDataSourceHandler dynamicDataSourceHandler;
 

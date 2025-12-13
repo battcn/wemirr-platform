@@ -1,5 +1,10 @@
 package com.wemirr.framework.log.diff.support.parse;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.AnnotatedElementKey;
@@ -7,10 +12,6 @@ import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.context.expression.CachedExpressionEvaluator;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
-
-import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * DATE 4:38 PM
@@ -42,10 +43,30 @@ public class DiffLogExpressionEvaluator extends CachedExpressionEvaluator {
         Method targetMethod = getTargetMethod(targetClass, method);
         DiffLogEvaluationContext evaluationContext = new DiffLogEvaluationContext(
                 null, targetMethod, args, getParameterNameDiscoverer(), result, errorMsg);
+        registerBuiltInFunctions(evaluationContext);
         if (beanFactory != null) {
             evaluationContext.setBeanResolver(new BeanFactoryResolver(beanFactory));
         }
         return evaluationContext;
+    }
+
+    private void registerBuiltInFunctions(DiffLogEvaluationContext evaluationContext) {
+        try {
+            Method toBean = DiffLogSpelFunctions.class.getDeclaredMethod("toBean", Object.class, Object.class);
+            Method toBeanByClass = DiffLogSpelFunctions.class.getDeclaredMethod("toBeanByClass", Object.class, Object.class, Class.class);
+            Method toBeanByClassName = DiffLogSpelFunctions.class.getDeclaredMethod("toBeanByClassName", Object.class, Object.class, String.class);
+            if (Modifier.isStatic(toBean.getModifiers())) {
+                evaluationContext.registerFunction("toBean", toBean);
+            }
+            if (Modifier.isStatic(toBeanByClass.getModifiers())) {
+                evaluationContext.registerFunction("toBeanByClass", toBeanByClass);
+            }
+            if (Modifier.isStatic(toBeanByClassName.getModifiers())) {
+                evaluationContext.registerFunction("toBeanByClassName", toBeanByClassName);
+            }
+        } catch (NoSuchMethodException ignored) {
+            // ignored
+        }
     }
 
     private Method getTargetMethod(Class<?> targetClass, Method method) {
