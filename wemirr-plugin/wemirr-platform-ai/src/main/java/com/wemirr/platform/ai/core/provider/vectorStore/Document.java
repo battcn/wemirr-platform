@@ -23,5 +23,5 @@ public class Document {
     private String content;
     private String source;
     private Map<String, Object> metadata;
-    private Instant createdAt;
+    private Instant createAt;
 }

@@ -41,7 +41,7 @@ public class OrderController {
     @PostMapping("/create")
     @Operation(summary = "创建订单 - [Levin] - [DONE]")
     @AccessLog(module = "", description = "创建订单")
-    public void created(@Validated @RequestBody OrderSaveReq req) {
+    public void create(@Validated @RequestBody OrderSaveReq req) {
         this.orderService.createOrder(req);
     }
 

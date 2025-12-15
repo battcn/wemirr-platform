@@ -44,8 +44,8 @@ public class DriverController {
 
     @PostMapping("/create")
     @Operation(summary = "删除司机 - [Levin] - [DONE]")
-    public void created(@RequestBody DriverSaveReq req) {
-        this.driverService.created(req);
+    public void create(@RequestBody DriverSaveReq req) {
+        this.driverService.create(req);
     }
 
     @PutMapping("/{id}")

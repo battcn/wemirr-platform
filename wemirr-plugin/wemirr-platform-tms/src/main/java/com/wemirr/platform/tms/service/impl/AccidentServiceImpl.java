@@ -38,7 +38,7 @@ public class AccidentServiceImpl extends SuperServiceImpl<AccidentMapper, Accide
     }
 
     @Override
-    public void created(AccidentSaveReq req) {
+    public void create(AccidentSaveReq req) {
         final Accident bean = BeanUtil.toBean(req, Accident.class);
         bean.setAccidentNo(sequenceHelper.generate(TmsSequence.ACCIDENT_NO, context.tenantId()));
         this.baseMapper.insert(bean);

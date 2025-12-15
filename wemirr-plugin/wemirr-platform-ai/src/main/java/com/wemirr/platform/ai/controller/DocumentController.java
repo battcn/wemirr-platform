@@ -54,7 +54,7 @@ public class DocumentController {
     @PostMapping
     @Operation(summary = "创建文档")
     public void create(@Valid @RequestBody DocumentSaveReq req) {
-        knowledgeItemService.createDocument(
+        knowledgeItemService.createocument(
                 req
         );
     }

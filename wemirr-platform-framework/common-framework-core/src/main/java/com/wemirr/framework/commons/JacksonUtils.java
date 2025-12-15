@@ -52,18 +52,18 @@ public final class JacksonUtils {
     private static final ObjectMapper nonNullMapper;
 
     public static ObjectMapper getObjectMapper() {
-        return createDefaultObjectMapper();
+        return createefaultObjectMapper();
     }
 
     static {
-        defaultMapper = createDefaultObjectMapper();
-        ObjectMapper createNonNullMapper = createDefaultObjectMapper();
+        defaultMapper = createefaultObjectMapper();
+        ObjectMapper createNonNullMapper = createefaultObjectMapper();
         // 序列化时，忽略值为null的属性
         createNonNullMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         nonNullMapper = createNonNullMapper;
     }
 
-    private static ObjectMapper createDefaultObjectMapper() {
+    private static ObjectMapper createefaultObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         // 反序列化时，忽略JSON字符串中存在而Java对象实际没有的属性
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);

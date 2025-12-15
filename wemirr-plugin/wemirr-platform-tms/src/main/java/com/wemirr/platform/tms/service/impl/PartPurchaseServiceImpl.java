@@ -39,7 +39,7 @@ public class PartPurchaseServiceImpl extends SuperServiceImpl<PartPurchaseMapper
     }
 
     @Override
-    public void created(PartPurchaseSaveReq req) {
+    public void create(PartPurchaseSaveReq req) {
         final PartPurchase bean = BeanUtil.toBean(req, PartPurchase.class);
         bean.setPurchaseNo(sequenceHelper.generate(TmsSequence.PURCHASE_NO, authenticationContext.tenantId()));
         this.baseMapper.insert(bean);

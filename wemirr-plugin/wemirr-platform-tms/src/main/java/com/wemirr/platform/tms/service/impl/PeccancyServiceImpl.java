@@ -33,7 +33,7 @@ public class PeccancyServiceImpl extends SuperServiceImpl<PeccancyMapper, Peccan
     }
 
     @Override
-    public void created(PeccancySaveReq req) {
+    public void create(PeccancySaveReq req) {
         final Peccancy bean = BeanUtil.toBean(req, Peccancy.class);
         this.baseMapper.insert(bean);
     }

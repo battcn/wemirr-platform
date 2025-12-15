@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -116,7 +117,7 @@ public class KnowledgeItemResp {
     private Map<String, Object> metadata;
 
     @Schema(description = "创建时间")
-    private Instant createdTime;
+    private Instant createTime;
 
     @Schema(description = "更新时间")
     private Instant updatedTime;

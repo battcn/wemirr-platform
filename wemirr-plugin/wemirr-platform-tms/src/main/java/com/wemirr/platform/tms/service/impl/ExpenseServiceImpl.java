@@ -39,7 +39,7 @@ public class ExpenseServiceImpl extends SuperServiceImpl<ExpenseMapper, Expense>
     }
 
     @Override
-    public void created(ExpenseSaveReq req) {
+    public void create(ExpenseSaveReq req) {
         final Expense bean = BeanUtil.toBean(req, Expense.class);
         bean.setExpenseNo(sequenceHelper.generate(TmsSequence.EXPENSE_NO, authenticationContext.tenantId()));
         this.baseMapper.insert(bean);

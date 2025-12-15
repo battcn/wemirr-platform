@@ -31,7 +31,7 @@ public class EventController {
 
     @PostMapping("/create")
     @Operation(summary = "创建节点 - [Levin] - [DONE]")
-    public OrderEventResp created(@RequestBody OrderEventSaveReq req) {
+    public OrderEventResp create(@RequestBody OrderEventSaveReq req) {
         return this.eventService.createEvent(req);
     }
 

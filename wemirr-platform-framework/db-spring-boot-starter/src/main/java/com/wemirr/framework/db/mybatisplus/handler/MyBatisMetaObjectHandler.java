@@ -24,7 +24,6 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.wemirr.framework.commons.entity.Entity;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import com.wemirr.framework.commons.security.AuthenticationContext;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 
@@ -34,24 +33,21 @@ import java.util.Optional;
 
 /**
  * MyBatis Plus 元数据处理类
- * 用于自动 注入 id, createdTime, lastModifiedTime, createdBy, lastModifiedBy 等字段
+ * 用于自动 注入 id, createTime, lastModifiedTime, createBy, lastModifiedBy 等字段
  *
  * @author Levin
  * @since 2019/04/29
  */
 @Slf4j
-@RequiredArgsConstructor
-public class MyBatisMetaObjectHandler implements MetaObjectHandler {
-
-    private final AuthenticationContext context;
+public record MyBatisMetaObjectHandler(AuthenticationContext context) implements MetaObjectHandler {
 
     /**
      * 注意：不支持 复合主键 自动注入！！
      * <p>
      * 所有的继承了Entity、SuperEntity的实体，在insert时，
      * id： id为空时， 通过IdGenerate生成唯一ID， 不为空则使用传递进来的id
-     * createdBy, lastModifiedBy: 自动赋予 当前线程上的登录人id
-     * createdTime, lastModifiedTime: 自动赋予 服务器的当前时间
+     * createBy, lastModifiedBy: 自动赋予 当前线程上的登录人id
+     * createTime, lastModifiedTime: 自动赋予 服务器的当前时间
      * <p>
      * 未继承任何父类的实体，且主键标注了 @TableId(value = "xxx", type = IdType.INPUT) 自动注入 主键
      * 主键的字段名称任意

@@ -26,7 +26,7 @@ public interface DriverService extends SuperService<Driver> {
      *
      * @param req req
      */
-    void created(DriverSaveReq req);
+    void create(DriverSaveReq req);
 
     /**
      * 编辑司机信息

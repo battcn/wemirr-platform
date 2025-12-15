@@ -25,7 +25,7 @@ public interface ExpenseService extends SuperService<Expense> {
      *
      * @param req req
      */
-    void created(ExpenseSaveReq req);
+    void create(ExpenseSaveReq req);
 
     /**
      * 编辑规费信息

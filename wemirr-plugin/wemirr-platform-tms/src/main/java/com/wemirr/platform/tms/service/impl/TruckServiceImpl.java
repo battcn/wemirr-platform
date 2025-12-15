@@ -37,7 +37,7 @@ public class TruckServiceImpl extends SuperServiceImpl<TruckMapper, Truck> imple
     }
 
     @Override
-    public void created(TruckSaveReq req) {
+    public void create(TruckSaveReq req) {
         this.baseMapper.insert(BeanUtil.toBean(req, Truck.class));
     }
 

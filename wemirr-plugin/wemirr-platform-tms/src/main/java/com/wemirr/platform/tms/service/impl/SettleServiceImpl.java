@@ -166,11 +166,11 @@ public class SettleServiceImpl extends SuperServiceImpl<BmsSettleDetailMapper, B
                 for (Map<String, Object> orderMap : orderMaps) {
                     for (BmsRulePageResp rule : bmsRules) {
                         //判断有效期
-                        LocalDateTime createdTime = (LocalDateTime) orderMap.get("create_time");
-                        LocalDate createdDate = createdTime.toLocalDate();
+                        LocalDateTime createTime = (LocalDateTime) orderMap.get("create_time");
+                        LocalDate createDate = createTime.toLocalDate();
                         LocalDate startDate = rule.getStartDate();
                         LocalDate endDate = rule.getEndDate();
-                        if (createdDate.isBefore(startDate) || createdDate.isAfter(endDate)) {
+                        if (createDate.isBefore(startDate) || createDate.isAfter(endDate)) {
                             //创建时间不在规则有效期内，不计算
                             continue;
                         }

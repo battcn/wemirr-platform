@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * @author YanCh
- * Created on: 2025-06-06 15:50
+ * create on: 2025-06-06 15:50
  **/
 @SpringBootTest(classes = IamApplication.class)
 public class RemoteAloneRedisTest {

@@ -45,8 +45,8 @@ public class TruckController {
 
     @PostMapping("/create")
     @Operation(summary = "删除车辆 - [Levin] - [DONE]")
-    public void created(@Validated @RequestBody TruckSaveReq req) {
-        this.truckService.created(req);
+    public void create(@Validated @RequestBody TruckSaveReq req) {
+        this.truckService.create(req);
     }
 
     @PutMapping("/{id}")

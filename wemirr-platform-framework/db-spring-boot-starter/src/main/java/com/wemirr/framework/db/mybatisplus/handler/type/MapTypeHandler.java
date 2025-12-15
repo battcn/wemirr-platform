@@ -30,7 +30,8 @@ public class MapTypeHandler extends AbstractJsonTypeHandler<Map<String, Object>>
             return new HashMap<>();
         }
         try {
-            return JSON.parseObject(json, new TypeReference<Map<String, Object>>() {});
+            return JSON.parseObject(json, new TypeReference<>() {
+            });
         } catch (Exception e) {
             // 解析失败时返回空Map
             return new HashMap<>();

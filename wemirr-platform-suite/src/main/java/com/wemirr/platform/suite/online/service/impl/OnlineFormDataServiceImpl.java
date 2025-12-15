@@ -48,15 +48,15 @@ public class OnlineFormDataServiceImpl extends SuperServiceImpl<OnlineFormDataMa
                 put("id", x.getId());
                 put("definitionKey", x.getDefinitionKey());
                 put("tenantId", x.getTenantId());
-                put("createdName", x.getCreateName());
-                put("createdTime", x.getCreateTime());
+                put("createName", x.getCreateName());
+                put("createTime", x.getCreateTime());
                 putAll(x.getFormData());
             }
         });
     }
     
     @Override
-    public void created(OnlineFormDataSaveReq req) {
+    public void create(OnlineFormDataSaveReq req) {
         var bean = BeanUtilPlus.toBean(req, OnlineFormData.class);
         this.baseMapper.insert(bean);
     }

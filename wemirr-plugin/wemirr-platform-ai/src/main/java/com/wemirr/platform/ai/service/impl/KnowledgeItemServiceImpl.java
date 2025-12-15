@@ -234,7 +234,7 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long createDocumentItem(Long kbId, String docId, Map<String, Object> metadata) {
+    public Long createocumentItem(Long kbId, String docId, Map<String, Object> metadata) {
         // 创建文档知识条目（兼容旧签名：docId 写入 metadata）
         KnowledgeItem item = KnowledgeItem.builder()
                 .kbId(kbId)
@@ -280,7 +280,7 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long createDocument(DocumentSaveReq req) {
+    public Long createocument(DocumentSaveReq req) {
         KnowledgeItem item = KnowledgeItem.builder()
                 .kbId(req.getKbId())
                 .type(KnowledgeItemType.DOCUMENT)
@@ -298,7 +298,7 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
         baseMapper.insert(item);
         KnowledgeBase knb = knowledgeBaseService.getById(req.getKbId());
         if (req.getContent() != null && !req.getContent().isEmpty()) {
-            knowledgeChunkService.createDocumentChunks(knb, item.getId(), String.valueOf(item.getId()), req.getContent());
+            knowledgeChunkService.createocumentChunks(knb, item.getId(), String.valueOf(item.getId()), req.getContent());
         }
         return item.getId();
     }
@@ -321,7 +321,7 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
         KnowledgeBase kbs = knowledgeBaseService.getById(item.getKbId());
         if (content != null && !content.equals(item.getContent())) {
             knowledgeChunkService.deleteByItemId(id);
-            knowledgeChunkService.createDocumentChunks(kbs, id, String.valueOf(id), content);
+            knowledgeChunkService.createocumentChunks(kbs, id, String.valueOf(id), content);
         }
     }
 
@@ -343,7 +343,7 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
             file.transferTo(tempFile);
             String content = documentProcessor.extractText(tempFile, contentType);
             req.setContent(content);
-            return createDocument(req);
+            return createocument(req);
         } finally {
 //            FileUtil.del(tempFile);
         }
@@ -360,7 +360,7 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
         knowledgeChunkService.deleteByItemId(id);
         KnowledgeBase knowledgeBase = knowledgeBaseService.getById(item.getKbId());
         if (item.getContent() != null && !item.getContent().isEmpty()) {
-            knowledgeChunkService.createDocumentChunks(knowledgeBase, id, String.valueOf(id), item.getContent());
+            knowledgeChunkService.createocumentChunks(knowledgeBase, id, String.valueOf(id), item.getContent());
         }
     }
 }

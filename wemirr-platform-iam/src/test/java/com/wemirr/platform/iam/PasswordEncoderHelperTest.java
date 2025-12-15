@@ -32,7 +32,7 @@ public class PasswordEncoderHelperTest {
 
     @Test
     public void passwordEncoderTest() {
-        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createelegatingPasswordEncoder();
         String rawPassword = "123456";
         String oldPassword = "{bcrypt}$2a$10$R2AdNVf402GnqcJejdjY..wOHP5hFt5x0vz5qXdTVG.udcdFmqu.K";
         log.info("encode - {}", passwordEncoder.encode("123456"));

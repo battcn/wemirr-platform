@@ -46,7 +46,7 @@ public class DiffLogProperties {
     /**
      * 全局忽略(默认情况下如果没给表单独配置则取全局忽略)
      */
-    private List<String> ignoreGlobalFields = Lists.newArrayList("deleted", "createdTime", "createdBy", "createdName", "lastModifiedTime", "lastModifiedBy", "lastModifiedName");
+    private List<String> ignoreGlobalFields = Lists.newArrayList("deleted", "createTime", "createBy", "createName", "lastModifiedTime", "lastModifiedBy", "lastModifiedName");
     /**
      * 字段从空改为有值的时候的日志内容模板
      */

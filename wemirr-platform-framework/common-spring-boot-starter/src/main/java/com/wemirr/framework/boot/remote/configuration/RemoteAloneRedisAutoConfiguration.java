@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author YanCh
- * Created on: 2025-05-22 16:03
+ * @since 2025-05-22 16:03
  **/
 @Slf4j
 @ConditionalOnProperty(prefix = RemoteProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)

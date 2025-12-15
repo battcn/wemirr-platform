@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import lombok.Setter;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.aop.framework.AopProxyUtils;
@@ -58,12 +59,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DiffLogInterceptor extends DiffLogValueParser implements MethodInterceptor, Serializable, SmartInitializingSingleton {
 
+    @Setter
     private DiffLogOperationSource diffLogOperationSource;
+    @Setter
     private String serviceName;
     private IDiffLogService diffLogService;
     private AuthenticationContext context;
+    @Setter
     private IDiffLogPerformanceMonitor diffLogPerformanceMonitor;
 
+    @Setter
     private boolean joinTransaction;
 
     @Override
@@ -219,7 +224,7 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
                 || (!diffLog && description.contains("#") && Objects.equals(description, expressions.get(description)))) {
             return;
         }
-        var variables = MapUtil.builder()
+        var variables = MapUtil.<String, Object>builder()
                 .put("class", method.getDeclaringClass())
                 .put("method", method.getName())
                 .put("method", method.getName());
@@ -245,9 +250,9 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
                 .description(expressions.get(description))
                 .status(flag)
                 .tenantId(context.tenantId())
-                .createdBy(context.userId())
-                .createdName(context.nickName())
-                .createdTime(Instant.now())
+                .createBy(context.userId())
+                .createName(context.nickName())
+                .createTime(Instant.now())
                 .variables(variables.build())
                 .build();
         diffLogService.handler(diffLogInfo);
@@ -335,26 +340,6 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
         }
     }
 
-
-    public void setDiffLogOperationSource(DiffLogOperationSource diffLogOperationSource) {
-        this.diffLogOperationSource = diffLogOperationSource;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    public void setDiffLogService(IDiffLogService diffLogService) {
-        this.diffLogService = diffLogService;
-    }
-
-    public void setDiffLogPerformanceMonitor(IDiffLogPerformanceMonitor diffLogPerformanceMonitor) {
-        this.diffLogPerformanceMonitor = diffLogPerformanceMonitor;
-    }
-
-    public void setJoinTransaction(boolean joinTransaction) {
-        this.joinTransaction = joinTransaction;
-    }
 
     public void setDiffLog(boolean diffLog) {
         this.diffLog = diffLog;

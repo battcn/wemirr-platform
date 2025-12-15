@@ -29,8 +29,8 @@ public class PeccancyController {
 
     @PostMapping("/create")
     @Operation(summary = "删除车辆违章 - [Levin] - [DONE]")
-    public void created(@Validated @RequestBody PeccancySaveReq req) {
-        this.peccancyService.created(req);
+    public void create(@Validated @RequestBody PeccancySaveReq req) {
+        this.peccancyService.create(req);
     }
 
     @PutMapping("/{id}")

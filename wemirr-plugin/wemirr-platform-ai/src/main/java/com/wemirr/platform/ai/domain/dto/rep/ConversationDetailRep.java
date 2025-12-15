@@ -3,7 +3,7 @@ package com.wemirr.platform.ai.domain.dto.rep;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * @author xJh
@@ -34,13 +34,13 @@ public class ConversationDetailRep {
     private Boolean pinned;
 
     @Schema(description = "创建人ID")
-    private Long createdBy;
+    private Long createBy;
 
     @Schema(description = "创建人名称")
-    private String createdName;
+    private String createName;
 
     @Schema(description = "创建时间")
-    private Instant createdTime;
+    private Instant createTime;
 
     @Schema(description = "最后修改人ID")
     private Long lastModifiedBy;

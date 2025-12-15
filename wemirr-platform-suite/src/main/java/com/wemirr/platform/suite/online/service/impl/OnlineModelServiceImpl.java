@@ -60,7 +60,7 @@ public class OnlineModelServiceImpl extends SuperServiceImpl<OnlineModelMapper, 
     }
     
     @Override
-    public void created(OnlineFormDesignerSaveReq req) {
+    public void create(OnlineFormDesignerSaveReq req) {
         var bean = BeanUtilPlus.toBean(req, OnlineModel.class);
         this.baseMapper.insert(bean);
         

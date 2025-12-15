@@ -31,8 +31,8 @@ public class PartPurchaseController {
 
     @PostMapping("/create")
     @Operation(summary = "删除配件采购 - [Levin] - [DONE]")
-    public void created(@Validated @RequestBody PartPurchaseSaveReq req) {
-        this.partPurchaseService.created(req);
+    public void create(@Validated @RequestBody PartPurchaseSaveReq req) {
+        this.partPurchaseService.create(req);
     }
 
     @PutMapping("/{id}")

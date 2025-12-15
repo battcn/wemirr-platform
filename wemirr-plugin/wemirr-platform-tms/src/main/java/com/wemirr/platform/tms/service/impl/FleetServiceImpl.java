@@ -33,7 +33,7 @@ public class FleetServiceImpl extends SuperServiceImpl<FleetMapper, Fleet> imple
     }
 
     @Override
-    public void created(FleetSaveReq req) {
+    public void create(FleetSaveReq req) {
         this.baseMapper.insert(BeanUtil.toBean(req, Fleet.class));
     }
 

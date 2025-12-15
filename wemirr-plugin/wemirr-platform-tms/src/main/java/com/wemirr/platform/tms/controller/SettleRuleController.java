@@ -41,7 +41,7 @@ public class SettleRuleController {
 
     @PostMapping("/create")
     @Operation(summary = "创建结算规则 - [Levin] - [DONE]")
-    public BmsRulePageResp created(@RequestBody BmsRuleSaveReq req) {
+    public BmsRulePageResp create(@RequestBody BmsRuleSaveReq req) {
         return this.ruleService.createRule(req);
     }
 

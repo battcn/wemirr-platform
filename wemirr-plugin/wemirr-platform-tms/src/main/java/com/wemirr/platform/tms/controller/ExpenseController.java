@@ -29,8 +29,8 @@ public class ExpenseController {
 
     @PostMapping("/create")
     @Operation(summary = "删除车辆规费 - [Levin] - [DONE]")
-    public void created(@Validated @RequestBody ExpenseSaveReq req) {
-        this.expenseService.created(req);
+    public void create(@Validated @RequestBody ExpenseSaveReq req) {
+        this.expenseService.create(req);
     }
 
     @PutMapping("/{id}")

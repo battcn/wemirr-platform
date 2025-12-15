@@ -46,7 +46,7 @@ public interface OnlineModelService extends SuperService<OnlineModel> {
      *
      * @param req req
      */
-    void created(OnlineFormDesignerSaveReq req);
+    void create(OnlineFormDesignerSaveReq req);
     
     /**
      * 修改

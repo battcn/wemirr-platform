@@ -58,8 +58,8 @@ public class OnlineModelController {
 
     @PostMapping("/create")
     @Operation(summary = "新增表单 - [Levin] - [DONE]")
-    public void created(@Validated @RequestBody OnlineFormDesignerSaveReq req) {
-        this.onlineModelService.created(req);
+    public void create(@Validated @RequestBody OnlineFormDesignerSaveReq req) {
+        this.onlineModelService.create(req);
     }
 
     @GetMapping("/{id}/detail")

@@ -100,7 +100,7 @@ public class VectorizationProcessor {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 // 使用默认向量存储
-                EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createDefault();
+                EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createefault();
                 
                 // 动态获取嵌入模型
                 EmbeddingModel embeddingModel = embeddingModelService.getModel(modelConfig);
@@ -177,7 +177,7 @@ public class VectorizationProcessor {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 // 使用默认向量存储
-                EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createDefault();
+                EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createefault();
                 
                 // 动态获取嵌入模型
                 EmbeddingModel embeddingModel = embeddingModelService.getModel(modelConfig);
@@ -257,7 +257,7 @@ public class VectorizationProcessor {
 
         try {
             // 使用默认向量存储
-            EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createDefault();
+            EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createefault();
             KnowledgeItem item = knowledgeItemService.getById(baseItemId);
             //获取向量idList
             List<String> vectorIds = vectorMetadataService.findByItemId(item.getId()).stream().map(VectorMetadata::getVectorId).toList();

@@ -61,7 +61,7 @@ public class EnhancedVectorStoreFactory {
      * 
      * @return 向量存储实例
      */
-    public EmbeddingStore<TextSegment> createDefault() {
+    public EmbeddingStore<TextSegment> createefault() {
         VectorStoreProperties.StoreType type = properties.getType();
         return switch (type) {
             case MILVUS -> createMilvus(properties.getMilvus().getCollectionName(), properties.getMilvus().getDimension());

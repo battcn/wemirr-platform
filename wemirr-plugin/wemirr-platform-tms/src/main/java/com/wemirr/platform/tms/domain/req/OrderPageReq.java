@@ -50,6 +50,6 @@ public class OrderPageReq extends PageRequest {
     private Boolean hasEpod;
 
     @Schema(description = "创建人")
-    private Long createdBy;
+    private Long createBy;
 
 }

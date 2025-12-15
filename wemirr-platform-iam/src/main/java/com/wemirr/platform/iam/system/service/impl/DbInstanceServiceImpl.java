@@ -87,7 +87,7 @@ public class DbInstanceServiceImpl extends SuperServiceImpl<DbInstanceMapper, Db
 
     @Override
     @DSTransactional
-    public void created(DbInstanceSaveReq req) {
+    public void create(DbInstanceSaveReq req) {
         final long count = super.count(Wraps.<DbInstance>lbQ().eq(DbInstance::getName, req.getName()));
         if (count > 0) {
             throw CheckedException.badRequest("连接名称已存在");

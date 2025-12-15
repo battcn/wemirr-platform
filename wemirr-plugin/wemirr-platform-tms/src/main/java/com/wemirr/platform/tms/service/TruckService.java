@@ -27,7 +27,7 @@ public interface TruckService extends SuperService<Truck> {
      *
      * @param req req
      */
-    void created(TruckSaveReq req);
+    void create(TruckSaveReq req);
 
     /**
      * 编辑车辆信息

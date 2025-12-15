@@ -117,7 +117,7 @@ public class KnowledgeChunkServiceImpl extends SuperServiceImpl<KnowledgeChunkMa
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<Long> createDocumentChunks(KnowledgeBase knowledgeBase, Long itemId, String docId, String content) {
+    public List<Long> createocumentChunks(KnowledgeBase knowledgeBase, Long itemId, String docId, String content) {
         if (StrUtil.isBlank(content)) {
             return Collections.emptyList();
         }

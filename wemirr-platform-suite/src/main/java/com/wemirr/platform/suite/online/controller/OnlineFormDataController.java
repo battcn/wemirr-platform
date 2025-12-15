@@ -52,8 +52,8 @@ public class OnlineFormDataController {
 
     @PostMapping("/create")
     @Operation(summary = "添加数据 - [Levin] - [DONE]")
-    public void created(@Validated @RequestBody OnlineFormDataSaveReq req) {
-        this.onlineFormDataService.created(req);
+    public void create(@Validated @RequestBody OnlineFormDataSaveReq req) {
+        this.onlineFormDataService.create(req);
     }
 
     @PutMapping("/{id}/modify")

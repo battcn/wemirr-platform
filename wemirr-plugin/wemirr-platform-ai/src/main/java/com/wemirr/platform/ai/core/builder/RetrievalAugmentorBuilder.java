@@ -186,7 +186,7 @@ public class RetrievalAugmentorBuilder {
             finalExecutor = Executors.newFixedThreadPool(
                     Math.min(retrieverToDescription.size(), 4)
             );
-            log.debug("Created internal executor with {} threads", finalExecutor);
+            log.debug("create internal executor with {} threads", finalExecutor);
         }
 
         // 构建增强器

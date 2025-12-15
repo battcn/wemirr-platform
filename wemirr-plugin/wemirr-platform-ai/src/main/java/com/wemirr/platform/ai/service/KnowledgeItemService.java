@@ -125,12 +125,12 @@ public interface KnowledgeItemService extends SuperService<KnowledgeItem> {
      * @param metadata 元数据
      * @return 知识条目ID
      */
-    Long createDocumentItem(Long kbId, String docId, Map<String, Object> metadata);
+    Long createocumentItem(Long kbId, String docId, Map<String, Object> metadata);
 
     /**
      * 直接创建/更新/上传文档型 KnowledgeItem
      */
-    Long createDocument(DocumentSaveReq req);
+    Long createocument(DocumentSaveReq req);
 
     void updateDocument(Long id, String title, String content, String contentType, String filePath, Long fileSize, Map<String, Object> metadata);
 

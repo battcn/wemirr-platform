@@ -50,7 +50,7 @@ public class DriverServiceImpl extends SuperServiceImpl<DriverMapper, Driver> im
     }
 
     @Override
-    public void created(DriverSaveReq req) {
+    public void create(DriverSaveReq req) {
         validDefaultTruck(req.getDefaultTruckId());
         this.baseMapper.insert(BeanUtil.toBean(req, Driver.class));
     }

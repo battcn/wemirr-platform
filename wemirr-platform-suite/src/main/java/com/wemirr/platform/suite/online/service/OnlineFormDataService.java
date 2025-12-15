@@ -44,7 +44,7 @@ public interface OnlineFormDataService extends SuperService<OnlineFormData> {
      *
      * @param req req
      */
-    void created(OnlineFormDataSaveReq req);
+    void create(OnlineFormDataSaveReq req);
     
     /**
      * 修改

@@ -27,7 +27,7 @@ public interface AccidentService extends SuperService<Accident> {
      *
      * @param req req
      */
-    void created(AccidentSaveReq req);
+    void create(AccidentSaveReq req);
 
     /**
      * 编辑车辆事故信息

@@ -34,7 +34,7 @@ public class SettleController {
 
     @PostMapping("/create")
     @Operation(summary = "创建费用 - [Levin] - [DONE]")
-    public SettleDetailPageResp created(@RequestBody SettleDetailSaveReq req) {
+    public SettleDetailPageResp create(@RequestBody SettleDetailSaveReq req) {
         return this.settleService.createFee(req);
     }
 

@@ -1,13 +1,13 @@
 package com.wemirr.framework.log.diff.domain;
 
+import java.time.Instant;
+import java.util.Map;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
-import java.util.Map;
 
 /**
  * @author Levin
@@ -41,17 +41,17 @@ public class DiffLogInfo {
     protected Long tenantId;
 
     @Schema(description = "操作人ID")
-    protected Long createdBy;
+    protected Long createBy;
 
     @Schema(description = "操作人名字")
-    protected String createdName;
+    protected String createName;
 
     @Schema(description = "日志的创建时间")
-    protected Instant createdTime;
+    protected Instant createTime;
 
     @Schema(description = "日志的额外信息")
     protected String extra;
 
     @Schema(description = "日志的代码信息")
-    protected Map<Object, Object> variables;
+    protected Map<String, Object> variables;
 }

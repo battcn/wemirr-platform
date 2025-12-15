@@ -3,6 +3,7 @@ package com.wemirr.platform.ai.domain.dto.rep;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 /**
@@ -35,7 +36,7 @@ public class ConversationPageRep {
     private Boolean pinned;
 
     @Schema(description = "创建时间")
-    private Instant createdTime;
+    private Instant createTime;
 
     @Schema(description = "更新时间")
     private Instant updatedTime;

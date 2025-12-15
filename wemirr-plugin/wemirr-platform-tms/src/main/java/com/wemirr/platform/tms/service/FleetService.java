@@ -25,7 +25,7 @@ public interface FleetService extends SuperService<Fleet> {
      *
      * @param req req
      */
-    void created(FleetSaveReq req);
+    void create(FleetSaveReq req);
 
     /**
      * 编辑司机信息

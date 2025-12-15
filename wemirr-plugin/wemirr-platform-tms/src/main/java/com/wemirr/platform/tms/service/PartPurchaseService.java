@@ -25,7 +25,7 @@ public interface PartPurchaseService extends SuperService<PartPurchase> {
      *
      * @param req req
      */
-    void created(PartPurchaseSaveReq req);
+    void create(PartPurchaseSaveReq req);
 
     /**
      * 编辑配件采购信息

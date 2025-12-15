@@ -29,8 +29,8 @@ public class AccidentController {
 
     @PostMapping("/create")
     @Operation(summary = "删除车辆事故 - [Levin] - [DONE]")
-    public void created(@Validated @RequestBody AccidentSaveReq req) {
-        this.accidentService.created(req);
+    public void create(@Validated @RequestBody AccidentSaveReq req) {
+        this.accidentService.create(req);
     }
 
     @PutMapping("/{id}")

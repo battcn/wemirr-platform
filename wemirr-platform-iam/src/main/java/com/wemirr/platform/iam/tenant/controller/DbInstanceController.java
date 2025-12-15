@@ -70,7 +70,7 @@ public class DbInstanceController {
     @PostMapping("/create")
     @Operation(summary = "添加数据源")
     public void create(@Validated @RequestBody DbInstanceSaveReq req) {
-        dbInstanceService.created(req);
+        dbInstanceService.create(req);
 
     }
 

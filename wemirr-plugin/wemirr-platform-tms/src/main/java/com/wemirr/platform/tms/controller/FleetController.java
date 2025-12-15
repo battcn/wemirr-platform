@@ -46,8 +46,8 @@ public class FleetController {
 
     @PostMapping("/create")
     @Operation(summary = "删除车队 - [Levin] - [DONE]")
-    public void created(@Validated @RequestBody FleetSaveReq req) {
-        this.fleetService.created(req);
+    public void create(@Validated @RequestBody FleetSaveReq req) {
+        this.fleetService.create(req);
     }
 
     @PutMapping("/{id}")

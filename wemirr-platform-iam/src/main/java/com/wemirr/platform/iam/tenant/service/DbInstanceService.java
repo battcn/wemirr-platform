@@ -51,7 +51,7 @@ public interface DbInstanceService extends SuperService<DbInstance> {
      *
      * @param req req
      */
-    void created(DbInstanceSaveReq req);
+    void create(DbInstanceSaveReq req);
     
     /**
      * 添加或者保存动态数据源信息

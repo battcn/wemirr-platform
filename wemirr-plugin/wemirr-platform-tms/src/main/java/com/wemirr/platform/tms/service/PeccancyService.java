@@ -27,7 +27,7 @@ public interface PeccancyService extends SuperService<Peccancy> {
      *
      * @param req req
      */
-    void created(PeccancySaveReq req);
+    void create(PeccancySaveReq req);
 
     /**
      * 编辑车辆违章信息
