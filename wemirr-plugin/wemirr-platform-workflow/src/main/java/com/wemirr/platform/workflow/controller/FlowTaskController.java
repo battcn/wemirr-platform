@@ -28,42 +28,30 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/workflow/tasks")
+@RequestMapping("/flow-tasks")
 @Tag(name = "流程任务", description = "流程任务管理")
 public class FlowTaskController {
 
     private final TaskExtService taskExtService;
 
-    /**
-     * 所有待办任务
-     */
-    @GetMapping("/todo")
+    @PostMapping("/todo")
     @Operation(summary = "待办任务", description = "查询所有待办任务")
-    public IPage<TodoTaskPageResp> todo(TaskPageReq req) {
+    public IPage<TodoTaskPageResp> todo(@RequestBody TaskPageReq req) {
         return taskExtService.todoPageList(req);
     }
 
-    /**
-     * 我的待办任务
-     */
-    @GetMapping("/todo/mine")
+    @PostMapping("/todo/mine")
     @Operation(summary = "我的待办", description = "查询当前用户的待办任务")
-    public IPage<TodoTaskPageResp> myTodo(TaskPageReq req) {
+    public IPage<TodoTaskPageResp> myTodo(@RequestBody TaskPageReq req) {
         return taskExtService.meTodoPageList(req);
     }
 
-    /**
-     * 我的已办任务
-     */
-    @GetMapping("/done/mine")
+    @PostMapping("/done/mine")
     @Operation(summary = "我的已办", description = "查询当前用户的已办任务")
-    public IPage<DoneTaskPageResp> myDone(TaskPageReq req) {
+    public IPage<DoneTaskPageResp> myDone(@RequestBody TaskPageReq req) {
         return taskExtService.meDonePageList(req);
     }
 
-    /**
-     * 审批通过
-     */
     @PostMapping("/{id}/approve")
     @RedisLock(prefix = "workflow:task:handle", message = "当前已有任务处理中，请稍后重试")
     @Operation(summary = "审批通过", description = "审批通过任务")
@@ -71,9 +59,6 @@ public class FlowTaskController {
         taskExtService.pass(id, req);
     }
 
-    /**
-     * 审批拒绝
-     */
     @PostMapping("/{id}/reject")
     @RedisLock(prefix = "workflow:task:handle", message = "当前已有任务处理中，请稍后重试")
     @Operation(summary = "审批拒绝", description = "拒绝任务")
@@ -81,9 +66,6 @@ public class FlowTaskController {
         taskExtService.reject(id, req);
     }
 
-    /**
-     * 任务驳回
-     */
     @PostMapping("/{id}/return")
     @RedisLock(prefix = "workflow:task:handle", message = "当前已有任务处理中，请稍后重试")
     @Operation(summary = "任务驳回", description = "驳回到上一节点")
@@ -91,9 +73,6 @@ public class FlowTaskController {
         taskExtService.taskReturn(id, req);
     }
 
-    /**
-     * 任务终止
-     */
     @PostMapping("/{id}/terminate")
     @RedisLock(prefix = "workflow:task:handle", message = "当前已有任务处理中，请稍后重试")
     @Operation(summary = "任务终止", description = "终止流程")
@@ -101,27 +80,18 @@ public class FlowTaskController {
         taskExtService.termination(id, req);
     }
 
-    /**
-     * 任务转办
-     */
     @PostMapping("/{id}/transfer")
     @Operation(summary = "任务转办", description = "转办给其他人")
     public void transfer(@PathVariable Long id, @RequestBody WorkflowTaskReq req) {
         taskExtService.transfer(id, req);
     }
 
-    /**
-     * 任务加签
-     */
     @PostMapping("/{id}/sign/add")
     @Operation(summary = "任务加签", description = "添加会签人")
     public void addSign(@PathVariable Long id, @RequestBody WorkflowTaskReq req) {
         taskExtService.addSignature(id, req);
     }
 
-    /**
-     * 任务减签
-     */
     @PostMapping("/{id}/sign/remove")
     @Operation(summary = "任务减签", description = "移除会签人")
     public void removeSign(@PathVariable Long id, @RequestBody WorkflowTaskReq req) {

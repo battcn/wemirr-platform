@@ -30,24 +30,19 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/workflow/categories")
+@RequestMapping("/flow-categories")
 @Tag(name = "流程分类", description = "流程分类管理")
 public class FlowCategoryController {
 
     private final FlowCategoryService flowCategoryService;
 
-    /**
-     * 分页查询流程分类
-     */
     @GetMapping
     @Operation(summary = "分页查询", description = "分页查询流程分类列表")
     public IPage<FlowCategoryPageResp> page(FlowCategoryPageReq req) {
         return flowCategoryService.pageList(req);
     }
 
-    /**
-     * 获取所有启用的分类
-     */
+
     @GetMapping("/enabled")
     @Operation(summary = "启用分类", description = "获取所有启用的流程分类")
     public List<FlowCategoryPageResp> enabled() {
@@ -57,9 +52,6 @@ public class FlowCategoryController {
         return BeanUtilPlus.toBeans(list, FlowCategoryPageResp.class);
     }
 
-    /**
-     * 新增流程分类
-     */
     @PostMapping
     @AccessLog(module = "流程分类", description = "新增流程分类")
     @Operation(summary = "新增分类", description = "新增流程分类")
@@ -67,19 +59,13 @@ public class FlowCategoryController {
         flowCategoryService.create(req);
     }
 
-    /**
-     * 修改流程分类
-     */
     @PutMapping("/{id}")
     @AccessLog(module = "流程分类", description = "修改流程分类")
     @Operation(summary = "修改分类", description = "修改流程分类")
-    public void update(@PathVariable String id, @Validated @RequestBody FlowCategorySaveReq req) {
+    public void modify(@PathVariable String id, @Validated @RequestBody FlowCategorySaveReq req) {
         flowCategoryService.modify(id, req);
     }
 
-    /**
-     * 删除流程分类
-     */
     @DeleteMapping("/{id}")
     @AccessLog(module = "流程分类", description = "删除流程分类")
     @Operation(summary = "删除分类", description = "删除流程分类")

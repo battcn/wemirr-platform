@@ -37,88 +37,61 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/workflow/definitions")
+@RequestMapping("/flow-definitions")
 @Tag(name = "流程定义", description = "流程定义管理")
 @RequiredArgsConstructor
 public class FlowDefinitionController {
 
     private final DefExtService defExtService;
 
-    /**
-     * 分页查询流程定义
-     */
     @GetMapping
     @Operation(summary = "分页查询", description = "分页查询流程定义列表")
     public IPage<FlowDefinitionPageResp> page(DefinitionPageReq req) {
         return defExtService.pageList(req);
     }
 
-    /**
-     * 获取流程定义详情
-     */
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/detail")
     @Operation(summary = "定义详情", description = "获取流程定义的详细信息")
     public DefJson detail(@PathVariable Long id) {
         return defExtService.detail(id);
     }
 
-    /**
-     * 分组查询流程定义
-     */
-    @GetMapping("/groups")
+    @GetMapping("/group-list")
     @Operation(summary = "分组查询", description = "按分类查询流程定义")
-    public List<DesignModelGroupListResp> groups() {
+    public List<DesignModelGroupListResp> groupList() {
         return defExtService.groupList();
     }
 
-    /**
-     * 部署流程定义
-     */
     @PostMapping("/deploy")
     @Operation(summary = "部署流程", description = "部署新的流程定义")
     public WorkflowDefinitionResp deploy(@Validated @RequestBody DefinitionDeployReq req) {
         return defExtService.deploy(req);
     }
 
-    /**
-     * 发布流程定义
-     */
     @PutMapping("/{id}/publish")
     @Operation(summary = "发布流程", description = "发布流程定义")
     public void publish(@PathVariable Long id) {
         defExtService.publish(id);
     }
 
-    /**
-     * 取消发布流程定义
-     */
     @PutMapping("/{id}/unpublish")
     @Operation(summary = "取消发布", description = "取消发布流程定义")
     public void unpublish(@PathVariable Long id) {
         defExtService.unPublish(id);
     }
 
-    /**
-     * 激活流程定义
-     */
     @PutMapping("/{id}/active")
     @Operation(summary = "激活流程", description = "激活流程定义")
     public void active(@PathVariable Long id) {
         defExtService.active(id);
     }
 
-    /**
-     * 挂起流程定义
-     */
     @PutMapping("/{id}/suspend")
     @Operation(summary = "挂起流程", description = "挂起流程定义")
     public void suspend(@PathVariable Long id) {
         defExtService.unActive(id);
     }
 
-    /**
-     * 复制流程定义
-     */
     @PostMapping("/{id}/copy")
     @Operation(summary = "复制定义", description = "复制流程定义")
     public void copy(@PathVariable Long id) {
@@ -152,27 +125,18 @@ public class FlowDefinitionController {
         defExtService.importDef(file.getInputStream());
     }
 
-    /**
-     * 保存表单设计
-     */
     @PostMapping("/{id}/form-design")
     @Operation(summary = "保存表单设计", description = "保存流程定义的表单设计")
     public void saveFormDesign(@PathVariable Long id, @Validated @RequestBody FormDesignSaveReq req) {
         defExtService.addFormDesign(id, req);
     }
 
-    /**
-     * 获取表单设计
-     */
     @GetMapping("/{id}/form-design")
     @Operation(summary = "获取表单设计", description = "获取流程定义的表单设计")
     public DesignModelFormResp getFormDesign(@PathVariable Long id) {
         return defExtService.findFormDesign(id);
     }
 
-    /**
-     * 启动流程实例
-     */
     @RedisLock(prefix = "workflow:definition:start")
     @PostMapping("/{id}/start")
     @Operation(summary = "启动流程", description = "根据流程定义启动流程实例")

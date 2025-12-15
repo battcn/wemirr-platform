@@ -33,7 +33,7 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/workflow/instances")
+@RequestMapping("/flow-instances")
 @Tag(name = "流程实例", description = "流程实例管理")
 @RequiredArgsConstructor
 public class FlowInstanceController {
@@ -42,63 +42,42 @@ public class FlowInstanceController {
     private final InstanceExtService instanceExtService;
     private final TaskExtService taskExtService;
 
-    /**
-     * 分页查询流程实例
-     */
     @GetMapping
     @Operation(summary = "分页查询", description = "分页查询流程实例列表")
     public IPage<InstancePageResp> page(InstancePageReq req) {
         return instanceExtService.pageList(req);
     }
 
-    /**
-     * 获取流程实例详情
-     */
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/detail")
     @Operation(summary = "实例详情", description = "获取流程实例详细信息")
     public InstanceExtDetailResp detail(@PathVariable Long id) {
         return instanceExtService.extInfo(id);
     }
 
-    /**
-     * 获取流程实例基本信息
-     */
     @GetMapping("/{id}/basic")
     @Operation(summary = "基本信息", description = "获取流程实例基本信息")
     public Instance basic(@PathVariable Long id) {
         return insService.getById(id);
     }
 
-    /**
-     * 我发起的流程
-     */
     @GetMapping("/mine")
     @Operation(summary = "我的流程", description = "查询当前用户发起的流程实例")
     public IPage<InstancePageResp> mine(InstancePageReq req) {
         return instanceExtService.mePageList(req);
     }
 
-    /**
-     * 激活流程实例
-     */
     @PutMapping("/{id}/active")
     @Operation(summary = "激活实例", description = "激活流程实例")
     public void active(@PathVariable Long id) {
         insService.active(id);
     }
 
-    /**
-     * 挂起流程实例
-     */
     @PutMapping("/{id}/suspend")
     @Operation(summary = "挂起实例", description = "挂起流程实例")
     public void suspend(@PathVariable Long id) {
         insService.unActive(id);
     }
 
-    /**
-     * 终止流程实例
-     */
     @PostMapping("/{id}/terminate")
     @Operation(summary = "终止实例", description = "终止流程实例")
     public void terminate(@PathVariable Long id, @RequestBody WorkflowInstanceTerminationReq req) {
