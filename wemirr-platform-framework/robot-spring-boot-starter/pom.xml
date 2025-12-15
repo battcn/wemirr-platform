@@ -7,29 +7,23 @@
         <artifactId>wemirr-platform-framework</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>robot-spring-boot-starter</artifactId>
-    <packaging>jar</packaging>
-    <name>robot-spring-boot-starter</name>
-    <description>钉钉、微信、飞书机器人通知</description>
+    <name>${project.artifactId}</name>
+    <description>机器人通知模块，支持钉钉、企业微信、飞书消息推送</description>
 
     <dependencies>
+        <!-- 内部模块 -->
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-extra</artifactId>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>common-framework-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-crypto</artifactId>
-            <version>${hutool.version}</version>
-        </dependency>
+
+        <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>common-framework-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -40,13 +34,27 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- 工具库 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-crypto</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+
+        <!-- 钉钉 SDK -->
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>dingtalk</artifactId>
             <version>2.0.73</version>
             <scope>provided</scope>
         </dependency>
-        <!-- 企业微信消息推送SDK    -->
+
+        <!-- 企业微信 SDK -->
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-cp</artifactId>
@@ -54,4 +62,5 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
 </project>

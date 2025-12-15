@@ -16,11 +16,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 知识条目服务接口
+ * 知识条目服务
+ * <p>
+ * 管理知识库中的各类知识条目，包括文档、FAQ、结构化数据等
  *
- * @author xJh
- * @since 2025/10/20
- **/
+ * @author Levin
+ * @since 2025-10
+ */
 public interface KnowledgeItemService extends SuperService<KnowledgeItem> {
 
     /**
@@ -125,12 +127,12 @@ public interface KnowledgeItemService extends SuperService<KnowledgeItem> {
      * @param metadata 元数据
      * @return 知识条目ID
      */
-    Long createocumentItem(Long kbId, String docId, Map<String, Object> metadata);
+    Long createDocumentItem(Long kbId, String docId, Map<String, Object> metadata);
 
     /**
      * 直接创建/更新/上传文档型 KnowledgeItem
      */
-    Long createocument(DocumentSaveReq req);
+    Long createDocument(DocumentSaveReq req);
 
     void updateDocument(Long id, String title, String content, String contentType, String filePath, Long fileSize, Map<String, Object> metadata);
 

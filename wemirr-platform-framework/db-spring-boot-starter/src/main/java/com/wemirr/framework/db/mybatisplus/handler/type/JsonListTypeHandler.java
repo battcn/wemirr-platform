@@ -6,41 +6,41 @@ import com.baomidou.mybatisplus.extension.handlers.AbstractJsonTypeHandler;
 import org.apache.ibatis.type.MappedTypes;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Map 类型 JSON 处理器
+ * 通用 JSON List 类型处理器
  * <p>
- * 用于将 Map&lt;String, Object&gt; 类型序列化为 JSON 存储到数据库
+ * 用于将 List 类型数据序列化为 JSON 存储到数据库，支持复杂对象列表的持久化
  *
  * @author Levin
  */
-@MappedTypes(value = {Map.class})
-public class MapTypeHandler extends AbstractJsonTypeHandler<Map<String, Object>> {
+@MappedTypes(value = {List.class})
+public class JsonListTypeHandler extends AbstractJsonTypeHandler<List<Object>> {
 
-    public MapTypeHandler(Class<?> type, Field field) {
+    public JsonListTypeHandler(Class<?> type, Field field) {
         super(type, field);
     }
 
-    public MapTypeHandler(Class<?> type) {
+    public JsonListTypeHandler(Class<?> type) {
         super(type);
     }
 
     @Override
-    public Map<String, Object> parse(String json) {
+    public List<Object> parse(String json) {
         if (json == null || json.isBlank()) {
-            return new HashMap<>();
+            return new ArrayList<>();
         }
         try {
             return JSON.parseObject(json, new TypeReference<>() {});
         } catch (Exception e) {
-            return new HashMap<>();
+            return new ArrayList<>();
         }
     }
 
     @Override
-    public String toJson(Map<String, Object> obj) {
+    public String toJson(List<Object> obj) {
         return (obj == null || obj.isEmpty()) ? null : JSON.toJSONString(obj);
     }
 }

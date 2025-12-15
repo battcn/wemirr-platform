@@ -7,22 +7,22 @@ import com.wemirr.framework.log.diff.domain.req.DiffLogInfoQueryReq;
 import java.util.List;
 
 /**
- * 日志记录
+ * 差异日志服务接口，用于处理和查询操作日志
  *
  * @author Levin
  */
 public interface IDiffLogService {
     /**
-     * 日志信息回调
+     * 处理日志信息，由业务方实现具体的存储逻辑
      *
      * @param logInfo 日志信息
      */
     void handler(DiffLogInfo logInfo);
 
     /**
-     * 返回最多100条记录
+     * 查询操作日志
      *
-     * @param req req
+     * @param req 查询条件
      * @return 操作日志列表
      */
     List<DiffLogInfo> queryLog(DiffLogInfoQueryReq req);

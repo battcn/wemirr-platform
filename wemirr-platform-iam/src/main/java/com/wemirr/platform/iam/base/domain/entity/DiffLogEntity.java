@@ -20,28 +20,37 @@
 package com.wemirr.platform.iam.base.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.wemirr.framework.db.mybatisplus.handler.type.JsonListTypeHandler;
 import com.wemirr.framework.db.mybatisplus.handler.type.MapTypeHandler;
 import com.wemirr.framework.log.diff.domain.DiffLogInfo;
+import com.wemirr.framework.log.diff.domain.FieldChange;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
 import java.util.Map;
 
 /**
+ * 差异日志实体，继承自 DiffLogInfo 并添加数据库映射
+ *
  * @author Levin
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("c_diff_log")
+@TableName(value = "c_diff_log", autoResultMap = true)
 public class DiffLogEntity extends DiffLogInfo {
 
     @TableId(type = IdType.ASSIGN_ID)
     @OrderBy
     private Long id;
-    
+
     @TableField(typeHandler = MapTypeHandler.class)
-    @Schema(description = "日志的代码信息")
-    protected Map<String, Object> variables;
+    @Schema(description = "请求上下文信息（IP、浏览器、URI等）")
+    protected Map<String, Object> extra;
+
+    @TableField(typeHandler = JsonListTypeHandler.class)
+    @Schema(description = "字段变更记录列表")
+    protected List<FieldChange> variables;
 
 }

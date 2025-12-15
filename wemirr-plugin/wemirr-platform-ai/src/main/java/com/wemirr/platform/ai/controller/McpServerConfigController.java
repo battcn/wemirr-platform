@@ -32,8 +32,8 @@ public class McpServerConfigController {
 
     private final McpServerConfigService mcpServerConfigService;
 
-    @Operation(summary = "分页查询")
     @GetMapping
+    @Operation(summary = "分页查询")
     public IPage<McpServerConfig> pageList(McpServerConfigPageReq req) {
         return mcpServerConfigService.pageList(req);
     }

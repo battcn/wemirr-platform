@@ -34,42 +34,47 @@ import org.springframework.web.bind.annotation.*;
 
 
 /**
- * @author xiao1
+ * OSS 存储配置控制器
+ * <p>
+ * 管理对象存储服务配置，支持 MinIO、阿里云 OSS、七牛云、AWS S3 等
+ *
+ * @author Levin
  * @since 2024-12
  */
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/oss-configs")
+@RequestMapping("/oss/configs")
 @RequiredArgsConstructor
-@Tag(name = "存储配置", description = "存储配置管理")
+@Tag(name = "存储配置", description = "OSS 存储配置管理")
 public class OssConfigController {
 
     private final OssConfigService ossConfigService;
 
-    @GetMapping("/page")
-    @Operation(summary = "分页查询")
-    public IPage<OssConfigPageResp> pageList(FileStorageSettingPageReq req) {
+
+    @PostMapping("/page")
+    @Operation(summary = "分页查询", description = "分页查询存储配置列表")
+    public IPage<OssConfigPageResp> page(@RequestBody FileStorageSettingPageReq req) {
         return ossConfigService.pageList(req);
     }
 
-    @PostMapping
-    @AccessLog(module = "存储配置", description = "添加存储配置")
-    @Operation(summary = "新增存储配置", description = "新增存储配置")
-    public void add(@RequestBody OssConfigSaveReq req) {
+    @PostMapping("/create")
+    @AccessLog(module = "存储配置", description = "新增存储配置")
+    @Operation(summary = "新增配置", description = "新增 OSS 存储配置")
+    public void create(@Validated @RequestBody OssConfigSaveReq req) {
         ossConfigService.create(req);
     }
 
     @PutMapping("/{id}/modify")
-    @AccessLog(module = "存储配置", description = "编辑存储配置")
-    @Operation(summary = "编辑存储配置", description = "编辑存储配置")
-    public void edit(@PathVariable Long id, @Validated @RequestBody OssConfigSaveReq req) {
+    @AccessLog(module = "存储配置", description = "修改存储配置")
+    @Operation(summary = "修改配置", description = "修改 OSS 存储配置")
+    public void update(@PathVariable Long id, @Validated @RequestBody OssConfigSaveReq req) {
         ossConfigService.modify(id, req);
     }
 
     @DeleteMapping("/{id}")
     @AccessLog(module = "存储配置", description = "删除存储配置")
-    @Operation(summary = "删除存储配置", description = "删除存储配置")
+    @Operation(summary = "删除配置", description = "删除 OSS 存储配置")
     public void delete(@PathVariable Long id) {
         ossConfigService.delete(id);
     }

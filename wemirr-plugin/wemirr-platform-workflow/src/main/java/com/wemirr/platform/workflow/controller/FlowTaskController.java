@@ -17,82 +17,114 @@ import org.springframework.web.bind.annotation.*;
 
 
 /**
- * @author battcn
- * @since 2025/5/22
- **/
+ * 流程任务控制器
+ * <p>
+ * 管理流程任务的审批、驳回、转办、加签等操作
+ *
+ * @author Levin
+ * @since 2025-05
+ */
 @Slf4j
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/flow-tasks")
-@Tag(name = "流程任务", description = "流程任务")
+@RequestMapping("/workflow/tasks")
+@Tag(name = "流程任务", description = "流程任务管理")
 public class FlowTaskController {
 
     private final TaskExtService taskExtService;
 
-    @PostMapping("/todo-page")
-    @Operation(summary = "待办任务 - [DONE]", description = "所有的待办任务清单")
-    public IPage<TodoTaskPageResp> pageList(@RequestBody TaskPageReq req) {
+    /**
+     * 所有待办任务
+     */
+    @GetMapping("/todo")
+    @Operation(summary = "待办任务", description = "查询所有待办任务")
+    public IPage<TodoTaskPageResp> todo(TaskPageReq req) {
         return taskExtService.todoPageList(req);
     }
 
-    @PostMapping("/me-todo-page")
-    @Operation(summary = "我的待办 - [DONE]", description = "查询当前登录人需要处理的待办任务")
-    public IPage<TodoTaskPageResp> meTodoPageList(@RequestBody TaskPageReq req) {
+    /**
+     * 我的待办任务
+     */
+    @GetMapping("/todo/mine")
+    @Operation(summary = "我的待办", description = "查询当前用户的待办任务")
+    public IPage<TodoTaskPageResp> myTodo(TaskPageReq req) {
         return taskExtService.meTodoPageList(req);
     }
 
-
-    @PostMapping("/me-done-page")
-    @Operation(summary = "我的已办 - [DONE]", description = "查询当前登陆人已办的任务列表")
-    public IPage<DoneTaskPageResp> queryDoneTaskByUser(@RequestBody TaskPageReq req) {
+    /**
+     * 我的已办任务
+     */
+    @GetMapping("/done/mine")
+    @Operation(summary = "我的已办", description = "查询当前用户的已办任务")
+    public IPage<DoneTaskPageResp> myDone(TaskPageReq req) {
         return taskExtService.meDonePageList(req);
     }
 
-    @PostMapping("/{id}/pass")
-    @RedisLock(prefix = "lock:workflow:task:handle", message = "当前已有任务处理中,请稍后在试")
-    @Operation(summary = "审批通过 - [DONE]", description = "审批通过")
-    public void pass(@PathVariable @RedisParam Long id, @Validated @RequestBody WorkflowTaskReq req) {
+    /**
+     * 审批通过
+     */
+    @PostMapping("/{id}/approve")
+    @RedisLock(prefix = "workflow:task:handle", message = "当前已有任务处理中，请稍后重试")
+    @Operation(summary = "审批通过", description = "审批通过任务")
+    public void approve(@PathVariable @RedisParam Long id, @Validated @RequestBody WorkflowTaskReq req) {
         taskExtService.pass(id, req);
     }
 
+    /**
+     * 审批拒绝
+     */
     @PostMapping("/{id}/reject")
-    @RedisLock(prefix = "lock:workflow:task:handle", message = "当前已有任务处理中,请稍后在试")
-    @Operation(summary = "审批拒绝 - [DONE]", description = "审批拒绝")
+    @RedisLock(prefix = "workflow:task:handle", message = "当前已有任务处理中，请稍后重试")
+    @Operation(summary = "审批拒绝", description = "拒绝任务")
     public void reject(@PathVariable @RedisParam Long id, @Validated @RequestBody WorkflowTaskReq req) {
         taskExtService.reject(id, req);
     }
 
+    /**
+     * 任务驳回
+     */
     @PostMapping("/{id}/return")
-    @RedisLock(prefix = "lock:workflow:task:handle", message = "当前已有任务处理中,请稍后在试")
-    @Operation(summary = "任务驳回 - [DONE]", description = "驳回任务到上一个节点")
-    public void taskReturn(@PathVariable @RedisParam Long id, @RequestBody WorkflowTaskReq req) {
+    @RedisLock(prefix = "workflow:task:handle", message = "当前已有任务处理中，请稍后重试")
+    @Operation(summary = "任务驳回", description = "驳回到上一节点")
+    public void returnTask(@PathVariable @RedisParam Long id, @RequestBody WorkflowTaskReq req) {
         taskExtService.taskReturn(id, req);
     }
 
-    @PostMapping("/{id}/termination")
-    @RedisLock(prefix = "lock:workflow:task:handle", message = "当前已有任务处理中,请稍后在试")
-    @Operation(summary = "任务终止 - [DONE]", description = "根据任务id终止实例")
-    public void termination(@PathVariable("id") @RedisParam Long id, @RequestBody WorkflowTaskReq req) {
+    /**
+     * 任务终止
+     */
+    @PostMapping("/{id}/terminate")
+    @RedisLock(prefix = "workflow:task:handle", message = "当前已有任务处理中，请稍后重试")
+    @Operation(summary = "任务终止", description = "终止流程")
+    public void terminate(@PathVariable @RedisParam Long id, @RequestBody WorkflowTaskReq req) {
         taskExtService.termination(id, req);
     }
 
+    /**
+     * 任务转办
+     */
     @PostMapping("/{id}/transfer")
-    @Operation(summary = "任务转办 - [DONE]", description = "转办")
-    public void transfer(@PathVariable("id") Long id, @RequestBody WorkflowTaskReq req) {
+    @Operation(summary = "任务转办", description = "转办给其他人")
+    public void transfer(@PathVariable Long id, @RequestBody WorkflowTaskReq req) {
         taskExtService.transfer(id, req);
     }
 
-    @PostMapping("/{id}/add-signature")
-    @Operation(summary = "任务加签 - [DONE]", description = "加签")
-    public void addSignature(@PathVariable("id") Long id, @RequestBody WorkflowTaskReq req) {
+    /**
+     * 任务加签
+     */
+    @PostMapping("/{id}/sign/add")
+    @Operation(summary = "任务加签", description = "添加会签人")
+    public void addSign(@PathVariable Long id, @RequestBody WorkflowTaskReq req) {
         taskExtService.addSignature(id, req);
     }
 
-    @PostMapping("/{id}/remove-signature")
-    @Operation(summary = "任务减签 - [DONE]", description = "减签")
-    public void removeSignature(@PathVariable("id") Long id, @RequestBody WorkflowTaskReq req) {
+    /**
+     * 任务减签
+     */
+    @PostMapping("/{id}/sign/remove")
+    @Operation(summary = "任务减签", description = "移除会签人")
+    public void removeSign(@PathVariable Long id, @RequestBody WorkflowTaskReq req) {
         taskExtService.removeSignature(id, req);
     }
-
 }

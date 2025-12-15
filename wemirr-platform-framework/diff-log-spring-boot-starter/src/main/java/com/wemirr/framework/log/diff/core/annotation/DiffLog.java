@@ -1,17 +1,22 @@
 package com.wemirr.framework.log.diff.core.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Repeatable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
+ * 差异日志注解，用于标记需要记录操作日志的方法
+ * <p>
+ * 使用示例：
+ * <pre>
+ * {@code @DiffLog(group = "用户管理", tag = "编辑用户", businessKey = "{{#id}}",
+ *         success = "更新用户信息 {_DIFF{#_newObj}}")}
+ * public void modify(Long id, UserUpdateReq req) {
+ *     // 业务代码中使用 DiffLogContext.putDiffItem(oldObj, newObj) 设置对比对象
+ * }
+ * </pre>
+ *
  * @author muzhantong
  */
-@Repeatable(DifLogs.class)
+@Repeatable(DiffLogs.class)
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
@@ -19,50 +24,54 @@ import java.lang.annotation.Target;
 public @interface DiffLog {
 
     /**
-     * 业务组
+     * 业务分组，用于日志归类
      *
-     * @return 业务组
+     * @return 业务组名称
      */
     String group() default "";
 
     /**
-     * @return 操作日志的类型，比如：订单类型、商品类型
+     * 业务标签，描述具体操作类型
+     *
+     * @return 操作标签，如：编辑用户、删除订单
      */
     String tag();
 
     /**
-     * @return 日志绑定的业务标识
+     * 业务唯一标识，支持 SpEL 表达式
+     *
+     * @return 业务标识，如：{{#id}}
      */
     String businessKey();
 
     /**
-     * @return 方法执行成功后的日志模版
+     * 操作成功时的日志模板，支持 SpEL 表达式
+     *
+     * @return 成功日志模板
      */
     String success();
 
     /**
-     * @return 方法执行失败后的日志模版
+     * 操作失败时的日志模板，支持 SpEL 表达式
+     *
+     * @return 失败日志模板
      */
     String fail() default "";
 
     /**
-     * @return 日志的额外信息
-     */
-    String extra() default "";
-
-    /**
-     * @return 是否记录日志
+     * 记录日志的条件表达式，为 false 时不记录日志
+     *
+     * @return 条件表达式
      */
     String condition() default "";
 
     /**
-     * 记录成功日志的条件
+     * 判断操作是否成功的条件表达式
+     * <p>
+     * 默认为空，表示方法不抛异常即为成功
      *
-     * @return 表示成功的表达式，默认为空，代表不抛异常为成功
+     * @return 成功条件表达式
      */
     String successCondition() default "";
 
-    String oldObj() default "";
-
-    String newObj() default "";
 }

@@ -7,34 +7,26 @@
         <artifactId>wemirr-platform-framework</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>websocket-spring-boot-starter</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
 
-    <properties>
-        <!-- 打包跳过单元测试 -->
-        <skipTests>true</skipTests>
-        <java.version>21</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <artifactId>websocket-spring-boot-starter</artifactId>
+    <name>${project.artifactId}</name>
+    <description>WebSocket 模块，基于 Undertow 提供实时消息推送和 Redis 分布式会话管理</description>
 
     <dependencies>
+        <!-- Lombok -->
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-extra</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
+
+        <!-- 内部模块 -->
         <dependency>
-            <groupId>io.undertow</groupId>
-            <artifactId>undertow-websockets-jsr</artifactId>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>common-framework-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>jakarta.websocket</groupId>
-            <artifactId>jakarta.websocket-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.websocket</groupId>
-            <artifactId>jakarta.websocket-client-api</artifactId>
-        </dependency>
+
+        <!-- Spring Boot (使用 Undertow 替代 Tomcat) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
@@ -54,14 +46,25 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
+        <!-- WebSocket (Undertow) -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
+            <groupId>io.undertow</groupId>
+            <artifactId>undertow-websockets-jsr</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>common-framework-core</artifactId>
+            <groupId>jakarta.websocket</groupId>
+            <artifactId>jakarta.websocket-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.websocket</groupId>
+            <artifactId>jakarta.websocket-client-api</artifactId>
+        </dependency>
+
+        <!-- 工具库 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
         </dependency>
     </dependencies>
 

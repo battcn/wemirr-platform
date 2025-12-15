@@ -7,31 +7,40 @@
         <artifactId>wemirr-platform-framework</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>redis-plus-spring-boot-starter</artifactId>
-    <packaging>jar</packaging>
-    <name>redis-plus-spring-boot-starter</name>
-    <description>redis 增强实现</description>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>21</java.version>
-        <redisson.version>3.24.3</redisson.version>
-        <jetcache.latest.version>2.7.4</jetcache.latest.version>
-        <!-- 打包跳过单元测试 -->
-        <skipTests>true</skipTests>
-    </properties>
+    <artifactId>redis-plus-spring-boot-starter</artifactId>
+    <name>${project.artifactId}</name>
+    <description>Redis 增强模块，集成 Redisson 分布式锁、消息监听、FastJSON2 序列化</description>
 
     <dependencies>
-        <!--<dependency>
-            <groupId>com.alicp.jetcache</groupId>
-            <artifactId>jetcache-starter-redis</artifactId>
-            <version>${jetcache.latest.version}</version>
-        </dependency>-->
+        <!-- 内部模块 -->
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-extra</artifactId>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>common-framework-core</artifactId>
         </dependency>
+
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Redisson 分布式锁 -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- FastJSON2 Redis 序列化 -->
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2-extension</artifactId>
@@ -40,28 +49,12 @@
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2-extension-spring6</artifactId>
         </dependency>
+
+        <!-- 工具库 -->
         <dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>common-framework-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-        <!-- redis-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <!-- redission -->
-        <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
         </dependency>
     </dependencies>
+
 </project>

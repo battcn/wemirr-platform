@@ -1,7 +1,6 @@
 package com.wemirr.platform.ai.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.ai.domain.dto.rep.VectorizationRep;
 import com.wemirr.platform.ai.domain.dto.req.VectorizationTaskPageReq;
 import com.wemirr.platform.ai.domain.entity.VectorizationTask;
@@ -25,8 +24,8 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/vectorization")
 @Tag(name = "向量化管理")
+@RequestMapping("/vectorization")
 public class VectorizationController {
 
     private final VectorService vectorService;
@@ -40,8 +39,8 @@ public class VectorizationController {
 
     @PostMapping("/knowledge-item/{itemId}")
     @Operation(summary = "对知识条目进行向量化")
-    public Result vectorizeKnowledgeItem(@PathVariable Long itemId) {
-        return vectorService.vectorizeKnowledgeItem(itemId);
+    public void vectorizeKnowledgeItem(@PathVariable Long itemId) {
+        vectorService.vectorizeKnowledgeItem(itemId);
     }
 
     @PostMapping("/knowledge-items")
@@ -64,7 +63,7 @@ public class VectorizationController {
 
     @PostMapping("/structured-data/{dataId}")
     @Operation(summary = "对结构化数据进行向量化")
-    public String vectorizeStructuredData(@PathVariable Long dataId){
+    public String vectorizeStructuredData(@PathVariable Long dataId) {
         return vectorService.vectorizeStructuredData(dataId);
     }
 

@@ -1,15 +1,18 @@
 package com.wemirr.framework.log.diff.domain;
 
-import java.time.Instant;
-import java.util.Map;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.Map;
+
 /**
+ * 差异日志信息实体，记录操作日志的完整信息
+ *
  * @author Levin
  */
 @Data
@@ -49,9 +52,9 @@ public class DiffLogInfo {
     @Schema(description = "日志的创建时间")
     protected Instant createTime;
 
-    @Schema(description = "日志的额外信息")
-    protected String extra;
+    @Schema(description = "请求上下文信息（IP、浏览器、URI等）")
+    protected Map<String, Object> extra;
 
-    @Schema(description = "日志的代码信息")
-    protected Map<String, Object> variables;
+    @Schema(description = "字段变更记录列表")
+    protected List<FieldChange> variables;
 }

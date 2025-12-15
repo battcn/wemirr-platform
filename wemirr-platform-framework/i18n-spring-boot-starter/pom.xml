@@ -7,21 +7,23 @@
         <artifactId>wemirr-platform-framework</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>i18n-spring-boot-starter</artifactId>
-    <packaging>jar</packaging>
 
-    <properties>
-        <!-- 打包跳过单元测试 -->
-        <skipTests>true</skipTests>
-        <java.version>21</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <artifactId>i18n-spring-boot-starter</artifactId>
+    <name>${project.artifactId}</name>
+    <description>国际化模块，提供动态国际化消息、字段自动翻译、Redis 分布式消息同步</description>
 
     <dependencies>
+        <!-- 内部模块 -->
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>common-framework-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>redis-plus-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- Spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
@@ -30,10 +32,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>redis-plus-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 

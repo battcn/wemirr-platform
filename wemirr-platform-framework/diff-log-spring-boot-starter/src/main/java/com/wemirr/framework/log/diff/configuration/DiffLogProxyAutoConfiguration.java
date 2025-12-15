@@ -1,12 +1,21 @@
 package com.wemirr.framework.log.diff.configuration;
 
-import java.util.List;
-import java.util.Objects;
-
+import com.wemirr.framework.log.diff.DefaultDiffItemsToLogContentService;
+import com.wemirr.framework.log.diff.IDiffItemsToLogContentService;
+import com.wemirr.framework.log.diff.core.NoopJaversRepository;
+import com.wemirr.framework.log.diff.core.annotation.EnableDiffLog;
+import com.wemirr.framework.log.diff.service.IDiffLogPerformanceMonitor;
+import com.wemirr.framework.log.diff.service.IDiffLogService;
+import com.wemirr.framework.log.diff.service.IFunctionService;
+import com.wemirr.framework.log.diff.service.IParseFunction;
+import com.wemirr.framework.log.diff.service.impl.*;
+import com.wemirr.framework.log.diff.support.aop.BeanFactoryDiffLogAdvisor;
+import com.wemirr.framework.log.diff.support.aop.DiffLogInterceptor;
+import com.wemirr.framework.log.diff.support.aop.DiffLogOperationSource;
+import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.aop.Advice;
 import org.javers.core.Javers;
 import org.javers.core.JaversBuilder;
-import static org.javers.core.diff.ListCompareAlgorithm.LEVENSHTEIN_DISTANCE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -18,25 +27,10 @@ import org.springframework.context.annotation.Role;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
 
-import com.wemirr.framework.log.diff.DefaultDiffItemsToLogContentService;
-import com.wemirr.framework.log.diff.IDiffItemsToLogContentService;
-import com.wemirr.framework.log.diff.core.NoopJaversRepository;
-import com.wemirr.framework.log.diff.core.annotation.EnableDiffLog;
-import com.wemirr.framework.log.diff.service.IDiffLogPerformanceMonitor;
-import com.wemirr.framework.log.diff.service.IDiffLogService;
-import com.wemirr.framework.log.diff.service.IFunctionService;
-import com.wemirr.framework.log.diff.service.IParseFunction;
-import com.wemirr.framework.log.diff.service.impl.DefaultDiffLogPerformanceMonitor;
-import com.wemirr.framework.log.diff.service.impl.DefaultDiffLogServiceImpl;
-import com.wemirr.framework.log.diff.service.impl.DefaultFunctionServiceImpl;
-import com.wemirr.framework.log.diff.service.impl.DefaultParseFunction;
-import com.wemirr.framework.log.diff.service.impl.DiffParseFunction;
-import com.wemirr.framework.log.diff.service.impl.ParseFunctionFactory;
-import com.wemirr.framework.log.diff.support.aop.BeanFactoryDiffLogAdvisor;
-import com.wemirr.framework.log.diff.support.aop.DiffLogInterceptor;
-import com.wemirr.framework.log.diff.support.aop.DiffLogOperationSource;
+import java.util.List;
+import java.util.Objects;
 
-import lombok.extern.slf4j.Slf4j;
+import static org.javers.core.diff.ListCompareAlgorithm.LEVENSHTEIN_DISTANCE;
 
 /**
  * @author Levin

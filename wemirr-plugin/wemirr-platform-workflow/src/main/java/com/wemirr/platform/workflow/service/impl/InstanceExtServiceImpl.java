@@ -1,5 +1,3 @@
-
-
 package com.wemirr.platform.workflow.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
@@ -23,24 +21,21 @@ import com.wemirr.platform.workflow.repository.WorkflowMapper;
 import com.wemirr.platform.workflow.service.InstanceExtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dromara.warm.flow.core.orm.dao.FlowInstanceDao;
-import org.dromara.warm.flow.orm.entity.FlowInstance;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Collections.reverseOrder;
-import static java.util.Comparator.comparing;
-import static java.util.Comparator.nullsFirst;
-import static java.util.stream.Collectors.toList;
+import static java.util.Comparator.*;
 
 /**
- * 流程实例扩展信息
+ * 流程实例扩展服务
+ * <p>
+ * 提供流程实例的扩展查询功能，包括实例详情、任务历史等
  *
- * @author battcn
- * @since 2025/5/28
- **/
+ * @author Levin
+ * @since 2025-05
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -49,7 +44,6 @@ public class InstanceExtServiceImpl extends SuperServiceImpl<InstanceExtMapper, 
     private final WorkflowMapper workflowMapper;
     private final AuthenticationContext context;
     private final InstanceExtMapper instanceExtMapper;
-    private final FlowInstanceDao<FlowInstance> flowInstanceDao;
 
     @Override
     public IPage<InstancePageResp> mePageList(InstancePageReq req) {
@@ -66,10 +60,8 @@ public class InstanceExtServiceImpl extends SuperServiceImpl<InstanceExtMapper, 
         }
         handlerVariable(list);
         return list.stream()
-                .sorted(comparing(FlowTaskApproveListResp::getApprovalTime, nullsFirst(reverseOrder()))
-                        // 可以继续添加其他排序条件
-                        .thenComparing(FlowTaskApproveListResp::getApprovalTime, reverseOrder()))
-                .collect(toList());
+                .sorted(comparing(FlowTaskApproveListResp::getApprovalTime, nullsFirst(reverseOrder())))
+                .toList();
     }
 
     @Override

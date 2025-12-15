@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/knowledge-bases")
 @Tag(name = "知识库管理")
+@RequestMapping("/knowledge-bases")
 public class KnowledgeBaseController {
 
     private final KnowledgeBaseService knowledgeBaseService;
@@ -42,7 +42,7 @@ public class KnowledgeBaseController {
     @PostMapping
     @Operation(summary = "创建知识库")
     public void create(@Valid @RequestBody KnowledgeBaseSaveReq req) {
-         knowledgeBaseService.create(req);
+        knowledgeBaseService.create(req);
     }
 
     @PutMapping("/{id}")

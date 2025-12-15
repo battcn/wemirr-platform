@@ -7,30 +7,38 @@
         <artifactId>wemirr-platform-framework</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>feign-plugin-spring-boot-starter</artifactId>
-    <packaging>jar</packaging>
 
-    <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-    </properties>
+    <artifactId>feign-plugin-spring-boot-starter</artifactId>
+    <name>${project.artifactId}</name>
+    <description>Feign 增强插件，提供 Mock 服务、自动 Token 刷新、响应解码等功能</description>
 
     <dependencies>
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Servlet -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+
+        <!-- Spring Cloud -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -39,18 +47,17 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
+
+        <!-- 内部模块 -->
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>common-framework-core</artifactId>
         </dependency>
-        <!-- HttpClient5 替换Feign底层客户端实现 -->
+
+        <!-- HttpClient5 替换 Feign 底层客户端实现 -->
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-hc5</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.retry</groupId>
-            <artifactId>spring-retry</artifactId>
         </dependency>
     </dependencies>
 

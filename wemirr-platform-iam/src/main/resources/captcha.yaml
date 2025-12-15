@@ -1,0 +1,30 @@
+# 滑块验证码配置， 详细请看 cloud.tianai.captcha.autoconfiguration.ImageCaptchaProperties 类
+captcha:
+  # 如果项目中使用到了redis，滑块验证码会自动把验证码数据存到redis中， 这里配置redis的key的前缀,默认是captcha:slider
+  prefix: captcha
+  # 验证码过期时间，默认是2分钟,单位毫秒， 可以根据自身业务进行调整
+  expire:
+    # 默认缓存时间 2分钟
+    default: 10000
+    # 针对 点选验证码 过期时间设置为 2分钟， 因为点选验证码验证比较慢，把过期时间调整大一些
+    WORD_IMAGE_CLICK: 20000
+  # 使用加载系统自带的资源， 默认是 false
+  init-default-resource: true
+  # 缓存控制， 默认为false不开启
+  local-cache-enabled: true
+  # 验证码会提前缓存一些生成好的验证数据， 默认是20
+  local-cache-size: 20
+  # 缓存拉取失败后等待时间 默认是 5秒钟
+  local-cache-wait-time: 5000
+  # 缓存检查间隔 默认是2秒钟
+  local-cache-period: 2000
+  # 配置字体库，文字点选验证码的字体库，可以配置多个
+  font-path:
+    - classpath:font/simhei.ttf
+  secondary:
+    # 二次验证， 默认false 不开启
+    enabled: false
+    # 二次验证过期时间， 默认 2分钟
+    expire: 120000
+    # 二次验证缓存key前缀，默认是 captcha:secondary
+    keyPrefix: "captcha:secondary"

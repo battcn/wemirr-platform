@@ -32,15 +32,27 @@ import org.aspectj.lang.annotation.Pointcut;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 动态国际化处理
+ * 国际化字段自动翻译切面
+ * <p>
+ * 拦截标记了 {@link com.wemirr.framework.i18n.annotation.I18nMethod} 注解的方法，
+ * 自动将返回对象中标记了 {@link I18nField} 的字段进行国际化翻译
  *
  * @author Levin
  */
 @Aspect
 @RequiredArgsConstructor
 public class I18nAspect {
+
+    /**
+     * 字段缓存，避免重复反射获取字段
+     * key: Class, value: 标记了 @I18nField 的字段列表
+     */
+    private static final Map<Class<?>, List<FieldMeta>> FIELD_CACHE = new ConcurrentHashMap<>();
 
     private final I18nMessageResource messageSource;
 
@@ -74,9 +86,9 @@ public class I18nAspect {
     }
 
     /**
-     * 遍历字段，解析出那些字段上标记了指定注解的字段
+     * 遍历字段，解析标记了 @I18nField 的字段并进行国际化翻译
      *
-     * @param obj 对象
+     * @param obj 待处理对象
      */
     private void parse(Object obj) {
         if (obj == null) {
@@ -86,26 +98,39 @@ public class I18nAspect {
             parseList(list);
             return;
         }
-        // 解析方法上的注解，计算出obj对象中所有需要查询的数据
-        Field[] fields = ReflectUtil.getFields(obj.getClass());
-        for (Field field : fields) {
-            I18nField annotation = field.getAnnotation(I18nField.class);
-            if (annotation == null) {
-                continue;
-            }
-            final Object fieldValue = ReflectUtil.getFieldValue(obj, field);
+        // 从缓存获取字段元数据，避免重复反射
+        List<FieldMeta> fieldMetas = FIELD_CACHE.computeIfAbsent(obj.getClass(), this::extractI18nFields);
+        for (FieldMeta meta : fieldMetas) {
+            Object fieldValue = ReflectUtil.getFieldValue(obj, meta.field);
             if (fieldValue == null) {
                 continue;
             }
             if (fieldValue instanceof Language item) {
-                ReflectUtil.setFieldValue(obj, annotation.target(), messageSource.getMessage(item.getLanguage(), fieldValue));
+                ReflectUtil.setFieldValue(obj, meta.targetField, messageSource.getMessage(item.getLanguage(), fieldValue));
+            } else if (StrUtil.isNotBlank(meta.targetField)) {
+                ReflectUtil.setFieldValue(obj, meta.targetField, messageSource.getMessage(meta.code, fieldValue));
             } else {
-                if (StrUtil.isNotBlank(annotation.target())) {
-                    ReflectUtil.setFieldValue(obj, annotation.target(), messageSource.getMessage(annotation.code(), fieldValue));
-                } else {
-                    ReflectUtil.setFieldValue(obj, field, messageSource.getMessage(fieldValue.toString()));
-                }
+                ReflectUtil.setFieldValue(obj, meta.field, messageSource.getMessage(fieldValue.toString()));
             }
         }
     }
+
+    /**
+     * 提取类中标记了 @I18nField 的字段元数据
+     */
+    private List<FieldMeta> extractI18nFields(Class<?> clazz) {
+        Field[] fields = ReflectUtil.getFields(clazz);
+        return java.util.Arrays.stream(fields)
+                .filter(f -> f.isAnnotationPresent(I18nField.class))
+                .map(f -> {
+                    I18nField anno = f.getAnnotation(I18nField.class);
+                    return new FieldMeta(f, anno.code(), anno.target());
+                })
+                .toList();
+    }
+
+    /**
+     * 字段元数据，缓存注解信息避免重复解析
+     */
+    private record FieldMeta(Field field, String code, String targetField) {}
 }

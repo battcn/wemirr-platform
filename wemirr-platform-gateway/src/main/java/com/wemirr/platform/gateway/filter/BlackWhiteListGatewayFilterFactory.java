@@ -41,8 +41,10 @@ import java.net.InetSocketAddress;
 import java.util.List;
 
 /**
- * XForwardedRemoteAddressResolver
- * 黑白名单过滤器
+ * 黑白名单网关过滤器
+ * <p>
+ * 支持 IP 黑名单和白名单模式，可配置忽略内网 IP
+ * 使用 X-Forwarded-For 解析真实客户端 IP
  *
  * @author Levin
  */
@@ -50,7 +52,7 @@ import java.util.List;
 @Order(99)
 @Configuration
 public class BlackWhiteListGatewayFilterFactory extends AbstractGatewayFilterFactory<BlackWhiteListGatewayFilterFactory.Config> {
-    
+
     private static final String DEFAULT_FILTER_NAME = "BlackWhiteList";
     
     public BlackWhiteListGatewayFilterFactory() {
@@ -64,41 +66,76 @@ public class BlackWhiteListGatewayFilterFactory extends AbstractGatewayFilterFac
     
     @Override
     public GatewayFilter apply(Config config) {
+        // 预编译 IP 列表为 Set 提升查询效率
+        var ipSet = config.getIpList() != null ? new java.util.HashSet<>(config.getIpList()) : java.util.Set.<String>of();
+
         return (exchange, chain) -> {
-            InetSocketAddress remoteAddress = XForwardedRemoteAddressResolver.maxTrustedIndex(1).resolve(exchange);
+            InetSocketAddress remoteAddress = XForwardedRemoteAddressResolver
+                    .maxTrustedIndex(config.getMaxTrustedIndex())
+                    .resolve(exchange);
+            if (remoteAddress == null) {
+                log.warn("[无法解析客户端地址]");
+                return accessRestricted(exchange, "无法识别客户端地址");
+            }
             final InetAddress inetAddress = remoteAddress.getAddress();
             String ip = inetAddress.getHostAddress();
-            log.debug("[访问者IP地址] - [{}]", ip);
-            if (config.isIgnoreIntranet() && inetAddress.isSiteLocalAddress()) {
-                log.info("[忽略内网IP] - {}", inetAddress.isSiteLocalAddress());
+            log.debug("[访问者IP] - [{}]", ip);
+
+            // 内网 IP 直接放行
+            if (config.isIgnoreIntranet() && (inetAddress.isSiteLocalAddress() || inetAddress.isLoopbackAddress())) {
+                log.debug("[内网IP放行] - {}", ip);
                 return chain.filter(exchange);
             }
+
+            // 黑名单模式：在名单中则拒绝
             if (config.type == BlackWhiteListType.BLACK_LIST) {
-                boolean access = config.getIpList().contains(ip);
-                if (access) {
-                    log.warn("[访问受限，该地址在黑名单列表] - [{}]", ip);
-                    return accessRestricted(exchange);
+                if (matchIp(ipSet, ip)) {
+                    log.warn("[黑名单拦截] - IP: {}", ip);
+                    return accessRestricted(exchange, "访问受限，IP 已被封禁");
                 }
-            } else if (config.type == BlackWhiteListType.WHITE_LIST) {
-                boolean access = config.getIpList().contains(ip);
-                if (access) {
-                    return chain.filter(exchange);
-                } else {
-                    log.warn("[访问受限，该地址不在白名单列表] - [{}]", ip);
-                    return accessRestricted(exchange);
+            }
+            // 白名单模式：不在名单中则拒绝
+            else if (config.type == BlackWhiteListType.WHITE_LIST) {
+                if (!matchIp(ipSet, ip)) {
+                    log.warn("[白名单拦截] - IP: {}", ip);
+                    return accessRestricted(exchange, "访问受限，IP 未授权");
                 }
             }
             return chain.filter(exchange);
         };
     }
+
+    /**
+     * IP 匹配（支持 CIDR 和通配符）
+     */
+    private boolean matchIp(java.util.Set<String> ipSet, String clientIp) {
+        if (ipSet.contains(clientIp)) {
+            return true;
+        }
+        // 支持简单通配符匹配，如 192.168.*
+        for (String pattern : ipSet) {
+            if (pattern.contains("*") && matchWildcard(pattern, clientIp)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 通配符匹配
+     */
+    private boolean matchWildcard(String pattern, String ip) {
+        String regex = pattern.replace(".", "\\.").replace("*", ".*");
+        return ip.matches(regex);
+    }
     
-    private Mono<Void> accessRestricted(ServerWebExchange exchange) {
+    private Mono<Void> accessRestricted(ServerWebExchange exchange, String message) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(HttpStatus.FORBIDDEN);
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         JSONObject result = new JSONObject();
-        result.put("messageId", HttpStatus.FORBIDDEN.value());
-        result.put("message", "访问受限，请联系管理员");
+        result.put("code", HttpStatus.FORBIDDEN.value());
+        result.put("message", message);
         result.put("successful", false);
         result.put("timestamp", System.currentTimeMillis());
         return response.writeWith(Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(result))));

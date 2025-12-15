@@ -1,25 +1,19 @@
 package com.wemirr.framework.log.diff.support.aop;
 
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-
+import com.wemirr.framework.log.diff.core.annotation.DiffLog;
+import com.wemirr.framework.log.diff.core.annotation.DiffLogs;
+import com.wemirr.framework.log.diff.domain.DiffLogOps;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.BridgeMethodResolver;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ConcurrentReferenceHashMap;
 import org.springframework.util.StringUtils;
 
-import com.wemirr.framework.log.diff.core.annotation.DifLogs;
-import com.wemirr.framework.log.diff.core.annotation.DiffLog;
-import com.wemirr.framework.log.diff.domain.DiffLogOps;
-
-import lombok.extern.slf4j.Slf4j;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 /**
  * @author mzt.
@@ -87,7 +81,7 @@ public class DiffLogOperationSource {
 
     private Collection<DiffLogOps> parseDiffLogsAnnotations(AnnotatedElement ae) {
         Collection<DiffLogOps> res = new ArrayList<>();
-        Collection<DifLogs> diffLogAnnotationAnnotations = AnnotatedElementUtils.findAllMergedAnnotations(ae, DifLogs.class);
+        Collection<DiffLogs> diffLogAnnotationAnnotations = AnnotatedElementUtils.findAllMergedAnnotations(ae, DiffLogs.class);
         if (diffLogAnnotationAnnotations.isEmpty()) {
             return res;
         }
@@ -119,11 +113,8 @@ public class DiffLogOperationSource {
                 .group(anno.group())
                 .businessKey(anno.businessKey())
                 .tag(anno.tag())
-                .extra(anno.extra())
                 .condition(anno.condition())
-                .isSuccess(anno.successCondition())
-                .oldObj(anno.oldObj())
-                .newObj(anno.newObj())
+                .successCondition(anno.successCondition())
                 .build();
         validateDiffLogOperation(ae, ops);
         return ops;

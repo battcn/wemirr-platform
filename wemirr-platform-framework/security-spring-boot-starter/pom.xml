@@ -7,71 +7,74 @@
         <artifactId>wemirr-platform-framework</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>security-spring-boot-starter</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
-    <name>${project.artifactId}</name>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>21</java.version>
-        <!-- 打包跳过单元测试 -->
-        <skipTests>true</skipTests>
-    </properties>
+    <artifactId>security-spring-boot-starter</artifactId>
+    <name>${project.artifactId}</name>
+    <description>安全认证模块，基于 Sa-Token 提供权限认证、OAuth2、第三方登录等功能</description>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!-- Sa-Token 整合 Redis (可选) -->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-fastjson2</artifactId>
-        </dependency>
-        <!-- Sa-Token 整合 RedisTemplate -->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-redis-template</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>me.zhyd.oauth</groupId>
-            <artifactId>JustAuth</artifactId>
-            <version>1.16.7</version>
-        </dependency>
-        <!-- Sa-Token 权限认证，在线文档：https://sa-token.cc -->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot3-starter</artifactId>
-        </dependency>
-        <!-- Sa-Token OAuth2.0 模块
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-oauth2</artifactId>
-            <version>1.39.0</version>
-        </dependency>
-        -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-extra</artifactId>
-        </dependency>
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- 内部模块 -->
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>common-framework-core</artifactId>
         </dependency>
+
+        <!-- Sa-Token 权限认证 -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot3-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-fastjson2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-redis-template</artifactId>
+        </dependency>
+
+        <!-- 第三方登录 -->
+        <dependency>
+            <groupId>me.zhyd.oauth</groupId>
+            <artifactId>JustAuth</artifactId>
+            <version>1.16.7</version>
+        </dependency>
+
+        <!-- 工具库 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
+        <!-- Web & Feign -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-core</artifactId>
+        </dependency>
+
+        <!-- JSON & AOP -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -79,10 +82,6 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-core</artifactId>
         </dependency>
     </dependencies>
 

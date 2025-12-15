@@ -32,59 +32,79 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author xiao1
+ * OSS 文件服务
+ * <p>
+ * 提供文件上传、下载、预览、删除等功能
+ *
+ * @author Levin
  * @since 2024-12
  */
 public interface OssFileService extends SuperService<OssFile> {
 
     /**
-     * 文件上传
+     * 分页查询文件列表
      *
-     * @param file file
-     * @return FileStorage
+     * @param req 查询条件
+     * @return 分页结果
+     */
+    IPage<OssFilePageResp> pageList(FileStoragePageReq req);
+
+    /**
+     * 上传文件
+     *
+     * @param file 文件
+     * @return 文件信息
      */
     OssFile upload(MultipartFile file);
 
     /**
-     * 图片上传
+     * 上传图片
+     * <p>
+     * 支持图片压缩、缩略图生成等
      *
-     * @param file 文件
-     * @return 上传结果
+     * @param file 图片文件
+     * @return 文件信息
      */
     OssFile uploadImage(MultipartFile file);
 
     /**
-     * 文件删除
-     */
-    void delete(Long id);
-
-    void rename(Long id, String originName);
-
-    IPage<OssFilePageResp> pageList(FileStoragePageReq req);
-
-
-    /**
-     * 根据阿里云oss的url生成一个可以访问的url(通过临时token)
+     * 获取文件预览地址
+     * <p>
+     * 生成带临时访问 Token 的预览 URL
      *
-     * @param filePath 路径
-     * @return 预览地址
+     * @param filePath 文件路径
+     * @return 预览地址 (key: 文件路径, value: 预览URL)
      */
     Map.Entry<String, String> preview(String filePath);
 
+    /**
+     * 批量获取预览地址
+     *
+     * @param paths 文件路径集合
+     * @return 预览地址列表
+     */
+    Collection<String> previewList(Set<String> paths);
 
     /**
-     * 批量获取预下载的 url
-     * @param req req
-     * @return 预览结果
+     * 批量获取预览地址（返回 Map）
+     *
+     * @param paths 文件路径集合
+     * @return 文件路径 -> 预览信息 映射
      */
-    Collection<String> previewList(Set<String> req);
+    Map<String, OssFilePreviewResp> previewMap(Set<String> paths);
 
     /**
-     * 批量获取预下载的url ,返回结果为一个map
-     * key为fileUrl,value为对应的预下载url
-     * @param pathList pathList
-     * @return 预览结果
+     * 重命名文件
+     *
+     * @param id   文件 ID
+     * @param name 新文件名
      */
-    Map<String, OssFilePreviewResp> previewMap(Set<String> pathList);
+    void rename(Long id, String name);
 
+    /**
+     * 删除文件
+     *
+     * @param id 文件 ID
+     */
+    void delete(Long id);
 }

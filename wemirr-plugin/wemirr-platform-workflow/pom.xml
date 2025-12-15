@@ -8,29 +8,29 @@
         <artifactId>wemirr-platform-dependencies</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>wemirr-platform-workflow</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-
-
-    <properties>
-        <java.version>21</java.version>
-    </properties>
+    <name>${project.artifactId}</name>
+    <description>工作流服务，提供流程定义、流程实例、任务审批等功能</description>
 
     <dependencies>
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- 内部模块 -->
         <dependency>
             <groupId>com.wemirr</groupId>
             <artifactId>wemirr-platform-iam-api</artifactId>
-            <version>4.0.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.wemirr</groupId>
             <artifactId>wemirr-platform-workflow-api</artifactId>
-            <version>4.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>feign-plugin-spring-boot-starter</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>
@@ -47,19 +47,15 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>feign-plugin-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>robot-spring-boot-starter</artifactId>
         </dependency>
+
+        <!-- Warm Flow 工作流引擎 -->
         <dependency>
             <groupId>org.dromara.warm</groupId>
             <artifactId>warm-flow-mybatis-plus-sb3-starter</artifactId>
@@ -70,9 +66,18 @@
             <artifactId>warm-flow-plugin-ui-sb-web</artifactId>
             <version>${warm-flow.version}</version>
         </dependency>
+
+        <!-- 模板引擎 -->
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

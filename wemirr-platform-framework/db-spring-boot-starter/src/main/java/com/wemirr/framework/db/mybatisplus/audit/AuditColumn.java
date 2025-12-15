@@ -3,10 +3,11 @@ package com.wemirr.framework.db.mybatisplus.audit;
 import java.lang.annotation.*;
 
 /**
- * 表字段标识
+ * 审计字段标识注解
+ * <p>
+ * 用于标记需要审计的实体字段，支持自定义字段显示名称和忽略配置
  *
- * @author hubin sjy tantan
- * @since 2016-09-09
+ * @author Levin
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -14,18 +15,18 @@ import java.lang.annotation.*;
 public @interface AuditColumn {
 
     /**
-     * 字段名,如果不配置或者为空默认提取 swagger v3 注释
+     * 字段显示名称
+     * <p>
+     * 如果不配置或为空，默认提取 Swagger @Schema 注解的 description
      *
-     * @return 名称
+     * @return 字段显示名称
      */
     String label() default "";
 
     /**
-     * 是否忽略
+     * 是否忽略该字段的审计
      *
-     * @return 默认都不忽略
+     * @return true 忽略，false 不忽略（默认）
      */
     boolean ignore() default false;
-
-
 }

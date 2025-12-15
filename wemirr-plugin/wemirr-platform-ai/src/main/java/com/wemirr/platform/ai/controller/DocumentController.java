@@ -54,9 +54,7 @@ public class DocumentController {
     @PostMapping
     @Operation(summary = "创建文档")
     public void create(@Valid @RequestBody DocumentSaveReq req) {
-        knowledgeItemService.createocument(
-                req
-        );
+        knowledgeItemService.createDocument(req);
     }
 
     //todo 更新文档内容时候，需要删除原始分片以及向量

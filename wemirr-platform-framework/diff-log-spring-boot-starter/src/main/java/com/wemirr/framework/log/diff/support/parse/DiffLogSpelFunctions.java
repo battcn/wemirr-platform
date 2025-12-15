@@ -1,10 +1,9 @@
 package com.wemirr.framework.log.diff.support.parse;
 
+import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.log.diff.core.context.DiffLogContext;
 import com.wemirr.framework.log.diff.service.impl.DiffParseFunction;
-
-import cn.hutool.core.util.StrUtil;
 
 /**
  * DiffLog SpEL 内置函数。

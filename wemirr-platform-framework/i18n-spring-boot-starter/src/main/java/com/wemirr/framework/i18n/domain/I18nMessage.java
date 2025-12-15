@@ -25,8 +25,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
- * 对标于 message bundle 的文件消息的抽象
+ * 国际化消息实体
+ * <p>
+ * 对标于 message bundle 的文件消息的抽象，支持多租户
  *
  * @author Levin
  */
@@ -34,23 +39,30 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(title = "国际化信息")
-public class I18nMessage {
+@Schema(description = "国际化消息")
+public class I18nMessage implements Serializable {
 
-    @Schema(title = "国际化标识")
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @Schema(description = "消息代码")
     private String code;
 
-    @Schema(title = "文本值，可以使用 { } 加角标，作为占位符")
+    @Schema(description = "消息文本，支持 {0} 占位符")
     private String message;
 
-    @Schema(title = "语言")
+    @Schema(description = "语言标识，如 zh_CN, en_US")
     private String locale;
 
-    @Schema(title = "租户ID")
+    @Schema(description = "租户ID")
     private Long tenantId;
 
+    /**
+     * 构建 Redis 存储的 key
+     *
+     * @return locale:code 格式的 key
+     */
     public String buildKey() {
         return locale + ":" + code;
     }
-
 }

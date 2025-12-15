@@ -67,7 +67,7 @@ public class User extends SuperEntity<Long> {
     private String description;
     
     @Schema(description = "身份证")
-    @DiffField(name = "身份证")
+    @DiffField(name = "身份证", strategy = DiffFieldStrategy.NOT_NULL)
     private String idCard;
     
     @Schema(description = "邮箱")

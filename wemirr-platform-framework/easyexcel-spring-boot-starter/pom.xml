@@ -7,21 +7,19 @@
         <artifactId>wemirr-platform-framework</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>easyexcel-spring-boot-starter</artifactId>
-    <packaging>jar</packaging>
 
-    <properties>
-        <!-- 打包跳过单元测试 -->
-        <skipTests>true</skipTests>
-        <java.version>21</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <artifactId>easyexcel-spring-boot-starter</artifactId>
+    <name>${project.artifactId}</name>
+    <description>Excel 导入导出模块，基于 FastExcel 提供高性能 Excel 处理能力</description>
 
     <dependencies>
+        <!-- 内部模块 -->
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>common-framework-core</artifactId>
         </dependency>
+
+        <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -35,21 +33,20 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!--<dependency>
-            <groupId>org.apache.fesod</groupId>
-            <artifactId>fesod</artifactId>
-        </dependency>-->
+
+        <!-- FastExcel (EasyExcel 高性能分支) -->
         <dependency>
             <groupId>cn.idev.excel</groupId>
             <artifactId>fastexcel</artifactId>
             <version>1.3.0</version>
         </dependency>
-    </dependencies>
 
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>

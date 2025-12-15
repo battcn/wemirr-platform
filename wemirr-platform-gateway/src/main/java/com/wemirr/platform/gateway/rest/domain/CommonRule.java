@@ -22,7 +22,6 @@ package com.wemirr.platform.gateway.rest.domain;
 import lombok.Data;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 /**
  * @author Levin

@@ -2,7 +2,6 @@ package com.wemirr.platform.workflow.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -45,9 +44,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * @author battcn
- * @since 2025/5/21
- **/
+ * 流程定义扩展服务
+ * <p>
+ * 提供流程定义的部署、发布、启动等扩展功能
+ *
+ * @author Levin
+ * @since 2025-05
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -149,29 +152,31 @@ public class DefExtServiceImpl implements DefExtService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void addFormDesign(Long id, FormDesignSaveReq req) {
-        var definition = Optional.ofNullable(defService.getById(id)).orElseThrow(() -> CheckedException.notFound("流程定义不存在"));
-        final FlowModelForm modelForm = this.processModelFormMapper.selectOne(Wraps.<FlowModelForm>lbQ().eq(FlowModelForm::getModelId, id));
+        final FlowModelForm modelForm = this.processModelFormMapper.selectOne(FlowModelForm::getModelId, id);
+        String schemasJson = req.getSchemas().toJSONString();
         if (modelForm == null) {
-            this.processModelFormMapper.insert(FlowModelForm.builder().modelId(id)
-                    .formSchemas(req.getSchemas().toJSONString())
-                    .formScript(req.getScript()).build());
+            this.processModelFormMapper.insert(FlowModelForm.builder()
+                    .modelId(id)
+                    .formSchemas(schemasJson)
+                    .formScript(req.getScript())
+                    .build());
         } else {
-            this.processModelFormMapper.updateById(FlowModelForm.builder()
-                    .id(modelForm.getId()).modelId(id)
-                    .formSchemas(JSON.toJSONString(req.getSchemas()))
-                    .formScript(req.getScript()).build());
+            modelForm.setFormSchemas(schemasJson);
+            modelForm.setFormScript(req.getScript());
+            this.processModelFormMapper.updateById(modelForm);
         }
     }
 
     @Override
     public DesignModelFormResp findFormDesign(Long id) {
-        var definition = Optional.ofNullable(defService.getById(id)).orElseThrow(() -> CheckedException.notFound("流程定义不存在"));
-        final FlowModelForm modelForm = this.processModelFormMapper.selectOne(Wraps.<FlowModelForm>lbQ().eq(FlowModelForm::getModelId, id));
+        final FlowModelForm modelForm = this.processModelFormMapper.selectOne(FlowModelForm::getModelId, id);
         if (modelForm == null) {
             return null;
         }
-        return DesignModelFormResp.builder().modelId(modelForm.getModelId())
+        return DesignModelFormResp.builder()
+                .modelId(modelForm.getModelId())
                 .schemas(JSONArray.parseArray(modelForm.getFormSchemas()))
                 .script(modelForm.getFormScript())
                 .build();

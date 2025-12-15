@@ -1,38 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>wemirr-platform-gateway</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>wemirr-platform-gateway</name>
-    <description>wemirr 平台网关，包括限流，熔断，灰度</description>
-    
-    <properties>
-        <java.version>21</java.version>
-    </properties>
-    
+    <name>${project.artifactId}</name>
+    <description>API 网关服务，提供路由转发、限流熔断、黑白名单、灰度发布等功能</description>
+
     <dependencies>
+        <!-- Lombok -->
         <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
+
+        <!-- 内部模块 -->
         <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>context-propagation</artifactId>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>common-framework-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.xingfudeshi</groupId>
-            <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+
+        <!-- Spring Cloud Gateway -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
@@ -40,6 +34,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -50,6 +50,8 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- Spring Cloud Alibaba -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
@@ -58,14 +60,21 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+
+        <!-- 链路追踪 -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>common-framework-core</artifactId>
+            <groupId>io.micrometer</groupId>
+            <artifactId>context-propagation</artifactId>
+        </dependency>
+
+        <!-- API 文档聚合 -->
+        <dependency>
+            <groupId>com.github.xingfudeshi</groupId>
+            <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
     

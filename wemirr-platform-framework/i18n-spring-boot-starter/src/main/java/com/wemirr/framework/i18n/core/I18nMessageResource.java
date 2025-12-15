@@ -19,40 +19,68 @@
 
 package com.wemirr.framework.i18n.core;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ReUtil;
-import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
+ * 国际化消息资源工具类
+ * <p>
+ * 支持嵌套表达式解析，如 "测试内容 {i18n.name} XXX"
+ *
  * @author Levin
  */
 @RequiredArgsConstructor
 public class I18nMessageResource {
 
-    public static final String PATTERN = "\\{(.+?)\\}";
+    /**
+     * 预编译正则表达式，避免重复编译（性能优化）
+     */
+    private static final Pattern I18N_PATTERN = Pattern.compile("\\{(.+?)}");
 
     private final MessageSource messageSource;
 
+    /**
+     * 获取国际化消息
+     *
+     * @param code 消息代码
+     * @param args 参数
+     * @return 翻译后的消息
+     */
     public String getMessage(String code, Object... args) {
-        final Locale locale = LocaleContextHolder.getLocale();
-        final String message = messageSource.getMessage(code, args, code, locale);
-        final List<String> codeList = resolveMessage(message);
-        // 可以根据自己表达式去做增强 比如 测试带表达式的内容 {i18n.name} XXX
-        if (CollUtil.isEmpty(codeList)) {
+        Locale locale = LocaleContextHolder.getLocale();
+        String message = messageSource.getMessage(code, args, code, locale);
+        // 检查是否包含嵌套表达式
+        if (!containsExpression(message)) {
             return message;
         }
-        return StrUtil.replace(message, PATTERN, (param -> messageSource.getMessage(param.group(1), args, param.group(), locale)));
+        // 解析嵌套表达式
+        return resolveNestedExpressions(message, args, locale);
     }
 
-    public List<String> resolveMessage(String message) {
-        return ReUtil.findAll(PATTERN, message, 0, new ArrayList<>());
+    /**
+     * 快速检查是否包含表达式（避免不必要的正则匹配）
+     */
+    private boolean containsExpression(String message) {
+        return message != null && message.contains("{") && message.contains("}");
     }
 
+    /**
+     * 解析嵌套的国际化表达式
+     */
+    private String resolveNestedExpressions(String message, Object[] args, Locale locale) {
+        Matcher matcher = I18N_PATTERN.matcher(message);
+        StringBuilder result = new StringBuilder();
+        while (matcher.find()) {
+            String innerCode = matcher.group(1);
+            String replacement = messageSource.getMessage(innerCode, args, matcher.group(), locale);
+            matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
+        }
+        matcher.appendTail(result);
+        return result.toString();
+    }
 }

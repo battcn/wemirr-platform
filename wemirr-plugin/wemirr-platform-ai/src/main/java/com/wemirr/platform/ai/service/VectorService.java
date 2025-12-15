@@ -1,7 +1,6 @@
 package com.wemirr.platform.ai.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.ai.domain.dto.rep.VectorizationRep;
 import com.wemirr.platform.ai.domain.dto.req.VectorizationTaskPageReq;
@@ -20,49 +19,42 @@ public interface VectorService extends SuperService<VectorizationTask> {
 
     /**
      * 对知识条目进行向量化
-     * 
+     *
      * @param itemId 知识条目ID
-     * @return 结果
      */
-    Result vectorizeKnowledgeItem(Long itemId);
-    
+    void vectorizeKnowledgeItem(Long itemId);
+
     /**
      * 批量对知识条目进行向量化
-     * 
+     *
      * @param itemIds 知识条目ID列表
      * @return 任务ID
      */
     String vectorizeKnowledgeItems(List<Long> itemIds);
-    
+
     /**
      * 对文档进行向量化
-     * 
+     *
      * @param docId 文档ID
      * @return 任务ID
      */
     String vectorizeDocument(Long docId);
-    
+
     /**
      * 对FAQ进行向量化
-     * 
+     *
      * @param faqId FAQ ID
      * @return 任务ID
      */
     String vectorizeFAQ(Long faqId);
-    
+
     /**
      * 对结构化数据进行向量化
-     * 
+     *
      * @param structuredDataId 结构化数据ID
      * @return 任务ID
      */
     String vectorizeStructuredData(Long structuredDataId);
-
-
-
-
-
-
 
 
     /**
@@ -123,17 +115,17 @@ public interface VectorService extends SuperService<VectorizationTask> {
          * 等待中
          */
         PENDING,
-        
+
         /**
          * 处理中
          */
         PROCESSING,
-        
+
         /**
          * 已完成
          */
         COMPLETED,
-        
+
         /**
          * 失败
          */

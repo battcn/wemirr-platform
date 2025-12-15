@@ -74,7 +74,7 @@ public interface KnowledgeChunkService extends SuperService<KnowledgeChunk> {
      * @param content 文档内容
      * @return 分片ID列表
      */
-    List<Long> createocumentChunks(KnowledgeBase knowledgeBase, Long itemId, String docId, String content);
+    List<Long> createDocumentChunks(KnowledgeBase knowledgeBase, Long itemId, String docId, String content);
 
     /**
      * 为问答对创建分片

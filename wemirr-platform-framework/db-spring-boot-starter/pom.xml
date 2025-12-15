@@ -7,11 +7,13 @@
         <artifactId>wemirr-platform-framework</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>db-spring-boot-starter</artifactId>
     <name>${project.artifactId}</name>
-    <description>数据库配置模块</description>
+    <description>数据库配置模块，提供 MyBatis-Plus 增强、多租户数据源、数据权限等功能</description>
 
     <dependencies>
+        <!-- Hutool 工具库 -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-db</artifactId>
@@ -20,11 +22,15 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-extra</artifactId>
         </dependency>
+
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -35,18 +41,36 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>common-framework-core</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- 内部模块 -->
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>common-framework-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>redis-plus-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>security-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- 数据库驱动 -->
+        <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
+
+        <!-- MyBatis-Plus -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus</artifactId>
@@ -67,29 +91,16 @@
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
         </dependency>
-        <!-- 必须有这个jar 才能提示 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
+
+        <!-- Spring Cloud -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
-            <!-- 如果用的字段隔离,企业也没有MQ,可以将 Bus 部分给删掉-->
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bus-amqp</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>redis-plus-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.wemirr.framework</groupId>
-            <artifactId>security-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 

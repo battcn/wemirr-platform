@@ -2,31 +2,28 @@ package com.wemirr.framework.log.diff.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.log.diff.service.IParseFunction;
-import org.springframework.util.CollectionUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
+ * 解析函数工厂，管理所有自定义解析函数
+ *
  * @author muzhantong
  */
-
 public class ParseFunctionFactory {
-    private Map<String, IParseFunction> allFunctionMap;
+
+    private final Map<String, IParseFunction> allFunctionMap;
 
     public ParseFunctionFactory(List<IParseFunction> parseFunctions) {
-        if (CollectionUtils.isEmpty(parseFunctions)) {
-            return;
-        }
-        allFunctionMap = new HashMap<>();
-        for (IParseFunction parseFunction : parseFunctions) {
-            if (StrUtil.isBlank(parseFunction.functionName())) {
-                continue;
-            }
-            allFunctionMap.put(parseFunction.functionName(), parseFunction);
-        }
+        this.allFunctionMap = Optional.ofNullable(parseFunctions)
+                .map(functions -> functions.stream()
+                        .filter(f -> StrUtil.isNotBlank(f.functionName()))
+                        .collect(Collectors.toMap(IParseFunction::functionName, Function.identity())))
+                .orElse(Map.of());
     }
 
     public IParseFunction getFunction(String functionName) {
@@ -34,6 +31,8 @@ public class ParseFunctionFactory {
     }
 
     public boolean isBeforeFunction(String functionName) {
-        return allFunctionMap.get(functionName) != null && allFunctionMap.get(functionName).executeBefore();
+        return Optional.ofNullable(allFunctionMap.get(functionName))
+                .map(IParseFunction::executeBefore)
+                .orElse(false);
     }
 }

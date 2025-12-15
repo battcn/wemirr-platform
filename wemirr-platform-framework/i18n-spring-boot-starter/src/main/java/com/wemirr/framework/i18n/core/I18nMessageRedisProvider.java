@@ -34,6 +34,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
+ * 基于 Redis 的国际化消息提供者
+ * <p>
+ * 将国际化消息存储在 Redis Hash 结构中，支持分布式环境下的消息同步
+ *
  * @author Levin
  */
 @RequiredArgsConstructor
@@ -43,36 +47,45 @@ public class I18nMessageRedisProvider implements I18nMessageProvider {
 
     @Override
     public String getI18nMessage(String code, Locale locale) {
-        String buildKey = I18nMessage.builder().code(code).locale(locale.toString()).build().buildKey();
-        I18nMessage message = (I18nMessage) redisTemplate.opsForHash().get(I18nRedisKeyConstants.I18N_DATA_PREFIX, buildKey);
-        return message == null ? null : message.getMessage();
+        // 直接构建 key，避免创建不必要的对象（性能优化）
+        String key = locale.toString() + ":" + code;
+        I18nMessage message = (I18nMessage) redisTemplate.opsForHash().get(I18nRedisKeyConstants.I18N_DATA_PREFIX, key);
+        return message != null ? message.getMessage() : null;
     }
 
     @Override
     public List<I18nMessage> list() {
         Map<Object, Object> entries = redisTemplate.opsForHash().entries(I18nRedisKeyConstants.I18N_DATA_PREFIX);
-        return entries.values().stream().filter(Objects::nonNull).map(x -> (I18nMessage) x).toList();
+        return entries.values().stream()
+                .filter(Objects::nonNull)
+                .map(I18nMessage.class::cast)
+                .toList();
     }
 
     @Override
     public void loadI18nMessage(List<I18nMessage> messages) {
-        if (messages == null) {
+        if (messages == null || messages.isEmpty()) {
             return;
         }
         redisTemplate.delete(I18nRedisKeyConstants.I18N_DATA_PREFIX);
-        final Map<String, I18nMessage> map = messages.stream().collect(Collectors.toMap(I18nMessage::buildKey, Function.identity()));
+        Map<String, I18nMessage> map = messages.stream()
+                .collect(Collectors.toMap(I18nMessage::buildKey, Function.identity()));
         redisTemplate.opsForHash().putAll(I18nRedisKeyConstants.I18N_DATA_PREFIX, map);
     }
 
+    /**
+     * 批量发布国际化消息更新事件
+     */
     public void publish(List<I18nMessage> list) {
-        if (list == null) {
+        if (list == null || list.isEmpty()) {
             return;
         }
-        for (I18nMessage message : list) {
-            publish(message);
-        }
+        list.forEach(this::publish);
     }
 
+    /**
+     * 发布单条国际化消息更新事件
+     */
     public void publish(I18nMessage message) {
         redisTemplate.convertAndSend(I18nRedisKeyConstants.CHANNEL_I18N_DATA_UPDATED, JSON.toJSONString(message));
     }

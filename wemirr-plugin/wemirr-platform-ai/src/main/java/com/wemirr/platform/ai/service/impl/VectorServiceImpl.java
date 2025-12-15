@@ -3,7 +3,7 @@ package com.wemirr.platform.ai.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
-import com.wemirr.framework.commons.entity.Result;
+import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemStatus;
@@ -45,19 +45,17 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
 
 
     @Override
-    public Result vectorizeKnowledgeItem(Long itemId) {
+    public void vectorizeKnowledgeItem(Long itemId) {
         KnowledgeItem item = knowledgeItemService.getById(itemId);
         VectorizationTask vectorizationTask = this.baseMapper.selectOne(Wraps.<VectorizationTask>lbQ().eq(VectorizationTask::getItemId, itemId));
-        if(vectorizationTask!=null&&vectorizationTask.getTaskStatus()!= VectorizationTaskStatus.FAILED){
-            return Result.fail("不可再次创建任务");
+        if (vectorizationTask != null && vectorizationTask.getTaskStatus() != VectorizationTaskStatus.FAILED) {
+            throw CheckedException.badRequest("不可再次创建任务");
         }
         item.setStatus(KnowledgeItemStatus.PROCESSING);
         knowledgeItemService.updateById(item);
         String taskId = IdUtil.fastSimpleUUID();
         createTask(taskId, item.getKbId(), itemId, "KNOWLEDGE_ITEM");
         runAsyncTask(taskId, () -> vectorizationOrchestrationService.vectorizeKnowledgeItem(itemId));
-        return Result.success();
-        
     }
 
     @Override
@@ -106,8 +104,6 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
         runAsyncTask(taskId, () -> vectorizationOrchestrationService.vectorizeKnowledgeItem(structuredDataId));
         return taskId;
     }
-
-
 
 
     @Override
@@ -235,7 +231,7 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
     @Override
     public VectorizationRep getVectorizeStatus(Long itemId) {
         VectorizationTask vectorizationTask = this.baseMapper.selectOne(Wraps.<VectorizationTask>lbQ().eq(VectorizationTask::getItemId, itemId));
-        if (vectorizationTask != null){
+        if (vectorizationTask != null) {
             return BeanUtilPlus.toBean(vectorizationTask, VectorizationRep.class);
         }
         return null;
@@ -261,11 +257,11 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
                 .progress(0)
                 .deleted(false)
                 .build();
-        
+
         baseMapper.insert(task);
         return task;
     }
-    
+
     /**
      * 更新任务状态
      *
@@ -276,7 +272,7 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
      */
     private void updateTaskStatus(String taskId, VectorizationTaskStatus status, Integer progress, String errorMessage) {
         baseMapper.updateStatus(taskId, status.name(), progress, errorMessage);
-        
+
         // 如果任务完成，更新vectorized字段
         if (status == VectorizationTaskStatus.COMPLETED) {
             VectorizationTask task = baseMapper.selectByTaskId(taskId);
@@ -288,7 +284,7 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
             }
         }
     }
-    
+
     /**
      * 更新任务向量ID
      *
@@ -302,7 +298,7 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
     /**
      * 统一的异步任务执行模板：负责状态机与异常处理
      */
-    private void runAsyncTask(String taskId, Supplier<VectorizationResult> taskSupplier ) {
+    private void runAsyncTask(String taskId, Supplier<VectorizationResult> taskSupplier) {
         CompletableFuture.supplyAsync(taskSupplier)
                 .thenAccept(result -> {
                     // 成功：更新任务状态 + token 消耗

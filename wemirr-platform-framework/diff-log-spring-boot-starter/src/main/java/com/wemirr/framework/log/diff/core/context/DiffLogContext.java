@@ -9,18 +9,39 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 差异日志上下文，用于在业务方法中传递对比对象
+ * <p>
+ * 使用示例：
+ * <pre>
+ * User oldUser = userMapper.selectById(id);
+ * User newUser = BeanUtil.toBean(req, User.class);
+ * DiffLogContext.putDiffItem(oldUser, newUser);
+ * </pre>
+ *
  * @author muzhantong
  */
 public final class DiffLogContext {
 
+    /**
+     * 方法级别变量栈，支持嵌套方法调用
+     */
     private static final InheritableThreadLocal<Deque<Map<String, Object>>> VARIABLE_MAP_STACK = new InheritableThreadLocal<>();
 
+    /**
+     * 全局变量，在整个请求周期内有效
+     */
     private static final InheritableThreadLocal<Map<String, Object>> GLOBAL_VARIABLE_MAP = new InheritableThreadLocal<>();
 
     private DiffLogContext() {
         throw new IllegalStateException("Utility class");
     }
 
+    /**
+     * 设置差异对比的新旧对象
+     *
+     * @param oldVal 旧对象
+     * @param newVal 新对象
+     */
     public static void putDiffItem(Object oldVal, Object newVal) {
         DiffLogContext.putVariable(DiffParseFunction.OLD_OBJECT, oldVal);
         DiffLogContext.putVariable(DiffParseFunction.NEW_OBJECT, newVal);

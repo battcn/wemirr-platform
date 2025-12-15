@@ -1,50 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>wemirr-platform-suite</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>wemirr-platform-suite</name>
-    <description>wemirr suite 开发工具套件</description>
-    
-    <properties>
-        <java.version>21</java.version>
-    </properties>
-    
+    <name>${project.artifactId}</name>
+    <description>开发工具套件服务，提供文件存储、代码生成、低代码等功能</description>
+
     <dependencies>
-        <!-- Spring Boot 3.x + Spring Cloud 2023.x/2025.x -->
+        <!-- Lombok -->
         <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing-bridge-brave</artifactId>
-            <!-- 或使用 OpenTelemetry -->
-            <!-- <artifactId>micrometer-tracing-bridge-otel</artifactId> -->
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-observation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.5.3.2</version>
-        </dependency>
+
+        <!-- 内部模块 -->
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>common-spring-boot-starter</artifactId>
@@ -54,17 +30,35 @@
             <artifactId>feign-plugin-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.qiniu</groupId>
-            <artifactId>qiniu-java-sdk</artifactId>
+            <groupId>com.wemirr</groupId>
+            <artifactId>wemirr-platform-suite-api</artifactId>
+        </dependency>
+
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
+        <!-- Spring Cloud -->
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
+
+        <!-- Spring Cloud Alibaba -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
@@ -73,17 +67,18 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+
+        <!-- 链路追踪 -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-observation</artifactId>
         </dependency>
-        <!--文件上传sdk-->
+
+        <!-- 文件存储 -->
         <dependency>
             <groupId>org.dromara.x-file-storage</groupId>
             <artifactId>x-file-storage-spring</artifactId>
@@ -97,6 +92,19 @@
             <artifactId>aws-java-sdk-s3</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+        </dependency>
+
+        <!-- 代码生成 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>3.5.3.2</version>
+        </dependency>
+
+        <!-- 低代码 -->
+        <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-environment-spring-data-jdbc</artifactId>
         </dependency>
@@ -104,9 +112,12 @@
             <groupId>org.anyline</groupId>
             <artifactId>anyline-data-jdbc-mysql</artifactId>
         </dependency>
+
+        <!-- Test -->
         <dependency>
-            <groupId>com.wemirr</groupId>
-            <artifactId>wemirr-platform-suite-api</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     
@@ -196,8 +207,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <source>21</source>
+                    <target>21</target>
                 </configuration>
             </plugin>
         </plugins>

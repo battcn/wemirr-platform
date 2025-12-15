@@ -1,7 +1,9 @@
 package com.wemirr.framework.log.diff.service;
 
 /**
- * 解析
+ * 自定义解析函数接口
+ * <p>
+ * 实现此接口可以在 DiffLog 中通过函数名调用，用于将ID等转换为可读文本
  *
  * @author Levin
  */
@@ -24,9 +26,10 @@ public interface IParseFunction {
     String functionName();
 
     /**
-     * @param value 函数入参
-     * @return 文案
-     * @since 1.1.0 参数从String 修改为Object类型，可以处理更多的场景，可以通过SpEL表达式传递对象了
+     * 执行解析函数
+     *
+     * @param value 函数入参，支持任意类型
+     * @return 解析后的可读文本
      */
     String apply(Object value);
 }

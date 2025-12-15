@@ -6,6 +6,7 @@ import com.wemirr.platform.ai.service.ChatService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,25 +14,31 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**
- * @author xJh
- * @since 2025/10/11
- **/
+ * 普通对话控制器
+ * <p>
+ * 提供基础的 AI 对话能力，支持流式输出和会话记忆
+ *
+ * @author Levin
+ * @since 2025-10
+ */
+@Validated
 @RestController
-@RequestMapping("/cov")
+@RequestMapping("/chat")
 @RequiredArgsConstructor
-@Tag(name = "普通聊天测试",description = "普通聊天测试接口")
+@Tag(name = "普通对话", description = "基础 AI 对话接口")
 public class ChatController {
 
     private final ChatService chatService;
 
     /**
-     * 流式对话记忆
+     * 流式对话
+     * <p>
+     * 支持会话记忆的流式 AI 对话
      */
     @IgnoreFeignAuthorize
-    @PostMapping(value = "/chat/stream", produces = "text/event-stream")
-    @Operation(summary = "流式对话记忆")
-    public SseEmitter chatTestStream(@RequestBody AskReq askReq) {
-        return chatService.chatStream(askReq);
-
+    @PostMapping(value = "/stream", produces = "text/event-stream")
+    @Operation(summary = "流式对话", description = "支持会话记忆的流式 AI 对话")
+    public SseEmitter stream(@Validated @RequestBody AskReq req) {
+        return chatService.chatStream(req);
     }
 }

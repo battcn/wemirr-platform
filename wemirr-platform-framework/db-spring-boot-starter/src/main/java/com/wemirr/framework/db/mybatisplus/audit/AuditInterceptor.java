@@ -101,19 +101,16 @@ public class AuditInterceptor implements InnerInterceptor {
             if (fieldInfo.getUpdateStrategy() == FieldStrategy.NOT_NULL && Objects.isNull(newValue)) {
                 continue;
             }
-            AuditField auditField = AuditField.builder().label(label).field(fieldName).source(oldValue).target(newValue).build();
-            Object source = null;
-            if (oldValue instanceof DictEnum<?> dict) {
-                source = ObjUtil.defaultIfNull(dict.getLabel(), oldValue);
-            }
-            if (newValue instanceof DictEnum<?> dict) {
-                Object target = ObjUtil.defaultIfNull(dict.getLabel(), newValue);
-                String format = String.format("字段 [%s] 从 %s 修改至 %s ", label, source, target);
-                auditField.setFormat(format);
-            }
+            // 处理枚举类型的显示值
+            Object sourceDisplay = (oldValue instanceof DictEnum<?> dict) ? ObjUtil.defaultIfNull(dict.getLabel(), oldValue) : oldValue;
+            Object targetDisplay = (newValue instanceof DictEnum<?> dict) ? ObjUtil.defaultIfNull(dict.getLabel(), newValue) : newValue;
+            String format = (oldValue instanceof DictEnum<?> || newValue instanceof DictEnum<?>)
+                    ? "字段 [%s] 从 %s 修改至 %s".formatted(label, sourceDisplay, targetDisplay)
+                    : null;
+            var auditField = new AuditField(fieldName, label, oldValue, newValue, format);
             differences.put(fieldName, auditField);
             if (!Objects.equals(oldValue, newValue)) {
-                log.info("变化数据 - {}", auditField.getFormat());
+                log.info("变化数据 - {}", auditField.formattedDescription());
             }
         }
         return differences;

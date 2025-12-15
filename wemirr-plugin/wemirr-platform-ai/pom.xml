@@ -7,203 +7,193 @@
         <artifactId>wemirr-platform-dependencies</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>wemirr-platform-ai</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>wemirr-platform-ai</name>
-    <description>wemirr-platform-ai AI应用模块</description>
+    <name>${project.artifactId}</name>
+    <description>AI 应用服务，提供智能体、知识库、RAG 对话、向量检索等功能</description>
 
     <properties>
-        <java.version>21</java.version>
         <langchain4j.version>1.9.1</langchain4j.version>
         <langchain4j.community.version>1.9.1-beta17</langchain4j.community.version>
         <langgraph4j.version>1.6.0-beta3</langgraph4j.version>
     </properties>
 
     <dependencies>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-undertow</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-freemarker</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>com.wemirr.framework</groupId>
-        <artifactId>common-spring-boot-starter</artifactId>
-    </dependency>
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-    <dependency>
-        <groupId>com.wemirr</groupId>
-        <artifactId>wemirr-platform-suite-api</artifactId>
-    </dependency>
+        <!-- 内部模块 -->
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>common-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>feign-plugin-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wemirr</groupId>
+            <artifactId>wemirr-platform-suite-api</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>com.wemirr.framework</groupId>
-        <artifactId>feign-plugin-spring-boot-starter</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-data-redis</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>com.alibaba.cloud</groupId>
-        <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>com.alibaba.cloud</groupId>
-        <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <scope>provided</scope>
-    </dependency>
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-test</artifactId>
-        <scope>test</scope>
-    </dependency>
+        <!-- Spring Cloud -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j</artifactId>
-        <version>1.0.0-beta3</version>
-    </dependency>
+        <!-- Spring Cloud Alibaba -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-spring-boot-starter</artifactId>
-    </dependency>
+        <!-- LangChain4j 核心 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-reactor</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-community-dashscope-spring-boot-starter</artifactId>
-    </dependency>
+        <!-- LangChain4j 模型提供者 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-community-dashscope-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-community-qianfan-spring-boot-starter</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
-    </dependency>
+        <!-- LangChain4j 文档解析 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-document-parser-apache-tika</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-document-parser-apache-pdfbox</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-document-parser-apache-poi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-document-transformer-jsoup</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-community-qianfan-spring-boot-starter</artifactId>
-    </dependency>
+        <!-- LangChain4j 向量存储 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-pgvector</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-milvus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-embeddings-all-minilm-l6-v2</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-reactor</artifactId>
-    </dependency>
+        <!-- LangChain4j MCP 支持 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-mcp</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-document-transformer-jsoup</artifactId>
-    </dependency>
+        <!-- LangChain4j 搜索引擎 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-web-search-engine-tavily</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>org.mapdb</groupId>
-        <artifactId>mapdb</artifactId>
-        <version>3.0.8</version>
-    </dependency>
+        <!-- LangGraph4j -->
+        <dependency>
+            <groupId>org.bsc.langgraph4j</groupId>
+            <artifactId>langgraph4j-core</artifactId>
+        </dependency>
 
-    <!-- Apache Tika for document parsing -->
-    <dependency>
-        <groupId>org.apache.tika</groupId>
-        <artifactId>tika-core</artifactId>
-        <version>3.0.0</version>
-    </dependency>
+        <!-- Apache Tika 文档解析 -->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parsers-standard-package</artifactId>
+            <version>3.0.0</version>
+        </dependency>
 
-    <dependency>
-        <groupId>org.apache.tika</groupId>
-        <artifactId>tika-parsers-standard-package</artifactId>
-        <version>3.0.0</version>
-    </dependency>
+        <!-- 数据库 -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.milvus</groupId>
+            <artifactId>milvus-sdk-java</artifactId>
+            <version>2.6.4</version>
+        </dependency>
 
+        <!-- 工具库 -->
+        <dependency>
+            <groupId>org.mapdb</groupId>
+            <artifactId>mapdb</artifactId>
+            <version>3.0.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
 
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-document-parser-apache-tika</artifactId>
-    </dependency>
-
-
-    <!-- PostgreSQL Vector Store -->
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-pgvector</artifactId>
-    </dependency>
-
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j</artifactId>
-    </dependency>
-
-
-    <dependency>
-        <groupId>org.postgresql</groupId>
-        <artifactId>postgresql</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-document-parser-apache-pdfbox</artifactId>
-    </dependency>
-
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-document-parser-apache-poi</artifactId>
-    </dependency>
-
-    <!-- MCP 支持 -->
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-mcp</artifactId>
-    </dependency>
-
-    <!-- langgraph4j   -->
-    <dependency>
-        <groupId>org.bsc.langgraph4j</groupId>
-        <artifactId>langgraph4j-core</artifactId>
-    </dependency>
-
-    <!-- Jackson for JSON processing -->
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-    </dependency>
-
-    <dependency>
-        <groupId>io.milvus</groupId>
-        <artifactId>milvus-sdk-java</artifactId>
-        <version>2.6.4</version>
-    </dependency>
-
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-milvus</artifactId>
-    </dependency>
-
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-embeddings-all-minilm-l6-v2</artifactId>
-    </dependency>
-
-    <dependency>
-        <groupId>org.testcontainers</groupId>
-        <artifactId>milvus</artifactId>
-        <version>1.19.6</version>
-    </dependency>
-    <!-- langchain4j tavily 搜索引擎接入 -->
-    <dependency>
-        <groupId>dev.langchain4j</groupId>
-        <artifactId>langchain4j-web-search-engine-tavily</artifactId>
-    </dependency>
-
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>milvus</artifactId>
+            <version>1.19.6</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

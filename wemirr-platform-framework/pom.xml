@@ -1,40 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.wemirr</groupId>
         <artifactId>wemirr-platform-dependencies</artifactId>
         <version>4.0.0-SNAPSHOT</version>
     </parent>
+
     <groupId>com.wemirr.framework</groupId>
     <artifactId>wemirr-platform-framework</artifactId>
     <version>4.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    
+    <name>${project.artifactId}</name>
+    <description>平台框架模块聚合，提供通用组件、数据库、缓存、安全认证等基础能力</description>
+
     <modules>
+        <!-- 核心模块 -->
         <module>common-framework-core</module>
-        <!-- 需要解决oauth2.0 和 websocket 的问题 -->
-        <module>security-spring-boot-starter</module>
-        <module>db-spring-boot-starter</module>
         <module>common-spring-boot-starter</module>
-        <module>websocket-spring-boot-starter</module>
-        <module>mongodb-plus-spring-boot-starter</module>
-        <module>feign-plugin-spring-boot-starter</module>
+
+        <!-- 数据层 -->
+        <module>db-spring-boot-starter</module>
         <module>redis-plus-spring-boot-starter</module>
+        <module>mongodb-plus-spring-boot-starter</module>
+
+        <!-- 安全认证 -->
+        <module>security-spring-boot-starter</module>
+
+        <!-- 微服务 -->
+        <module>feign-plugin-spring-boot-starter</module>
+
+        <!-- 国际化 -->
         <module>i18n-spring-boot-starter</module>
+
+        <!-- 通信 -->
+        <module>websocket-spring-boot-starter</module>
         <module>robot-spring-boot-starter</module>
+
+        <!-- 工具 -->
         <module>diff-log-spring-boot-starter</module>
-        <module>pdf-spring-boot-starter</module>
         <module>easyexcel-spring-boot-starter</module>
+        <module>pdf-spring-boot-starter</module>
     </modules>
-    
+
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>21</java.version>
-        <!-- 打包跳过单元测试 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skipTests>true</skipTests>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -46,7 +61,7 @@
             <scope>runtime</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
         <resources>
             <resource>
@@ -76,7 +91,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- java编译插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -89,5 +103,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>

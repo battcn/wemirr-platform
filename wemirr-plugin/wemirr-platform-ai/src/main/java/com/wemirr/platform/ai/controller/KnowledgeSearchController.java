@@ -32,23 +32,21 @@ public class KnowledgeSearchController {
 
     @GetMapping("/semantic-search")
     @Operation(summary = "语义搜索，返回topK")
-    public List<EmbeddingMatchRep> semanticSearch(@RequestParam Long kbId,
-                                                          @RequestParam String query,
-                                                          @RequestParam(defaultValue = "5") int topK) {
+    public List<EmbeddingMatchRep> semanticSearch(@RequestParam Long kbId, @RequestParam String query,
+                                                  @RequestParam(defaultValue = "5") int topK) {
         try {
-            List<EmbeddingMatchRep> maps = knowledgeSearchService.semanticSearch(kbId, query, topK);
-            return maps;
+            return knowledgeSearchService.semanticSearch(kbId, query, topK);
         } catch (Exception e) {
             log.error("语义搜索失败: kbId={}, query={}", kbId, query, e);
             return null;
         }
     }
-    
+
     @GetMapping("/hybrid-search")
     @Operation(summary = "混合搜索（语义+关键词）")
     public Result<List<Map<String, Object>>> hybridSearch(@RequestParam Long kbId,
-                                                       @RequestParam String query,
-                                                       @RequestParam(defaultValue = "5") int topK) {
+                                                          @RequestParam String query,
+                                                          @RequestParam(defaultValue = "5") int topK) {
         try {
             List<Map<String, Object>> results = knowledgeSearchService.hybridSearch(kbId, query, topK);
             return Result.success(results);
@@ -57,12 +55,12 @@ public class KnowledgeSearchController {
             return Result.fail("搜索失败: " + e.getMessage());
         }
     }
-    
+
     @GetMapping("/keyword-search")
     @Operation(summary = "关键词搜索")
     public Result<List<Map<String, Object>>> keywordSearch(@RequestParam Long kbId,
-                                                         @RequestParam String query,
-                                                         @RequestParam(defaultValue = "5") int topK) {
+                                                           @RequestParam String query,
+                                                           @RequestParam(defaultValue = "5") int topK) {
         try {
             List<Map<String, Object>> results = knowledgeSearchService.keywordSearch(kbId, query, topK);
             return Result.success(results);

@@ -27,24 +27,42 @@ import com.wemirr.platform.suite.file.domain.dto.resp.OssConfigPageResp;
 import com.wemirr.platform.suite.file.domain.entity.OssConfig;
 
 /**
- * @author xiao1
+ * OSS 存储配置服务
+ * <p>
+ * 管理对象存储服务配置，支持多种存储后端
+ *
+ * @author Levin
  * @since 2024-12
  */
 public interface OssConfigService extends SuperService<OssConfig> {
-    
+
     /**
-     * 添加存储配置
+     * 分页查询存储配置
      *
-     * @param req 存储配置保存对象，包含要添加的存储配置信息
+     * @param req 查询条件
+     * @return 分页结果
+     */
+    IPage<OssConfigPageResp> pageList(FileStorageSettingPageReq req);
+
+    /**
+     * 创建存储配置
+     *
+     * @param req 配置信息
      */
     void create(OssConfigSaveReq req);
-    
+
     /**
-     * 删除配置
+     * 修改存储配置
+     *
+     * @param id  配置 ID
+     * @param req 配置信息
+     */
+    void modify(Long id, OssConfigSaveReq req);
+
+    /**
+     * 删除存储配置
+     *
+     * @param id 配置 ID
      */
     void delete(Long id);
-    
-    void modify(Long id, OssConfigSaveReq req);
-    
-    IPage<OssConfigPageResp> pageList(FileStorageSettingPageReq req);
 }

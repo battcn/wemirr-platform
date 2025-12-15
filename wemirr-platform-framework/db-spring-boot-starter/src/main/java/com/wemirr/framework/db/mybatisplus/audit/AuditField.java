@@ -1,48 +1,30 @@
 package com.wemirr.framework.db.mybatisplus.audit;
 
 import cn.hutool.core.util.StrUtil;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
+ * 审计字段变更记录
+ * <p>
+ * 记录单个字段的变更信息，包含字段名、显示名、变更前后的值
+ *
  * @author Levin
  */
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class AuditField {
-
+public record AuditField(
+        String field,
+        String label,
+        Object source,
+        Object target,
+        String format
+) {
     /**
-     * 字段名
+     * 获取格式化的变更描述
+     *
+     * @return 变更描述文本
      */
-    private String field;
-
-    /**
-     * 注释
-     */
-    private String label;
-    /**
-     * 修改前数据
-     */
-    private Object source;
-
-    /**
-     * 修改后数据
-     */
-    private Object target;
-
-    /**
-     * 格式化内容
-     */
-    private String format;
-
-    public String getFormat() {
+    public String formattedDescription() {
         if (StrUtil.isNotBlank(format)) {
             return format;
         }
-        return String.format("字段 [%s] 从 %s 修改至 %s ", label, source, target);
+        return "字段 [%s] 从 %s 修改至 %s".formatted(label, source, target);
     }
 }

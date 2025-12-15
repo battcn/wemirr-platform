@@ -23,16 +23,18 @@ import java.util.List;
 
 
 /**
- * work flow instance controller
+ * 流程实例控制器
+ * <p>
+ * 管理流程实例的查询、激活、挂起、终止等操作
  *
- * @author battcn
- * @since 2025/5/22
- **/
+ * @author Levin
+ * @since 2025-05
+ */
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/flow-instances")
-@Tag(name = "流程实例", description = "流程实例")
+@RequestMapping("/workflow/instances")
+@Tag(name = "流程实例", description = "流程实例管理")
 @RequiredArgsConstructor
 public class FlowInstanceController {
 
@@ -40,64 +42,93 @@ public class FlowInstanceController {
     private final InstanceExtService instanceExtService;
     private final TaskExtService taskExtService;
 
-    @GetMapping("/{id}")
-    @Operation(summary = "实例信息", description = "实例信息")
-    public Instance info(@PathVariable("id") Long id) {
-        return insService.getById(id);
-    }
-
-    @GetMapping("/{id}/ext-info")
-    @Operation(summary = "实例详情", description = "流程实例详情")
-    public InstanceExtDetailResp extInfo(@PathVariable("id") Long id) {
-        return instanceExtService.extInfo(id);
-    }
-
-    @PutMapping("/{id}/un-active")
-    @Operation(summary = "实例挂起", description = "挂起流程实例")
-    public void unActive(@PathVariable("id") Long id) {
-        insService.unActive(id);
-    }
-
-    @PutMapping("/{id}/active")
-    @Operation(summary = "实例激活", description = "激活流程实例")
-    public void active(@PathVariable("id") Long id) {
-        insService.active(id);
-    }
-
-    @PostMapping("/me-page")
-    @Operation(summary = "我的流程", description = "查询当前登陆人发起的流程实例")
-    public IPage<InstancePageResp> mePageList(@RequestBody InstancePageReq req) {
-        return instanceExtService.mePageList(req);
-    }
-
-    @PostMapping("/page")
-    @Operation(summary = "流程实例列表", description = "查询流程实例列表")
-    public IPage<InstancePageResp> pageList(@RequestBody InstancePageReq req) {
+    /**
+     * 分页查询流程实例
+     */
+    @GetMapping
+    @Operation(summary = "分页查询", description = "分页查询流程实例列表")
+    public IPage<InstancePageResp> page(InstancePageReq req) {
         return instanceExtService.pageList(req);
     }
 
-    @GetMapping("/{id}/all-tasks")
-    @Operation(summary = "流程任务（含历史）", description = "根据流程实例查询任务,包含历史任务")
-    public List<FlowTaskApproveListResp> allTask(@PathVariable("id") Long id) {
-        return instanceExtService.allTask(id);
+    /**
+     * 获取流程实例详情
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "实例详情", description = "获取流程实例详细信息")
+    public InstanceExtDetailResp detail(@PathVariable Long id) {
+        return instanceExtService.extInfo(id);
     }
 
+    /**
+     * 获取流程实例基本信息
+     */
+    @GetMapping("/{id}/basic")
+    @Operation(summary = "基本信息", description = "获取流程实例基本信息")
+    public Instance basic(@PathVariable Long id) {
+        return insService.getById(id);
+    }
+
+    /**
+     * 我发起的流程
+     */
+    @GetMapping("/mine")
+    @Operation(summary = "我的流程", description = "查询当前用户发起的流程实例")
+    public IPage<InstancePageResp> mine(InstancePageReq req) {
+        return instanceExtService.mePageList(req);
+    }
+
+    /**
+     * 激活流程实例
+     */
+    @PutMapping("/{id}/active")
+    @Operation(summary = "激活实例", description = "激活流程实例")
+    public void active(@PathVariable Long id) {
+        insService.active(id);
+    }
+
+    /**
+     * 挂起流程实例
+     */
+    @PutMapping("/{id}/suspend")
+    @Operation(summary = "挂起实例", description = "挂起流程实例")
+    public void suspend(@PathVariable Long id) {
+        insService.unActive(id);
+    }
+
+    /**
+     * 终止流程实例
+     */
+    @PostMapping("/{id}/terminate")
+    @Operation(summary = "终止实例", description = "终止流程实例")
+    public void terminate(@PathVariable Long id, @RequestBody WorkflowInstanceTerminationReq req) {
+        // TODO: taskExtService.terminationByInstanceId(id, req);
+    }
+
+    /**
+     * 获取实例任务列表
+     */
     @GetMapping("/{id}/tasks")
-    @Operation(summary = "流程任务", description = "根据流程实例ID查询任务列表")
-    public List<Task> queryTaskListByInstanceId(@PathVariable("id") Long id) {
+    @Operation(summary = "任务列表", description = "获取流程实例的任务列表")
+    public List<Task> tasks(@PathVariable Long id) {
         return taskExtService.getTaskByInstantId(id);
     }
 
-    @PostMapping("/{id}/termination")
-    @Operation(summary = "实例终止 - [DONE]", description = "根据实例id终止实例")
-    public void terminationInstance(@PathVariable("id") Long id, @RequestBody WorkflowInstanceTerminationReq req) {
-//        taskExtService.terminationByInstanceId(id, req);
+    /**
+     * 获取实例全部任务（含历史）
+     */
+    @GetMapping("/{id}/tasks/history")
+    @Operation(summary = "历史任务", description = "获取流程实例的全部任务（含历史）")
+    public List<FlowTaskApproveListResp> taskHistory(@PathVariable Long id) {
+        return instanceExtService.allTask(id);
     }
 
-
-    @GetMapping("/{id}/form-preview")
-    @Operation(summary = "表单渲染", description = "表单渲染")
-    public ProcessInstanceFormPreviewResp formPreview(@PathVariable String id) {
+    /**
+     * 获取实例表单预览
+     */
+    @GetMapping("/{id}/form")
+    @Operation(summary = "表单预览", description = "获取流程实例的表单数据")
+    public ProcessInstanceFormPreviewResp form(@PathVariable String id) {
         return taskExtService.formPreview(id);
     }
 }

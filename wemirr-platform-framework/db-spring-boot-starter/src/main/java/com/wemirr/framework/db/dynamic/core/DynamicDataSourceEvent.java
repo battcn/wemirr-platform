@@ -22,11 +22,20 @@ package com.wemirr.framework.db.dynamic.core;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
- * @author levin
+ * 动态数据源事件，用于多租户数据源的动态加载和切换
+ *
+ * @author Levin
  */
 @Data
-public class DynamicDataSourceEvent implements java.io.Serializable {
+@Schema(description = "动态数据源事件")
+public class DynamicDataSourceEvent implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Schema(description = "租户ID")
     private Long tenantId;
@@ -34,10 +43,10 @@ public class DynamicDataSourceEvent implements java.io.Serializable {
     @Schema(description = "租户编码")
     private String tenantCode;
 
-    @Schema(description = "名称")
+    @Schema(description = "租户名称")
     private String tenantName;
 
-    @Schema(description = "数据库类型(只支持Mysql)")
+    @Schema(description = "数据库类型")
     private String dbType;
 
     @Schema(description = "驱动类")
@@ -49,7 +58,7 @@ public class DynamicDataSourceEvent implements java.io.Serializable {
     @Schema(description = "密码")
     private String password;
 
-    @Schema(description = "JDBC连接串 (含默认库和参数)")
+    @Schema(description = "JDBC连接串")
     private String jdbcUrl;
 
     @Schema(description = "隔离策略: DATABASE, SCHEMA, COLUMN")
@@ -59,9 +68,10 @@ public class DynamicDataSourceEvent implements java.io.Serializable {
     private String schemaName;
 
     /**
+     * 指令类型
+     *
      * @see EventAction
      */
     @Schema(description = "指令类型")
     private Integer action;
-
 }
