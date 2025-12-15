@@ -42,7 +42,8 @@ import java.util.Map;
 public class DemoGlobalFilter implements GlobalFilter {
 
 
-    private static final Map<HttpMethod, List<String>> IGNORE_URL = Map.of(HttpMethod.POST, List.of("/resources/create"));
+    private static final Map<HttpMethod, List<String>> IGNORE_URL = Map.of(HttpMethod.POST, List.of("/resources/create"),
+            HttpMethod.DELETE, List.of("/token/logout"));
 
     private boolean isReject(ServerWebExchange exchange) {
         HttpMethod method = exchange.getRequest().getMethod();
