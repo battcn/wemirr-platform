@@ -35,9 +35,8 @@ import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.annotation.remote.RemoteResult;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
-import com.wemirr.framework.db.mybatisplus.datascope.handler.DataPermissionRule;
+import com.wemirr.framework.db.mybatisplus.datascope.core.DataScope;
 import com.wemirr.framework.db.mybatisplus.datascope.service.DataScopeService;
-import com.wemirr.framework.db.mybatisplus.datascope.util.DataPermissionUtils;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.mybatisplus.wrap.query.LbqWrapper;
@@ -128,8 +127,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     @Override
     @RemoteResult
     public IPage<UserPageResp> pageList(UserPageReq req) {
-        return DataPermissionUtils.executeWithRule(DataPermissionRule.builder()
-                .columns(List.of(new DataPermissionRule.Column())).build(), () -> baseMapper.selectPage(req.buildPage(), Wraps.<User>lbQ()
+        return DataScope.run(() -> baseMapper.selectPage(req.buildPage(), Wraps.<User>lbQ()
                 .eq(User::getTenantId, context.tenantId()).eq(User::getStatus, req.getStatus())
                 .like(User::getUsername, req.getUsername()).like(User::getNickName, req.getNickName()).like(User::getEmail, req.getEmail())
                 .eq(User::getEducation, req.getEducation()).eq(User::getSex, req.getSex()).in(User::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))

@@ -32,11 +32,27 @@ import java.time.Instant;
 import java.util.Optional;
 
 /**
- * MyBatis Plus 元数据处理类
- * 用于自动 注入 id, createTime, lastModifiedTime, createBy, lastModifiedBy 等字段
+ * MyBatis Plus 元数据自动填充处理器（JDK21 Record）
+ * <p>自动填充实体类中的审计字段，包括创建人、创建时间、修改人、修改时间等</p>
  *
+ * <h3>自动填充字段</h3>
+ * <ul>
+ *   <li><b>INSERT时</b>：tenantId、createBy、createName、createTime、deleted</li>
+ *   <li><b>UPDATE时</b>：lastModifyBy、lastModifyName、lastModifyTime</li>
+ * </ul>
+ *
+ * <h3>注意事项</h3>
+ * <ul>
+ *   <li>不支持复合主键自动注入</li>
+ *   <li>匿名接口（未登录）时跳过自动填充</li>
+ *   <li>字段类型自动适配（支持Long/String类型的ID字段）</li>
+ * </ul>
+ *
+ * @param context 认证上下文，用于获取当前登录用户信息
  * @author Levin
- * @since 2019/04/29
+ * @since 1.0.0
+ * @see Entity
+ * @see SuperEntity
  */
 @Slf4j
 public record MyBatisMetaObjectHandler(AuthenticationContext context) implements MetaObjectHandler {

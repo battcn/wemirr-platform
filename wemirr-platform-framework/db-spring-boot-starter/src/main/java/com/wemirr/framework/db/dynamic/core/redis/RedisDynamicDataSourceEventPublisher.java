@@ -22,16 +22,12 @@ package com.wemirr.framework.db.dynamic.core.redis;
 import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.db.dynamic.core.DynamicDataSourceEvent;
 import com.wemirr.framework.db.dynamic.core.DynamicDataSourceEventPublisher;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * @author Levin
  */
-@RequiredArgsConstructor
-public class RedisDynamicDataSourceEventPublisher implements DynamicDataSourceEventPublisher {
-
-    private final StringRedisTemplate redisTemplate;
+public record RedisDynamicDataSourceEventPublisher(StringRedisTemplate redisTemplate) implements DynamicDataSourceEventPublisher {
 
     @Override
     public void publish(DynamicDataSourceEvent message) {

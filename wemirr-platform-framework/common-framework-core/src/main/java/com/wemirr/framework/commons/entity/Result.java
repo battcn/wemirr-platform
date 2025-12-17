@@ -30,29 +30,75 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * <p>
- * 定义Api返回结果实体类
- * </p>
+ * 统一API响应结果封装
+ * <p>用于规范化接口返回数据格式，支持成功、失败、验证异常等多种场景</p>
  *
- * @param <T> T
+ * <h3>使用示例</h3>
+ * <pre>{@code
+ * // 成功响应
+ * return Result.success(data);
+ * return Result.ok(data);
+ *
+ * // 失败响应
+ * return Result.fail("操作失败");
+ * return Result.fail(400, "参数错误");
+ *
+ * // 验证失败
+ * return Result.validFail("用户名不能为空");
+ * }</pre>
+ *
+ * @param <T> 响应数据类型
  * @author Levin
+ * @since 1.0.0
  */
 @Getter
 @Setter
 @Accessors(chain = true)
 @NoArgsConstructor
 public class Result<T> implements Serializable {
-    
-    public static final String OPERATION_SUCCESS = "操作成功!";
-    public static final String DEF_ERROR_MESSAGE = "系统繁忙，请稍候再试";
-    public static final String HYSTRIX_ERROR_MESSAGE = "请求超时，请稍候再试";
-    public static final int SUCCESS_CODE = 200;
-    public static final int FAIL_CODE = -1;
-    public static final int TIMEOUT_CODE = -2;
+
+    // ==================== 响应消息常量 ====================
+
     /**
-     * 统一参数验证异常
+     * 默认成功消息
+     */
+    public static final String OPERATION_SUCCESS = "操作成功!";
+
+    /**
+     * 默认错误消息
+     */
+    public static final String DEF_ERROR_MESSAGE = "系统繁忙，请稍候再试";
+
+    /**
+     * 熔断超时消息
+     */
+    public static final String HYSTRIX_ERROR_MESSAGE = "请求超时，请稍候再试";
+
+    // ==================== 响应码常量 ====================
+
+    /**
+     * 成功响应码
+     */
+    public static final int SUCCESS_CODE = 200;
+
+    /**
+     * 通用失败响应码
+     */
+    public static final int FAIL_CODE = -1;
+
+    /**
+     * 超时响应码
+     */
+    public static final int TIMEOUT_CODE = -2;
+
+    /**
+     * 参数验证异常响应码
      */
     public static final int VALID_EX_CODE = -9;
+
+    /**
+     * 业务操作异常响应码
+     */
     public static final int OPERATION_EX_CODE = -400;
     
     @Schema(description = "是否成功")

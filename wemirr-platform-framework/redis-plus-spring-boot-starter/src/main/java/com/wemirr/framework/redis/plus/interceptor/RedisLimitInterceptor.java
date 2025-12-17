@@ -19,62 +19,102 @@
 
 package com.wemirr.framework.redis.plus.interceptor;
 
-import com.wemirr.framework.redis.plus.RedisLimitHelper;
 import com.wemirr.framework.redis.plus.anontation.RedisLimit;
+import com.wemirr.framework.redis.plus.exception.RedisLimitException;
 import com.wemirr.framework.redis.plus.utils.RedisAopUtils;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.redisson.api.RRateLimiter;
+import org.redisson.api.RateType;
+import org.redisson.api.RedissonClient;
 import org.springframework.core.annotation.AnnotationUtils;
 
 import java.lang.reflect.Method;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 /**
- * redisson分布式限流器切面处理
+ * 分布式限流AOP拦截器
+ * <p>基于Redisson令牌桶算法实现接口限流，防止接口被恶意调用</p>
+ *
+ * <h3>使用方式</h3>
+ * <pre>{@code
+ * @RedisLimit(prefix = "api:user:login", limit = 5, timeout = 60)
+ * public Result login(LoginRequest request) {
+ *     // 每分钟最多允许5次调用
+ * }
+ * }</pre>
  *
  * @author Levin
+ * @since 1.0.0
+ * @see RedisLimit
  */
 @Slf4j
 @Aspect
-@RequiredArgsConstructor
-public class RedisLimitInterceptor {
+public record RedisLimitInterceptor(RedissonClient redissonClient) {
 
-    private final RedisLimitHelper redisLimitHelper;
-
+    /**
+     * 切点：拦截所有标注了@RedisLimit注解的方法
+     */
     @Pointcut("@annotation(com.wemirr.framework.redis.plus.anontation.RedisLimit)")
     public void redissonRateAspectPointcut() {
     }
 
     /**
-     * 切面处理redisson限流器
+     * 环绕通知：执行限流检查
      *
-     * @param point point
+     * @param point 连接点
+     * @return 方法执行结果
+     * @throws Throwable 方法执行异常或限流异常
      */
     @Around("redissonRateAspectPointcut()")
     public Object doRedissonRateAround(ProceedingJoinPoint point) throws Throwable {
-        Method method = ((MethodSignature) point.getSignature()).getMethod();
+        MethodSignature signature = (MethodSignature) point.getSignature();
+        Method method = signature.getMethod();
         RedisLimit rateLimiter = AnnotationUtils.getAnnotation(method, RedisLimit.class);
         if (rateLimiter == null) {
             return point.proceed();
         }
+
         String key = RedisAopUtils.parse(rateLimiter.prefix(), rateLimiter.useArgs(), method, point.getArgs(), point);
-        try {
-            final boolean tryAcquire = redisLimitHelper.tryAcquire(key, rateLimiter.limit(), rateLimiter.timeout(), rateLimiter.unit(), rateLimiter.type(), rateLimiter.retryTime());
-            if (tryAcquire) {
-                log.debug("Redisson rate limiter obtained the token success with key: {}", key);
-                return point.proceed();
-            } else {
-                log.error("Redisson rate limiter blocked the request with key: {}", key);
-                throw new RuntimeException("Redisson rate limiter blocked the request");
-            }
-        } catch (InterruptedException e) {
-            log.error("Redisson rate limiter encountered an error with key: {}, error:", key, e);
+        boolean acquired = tryAcquire(key, rateLimiter.limit(), rateLimiter.timeout(),
+                rateLimiter.unit(), rateLimiter.type(), rateLimiter.retryTime());
+
+        if (acquired) {
+            log.debug("Rate limiter acquired token for key: {}", key);
+            return point.proceed();
         }
-        return null;
+
+        log.warn("Rate limiter rejected request for key: {}", key);
+        throw new RedisLimitException(rateLimiter.message());
     }
 
+    /**
+     * 尝试获取令牌
+     */
+    @SuppressWarnings("unused")
+    private boolean tryAcquire(String key, long permits, long timeout, TimeUnit timeUnit,
+                               RateType rateType, long retryTime) {
+        RRateLimiter rateLimiter = redissonClient.getRateLimiter(key);
+        Duration interval = convertToDuration(timeout, timeUnit);
+        rateLimiter.trySetRate(rateType, permits, interval);
+        // retryTime参数保留以兼容@RedisLimit注解，后续版本可考虑实现重试逻辑
+        return rateLimiter.tryAcquire(1);
+    }
+
+    /**
+     * 转换为Duration
+     */
+    private Duration convertToDuration(long timeout, TimeUnit timeUnit) {
+        return switch (timeUnit) {
+            case MINUTES -> Duration.ofMinutes(timeout);
+            case HOURS -> Duration.ofHours(timeout);
+            case DAYS -> Duration.ofDays(timeout);
+            default -> Duration.ofSeconds(timeout);
+        };
+    }
 }

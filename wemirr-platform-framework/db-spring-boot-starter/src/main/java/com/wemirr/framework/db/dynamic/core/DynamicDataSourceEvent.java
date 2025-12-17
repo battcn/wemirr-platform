@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.db.dynamic.core;
 
+import com.wemirr.framework.db.properties.MultiTenantType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -62,7 +63,7 @@ public class DynamicDataSourceEvent implements Serializable {
     private String jdbcUrl;
 
     @Schema(description = "隔离策略: DATABASE, SCHEMA, COLUMN")
-    private String strategy;
+    private MultiTenantType strategy;
 
     @Schema(description = "运行时Schema名称")
     private String schemaName;

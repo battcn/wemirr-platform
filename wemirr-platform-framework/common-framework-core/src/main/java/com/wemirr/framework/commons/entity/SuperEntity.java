@@ -34,9 +34,20 @@ import java.time.Instant;
 
 /**
  * 增强实体类
+ * <p>在{@link Entity}基础上增加修改人、修改时间、逻辑删除等字段</p>
  *
- * @param <T> ID 类型
+ * <h3>字段说明</h3>
+ * <ul>
+ *   <li>lastModifyTime - 最后修改时间（自动填充）</li>
+ *   <li>lastModifyBy - 最后修改人ID（自动填充）</li>
+ *   <li>lastModifyName - 最后修改人名称（自动填充）</li>
+ *   <li>deleted - 逻辑删除标识</li>
+ * </ul>
+ *
+ * @param <T> 主键类型（通常为Long）
  * @author Levin
+ * @since 1.0.0
+ * @see Entity
  */
 @Data
 @NoArgsConstructor
@@ -46,14 +57,43 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = true)
 public class SuperEntity<T> extends Entity<T> {
 
+    // ==================== 字段名常量（Java属性名） ====================
+
+    /**
+     * 逻辑删除属性名
+     */
     public static final String DELETED = "deleted";
 
+    /**
+     * 最后修改时间属性名
+     */
     public static final String UPDATE_TIME = "lastModifyTime";
+
+    /**
+     * 最后修改人ID属性名
+     */
     public static final String UPDATE_USER = "lastModifyBy";
+
+    /**
+     * 最后修改人名称属性名
+     */
     public static final String UPDATE_USER_NAME = "lastModifyName";
 
+    // ==================== 列名常量（数据库列名） ====================
+
+    /**
+     * 最后修改时间列名
+     */
     public static final String UPDATE_TIME_COLUMN = "last_modify_time";
+
+    /**
+     * 最后修改人ID列名
+     */
     public static final String UPDATE_USER_COLUMN = "last_modify_by";
+
+    /**
+     * 最后修改人名称列名
+     */
     public static final String UPDATE_USER_NAME_COLUMN = "last_modify_name";
 
     @Schema(description = "最后修改时间")

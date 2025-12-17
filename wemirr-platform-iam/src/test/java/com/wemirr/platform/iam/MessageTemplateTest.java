@@ -27,40 +27,46 @@ import org.springframework.util.PropertyPlaceholderHelper;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 消息模板解析测试
+ *
+ * @author Levin
+ */
 public class MessageTemplateTest {
-    
+
     @Test
-    public void format() {
+    void shouldFormatTemplateWithHutoolAndSpring() {
         // 模板字符串
         String template = "欢迎 {username} 来到 WP 系统";
-        
-        // 参数映射
+
+        // Hutool格式化
         Map<String, String> params = new HashMap<>();
         params.put("username", "张三");
-        // 使用 Hutool 进行模板替换
-        System.out.println(StrUtil.format(template, params)); // 输出: 欢迎 张三 来到 WP 系统
+        String hutoolResult = StrUtil.format(template, params);
+        System.out.println("Hutool格式化: " + hutoolResult);
+
+        // Spring PropertyPlaceholderHelper格式化
         params.put("username", "李四");
-        // 创建占位符解析器
         PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}");
-        // 替换占位符
-        System.out.println(helper.replacePlaceholders(template, params::get)); // 输出: 欢迎 李四 来到 WP 系统
+        String springTemplate = "欢迎 ${username} 来到 WP 系统";
+        String springResult = helper.replacePlaceholders(springTemplate, params::get);
+        System.out.println("Spring格式化: " + springResult);
     }
-    
+
     @Test
-    public void test2() {
-        // 模板字符串
-        String template = "欢迎 ${context.username} 来到 ${os} 系统,${user.nickName},${xs.test},${xs.xx}";
-        
+    void shouldFormatNestedTemplateWithMvel() {
+        // 嵌套变量模板
+        String template = "欢迎 ${context.username} 来到 ${os} 系统, 昵称: ${user.nickName}";
+
         // 层级变量
         Map<String, Object> variables = new HashMap<>();
         variables.put("context", Map.of("username", "张三"));
         variables.put("os", "WP");
-        // variables.put("xs.test", "os-xxxx");
-        // variables.put("xs", "osadsadx");
         variables.put("user", Map.of("nickName", "小三"));
-        System.out.println(MvelHelper.getVariables(template));
-        // 输出结果
-        System.out.println(MvelHelper.format(template, MvelHelper.transNestedMap(variables)));
+
+        // 提取变量并格式化
+        System.out.println("提取的变量: " + MvelHelper.getVariables(template));
+        String result = MvelHelper.format(template, MvelHelper.transNestedMap(variables));
+        System.out.println("MVEL格式化: " + result);
     }
-    
 }

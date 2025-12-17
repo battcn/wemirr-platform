@@ -23,8 +23,11 @@ import com.alibaba.fastjson2.support.spring6.data.redis.GenericFastJsonRedisSeri
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wemirr.framework.redis.plus.interceptor.RedisLimitInterceptor;
 import com.wemirr.framework.redis.plus.interceptor.RedisLockInterceptor;
+import com.wemirr.framework.redis.plus.limit.DistributedRateLimiter;
+import com.wemirr.framework.redis.plus.lock.DistributedLock;
 import com.wemirr.framework.redis.plus.lock.RedisLockHelper;
 import com.wemirr.framework.redis.plus.sequence.RedisSequenceHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -42,15 +45,27 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * redisson限流器自动配置项
+ * Redis Plus 自动配置
+ * <p>提供分布式锁、限流等功能的自动配置</p>
  *
  * @author Levin
  */
+@Slf4j
 @Configuration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @EnableConfigurationProperties(RedisPlusProperties.class)
 @ConditionalOnProperty(prefix = "extend.redis", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class RedisPlusAutoConfiguration {
+
+    private final RedissonClient redissonClient;
+
+    public RedisPlusAutoConfiguration(RedissonClient redissonClient) {
+        this.redissonClient = redissonClient;
+        // 初始化分布式锁和限流API
+        DistributedLock.initialize(redissonClient);
+        DistributedRateLimiter.initialize(redissonClient);
+        log.info("Initialized DistributedLock and DistributedRateLimiter APIs");
+    }
 
     @Bean
     @Primary
@@ -71,13 +86,6 @@ public class RedisPlusAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "extend.redis.limit", name = "enabled", havingValue = "true", matchIfMissing = true)
-    @ConditionalOnSingleCandidate(RedissonClient.class)
-    public RedisLimitHelper redisLimitHelper(RedissonClient redissonClient) {
-        return new RedisLimitHelper(redissonClient);
-    }
-
-    @Bean
     @ConditionalOnProperty(prefix = "extend.redis.lock", name = "interceptor", havingValue = "true", matchIfMissing = true)
     @ConditionalOnSingleCandidate(RedissonClient.class)
     public RedisLockInterceptor redissonLockAspect(RedissonClient redissonClient, RedisKeyGenerator redisKeyGenerator) {
@@ -85,10 +93,10 @@ public class RedisPlusAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnBean(RedisLimitHelper.class)
     @ConditionalOnProperty(prefix = "extend.redis.limit.interceptor", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public RedisLimitInterceptor redisLimitInterceptor(RedisLimitHelper redisLimitHelper) {
-        return new RedisLimitInterceptor(redisLimitHelper);
+    @ConditionalOnSingleCandidate(RedissonClient.class)
+    public RedisLimitInterceptor redisLimitInterceptor(RedissonClient redissonClient) {
+        return new RedisLimitInterceptor(redissonClient);
     }
 
     /**

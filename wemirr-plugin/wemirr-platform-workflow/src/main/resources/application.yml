@@ -3,6 +3,9 @@ server:
 spring:
   application:
     name: wemirr-platform-workflow
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
   config:
     import:
       - optional:nacos:security.yaml

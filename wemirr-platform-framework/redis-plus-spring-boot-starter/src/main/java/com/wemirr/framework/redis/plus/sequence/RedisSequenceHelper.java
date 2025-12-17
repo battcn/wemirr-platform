@@ -20,7 +20,6 @@
 package com.wemirr.framework.redis.plus.sequence;
 
 import cn.hutool.core.util.StrUtil;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -31,10 +30,7 @@ import java.time.format.DateTimeFormatter;
  * @author Levin
  */
 @Slf4j
-@RequiredArgsConstructor
-public class RedisSequenceHelper {
-
-    private final StringRedisTemplate redisTemplate;
+public record RedisSequenceHelper(StringRedisTemplate redisTemplate) {
 
     public String generate(Sequence sequence) {
         DateTimeFormatter formatter = sequence.formatter();

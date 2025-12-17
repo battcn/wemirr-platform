@@ -19,49 +19,66 @@
 
 package com.wemirr.framework.robot.message.push;
 
-import com.wemirr.framework.commons.exception.CheckedException;
+import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.robot.emums.NotifyType;
+import com.wemirr.framework.robot.message.RobotMessage;
 
 import java.util.Map;
 
 /**
- * 发送消息接口
+ * 机器人消息处理器接口
+ * <p>支持钉钉、企业微信、飞书等多种机器人</p>
  *
  * @author Levin
  */
 public interface RobotMessageHandler {
 
     /**
-     * 消息通知
+     * 发送文本消息
      *
      * @param message 消息内容
+     * @return 响应结果
      */
     String notify(String message);
 
     /**
-     * 格式化文本，使用 {varName} 占位<br>
-     * map = {a: "aValue", b: "bValue"} format("{a} and {b}", map) ---=》 aValue and bValue
+     * 发送模板消息
      *
      * @param message    文本模板，被替换的部分用 {key} 表示
      * @param map        参数值对
-     * @param ignoreNull 是否忽略 {@code null} 值，忽略则 {@code null} 值对应的变量不被替换，否则替换为""
-     * @return 格式化后的文本
-     * @since 5.7.10
+     * @param ignoreNull 是否忽略 {@code null} 值
+     * @return 响应结果
      */
     String notify(String message, Map<?, ?> map, boolean ignoreNull);
 
+    /**
+     * 发送消息对象
+     *
+     * @param robotMessage 消息对象
+     * @return 响应结果
+     */
+    default String notify(RobotMessage robotMessage) {
+        return notify(robotMessage.getContent());
+    }
+
+    /**
+     * 获取机器人WebHook地址
+     */
     String getUrl();
 
     /**
-     * 通知类型
-     *
-     * @return 通知类型
+     * 获取通知类型
      */
     NotifyType notifyType();
 
+    /**
+     * 发送HTTP请求（使用hutool HttpRequest）
+     */
     default String request(Map<String, Object> body) {
-//        return HttpUtil.post(this.getUrl(), JSON.toJSONString(body));
-        throw CheckedException.notFound("重构");
+        return cn.hutool.http.HttpRequest.post(this.getUrl())
+                .body(JSON.toJSONString(body))
+                .timeout(5000)
+                .execute()
+                .body();
     }
-
 }

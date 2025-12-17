@@ -21,7 +21,7 @@ package com.wemirr.platform.iam.auth.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wemirr.framework.db.mybatisplus.datascope.util.DataPermissionUtils;
+import com.wemirr.framework.db.mybatisplus.datascope.core.DataScope;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.auth.domain.entity.LoginLog;
 import com.wemirr.platform.iam.auth.service.LoginLogService;
@@ -54,7 +54,7 @@ public class LoginLogController {
     @Operation(summary = "查询日志 - [DONE] - [Levin]", description = "查询日志 - [DONE] - [Levin]")
     @SaCheckPermission(value = {"monitor:log:login"})
     public Page<LoginLog> pageList(LoginLogPageReq req) {
-        return DataPermissionUtils.executeDefaultDataPermissionRule(() -> loginLogService.page(req.buildPage(), Wraps.<LoginLog>lbQ()
+        return DataScope.run(() -> loginLogService.page(req.buildPage(), Wraps.<LoginLog>lbQ()
                 .like(LoginLog::getCreateBy, req.getNickName())
                 .like(LoginLog::getPrincipal, req.getPrincipal())
                 .eq(LoginLog::getPlatform, req.getPlatform())));

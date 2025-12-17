@@ -29,9 +29,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import java.util.Locale;
 
 /**
- * 专门用于设置 ThreadLocal 值的拦截器
+ * HTTP请求拦截器
+ * <p>用于设置请求级别的线程上下文数据（如Locale等）</p>
+ * <p>请求开始时设置，请求结束时清理，避免内存泄漏</p>
  *
  * @author Levin
+ * @since 1.0.0
  */
 @Slf4j
 public class HttpInterceptor implements HandlerInterceptor {
@@ -39,7 +42,7 @@ public class HttpInterceptor implements HandlerInterceptor {
     public boolean preHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler) {
         // 从请求头中获取地区信息
         Locale locale = request.getLocale();
-        ThreadLocalHolder.setLocal(locale);
+        ThreadLocalHolder.setLocale(locale);
         log.debug("http header locale - {}", locale);
         return true;
     }

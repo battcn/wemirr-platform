@@ -3,7 +3,6 @@ package com.wemirr.framework.redis.plus.lock;
 
 import cn.hutool.core.collection.CollUtil;
 import com.wemirr.framework.redis.plus.exception.RedisLockException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -19,11 +18,8 @@ import java.util.function.Supplier;
  * @author levin
  */
 @Slf4j
-@RequiredArgsConstructor
-public class RedisLockHelper {
+public record RedisLockHelper(RedissonClient redissonClient) {
 
-
-    private final RedissonClient redissonClient;
 
     /**
      * 批量上锁

@@ -23,7 +23,6 @@ import com.wemirr.framework.db.dynamic.DynamicDataSourceHandler;
 import com.wemirr.framework.db.dynamic.core.DynamicDataSourceEvent;
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.redis.plus.listener.AbstractMessageEventListener;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.Topic;
@@ -38,10 +37,8 @@ import static com.wemirr.framework.db.dynamic.core.DynamicDataSourceEventPublish
  * @author Levin
  */
 @Slf4j
-@RequiredArgsConstructor
-public class RedisDynamicDataSourceEventListener implements AbstractMessageEventListener<DynamicDataSourceEvent> {
-
-    private final DynamicDataSourceHandler dynamicDataSourceHandler;
+public record RedisDynamicDataSourceEventListener(
+        DynamicDataSourceHandler dynamicDataSourceHandler) implements AbstractMessageEventListener<DynamicDataSourceEvent> {
 
     @Override
     public void handleMessage(DynamicDataSourceEvent message) {

@@ -31,11 +31,15 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
+ * Jackson JSON工具类
+ * <p>提供统一的JSON序列化/反序列化方法，支持Java8时间API</p>
  *
+ * <h3>线程安全</h3>
+ * <p>ObjectMapper实例在初始化后不可变，多线程访问安全</p>
  *
  * @author YanCh
- * @since 2025-12-05 16:31
- **/
+ * @since 1.0.0
+ */
 public final class JacksonUtils {
 
     private static final String NORM_DATE_PATTERN = "yyyy-MM-dd";
@@ -52,18 +56,18 @@ public final class JacksonUtils {
     private static final ObjectMapper nonNullMapper;
 
     public static ObjectMapper getObjectMapper() {
-        return createefaultObjectMapper();
+        return createDefaultObjectMapper();
     }
 
     static {
-        defaultMapper = createefaultObjectMapper();
-        ObjectMapper createNonNullMapper = createefaultObjectMapper();
+        defaultMapper = createDefaultObjectMapper();
+        ObjectMapper createNonNullMapper = createDefaultObjectMapper();
         // 序列化时，忽略值为null的属性
         createNonNullMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         nonNullMapper = createNonNullMapper;
     }
 
-    private static ObjectMapper createefaultObjectMapper() {
+    private static ObjectMapper createDefaultObjectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         // 反序列化时，忽略JSON字符串中存在而Java对象实际没有的属性
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -217,7 +221,7 @@ public final class JacksonUtils {
     public static <T> T readValue(byte[] json, Class<T> cls) {
         try {
             return defaultMapper.readValue(json, cls);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -225,7 +229,7 @@ public final class JacksonUtils {
     public static <T> T toBean(byte[] json, Class<T> cls) {
         try {
             return defaultMapper.readValue(json, cls);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -243,7 +247,7 @@ public final class JacksonUtils {
     public static <T> T readValue(byte[] json, Type cls) {
         try {
             return defaultMapper.readValue(json, defaultMapper.constructType(cls));
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -251,7 +255,7 @@ public final class JacksonUtils {
     public static <T> T toBean(byte[] json, Type cls) {
         try {
             return defaultMapper.readValue(json, defaultMapper.constructType(cls));
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -285,7 +289,7 @@ public final class JacksonUtils {
     public static <T> T readValue(byte[] json, TypeReference<T> typeReference) {
         try {
             return defaultMapper.readValue(json, typeReference);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

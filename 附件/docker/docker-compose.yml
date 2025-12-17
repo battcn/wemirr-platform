@@ -1,52 +1,138 @@
-version: '2'
-# 如果执行失败,请选尝试创建 docker network create wemirr
+# ============================================================
+# Wemirr Platform Docker Compose
+# 
+# 使用前请先创建网络: docker network create wemirr
+# 启动命令: docker-compose up -d
+# 停止命令: docker-compose down
+# 查看日志: docker-compose logs -f [service_name]
+# ============================================================
+
 networks:
-  default:
-    driver: bridge
-    external:
-      name: wemirr
+  wemirr:
+    external: true
+
 services:
-  wemirr-platform-mysql:
-    image: mysql:8.0.19
+  # ==================== MySQL 8.0 ====================
+  # 官方镜像: https://hub.docker.com/_/mysql
+  # 版本说明: 8.0.40 (2024-10-15 GA)
+  mysql:
+    image: mysql:8.0.40
+    container_name: wemirr-mysql
+    hostname: mysql
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_ROOT_HOST: '%'
       TZ: Asia/Shanghai
-    restart: always
-    container_name: wemirr-platform-mysql
     command:
-      --character-set-server=utf8mb4
-      --collation-server=utf8mb4_general_ci
-      --explicit_defaults_for_timestamp=true
-      --lower_case_table_names=1
-      --max_allowed_packet=128M
-      --default-authentication-plugin=caching_sha2_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --explicit_defaults_for_timestamp=true
+      - --lower_case_table_names=1
+      - --max_allowed_packet=128M
+      - --default-authentication-plugin=caching_sha2_password
+      - --sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
     ports:
-      - 3306:3306
-  wemirr-platform-redis:
-    image: redis:5.0
-    ports:
-      - 6379:6379
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - mysql_conf:/etc/mysql/conf.d
+    networks:
+      - wemirr
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p123456"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==================== Redis 7.4 ====================
+  # 官方镜像: https://hub.docker.com/_/redis
+  # 版本说明: 7.4-alpine (最新稳定版，Alpine轻量镜像)
+  redis:
+    image: redis:7.4-alpine
+    container_name: wemirr-redis
+    hostname: redis
     restart: always
-    container_name: wemirr-platform-redis
-  wemirr-platform-nacos:
-    container_name: wemirr-platform-nacos
-    image: nacos/nacos-server:2.4.2
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - wemirr
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==================== Nacos 2.4.3 ====================
+  # 官方镜像: https://hub.docker.com/r/nacos/nacos-server
+  # 版本说明: v2.4.3 (2024-10-12 Release)
+  nacos:
+    image: nacos/nacos-server:v2.4.3
+    container_name: wemirr-nacos
+    hostname: nacos
+    restart: always
     environment:
       MODE: standalone
+      NACOS_AUTH_ENABLE: "false"
       JVM_XMS: 512m
-      JVM_MMS: 320m
+      JVM_XMX: 512m
+      JVM_XMN: 256m
+      TZ: Asia/Shanghai
     ports:
-      - 8848:8848
-      - 9848:9848
-      - 9849:9849
+      - "8848:8848"
+      - "9848:9848"
+      - "9849:9849"
+    volumes:
+      - nacos_data:/home/nacos/data
+      - nacos_logs:/home/nacos/logs
+    networks:
+      - wemirr
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8848/nacos/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # ==================== RabbitMQ 4.0 ====================
+  # 官方镜像: https://hub.docker.com/_/rabbitmq
+  # 版本说明: 4.0-management (2024-12-15 Release, 带管理界面)
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    container_name: wemirr-rabbitmq
+    hostname: rabbitmq
     restart: always
-  wemirr-platform-rabbitmq:
-    container_name: wemirr-platform-rabbitmq
-    image: docker.io/macintoshplus/rabbitmq-management
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+      TZ: Asia/Shanghai
     ports:
-      - 5671:5671
-      - 5672:5672
-      - 15672:15672
-      - 25672:25672
-    restart: always
+      - "5672:5672"      # AMQP
+      - "15672:15672"    # Management UI
+      - "25672:25672"    # Cluster
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - wemirr
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+# ==================== 数据卷 ====================
+volumes:
+  mysql_data:
+    driver: local
+  mysql_conf:
+    driver: local
+  redis_data:
+    driver: local
+  nacos_data:
+    driver: local
+  nacos_logs:
+    driver: local
+  rabbitmq_data:
+    driver: local

@@ -21,7 +21,6 @@ package com.wemirr.framework.db.dynamic.core.local;
 
 import com.wemirr.framework.db.dynamic.DynamicDataSourceHandler;
 import jakarta.annotation.Nonnull;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.EventListener;
@@ -32,10 +31,8 @@ import org.springframework.context.event.EventListener;
  * @author levin
  */
 @Slf4j
-@RequiredArgsConstructor
-public class DynamicDataSourceLocalListener implements ApplicationListener<DynamicInstanceApplicationEvent> {
-
-    private final DynamicDataSourceHandler dynamicDataSourceHandler;
+public record DynamicDataSourceLocalListener(DynamicDataSourceHandler dynamicDataSourceHandler)
+        implements ApplicationListener<DynamicInstanceApplicationEvent> {
 
     @Override
     @EventListener

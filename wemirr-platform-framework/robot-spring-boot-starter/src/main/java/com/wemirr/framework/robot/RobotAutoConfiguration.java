@@ -28,31 +28,45 @@ import com.wemirr.framework.robot.message.push.DingTalkRobotMessageHandler;
 import com.wemirr.framework.robot.message.push.FeiShuRobotMessageHandler;
 import com.wemirr.framework.robot.message.push.RobotMessageHandler;
 import com.wemirr.framework.robot.message.push.WeChatRobotMessageHandler;
-import lombok.AllArgsConstructor;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 /**
- * 机器人消息推送依赖注入
- * <p>
+ * 机器人消息推送自动配置
+ * <p>支持钉钉、企业微信、飞书等多种机器人</p>
  *
  * @author Levin
  */
+@Slf4j
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnableConfigurationProperties({RobotProperties.class})
 public class RobotAutoConfiguration {
 
-    @Bean
-    @ConditionalOnMissingBean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
+    /**
+     * 使用ObjectProvider延迟注入，避免循环依赖
+     */
+    private final ObjectProvider<List<RobotMessageHandler>> handlersProvider;
+
+    /**
+     * 初始化RobotClient（注册所有处理器）
+     */
+    @PostConstruct
+    public void initRobotClient() {
+        List<RobotMessageHandler> handlers = handlersProvider.getIfAvailable();
+        if (handlers != null && !handlers.isEmpty()) {
+            handlers.forEach(RobotClient::registerHandler);
+            log.info("Initialized RobotClient with {} handlers", handlers.size());
+        }
     }
 
     @Bean

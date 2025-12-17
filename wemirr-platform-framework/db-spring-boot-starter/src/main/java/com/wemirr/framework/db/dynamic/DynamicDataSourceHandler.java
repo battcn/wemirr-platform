@@ -29,6 +29,7 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.dynamic.core.DynamicDataSourceEvent;
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.db.properties.DatabaseProperties;
+import com.wemirr.framework.db.properties.MultiTenantType;
 import com.wemirr.framework.db.utils.JdbcUrlUtils;
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.annotation.Resource;
@@ -133,7 +134,7 @@ public class DynamicDataSourceHandler {
         }
 
         var strategy = event.getStrategy();
-        if (strategy != null && "SCHEMA".equalsIgnoreCase(strategy)) {
+        if (MultiTenantType.SCHEMA == strategy) {
             throw CheckedException.badRequest("SchemaName cannot be null");
         }
 
@@ -201,7 +202,7 @@ public class DynamicDataSourceHandler {
         return event.getDbType() != null
                 && "postgresql".equalsIgnoreCase(event.getDbType())
                 && event.getStrategy() != null
-                && "SCHEMA".equalsIgnoreCase(event.getStrategy());
+                && MultiTenantType.SCHEMA == event.getStrategy();
     }
 
     private void addPostgreSqlSchemaDataSource(String dsKey, DynamicDataSourceEvent event) {

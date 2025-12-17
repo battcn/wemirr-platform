@@ -37,10 +37,14 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 /**
+ * Redis缓存实现
+ * <p>自定义key生成策略，根据cacheName生成带前缀的key</p>
+ *
+ * <h3>线程安全</h3>
+ * <p>RedisTemplate本身线程安全，本类也是线程安全的</p>
+ *
  * @author Levin
- * 自定义配置redis缓存
- * 自定义生成key策略，目前分开了不同的缓存name区：
- * 如当前cacheName的名字是defalut：那么就增删改查时，都会生成的key带上前缀:projectName+"_fn_"+cacheName+"_"],类似于ehcache功能
+ * @since 1.0.0
  */
 @Data
 @Slf4j
@@ -238,44 +242,41 @@ public class RedisCacheRepository implements Cache {
 
     /**
      * 对象转换字节流
+     * <p>使用try-with-resources确保资源正确关闭</p>
      *
-     * @param obj obj
-     * @return bytes
+     * @param obj 待序列化对象
+     * @return 字节数组
      */
     private byte[] toByteArray(Object obj) {
-        byte[] bytes = null;
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(bos);
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream(bos)) {
             oos.writeObject(obj);
             oos.flush();
-            bytes = bos.toByteArray();
-            oos.close();
-            bos.close();
+            return bos.toByteArray();
         } catch (IOException ex) {
-            log.error("redis cache convent object to byteArray error object:{},error：", obj, ex);
+            log.error("Redis缓存序列化失败: {}", obj, ex);
+            return new byte[0];
         }
-        return bytes;
     }
 
     /**
      * 字节流转换对象
+     * <p>使用try-with-resources确保资源正确关闭</p>
      *
-     * @param bytes bytes
-     * @return obj
+     * @param bytes 字节数组
+     * @return 反序列化对象
      */
     private Object toObject(byte[] bytes) {
-        Object obj = null;
-        try {
-            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-            ObjectInputStream ois = new ObjectInputStream(bis);
-            obj = ois.readObject();
-            ois.close();
-            bis.close();
-        } catch (IOException | ClassNotFoundException ex) {
-            log.error("redis cache convent byteArray to object error bytes:{},error：", bytes, ex);
+        if (bytes == null || bytes.length == 0) {
+            return null;
         }
-        return obj;
+        try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+             ObjectInputStream ois = new ObjectInputStream(bis)) {
+            return ois.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            log.error("Redis缓存反序列化失败", ex);
+            return null;
+        }
     }
 
 }

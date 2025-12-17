@@ -12,24 +12,30 @@ import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 /**
- * JDK 21 虚拟线程工具服务
- * 虚拟线程工具类 提供了多种异步任务执行方式，包括基本异步任务、并行处理集合、批量处理、超时控制、重试机制和性能测试等功能。
- * 应用场景：
- * <p>- 轻量级任务：计算密集型、I/O 密集型、网络请求密集型等
- * <p>- Web 服务：处理大量并发 HTTP 请求
- * <p>- 数据处理：并行处理大量数据
- * <p>- I/O 密集型任务：文件操作、数据库查询、网络请求
- * <p>- 微服务架构：服务间异步通信
+ * JDK21 虚拟线程工具服务
+ * <p>提供多种异步任务执行方式，包括并行处理、超时控制、重试机制等</p>
+ *
+ * <h3>应用场景</h3>
+ * <ul>
+ *   <li>I/O密集型任务：文件操作、数据库查询、网络请求</li>
+ *   <li>Web服务：处理大量并发HTTP请求</li>
+ *   <li>数据处理：并行处理大量数据</li>
+ *   <li>微服务架构：服务间异步通信</li>
+ * </ul>
+ *
+ * <h3>线程安全</h3>
+ * <p>本类所有方法线程安全，可在多线程环境下安全使用</p>
  *
  * @author YanCh
- * @since 2025-12-05
+ * @since 1.0.0
  */
 @Slf4j
 public class VirtualThreadService {
 
     /**
-     * 全局共享的虚拟线程执行器（用于非阻塞的 Fire-and-Forget 场景）
-     * JDK 21 中，虚拟线程执行器是轻量级的，不需要池化，但为了方便 CompletableFuture 引用，保持一个实例。
+     * 全局共享的虚拟线程执行器
+     * <p>JDK21虚拟线程执行器轻量级，每个任务创建新的虚拟线程</p>
+     * <p>注意：该执行器不需要显式关闭，虚拟线程完成后自动回收</p>
      */
     private final ExecutorService virtualExecutor = Executors.newVirtualThreadPerTaskExecutor();
 
@@ -78,9 +84,19 @@ public class VirtualThreadService {
                     }))
                     .toList();
 
-            // 在这里，主线程会等待 try-block 结束（即所有任务完成）
-            // 这种写法比 CompletableFuture.allOf().join() 更符合 JDK 21 范式
-            return futures.stream().map(Future::resultNow).toList();
+            // JDK21范式：try-with-resources自动等待所有任务完成
+            return futures.stream()
+                    .map(future -> {
+                        try {
+                            return future.get();
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                            throw new RuntimeException("任务被中断", e);
+                        } catch (Exception e) {
+                            throw new RuntimeException("任务执行失败", e);
+                        }
+                    })
+                    .toList();
         } catch (Exception e) {
             log.error("并行处理异常", e);
             throw new RuntimeException(e);
@@ -162,7 +178,19 @@ public class VirtualThreadService {
                     .toList();
 
             // 等待所有批次完成并聚合结果
-            return batchFutures.stream().map(Future::resultNow).flatMap(List::stream).toList();
+            return batchFutures.stream()
+                    .map(future -> {
+                        try {
+                            return future.get();
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                            throw new RuntimeException("批量任务被中断", e);
+                        } catch (Exception e) {
+                            throw new RuntimeException("批量任务执行失败", e);
+                        }
+                    })
+                    .flatMap(List::stream)
+                    .toList();
         }
     }
 

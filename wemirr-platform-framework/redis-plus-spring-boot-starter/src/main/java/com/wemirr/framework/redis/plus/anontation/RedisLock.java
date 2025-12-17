@@ -117,14 +117,9 @@ public @interface RedisLock {
         WRITE_LOCK(3, "写锁"),
 
         /**
-         * 红锁
-         */
-        RED_LOCK(4, "红锁"),
-
-        /**
          * 联锁
          */
-        MULTI_LOCK(5, "联锁");
+        MULTI_LOCK(4, "联锁");
 
         private final int code;
 

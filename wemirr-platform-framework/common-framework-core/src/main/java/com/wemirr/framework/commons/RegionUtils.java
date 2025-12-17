@@ -27,19 +27,32 @@ import org.lionsoul.ip2region.xdb.Searcher;
 import java.io.IOException;
 
 /**
- * 根据ip查询地址
+ * IP地址归属地查询工具类
+ * <p>基于ip2region实现，启动时加载数据到内存，查询速度快</p>
+ *
+ * <h3>线程安全</h3>
+ * <p>Searcher实例在初始化后不可变，多线程访问安全</p>
  *
  * @author Levin
- * @since 2019/10/30
+ * @since 1.0.0
  */
 @Slf4j
 public final class RegionUtils {
-    
+
     private static final String DEFAULT_REGION = "内网";
+
     /**
-     * IP 查询器，启动加载到内存中
+     * IP查询器（启动时加载到内存，不可变对象）
+     * 使用volatile确保多线程可见性
      */
-    private static Searcher SEARCHER;
+    private static volatile Searcher SEARCHER;
+
+    /**
+     * 私有构造函数，防止实例化
+     */
+    private RegionUtils() {
+        throw new UnsupportedOperationException("Utility class cannot be instantiated");
+    }
     
     static {
         try {
@@ -53,26 +66,39 @@ public final class RegionUtils {
     }
     
     /**
-     * 解析IP
+     * 根据IP地址查询归属地
      *
-     * @param ip ip
-     * @return 查询结果
+     * @param ip IP地址
+     * @return 归属地信息，格式：国家|区域|省份|城市|ISP
      */
     public static String getRegion(String ip) {
+        if (SEARCHER == null) {
+            log.warn("IP查询器未初始化");
+            return DEFAULT_REGION;
+        }
+        if (StrUtil.isBlank(ip)) {
+            return DEFAULT_REGION;
+        }
         try {
-            if (SEARCHER == null || StrUtil.isEmpty(ip)) {
-                log.error("searcher or ip is null");
-                return StrUtil.EMPTY;
-            }
-            long startTime = System.currentTimeMillis();
+            long startTime = System.nanoTime();
             String result = SEARCHER.search(ip);
-            long endTime = System.currentTimeMillis();
-            log.debug("region use time[{}] result[{}]", endTime - startTime, result);
+            if (log.isDebugEnabled()) {
+                log.debug("IP查询耗时: {}μs, IP: {}, 结果: {}",
+                        (System.nanoTime() - startTime) / 1000, ip, result);
+            }
             return result;
         } catch (Exception e) {
-            log.error("error - {}", e.getLocalizedMessage());
+            log.warn("IP查询失败: {} - {}", ip, e.getMessage());
             return DEFAULT_REGION;
         }
     }
-    
+
+    /**
+     * 检查查询器是否可用
+     *
+     * @return true表示可用
+     */
+    public static boolean isAvailable() {
+        return SEARCHER != null;
+    }
 }

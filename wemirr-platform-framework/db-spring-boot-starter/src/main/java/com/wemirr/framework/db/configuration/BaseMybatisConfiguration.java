@@ -28,7 +28,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.audit.AuditInterceptor;
-import com.wemirr.framework.db.mybatisplus.datascope.handler.DataScopePermissionHandler;
+import com.wemirr.framework.db.mybatisplus.datascope.core.DataScopeHandler;
 import com.wemirr.framework.db.mybatisplus.handler.MyBatisMetaObjectHandler;
 import com.wemirr.framework.db.mybatisplus.injector.MySqlInjector;
 import com.wemirr.framework.db.properties.DatabaseProperties;
@@ -122,7 +122,7 @@ public abstract class BaseMybatisConfiguration {
         final DatabaseProperties.Intercept intercept = properties.getIntercept();
         if (properties.getDataPermission().isEnabled()) {
             // 分页拦截器之前的插件 => 数据权限插件
-            interceptor.addInnerInterceptor(new DataPermissionInterceptor(new DataScopePermissionHandler(context)));
+            interceptor.addInnerInterceptor(new DataPermissionInterceptor(new DataScopeHandler(context)));
         }
         if (intercept.isBlockAttack()) {
             // 防止全表更新与删除插件: BlockAttackInnerInterceptor

@@ -23,7 +23,6 @@ import cn.hutool.core.collection.CollUtil;
 import com.wemirr.framework.db.dynamic.core.DynamicDataSourceEvent;
 import com.wemirr.framework.db.dynamic.core.EventAction;
 import com.wemirr.framework.db.dynamic.feign.TenantFeignClient;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -32,11 +31,7 @@ import java.util.List;
  * @author levin
  */
 @Slf4j
-@RequiredArgsConstructor
-public class DynamicDataSourceLoad {
-
-    private final DynamicDataSourceHandler dynamicDataSourceHandler;
-    private final TenantFeignClient tenantFeignClient;
+public record DynamicDataSourceLoad(DynamicDataSourceHandler dynamicDataSourceHandler, TenantFeignClient tenantFeignClient) {
 
     public void init() {
         log.debug("extend.mybatis-plus.multi-tenant.strategy eq feign , pull dynamic begin...");

@@ -73,10 +73,10 @@ public class FlowTaskController {
         taskExtService.taskReturn(id, req);
     }
 
-    @PostMapping("/{id}/terminate")
+    @PostMapping("/{id}/termination")
     @RedisLock(prefix = "workflow:task:handle", message = "当前已有任务处理中，请稍后重试")
     @Operation(summary = "任务终止", description = "终止流程")
-    public void terminate(@PathVariable @RedisParam Long id, @RequestBody WorkflowTaskReq req) {
+    public void termination(@PathVariable @RedisParam Long id, @RequestBody WorkflowTaskReq req) {
         taskExtService.termination(id, req);
     }
 

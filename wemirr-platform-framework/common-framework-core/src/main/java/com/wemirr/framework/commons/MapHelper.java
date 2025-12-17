@@ -33,12 +33,20 @@ import java.util.function.Function;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Map 类增强
+ * Map工具类增强
+ * <p>提供集合转Map、Map键值反转等增强功能</p>
  *
  * @author Levin
- * @since 2020/07/29
+ * @since 1.0.0
  */
-public class MapHelper {
+public final class MapHelper {
+
+    /**
+     * 私有构造函数，防止实例化
+     */
+    private MapHelper() {
+        throw new UnsupportedOperationException("Utility class cannot be instantiated");
+    }
     
     /**
      * 增强 guava 的 Maps.uniqueIndex方法

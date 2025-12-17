@@ -33,29 +33,79 @@ import java.io.Serializable;
 import java.time.Instant;
 
 /**
- * 在考虑是否应该移动到 database 模块
- * 基础实体
+ * 基础实体类
+ * <p>包含ID、创建人、创建时间等基础字段，所有业务实体应继承此类</p>
  *
- * @param <T> T
+ * <h3>字段说明</h3>
+ * <ul>
+ *   <li>id - 主键ID（雪花算法生成）</li>
+ *   <li>createBy - 创建人ID（自动填充）</li>
+ *   <li>createName - 创建人名称（自动填充）</li>
+ *   <li>createTime - 创建时间（自动填充）</li>
+ * </ul>
+ *
+ * @param <T> 主键类型（通常为Long）
  * @author Levin
+ * @since 1.0.0
+ * @see SuperEntity
  */
 @Data
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @ToString(callSuper = true)
 public class Entity<T> implements Serializable {
-    
-    public static final String TENANT_ID_COLUMN = "tenant_id";
-    public static final String TENANT_ID = "tenantId";
-    public static final String FIELD_ID = "id";
-    public static final String CREATE_TIME = "createTime";
-    public static final String CREATE_TIME_COLUMN = "create_time";
-    public static final String CREATE_USER = "createBy";
-    public static final String CREATE_USER_NAME = "createName";
-    public static final String CREATE_USER_NAME_COLUMN = "create_name";
-    public static final String CREATE_USER_COLUMN = "create_by";
+
     @Serial
     private static final long serialVersionUID = 1L;
+
+    // ==================== 字段名常量（Java属性名） ====================
+
+    /**
+     * 租户ID属性名
+     */
+    public static final String TENANT_ID = "tenantId";
+
+    /**
+     * ID属性名
+     */
+    public static final String FIELD_ID = "id";
+
+    /**
+     * 创建时间属性名
+     */
+    public static final String CREATE_TIME = "createTime";
+
+    /**
+     * 创建人ID属性名
+     */
+    public static final String CREATE_USER = "createBy";
+
+    /**
+     * 创建人名称属性名
+     */
+    public static final String CREATE_USER_NAME = "createName";
+
+    // ==================== 列名常量（数据库列名） ====================
+
+    /**
+     * 租户ID列名
+     */
+    public static final String TENANT_ID_COLUMN = "tenant_id";
+
+    /**
+     * 创建时间列名
+     */
+    public static final String CREATE_TIME_COLUMN = "create_time";
+
+    /**
+     * 创建人ID列名
+     */
+    public static final String CREATE_USER_COLUMN = "create_by";
+
+    /**
+     * 创建人名称列名
+     */
+    public static final String CREATE_USER_NAME_COLUMN = "create_name";
     @Schema(description = "ID")
     @TableId(value = FIELD_ID, type = IdType.ASSIGN_ID)
     @OrderBy
