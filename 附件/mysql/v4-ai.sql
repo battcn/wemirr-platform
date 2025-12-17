@@ -144,6 +144,7 @@ CREATE TABLE `ai_kb_knowledge_base`
     `embedding_model_id`   bigint       DEFAULT NULL COMMENT '向量模型ID',
     `version`              int          DEFAULT NULL COMMENT '版本号',
     `metadata`             json         DEFAULT NULL COMMENT '元数据',
+    `enable_graph`              tinyint(1) DEFAULT '1' COMMENT '是否启用图谱`
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='知识库';
 
