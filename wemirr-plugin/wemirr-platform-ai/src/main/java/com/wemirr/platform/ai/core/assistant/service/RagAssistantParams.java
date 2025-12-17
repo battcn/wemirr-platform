@@ -5,27 +5,92 @@ import com.wemirr.platform.ai.domain.entity.ModelConfig;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * RAG 助手参数配置
+ * <p>
+ * 支持向量检索和图谱检索两种模式，可单独使用或混合使用（Hybrid RAG）
+ *
+ * @author xJh
+ * @since 2025/10/11
+ */
 @Data
 @Builder
 public class RagAssistantParams {
 
+    /**
+     * 知识库ID
+     */
     private Long kbId;
 
+    /**
+     * 文本模型配置
+     */
     private ModelConfig textModelConfig;
 
+    /**
+     * 向量模型配置
+     */
     private ModelConfig embeddingModelConfig;
 
+    /**
+     * 最大记忆消息数
+     */
     @Builder.Default
     private Integer maxMessages = 10;
 
+    /**
+     * 向量检索最大返回结果数
+     */
     @Builder.Default
-    private Integer maxResults = 2;
+    private Integer maxResults = 5;
 
+    /**
+     * 向量检索最小相似度分数
+     */
     @Builder.Default
-    private Double minScore = 0.8;
+    private Double minScore = 0.7;
 
+    /**
+     * 向量检索过滤的块类型
+     */
     @Builder.Default
     private ChunkType filterChunkType = ChunkType.ANSWER;
+
+    // ==================== 图谱检索配置 ====================
+
+    /**
+     * 是否启用向量检索
+     */
+    @Builder.Default
+    private Boolean enableVectorRetrieval = true;
+
+    /**
+     * 是否启用图谱检索
+     */
+    @Builder.Default
+    private Boolean enableGraphRetrieval = false;
+
+    /**
+     * 图谱知识库ID（如果与 kbId 不同）
+     */
+    private String graphKnowledgeBaseId;
+
+    /**
+     * 图谱检索最大返回结果数
+     */
+    @Builder.Default
+    private Integer graphMaxResults = 10;
+
+    /**
+     * 获取图谱知识库ID
+     * 如果未单独指定，则使用 kbId 转为字符串
+     */
+    public String getEffectiveGraphKbId() {
+        if (graphKnowledgeBaseId != null && !graphKnowledgeBaseId.trim().isEmpty()) {
+            return graphKnowledgeBaseId;
+        }
+        return kbId != null ? String.valueOf(kbId) : null;
+    }
 }
 
 

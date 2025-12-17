@@ -135,7 +135,7 @@ public class ChatServiceImpl implements ChatService {
         try {
             // 4. 获取模型配置,todo 这些都可以做缓存map，用模型id代替，不用模型名称
             ModelConfig textModelConfig = modelConfigService.getOne(
-                    Wraps.<ModelConfig>lbQ().eq(ModelConfig::getId, askReq.getModelId())
+                    Wraps.<ModelConfig>lbQ().eq(ModelConfig::getId, knowledgeBase.getChatModelId())
                             .eq(ModelConfig::getModelType, ModelType.TEXT)
             );
             textModelConfig.setEnableWebSearch(askReq.getEnableWebSearch());
@@ -149,6 +149,7 @@ public class ChatServiceImpl implements ChatService {
                             .kbId(askReq.getKbId())
                             .textModelConfig(textModelConfig)
                             .embeddingModelConfig(embeddingModelConfig)
+                            .enableGraphRetrieval(knowledgeBase.getEnableGraph())
                             .build();
             ChatAssistant memoryRagAssistant = assistantService.createMemoryRagAssistant(params);
             TokenStream tokenStream = memoryRagAssistant.chatStream(conversationId, askReq.getPrompt());
@@ -228,6 +229,7 @@ public class ChatServiceImpl implements ChatService {
                         .kbId(chatAgent.getKbId())
                         .textModelConfig(textModelConfig)
                         .embeddingModelConfig(embeddingModelConfig)
+                        .enableGraphRetrieval(knowledgeBase.getEnableGraph())
                         .build();
             }
         }
