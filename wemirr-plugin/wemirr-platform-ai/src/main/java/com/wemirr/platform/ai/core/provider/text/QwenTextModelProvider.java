@@ -44,7 +44,7 @@ public class QwenTextModelProvider implements TextModelProvider {
         if (maxTokens != null) {
             builder.maxTokens(maxTokens);
         }
-        if (AiProvider.QWEN.supportsWebSearch(config.getModelName())&& config.getEnableWebSearch()){
+        if (AiProvider.QWEN.supportsWebSearch(config.getModelName())&& config.getEnableWebSearch()!= null && config.getEnableWebSearch()){
             builder.enableSearch(true);
         }
         return builder.build();
