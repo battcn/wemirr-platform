@@ -144,9 +144,11 @@ CREATE TABLE `ai_kb_knowledge_base`
     `embedding_model_id`   bigint       DEFAULT NULL COMMENT '向量模型ID',
     `version`              int          DEFAULT NULL COMMENT '版本号',
     `metadata`             json         DEFAULT NULL COMMENT '元数据',
-    `enable_graph`              tinyint(1) DEFAULT '1' COMMENT '是否启用图谱`
+    `enable_graph`              tinyint(1) DEFAULT '1' COMMENT '是否启用图谱',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='知识库';
+-- 知识库表添加字段
+ALTER TABLE ai_kb_knowledge_base ADD COLUMN rerank_model_id BIGINT COMMENT '重排序模型ID';
 
 -- ----------------------------
 -- Table structure for ai_kb_knowledge_chunk
@@ -336,5 +338,9 @@ CREATE TABLE `ai_model_config`
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='多模态模型配置';
 
+
+-- 模型配置表添加重排序模型
+INSERT INTO ai_model_config (provider, model_type, model_name, api_key, base_url)
+VALUES ('JINA', 'RERANK', 'jina-reranker-v2-base-multilingual', 'your_jina_api_key', NULL);
 SET
 FOREIGN_KEY_CHECKS = 1;
