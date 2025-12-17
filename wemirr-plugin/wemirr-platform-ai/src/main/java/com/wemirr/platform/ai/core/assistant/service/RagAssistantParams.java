@@ -81,6 +81,33 @@ public class RagAssistantParams {
     @Builder.Default
     private Integer graphMaxResults = 10;
 
+    // ==================== 重排序配置 ====================
+
+    /**
+     * 重排序模型配置（使用 ModelConfig 统一管理）
+     * 如果配置了该字段，则启用重排序
+     */
+    private ModelConfig rerankModelConfig;
+
+    /**
+     * 重排序后返回的最大结果数
+     */
+    @Builder.Default
+    private Integer rerankMaxResults = 5;
+
+    /**
+     * 重排序最小相关性分数阈值
+     */
+    @Builder.Default
+    private Double rerankMinScore = 0.5;
+
+    /**
+     * 是否启用重排序
+     */
+    public boolean isRerankingEnabled() {
+        return rerankModelConfig != null;
+    }
+
     /**
      * 获取图谱知识库ID
      * 如果未单独指定，则使用 kbId 转为字符串

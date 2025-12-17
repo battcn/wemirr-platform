@@ -23,5 +23,9 @@ public enum ModelType {
     /**
      * 音频模型
      */
-    AUDIO
+    AUDIO,
+    /**
+     * 重排序模型
+     */
+    RERANK
 }

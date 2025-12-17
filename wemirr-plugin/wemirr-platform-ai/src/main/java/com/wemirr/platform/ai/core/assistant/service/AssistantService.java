@@ -28,6 +28,7 @@ import dev.langchain4j.rag.DefaultRetrievalAugmentor;
 import dev.langchain4j.rag.RetrievalAugmentor;
 import dev.langchain4j.rag.content.aggregator.ContentAggregator;
 import dev.langchain4j.rag.content.aggregator.DefaultContentAggregator;
+import dev.langchain4j.rag.content.aggregator.ReRankingContentAggregator;
 import dev.langchain4j.rag.content.injector.ContentInjector;
 import dev.langchain4j.rag.content.injector.DefaultContentInjector;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
@@ -42,6 +43,8 @@ import dev.langchain4j.rag.query.transformer.QueryTransformer;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.filter.Filter;
+import dev.langchain4j.model.jina.JinaScoringModel;
+import dev.langchain4j.model.scoring.ScoringModel;
 import dev.langchain4j.store.memory.chat.ChatMemoryStore;
 import dev.langchain4j.web.search.tavily.TavilyWebSearchEngine;
 import lombok.RequiredArgsConstructor;
@@ -120,84 +123,6 @@ public class AssistantService {
                 .build();
     }
 
-    /**
-     * 创建RAG的 Assistant
-     * @param modelConfig 模型配置
-     * @return ChatAssistant 实例
-     * todo 抽离参数
-     */
-    public ChatAssistant createMemoryRagAssistant(Long kbId,ModelConfig textModelConfig,ModelConfig embeddingModelConfig) {
-        KnowledgeBase knowledgeBase = knowledgeBaseService.getById(kbId);
-        EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, embeddingModelConfig);
-        ChatModel chatModel = textModelService.model(textModelConfig);
-        StreamingChatModel streamModel = textModelService.streamModel(textModelConfig);
-        EmbeddingModel embeddingModel = embeddingModelProviderRegistry.getProvider(embeddingModelConfig).createModel(embeddingModelConfig);
-
-
-        // 动态过滤器，根据问答类型过滤
-        Function<Query, Filter> queryFilterFunction =
-                (query) -> metadataKey("chunkType").isEqualTo(ChunkType.ANSWER.getCode());
-
-        ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
-                .embeddingStore(embeddingStore)
-                .embeddingModel(embeddingModel)
-                .maxResults(2)
-                .dynamicFilter(queryFilterFunction)
-                // 对产品信息设置更严格的分数要求
-                .minScore(0.8)
-                .build();
-        //todo 如果检索不到，应该返回搜索不到相关内容
-
-        // CompressingQueryTransformer压缩对话
-        QueryTransformer queryTransformer = new CompressingQueryTransformer(chatModel);
-
-
-        // QueryRouter: 根据查询内容将查询路由到一个或多个 ContentRetriever。 可实现多路召回
-//        QueryRouter queryRouter = (query) -> {
-//            System.out.println("Routing query: " + query.text());
-////            String lowerCaseQuery = query.text().toLowerCase();
-////            if (lowerCaseQuery.contains("policy") || lowerCaseQuery.contains("vacation") || lowerCaseQuery.contains("leave")) {
-////                System.out.println(" --> Routing to Policy Retriever (基于关键词)");
-////                return Arrays.asList(policyRetriever); // 路由到政策检索器
-////            } else if (lowerCaseQuery.contains("product") || lowerCaseQuery.contains("quantum leap") || lowerCaseQuery.contains("drone")) {
-////                System.out.println(" --> Routing to Product Retriever (基于关键词)");
-////                return Arrays.asList(productRetriever); // 路由到产品检索器
-////            } else {
-////                System.out.println(" --> Routing to BOTH Policy and Product Retrievers (默认多路召回)");
-////                return Arrays.asList(policyRetriever, productRetriever); // 默认情况下，同时使用两个检索器
-////            }
-//            return Arrays.asList(productRetriever);
-//        };
-
-        QueryRouter queryRouter = new DefaultQueryRouter(contentRetriever);
-
-        // ContentAggregator: 聚合所有 ContentRetriever 返回的内容。
-        // 可以自定义排序、去重、截断等逻辑。这里使用默认实现。 todo 接入重排序模型
-        ContentAggregator contentAggregator = new DefaultContentAggregator();
-
-        // ContentInjector: 将聚合后的相关内容注入到用户消息中，发送给LLM。
-        // 默认会将内容作为SystemMessage注入。
-        ContentInjector contentInjector = new DefaultContentInjector();
-
-        // 构建 RetrievalAugmentor ---
-        // 将所有RAG组件组合起来，形成完整的RAG管道。
-        RetrievalAugmentor retrievalAugmentor = DefaultRetrievalAugmentor.builder()
-                .queryTransformer(queryTransformer)
-                .queryRouter(queryRouter)
-                .contentAggregator(contentAggregator)
-                .contentInjector(contentInjector)
-                // 使用Executor进行异步处理，提升RAG检索效率
-                .executor(executor)
-                .build();
-
-        return AiServices.builder(ChatAssistant.class)
-                .chatModel(chatModel)
-                .streamingChatModel(streamModel)
-                .chatMemory(MessageWindowChatMemory.withMaxMessages(DEFAULT_MAX_MESSAGES))
-                .chatMemoryProvider(createMemoryProvider())
-                .retrievalAugmentor(retrievalAugmentor)
-                .build();
-    }
 
     /**
      * 创建智能体对话助手 (支持Tools和RAG、MCP工具)
@@ -384,9 +309,8 @@ public class AssistantService {
         QueryRouter queryRouter = new DefaultQueryRouter(retrievers.toArray(new ContentRetriever[0]));
         log.debug("启用多路召回，检索器数量: {}", retrievers.size());
 
-        // TODO: 集成重排序模型对召回结果进行排序
-        // 目前使用 DefaultContentAggregator，后续可替换为 ReRankingContentAggregator
-        ContentAggregator contentAggregator = new DefaultContentAggregator();
+        // 构建 ContentAggregator：根据配置决定是否启用重排序
+        ContentAggregator contentAggregator = buildContentAggregator(params);
         ContentInjector contentInjector = new DefaultContentInjector();
 
         return DefaultRetrievalAugmentor.builder()
@@ -395,6 +319,50 @@ public class AssistantService {
                 .contentAggregator(contentAggregator)
                 .contentInjector(contentInjector)
                 .executor(executor)
+                .build();
+    }
+
+    /**
+     * 构建 ContentAggregator
+     * 根据 ModelConfig 配置决定是否启用重排序模型
+     */
+    private ContentAggregator buildContentAggregator(RagAssistantParams params) {
+        // 检查是否启用重排序（通过 rerankModelConfig 判断）
+        if (!params.isRerankingEnabled()) {
+            log.debug("重排序未启用，使用默认聚合器");
+            return new DefaultContentAggregator();
+        }
+
+        ModelConfig rerankConfig = params.getRerankModelConfig();
+
+        // 获取 API Key
+        String apiKey = rerankConfig.getApiKey();
+        if (StringUtils.isBlank(apiKey)) {
+            // 尝试从环境变量获取
+            apiKey = System.getenv("JINA_API_KEY");
+        }
+
+        if (StringUtils.isBlank(apiKey)) {
+            log.warn("重排序模型 API Key 未配置，降级使用默认聚合器");
+            return new DefaultContentAggregator();
+        }
+
+        // 构建重排序模型（目前支持 Jina）
+        ScoringModel scoringModel = JinaScoringModel.builder()
+                .apiKey(apiKey)
+                .modelName(rerankConfig.getModelName())
+                .build();
+
+        int maxResults = params.getRerankMaxResults() != null ? params.getRerankMaxResults() : 5;
+        double minScore = params.getRerankMinScore() != null ? params.getRerankMinScore() : 0.5;
+
+        log.info("启用重排序: provider={}, model={}, maxResults={}, minScore={}",
+                rerankConfig.getProvider(), rerankConfig.getModelName(), maxResults, minScore);
+
+        return ReRankingContentAggregator.builder()
+                .scoringModel(scoringModel)
+                .maxResults(maxResults)
+                .minScore(minScore)
                 .build();
     }
 
@@ -449,4 +417,84 @@ public class AssistantService {
 //                .executor(executorService) 多线程处理
                 .build();
     }
+
+
+    /**
+     * 创建RAG的 Assistant
+     * @param modelConfig 模型配置
+     * @return ChatAssistant 实例
+     * todo 抽离参数
+     */
+//    public ChatAssistant createMemoryRagAssistant(Long kbId,ModelConfig textModelConfig,ModelConfig embeddingModelConfig) {
+//        KnowledgeBase knowledgeBase = knowledgeBaseService.getById(kbId);
+//        EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, embeddingModelConfig);
+//        ChatModel chatModel = textModelService.model(textModelConfig);
+//        StreamingChatModel streamModel = textModelService.streamModel(textModelConfig);
+//        EmbeddingModel embeddingModel = embeddingModelProviderRegistry.getProvider(embeddingModelConfig).createModel(embeddingModelConfig);
+//
+//
+//        // 动态过滤器，根据问答类型过滤
+//        Function<Query, Filter> queryFilterFunction =
+//                (query) -> metadataKey("chunkType").isEqualTo(ChunkType.ANSWER.getCode());
+//
+//        ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
+//                .embeddingStore(embeddingStore)
+//                .embeddingModel(embeddingModel)
+//                .maxResults(2)
+//                .dynamicFilter(queryFilterFunction)
+//                // 对产品信息设置更严格的分数要求
+//                .minScore(0.8)
+//                .build();
+//        //todo 如果检索不到，应该返回搜索不到相关内容
+//
+//        // CompressingQueryTransformer压缩对话
+//        QueryTransformer queryTransformer = new CompressingQueryTransformer(chatModel);
+//
+//
+//        // QueryRouter: 根据查询内容将查询路由到一个或多个 ContentRetriever。 可实现多路召回
+////        QueryRouter queryRouter = (query) -> {
+////            System.out.println("Routing query: " + query.text());
+//////            String lowerCaseQuery = query.text().toLowerCase();
+//////            if (lowerCaseQuery.contains("policy") || lowerCaseQuery.contains("vacation") || lowerCaseQuery.contains("leave")) {
+//////                System.out.println(" --> Routing to Policy Retriever (基于关键词)");
+//////                return Arrays.asList(policyRetriever); // 路由到政策检索器
+//////            } else if (lowerCaseQuery.contains("product") || lowerCaseQuery.contains("quantum leap") || lowerCaseQuery.contains("drone")) {
+//////                System.out.println(" --> Routing to Product Retriever (基于关键词)");
+//////                return Arrays.asList(productRetriever); // 路由到产品检索器
+//////            } else {
+//////                System.out.println(" --> Routing to BOTH Policy and Product Retrievers (默认多路召回)");
+//////                return Arrays.asList(policyRetriever, productRetriever); // 默认情况下，同时使用两个检索器
+//////            }
+////            return Arrays.asList(productRetriever);
+////        };
+//
+//        QueryRouter queryRouter = new DefaultQueryRouter(contentRetriever);
+//
+//        // ContentAggregator: 聚合所有 ContentRetriever 返回的内容。
+//        // 可以自定义排序、去重、截断等逻辑。这里使用默认实现。 todo 接入重排序模型
+//        ContentAggregator contentAggregator = new DefaultContentAggregator();
+//
+//        // ContentInjector: 将聚合后的相关内容注入到用户消息中，发送给LLM。
+//        // 默认会将内容作为SystemMessage注入。
+//        ContentInjector contentInjector = new DefaultContentInjector();
+//
+//        // 构建 RetrievalAugmentor ---
+//        // 将所有RAG组件组合起来，形成完整的RAG管道。
+//        RetrievalAugmentor retrievalAugmentor = DefaultRetrievalAugmentor.builder()
+//                .queryTransformer(queryTransformer)
+//                .queryRouter(queryRouter)
+//                .contentAggregator(contentAggregator)
+//                .contentInjector(contentInjector)
+//                // 使用Executor进行异步处理，提升RAG检索效率
+//                .executor(executor)
+//                .build();
+//
+//        return AiServices.builder(ChatAssistant.class)
+//                .chatModel(chatModel)
+//                .streamingChatModel(streamModel)
+//                .chatMemory(MessageWindowChatMemory.withMaxMessages(DEFAULT_MAX_MESSAGES))
+//                .chatMemoryProvider(createMemoryProvider())
+//                .retrievalAugmentor(retrievalAugmentor)
+//                .build();
+//    }
 }

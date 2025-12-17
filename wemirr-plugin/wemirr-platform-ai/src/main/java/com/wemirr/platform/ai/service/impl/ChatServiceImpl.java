@@ -143,12 +143,21 @@ public class ChatServiceImpl implements ChatService {
             ModelConfig embeddingModelConfig = modelConfigService.getOne(Wraps.<ModelConfig>lbQ().eq(ModelConfig::getId, knowledgeBase.getEmbeddingModelId())
                     .eq(ModelConfig::getModelType, ModelType.EMBEDDING));
 
+            // 获取重排序模型配置（如果知识库配置了）
+            ModelConfig rerankModelConfig = null;
+            if (knowledgeBase.getRerankModelId() != null) {
+                rerankModelConfig = modelConfigService.getOne(Wraps.<ModelConfig>lbQ()
+                        .eq(ModelConfig::getId, knowledgeBase.getRerankModelId())
+                        .eq(ModelConfig::getModelType, ModelType.RERANK));
+            }
+
             // 构造统一参数并创建 RAG Assistant
             RagAssistantParams params =
                    RagAssistantParams.builder()
                             .kbId(askReq.getKbId())
                             .textModelConfig(textModelConfig)
                             .embeddingModelConfig(embeddingModelConfig)
+                            .rerankModelConfig(rerankModelConfig)
                             .enableGraphRetrieval(knowledgeBase.getEnableGraph())
                             .build();
             ChatAssistant memoryRagAssistant = assistantService.createMemoryRagAssistant(params);
@@ -223,12 +232,23 @@ public class ChatServiceImpl implements ChatService {
         if (chatAgent.getKbId() != null) {
             KnowledgeBase knowledgeBase = knowledgeBaseService.getById(chatAgent.getKbId());
             if (knowledgeBase != null) {
-                ModelConfig embeddingModelConfig = modelConfigService.getOne(Wraps.<ModelConfig>lbQ().eq(ModelConfig::getId, knowledgeBase.getEmbeddingModelId())
+                ModelConfig embeddingModelConfig = modelConfigService.getOne(Wraps.<ModelConfig>lbQ()
+                        .eq(ModelConfig::getId, knowledgeBase.getEmbeddingModelId())
                         .eq(ModelConfig::getModelType, ModelType.EMBEDDING));
+                
+                // 获取重排序模型配置（如果知识库配置了）
+                ModelConfig rerankModelConfig = null;
+                if (knowledgeBase.getRerankModelId() != null) {
+                    rerankModelConfig = modelConfigService.getOne(Wraps.<ModelConfig>lbQ()
+                            .eq(ModelConfig::getId, knowledgeBase.getRerankModelId())
+                            .eq(ModelConfig::getModelType, ModelType.RERANK));
+                }
+                
                 ragParams = RagAssistantParams.builder()
                         .kbId(chatAgent.getKbId())
                         .textModelConfig(textModelConfig)
                         .embeddingModelConfig(embeddingModelConfig)
+                        .rerankModelConfig(rerankModelConfig)
                         .enableGraphRetrieval(knowledgeBase.getEnableGraph())
                         .build();
             }
