@@ -1,5 +1,7 @@
 package com.wemirr.platform.ai.core.builder;
 
+import com.wemirr.platform.ai.core.provider.graph.GraphContentRetriever;
+import com.wemirr.platform.ai.core.provider.graph.GraphRagService;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
@@ -12,7 +14,7 @@ import dev.langchain4j.rag.content.injector.DefaultContentInjector;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.rag.content.retriever.WebSearchContentRetriever;
-import dev.langchain4j.rag.query.router.LanguageModelQueryRouter;
+import dev.langchain4j.rag.query.router.DefaultQueryRouter;
 import dev.langchain4j.rag.query.router.QueryRouter;
 import dev.langchain4j.rag.query.transformer.CompressingQueryTransformer;
 import dev.langchain4j.rag.query.transformer.QueryTransformer;
@@ -21,15 +23,21 @@ import dev.langchain4j.web.search.WebSearchEngine;
 import dev.langchain4j.web.search.tavily.TavilyWebSearchEngine;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
+ * RAG 检索增强器构建器
+ * <p>
+ * 支持多种检索模式：向量检索、Web搜索、图谱检索，可灵活组合使用。
+ *
  * @author xJh
  * @since 2025/10/22
- **/
+ */
 @Slf4j
 public class RetrievalAugmentorBuilder {
 
@@ -37,13 +45,21 @@ public class RetrievalAugmentorBuilder {
     private EmbeddingModel embeddingModel;
     private EmbeddingStore<TextSegment> embeddingStore;
 
-    // 检索器
+    // 向量检索配置
     private boolean enableVectorRetrieval = true;
+    private int embeddingMaxResults = 8;
+
+    // Web 搜索配置
     private boolean enableWebSearch = false;
     private String webSearchApiKey;
     private String webSearchEngineType = "tavily";
     private int webMaxResults = 5;
-    private int embeddingMaxResults = 8;
+
+    // 图谱检索配置
+    private boolean enableGraphRetrieval = false;
+    private GraphRagService graphRagService;
+    private String graphKnowledgeBaseId;
+    private int graphMaxResults = 10;
 
     // 增强策略
     private boolean enableQueryCompression = true;
@@ -106,6 +122,28 @@ public class RetrievalAugmentorBuilder {
         return this;
     }
 
+    // === 图谱检索配置 ===
+
+    public RetrievalAugmentorBuilder enableGraphRetrieval(boolean enable) {
+        this.enableGraphRetrieval = enable;
+        return this;
+    }
+
+    public RetrievalAugmentorBuilder graphRagService(GraphRagService graphRagService) {
+        this.graphRagService = graphRagService;
+        return this;
+    }
+
+    public RetrievalAugmentorBuilder graphKnowledgeBaseId(String knowledgeBaseId) {
+        this.graphKnowledgeBaseId = knowledgeBaseId;
+        return this;
+    }
+
+    public RetrievalAugmentorBuilder graphMaxResults(int maxResults) {
+        this.graphMaxResults = maxResults;
+        return this;
+    }
+
     public RetrievalAugmentorBuilder enableQueryCompression(boolean enable) {
         this.enableQueryCompression = enable;
         return this;
@@ -161,15 +199,28 @@ public class RetrievalAugmentorBuilder {
             log.debug("Enabled web search ({}) with maxResults={}", webSearchEngineType, webMaxResults);
         }
 
-        if (retrieverToDescription.isEmpty()) {
+        // 3. 图谱检索器
+        if (enableGraphRetrieval && graphRagService != null && graphKnowledgeBaseId != null) {
+            GraphContentRetriever graphRetriever = GraphContentRetriever.builder()
+                    .graphRagService(graphRagService)
+                    .chatModel(chatModel)
+                    .knowledgeBaseId(graphKnowledgeBaseId)
+                    .maxResults(graphMaxResults)
+                    .silentOnEmpty(true)
+                    .build();
+            retrieverToDescription.put(graphRetriever, "Knowledge graph with structured entity and relationship data");
+            log.debug("Enabled graph retrieval for kb={} with maxResults={}", graphKnowledgeBaseId, graphMaxResults);
+        }
+
+        List<ContentRetriever> retrievers = new ArrayList<>(retrieverToDescription.keySet());
+
+        if (retrievers.isEmpty()) {
             throw new IllegalStateException("No retriever is enabled. Please enable at least one.");
         }
 
-        // Query Router
-        QueryRouter queryRouter = LanguageModelQueryRouter.builder()
-                .chatModel(chatModel)
-                .retrieverToDescription(retrieverToDescription)
-                .build();
+        // 多路召回：所有检索器并行执行，结果合并
+        QueryRouter queryRouter = new DefaultQueryRouter(retrievers.toArray(new ContentRetriever[0]));
+        log.debug("Enabled multi-retrieval with {} retrievers", retrievers.size());
 
         // Content Aggregator
         ContentAggregator contentAggregator = enableReRanking ?
@@ -229,6 +280,9 @@ public class RetrievalAugmentorBuilder {
         }
         if (enableWebSearch && (webSearchApiKey == null || webSearchApiKey.trim().isEmpty())) {
             throw new IllegalArgumentException("webSearchApiKey is required when web search is enabled");
+        }
+        if (enableGraphRetrieval && (graphRagService == null || graphKnowledgeBaseId == null)) {
+            throw new IllegalArgumentException("graphRagService and graphKnowledgeBaseId are required when graph retrieval is enabled");
         }
     }
 

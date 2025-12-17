@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wemirr.platform.ai.core.assistant.interfaces.ChatAssistant;
 import com.wemirr.platform.ai.core.enums.ChunkType;
 import com.wemirr.platform.ai.core.provider.embedding.EmbeddingModelProviderRegistry;
+import com.wemirr.platform.ai.core.provider.graph.GraphContentRetriever;
+import com.wemirr.platform.ai.core.provider.graph.GraphRagService;
 import com.wemirr.platform.ai.core.provider.mcp.DynamicMcpToolProvider;
 import com.wemirr.platform.ai.core.provider.text.TextModelService;
 import com.wemirr.platform.ai.core.provider.vectorStore.EnhancedVectorStoreFactory;
@@ -46,9 +48,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -89,8 +93,14 @@ public class AssistantService {
     private final Executor executor = Executors.newCachedThreadPool();
 
     private final ToolService toolService;
-    
+
     private final DynamicMcpToolProvider dynamicMcpToolProvider;
+
+    /**
+     * GraphRAG 服务（可选，仅在启用图谱功能时注入）
+     */
+    @Autowired(required = false)
+    private GraphRagService graphRagService;
 
     /**
      * 创建普通记忆对话的 Assistant
@@ -313,32 +323,69 @@ public class AssistantService {
                 .build();
     }
 
+    /**
+     * 构建 RAG 检索增强器
+     * <p>
+     * 支持向量检索、图谱检索或混合检索模式
+     */
     private RetrievalAugmentor buildRetrievalAugmentor(RagAssistantParams params, ChatModel chatModel) {
-        KnowledgeBase knowledgeBase = knowledgeBaseService.getById(params.getKbId());
-        EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, params.getEmbeddingModelConfig());
-        EmbeddingModel embeddingModel = embeddingModelProviderRegistry.getProvider(params.getEmbeddingModelConfig()).createModel(params.getEmbeddingModelConfig());
+        // 收集所有启用的检索器
+        Map<ContentRetriever, String> retrieverToDescription = new java.util.LinkedHashMap<>();
 
-        ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
-                .embeddingStore(embeddingStore)
-                .embeddingModel(embeddingModel)
-                .maxResults(params.getMaxResults())
-                .minScore(params.getMinScore())
-                .build();
+        // 1. 向量检索器
+        if (Boolean.TRUE.equals(params.getEnableVectorRetrieval()) && params.getEmbeddingModelConfig() != null) {
+            KnowledgeBase knowledgeBase = knowledgeBaseService.getById(params.getKbId());
+            EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, params.getEmbeddingModelConfig());
+            EmbeddingModel embeddingModel = embeddingModelProviderRegistry.getProvider(params.getEmbeddingModelConfig()).createModel(params.getEmbeddingModelConfig());
 
-        // 创建翻译转换器
+            ContentRetriever vectorRetriever = EmbeddingStoreContentRetriever.builder()
+                    .embeddingStore(embeddingStore)
+                    .embeddingModel(embeddingModel)
+                    .maxResults(params.getMaxResults())
+                    .minScore(params.getMinScore())
+                    .build();
+            retrieverToDescription.put(vectorRetriever, "内部知识库（文档、手册、策略等非结构化内容）");
+            log.debug("向量检索已启用: kbId={}, maxResults={}, minScore={}", params.getKbId(), params.getMaxResults(), params.getMinScore());
+        }
+
+        // 2. 图谱检索器
+        if (params.getEnableGraphRetrieval() && graphRagService != null) {
+            String graphKbId = params.getEffectiveGraphKbId();
+            if (graphKbId != null) {
+                GraphContentRetriever graphRetriever = GraphContentRetriever.builder()
+                        .graphRagService(graphRagService)
+                        .chatModel(chatModel)
+                        .knowledgeBaseId(graphKbId)
+                        .maxResults(params.getGraphMaxResults())
+                        .silentOnEmpty(true)
+                        .build();
+                retrieverToDescription.put(graphRetriever, "知识图谱（实体关系、结构化数据）");
+                log.debug("图谱检索已启用: graphKbId={}, maxResults={}", graphKbId, params.getGraphMaxResults());
+            }
+        }
+
+        List<ContentRetriever> retrievers = new ArrayList<>(retrieverToDescription.keySet());
+
+        if (retrievers.isEmpty()) {
+            throw new IllegalStateException("未启用任何检索器，请至少启用向量检索或图谱检索");
+        }
+
+        // Query 转换器：翻译 + 压缩
         QueryTransformer translationQueryTransformer = new TranslationQueryTransformer(chatModel);
-        // 创建压缩转换器
         QueryTransformer compressingQueryTransformer = new CompressingQueryTransformer(chatModel);
-        // 组合转换器：先翻译，再压缩
         QueryTransformer queryTransformer = query -> {
-            // 第一步：翻译
             Collection<Query> translatedQueries = translationQueryTransformer.transform(query);
             Query translatedQuery = translatedQueries.iterator().next();
-
-            // 第二步：压缩（如果需要考虑对话历史）
             return compressingQueryTransformer.transform(translatedQuery);
         };
-        QueryRouter queryRouter = new DefaultQueryRouter(contentRetriever);
+
+        // 多路召回：所有检索器并行执行，结果合并
+        // 使用 DefaultQueryRouter 传入所有检索器，实现多路召回
+        QueryRouter queryRouter = new DefaultQueryRouter(retrievers.toArray(new ContentRetriever[0]));
+        log.debug("启用多路召回，检索器数量: {}", retrievers.size());
+
+        // TODO: 集成重排序模型对召回结果进行排序
+        // 目前使用 DefaultContentAggregator，后续可替换为 ReRankingContentAggregator
         ContentAggregator contentAggregator = new DefaultContentAggregator();
         ContentInjector contentInjector = new DefaultContentInjector();
 

@@ -13,16 +13,29 @@ import java.util.Map;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "rag.vector-store")
+@ConfigurationProperties(prefix = "rag")
 public class VectorStoreProperties {
 
     private StoreType type = StoreType.MILVUS;
 
+    /**
+     * 是否启用Neo4j图谱功能（全局开关）
+     */
+    private boolean graphEnabled = true;
+
     private MilvusConfig milvus = new MilvusConfig();
+
     private PgVectorConfig pgvector = new PgVectorConfig();
+
     private InMemoryConfig inmemory = new InMemoryConfig();
 
     private ElasticsearchConfig elasticsearch = new ElasticsearchConfig();
+
+
+    /**
+     * 知识图谱配置
+     */
+    private Neo4jConfig neo4j = new Neo4jConfig();
 
     public enum StoreType {
         MILVUS, PGVECTOR, IN_MEMORY
@@ -76,6 +89,38 @@ public class VectorStoreProperties {
          * 集合参数
          */
         private Map<String, Object> collectionParams = new HashMap<>();
+    }
+
+    /**
+     * Neo4j配置
+     */
+    @Data
+    public static class Neo4jConfig {
+        /** Neo4j服务器地址 */
+        private String uri = "bolt://localhost:17688";
+
+        /** 用户名 */
+        private String username = "neo4j";
+
+        /** 密码 */
+        private String password = "your_password";
+
+        /** 数据库名称 */
+        private String database = "neo4j";
+
+        /** 文档节点标签 */
+        private String label = "Entity";
+
+        /** 文本属性名称 */
+        private String textProperty = "text";
+
+        /** ID属性名称 */
+        private String idProperty = "id";
+
+
+        /** Label前缀（用于数据隔离） */
+        private String labelPrefix = "KB_";
+
     }
 
     /**

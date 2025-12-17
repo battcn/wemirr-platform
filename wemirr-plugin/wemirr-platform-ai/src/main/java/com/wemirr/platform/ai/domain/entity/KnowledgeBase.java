@@ -60,6 +60,9 @@ public class KnowledgeBase extends SuperEntity<Long> {
     @Schema(description = "向量模型ID,一旦选定默认不允许修改")
     private Long embeddingModelId;
 
+    @Schema(description = "是否启用图谱")
+    private Boolean enableGraph;
+
     @Schema(description = "版本号")
     @TableField("version")
     private Integer version;
