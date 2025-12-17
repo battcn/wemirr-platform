@@ -194,7 +194,21 @@
             <version>1.19.6</version>
             <scope>test</scope>
         </dependency>
+        <!--  neo4j  -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-community-neo4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-community-neo4j-retriever</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-community-llm-graph-transformer</artifactId>
+        </dependency>
     </dependencies>
+x
 
     <dependencyManagement>
         <dependencies>
