@@ -96,7 +96,7 @@ public class InstancePageResp {
     @Schema(description = "流程分类名称")
     private String categoryName;
 
-    @Schema(description = "流程分类Id")
+    @Schema(description = "流程分类ID")
     private String categoryId;
 
     public Long getInstanceId() {

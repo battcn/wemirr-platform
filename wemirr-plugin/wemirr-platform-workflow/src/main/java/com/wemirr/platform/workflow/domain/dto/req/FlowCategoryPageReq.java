@@ -23,7 +23,7 @@ public class FlowCategoryPageReq extends PageRequest {
     private String name;
 
     @Schema(description = "状态")
-    private String status;
+    private Boolean status;
 
     @Schema(description = "开始日期")
     private Instant startTime;

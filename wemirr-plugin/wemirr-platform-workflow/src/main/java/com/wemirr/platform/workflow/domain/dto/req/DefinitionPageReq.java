@@ -16,16 +16,15 @@ import lombok.EqualsAndHashCode;
 @Schema(name = "DefinitionPageReq", description = "流程定义分页请求对象")
 public class DefinitionPageReq extends PageRequest {
 
+    @Schema(description = "流程定义名称")
+    private String flowName;
 
-    @Schema(description = "流程定义编码")
-    private String flowCode;
-
-    @Schema(description = "流程分类id")
+    @Schema(description = "流程分类ID")
     private String categoryId;
 
-    @Schema(description = "发布（0未开启 1开启 9）")
-    private FlowPublishStatus publishStatus;
+    @Schema(description = "流程激活状态（0=挂起 1=激活）")
+    private Integer activityStatus;
 
-    @Schema(description = "设计器模型（CLASSICS经典模型 MIMIC仿钉钉模型）")
-    private ModelValue modelValue;
+    @Schema(description = "发布（ 0=未发布 1=已发布 9=已失效 ）")
+    private FlowPublishStatus isPublish;
 }
