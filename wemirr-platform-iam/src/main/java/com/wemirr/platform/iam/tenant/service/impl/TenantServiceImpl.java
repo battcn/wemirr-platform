@@ -110,7 +110,6 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     @DSTransactional(rollbackFor = Exception.class)
     public void create(TenantSaveReq req) {
         // 随机生成租户编码
-        // String tenantCode = RandomUtil.randomNumbers(4);
         long nameCount = this.baseMapper.selectCount(Tenant::getName, req.getName());
         if (nameCount > 0) {
             throw CheckedException.badRequest("租户名称重复");
@@ -149,25 +148,6 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void tenantConfig(Long tenantId, TenantConfigReq req) {
-        // final Tenant tenant = Optional.ofNullable(this.baseMapper.selectById(tenantId))
-        // .orElseThrow(() -> CheckedException.notFound("租户不存在"));
-        // if (!tenant.getStatus()) {
-        // throw CheckedException.badRequest("租户未启用");
-        // }
-        // if (StringUtils.equals(tenant.getCode(), properties.getMultiTenant().getSuperTenantCode())) {
-        // throw CheckedException.badRequest("超级租户,禁止操作");
-        // }
-        // TenantConfig tenantConfig = this.tenantConfigMapper.selectOne(TenantConfig::getTenantId, tenantId);
-        // if (tenantConfig == null) {
-        // tenantConfigMapper.insert(TenantConfig.builder().tenantId(tenantId).datasourceId(req.getDatasourceId()).build());
-        // } else {
-        // tenantConfigMapper.updateById(TenantConfig.builder().id(tenantConfig.getId()).datasourceId(req.getDatasourceId()).build());
-        // }
-        // // 先创建
-        // dynamicDatasourceService.publishEvent(EventAction.INIT, tenant.getId());
-        // if (!req.isLazy()) {
-        // initSqlScript(tenantId);
-        // }
     }
 
     @Override
@@ -205,15 +185,18 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             // 等于0全表会删。
             this.userRoleMapper.delete(Wraps.<UserRole>lbQ().in(UserRole::getUserId, userIdList));
         }
-        this.userMapper.deleteByTenantId(tenant.getId());
-        this.roleMapper.deleteByTenantId(tenant.getId());
-        this.orgMapper.deleteByTenantId(tenant.getId());
+        TenantHelper.runWithIgnoreStrategy(() -> {
+            this.userMapper.delete(User::getTenantId, tenant.getId());
+            this.roleMapper.delete(Role::getTenantId, tenant.getId());
+            this.orgMapper.delete(Org::getTenantId, tenant.getId());
+        });
+
     }
 
 
     private void initColumnTypeTenant(Tenant tenant) {
         final Role role = selectTenantAdminRole();
-        final List<User> users = this.userMapper.selectByTenantId(tenant.getId());
+        var users = TenantHelper.withIgnoreStrategy(() -> this.userMapper.selectList(User::getTenantId, tenant.getId()));
         if (CollUtil.isNotEmpty(users)) {
             clearTenantData(tenant, users);
         }
@@ -232,7 +215,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         final Role role = selectTenantAdminRole();
         List<RoleRes> list = this.roleResMapper.selectList(RoleRes::getRoleId, role.getId());
         TenantHelper.executeWithTenantDb(tenant.getCode(), () -> {
-            final List<User> users = this.userMapper.selectByTenantId(tenant.getId());
+            var users = TenantHelper.withIgnoreStrategy(() -> this.userMapper.selectList(User::getTenantId, tenant.getId()));
             if (CollUtil.isNotEmpty(users)) {
                 clearTenantData(tenant, users);
             }

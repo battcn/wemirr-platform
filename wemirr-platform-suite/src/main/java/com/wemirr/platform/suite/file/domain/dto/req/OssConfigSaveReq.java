@@ -61,7 +61,7 @@ public class OssConfigSaveReq {
      * 访问域名
      */
     @NotBlank(message = "域名不能为空")
-    @Schema(description = "访问域名,需要以/结尾", requiredMode = Schema.RequiredMode.REQUIRED, example = "http://192.168.241.130:9000/test/")
+    @Schema(description = "访问域名,需要以/结尾", requiredMode = Schema.RequiredMode.REQUIRED, example = "http://192.168.241.130:15000/test/")
     private String domain;
     /**
      * 桶名称

@@ -8,7 +8,7 @@
         from sys_role t1
                  INNER JOIN sys_user_role t2 on t1.id = t2.role_id
         where t1.status = true
-          and t2.user_id = #{userId, jdbcType=BIGINT}
+          and t2.user_id = #{userId}
     </select>
 
     <select id="list" resultType="com.wemirr.platform.iam.system.domain.entity.Role">

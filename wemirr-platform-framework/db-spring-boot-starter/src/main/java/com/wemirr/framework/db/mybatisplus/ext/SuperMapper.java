@@ -100,6 +100,11 @@ public interface SuperMapper<T> extends BaseMapper<T> {
         return count != null ? count : 0;
     }
 
+    default boolean delete(SFunction<T, ?> field, Object value) {
+        int count = delete(Wraps.<T>lbQ().eq(field, value));
+        return count > 0;
+    }
+
     default long selectCount(SFunction<T, ?> field, Object value, SFunction<T, ?> field2, Object value2) {
         Long count = selectCount(Wraps.<T>lbQ().eq(field, value).eq(field2, value2));
         return count != null ? count : 0;

@@ -82,6 +82,7 @@ public class MenuConverts {
                 }
             }
             extra.put("icon", route.getIcon());
+            extra.put("sequence", route.getSequence());
             extra.put("permission", route.getPermission());
             extra.put("meta", buildRouteMeta(route));
             node.setExtra(extra);

@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 15000
 spring:
   main:
     allow-bean-definition-overriding: true

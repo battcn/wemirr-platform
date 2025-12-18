@@ -19,35 +19,30 @@
 
 package com.wemirr.platform.iam.system.domain.dto.req;
 
+import com.wemirr.framework.commons.security.DataResourceType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
 
 /**
- * 保存角色对象
+ * 数据权限分配请求
  *
  * @author Levin
  */
 @Data
-@Schema(name = "RoleSaveReq")
-public class RoleSaveReq {
-
-    @Schema(description = "角色名称")
-    @NotEmpty(message = "角色名称不能为空")
-    @Length(max = 30, message = "角色名称长度不能超过30")
-    private String name;
-
-    @Schema(description = "角色编码")
-    @Length(max = 20, message = "角色编码长度不能超过20")
-    private String code;
-
-    @Schema(description = "描述")
-    @Length(max = 100, message = "描述长度不能超过100")
-    private String description;
-
-    @NotNull(message = "角色状态不能为空")
-    @Schema(description = "状态")
-    private Boolean status;
+@Schema(name = "DataPermissionAssignReq", description = "数据权限分配请求")
+public class DataPermissionAssignReq {
+    
+    @NotNull(message = "数据类型不能为空")
+    @Schema(description = "数据类型")
+    private DataResourceType dataType;
+    
+    @NotNull(message = "权限范围类型不能为空")
+    @Schema(description = "权限范围类型: 10-个人, 20-自定义, 30-本级, 40-本级及子级, 50-全部")
+    private Integer scopeType;
+    
+    @Schema(description = "数据ID列表（自定义时使用）")
+    private List<Long> dataIds;
 }

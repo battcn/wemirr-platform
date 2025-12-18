@@ -76,12 +76,14 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         if (bean.getScopeType() != DataScopeType.CUSTOMIZE) {
             return bean;
         }
-        var dataList = this.dataPermissionRefMapper.selectList(Wraps.<DataPermissionRef>lbQ().eq(DataPermissionRef::getOwnerId, id)
-                .eq(DataPermissionRef::getOwnerType, DataResourceType.ROLE).eq(DataPermissionRef::getDataType, DataResourceType.ORG));
+        var dataList = this.dataPermissionRefMapper.selectList(Wraps.<DataPermissionRef>lbQ()
+                .eq(DataPermissionRef::getOwnerId, id)
+                .eq(DataPermissionRef::getOwnerType, DataResourceType.ROLE)
+                .eq(DataPermissionRef::getDataType, DataResourceType.ORG));
         if (CollUtil.isEmpty(dataList)) {
             return bean;
         }
-        bean.setOrgIdList(dataList.stream().map(DataPermissionRef::getDataId).distinct().toList());
+        bean.setOrgIdList(dataList.stream().map(DataPermissionRef::getDataId).filter(java.util.Objects::nonNull).distinct().toList());
         return bean;
     }
 
@@ -109,7 +111,6 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         Role role = BeanUtil.toBean(req, Role.class);
         role.setReadonly(false);
         super.save(role);
-        addDataPermission(role.getId(), req.getOrgIdList());
     }
 
     @Override
@@ -128,7 +129,6 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
         }
         var bean = BeanUtilPlus.toBean(roleId, req, Role.class);
         this.baseMapper.updateById(bean);
-        addDataPermission(role.getId(), req.getOrgIdList());
     }
 
     @Override
@@ -145,14 +145,20 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
     }
 
     private void addDataPermission(Long roleId, List<Long> orgList) {
-        dataPermissionRefMapper.delete(Wraps.<DataPermissionRef>lbQ().eq(DataPermissionRef::getOwnerId, roleId)
-                .eq(DataPermissionRef::getOwnerType, DataResourceType.ROLE).eq(DataPermissionRef::getDataType, DataResourceType.ORG));
+        dataPermissionRefMapper.delete(Wraps.<DataPermissionRef>lbQ()
+                .eq(DataPermissionRef::getOwnerId, roleId)
+                .eq(DataPermissionRef::getOwnerType, DataResourceType.ROLE)
+                .eq(DataPermissionRef::getDataType, DataResourceType.ORG));
         if (CollectionUtil.isEmpty(orgList)) {
             return;
         }
         // 根据 数据范围类型 和 勾选的组织ID， 重新计算全量的组织ID
-        List<DataPermissionRef> list = orgList.stream().map(orgId -> DataPermissionRef.builder().dataId(orgId)
-                .dataType(DataResourceType.ORG).ownerType(DataResourceType.ROLE).ownerId(roleId).build()).collect(toList());
+        List<DataPermissionRef> list = orgList.stream().map(orgId -> DataPermissionRef.builder()
+                .ownerId(roleId)
+                .ownerType(DataResourceType.ROLE)
+                .dataType(DataResourceType.ORG)
+                .dataId(orgId)
+                .build()).collect(toList());
         dataPermissionRefMapper.insertBatchSomeColumn(list);
     }
 

@@ -2,7 +2,6 @@ package com.wemirr.platform.workflow.domain.dto.req;
 
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.platform.workflow.domain.enums.FlowPublishStatus;
-import com.wemirr.platform.workflow.domain.enums.ModelValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

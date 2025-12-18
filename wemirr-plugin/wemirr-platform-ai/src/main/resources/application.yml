@@ -1,5 +1,5 @@
 server:
-  port: 5012
+  port: 15012
 spring:
   application:
     name: wemirr-platform-ai

@@ -1,5 +1,5 @@
 server:
-  port: 5004
+  port: 15004
 spring:
   application:
     name: wemirr-platform-workflow

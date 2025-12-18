@@ -29,7 +29,6 @@ import com.wemirr.framework.db.mybatisplus.datascope.annotation.DataScope;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.iam.system.domain.dto.resp.UserPageResp;
 import com.wemirr.platform.iam.system.domain.entity.User;
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -42,7 +41,7 @@ import java.util.List;
 
 @Repository
 public interface UserMapper extends SuperMapper<User> {
-    
+
     /**
      * 分页查询用户
      *
@@ -52,7 +51,7 @@ public interface UserMapper extends SuperMapper<User> {
      */
     @DataScope(columns = @DataColumn(name = Entity.CREATE_USER_COLUMN))
     IPage<UserPageResp> findPage(@Param("page") IPage<User> page, @Param(Constants.WRAPPER) Wrapper<User> wrapper);
-    
+
     /**
      * 查询用户
      *
@@ -63,7 +62,7 @@ public interface UserMapper extends SuperMapper<User> {
     @InterceptorIgnore(tenantLine = "true")
     @Select("select * from t_user where username = #{username} and tenant_id = #{tenantId} AND deleted = false")
     User selectUserByTenantId(@Param("username") String username, @Param("tenantId") Long tenantId);
-    
+
     /**
      * 带数据权限用户列表
      *
@@ -71,26 +70,7 @@ public interface UserMapper extends SuperMapper<User> {
      */
     @DataScope(columns = @DataColumn(name = Entity.CREATE_USER_COLUMN))
     List<User> list();
-    
-    /**
-     * 删除指定租户用户数据
-     *
-     * @param tenantId 租户ID
-     */
-    @InterceptorIgnore(tenantLine = "true")
-    @Delete("delete from t_user where tenant_id = #{tenantId}")
-    void deleteByTenantId(@Param("tenantId") Long tenantId);
-    
-    /**
-     * 查询指定租户用户信息
-     *
-     * @param tenantId 租户ID
-     * @return 查询结果
-     */
-    @InterceptorIgnore(tenantLine = "true")
-    @Select("select * from t_user where tenant_id = #{tenantId}")
-    List<User> selectByTenantId(@Param("tenantId") Long tenantId);
-    
+
     /**
      * 根据用户ID查询角色权限
      *

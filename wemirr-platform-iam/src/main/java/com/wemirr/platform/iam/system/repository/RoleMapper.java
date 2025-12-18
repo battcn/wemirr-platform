@@ -24,8 +24,6 @@ import com.wemirr.framework.db.mybatisplus.datascope.annotation.DataColumn;
 import com.wemirr.framework.db.mybatisplus.datascope.annotation.DataScope;
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
 import com.wemirr.platform.iam.system.domain.entity.Role;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,7 +34,7 @@ import java.util.List;
 
 @Repository
 public interface RoleMapper extends SuperMapper<Role> {
-    
+
     /**
      * 根据用户ID查询角色
      *
@@ -45,7 +43,7 @@ public interface RoleMapper extends SuperMapper<Role> {
      */
     @InterceptorIgnore(tenantLine = "true")
     List<Role> findRoleByUserId(Long userId);
-    
+
     /**
      * 根据范围查询角色
      *
@@ -53,13 +51,4 @@ public interface RoleMapper extends SuperMapper<Role> {
      */
     @DataScope(columns = @DataColumn)
     List<Role> list();
-    
-    /**
-     * 根据租户ID删除
-     *
-     * @param tenantId 租户ID
-     */
-    @InterceptorIgnore(tenantLine = "true")
-    @Delete("delete from sys_role where tenant_id = #{tenantId}")
-    void deleteByTenantId(@Param("tenantId") Long tenantId);
 }

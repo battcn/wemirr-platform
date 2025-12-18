@@ -148,6 +148,21 @@ public class DatabaseProperties {
          * 对时效性要求高就需要改成 true 了,但是这样性能有些许影响
          */
         private boolean remote = true;
+
+        /**
+         * 数据权限模式
+         * <p>
+         * SAME_DATABASE: 同库模式，使用 EXISTS 子查询（性能好，无溢出风险）
+         * SEPARATE_DATABASE: 分库模式，使用 IN 列表（需预加载权限数据）
+         * </p>
+         */
+        private com.wemirr.framework.db.mybatisplus.datascope.core.DataScopeConstants.Mode mode = 
+                com.wemirr.framework.db.mybatisplus.datascope.core.DataScopeConstants.Mode.SEPARATE_DATABASE;
+
+        /**
+         * IN 列表阈值，超过此值在同库模式下使用 EXISTS 子查询
+         */
+        private int inThreshold = 1000;
     }
 
     @Data

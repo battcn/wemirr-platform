@@ -1,5 +1,5 @@
 server:
-  port: 5002
+  port: 15002
 # 应该配置到cloud-default.yaml中 需要广播的字典配置
 extend:
   boot:

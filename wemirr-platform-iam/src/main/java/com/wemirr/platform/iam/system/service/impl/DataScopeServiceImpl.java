@@ -50,18 +50,18 @@ import static com.wemirr.framework.commons.security.DataScopeType.*;
 @Service
 @RequiredArgsConstructor
 public class DataScopeServiceImpl implements DataScopeService {
-    
+
     private final RoleMapper roleMapper;
     private final DataPermissionRefMapper dataPermissionRefMapper;
     private final UserMapper userMapper;
     private final OrgService orgService;
-    
+
     @Override
     public DataPermission getDataScopeById(Long userId) {
         final User user = Optional.ofNullable(this.userMapper.selectById(userId)).orElseThrow(() -> CheckedException.notFound("用户不存在"));
         return getDataScopeById(userId, user.getOrgId());
     }
-    
+
     /**
      * 开发者可以根据自己企业需求动态扩展数据权限（默认就支撑多维度数据权限，此处以用户维护演示）
      *
@@ -77,14 +77,17 @@ public class DataScopeServiceImpl implements DataScopeService {
         }
         // 找到 dsType 最大的角色， dsType越大，角色拥有的权限最大
         Role role = list.stream().max(Comparator.comparingInt(item -> item.getScopeType().getType())).get();
-        DataPermission permission = DataPermission.builder().scopeType(role.getScopeType()).build();
+        // 收集所有角色ID（用于 EXISTS 子查询）
+        List<Long> roleIds = list.stream().map(Role::getId).toList();
+        DataPermission permission = DataPermission.builder().scopeType(role.getScopeType()).roleIds(roleIds).orgId(orgId).build();
+
         List<Long> userIdList = null;
         if (role.getScopeType() == CUSTOMIZE) {
             List<Long> orgIdList = dataPermissionRefMapper.selectList(Wraps.<DataPermissionRef>lbQ().select(DataPermissionRef::getDataId)
                     .eq(DataPermissionRef::getOwnerId, role.getId())
                     .eq(DataPermissionRef::getOwnerType, DataResourceType.ROLE)
                     .eq(DataPermissionRef::getDataType, DataResourceType.ORG))
-                    .stream().map(DataPermissionRef::getDataId).distinct().toList();
+                    .stream().map(DataPermissionRef::getDataId).filter(java.util.Objects::nonNull).distinct().toList();
             userIdList = this.userMapper.selectList(Wraps.<User>lbQ().select(User::getId).in(User::getOrgId, orgIdList))
                     .stream().map(Entity::getId).toList();
         } else if (role.getScopeType() == THIS_LEVEL) {

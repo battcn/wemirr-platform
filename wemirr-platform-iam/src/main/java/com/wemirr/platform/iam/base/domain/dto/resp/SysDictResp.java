@@ -22,6 +22,8 @@ package com.wemirr.platform.iam.base.domain.dto.resp;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.Instant;
+
 /**
  * @author Levin
  */
@@ -42,9 +44,15 @@ public class SysDictResp {
 
     @Schema(description = "状态")
     private Boolean status;
-    
+
     @Schema(description = "描述")
     private String description;
+
+    @Schema(description = "创建人")
+    private String createName;
+
+    @Schema(description = "创建时间")
+    private Instant createTime;
 
     @Schema(description = "父级ID")
     private Long parentId;

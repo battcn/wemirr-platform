@@ -17,37 +17,35 @@
  * limitations under the License.
  */
 
-package com.wemirr.platform.iam.system.domain.dto.req;
+package com.wemirr.platform.iam.system.domain.dto.resp;
 
+import com.wemirr.framework.commons.security.DataResourceType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
- * 保存角色对象
+ * 数据权限响应
  *
  * @author Levin
  */
 @Data
-@Schema(name = "RoleSaveReq")
-public class RoleSaveReq {
-
-    @Schema(description = "角色名称")
-    @NotEmpty(message = "角色名称不能为空")
-    @Length(max = 30, message = "角色名称长度不能超过30")
-    private String name;
-
-    @Schema(description = "角色编码")
-    @Length(max = 20, message = "角色编码长度不能超过20")
-    private String code;
-
-    @Schema(description = "描述")
-    @Length(max = 100, message = "描述长度不能超过100")
-    private String description;
-
-    @NotNull(message = "角色状态不能为空")
-    @Schema(description = "状态")
-    private Boolean status;
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Schema(name = "DataPermissionResp", description = "数据权限响应")
+public class DataPermissionResp {
+    
+    @Schema(description = "数据类型")
+    private DataResourceType dataType;
+    
+    @Schema(description = "权限范围类型")
+    private Integer scopeType;
+    
+    @Schema(description = "数据ID列表")
+    private List<Long> dataIds;
 }
