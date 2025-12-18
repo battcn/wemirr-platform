@@ -34,16 +34,18 @@ import java.util.Map;
  * @since 2020-03-02
  */
 public class MenuConverts {
-    
+
     public static final VueRouter2TreeNodeConverts VUE_ROUTER_2_TREE_NODE_CONVERTS = new VueRouter2TreeNodeConverts();
-    
+
     public static class VueRouter2TreeNodeConverts implements BaseConverts<VisibleResourceResp, TreeNode<Long>> {
-        
+
         private static Map<String, Object> buildRouteMeta(VisibleResourceResp route) {
             Map<String, Object> meta = Maps.newHashMap();
             if (route.getVisible() != null && !route.getVisible()) {
                 meta.put("hideInMenu", true);
                 meta.put("activePath", StrUtil.subBefore(route.getPath(), "/", true));
+            } else {
+                meta.put("hideInMenu", false);
             }
             meta.put("icon", route.getIcon());
             meta.put("title", route.getTitle());
@@ -61,7 +63,7 @@ public class MenuConverts {
             }
             return meta;
         }
-        
+
         @Override
         public TreeNode<Long> convert(VisibleResourceResp route) {
             TreeNode<Long> node = new TreeNode<>(route.getId(), route.getParentId(), route.getTitle(), route.getSequence());
@@ -71,6 +73,7 @@ public class MenuConverts {
             extra.put("name", route.getPath());
             extra.put("title", route.getTitle());
             extra.put("type", route.getType().getValue());
+            extra.put("visible", route.getVisible());
             if (route.getType() == ResourceType.DIRECTORY) {
                 extra.put("component", "BasicLayout");
             } else if (route.getType() == ResourceType.IFRAME || route.getType() == ResourceType.LINK) {
@@ -89,5 +92,5 @@ public class MenuConverts {
             return node;
         }
     }
-    
+
 }
