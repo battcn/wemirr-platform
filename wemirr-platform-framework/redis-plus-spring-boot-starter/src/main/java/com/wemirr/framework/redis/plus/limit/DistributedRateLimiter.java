@@ -22,6 +22,7 @@ package com.wemirr.framework.redis.plus.limit;
 import com.wemirr.framework.redis.plus.exception.RedisLimitException;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RRateLimiter;
+import org.redisson.api.RateIntervalUnit;
 import org.redisson.api.RateType;
 import org.redisson.api.RedissonClient;
 
@@ -313,7 +314,7 @@ public final class DistributedRateLimiter {
     private RRateLimiter getRateLimiter() {
         RRateLimiter rateLimiter = redissonClient.getRateLimiter(key);
         Duration interval = convertToDuration(timeout, timeUnit);
-        rateLimiter.trySetRate(rateType, permits, interval);
+        rateLimiter.trySetRate(rateType, permits,interval.getSeconds() ,RateIntervalUnit.SECONDS);
         return rateLimiter;
     }
 

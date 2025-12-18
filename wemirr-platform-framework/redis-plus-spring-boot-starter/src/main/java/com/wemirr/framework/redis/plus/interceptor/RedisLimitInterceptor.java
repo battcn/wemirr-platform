@@ -29,6 +29,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RRateLimiter;
+import org.redisson.api.RateIntervalUnit;
 import org.redisson.api.RateType;
 import org.redisson.api.RedissonClient;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -101,7 +102,7 @@ public record RedisLimitInterceptor(RedissonClient redissonClient) {
                                RateType rateType, long retryTime) {
         RRateLimiter rateLimiter = redissonClient.getRateLimiter(key);
         Duration interval = convertToDuration(timeout, timeUnit);
-        rateLimiter.trySetRate(rateType, permits, interval);
+        rateLimiter.trySetRate(rateType, permits,interval.getSeconds(), RateIntervalUnit.SECONDS);
         // retryTime参数保留以兼容@RedisLimit注解，后续版本可考虑实现重试逻辑
         return rateLimiter.tryAcquire(1);
     }
