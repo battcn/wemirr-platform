@@ -197,20 +197,18 @@
         from flow_definition t1
         left join flow_category t2 on t1.category = t2.id
         where t1.del_flag = '0'
-        <if test="req.flowCode != null and req.flowCode != ''">
-            and t1.flow_code = #{req.flowCode}
+        <if test="req.flowName != null and req.flowName != ''">
+            and t1.flow_name = #{req.flowName}
         </if>
         <if test="req.categoryId != null and req.categoryId != ''">
             and t2.id = #{req.categoryId}
         </if>
-        <if test="req.flowCode != null and req.flowCode != ''">
-            and t1.flow_code = #{req.flowCode}
+
+        <if test="req.isPublish != null">
+            and t1.is_publish = #{req.isPublish}
         </if>
-        <if test="req.publishStatus != null">
-            and t1.is_publish = #{req.publishStatus}
-        </if>
-        <if test="req.modelValue != null">
-            and t1.model_value = #{req.modelValue.value}
+        <if test="req.activityStatus != null">
+            and t1.activity_status = #{req.activityStatus}
         </if>
         ORDER BY ID DESC
     </select>
