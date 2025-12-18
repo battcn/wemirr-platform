@@ -26,7 +26,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.wemirr.framework.boot.remote.properties.RemoteProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;

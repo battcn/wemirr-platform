@@ -21,7 +21,6 @@ package com.wemirr.framework.feign.plugin;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wemirr.framework.feign.plugin.decoder.FeignResponseDecoder;
 import com.wemirr.framework.feign.plugin.mock.FeignPluginInterceptor;
 import com.wemirr.framework.feign.plugin.mock.MockLoadBalancerFeignClient;
 import com.wemirr.framework.feign.plugin.mock.MockProperties;
@@ -31,12 +30,10 @@ import feign.Client;
 import feign.Logger;
 import feign.codec.Decoder;
 import feign.codec.ErrorDecoder;
-import feign.optionals.OptionalDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -44,12 +41,11 @@ import org.springframework.cloud.client.loadbalancer.*;
 import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.cloud.openfeign.loadbalancer.LoadBalancerFeignRequestTransformer;
 import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomizer;
-import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
-import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.converter.HttpMessageConverters;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -113,7 +109,8 @@ public class FeignPluginConfiguration {
     @Bean
     public Decoder feignDecoder(ObjectFactory<HttpMessageConverters> messageConverters,
                                 ObjectProvider<HttpMessageConverterCustomizer> customizers) {
-        return new OptionalDecoder((new ResponseEntityDecoder(new FeignResponseDecoder(new SpringDecoder(messageConverters, customizers)))));
+//        return new OptionalDecoder((new ResponseEntityDecoder(new FeignResponseDecoder(new SpringDecoder(messageConverters, customizers)))));
+        return null;
     }
 
     @Bean

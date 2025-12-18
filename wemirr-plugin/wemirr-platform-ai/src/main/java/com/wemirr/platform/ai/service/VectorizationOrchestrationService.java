@@ -51,7 +51,7 @@ public class VectorizationOrchestrationService {
      */
     @Autowired(required = false)
     private GraphRagService graphRagService;
-    
+
     /**
      * 向量化知识条目
      * 

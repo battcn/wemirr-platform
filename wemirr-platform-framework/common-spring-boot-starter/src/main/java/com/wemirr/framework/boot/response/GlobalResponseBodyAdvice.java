@@ -25,6 +25,7 @@ import com.wemirr.framework.commons.entity.Result;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.jspecify.annotations.NonNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
@@ -32,7 +33,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
-import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
@@ -64,7 +64,7 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         final HttpHeaders requestHeaders = serverHttpRequest.getHeaders();
         String path = serverHttpRequest.getURI().getPath();
         // 判单当前请求是否需要经过Response统一结果封装
-        String isReWrite = requestHeaders.containsKey(RESPONSE_DATA_REWRITE) ? requestHeaders.getFirst(RESPONSE_DATA_REWRITE) : REWRITE;
+        String isReWrite = requestHeaders.containsHeader(RESPONSE_DATA_REWRITE) ? requestHeaders.getFirst(RESPONSE_DATA_REWRITE) : REWRITE;
         serverHttpResponse.getHeaders().add(RESPONSE_DATA_REWRITE, REWRITE);
         if (IGNORE_URLS.contains(path) ||
                 path.startsWith("/warm-flow/") ||

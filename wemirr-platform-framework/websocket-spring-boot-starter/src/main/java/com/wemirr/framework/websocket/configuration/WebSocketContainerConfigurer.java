@@ -19,10 +19,6 @@
 
 package com.wemirr.framework.websocket.configuration;
 
-import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
-import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -33,15 +29,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebSocketContainerConfigurer {
 
-    @Bean
-    public ServletWebServerFactory servletWebServerFactory() {
-        UndertowServletWebServerFactory factory = new UndertowServletWebServerFactory();
-        factory.addDeploymentInfoCustomizers(deploymentInfo -> {
-            deploymentInfo.addServletContextAttribute(
-                    "io.undertow.websockets.jsr.WebSocketDeploymentInfo",
-                    new WebSocketDeploymentInfo()
-            );
-        });
-        return factory;
-    }
+//    @Bean
+//    public ServletWebServerFactory servletWebServerFactory() {
+//        UndertowServletWebServerFactory factory = new UndertowServletWebServerFactory();
+//        factory.addDeploymentInfoCustomizers(deploymentInfo -> {
+//            deploymentInfo.addServletContextAttribute(
+//                    "io.undertow.websockets.jsr.WebSocketDeploymentInfo",
+//                    new WebSocketDeploymentInfo()
+//            );
+//        });
+//        return factory;
+//    }
 }

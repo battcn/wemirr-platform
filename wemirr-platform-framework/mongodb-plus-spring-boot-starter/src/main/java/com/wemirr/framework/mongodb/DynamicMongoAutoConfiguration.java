@@ -18,8 +18,8 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
  * @author levin
  */
 @Slf4j
-@Configuration(proxyBeanMethods = false)
 @EnableMongoAuditing
+@Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(MongoAutoConfiguration.class)
 public class DynamicMongoAutoConfiguration {
 
