@@ -14,7 +14,13 @@ import java.util.List;
  * 图谱内容检索器
  * <p>
  * 实现 Langchain4j 的 ContentRetriever 接口，将 GraphRAG 检索能力集成到标准 RAG 管道中。
- * 支持通过 Text2Cypher 方式从知识图谱中检索相关内容。
+ * <p>
+ * 检索流程：
+ * <ol>
+ *   <li>LLM 提取问题中的关键实体</li>
+ *   <li>全文索引匹配实体节点</li>
+ *   <li>子图扩展获取三元组上下文</li>
+ * </ol>
  *
  * @author xJh
  * @since 2025/12/17
@@ -34,7 +40,7 @@ public class GraphContentRetriever implements ContentRetriever {
     private final GraphRagService graphRagService;
 
     /**
-     * 用于生成 Cypher 查询的 ChatModel
+     * 用于提取关键词的 ChatModel
      */
     private final ChatModel chatModel;
 
@@ -53,30 +59,26 @@ public class GraphContentRetriever implements ContentRetriever {
     @Override
     public List<Content> retrieve(Query query) {
         if (graphRagService == null || chatModel == null) {
-            log.warn("GraphContentRetriever not properly configured, returning empty results");
+            log.warn("GraphContentRetriever 未正确配置，返回空结果");
             return Collections.emptyList();
         }
 
         String question = query.text();
-        log.debug("GraphContentRetriever retrieving for question: '{}' in kb: '{}'", question, knowledgeBaseId);
+        log.debug("图谱检索开始: question='{}', knowledgeBaseId='{}'", question, knowledgeBaseId);
 
         try {
-            List<Content> results = graphRagService.retrieve(knowledgeBaseId, question, chatModel, !silentOnEmpty);
+            List<Content> results = graphRagService.retrieveAsContent(knowledgeBaseId, question, chatModel);
 
             // 限制返回结果数量
             if (results.size() > maxResults) {
                 results = results.subList(0, maxResults);
             }
 
-            log.debug("GraphContentRetriever retrieved {} results for question: '{}'", results.size(), question);
+            log.debug("图谱检索完成: 返回 {} 条结果", results.size());
             return results;
 
-        } catch (GraphRagService.EmptyResultException e) {
-            log.info("No graph results found for question: '{}' in kb: '{}'", question, knowledgeBaseId);
-            return Collections.emptyList();
-
         } catch (Exception e) {
-            log.error("Error retrieving from graph for question: '{}' in kb: '{}'", question, knowledgeBaseId, e);
+            log.error("图谱检索失败: question='{}', knowledgeBaseId='{}'", question, knowledgeBaseId, e);
             if (silentOnEmpty) {
                 return Collections.emptyList();
             }
@@ -88,6 +90,6 @@ public class GraphContentRetriever implements ContentRetriever {
      * 获取检索器描述（用于 QueryRouter）
      */
     public String getDescription() {
-        return "Knowledge Graph retriever for structured entity and relationship queries in knowledge base: " + knowledgeBaseId;
+        return "Knowledge Graph retriever for knowledge base: " + knowledgeBaseId;
     }
 }
