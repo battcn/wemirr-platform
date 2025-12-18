@@ -104,6 +104,12 @@ public class KnowledgeItemResp {
     private Boolean vectorized;
 
     /**
+     * 是否已图谱化
+     */
+    @TableField("graphized")
+    private Boolean graphized;
+
+    /**
      * 乐观锁版本
      */
     @TableField("version")
