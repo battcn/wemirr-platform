@@ -200,11 +200,6 @@
             <artifactId>langchain4j-community-neo4j</artifactId>
         </dependency>
 
-        <!-- Jina Reranker -->
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-jina</artifactId>
-        </dependency>
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-community-neo4j-retriever</artifactId>
@@ -213,8 +208,19 @@
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-community-llm-graph-transformer</artifactId>
         </dependency>
+
+        <!--  Reranker -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-jina</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-cohere</artifactId>
+        </dependency>
+
     </dependencies>
-x
+
 
     <dependencyManagement>
         <dependencies>

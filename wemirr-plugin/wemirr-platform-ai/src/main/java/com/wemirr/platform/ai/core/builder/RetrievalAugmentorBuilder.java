@@ -7,8 +7,10 @@ import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.rag.DefaultRetrievalAugmentor;
 import dev.langchain4j.rag.RetrievalAugmentor;
+import dev.langchain4j.model.scoring.ScoringModel;
 import dev.langchain4j.rag.content.aggregator.ContentAggregator;
 import dev.langchain4j.rag.content.aggregator.DefaultContentAggregator;
+import dev.langchain4j.rag.content.aggregator.ReRankingContentAggregator;
 import dev.langchain4j.rag.content.injector.ContentInjector;
 import dev.langchain4j.rag.content.injector.DefaultContentInjector;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
@@ -66,6 +68,11 @@ public class RetrievalAugmentorBuilder {
     private boolean enableReRanking = false;
     private boolean enableParallelRetrieval = true;
     private ExecutorService executorService;
+
+    // 重排序配置
+    private ScoringModel scoringModel;
+    private int rerankMaxResults = 5;
+    private double rerankMinScore = 0.5;
 
     // === 构造函数私有，使用静态工厂方法 ===
     private RetrievalAugmentorBuilder() {}
@@ -151,6 +158,21 @@ public class RetrievalAugmentorBuilder {
 
     public RetrievalAugmentorBuilder enableReRanking(boolean enable) {
         this.enableReRanking = enable;
+        return this;
+    }
+
+    public RetrievalAugmentorBuilder scoringModel(ScoringModel scoringModel) {
+        this.scoringModel = scoringModel;
+        return this;
+    }
+
+    public RetrievalAugmentorBuilder rerankMaxResults(int maxResults) {
+        this.rerankMaxResults = maxResults;
+        return this;
+    }
+
+    public RetrievalAugmentorBuilder rerankMinScore(double minScore) {
+        this.rerankMinScore = minScore;
         return this;
     }
 
@@ -265,10 +287,17 @@ public class RetrievalAugmentorBuilder {
     }
 
     private ContentAggregator createReRankingAggregator() {
-        // TODO: 注入 ReRankingModel 并返回 ReRankingContentAggregator
-        // 示例：return new ReRankingContentAggregator(rerankingModel);
-        log.warn("Re-Ranking is enabled but no implementation provided. Using default aggregator.");
-        return new DefaultContentAggregator();
+        if (scoringModel == null) {
+            log.warn("重排序已启用但未配置 ScoringModel，降级使用默认聚合器");
+            return new DefaultContentAggregator();
+        }
+
+        log.debug("启用重排序: maxResults={}, minScore={}", rerankMaxResults, rerankMinScore);
+        return ReRankingContentAggregator.builder()
+                .scoringModel(scoringModel)
+                .maxResults(rerankMaxResults)
+                .minScore(rerankMinScore)
+                .build();
     }
 
     private void validate() {

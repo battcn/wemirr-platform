@@ -95,6 +95,25 @@ public interface GraphStore {
      */
     String getKnowledgeBaseLabel(String knowledgeBaseId);
 
+    // ==================== 可视化查询 ====================
+
+    /**
+     * 获取知识库的图谱可视化数据
+     *
+     * @param knowledgeBaseId 知识库ID
+     * @param limit           最大节点数量限制
+     * @return 节点和关系数据
+     */
+    GraphData getGraphData(String knowledgeBaseId, int limit);
+
+    /**
+     * 图谱可视化数据
+     */
+    record GraphData(
+            List<Map<String, Object>> nodes,
+            List<Map<String, Object>> edges
+    ) {}
+
     // ==================== 连接管理 ====================
 
     /**

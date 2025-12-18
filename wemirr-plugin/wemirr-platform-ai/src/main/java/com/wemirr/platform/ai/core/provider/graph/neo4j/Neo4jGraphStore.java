@@ -393,6 +393,71 @@ public class Neo4jGraphStore implements GraphStore {
         );
     }
 
+    @Override
+    public GraphData getGraphData(String knowledgeBaseId, int limit) {
+        String kbLabel = getKnowledgeBaseLabel(knowledgeBaseId);
+        List<Map<String, Object>> nodes = new ArrayList<>();
+        List<Map<String, Object>> edges = new ArrayList<>();
+
+        try (Session session = driver.session()) {
+            // 查询节点（排除 Document 类型，限制数量）
+            String nodeQuery = String.format("""
+                MATCH (n:`%s`)
+                WHERE NOT n:Document
+                RETURN elementId(n) AS nodeId, n.id AS id, labels(n) AS labels, properties(n) AS props
+                LIMIT %d
+                """, kbLabel, limit);
+
+            var nodeResult = session.run(nodeQuery);
+            while (nodeResult.hasNext()) {
+                var record = nodeResult.next();
+                Map<String, Object> node = new HashMap<>();
+                node.put("nodeId", record.get("nodeId").asString());
+                node.put("id", record.get("id").asString());
+                node.put("labels", record.get("labels").asList(v -> v.asString()));
+                node.put("properties", record.get("props").asMap());
+                // 设置显示名称
+                Map<String, Object> props = record.get("props").asMap();
+                node.put("name", props.getOrDefault("id", props.getOrDefault("name", "Unknown")));
+                nodes.add(node);
+            }
+
+            // 查询关系（基于已查询的节点）
+            if (!nodes.isEmpty()) {
+                String edgeQuery = String.format("""
+                    MATCH (n:`%s`)-[r]->(m:`%s`)
+                    WHERE NOT n:Document AND NOT m:Document
+                    RETURN elementId(r) AS edgeId, elementId(n) AS sourceId, elementId(m) AS targetId,
+                           n.id AS source, m.id AS target, type(r) AS type, properties(r) AS props
+                    LIMIT %d
+                    """, kbLabel, kbLabel, limit * 2);
+
+                var edgeResult = session.run(edgeQuery);
+                while (edgeResult.hasNext()) {
+                    var record = edgeResult.next();
+                    Map<String, Object> edge = new HashMap<>();
+                    edge.put("edgeId", record.get("edgeId").asString());
+                    edge.put("sourceId", record.get("sourceId").asString());
+                    edge.put("targetId", record.get("targetId").asString());
+                    edge.put("source", record.get("source").asString());
+                    edge.put("target", record.get("target").asString());
+                    edge.put("type", record.get("type").asString());
+                    edge.put("properties", record.get("props").asMap());
+                    // 设置显示标签
+                    edge.put("label", record.get("type").asString());
+                    edges.add(edge);
+                }
+            }
+
+            log.debug("获取图谱可视化数据: kbId={}, nodes={}, edges={}", knowledgeBaseId, nodes.size(), edges.size());
+
+        } catch (Exception e) {
+            log.error("获取图谱可视化数据失败: kbId={}", knowledgeBaseId, e);
+        }
+
+        return new GraphData(nodes, edges);
+    }
+
     // ==================== Neo4j 特有方法 ====================
 
     /**
