@@ -44,6 +44,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 /**
  * 系统字典服务层
@@ -99,7 +102,7 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         }
         SysDict bean = BeanUtilPlus.toBean(id, req, SysDict.class);
         this.baseMapper.updateById(bean);
-        this.dictLoadService.refreshCache(getPairMap(List.of(req.getCode())));
+//        this.dictLoadService.refreshCache(getPairMap(List.of(req.getCode())));
     }
 
     @Override
@@ -123,18 +126,26 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
         if (CollUtil.isEmpty(list)) {
             return;
         }
-        List<String> codeList = list.stream().map(SysDict::getCode).distinct().toList();
-        this.dictLoadService.refreshCache(getPairMap(codeList));
+        this.dictLoadService.refreshCache(getPairMap(list));
     }
 
-    private Map<String, List<Pair<String, String>>> getPairMap(List<String> codeList) {
-//        return this.sysDictItemMapper.selectList(Wraps.<SysDictItem>lbQ()
-//                        .eq(SysDictItem::getStatus, true))
-//                .stream()
-//                .collect(groupingBy(
-//                        SysDictItem::getDictCode,
-//                        Collectors.mapping(item -> Pair.of(item.getValue(), item.getLabel()), Collectors.toList())));
-        return null;
+    /**
+     * 构建字典缓存数据
+     * parentId = 0 或 null 的是父字典（字典类型），其余是子字典（字典项）
+     * 按父字典的 code 分组，子字典转换为 Pair<子code, 子name>
+     */
+    private Map<String, List<Pair<String, String>>> getPairMap(List<SysDict> list) {
+        // 父字典 Map: id -> code
+        Map<Long, String> parentCodeMap = list.stream()
+                .filter(dict -> dict.getParentId() == null || dict.getParentId() == 0L)
+                .collect(Collectors.toMap(SysDict::getId, SysDict::getCode));
+        // 子字典按 parentId 分组，转换为 Map<parentCode, List<Pair<code, name>>>
+        return list.stream()
+                .filter(dict -> dict.getParentId() != null && dict.getParentId() != 0L)
+                .filter(dict -> parentCodeMap.containsKey(dict.getParentId()))
+                .collect(groupingBy(
+                        dict -> parentCodeMap.get(dict.getParentId()),
+                        Collectors.mapping(item -> Pair.of(item.getCode(), item.getName()), Collectors.toList())));
     }
 
     @Override

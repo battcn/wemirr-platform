@@ -13,13 +13,6 @@
     <description>WebSocket 模块，基于 Undertow 提供实时消息推送和 Redis 分布式会话管理</description>
 
     <dependencies>
-        <!-- Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- 内部模块 -->
         <dependency>
             <groupId>com.wemirr.framework</groupId>
