@@ -79,6 +79,7 @@ CREATE TABLE `ai_conversation`
     `last_message`       text COMMENT '最后一条消息内容',
     `message_count`      int          DEFAULT NULL COMMENT '消息数量',
     `pinned`             tinyint(1) DEFAULT NULL COMMENT '是否置顶',
+    `tenant_id`         bigint       DEFAULT NULL COMMENT '租户ID',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='会话信息';
 
@@ -176,6 +177,7 @@ CREATE TABLE `ai_kb_knowledge_chunk`
     `end_position`     int          DEFAULT NULL COMMENT '在原文中的结束位置',
     `token_count`      int          DEFAULT NULL COMMENT 'Token数量',
     `metadata`         json         DEFAULT NULL COMMENT '分片元数据',
+    `tenant_id`         bigint       DEFAULT NULL COMMENT '租户ID',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='知识分片';
 
@@ -207,6 +209,7 @@ CREATE TABLE `ai_kb_knowledge_item`
     `vectorized`       tinyint(1) DEFAULT NULL COMMENT '是否已向量化',
     `version`          int          DEFAULT NULL COMMENT '乐观锁版本',
     `metadata`         json         DEFAULT NULL COMMENT '扩展元数据（JSON）',
+    `tenant_id`         bigint       DEFAULT NULL COMMENT '租户ID',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='知识条目';
 
@@ -236,6 +239,7 @@ CREATE TABLE `ai_kb_vector_metadata`
     `text_hash`        varchar(255) DEFAULT NULL COMMENT '文本哈希值',
     `similarity_score` double DEFAULT NULL COMMENT '相似度分数（用于缓存搜索结果）',
     `metadata`         json         DEFAULT NULL COMMENT '扩展元数据',
+    `tenant_id`         bigint       DEFAULT NULL COMMENT '租户ID',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='向量元数据';
 
@@ -259,6 +263,7 @@ CREATE TABLE `ai_kb_vector_store`
     `dimension`        int          DEFAULT NULL COMMENT '向量维度',
     `store_type`       varchar(100) DEFAULT NULL COMMENT '向量存储类型',
     `metadata`         json         DEFAULT NULL COMMENT '元数据',
+    `tenant_id`         bigint       DEFAULT NULL COMMENT '租户ID',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='向量存储';
 
@@ -286,6 +291,7 @@ CREATE TABLE `ai_kb_vectorization_task`
     `vector_ids`       json         DEFAULT NULL COMMENT '结果向量ID列表（JSON格式）',
     `error_message`    text COMMENT '错误信息',
     `token_usage`      int          DEFAULT NULL COMMENT 'Token使用量',
+    `tenant_id`         bigint       DEFAULT NULL COMMENT '租户ID',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='向量化任务';
 
