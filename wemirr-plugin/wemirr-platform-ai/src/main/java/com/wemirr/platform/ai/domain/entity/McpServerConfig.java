@@ -45,5 +45,8 @@ public class McpServerConfig extends SuperEntity<Long> {
 
     @Schema(description = "状态 (true:启用 false:禁用)")
     private Boolean status;
+
+    @Schema(description = "租户ID")
+    private String tenantId;
 }
 
