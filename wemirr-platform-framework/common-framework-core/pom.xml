@@ -13,13 +13,6 @@
     <description>通用核心模块，提供基础实体、工具类、常量定义等</description>
 
     <dependencies>
-        <!-- Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- 日志 -->
         <dependency>
             <groupId>org.slf4j</groupId>

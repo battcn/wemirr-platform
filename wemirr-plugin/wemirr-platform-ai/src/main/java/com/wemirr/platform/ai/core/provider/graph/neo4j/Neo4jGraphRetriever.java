@@ -3,8 +3,8 @@ package com.wemirr.platform.ai.core.provider.graph.neo4j;
 import com.wemirr.platform.ai.core.provider.graph.GraphRetriever;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
+import org.neo4j.driver.Record;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 

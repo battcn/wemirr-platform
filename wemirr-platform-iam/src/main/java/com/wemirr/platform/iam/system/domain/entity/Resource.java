@@ -22,10 +22,13 @@ package com.wemirr.platform.iam.system.domain.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
+import com.wemirr.framework.db.mybatisplus.handler.type.MapTypeHandler;
 import com.wemirr.platform.iam.system.domain.enums.ResourceType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import java.util.Map;
 
 /**
  * 菜单
@@ -42,48 +45,52 @@ import lombok.experimental.SuperBuilder;
 @TableName("sys_resource")
 @Schema(name = "Resource", description = "资源")
 public class Resource extends SuperEntity<Long> {
-    
+
+    @Schema(description = "归属应用")
+    private String clientId;
+
     @Schema(description = "权限编码")
     @TableField(value = "permission")
     private String permission;
-    
+
     @Schema(description = "名称")
     private String title;
-    
-    @Schema(description = "菜单ID")
+
+    @Schema(description = "父级菜单ID")
     private Long parentId;
-    
+
     @Schema(description = "类型")
     private ResourceType type;
-    
+
     @Schema(description = "排序")
     private Integer sequence;
-    
+
     @Schema(description = "图标")
     private String icon;
-    
+
     @Schema(description = "路径")
     private String path;
-    
+
     @Schema(description = "组件")
     private String component;
-    
-    @Schema(description = "面是否开启缓存，开启后页面会缓存，不会重新加载，仅在标签页启用时有效")
+
+    @Schema(description = "页面缓存，开启后页面会缓存，不会重新加载，仅在标签页启用时有效")
     private Boolean keepAlive;
-    
-    @Schema(description = "全局菜单")
-    private Boolean global;
-    
-    @Schema(description = "显示/隐藏")
+
+    @Schema(description = "公共资源（无需分配所有人可访问）")
+    private Boolean shared;
+
+    @Schema(description = "是否可见")
     private Boolean visible;
-    
+
     @Schema(description = "状态")
     private Boolean status;
-    
+
     @Schema(description = "描述")
     private String description;
-    
-    @Schema(description = "自定义菜单 meta 属性")
-    private String meta;
-    
+
+    @Schema(description = "路由元信息(JSON)")
+    @TableField(typeHandler = MapTypeHandler.class)
+    private Map<String, Object> meta;
+
 }

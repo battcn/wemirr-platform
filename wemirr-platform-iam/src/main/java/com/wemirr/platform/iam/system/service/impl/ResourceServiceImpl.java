@@ -89,8 +89,8 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
         });
         // 解决租户越权行为,菜单数据直接从主库查询,减少数据分发次数
         List<Resource> list = TenantHelper.executeWithMaster(() -> this.baseMapper.selectList(Wraps.<Resource>lbQ()
-                .eq(Resource::getStatus, req.getStatus())
-                .and(lb -> lb.eq(Resource::getGlobal, true)
+                .eq(Resource::getStatus, req.getStatus()).eq(Resource::getClientId, req.getClientId())
+                .and(lb -> lb.eq(Resource::getShared, true)
                         .or(CollUtil.isNotEmpty(resIdList), xx -> xx.in(Resource::getId, resIdList)))
                 .eq(Resource::getParentId, req.getParentId()).eq(Resource::getType, req.getType())));
         return BeanUtilPlus.toBeans(list, VisibleResourceResp.class);

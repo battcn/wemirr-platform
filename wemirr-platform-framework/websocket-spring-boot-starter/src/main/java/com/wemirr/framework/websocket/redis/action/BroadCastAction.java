@@ -19,9 +19,12 @@
 
 package com.wemirr.framework.websocket.redis.action;
 
-import com.alibaba.fastjson2.JSONObject;
+import cn.hutool.core.util.StrUtil;
+import com.wemirr.framework.commons.MapHelper;
 import com.wemirr.framework.websocket.WebSocketManager;
 import com.wemirr.framework.websocket.utils.WebSocketUtil;
+
+import java.util.Map;
 
 /**
  * {
@@ -35,11 +38,11 @@ import com.wemirr.framework.websocket.utils.WebSocketUtil;
 public class BroadCastAction implements Action {
 
     @Override
-    public void doMessage(WebSocketManager manager, JSONObject object) {
-        if (!object.containsKey(MESSAGE)) {
+    public void doMessage(WebSocketManager manager, Map<String, Object> object) {
+        var message = MapHelper.getAsStr(object, MESSAGE);
+        if (StrUtil.isBlank(message)) {
             return;
         }
-        String message = object.getString(MESSAGE);
         // 从本地取出所有的 websocket 发送消息
         manager.localWebSocketMap().values().forEach(
                 webSocket -> WebSocketUtil.sendMessage(

@@ -37,6 +37,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.wemirr.platform.iam.system.domain.converts.RegisteredClientConverts.REGISTERED_CLIENT_REF_2_RESP_CONVERTS;
 
 /**
@@ -50,10 +52,17 @@ import static com.wemirr.platform.iam.system.domain.converts.RegisteredClientCon
 @RequestMapping("/registered-client")
 @Tag(name = "终端管理", description = "终端管理")
 public class RegisteredClientController {
-    
+
     private final RegisteredClientService registeredClientService;
-    
-    @GetMapping
+
+    @GetMapping("/list")
+    @Operation(summary = "应用列表 - [Levin] - [DONE]")
+    public List<RegisteredClientResp> list() {
+        var list = this.registeredClientService.list();
+        return REGISTERED_CLIENT_REF_2_RESP_CONVERTS.converts(list);
+    }
+
+    @GetMapping("/page")
     @Parameters({
             @Parameter(description = "clientId", name = "clientId", in = ParameterIn.QUERY),
             @Parameter(description = "clientName", name = "clientName", in = ParameterIn.QUERY)
@@ -63,30 +72,30 @@ public class RegisteredClientController {
                                              @Parameter(description = "条数") @RequestParam(required = false, defaultValue = "20") Integer size,
                                              String clientId, String clientName) {
         return this.registeredClientService.page(new Page<>(current, size),
-                Wraps.<RegisteredClient>lbQ().like(RegisteredClient::getClientId, clientId)
-                        .like(RegisteredClient::getClientName, clientName))
+                        Wraps.<RegisteredClient>lbQ().like(RegisteredClient::getClientId, clientId)
+                                .like(RegisteredClient::getClientName, clientName))
                 .convert(REGISTERED_CLIENT_REF_2_RESP_CONVERTS::convert);
     }
-    
+
     @PostMapping
     @AccessLog(module = "终端管理", description = "保存应用")
     @Operation(summary = "保存应用")
     public void create(@Validated @RequestBody RegisteredClientReq req) {
         this.registeredClientService.create(req);
     }
-    
+
     @PutMapping("/{id}")
     @AccessLog(module = "终端管理", description = "修改应用")
     @Operation(summary = "修改应用")
     public void modify(@PathVariable Long id, @Validated @RequestBody RegisteredClientReq req) {
         this.registeredClientService.modify(id, req);
     }
-    
+
     @DeleteMapping("/{id}")
     @AccessLog(module = "终端管理", description = "删除应用")
     @Operation(summary = "删除应用")
     public void del(@PathVariable String id) {
         this.registeredClientService.deleteById(id);
     }
-    
+
 }

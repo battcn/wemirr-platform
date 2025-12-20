@@ -1,6 +1,5 @@
 package com.wemirr.platform.ai.core.provider.scoring;
 
-import com.wemirr.platform.ai.core.enums.AiProvider;
 import com.wemirr.platform.ai.domain.entity.ModelConfig;
 import dev.langchain4j.model.jina.JinaScoringModel;
 import dev.langchain4j.model.scoring.ScoringModel;
