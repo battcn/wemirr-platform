@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.ai.domain.dto.rep.ConversationDetailRep;
+import com.wemirr.platform.ai.domain.dto.rep.ConversationMessageRep;
 import com.wemirr.platform.ai.domain.dto.rep.ConversationPageRep;
 import com.wemirr.platform.ai.domain.dto.req.ConversationPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ConversationSaveReq;
@@ -90,5 +91,13 @@ public interface ConversationService extends SuperService<Conversation> {
      * @param id 会话ID
      */
     void remove(Long id);
+
+    /**
+     * 获取会话消息列表
+     *
+     * @param conversationId 会话ID
+     * @return 消息列表
+     */
+    List<ConversationMessageRep> getMessages(Long conversationId);
 
 }

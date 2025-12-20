@@ -2,7 +2,10 @@ package com.wemirr.platform.ai.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.platform.ai.domain.dto.rep.ConversationDetailRep;
+import com.wemirr.platform.ai.domain.dto.rep.ConversationMessageRep;
 import com.wemirr.platform.ai.domain.dto.rep.ConversationPageRep;
+
+import java.util.List;
 import com.wemirr.platform.ai.domain.dto.req.ConversationPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ConversationSaveReq;
 import com.wemirr.platform.ai.service.ConversationService;
@@ -11,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author xJh
@@ -37,6 +41,12 @@ public class ConversationController {
     @GetMapping("/{id}/detail")
     public ConversationDetailRep detail(@PathVariable Long id) {
         return conversationService.detail(id);
+    }
+
+    @Operation(summary = "获取会话消息列表")
+    @GetMapping("/{id}/messages")
+    public List<ConversationMessageRep> getMessages(@PathVariable Long id) {
+        return conversationService.getMessages(id);
     }
 
 //    @Operation(summary = "通过智能体id获取会话")

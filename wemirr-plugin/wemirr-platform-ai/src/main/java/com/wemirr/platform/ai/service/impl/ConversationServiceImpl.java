@@ -7,11 +7,14 @@ import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.ai.domain.dto.rep.ConversationDetailRep;
+import com.wemirr.platform.ai.domain.dto.rep.ConversationMessageRep;
 import com.wemirr.platform.ai.domain.dto.rep.ConversationPageRep;
 import com.wemirr.platform.ai.domain.dto.req.ConversationPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ConversationSaveReq;
 import com.wemirr.platform.ai.domain.entity.Conversation;
+import com.wemirr.platform.ai.domain.entity.ConversationMessage;
 import com.wemirr.platform.ai.repository.ConversationMapper;
+import com.wemirr.platform.ai.repository.ConversationMessageMapper;
 import com.wemirr.platform.ai.service.ConversationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -29,6 +32,7 @@ import java.util.List;
 public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper, Conversation> implements ConversationService {
 
     private final AuthenticationContext authenticationContext;
+    private final ConversationMessageMapper conversationMessageMapper;
 
     @Override
     public List<Conversation> getUserConversations(Long userId) {
@@ -197,6 +201,33 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
         ConversationDetailRep rep = new ConversationDetailRep();
         BeanUtils.copyProperties(conversation, rep);
         return rep;
+    }
+
+    @Override
+    public List<ConversationMessageRep> getMessages(Long conversationId) {
+        Long userId = authenticationContext.userId();
+        Conversation conversation = this.getById(conversationId);
+        if (conversation == null) {
+            throw new RuntimeException("会话不存在");
+        }
+        if (!conversation.getUserId().equals(userId)) {
+            throw new RuntimeException("无权访问该会话");
+        }
+        
+        List<ConversationMessage> messages = conversationMessageMapper.selectList(
+                Wraps.<ConversationMessage>lbQ()
+                        .eq(ConversationMessage::getConversationId, conversationId)
+                        .orderByAsc(ConversationMessage::getSequenceNum)
+        );
+        
+        return messages.stream().map(msg -> ConversationMessageRep.builder()
+                .id(String.valueOf(msg.getId()))
+                .role(msg.getRole())
+                .content(msg.getDisplayContent() != null ? msg.getDisplayContent() : msg.getRawContent())
+                .thinking(msg.getThinkingContent())
+                .createTime(msg.getCreateTime())
+                .build()
+        ).toList();
     }
 
 }
