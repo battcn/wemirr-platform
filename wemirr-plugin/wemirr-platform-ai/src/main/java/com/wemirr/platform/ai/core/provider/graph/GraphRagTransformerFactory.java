@@ -23,6 +23,7 @@ public class GraphRagTransformerFactory {
 
     /**
      * Microsoft GraphRAG 的核心提取逻辑，适配为 JSON 输出格式
+     * 改进：输出格式包含实体描述(entity_description)，用于后续向量化
      */
     private static final String GRAPH_RAG_INSTRUCTIONS = """
         -Goal-
@@ -32,12 +33,14 @@ public class GraphRagTransformerFactory {
         1. Identify all entities. For each identified entity, extract the following information:
         - entity_name: Name of the entity, capitalized
         - entity_type: One of the allowed types provided in the context.
-        - entity_description: Comprehensive description of the entity's attributes and activities.
+        - entity_description: Comprehensive description of the entity's attributes and activities. THIS IS CRITICAL FOR SEMANTIC SEARCH.
          
         2. From the entities identified in step 1, identify all pairs of (source_entity, target_entity) that are *clearly related* to each other.
         For each pair of related entities, extract the following information:
         - source_entity: name of the source entity, as identified in step 1
         - target_entity: name of the target entity, as identified in step 1
+        - source_description: the description of the source entity from step 1
+        - target_description: the description of the target entity from step 1
         - relationship_description: explanation as to why you think the source entity and the target entity are related to each other
         - relationship_strength: a numeric score indicating strength of the relationship between the source entity and target entity
          
@@ -47,19 +50,22 @@ public class GraphRagTransformerFactory {
         {
             "head": "source_entity name",
             "head_type": "source_entity type",
+            "head_description": "source_entity description (IMPORTANT: include this for semantic search)",
             "relation": "The 'relationship_description' string",
             "relation_strength": "The 'relationship_strength' numeric score (Integer)",
             "tail": "target_entity name",
-            "tail_type": "target_entity type"
+            "tail_type": "target_entity type",
+            "tail_description": "target_entity description (IMPORTANT: include this for semantic search)"
         }
         
         4. CONSTRAINTS:
         - The 'head_type' and 'tail_type' MUST be strictly chosen from the allowed entity types provided.
+        - The 'head_description' and 'tail_description' MUST be comprehensive and meaningful for semantic search.
         - Do not output any markdown or text explanations outside the JSON array.
         """;
 
     /**
-     * 将原 GraphRAG 的 Tuple 示例转换为 JSON 格式
+     * 包含实体描述的 JSON 格式示例，用于向量化语义检索
      */
     private static final String GRAPH_RAG_JSON_EXAMPLES = """
         Example 1:
@@ -70,26 +76,22 @@ public class GraphRagTransformerFactory {
             {
                 "head": "SAM ALTMAN",
                 "head_type": "PERSON",
+                "head_description": "CEO of OpenAI, technology entrepreneur who announced the release of GPT-4 at the San Francisco press conference",
                 "relation": "Sam Altman is the CEO of OpenAI and announced the release of GPT-4",
                 "relation_strength": 9,
                 "tail": "OPENAI",
-                "tail_type": "ORGANIZATION"
+                "tail_type": "ORGANIZATION",
+                "tail_description": "Artificial intelligence research company that developed GPT-4, a major AI milestone released on March 14, 2023"
             },
             {
                 "head": "MICROSOFT",
                 "head_type": "ORGANIZATION",
+                "head_description": "Technology corporation and strategic partner of OpenAI, integrated GPT-4 into Bing search engine and Office suite",
                 "relation": "Microsoft is a strategic partner of OpenAI and integrated GPT-4 into its products",
                 "relation_strength": 8,
                 "tail": "OPENAI",
-                "tail_type": "ORGANIZATION"
-            },
-            {
-                "head": "OPENAI",
-                "head_type": "ORGANIZATION",
-                "relation": "OpenAI held a press conference in San Francisco to announce GPT-4",
-                "relation_strength": 6,
-                "tail": "SAN FRANCISCO",
-                "tail_type": "LOCATION"
+                "tail_type": "ORGANIZATION",
+                "tail_description": "Artificial intelligence research company that developed GPT-4, partnered with Microsoft"
             }
         ]
         
@@ -101,88 +103,59 @@ public class GraphRagTransformerFactory {
             {
                 "head": "张勇",
                 "head_type": "PERSON",
+                "head_description": "阿里云智能集团CEO，负责发布通义千问2.0大模型，宣布通义千问全面接入阿里巴巴产品",
                 "relation": "张勇是阿里云智能集团的CEO，负责发布通义千问2.0",
                 "relation_strength": 9,
                 "tail": "阿里云智能集团",
-                "tail_type": "ORGANIZATION"
+                "tail_type": "ORGANIZATION",
+                "tail_description": "阿里巴巴旗下云计算子公司，负责通义千问大模型的研发和发布"
             },
             {
                 "head": "阿里巴巴集团",
                 "head_type": "ORGANIZATION",
+                "head_description": "中国互联网科技巨头，在2023年9月杭州云栖大会发布通义千问2.0，并开源70亿参数模型",
                 "relation": "阿里巴巴集团在杭州云栖大会上发布了通义千问2.0大模型",
                 "relation_strength": 8,
                 "tail": "杭州",
-                "tail_type": "LOCATION"
-            },
-            {
-                "head": "阿里云智能集团",
-                "head_type": "ORGANIZATION",
-                "relation": "阿里云智能集团是阿里巴巴集团的子公司，负责通义千问的研发",
-                "relation_strength": 7,
-                "tail": "阿里巴巴集团",
-                "tail_type": "ORGANIZATION"
+                "tail_type": "LOCATION",
+                "tail_description": "中国浙江省省会城市，2023年云栖大会举办地"
             }
         ]
         
         Example 3:
         Text:
-        Five Aurelians jailed for 8 years in Firuzabad and widely regarded as hostages are on their way home to Aurelia. The swap orchestrated by Quintara was finalized when $8bn of Firuzi funds were transferred to financial institutions in Krohaara, the capital of Quintara.
+        李明，著名企业家，于2025年1月1日在北京成立了"创新科技公司"。公司的主营业务是人工智能解决方案，并在成立当月获得了王芳女士的千万级天使投资。
         Output:
         [
             {
-                "head": "FIRUZABAD",
-                "head_type": "LOCATION",
-                "relation": "Firuzabad negotiated a hostage exchange with Aurelia",
-                "relation_strength": 2,
-                "tail": "AURELIA",
-                "tail_type": "LOCATION"
-            },
-            {
-                "head": "QUINTARA",
-                "head_type": "LOCATION",
-                "relation": "Quintara brokered the hostage exchange between Firuzabad and Aurelia",
-                "relation_strength": 2,
-                "tail": "AURELIA",
-                "tail_type": "LOCATION"
-            },
-            {
-                "head": "QUINTARA",
-                "head_type": "LOCATION",
-                "relation": "Quintara brokered the hostage exchange between Firuzabad and Aurelia",
-                "relation_strength": 2,
-                "tail": "FIRUZABAD",
-                "tail_type": "LOCATION"
-            }
-        ]
-        
-        Example 4:
-        Text:
-        李明，著名企业家，于2025年1月1日在北京成立了“创新科技公司”。公司的主营业务是人工智能解决方案，并在成立当月获得了王芳女士的千万级天使投资。
-        Output:
-         [
-            {
                 "head": "李明",
                 "head_type": "PERSON",
+                "head_description": "著名企业家，创新科技公司创始人，于2025年1月1日在北京创办公司",
                 "relation": "李明是创新科技公司的创始人，于2025年1月1日成立了该公司",
                 "relation_strength": 8,
                 "tail": "创新科技公司",
-                "tail_type": "ORGANIZATION"
+                "tail_type": "ORGANIZATION",
+                "tail_description": "人工智能解决方案公司，2025年1月在北京成立，获得千万级天使投资"
             },
             {
                 "head": "王芳",
                 "head_type": "PERSON",
+                "head_description": "天使投资人，为创新科技公司提供千万级天使投资",
                 "relation": "王芳女士为创新科技公司提供了千万级的天使投资",
                 "relation_strength": 9,
                 "tail": "创新科技公司",
-                "tail_type": "ORGANIZATION"
+                "tail_type": "ORGANIZATION",
+                "tail_description": "人工智能解决方案公司，成立当月即获得王芳女士千万级天使投资"
             },
             {
                 "head": "创新科技公司",
                 "head_type": "ORGANIZATION",
+                "head_description": "人工智能解决方案公司，由著名企业家李明于2025年1月在北京创办",
                 "relation": "创新科技公司的注册地和成立地点是北京",
                 "relation_strength": 6,
                 "tail": "北京",
-                "tail_type": "LOCATION"
+                "tail_type": "LOCATION",
+                "tail_description": "中国首都，创新科技公司注册和成立地点"
             }
         ]
         """;

@@ -3,6 +3,9 @@ package com.wemirr.platform.ai.core.provider.graph.neo4j;
 import dev.langchain4j.community.data.document.graph.GraphDocument;
 import dev.langchain4j.community.data.document.graph.GraphEdge;
 import dev.langchain4j.community.data.document.graph.GraphNode;
+import dev.langchain4j.data.embedding.Embedding;
+import dev.langchain4j.model.embedding.EmbeddingModel;
+import dev.langchain4j.model.output.Response;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.neo4j.driver.Driver;
@@ -10,6 +13,7 @@ import org.neo4j.driver.Session;
 import org.neo4j.driver.Values;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -20,6 +24,7 @@ import java.util.regex.Pattern;
  * - 节点创建（带知识库隔离标签）
  * - 关系创建（正确处理中文关系类型）
  * - 源文档节点创建
+ * - 向量嵌入生成与存储（用于语义检索）
  *
  * @author xJh
  * @since 2025/12/17
@@ -32,6 +37,11 @@ public class Neo4jGraphWriter {
     private final String label;
     private final String idProperty;
     private final String textProperty;
+    
+    /**
+     * 向量模型（可选），用于生成节点的语义向量
+     */
+    private final EmbeddingModel embeddingModel;
 
     private static final Pattern SPECIAL_CHARS = Pattern.compile("[^a-zA-Z0-9_]");
 
@@ -54,7 +64,12 @@ public class Neo4jGraphWriter {
     }
 
     /**
-     * 批量创建节点
+     * 批量创建节点（支持属性和向量写入）
+     * <p>
+     * 改进：
+     * 1. 从节点 properties 中提取 description
+     * 2. 构建语义文本 (type + name + description)
+     * 3. 生成向量嵌入并存入 Neo4j
      */
     private void createNodes(Session session, Set<GraphNode> nodes) {
         for (GraphNode node : nodes) {
@@ -62,27 +77,108 @@ public class Neo4jGraphWriter {
             String escapedNodeType = escapeLabel(nodeType);
             String escapedLabel = label != null ? escapeLabel(label) : null;
 
+            // 从 properties 中获取描述信息
+            Map<String, String> props = node.properties();
+            String description = props != null ? props.getOrDefault("description", "") : "";
+            
+            // 构建用于向量化的语义文本
+            String textToEmbed = buildTextForEmbedding(nodeType, node.id(), description);
+            
+            // 生成向量嵌入（如果 EmbeddingModel 可用）
+            List<Float> embedding = generateEmbedding(textToEmbed);
+
             String cypher;
             if (escapedLabel != null && !escapedLabel.isEmpty()) {
-                cypher = String.format("""
-                    MERGE (n:%s:%s {%s: $id})
-                    ON CREATE SET n.created = timestamp()
-                    ON MATCH SET n.updated = timestamp()
-                    """,
-                    escapedLabel, escapedNodeType, idProperty
-                );
+                if (embedding != null && !embedding.isEmpty()) {
+                    // 有向量的情况：存储 id, description, embedding
+                    cypher = String.format("""
+                        MERGE (n:%s:%s {%s: $id})
+                        ON CREATE SET n.description = $description, n.embedding = $embedding, n.created = timestamp()
+                        ON MATCH SET n.description = $description, n.embedding = $embedding, n.updated = timestamp()
+                        """,
+                        escapedLabel, escapedNodeType, idProperty
+                    );
+                    session.run(cypher, Values.parameters(
+                        "id", node.id(),
+                        "description", description,
+                        "embedding", embedding
+                    ));
+                } else {
+                    // 无向量的情况：只存储 id 和 description
+                    cypher = String.format("""
+                        MERGE (n:%s:%s {%s: $id})
+                        ON CREATE SET n.description = $description, n.created = timestamp()
+                        ON MATCH SET n.description = $description, n.updated = timestamp()
+                        """,
+                        escapedLabel, escapedNodeType, idProperty
+                    );
+                    session.run(cypher, Values.parameters(
+                        "id", node.id(),
+                        "description", description
+                    ));
+                }
             } else {
-                cypher = String.format("""
-                    MERGE (n:%s {%s: $id})
-                    ON CREATE SET n.created = timestamp()
-                    ON MATCH SET n.updated = timestamp()
-                    """,
-                    escapedNodeType, idProperty
-                );
+                if (embedding != null && !embedding.isEmpty()) {
+                    cypher = String.format("""
+                        MERGE (n:%s {%s: $id})
+                        ON CREATE SET n.description = $description, n.embedding = $embedding, n.created = timestamp()
+                        ON MATCH SET n.description = $description, n.embedding = $embedding, n.updated = timestamp()
+                        """,
+                        escapedNodeType, idProperty
+                    );
+                    session.run(cypher, Values.parameters(
+                        "id", node.id(),
+                        "description", description,
+                        "embedding", embedding
+                    ));
+                } else {
+                    cypher = String.format("""
+                        MERGE (n:%s {%s: $id})
+                        ON CREATE SET n.description = $description, n.created = timestamp()
+                        ON MATCH SET n.description = $description, n.updated = timestamp()
+                        """,
+                        escapedNodeType, idProperty
+                    );
+                    session.run(cypher, Values.parameters(
+                        "id", node.id(),
+                        "description", description
+                    ));
+                }
             }
 
-            session.run(cypher, Values.parameters("id", node.id()));
-            log.debug("Created node: {} ({})", node.id(), nodeType);
+            log.debug("Created node: {} ({}) with embedding={}", node.id(), nodeType, embedding != null);
+        }
+    }
+    
+    /**
+     * 构建用于向量化的语义文本
+     * 格式: "类型: 名称\n描述"
+     */
+    private String buildTextForEmbedding(String type, String name, String description) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(type).append(": ").append(name);
+        if (description != null && !description.isBlank()) {
+            sb.append("\n").append(description);
+        }
+        return sb.toString();
+    }
+    
+    /**
+     * 生成向量嵌入
+     * 
+     * @param text 待向量化的文本
+     * @return 向量列表，如果 EmbeddingModel 不可用则返回 null
+     */
+    private List<Float> generateEmbedding(String text) {
+        if (embeddingModel == null || text == null || text.isBlank()) {
+            return null;
+        }
+        try {
+            Response<Embedding> response = embeddingModel.embed(text);
+            return response.content().vectorAsList();
+        } catch (Exception e) {
+            log.warn("生成向量嵌入失败: text={}, error={}", text.substring(0, Math.min(50, text.length())), e.getMessage());
+            return null;
         }
     }
 

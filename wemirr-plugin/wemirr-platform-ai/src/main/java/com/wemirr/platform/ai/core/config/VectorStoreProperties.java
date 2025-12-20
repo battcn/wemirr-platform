@@ -117,10 +117,17 @@ public class VectorStoreProperties {
         /** ID属性名称 */
         private String idProperty = "id";
 
-
         /** Label前缀（用于数据隔离） */
         private String labelPrefix = "KB_";
 
+        /** 向量维度（需与 EmbeddingModel 输出维度一致，如 OpenAI=1536, BGE=768/1024） */
+        private int embeddingDimension = 1536;
+
+        /** 向量相似度函数（cosine, euclidean） */
+        private String similarityFunction = "cosine";
+
+        /** 向量检索相似度阈值 */
+        private double vectorScoreThreshold = 0.7;
     }
 
     /**

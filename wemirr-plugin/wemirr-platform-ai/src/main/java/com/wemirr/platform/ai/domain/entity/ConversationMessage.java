@@ -98,5 +98,6 @@ public class ConversationMessage extends SuperEntity<Long> {
     @Schema(description = "消息在会话中的顺序号，用于排序")
     @TableField("sequence_num")
     private Integer sequenceNum;
+    
 
 }

@@ -1,6 +1,14 @@
 package com.wemirr.platform.ai.core.provider.graph.neo4j;
 
+import com.wemirr.platform.ai.core.provider.embedding.EmbeddingModelService;
 import com.wemirr.platform.ai.core.provider.graph.GraphRetriever;
+import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
+import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.service.KnowledgeBaseService;
+import com.wemirr.platform.ai.service.ModelConfigService;
+import dev.langchain4j.data.embedding.Embedding;
+import dev.langchain4j.model.embedding.EmbeddingModel;
+import dev.langchain4j.model.output.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.neo4j.driver.*;
@@ -14,9 +22,10 @@ import java.util.*;
  * Neo4j 图检索实现
  * <p>
  * 实现 GraphRetriever 接口，提供 Neo4j 特定的检索操作：
- * - 全文索引搜索
+ * - 向量语义搜索（语义路）
+ * - 实体精确匹配（精确路）
  * - 子图扩展（1-2 hop）
- * - Text2Cypher Prompt 构建
+ * - 混合检索（Hybrid Search）
  *
  * @author xJh
  * @since 2025/12/18
@@ -28,77 +37,143 @@ import java.util.*;
 public class Neo4jGraphRetriever implements GraphRetriever {
 
     private final Neo4jGraphStore graphStore;
+    private final KnowledgeBaseService knowledgeBaseService;
+    private final ModelConfigService modelConfigService;
+    private final EmbeddingModelService embeddingModelService;
+
+    // ==================== 向量语义搜索实现 ====================
 
     @Override
-    public List<String> searchByFulltext(String knowledgeBaseId, List<String> keywords,
-                                         double scoreThreshold, int limit) {
-        if (keywords == null || keywords.isEmpty()) {
+    public List<String> searchByVector(String knowledgeBaseId, String question,
+                                       double scoreThreshold, int limit) {
+        if (question == null || question.isBlank()) {
             return Collections.emptyList();
         }
 
-        String indexName = "fulltext_index_" + knowledgeBaseId;
-        String kbLabel = graphStore.getKnowledgeBaseLabel(knowledgeBaseId);
+        // 通过知识库配置获取向量模型
+        EmbeddingModel embeddingModel = getEmbeddingModelByKbId(knowledgeBaseId);
+        if (embeddingModel == null) {
+            log.warn("知识库 {} 未配置向量模型，无法进行向量检索", knowledgeBaseId);
+            return Collections.emptyList();
+        }
+
+        String indexName = "vector_index_" + knowledgeBaseId;
         Set<String> results = new LinkedHashSet<>();
 
-        try (Session session = graphStore.getDriver().session()) {
-            for (String keyword : keywords) {
-                if (keyword == null || keyword.isBlank()) {
-                    continue;
-                }
+        try {
+            // 1. 将用户问题转化为向量
+            Response<Embedding> embeddingResponse = embeddingModel.embed(question);
+            List<Float> queryVector = embeddingResponse.content().vectorAsList();
 
-                String trimmed = keyword.trim();
-                String luceneQuery = "*" + trimmed + "*";
-
-                // 全文索引搜索
+            // 2. 使用向量索引查询最近邻节点
+            try (Session session = graphStore.getDriver().session()) {
                 String cypher = """
-                    CALL db.index.fulltext.queryNodes($indexName, $query, {limit: $limit})
+                    CALL db.index.vector.queryNodes($indexName, $limit, $queryVector)
                     YIELD node, score
                     WHERE score > $threshold
-                    RETURN node.id AS entityId, score
+                    RETURN node.id AS entityId, node.description AS description, score
                     ORDER BY score DESC
                     """;
 
                 List<Record> records = session.run(cypher, Values.parameters(
                         "indexName", indexName,
-                        "query", luceneQuery,
                         "limit", limit,
+                        "queryVector", queryVector,
                         "threshold", scoreThreshold
                 )).list();
 
                 for (Record record : records) {
-                    String entityId = record.get("entityId").asString();
-                    results.add(entityId);
-                    log.debug("全文搜索匹配: keyword={}, entity={}, score={}",
-                            keyword, entityId, record.get("score").asDouble());
-                }
-
-                // 如果全文索引未找到结果，使用 CONTAINS 回退（支持中文）
-                if (results.isEmpty()) {
-                    String fallbackCypher = """
-                        MATCH (n:`%s`)
-                        WHERE n.id CONTAINS $keyword AND NOT n:Document
-                        RETURN n.id AS entityId
-                        LIMIT $limit
-                        """.formatted(kbLabel);
-
-                    List<Record> fallbackRecords = session.run(fallbackCypher, Values.parameters(
-                            "keyword", trimmed,
-                            "limit", limit
-                    )).list();
-
-                    for (Record record : fallbackRecords) {
-                        String entityId = record.get("entityId").asString();
+                    String entityId = safeGetString(record, "entityId");
+                    if (entityId != null) {
                         results.add(entityId);
-                        log.debug("CONTAINS 回退匹配: keyword={}, entity={}", keyword, entityId);
+                        log.debug("向量检索匹配: entity={}, score={}, desc={}",
+                                entityId, record.get("score").asDouble(),
+                                safeGetString(record, "description"));
                     }
                 }
+
+                log.info("向量检索完成: question={}, resultsCount={}", 
+                        question.substring(0, Math.min(50, question.length())), results.size());
             }
         } catch (Exception e) {
-            log.error("全文搜索失败: knowledgeBaseId={}, keywords={}", knowledgeBaseId, keywords, e);
+            log.error("向量检索失败: knowledgeBaseId={}, question={}", knowledgeBaseId, question, e);
         }
 
         return new ArrayList<>(results);
     }
+
+    // ==================== 实体精确匹配实现 ====================
+
+    @Override
+    public List<String> searchByEntityMatch(String knowledgeBaseId, List<String> entities, int limit) {
+        if (entities == null || entities.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        String kbLabel = graphStore.getKnowledgeBaseLabel(knowledgeBaseId);
+        Set<String> results = new LinkedHashSet<>();
+
+        try (Session session = graphStore.getDriver().session()) {
+            for (String entity : entities) {
+                if (entity == null || entity.isBlank()) {
+                    continue;
+                }
+
+                String trimmed = entity.trim();
+
+                // 优先精确匹配，再模糊匹配
+                String cypher = """
+                    MATCH (n:`%s`)
+                    WHERE (n.id = $entity OR toLower(n.id) CONTAINS toLower($entity)) 
+                      AND NOT n:Document
+                    RETURN n.id AS entityId
+                    LIMIT $limit
+                    """.formatted(kbLabel);
+
+                List<Record> records = session.run(cypher, Values.parameters(
+                        "entity", trimmed,
+                        "limit", limit
+                )).list();
+
+                for (Record record : records) {
+                    String entityId = safeGetString(record, "entityId");
+                    if (entityId != null) {
+                        results.add(entityId);
+                        log.debug("实体精确匹配: searchEntity={}, matchedEntity={}", entity, entityId);
+                    }
+                }
+            }
+
+            log.info("实体精确匹配完成: entities={}, resultsCount={}", entities, results.size());
+        } catch (Exception e) {
+            log.error("实体精确匹配失败: knowledgeBaseId={}, entities={}", knowledgeBaseId, entities, e);
+        }
+
+        return new ArrayList<>(results);
+    }
+
+    // ==================== 向量语义检索 ====================
+
+    @Override
+    public List<String> retrieveByVector(String knowledgeBaseId, String question,
+                                         double scoreThreshold, int searchLimit,
+                                         int hopDepth, int maxTriples) {
+        // 确保向量索引存在
+        graphStore.ensureVectorIndex(knowledgeBaseId);
+
+        // 向量搜索找到锚点实体
+        List<String> anchorEntities = searchByVector(knowledgeBaseId, question, scoreThreshold, searchLimit);
+        if (anchorEntities.isEmpty()) {
+            log.info("向量检索未找到匹配实体: knowledgeBaseId={}, question={}", 
+                    knowledgeBaseId, question.substring(0, Math.min(50, question.length())));
+            return Collections.emptyList();
+        }
+
+        // 扩展子图获取上下文
+        return expandSubgraph(knowledgeBaseId, anchorEntities, hopDepth, maxTriples);
+    }
+
+    // ==================== 子图扩展实现 ====================
 
     @Override
     public List<String> expandSubgraph(String knowledgeBaseId, List<String> anchorEntities,
@@ -133,24 +208,6 @@ public class Neo4jGraphRetriever implements GraphRetriever {
         }
 
         return new ArrayList<>(triples);
-    }
-
-    @Override
-    public List<String> retrieveByKeywords(String knowledgeBaseId, List<String> keywords,
-                                           double scoreThreshold, int searchLimit,
-                                           int hopDepth, int maxTriples) {
-        // 确保全文索引存在
-        graphStore.ensureFulltextIndex(knowledgeBaseId);
-
-        // 全文搜索找到锚点实体
-        List<String> anchorEntities = searchByFulltext(knowledgeBaseId, keywords, scoreThreshold, searchLimit);
-        if (anchorEntities.isEmpty()) {
-            log.info("全文搜索未找到匹配实体: knowledgeBaseId={}, keywords={}", knowledgeBaseId, keywords);
-            return Collections.emptyList();
-        }
-
-        // 扩展子图获取上下文
-        return expandSubgraph(knowledgeBaseId, anchorEntities, hopDepth, maxTriples);
     }
 
     @Override
@@ -213,5 +270,44 @@ public class Neo4jGraphRetriever implements GraphRetriever {
     private String safeGetString(Record record, String key) {
         var value = record.get(key);
         return (value == null || value.isNull()) ? null : value.asString();
+    }
+
+    /**
+     * 通过知识库ID获取向量模型
+     * <p>
+     * 流程：knowledgeBaseId -> KnowledgeBase -> embeddingModelId -> ModelConfig -> EmbeddingModel
+     *
+     * @param knowledgeBaseId 知识库ID（字符串形式）
+     * @return EmbeddingModel 实例，如果未配置则返回 null
+     */
+    private EmbeddingModel getEmbeddingModelByKbId(String knowledgeBaseId) {
+        try {
+            Long kbId = Long.parseLong(knowledgeBaseId);
+            KnowledgeBase knowledgeBase = knowledgeBaseService.getById(kbId);
+            if (knowledgeBase == null) {
+                log.warn("知识库不存在: {}", knowledgeBaseId);
+                return null;
+            }
+            
+            Long embeddingModelId = knowledgeBase.getEmbeddingModelId();
+            if (embeddingModelId == null) {
+                log.warn("知识库 {} 未配置向量模型ID", knowledgeBaseId);
+                return null;
+            }
+            
+            ModelConfig modelConfig = modelConfigService.getById(embeddingModelId);
+            if (modelConfig == null) {
+                log.warn("向量模型配置不存在: modelId={}", embeddingModelId);
+                return null;
+            }
+            
+            return embeddingModelService.getModel(modelConfig);
+        } catch (NumberFormatException e) {
+            log.error("知识库ID格式错误: {}", knowledgeBaseId);
+            return null;
+        } catch (Exception e) {
+            log.error("获取向量模型失败: knowledgeBaseId={}", knowledgeBaseId, e);
+            return null;
+        }
     }
 }

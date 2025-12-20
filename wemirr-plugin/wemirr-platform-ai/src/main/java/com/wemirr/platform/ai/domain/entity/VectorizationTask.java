@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import com.wemirr.framework.db.mybatisplus.handler.type.JsonTypeHandler;
 import com.wemirr.platform.ai.service.VectorService.VectorizationTaskStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -92,6 +93,9 @@ public class VectorizationTask extends SuperEntity<Long> {
      */
     @TableField("token_usage")
     private Integer tokenUsage;
+
+    @Schema(description = "租户ID")
+    private String tenantId;
 
     /**
      * 获取任务状态枚举

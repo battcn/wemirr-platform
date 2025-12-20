@@ -256,8 +256,8 @@ public class GraphServiceImpl implements GraphService {
 
         String graphKbId = String.valueOf(kbId);
 
-        // 确保全文索引存在
-        graphStore.ensureFulltextIndex(graphKbId);
+        // 确保向量索引存在
+        graphStore.ensureVectorIndex(graphKbId);
 
         // 执行实体召回
         var graphRetriever = getGraphRetriever();
@@ -272,8 +272,8 @@ public class GraphServiceImpl implements GraphService {
                     .build();
         }
 
-        // 搜索实体
-        List<String> entityIds = graphRetriever.searchByFulltext(graphKbId, keywords, 0.1, 20);
+        // 使用实体精确匹配搜索（精确路）
+        List<String> entityIds = graphRetriever.searchByEntityMatch(graphKbId, keywords, 20);
 
         // 构建实体信息
         List<EntityRecallResp.RecalledEntity> entities = entityIds.stream()

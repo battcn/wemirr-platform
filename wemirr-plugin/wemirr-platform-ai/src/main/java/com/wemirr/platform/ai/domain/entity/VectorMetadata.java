@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import com.wemirr.framework.db.mybatisplus.handler.type.MapTypeHandler;
 import com.wemirr.platform.ai.core.enums.ChunkType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -89,4 +90,7 @@ public class VectorMetadata extends SuperEntity<Long> {
      */
     @TableField(value = "metadata", typeHandler = MapTypeHandler.class)
     private Map<String, Object> metadata;
+
+    @Schema(description = "租户ID")
+    private String tenantId;
 }

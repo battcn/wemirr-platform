@@ -4,6 +4,7 @@ import com.wemirr.platform.ai.core.config.VectorStoreProperties;
 import com.wemirr.platform.ai.core.provider.graph.GraphStore;
 import dev.langchain4j.community.data.document.graph.GraphDocument;
 import dev.langchain4j.community.rag.content.retriever.neo4j.Neo4jGraph;
+import dev.langchain4j.model.embedding.EmbeddingModel;
 import jakarta.annotation.PreDestroy;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,8 @@ import org.neo4j.driver.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import jakarta.annotation.PreDestroy;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,8 +44,8 @@ public class Neo4jGraphStore implements GraphStore {
     @Getter
     private final Neo4jGraph neo4jGraph;
 
+    @Getter
     private final VectorStoreProperties.Neo4jConfig config;
-    private final Map<String, Neo4jGraphWriter> writerCache = new ConcurrentHashMap<>();
 
     public Neo4jGraphStore(VectorStoreProperties properties) {
         this.config = properties.getNeo4j();
@@ -76,10 +79,32 @@ public class Neo4jGraphStore implements GraphStore {
 
     @Override
     public void addGraphDocuments(String knowledgeBaseId, List<GraphDocument> graphDocuments, boolean includeSource) {
-        Neo4jGraphWriter writer = getWriter(knowledgeBaseId);
+        // 不带向量模型的版本（不生成向量嵌入）
+        addGraphDocuments(knowledgeBaseId, graphDocuments, includeSource, null);
+    }
+
+    /**
+     * 添加图谱文档（带向量模型）
+     * <p>
+     * 通过传入的 EmbeddingModel 为节点生成向量嵌入
+     *
+     * @param knowledgeBaseId 知识库ID
+     * @param graphDocuments  图谱文档列表
+     * @param includeSource   是否包含源文档
+     * @param embeddingModel  向量模型（可为 null，null 时不生成向量）
+     */
+    public void addGraphDocuments(String knowledgeBaseId, List<GraphDocument> graphDocuments,
+                                  boolean includeSource, EmbeddingModel embeddingModel) {
+        Neo4jGraphWriter writer = Neo4jGraphWriter.builder()
+                .driver(driver)
+                .label(getKnowledgeBaseLabel(knowledgeBaseId))
+                .idProperty(config.getIdProperty())
+                .textProperty(config.getTextProperty())
+                .embeddingModel(embeddingModel)
+                .build();
         writer.addGraphDocuments(graphDocuments, includeSource);
-        log.info("图谱文档已添加: knowledgeBaseId={}, label={}, documents={}",
-                knowledgeBaseId, getKnowledgeBaseLabel(knowledgeBaseId), graphDocuments.size());
+        log.info("图谱文档已添加: knowledgeBaseId={}, label={}, documents={}, withEmbedding={}",
+                knowledgeBaseId, getKnowledgeBaseLabel(knowledgeBaseId), graphDocuments.size(), embeddingModel != null);
     }
 
     @Override
@@ -92,40 +117,54 @@ public class Neo4jGraphStore implements GraphStore {
         writer.addGraphDocuments(graphDocuments, includeSource);
     }
 
+    /**
+     * 确保知识库的向量索引存在
+     * <p>
+     * 用于语义向量检索，支持基于 embedding 属性的相似度搜索
+     *
+     * @param knowledgeBaseId 知识库ID
+     */
     @Override
-    public void ensureFulltextIndex(String knowledgeBaseId) {
+    public void ensureVectorIndex(String knowledgeBaseId) {
         String kbLabel = getKnowledgeBaseLabel(knowledgeBaseId);
-        String indexName = "fulltext_index_" + knowledgeBaseId;
+        String indexName = "vector_index_" + knowledgeBaseId;
+        int dimension = config.getEmbeddingDimension();
+        String similarityFunction = config.getSimilarityFunction();
 
         try (Session session = driver.session()) {
-            // 检查索引是否已存在且在线
+            // 检查索引是否已存在
             String checkQuery = "SHOW INDEXES WHERE name = $indexName";
             Result result = session.run(checkQuery, Values.parameters("indexName", indexName));
             if (result.hasNext()) {
                 var record = result.single();
                 String state = record.get("state").asString();
                 if ("ONLINE".equals(state)) {
-                    log.debug("全文索引已存在且在线: {}", indexName);
+                    log.debug("向量索引已存在且在线: {}", indexName);
                     return;
                 }
-                log.debug("全文索引存在但状态为: {}, 等待就绪...", state);
+                log.debug("向量索引存在但状态为: {}, 等待就绪...", state);
             } else {
-                // 创建索引
+                // 创建向量索引
                 String createIndexCypher = String.format("""
-                    CREATE FULLTEXT INDEX %s IF NOT EXISTS
+                    CREATE VECTOR INDEX %s IF NOT EXISTS
                     FOR (n:`%s`)
-                    ON EACH [n.%s]
-                    """, indexName, kbLabel, config.getIdProperty());
+                    ON (n.embedding)
+                    OPTIONS {indexConfig: {
+                      `vector.dimensions`: %d,
+                      `vector.similarity_function`: '%s'
+                    }}
+                    """, indexName, kbLabel, dimension, similarityFunction);
 
                 session.run(createIndexCypher).consume();
-                log.info("全文索引创建成功: indexName={}, label={}", indexName, kbLabel);
+                log.info("向量索引创建成功: indexName={}, label={}, dimension={}, similarity={}",
+                        indexName, kbLabel, dimension, similarityFunction);
             }
 
             // 等待索引变为 ONLINE 状态
             waitForIndexOnline(session, indexName);
 
         } catch (Exception e) {
-            log.error("创建全文索引失败: knowledgeBaseId={}", knowledgeBaseId, e);
+            log.error("创建向量索引失败: knowledgeBaseId={}", knowledgeBaseId, e);
         }
     }
 
@@ -381,19 +420,6 @@ public class Neo4jGraphStore implements GraphStore {
             driver.close();
             log.info("Neo4j 连接已关闭");
         }
-    }
-
-    // ==================== 私有方法 ====================
-
-    private Neo4jGraphWriter getWriter(String knowledgeBaseId) {
-        return writerCache.computeIfAbsent(knowledgeBaseId, kbId ->
-                Neo4jGraphWriter.builder()
-                        .driver(driver)
-                        .label(getKnowledgeBaseLabel(kbId))
-                        .idProperty(config.getIdProperty())
-                        .textProperty(config.getTextProperty())
-                        .build()
-        );
     }
 
     @Override
