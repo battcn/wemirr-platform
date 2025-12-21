@@ -230,4 +230,70 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
         ).toList();
     }
 
+    @Override
+    public ConversationDetailRep detailByKbid(Long id) {
+
+        return null;
+    }
+
+    @Override
+    public List<ConversationMessageRep> messagesByKbid(Long id) {
+        Long userId = authenticationContext.userId();
+        Conversation conversation = this.getOne(Wraps.<Conversation>lbQ()
+                .eq(Conversation::getKnowledgeBaseIds, id)
+                .eq(Conversation::getUserId, userId)
+        );
+        if (conversation == null) {
+            return List.of();
+        }
+        if (!conversation.getUserId().equals(userId)) {
+            throw new RuntimeException("无权访问该会话");
+        }
+
+        List<ConversationMessage> messages = conversationMessageMapper.selectList(
+                Wraps.<ConversationMessage>lbQ()
+                        .eq(ConversationMessage::getConversationId, conversation.getId())
+                        .orderByAsc(ConversationMessage::getSequenceNum)
+        );
+
+        return messages.stream().map(msg -> ConversationMessageRep.builder()
+                .id(String.valueOf(msg.getId()))
+                .role(msg.getRole())
+                .content(msg.getDisplayContent() != null ? msg.getDisplayContent() : msg.getRawContent())
+                .thinking(msg.getThinkingContent())
+                .createTime(msg.getCreateTime())
+                .build()
+        ).toList();
+    }
+
+    @Override
+    public List<ConversationMessageRep> messagesByAgent(Long id) {
+        Long userId = authenticationContext.userId();
+        Conversation conversation = this.getOne(Wraps.<Conversation>lbQ()
+                .eq(Conversation::getAgentId, id)
+                .eq(Conversation::getUserId, userId)
+        );
+        if (conversation == null) {
+            return List.of();
+        }
+        if (!conversation.getUserId().equals(userId)) {
+            throw new RuntimeException("无权访问该会话");
+        }
+
+        List<ConversationMessage> messages = conversationMessageMapper.selectList(
+                Wraps.<ConversationMessage>lbQ()
+                        .eq(ConversationMessage::getConversationId, conversation.getId())
+                        .orderByAsc(ConversationMessage::getSequenceNum)
+        );
+
+        return messages.stream().map(msg -> ConversationMessageRep.builder()
+                .id(String.valueOf(msg.getId()))
+                .role(msg.getRole())
+                .content(msg.getDisplayContent() != null ? msg.getDisplayContent() : msg.getRawContent())
+                .thinking(msg.getThinkingContent())
+                .createTime(msg.getCreateTime())
+                .build()
+        ).toList();
+    }
+
 }

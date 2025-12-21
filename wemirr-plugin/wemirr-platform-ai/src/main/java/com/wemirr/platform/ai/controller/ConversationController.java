@@ -43,11 +43,26 @@ public class ConversationController {
         return conversationService.detail(id);
     }
 
-    @Operation(summary = "获取会话消息列表")
+
+    @Operation(summary = "获取普通会话消息列表")
     @GetMapping("/{id}/messages")
     public List<ConversationMessageRep> getMessages(@PathVariable Long id) {
         return conversationService.getMessages(id);
     }
+
+    @Operation(summary = "获取知识库会话消息列表")
+    @GetMapping("/{id}/messagesByKbid")
+    public List<ConversationMessageRep> messagesByKbid(@PathVariable Long id) {
+        return conversationService.messagesByKbid(id);
+    }
+
+    @Operation(summary = "获取智能体会话消息列表")
+    @GetMapping("/{id}/messagesByAgent")
+    public List<ConversationMessageRep> messagesByAgent(@PathVariable Long id) {
+        return conversationService.messagesByAgent(id);
+    }
+
+
 
 //    @Operation(summary = "通过智能体id获取会话")
 //    @GetMapping("/{agentId}/detailByAgentId")

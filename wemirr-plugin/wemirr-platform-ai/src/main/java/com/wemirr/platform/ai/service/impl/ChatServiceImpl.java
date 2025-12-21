@@ -5,13 +5,11 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.ai.core.assistant.interfaces.ChatAssistant;
 import com.wemirr.platform.ai.core.assistant.service.AssistantService;
 import com.wemirr.platform.ai.core.assistant.service.RagAssistantParams;
+import com.wemirr.platform.ai.core.enums.ConversationType;
 import com.wemirr.platform.ai.core.enums.ModelType;
 import com.wemirr.platform.ai.core.sse.SseChatHelper;
 import com.wemirr.platform.ai.domain.dto.req.AskReq;
-import com.wemirr.platform.ai.domain.entity.ChatAgent;
-import com.wemirr.platform.ai.domain.entity.ConversationMessage;
-import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.*;
 import com.wemirr.platform.ai.service.*;
 import dev.langchain4j.service.TokenStream;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +42,8 @@ public class ChatServiceImpl implements ChatService {
     private final KnowledgeBaseService knowledgeBaseService;
 
     private final ChatAgentService chatAgentService;
+
+    private final ConversationService conversationService;
 
     @Override
     @Transactional
@@ -119,7 +119,19 @@ public class ChatServiceImpl implements ChatService {
     private void handleKnowledgeChat(AskReq askReq, SseEmitter sseEmitter) {
         Long userId = authenticationContext.userId();
         Long tenantId = authenticationContext.tenantId();
-        Long conversationId = askReq.getConversationId();
+        KnowledgeBase knowledgeBase = knowledgeBaseService.getById(askReq.getKbId());
+        Conversation one = conversationService.getOne(Wraps.<Conversation>lbQ().eq(Conversation::getUserId, userId)
+                .eq(Conversation::getKnowledgeBaseIds, askReq.getKbId()));
+        if (one == null) {
+            //新建一个会话
+            one = Conversation.builder()
+                    .knowledgeBaseIds(askReq.getKbId())
+                    .title("")
+                    .type(ConversationType.KNOWLEDGE_BASE)
+                    .userId(userId).build();
+            conversationService.save(one);
+        }
+        Long conversationId = one.getId();
         String userPrompt = askReq.getPrompt();
         ConversationMessage conversationMessage = conversationMessageService.saveUserMessage(
                 conversationId,
@@ -130,7 +142,6 @@ public class ChatServiceImpl implements ChatService {
                 userPrompt,
                 0
         );
-        KnowledgeBase knowledgeBase = knowledgeBaseService.getById(askReq.getKbId());
 
         try {
             // 4. 获取模型配置,todo 这些都可以做缓存map，用模型id代替，不用模型名称
@@ -203,8 +214,19 @@ public class ChatServiceImpl implements ChatService {
     private void handleAgentChat(AskReq askReq, SseEmitter sseEmitter) {
         Long userId = authenticationContext.userId();
         Long tenantId = authenticationContext.tenantId();
-        Long conversationId = askReq.getConversationId();
         String userPrompt = askReq.getPrompt();
+        Conversation one = conversationService.getOne(Wraps.<Conversation>lbQ().eq(Conversation::getUserId, userId)
+                .eq(Conversation::getAgentId, askReq.getAgentId()));
+        if (one == null) {
+            //新建一个会话
+            one = Conversation.builder()
+                    .agentId(askReq.getAgentId())
+                    .title("")
+                    .type(ConversationType.GENERAL_AGENT)
+                    .userId(userId).build();
+            conversationService.save(one);
+        }
+        Long conversationId = one.getId();
 
         ConversationMessage conversationMessage = conversationMessageService.saveUserMessage(
                 conversationId,

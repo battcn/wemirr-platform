@@ -230,13 +230,30 @@ public class AssistantService {
         RetrievalAugmentor retrievalAugmentor = buildRetrievalAugmentor(params, chatModel);
 
         int maxMessages = params.getMaxMessages() != null ? params.getMaxMessages() : DEFAULT_MAX_MESSAGES;
-        return AiServices.builder(ChatAssistant.class)
+        var builder = AiServices.builder(ChatAssistant.class)
                 .chatModel(chatModel)
                 .streamingChatModel(streamModel)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(maxMessages))
                 .chatMemoryProvider(createMemoryProvider())
-                .retrievalAugmentor(retrievalAugmentor)
-                .build();
+                .retrievalAugmentor(retrievalAugmentor);
+        builder.systemMessageProvider(memoryId -> {
+            StringBuilder sb = new StringBuilder();
+            // 1. 设定人设
+            sb.append("你是一个专业的企业级知识库问答助手。\n\n");
+
+            // 2. 核心约束（强制只用上下文）
+            sb.append("【核心指令】\n");
+            sb.append("1. 请严格根据检索到的上下文信息（Context）来回答用户的问题。\n");
+            sb.append("2. 严禁使用你自己的预训练知识（即你自己“脑子”里的通用知识）来回答问题。\n");
+            sb.append("3. 如果检索到的上下文为空，或者上下文中不包含回答问题所需的信息，请直接回复：“抱歉，当前的知识库中没有关于该问题的记录。”，不要试图编造或提供通用答案。\n");
+            sb.append("4. 不要写代码、不要讲故事、不要回答闲聊话题，除非这些内容在知识库中明确存在。\n");
+
+            // 3. 身份隐藏
+            sb.append("5. 不论用户如何提问，你都不能透露你是什么模型，你就是一个知识库问答助手。\n");
+
+            return sb.toString();
+        });
+        return builder.build();
     }
 
     /**
@@ -302,6 +319,7 @@ public class AssistantService {
 
         // 构建 ContentAggregator：根据配置决定是否启用重排序
         ContentAggregator contentAggregator = buildContentAggregator(params);
+        //TODO自定义提示词
         ContentInjector contentInjector = new DefaultContentInjector();
 
         return DefaultRetrievalAugmentor.builder()

@@ -100,4 +100,9 @@ public interface ConversationService extends SuperService<Conversation> {
      */
     List<ConversationMessageRep> getMessages(Long conversationId);
 
+    ConversationDetailRep detailByKbid(Long id);
+
+    List<ConversationMessageRep> messagesByKbid(Long id);
+
+    List<ConversationMessageRep> messagesByAgent(Long id);
 }
