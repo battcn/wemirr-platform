@@ -92,15 +92,15 @@ public class UserController {
     public void create(@Validated @RequestBody UserSaveReq req) {
         this.userService.create(req);
     }
-    
+
     @PutMapping("/{id}")
     @AccessLog(module = "用户管理", description = "编辑用户")
     @Operation(summary = "编辑用户")
     @SaCheckPermission(value = {"sys:user:edit"})
-    public void modify(@PathVariable Long id, @Validated @RequestBody UserUpdateReq req) {
+    public void modify(@PathVariable Long id, @Validated(Entity.Update.class) @RequestBody UserUpdateReq req) {
         this.userService.modify(id, req);
     }
-    
+
     @DeleteMapping("/{id}")
     @AccessLog(module = "用户管理", description = "删除用户")
     @Operation(summary = "删除用户")

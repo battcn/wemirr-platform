@@ -11,7 +11,6 @@ import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.rag.DefaultRetrievalAugmentor;
 import dev.langchain4j.rag.RetrievalAugmentor;
@@ -36,7 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-
+import dev.langchain4j.model.chat.ChatModel;
 import java.util.*;
 
 
@@ -64,7 +63,7 @@ public class RagTest {
 
     private EmbeddingStore<TextSegment> embeddingStore;
     private EmbeddingModel embeddingModel;
-    ChatLanguageModel chatModel;
+    ChatModel chatModel;
 
     @BeforeEach
     void setUp() {
@@ -147,7 +146,7 @@ public class RagTest {
         // Query 转换器。也可以什么换用 ExpandingQueryTransformer 进行 Query 扩展
         QueryTransformer  queryTransformer = new CompressingQueryTransformer(chatModel);
         QueryRouter queryRouter = LanguageModelQueryRouter.builder()
-                .chatLanguageModel(chatModel)
+                .chatModel(chatModel)
                 .retrieverToDescription(Map.of(
                         embeddingStoreContentRetriever, "Embedding Database"
                 ))
@@ -192,7 +191,7 @@ public class RagTest {
                 .build();
 
         Assistant assistant = AiServices.builder(Assistant.class)
-                    .chatLanguageModel(chatModel)
+                    .chatModel(chatModel)
                     .retrievalAugmentor(build)  //
                     .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                     .build();
@@ -235,7 +234,7 @@ public class RagTest {
                 .build();
         //  Query 路由，让大模型决定选择哪一个检索器或者哪几个检索器。retrieverToDescription 属性的 key 为检索器，value 为检索器的描述
         QueryRouter queryRouter = LanguageModelQueryRouter.builder()
-                .chatLanguageModel(chatModel)
+                .chatModel(chatModel)
                 .retrieverToDescription(Map.of(
                         webSearchContentRetriever, "Web Search",
                         embeddingStoreContentRetriever, "Embedding Database"

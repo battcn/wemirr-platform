@@ -79,8 +79,8 @@ public class CaptchaServiceImpl implements CaptchaService {
 
 
     @Override
-    public ApiResponse<ImageCaptchaVO> captcha() {
-        return ica.generateCaptcha(CaptchaTypeConstant.SLIDER);
+    public ImageCaptchaVO captcha() {
+        return ica.generateCaptcha(CaptchaTypeConstant.SLIDER).getData();
     }
 
     @Override

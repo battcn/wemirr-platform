@@ -11,7 +11,7 @@ import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
@@ -95,7 +95,7 @@ class RagWorkflowTest {
                 .build();
 
         // 获取真实的聊天模型实例
-        ChatLanguageModel chatModel = textModelService.model(chatModelConfig);
+        ChatModel chatModel = textModelService.model(chatModelConfig);
 
 
         // 创建文档片段
@@ -146,7 +146,7 @@ class RagWorkflowTest {
                 .build();
 
         Assistant assistant = AiServices.builder(Assistant.class)
-                .chatLanguageModel(chatModel)
+                .chatModel(chatModel)
                 .contentRetriever(contentRetriever)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();

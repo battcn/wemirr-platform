@@ -50,7 +50,7 @@ public interface CaptchaService {
      */
     Result<Boolean> valid(String key, String value);
 
-    ApiResponse<ImageCaptchaVO> captcha();
+    ImageCaptchaVO captcha();
 
     CaptchaResp check(CaptchaReq req);
 }

@@ -39,7 +39,7 @@ import org.hibernate.validator.constraints.Length;
 public class UserUpdateImageReq {
     
     @Schema(description = "主键")
-    @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
+    @NotNull(message = "ID不能为空", groups = SuperEntity.Update.class)
     private Long id;
     
     /**
