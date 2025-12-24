@@ -2,8 +2,8 @@ package com.wemirr.platform.ai.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import com.wemirr.framework.db.mybatisplus.handler.type.MapTypeHandler;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -71,6 +71,6 @@ public class KnowledgeBase extends SuperEntity<Long> {
     private Integer version;
 
     @Schema(description = "元数据")
-    @TableField(typeHandler = MapTypeHandler.class)
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> metadata;
 }

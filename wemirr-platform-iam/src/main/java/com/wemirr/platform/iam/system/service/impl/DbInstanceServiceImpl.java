@@ -22,7 +22,6 @@ package com.wemirr.platform.iam.system.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
@@ -67,7 +66,7 @@ public class DbInstanceServiceImpl extends SuperServiceImpl<DbInstanceMapper, Db
 
     @Override
     public void ping(Long id) {
-        log.debug("查询结果 - {}", JSON.toJSONString(""));
+        log.debug("查询结果");
     }
 
     @PostConstruct

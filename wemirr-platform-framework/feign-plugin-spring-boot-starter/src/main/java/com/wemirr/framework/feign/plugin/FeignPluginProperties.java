@@ -20,7 +20,6 @@
 package com.wemirr.framework.feign.plugin;
 
 import com.wemirr.framework.feign.plugin.mock.MockProperties;
-import com.wemirr.framework.feign.plugin.token.AutoRefreshTokenProperties;
 import feign.Logger;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -47,6 +46,5 @@ public class FeignPluginProperties {
      */
     private Logger.Level level = Logger.Level.FULL;
     private MockProperties mock = new MockProperties();
-    private AutoRefreshTokenProperties token = new AutoRefreshTokenProperties();
 
 }

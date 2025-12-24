@@ -66,7 +66,7 @@ public class TenantDictServiceImpl extends SuperServiceImpl<TenantDictMapper, Te
     private final SysDictMapper dictMapper;
     private final DictLoadService dictLoadService;
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         refresh();
     }

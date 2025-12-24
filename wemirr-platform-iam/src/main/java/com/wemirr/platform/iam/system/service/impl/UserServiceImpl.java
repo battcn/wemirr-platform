@@ -27,11 +27,12 @@ import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.wemirr.framework.commons.BeanUtilPlus;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.annotation.remote.RemoteResult;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
@@ -75,6 +76,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -260,11 +262,12 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
                 continue;
             }
             String key = String.format(extProperties.getServer().getTokenInfoKey(), token);
-            UserInfoDetails info = ((JSONObject) StpUtil.getTokenSessionByToken(token).get(key)).to(UserInfoDetails.class);
+            UserInfoDetails info = (UserInfoDetails) StpUtil.getTokenSessionByToken(token).get(key);
             if (info == null || info.getLoginLog() == null) {
                 continue;
             }
-            LoginLog loginLog = JSONObject.from(info.getLoginLog()).toJavaObject(LoginLog.class);
+            LoginLog loginLog = JacksonUtils.readValue(JacksonUtils.toJson(info.getLoginLog()), new TypeReference<>() {
+            });
             if (StrUtil.isNotBlank(req.getClientId()) && !StrUtil.equals(req.getClientId(), loginLog.getClientId())) {
                 continue;
             }
@@ -277,7 +280,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             if (ObjUtil.isNotNull(req.getTenantId()) && !NumberUtil.equals(req.getTenantId(), loginLog.getTenantId())) {
                 continue;
             }
-            JSONObject item = JSONObject.from(info.getLoginLog());
+            Map<String, Object> item = info.getLoginLog();
             item.put("token", token);
             list.add(item);
         }

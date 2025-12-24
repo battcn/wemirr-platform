@@ -8,6 +8,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public interface OssFileFeign extends LoadService<OssFilePreviewResp> {
      * @param multipartFile 文件
      */
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, headers = {AutoRefreshTokenProperties.X_AUTO_TOKEN, "ignore-header=Content-Type"})
-    OssFileResp upload(@RequestBody MultipartFile multipartFile);
+    OssFileResp upload(@RequestPart("file") MultipartFile multipartFile);
 
     /**
      * 根据 ID 批量查询

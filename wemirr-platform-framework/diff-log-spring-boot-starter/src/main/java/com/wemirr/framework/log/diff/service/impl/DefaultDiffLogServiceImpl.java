@@ -1,6 +1,6 @@
 package com.wemirr.framework.log.diff.service.impl;
 
-import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.log.diff.domain.DiffLogInfo;
 import com.wemirr.framework.log.diff.domain.req.DiffLogInfoQueryReq;
 import com.wemirr.framework.log.diff.service.IDiffLogService;
@@ -16,7 +16,7 @@ public class DefaultDiffLogServiceImpl implements IDiffLogService {
 
     @Override
     public void handler(DiffLogInfo diffLogInfo) {
-        log.info("[default diff log] {}", JSON.toJSONString(diffLogInfo));
+        log.info("[default diff log] {}", JacksonUtils.toJson(diffLogInfo));
     }
 
     @Override

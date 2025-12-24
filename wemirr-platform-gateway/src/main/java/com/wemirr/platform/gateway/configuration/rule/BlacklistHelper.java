@@ -20,9 +20,9 @@
 package com.wemirr.platform.gateway.configuration.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.alibaba.fastjson2.JSON;
 import com.alibaba.nacos.common.utils.UuidUtils;
 import com.google.common.collect.Lists;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.platform.gateway.rest.domain.BlacklistRule;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -80,7 +80,7 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
         if (object == null) {
             return null;
         }
-        return JSON.parseObject(object.toString(), BlacklistRule.class);
+        return JacksonUtils.toBean(object.toString(), BlacklistRule.class);
     }
     
     public List<BlacklistRule> query() {
@@ -90,7 +90,7 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
         }
         return stringRedisTemplate.opsForHash().multiGet(RULE_BLACKLIST.hashKey(), keys).stream()
                 .map(object -> {
-                    BlacklistRule rule = JSON.parseObject(object.toString(), BlacklistRule.class);
+                    BlacklistRule rule = JacksonUtils.toBean(object.toString(), BlacklistRule.class);
                     if (rule != null) {
                         final Object visits = Optional.ofNullable(stringRedisTemplate.opsForHash()
                                 .get(RULE_BLACKLIST.visitsKey(), rule.getId())).orElse("0");
@@ -123,7 +123,7 @@ public class BlacklistHelper implements GatewayRule<BlacklistRule> {
         if (rule.getCreateTime() == null) {
             rule.setCreateTime(Instant.now());
         }
-        final String content = JSON.toJSONString(rule);
+        final String content = JacksonUtils.toJson(rule);
         stringRedisTemplate.opsForHash().put(RULE_BLACKLIST.hashKey(), rule.getId(), content);
     }
     

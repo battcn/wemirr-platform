@@ -2,10 +2,11 @@ package com.wemirr.platform.workflow.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.wemirr.framework.commons.BeanUtilPlus;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
@@ -76,8 +77,8 @@ public class InstanceExtServiceImpl extends SuperServiceImpl<InstanceExtMapper, 
         var detail = BeanUtilPlus.toBean(instance, InstanceExtDetailResp.class);
         //通过实例ID获取表单数据
         var formPreview = ProcessInstanceFormPreviewResp.builder().formDesign(ProcessInstanceFormPreviewResp.FormDesign.builder()
-                        .schemas(JSONArray.parseArray(instance.getFormSchemas())).script(instance.getFormScript()).build())
-                .formData(JSONObject.parse(instance.getFormData())).build();
+                        .schemas(JacksonUtils.readValue(instance.getFormSchemas(), new TypeReference<>() {})).script(instance.getFormScript()).build())
+                .formData(JacksonUtils.readValue(instance.getFormData(), new TypeReference<>() {})).build();
         detail.setTaskList(taskList);
         detail.setFormPreview(formPreview);
         return detail;
@@ -91,10 +92,10 @@ public class InstanceExtServiceImpl extends SuperServiceImpl<InstanceExtMapper, 
             if (StrUtil.isBlank(task.getVariable())) {
                 continue;
             }
-            JSONObject variable = JSONObject.parseObject(task.getVariable());
-            String approverName = variable.getString(VariableConstant.VAR_APPROVE_USER);
+            JsonNode variable = JacksonUtils.toJsonNode(task.getVariable());
+            String approverName = variable.get(VariableConstant.VAR_APPROVE_USER).asText();
             if (StrUtil.isEmpty(approverName)) {
-                approverName = variable.getString("user");
+                approverName = variable.get("user").asText();
 //                    task.setTransferApproverName(jsonObject.getString(VariableConstant.VAR_TRANSFER_APPROVE_USER));
             }
             task.setApproverName(approverName);

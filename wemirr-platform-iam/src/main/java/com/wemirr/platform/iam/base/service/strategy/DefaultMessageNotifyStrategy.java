@@ -19,7 +19,7 @@
 
 package com.wemirr.platform.iam.base.service.strategy;
 
-import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.websocket.WebSocketManager;
 import com.wemirr.platform.iam.base.domain.entity.MessageChannel;
 import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
@@ -44,7 +44,7 @@ public class DefaultMessageNotifyStrategy implements MessageNotifyStrategy {
 
     @Override
     public void handler(MessageChannel channel, MessageNotify notify) {
-        this.webSocketManager.sendMessage(String.valueOf(notify.getUserId()), JSON.toJSONString(notify));
-        log.debug("系统消息发送配置 => {},通知消息 => {}", "", JSON.toJSONString(notify));
+        this.webSocketManager.sendMessage(String.valueOf(notify.getUserId()), JacksonUtils.toJson(notify));
+        log.debug("系统消息发送配置 => {},通知消息 => {}", "", JacksonUtils.toJson(notify));
     }
 }

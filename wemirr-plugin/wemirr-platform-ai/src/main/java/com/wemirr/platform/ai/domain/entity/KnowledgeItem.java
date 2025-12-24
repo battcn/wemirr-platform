@@ -2,8 +2,8 @@ package com.wemirr.platform.ai.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import com.wemirr.framework.db.mybatisplus.handler.type.MapTypeHandler;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemStatus;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -117,7 +117,7 @@ public class KnowledgeItem extends SuperEntity<Long> {
     /**
      * 扩展元数据（JSON）
      */
-    @TableField(value = "metadata", typeHandler = MapTypeHandler.class)
+    @TableField(value = "metadata", typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> metadata;
 
     @Schema(description = "租户ID")

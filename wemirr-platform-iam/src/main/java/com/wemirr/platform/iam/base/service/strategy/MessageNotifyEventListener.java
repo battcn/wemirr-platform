@@ -52,7 +52,7 @@ public class MessageNotifyEventListener {
     private final ThreadPoolExecutor poolExecutor;
     private final MessageChannelMapper messageChannelMapper;
     
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         Map<String, MessageNotifyStrategy> beansOfType = SpringUtil.getBeansOfType(MessageNotifyStrategy.class);
         for (Map.Entry<String, MessageNotifyStrategy> entry : beansOfType.entrySet()) {

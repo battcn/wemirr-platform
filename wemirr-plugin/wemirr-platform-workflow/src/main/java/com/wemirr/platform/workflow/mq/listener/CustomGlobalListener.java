@@ -2,8 +2,8 @@ package com.wemirr.platform.workflow.mq.listener;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSONObject;
 import com.google.common.collect.Lists;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.platform.iam.feign.UserFeign;
 import com.wemirr.platform.iam.feign.domain.resp.UserInfoResp;
 import com.wemirr.platform.workflow.feign.domain.enums.ApprovalAction;
@@ -217,7 +217,7 @@ public class CustomGlobalListener implements GlobalListener {
             Map<String, Object> variable = listenerVariable.getVariable();
             BusinessCommonMqReq businessCommonMqDto = BusinessCommonMqReq.builder()
                     .businessCode(instance.getBusinessId())
-                    .workflowCommonReq(StrUtil.isBlank(instance.getExt()) ? null : JSONObject.parseObject(instance.getExt(), WorkflowCommonReq.class))
+                    .workflowCommonReq(StrUtil.isBlank(instance.getExt()) ? null : JacksonUtils.toBean(instance.getExt(), WorkflowCommonReq.class))
                     .instanceStatus(ApprovalStatus.of(instance.getFlowStatus()))
                     .createBy(customPermissionHandler.getHandler())
                     .createName(customPermissionHandler.getHandlerName())
@@ -231,7 +231,7 @@ public class CustomGlobalListener implements GlobalListener {
             if (null == definition || null == DefId2Tag.ofTag(definition.getFlowCode())) {
                 return;
             }
-            transactionMQTemplate.sendOrderlyMessage(workflowTopic, DefId2Tag.ofTag(definition.getFlowCode()), businessCommonMqDto.getBusinessCode(), JSONObject.toJSONString(businessCommonMqDto), Boolean.TRUE);
+            transactionMQTemplate.sendOrderlyMessage(workflowTopic, DefId2Tag.ofTag(definition.getFlowCode()), businessCommonMqDto.getBusinessCode(), JacksonUtils.toJson(businessCommonMqDto), Boolean.TRUE);
         }
         log.info("全局完成监听器执行结束......");
     }

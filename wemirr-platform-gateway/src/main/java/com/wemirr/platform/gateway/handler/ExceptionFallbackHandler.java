@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.gateway.handler;
 
-import com.alibaba.fastjson2.JSONObject;
 import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,6 +30,8 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_ORIGINAL_REQUEST_URL_ATTR;
@@ -50,7 +51,7 @@ public class ExceptionFallbackHandler implements HandlerFunction<ServerResponse>
     public Mono<ServerResponse> handle(ServerRequest serverRequest) {
         Optional<Object> originalUris = serverRequest.attribute(GATEWAY_ORIGINAL_REQUEST_URL_ATTR);
         originalUris.ifPresent(originalUri -> log.error("网关执行请求:{}失败,服务降级处理", originalUri));
-        JSONObject obj = new JSONObject();
+        Map<String, Object> obj = new HashMap<>();
         obj.put("code", HttpStatus.SERVICE_UNAVAILABLE.value());
         obj.put("messageId", HttpStatus.SERVICE_UNAVAILABLE.value());
         obj.put("message", "服务繁忙，请稍后再试");

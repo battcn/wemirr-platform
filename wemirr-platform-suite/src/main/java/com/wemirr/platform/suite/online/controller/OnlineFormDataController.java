@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.suite.online.controller;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.platform.suite.online.domain.req.OnlineFormDataSaveReq;
 import com.wemirr.platform.suite.online.domain.req.OnlineFormDesignerPageReq;
@@ -30,6 +29,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @author Levin
@@ -46,7 +47,7 @@ public class OnlineFormDataController {
 
     @Operation(summary = "分页查询", description = "分页查询")
     @PostMapping("/page")
-    public IPage<JSONObject> pageList(@RequestBody OnlineFormDesignerPageReq req) {
+    public IPage<Map<String, Object>> pageList(@RequestBody OnlineFormDesignerPageReq req) {
         return onlineFormDataService.pageList(req);
     }
 

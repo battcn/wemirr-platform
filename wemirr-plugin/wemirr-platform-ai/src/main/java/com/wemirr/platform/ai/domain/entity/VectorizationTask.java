@@ -2,8 +2,8 @@ package com.wemirr.platform.ai.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import com.wemirr.framework.db.mybatisplus.handler.type.JsonTypeHandler;
 import com.wemirr.platform.ai.service.VectorService.VectorizationTaskStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -79,7 +79,7 @@ public class VectorizationTask extends SuperEntity<Long> {
     /**
      * 结果向量ID列表（JSON格式）
      */
-    @TableField(value = "vector_ids", typeHandler = JsonTypeHandler.class)
+    @TableField(value = "vector_ids", typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> vectorIds;
     
     /**

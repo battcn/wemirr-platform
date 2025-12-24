@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.suite.online.service.impl;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
@@ -32,6 +31,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Levin
  */
@@ -41,8 +43,8 @@ import org.springframework.stereotype.Service;
 public class OnlineFormDataServiceImpl extends SuperServiceImpl<OnlineFormDataMapper, OnlineFormData> implements OnlineFormDataService {
     
     @Override
-    public IPage<JSONObject> pageList(OnlineFormDesignerPageReq req) {
-        return this.baseMapper.pageList(req.buildPage(), req).convert(x -> new JSONObject() {
+    public IPage<Map<String, Object>> pageList(OnlineFormDesignerPageReq req) {
+        return this.baseMapper.pageList(req.buildPage(), req).convert(x -> new HashMap<>() {
             
             {
                 put("id", x.getId());

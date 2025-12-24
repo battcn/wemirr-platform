@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.suite.online.controller;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.suite.online.dialect.FastCrudDialect;
@@ -36,6 +35,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Levin
@@ -82,18 +84,18 @@ public class OnlineModelController {
 
     @GetMapping("/fast-crud")
     @Operation(summary = "fast-crud模板 - [Levin] - [DONE]")
-    public JSONObject fastCrud(@RequestParam String definitionKey) {
+    public Map<String, Object> fastCrud(@RequestParam String definitionKey) {
         OnlineModel model = this.onlineModelService.getOne(Wraps.<OnlineModel>lbQ().eq(OnlineModel::getDefinitionKey, definitionKey));
         if (model == null) {
-            return new JSONObject() {
+            return new HashMap<>() {
 
                 {
                     put("columns", null);
                 }
             };
         }
-        JSONObject fastCrud = FastCrudDialect.toFastCrud(model.getFormSchemas());
-        return new JSONObject() {
+        Map<String, Object> fastCrud = FastCrudDialect.toFastCrud(model.getFormSchemas());
+        return new HashMap<>() {
 
             {
                 put("columns", fastCrud);
