@@ -26,7 +26,6 @@ import com.wemirr.framework.commons.remote.LoadService;
 import com.wemirr.framework.i18n.I18nMessageProvider;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -56,7 +55,7 @@ public class RemoteAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public DictLoadService dictLoadService(@Qualifier("remoteAloneRedisTemplate") RedisTemplate<String, Object> redisTemplate, I18nMessageProvider i18nMessageProvider) {
+    public DictLoadService dictLoadService(RedisTemplate<String, Object> redisTemplate, I18nMessageProvider i18nMessageProvider) {
         return new DictLoadService(redisTemplate, i18nMessageProvider);
     }
 

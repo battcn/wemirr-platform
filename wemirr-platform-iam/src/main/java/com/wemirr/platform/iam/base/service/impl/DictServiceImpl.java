@@ -62,7 +62,7 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
     private final DictLoadService dictLoadService;
     private final I18nLocaleMessageMapper i18nLocaleMessageMapper;
 
-//    @PostConstruct
+    @PostConstruct
     public void init() {
         refresh();
     }
@@ -122,7 +122,7 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
 
     @Override
     public void refresh() {
-        List<SysDict> list = this.baseMapper.selectList(SysDict::getStatus, true);
+        List<SysDict> list = this.baseMapper.selectList();
         if (CollUtil.isEmpty(list)) {
             return;
         }
