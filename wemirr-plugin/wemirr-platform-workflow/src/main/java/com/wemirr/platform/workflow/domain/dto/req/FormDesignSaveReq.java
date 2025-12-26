@@ -1,9 +1,10 @@
 package com.wemirr.platform.workflow.domain.dto.req;
 
-import com.alibaba.fastjson2.JSONArray;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+
+import java.util.ArrayList;
 
 /**
  * @author Levin
@@ -16,5 +17,5 @@ public class FormDesignSaveReq {
     private String script;
 
     @NotEmpty(message = "表单字段不能为空")
-    private JSONArray schemas;
+    private ArrayList<Object> schemas;
 }

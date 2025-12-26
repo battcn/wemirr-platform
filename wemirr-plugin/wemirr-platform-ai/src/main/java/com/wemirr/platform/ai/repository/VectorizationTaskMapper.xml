@@ -42,7 +42,7 @@
     <!-- 更新任务向量ID -->
     <update id="updateVectorIds">
         UPDATE ai_kb_vectorization_task
-        SET vector_ids = #{vectorIds,typeHandler=com.wemirr.framework.db.mybatisplus.handler.type.JsonTypeHandler}
+        SET vector_ids = #{vectorIds,typeHandler=com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler}
         WHERE task_id = #{taskId}
     </update>
 

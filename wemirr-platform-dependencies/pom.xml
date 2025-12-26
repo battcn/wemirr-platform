@@ -45,7 +45,6 @@
         <!-- 工具包 -->
         <guava.version>33.5.0-jre</guava.version>
         <hutool.version>5.8.42</hutool.version>
-        <fastjson2.version>2.0.59</fastjson2.version>
         <springdoc-openapi.version>1.8.0</springdoc-openapi.version>
         <knife4j.version>4.6.0</knife4j.version>
         <knife4j-springdoc-ui.version>3.0.3</knife4j-springdoc-ui.version>
@@ -75,7 +74,7 @@
             <!-- Sa-Token 整合 Redis (可选) -->
             <dependency>
                 <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-fastjson2</artifactId>
+                <artifactId>sa-token-jackson</artifactId>
                 <version>${sa-token.version}</version>
             </dependency>
             <!-- Sa-Token 整合 RedisTemplate -->
@@ -213,21 +212,7 @@
                 <artifactId>spring-boot-admin-server-ui</artifactId>
                 <version>${spring-boot-admin.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2</artifactId>
-                <version>${fastjson2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2-extension</artifactId>
-                <version>${fastjson2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2-extension-spring6</artifactId>
-                <version>${fastjson2.version}</version>
-            </dependency>
+
             <!-- redisson -->
             <dependency>
                 <groupId>org.redisson</groupId>

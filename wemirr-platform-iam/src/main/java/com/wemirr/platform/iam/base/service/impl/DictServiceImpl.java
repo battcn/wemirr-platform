@@ -62,7 +62,7 @@ public class DictServiceImpl extends SuperServiceImpl<SysDictMapper, SysDict> im
     private final DictLoadService dictLoadService;
     private final I18nLocaleMessageMapper i18nLocaleMessageMapper;
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         refresh();
     }

@@ -19,9 +19,8 @@
 
 package com.wemirr.platform.gateway.filter;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
 import com.google.common.net.HttpHeaders;
+import com.wemirr.framework.commons.JacksonUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +37,9 @@ import reactor.core.publisher.Mono;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 黑白名单网关过滤器
@@ -133,12 +134,12 @@ public class BlackWhiteListGatewayFilterFactory extends AbstractGatewayFilterFac
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(HttpStatus.FORBIDDEN);
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        JSONObject result = new JSONObject();
+        Map<String, Object> result = new HashMap<>();
         result.put("code", HttpStatus.FORBIDDEN.value());
         result.put("message", message);
         result.put("successful", false);
         result.put("timestamp", System.currentTimeMillis());
-        return response.writeWith(Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(result))));
+        return response.writeWith(Mono.just(response.bufferFactory().wrap(JacksonUtils.toJsonBytes(result))));
     }
     
     @AllArgsConstructor

@@ -21,9 +21,9 @@ package com.wemirr.platform.iam.base.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import com.wemirr.framework.db.properties.MultiTenantType;
@@ -79,7 +79,7 @@ public class WebSocketMessageEndpoint extends BaseWebSocketEndpoint {
         if (CollectionUtil.isEmpty(messages)) {
             return;
         }
-        messages.forEach(message -> senderMessage(userId, JSON.toJSONString(message)));
+        messages.forEach(message -> senderMessage(userId, JacksonUtils.toJson(message)));
     }
 
     @OnMessage

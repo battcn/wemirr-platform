@@ -21,8 +21,8 @@ package com.wemirr.platform.iam.system.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import com.wemirr.framework.db.mybatisplus.handler.type.MapTypeHandler;
 import com.wemirr.platform.iam.system.domain.enums.ResourceType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -90,7 +90,7 @@ public class Resource extends SuperEntity<Long> {
     private String description;
 
     @Schema(description = "路由元信息(JSON)")
-    @TableField(typeHandler = MapTypeHandler.class)
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> meta;
 
 }

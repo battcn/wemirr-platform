@@ -19,7 +19,7 @@
 
 package com.wemirr.framework.redis.plus.utils;
 
-import com.alibaba.fastjson2.JSONObject;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.util.DigestUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -103,7 +103,7 @@ public class RedisAopUtils {
         // key表达式
         key = StringUtils.isEmpty(key) ? "" : "_" + key;
         // 使用MD5生成位移key
-        return DigestUtil.md5Hex(JSONObject.toJSONString(keyMap) + key).toUpperCase();
+        return DigestUtil.md5Hex(JacksonUtils.toJson(keyMap) + key).toUpperCase();
     }
 
 }

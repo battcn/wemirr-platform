@@ -19,8 +19,8 @@
 
 package com.wemirr.framework.commons.entity;
 
-import com.alibaba.fastjson2.JSON;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.wemirr.framework.commons.JacksonUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -228,7 +228,7 @@ public class Result<T> implements Serializable {
     
     @Override
     public String toString() {
-        return JSON.toJSONString(this);
+        return JacksonUtils.toJson(this);
     }
     
     public static class Builder<T> {

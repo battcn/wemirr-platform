@@ -2,8 +2,8 @@ package com.wemirr.platform.ai.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import com.wemirr.framework.db.mybatisplus.handler.type.MapTypeHandler;
 import com.wemirr.platform.ai.core.enums.ModelType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -48,7 +48,7 @@ public class ModelConfig extends SuperEntity<Long> {
     private String baseUrl;
 
     @Schema(description = "模型配置属性")
-    @TableField(typeHandler = MapTypeHandler.class)
+    @TableField(typeHandler = JacksonTypeHandler.class)
     protected Map<String, Object> variables;
 
     @Schema(description = "租户ID")

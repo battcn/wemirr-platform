@@ -20,8 +20,8 @@
 package com.wemirr.platform.iam.auth.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.commons.BeanUtilPlus;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -49,10 +49,10 @@ public class RegisteredClientServiceImpl extends SuperServiceImpl<RegisteredClie
             bean.setGrantTypes(CollUtil.join(req.getGrantTypes(), ","));
         }
         if (Objects.nonNull(req.getClientSettings())) {
-            bean.setClientSettings(JSON.toJSONString(req.getClientSettings()));
+            bean.setClientSettings(JacksonUtils.toJson(req.getClientSettings()));
         }
         if (Objects.nonNull(req.getTokenSettings())) {
-            bean.setTokenSettings(JSON.toJSONString(req.getTokenSettings()));
+            bean.setTokenSettings(JacksonUtils.toJson(req.getTokenSettings()));
         }
         this.baseMapper.insert(bean);
     }
@@ -69,10 +69,10 @@ public class RegisteredClientServiceImpl extends SuperServiceImpl<RegisteredClie
             bean.setGrantTypes(CollUtil.join(req.getGrantTypes(), ","));
         }
         if (Objects.nonNull(req.getClientSettings())) {
-            bean.setClientSettings(JSON.toJSONString(req.getClientSettings()));
+            bean.setClientSettings(JacksonUtils.toJson(req.getClientSettings()));
         }
         if (Objects.nonNull(req.getTokenSettings())) {
-            bean.setTokenSettings(JSON.toJSONString(req.getTokenSettings()));
+            bean.setTokenSettings(JacksonUtils.toJson(req.getTokenSettings()));
         }
         this.baseMapper.updateById(bean);
     }

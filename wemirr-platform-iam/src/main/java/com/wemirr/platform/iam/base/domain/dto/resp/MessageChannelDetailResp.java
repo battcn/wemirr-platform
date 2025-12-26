@@ -19,9 +19,10 @@
 
 package com.wemirr.platform.iam.base.domain.dto.resp;
 
-import com.alibaba.fastjson2.JSONObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import java.util.Map;
 
 /**
  * @author Levin
@@ -42,7 +43,7 @@ public class MessageChannelDetailResp {
     private Boolean status;
     
     @Schema(description = "设置")
-    private JSONObject setting;
+    private Map<String, Object> setting;
     
     @Schema(description = "租户ID")
     private Long tenantId;

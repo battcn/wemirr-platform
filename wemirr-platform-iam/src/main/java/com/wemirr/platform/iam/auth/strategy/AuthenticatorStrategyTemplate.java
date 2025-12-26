@@ -22,7 +22,7 @@ package com.wemirr.platform.iam.auth.strategy;
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Assert;
-import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.iam.auth.domain.entity.RegisteredClient;
@@ -51,7 +51,7 @@ public class AuthenticatorStrategyTemplate {
     private final RegisteredClientMapper registeredClientMapper;
 
     public void prepare(final AuthenticationPrincipal principal) {
-        log.info("[登录类型] - [{}], 登录参数 - [{}]", principal.getLoginType(), JSON.toJSONString(principal));
+        log.info("[登录类型] - [{}], 登录参数 - [{}]", principal.getLoginType(), JacksonUtils.toJson(principal));
         Assert.notBlank(principal.getTenantCode(), () -> CheckedException.badRequest("租户编码不能为空"));
         Assert.notBlank(principal.getUsername(), () -> CheckedException.badRequest("用户名不能为空"));
         Assert.notBlank(principal.getPassword(), () -> CheckedException.badRequest("密码不能为空"));

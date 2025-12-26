@@ -21,7 +21,7 @@ package com.wemirr.framework.robot.handler;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.commons.JacksonUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -53,7 +53,7 @@ public class DefaultIErrorMessageHandler implements IErrorMessageHandler {
         error.append(LINE_BREAK).append("IP: ").append(ip);
         Signature signature = joinPoint.getSignature();
         error.append(LINE_BREAK).append("Method: ").append(signature.getDeclaringTypeName()).append(".").append(signature.getName());
-        error.append(LINE_BREAK).append("Args: ").append(JSON.toJSONString(joinPoint.getArgs()));
+        error.append(LINE_BREAK).append("Args: ").append(JacksonUtils.toJson(joinPoint.getArgs()));
         error.append(LINE_BREAK).append("Exception: ").append(ExceptionUtil.stacktraceToString(e));
         return error.toString();
     }

@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.domain.dto.rep;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.wemirr.framework.db.mybatisplus.handler.type.MapTypeHandler;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemStatus;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -118,7 +118,7 @@ public class KnowledgeItemResp {
     /**
      * 扩展元数据（JSON）
      */
-    @TableField(value = "metadata", typeHandler = MapTypeHandler.class)
+    @TableField(value = "metadata", typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> metadata;
 
     @Schema(description = "创建时间")

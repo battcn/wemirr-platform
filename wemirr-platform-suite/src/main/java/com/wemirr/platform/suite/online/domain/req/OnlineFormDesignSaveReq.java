@@ -19,10 +19,11 @@
 
 package com.wemirr.platform.suite.online.domain.req;
 
-import com.alibaba.fastjson2.JSONArray;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author Levin
@@ -35,5 +36,5 @@ public class OnlineFormDesignSaveReq {
     private String script;
     
     @NotEmpty(message = "表单字段不能为空")
-    private JSONArray schemas;
+    private List<Object> schemas;
 }

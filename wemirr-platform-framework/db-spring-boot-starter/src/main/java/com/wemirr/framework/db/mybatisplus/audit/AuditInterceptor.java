@@ -3,13 +3,13 @@ package com.wemirr.framework.db.mybatisplus.audit;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.entity.DictEnum;
 import com.wemirr.framework.db.properties.DatabaseProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -37,7 +37,7 @@ public class AuditInterceptor implements InnerInterceptor {
 
     @Override
     public void beforeUpdate(Executor executor, MappedStatement ms, Object parameter) {
-        log.debug("ms - {} - parameter - [{}]", ms.getId(), JSON.toJSONString(parameter));
+        log.debug("ms - {} - parameter - [{}]", ms.getId(), JacksonUtils.toJson(parameter));
         if (ms.getId().endsWith("updateById")) {
             return;
         }
@@ -62,7 +62,7 @@ public class AuditInterceptor implements InnerInterceptor {
             return;
         }
         Map<String, AuditField> differences = compareDifferences(tableInfo, source, entity);
-        log.info("审计日志 - {}", JSON.toJSONString(differences));
+        log.info("审计日志 - {}", JacksonUtils.toJson(differences));
     }
 
     private Object getEntityFromParameter(Object parameter) {

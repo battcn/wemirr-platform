@@ -19,8 +19,12 @@
 
 package com.wemirr.framework.redis.plus;
 
-import com.alibaba.fastjson2.support.spring6.data.redis.GenericFastJsonRedisSerializer;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.redis.plus.interceptor.RedisLimitInterceptor;
 import com.wemirr.framework.redis.plus.interceptor.RedisLockInterceptor;
 import com.wemirr.framework.redis.plus.limit.DistributedRateLimiter;
@@ -42,6 +46,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
@@ -125,8 +130,18 @@ public class RedisPlusAutoConfiguration {
         redisTemplate.setConnectionFactory(connectionFactory);
         // 字符串序列化器
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        ObjectMapper objectMapper = JacksonUtils.getObjectMapper();
+        // 解决查询缓存转换异常的问题
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        // 启用对泛型和多态的支持，自定义规则以支持Kotlin等Final类
+        objectMapper.setDefaultTyping(new ObjectMapper.DefaultTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL, LaissezFaireSubTypeValidator.instance) {
+            @Override
+            public boolean useForType(com.fasterxml.jackson.databind.JavaType t) {
+                return !com.fasterxml.jackson.core.TreeNode.class.isAssignableFrom(t.getRawClass());
+            }
+        }.init(JsonTypeInfo.Id.CLASS, null).inclusion(JsonTypeInfo.As.PROPERTY));
         // 存入redis时序列化值的序列化器
-        GenericFastJsonRedisSerializer valueSerializer = new GenericFastJsonRedisSerializer();
+        GenericJackson2JsonRedisSerializer valueSerializer = new GenericJackson2JsonRedisSerializer(objectMapper);
         redisTemplate.setKeySerializer(stringRedisSerializer);
         redisTemplate.setHashKeySerializer(stringRedisSerializer);
         redisTemplate.setDefaultSerializer(valueSerializer);

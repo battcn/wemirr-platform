@@ -20,8 +20,8 @@
 package com.wemirr.platform.iam.base.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.alibaba.fastjson2.JSON;
 import com.wemirr.framework.boot.log.AccessLogInfo;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.platform.iam.base.domain.entity.OptLog;
@@ -44,7 +44,7 @@ public class OptLogServiceImpl extends SuperServiceImpl<OptLogMapper, OptLog> im
     @Override
     public void listener(AccessLogInfo info) {
         TenantHelper.executeWithTenantDb(info.getTenantCode(), () -> {
-            log.debug("[日志信息] - {}", JSON.toJSONString(info));
+            log.debug("[日志信息] - {}", JacksonUtils.toJson(info));
             return this.optLogMapper.insert(BeanUtil.toBean(info, OptLog.class));
         });
     }

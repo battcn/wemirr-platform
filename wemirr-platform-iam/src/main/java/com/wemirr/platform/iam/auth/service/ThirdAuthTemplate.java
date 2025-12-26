@@ -54,7 +54,7 @@ public class ThirdAuthTemplate {
     
     private static final Map<ThirdAuthType, ThirdAuthService> AUTH_SERVICE_MAP = Maps.newConcurrentMap();
     
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         Map<ThirdAuthType, AuthConfig> configMap = thirdAuthProperties.getConfigMap();
         if (CollUtil.isEmpty(configMap)) {

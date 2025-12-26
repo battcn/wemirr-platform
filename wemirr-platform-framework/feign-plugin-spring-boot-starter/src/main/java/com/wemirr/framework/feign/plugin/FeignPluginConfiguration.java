@@ -19,14 +19,10 @@
 
 package com.wemirr.framework.feign.plugin;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.wemirr.framework.feign.plugin.decoder.FeignResponseDecoder;
 import com.wemirr.framework.feign.plugin.mock.FeignPluginInterceptor;
 import com.wemirr.framework.feign.plugin.mock.MockLoadBalancerFeignClient;
 import com.wemirr.framework.feign.plugin.mock.MockProperties;
-import com.wemirr.framework.feign.plugin.token.AutoRefreshTokenInterceptor;
-import com.wemirr.framework.feign.plugin.token.AutoRefreshTokenProperties;
 import feign.Client;
 import feign.Logger;
 import feign.codec.Decoder;
@@ -39,7 +35,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.*;
 import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.cloud.openfeign.loadbalancer.LoadBalancerFeignRequestTransformer;
@@ -53,14 +48,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Levin
  */
 @Slf4j
 @Configuration
-@EnableConfigurationProperties(value = {FeignPluginProperties.class, AutoRefreshTokenProperties.class, MockProperties.class})
+@EnableConfigurationProperties(value = {FeignPluginProperties.class, MockProperties.class})
 public class FeignPluginConfiguration {
 
     @Bean
@@ -138,14 +132,5 @@ public class FeignPluginConfiguration {
     @Order(-999999)
     public FeignPluginInterceptor feignPluginInterceptor(FeignPluginProperties properties) {
         return new FeignPluginInterceptor(properties);
-    }
-
-    @Bean
-    @ConditionalOnProperty(prefix = AutoRefreshTokenProperties.TOKEN_PREFIX, name = "enabled", havingValue = "true")
-    public AutoRefreshTokenInterceptor feignTokenInterceptor(DiscoveryClient discoveryClient, AutoRefreshTokenProperties properties) {
-        final AutoRefreshTokenProperties.Cache cache = properties.getCache();
-        Cache<String, String> tokenCache = CacheBuilder.newBuilder().initialCapacity(cache.getInitialCapacity())
-                .maximumSize(cache.getMaximumSize()).expireAfterWrite(cache.getExpire(), TimeUnit.SECONDS).build();
-        return new AutoRefreshTokenInterceptor(discoveryClient, properties, tokenCache);
     }
 }

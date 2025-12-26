@@ -20,8 +20,9 @@
 package com.wemirr.platform.iam.base.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.wemirr.framework.commons.BeanUtilPlus;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.platform.iam.base.domain.dto.req.MessageChannelSaveReq;
 import com.wemirr.platform.iam.base.domain.dto.resp.MessageChannelDetailResp;
@@ -55,7 +56,8 @@ public class MessageChannelServiceImpl extends SuperServiceImpl<MessageChannelMa
         MessageChannel channel = this.baseMapper.selectOne(MessageChannel::getType, type);
         MessageChannelDetailResp bean = BeanUtilPlus.toBeanIgnoreError(channel, MessageChannelDetailResp.class);
         if (StrUtil.isNotBlank(channel.getSetting())) {
-            bean.setSetting(JSONObject.parseObject(channel.getSetting()));
+            bean.setSetting(JacksonUtils.readValue(channel.getSetting(), new TypeReference<>() {
+            }));
         }
         return bean;
     }

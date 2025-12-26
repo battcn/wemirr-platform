@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.iam.auth.support;
 
-import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,7 +61,6 @@ public class AuthenticationPrincipal {
     private String clientSecret;
 
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
     @Schema(description = "HTTP 请求", requiredMode = Schema.RequiredMode.REQUIRED)
     private HttpServletRequest request;
 

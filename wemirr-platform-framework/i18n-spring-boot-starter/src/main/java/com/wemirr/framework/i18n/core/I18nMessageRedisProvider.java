@@ -19,7 +19,7 @@
 
 package com.wemirr.framework.i18n.core;
 
-import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.i18n.I18nMessageProvider;
 import com.wemirr.framework.i18n.domain.I18nMessage;
 import com.wemirr.framework.i18n.domain.I18nRedisKeyConstants;
@@ -87,6 +87,6 @@ public class I18nMessageRedisProvider implements I18nMessageProvider {
      * 发布单条国际化消息更新事件
      */
     public void publish(I18nMessage message) {
-        redisTemplate.convertAndSend(I18nRedisKeyConstants.CHANNEL_I18N_DATA_UPDATED, JSON.toJSONString(message));
+        redisTemplate.convertAndSend(I18nRedisKeyConstants.CHANNEL_I18N_DATA_UPDATED, JacksonUtils.toJson(message));
     }
 }

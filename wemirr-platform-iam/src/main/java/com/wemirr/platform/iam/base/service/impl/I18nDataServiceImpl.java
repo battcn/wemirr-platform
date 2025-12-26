@@ -21,9 +21,9 @@ package com.wemirr.platform.iam.base.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -56,19 +56,19 @@ import static java.util.stream.Collectors.toList;
 @Service
 @RequiredArgsConstructor
 public class I18nDataServiceImpl extends SuperServiceImpl<I18nDataMapper, I18nData> implements I18nDataService {
-    
+
     private final I18nDataMapper i18nDataMapper;
     private final I18nLocaleMessageMapper i18nLocaleMessageMapper;
     private final I18nMessageProvider i18nMessageProvider;
     private final AuthenticationContext context;
-    
+
     @PostConstruct
     public void init() {
         List<I18nMessage> messages = i18nDataMapper.loadI18nMessage();
-        log.debug("从数据库加载国际化数据 - {}", JSON.toJSONString(messages));
+        log.debug("从数据库加载国际化数据 - {}", JacksonUtils.toJson(messages));
         i18nMessageProvider.loadI18nMessage(messages);
     }
-    
+
     @Override
     public IPage<I18nDataPageResp> pageList(I18nPageReq req) {
         final IPage<I18nDataPageResp> page = this.baseMapper.selectPage(req.buildPage(),
@@ -85,7 +85,7 @@ public class I18nDataServiceImpl extends SuperServiceImpl<I18nDataMapper, I18nDa
         }
         return page;
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void add(I18nDataSaveReq req) {
@@ -98,7 +98,7 @@ public class I18nDataServiceImpl extends SuperServiceImpl<I18nDataMapper, I18nDa
                 .toList();
         this.i18nLocaleMessageMapper.insertBatchSomeColumn(list);
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void edit(Long id, I18nDataSaveReq req) {
@@ -111,7 +111,7 @@ public class I18nDataServiceImpl extends SuperServiceImpl<I18nDataMapper, I18nDa
                 .toList();
         this.i18nLocaleMessageMapper.insertBatchSomeColumn(list);
     }
-    
+
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public boolean removeById(Serializable id) {

@@ -22,8 +22,7 @@ package com.wemirr.platform.suite.file.event;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.db.utils.TenantHelper;
@@ -85,7 +84,7 @@ public class OssConfigTemplate implements ApplicationRunner {
             s3Config.setDomain(setting.getDomain());
             s3Config.setBasePath(setting.getBasePath());
             amazonS3ConfigList.add(s3Config);
-            redisTemplate.opsForHash().put(STORAGE_SETTING_DEFAULT_SETTING, setting.getTenantId().toString(), JSON.toJSONString(setting));
+            redisTemplate.opsForHash().put(STORAGE_SETTING_DEFAULT_SETTING, setting.getTenantId().toString(), JacksonUtils.toJson(setting));
         }
         fileStorageList.addAll(FileStorageServiceBuilder.buildAmazonS3FileStorage(amazonS3ConfigList, null));
         log.info("==================== 存储设置初始化-End ====================");
@@ -109,7 +108,7 @@ public class OssConfigTemplate implements ApplicationRunner {
         event.setDomain(setting.getDomain());
         event.setEndPoint(setting.getEndPoint());
         if (setting.getStatus()) {
-            redisTemplate.opsForHash().put(StorageConstants.STORAGE_SETTING_DEFAULT_SETTING, tenantId.toString(), JSONObject.toJSONString(setting));
+            redisTemplate.opsForHash().put(StorageConstants.STORAGE_SETTING_DEFAULT_SETTING, tenantId.toString(), JacksonUtils.toJson(setting));
         }
         redisTemplate.convertAndSend(StorageConstants.STORAGE_CONFIG_EVENT_TOPIC, event);
         SpringUtil.publishEvent(event);
@@ -120,9 +119,9 @@ public class OssConfigTemplate implements ApplicationRunner {
         if (StrUtil.isBlank(json)) {
             OssConfig setting = this.ossConfigMapper.selectOne(Wraps.<OssConfig>lbQ().eq(OssConfig::getStatus, true)
                     .eq(OssConfig::getTenantId, context.tenantId()));
-            redisTemplate.opsForHash().put(StorageConstants.STORAGE_SETTING_DEFAULT_SETTING, context.tenantId().toString(), JSONObject.toJSONString(setting));
+            redisTemplate.opsForHash().put(StorageConstants.STORAGE_SETTING_DEFAULT_SETTING, context.tenantId().toString(), JacksonUtils.toJson(setting));
             return setting;
         }
-        return JSON.parseObject(json, OssConfig.class);
+        return JacksonUtils.toBean(json, OssConfig.class);
     }
 }

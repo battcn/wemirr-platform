@@ -19,8 +19,7 @@
 
 package com.wemirr.platform.gateway.route;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
+import com.wemirr.framework.commons.JacksonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.route.RouteDefinition;
@@ -55,7 +54,7 @@ public class RedisRouteDefinitionRepository implements RouteDefinitionRepository
             return null;
         }
         log.debug("[动态路由信息] - [{}]", object);
-        return JSON.parseObject(object.toString(), RouteDefinition.class);
+        return JacksonUtils.toBean(object.toString(), RouteDefinition.class);
     }
     
     /**
@@ -79,7 +78,7 @@ public class RedisRouteDefinitionRepository implements RouteDefinitionRepository
     @Override
     public Mono<Void> save(Mono<RouteDefinition> route) {
         return route.flatMap(routeDefinition -> {
-            redisTemplate.opsForHash().put(KEY, routeDefinition.getId(), JSONObject.toJSONString(routeDefinition));
+            redisTemplate.opsForHash().put(KEY, routeDefinition.getId(), JacksonUtils.toJson(routeDefinition));
             return Mono.empty();
         });
     }

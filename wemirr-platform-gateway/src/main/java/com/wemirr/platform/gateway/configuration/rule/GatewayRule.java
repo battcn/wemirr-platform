@@ -20,7 +20,7 @@
 package com.wemirr.platform.gateway.configuration.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.platform.gateway.rest.domain.BlacklistRule;
 import com.wemirr.platform.gateway.rest.domain.CommonRule;
 import com.wemirr.platform.gateway.rest.domain.LimitRule;
@@ -73,7 +73,7 @@ public interface GatewayRule<T> {
             return null;
         }
         for (Object object : objects) {
-            CommonRule rule = JSON.parseObject(object.toString(), CommonRule.class);
+            CommonRule rule = JacksonUtils.readValue(object.toString(), CommonRule.class);
             if (rule.getStatus() == null || !rule.getStatus() || StringUtils.isBlank(rule.getPath())) {
                 continue;
             }
@@ -86,7 +86,7 @@ public interface GatewayRule<T> {
             final boolean match = ANT_PATH_MATCHER.match(rule.getPath(), path);
             final boolean methodFilter = StringUtils.equals(rule.getMethod(), "ALL") || StringUtils.equalsIgnoreCase(rule.getMethod(), Objects.requireNonNull(httpMethod).name());
             if (match && methodFilter) {
-                return JSON.parseObject(object.toString(), (Type) gatewayRule.clazz);
+                return JacksonUtils.readValue(object.toString(), (Type) gatewayRule.clazz);
             }
         }
         return null;

@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.domain.dto.req;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.wemirr.framework.db.mybatisplus.handler.type.MapTypeHandler;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -48,7 +48,7 @@ public class KnowledgeBaseSaveReq {
     private Long embeddingModelId;
 
     @Schema(description = "元数据")
-    @TableField(typeHandler = MapTypeHandler.class)
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> metadata;
 
 }
