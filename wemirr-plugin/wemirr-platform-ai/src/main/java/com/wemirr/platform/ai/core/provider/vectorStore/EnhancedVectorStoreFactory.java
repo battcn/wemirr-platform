@@ -2,7 +2,7 @@ package com.wemirr.platform.ai.core.provider.vectorStore;
 
 import com.wemirr.platform.ai.core.config.VectorStoreProperties;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
@@ -38,11 +38,11 @@ public class EnhancedVectorStoreFactory {
      * 根据知识库创建向量存储
      * 
      * @param knowledgeBase 知识库
-     * @param modelConfig 模型配置
+     * @param modelEntity 模型配置
      * @return 向量存储实例
      */
-    public EmbeddingStore<TextSegment> createForKnowledgeBase(KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
-        String cacheKey = generateCacheKey(knowledgeBase, modelConfig);
+    public EmbeddingStore<TextSegment> createForKnowledgeBase(KnowledgeBase knowledgeBase, ModelEntity modelEntity) {
+        String cacheKey = generateCacheKey(knowledgeBase, modelEntity);
         
         // 检查缓存
         if (storeCache.containsKey(cacheKey)) {
@@ -50,7 +50,7 @@ public class EnhancedVectorStoreFactory {
         }
         
         // 创建新的向量存储实例
-        EmbeddingStore<TextSegment> store = createStore(knowledgeBase, modelConfig);
+        EmbeddingStore<TextSegment> store = createStore(knowledgeBase, modelEntity);
         storeCache.put(cacheKey, store);
         
         return store;
@@ -74,11 +74,11 @@ public class EnhancedVectorStoreFactory {
     /**
      * 创建向量存储实例
      */
-    private EmbeddingStore<TextSegment> createStore(KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
+    private EmbeddingStore<TextSegment> createStore(KnowledgeBase knowledgeBase, ModelEntity modelEntity) {
         VectorStoreProperties.StoreType type = properties.getType();
         return switch (type) {
-            case MILVUS -> createMilvusForKnowledgeBase(knowledgeBase, modelConfig);
-            case PGVECTOR -> createPgVectorForKnowledgeBase(knowledgeBase, modelConfig);
+            case MILVUS -> createMilvusForKnowledgeBase(knowledgeBase, modelEntity);
+            case PGVECTOR -> createPgVectorForKnowledgeBase(knowledgeBase, modelEntity);
             case IN_MEMORY -> new InMemoryEmbeddingStore<>();
             default -> throw new IllegalArgumentException("Unsupported vector store: " + type);
         };
@@ -87,14 +87,14 @@ public class EnhancedVectorStoreFactory {
     /**
      * 为知识库创建Milvus向量存储
      */
-    private EmbeddingStore<TextSegment> createMilvusForKnowledgeBase(KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
+    private EmbeddingStore<TextSegment> createMilvusForKnowledgeBase(KnowledgeBase knowledgeBase, ModelEntity modelEntity) {
         VectorStoreProperties.MilvusConfig config = properties.getMilvus();
         
         // 生成集合名称
         String collectionName = generateCollectionName(knowledgeBase, config);
         
         // 获取向量维度
-        int dimension = getVectorDimension(modelConfig);
+        int dimension = getVectorDimension(modelEntity);
         
         // 创建Milvus客户端
         MilvusServiceClient client = createMilvusClient(config);
@@ -111,14 +111,14 @@ public class EnhancedVectorStoreFactory {
     /**
      * 为知识库创建PgVector向量存储
      */
-    private EmbeddingStore<TextSegment> createPgVectorForKnowledgeBase(KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
+    private EmbeddingStore<TextSegment> createPgVectorForKnowledgeBase(KnowledgeBase knowledgeBase, ModelEntity modelEntity) {
         VectorStoreProperties.PgVectorConfig config = properties.getPgvector();
         
         // 生成表名
         String tableName = generateTableName(knowledgeBase, config);
         
         // 获取向量维度
-        int dimension = getVectorDimension(modelConfig);
+        int dimension = getVectorDimension(modelEntity);
         
         return PgVectorEmbeddingStore.builder()
                 .host(config.getHost())
@@ -210,7 +210,7 @@ public class EnhancedVectorStoreFactory {
     /**
      * 获取向量维度
      */
-    private int getVectorDimension(ModelConfig modelConfig) {
+    private int getVectorDimension(ModelEntity modelEntity) {
         // todo 根据模型配置获取向量维度 (注意，milvus集合的向量维度一定要跟模型保持一致）
         // 这里需要根据实际的模型配置来获取维度
         return properties.getMilvus().getDimension();
@@ -219,10 +219,10 @@ public class EnhancedVectorStoreFactory {
     /**
      * 生成缓存键
      */
-    private String generateCacheKey(KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
+    private String generateCacheKey(KnowledgeBase knowledgeBase, ModelEntity modelEntity) {
         return String.format("%s_%s_%s", 
                 knowledgeBase.getId(), 
-                modelConfig.getId(), 
+                modelEntity.getId(),
                 properties.getType().name());
     }
     

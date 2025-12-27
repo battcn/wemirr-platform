@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.core.provider.scoring;
 
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import dev.langchain4j.model.cohere.CohereScoringModel;
 import dev.langchain4j.model.scoring.ScoringModel;
 import org.springframework.stereotype.Component;
@@ -22,14 +22,14 @@ public class CohereScoringModelProvider implements ScoringModelProvider {
     private static final String DEFAULT_MODEL = "rerank-multilingual-v3.0";
 
     @Override
-    public boolean supports(ModelConfig config) {
+    public boolean supports(ModelEntity config) {
         String provider = config.getProvider();
         return "cohere".equalsIgnoreCase(provider);
     }
 
     @Override
-    public ScoringModel createModel(ModelConfig config) {
-        String modelName = config.getModelName() != null ? config.getModelName() : DEFAULT_MODEL;
+    public ScoringModel createModel(ModelEntity config) {
+        String modelName = config.getName() != null ? config.getName() : DEFAULT_MODEL;
 
         CohereScoringModel.CohereScoringModelBuilder builder = CohereScoringModel.builder()
                 .apiKey(config.getApiKey())

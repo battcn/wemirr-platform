@@ -1,5 +1,6 @@
 package com.wemirr.platform.ai.service.impl;
 
+import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.ai.core.assistant.interfaces.ChatAssistant;
@@ -76,20 +77,20 @@ public class ChatServiceImpl implements ChatService {
         );
 
 
-        ModelConfig modelConfig = modelConfigService.getOne(
-                Wraps.<ModelConfig>lbQ().eq(ModelConfig::getId, modelId)
+        ModelEntity modelEntity = modelConfigService.getOne(
+                Wraps.<ModelEntity>lbQ().eq(ModelEntity::getId, modelId)
         );
-        if (modelConfig == null) {
+        if (modelEntity == null) {
             throw new IllegalArgumentException("模型未配置: " + modelId);
         }
-        modelConfig.setReturnThinking(askReq.getReturnThinking());
-        modelConfig.setEnableWebSearch(askReq.getEnableWebSearch());
-        ChatAssistant assistant = assistantService.createMemoryAssistant(modelConfig);
+        modelEntity.setReturnThinking(askReq.getReturnThinking());
+        modelEntity.setEnableWebSearch(askReq.getEnableWebSearch());
+        ChatAssistant assistant = assistantService.createMemoryAssistant(modelEntity);
         TokenStream tokenStream = assistant.chatStream(
                 askReq.getConversationId(),
                 askReq.getPrompt()
         );
-        sseChatHelper.chatStreamToSse(askReq,sseEmitter, tokenStream,(result)->{
+        sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, (result) -> {
             String rawContent = (String) result.get("content");
             Integer promptTokens = (Integer) result.get("inputTokens");
             Integer completionTokens = (Integer) result.get("outputTokens");
@@ -100,8 +101,8 @@ public class ChatServiceImpl implements ChatService {
                     rawContent,
                     rawContent, // 脱敏、格式化
                     null,
-                    modelConfig.getModelName(),
-                    modelConfig.getProvider(), // 或从 modelConfig 获取
+                    modelEntity.getName(),
+                    modelEntity.getProvider(), // 或从 modelConfig 获取
                     promptTokens,
                     completionTokens,
                     null,
@@ -145,41 +146,41 @@ public class ChatServiceImpl implements ChatService {
 
         try {
             // 4. 获取模型配置,todo 这些都可以做缓存map，用模型id代替，不用模型名称
-            ModelConfig textModelConfig = modelConfigService.getOne(
-                    Wraps.<ModelConfig>lbQ().eq(ModelConfig::getId, knowledgeBase.getChatModelId())
-                            .eq(ModelConfig::getModelType, ModelType.TEXT)
+            ModelEntity textModelEntity = modelConfigService.getOne(
+                    Wraps.<ModelEntity>lbQ().eq(ModelEntity::getId, knowledgeBase.getChatModelId())
+                            .eq(ModelEntity::getType, ModelType.TEXT)
             );
-            textModelConfig.setEnableWebSearch(askReq.getEnableWebSearch());
-            textModelConfig.setReturnThinking(askReq.getReturnThinking());
-            ModelConfig embeddingModelConfig = modelConfigService.getOne(Wraps.<ModelConfig>lbQ().eq(ModelConfig::getId, knowledgeBase.getEmbeddingModelId())
-                    .eq(ModelConfig::getModelType, ModelType.EMBEDDING));
+            textModelEntity.setEnableWebSearch(askReq.getEnableWebSearch());
+            textModelEntity.setReturnThinking(askReq.getReturnThinking());
+            ModelEntity embeddingModelEntity = modelConfigService.getOne(Wraps.<ModelEntity>lbQ().eq(ModelEntity::getId, knowledgeBase.getEmbeddingModelId())
+                    .eq(ModelEntity::getType, ModelType.EMBEDDING));
 
             // 获取重排序模型配置（如果知识库配置了）
-            ModelConfig rerankModelConfig = null;
+            ModelEntity rerankModelEntity = null;
             if (knowledgeBase.getRerankModelId() != null) {
-                rerankModelConfig = modelConfigService.getOne(Wraps.<ModelConfig>lbQ()
-                        .eq(ModelConfig::getId, knowledgeBase.getRerankModelId())
-                        .eq(ModelConfig::getModelType, ModelType.RERANK));
+                rerankModelEntity = modelConfigService.getOne(Wraps.<ModelEntity>lbQ()
+                        .eq(ModelEntity::getId, knowledgeBase.getRerankModelId())
+                        .eq(ModelEntity::getType, ModelType.RERANK));
             }
 
             // 构造统一参数并创建 RAG Assistant
             RagAssistantParams params =
-                   RagAssistantParams.builder()
+                    RagAssistantParams.builder()
                             .kbId(askReq.getKbId())
-                            .textModelConfig(textModelConfig)
-                            .embeddingModelConfig(embeddingModelConfig)
-                            .rerankModelConfig(rerankModelConfig)
+                            .textModelEntity(textModelEntity)
+                            .embeddingModelEntity(embeddingModelEntity)
+                            .rerankModelEntity(rerankModelEntity)
                             .enableGraphRetrieval(knowledgeBase.getEnableGraph())
                             .build();
             ChatAssistant memoryRagAssistant = assistantService.createMemoryRagAssistant(params);
             TokenStream tokenStream = memoryRagAssistant.chatStream(conversationId, askReq.getPrompt());
-            
+
             // 7. 处理流式响应
             sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, (result) -> {
                 String rawContent = (String) result.get("content");
                 Integer promptTokens = (Integer) result.get("inputTokens");
                 Integer completionTokens = (Integer) result.get("outputTokens");
-                
+
                 // 保存助手回复
                 conversationMessageService.saveAssistantMessageAsync(
                         conversationId,
@@ -188,8 +189,8 @@ public class ChatServiceImpl implements ChatService {
                         rawContent,
                         rawContent,
                         null,
-                        textModelConfig.getModelName(),
-                        textModelConfig.getProvider(),
+                        textModelEntity.getName(),
+                        textModelEntity.getProvider(),
                         promptTokens,
                         completionTokens,
                         null,
@@ -197,7 +198,7 @@ public class ChatServiceImpl implements ChatService {
                         conversationMessage.getId()
                 );
             });
-            
+
         } catch (Exception e) {
             log.error("知识库对话失败: kbId={}, query={}", askReq.getKbId(), userPrompt, e);
             try {
@@ -242,41 +243,41 @@ public class ChatServiceImpl implements ChatService {
             throw new IllegalArgumentException("智能体不存在");
         }
 
-        ModelConfig textModelConfig = modelConfigService.getOne(
-                Wraps.<ModelConfig>lbQ().eq(ModelConfig::getId, chatAgent.getChatModelId())
-                        .eq(ModelConfig::getModelType, ModelType.TEXT)
-        );
-        if (textModelConfig == null) {
+        ModelEntity textModelEntity = modelConfigService.getById(chatAgent.getChatModelId());
+        if (textModelEntity == null) {
             throw new IllegalArgumentException("模型配置不存在: " + chatAgent.getChatModelId());
+        }
+        if (textModelEntity.getType() != ModelType.TEXT) {
+            throw CheckedException.badRequest("非 文本模型,操作异常");
         }
 
         RagAssistantParams ragParams = null;
         if (chatAgent.getKbId() != null) {
             KnowledgeBase knowledgeBase = knowledgeBaseService.getById(chatAgent.getKbId());
             if (knowledgeBase != null) {
-                ModelConfig embeddingModelConfig = modelConfigService.getOne(Wraps.<ModelConfig>lbQ()
-                        .eq(ModelConfig::getId, knowledgeBase.getEmbeddingModelId())
-                        .eq(ModelConfig::getModelType, ModelType.EMBEDDING));
-                
+                ModelEntity embeddingModelEntity = modelConfigService.getOne(Wraps.<ModelEntity>lbQ()
+                        .eq(ModelEntity::getId, knowledgeBase.getEmbeddingModelId())
+                        .eq(ModelEntity::getType, ModelType.EMBEDDING));
+
                 // 获取重排序模型配置（如果知识库配置了）
-                ModelConfig rerankModelConfig = null;
+                ModelEntity rerankModelEntity = null;
                 if (knowledgeBase.getRerankModelId() != null) {
-                    rerankModelConfig = modelConfigService.getOne(Wraps.<ModelConfig>lbQ()
-                            .eq(ModelConfig::getId, knowledgeBase.getRerankModelId())
-                            .eq(ModelConfig::getModelType, ModelType.RERANK));
+                    rerankModelEntity = modelConfigService.getOne(Wraps.<ModelEntity>lbQ()
+                            .eq(ModelEntity::getId, knowledgeBase.getRerankModelId())
+                            .eq(ModelEntity::getType, ModelType.RERANK));
                 }
-                
+
                 ragParams = RagAssistantParams.builder()
                         .kbId(chatAgent.getKbId())
-                        .textModelConfig(textModelConfig)
-                        .embeddingModelConfig(embeddingModelConfig)
-                        .rerankModelConfig(rerankModelConfig)
+                        .textModelEntity(textModelEntity)
+                        .embeddingModelEntity(embeddingModelEntity)
+                        .rerankModelEntity(rerankModelEntity)
                         .enableGraphRetrieval(knowledgeBase.getEnableGraph())
                         .build();
             }
         }
 
-        ChatAssistant assistant = assistantService.createAgentAssistant(chatAgent, textModelConfig, ragParams);
+        ChatAssistant assistant = assistantService.createAgentAssistant(chatAgent, textModelEntity, ragParams);
         TokenStream tokenStream = assistant.chatStream(conversationId, userPrompt);
 
         sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, (result) -> {
@@ -291,7 +292,7 @@ public class ChatServiceImpl implements ChatService {
                     rawContent,
                     null,
                     String.valueOf(chatAgent.getChatModelId()),//todo 转成模型名称
-                    textModelConfig.getProvider(),
+                    textModelEntity.getProvider(),
                     promptTokens,
                     completionTokens,
                     null,
@@ -300,7 +301,7 @@ public class ChatServiceImpl implements ChatService {
             );
         });
     }
-    
+
     /**
      * 构建增强的提示词
      * 将检索到的知识内容与用户问题结合
@@ -309,22 +310,21 @@ public class ChatServiceImpl implements ChatService {
         if (retrievedContent == null || retrievedContent.isEmpty()) {
             return userPrompt;
         }
-        
+
         StringBuilder enhancedPrompt = new StringBuilder();
         enhancedPrompt.append("基于以下知识内容回答问题：\n\n");
-        
+
         // 添加检索到的知识内容
         for (int i = 0; i < retrievedContent.size(); i++) {
             enhancedPrompt.append("知识片段").append(i + 1).append("：\n");
             enhancedPrompt.append(retrievedContent.get(i)).append("\n\n");
         }
-        
+
         enhancedPrompt.append("用户问题：").append(userPrompt).append("\n\n");
         enhancedPrompt.append("请基于上述知识内容回答用户问题，如果知识内容不足以回答问题，请说明。");
-        
+
         return enhancedPrompt.toString();
     }
-
 
 
 }

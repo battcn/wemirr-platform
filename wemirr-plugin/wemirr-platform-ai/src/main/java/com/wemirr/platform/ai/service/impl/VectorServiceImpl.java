@@ -127,8 +127,8 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
             return true;
         }
         KnowledgeBase knowledgeBase = knowledgeBaseService.getById(item.getKbId());
-        ModelConfig modelConfig = modelConfigService.getById(knowledgeBase.getEmbeddingModelId());
-        vectorizationProcessor.batchDeleteVectors(vectorIds, knowledgeBase, modelConfig);
+        ModelEntity modelEntity = modelConfigService.getById(knowledgeBase.getEmbeddingModelId());
+        vectorizationProcessor.batchDeleteVectors(vectorIds, knowledgeBase, modelEntity);
         vectorMetadataService.deleteByItemId(baseItemId);
         // 更新条目标记
         item.setVectorized(false);
@@ -157,8 +157,8 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
             if (kb == null) {
                 continue;
             }
-            ModelConfig modelConfig = modelConfigService.getById(kb.getEmbeddingModelId());
-            totalDeleted += vectorizationProcessor.batchDeleteVectors(vectorIds, kb, modelConfig);
+            ModelEntity modelEntity = modelConfigService.getById(kb.getEmbeddingModelId());
+            totalDeleted += vectorizationProcessor.batchDeleteVectors(vectorIds, kb, modelEntity);
         }
         // 软删元数据
         targets.forEach(vm -> vectorMetadataService.deleteByVectorId(vm.getVectorId()));
@@ -175,11 +175,11 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
         if (kb == null) {
             return 0;
         }
-        ModelConfig modelConfig = modelConfigService.getById(kb.getEmbeddingModelId());
+        ModelEntity modelEntity = modelConfigService.getById(kb.getEmbeddingModelId());
         int deleted = vectorizationProcessor.batchDeleteVectors(
                 vms.stream().map(VectorMetadata::getVectorId).collect(Collectors.toList()),
                 kb,
-                modelConfig
+                modelEntity
         );
         vectorMetadataService.deleteByKbId(kbId);
         return deleted;
@@ -196,11 +196,11 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
             return 0;
         }
         KnowledgeBase kb = knowledgeBaseService.getById(item.getKbId());
-        ModelConfig modelConfig = modelConfigService.getById(kb.getEmbeddingModelId());
+        ModelEntity modelEntity = modelConfigService.getById(kb.getEmbeddingModelId());
         int deleted = vectorizationProcessor.batchDeleteVectors(
                 vms.stream().map(VectorMetadata::getVectorId).collect(Collectors.toList()),
                 kb,
-                modelConfig
+                modelEntity
         );
         vectorMetadataService.deleteByItemId(itemId);
         item.setVectorized(false);
@@ -215,8 +215,8 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
             return 0;
         }
         KnowledgeBase kb = knowledgeBaseService.getById(vm.getKbId());
-        ModelConfig modelConfig = modelConfigService.getById(kb.getEmbeddingModelId());
-        int deleted = vectorizationProcessor.batchDeleteVectors(List.of(vm.getVectorId()), kb, modelConfig);
+        ModelEntity modelEntity = modelConfigService.getById(kb.getEmbeddingModelId());
+        int deleted = vectorizationProcessor.batchDeleteVectors(List.of(vm.getVectorId()), kb, modelEntity);
         vectorMetadataService.deleteByVectorId(vm.getVectorId());
         return deleted;
     }

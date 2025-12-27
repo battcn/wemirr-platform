@@ -8,7 +8,7 @@ import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.ai.domain.dto.rep.ConversationDetailRep;
 import com.wemirr.platform.ai.domain.dto.rep.ConversationMessageRep;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationPageRep;
+import com.wemirr.platform.ai.domain.dto.rep.ConversationPageResp;
 import com.wemirr.platform.ai.domain.dto.req.ConversationPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ConversationSaveReq;
 import com.wemirr.platform.ai.domain.entity.Conversation;
@@ -21,6 +21,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -64,16 +65,15 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
     }
 
     @Override
-    public IPage<ConversationPageRep> pageList(ConversationPageReq req) {
+    public IPage<ConversationPageResp> pageList(ConversationPageReq req) {
         Long userId = authenticationContext.userId();
-        Page<Conversation> page = new Page<>(req.getCurrent(), req.getSize());
-        Page<Conversation> result = this.page(page, Wraps.<Conversation>lbQ()
+        Page<Conversation> result = this.page(req.buildPage(), Wraps.<Conversation>lbQ()
                 .eq(Conversation::getUserId, userId)
                 .eq(Conversation::getType, req.getType())
-                .like(req.getTitle() != null, Conversation::getTitle, req.getTitle())
+                .like(Conversation::getTitle, req.getTitle())
                 .orderByDesc(Conversation::getPinned)
-                .orderByDesc(Conversation::getLastModifyTime));
-
+                .orderByDesc(Conversation::getLastModifyTime)
+                .orderByDesc(Conversation::getId));
         return result.convert(this::convertToPageRep);
     }
 
@@ -100,6 +100,7 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
         conversation.setUserId(userId);
         conversation.setMessageCount(0);
         conversation.setPinned(false);
+        conversation.setLastModifyTime(Instant.now());
         this.save(conversation);
     }
 
@@ -186,11 +187,11 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
         this.updateById(conversation);
     }
 
-    private ConversationPageRep convertToPageRep(Conversation conversation) {
+    private ConversationPageResp convertToPageRep(Conversation conversation) {
         if (conversation == null) {
             return null;
         }
-        return BeanUtilPlus.toBean(conversation, ConversationPageRep.class);
+        return BeanUtilPlus.toBean(conversation, ConversationPageResp.class);
 
     }
 
@@ -213,13 +214,13 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
         if (!conversation.getUserId().equals(userId)) {
             throw new RuntimeException("无权访问该会话");
         }
-        
+
         List<ConversationMessage> messages = conversationMessageMapper.selectList(
                 Wraps.<ConversationMessage>lbQ()
                         .eq(ConversationMessage::getConversationId, conversationId)
                         .orderByAsc(ConversationMessage::getSequenceNum)
         );
-        
+
         return messages.stream().map(msg -> ConversationMessageRep.builder()
                 .id(String.valueOf(msg.getId()))
                 .role(msg.getRole())

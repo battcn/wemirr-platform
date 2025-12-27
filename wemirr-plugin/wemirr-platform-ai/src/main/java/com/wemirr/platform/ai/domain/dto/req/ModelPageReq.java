@@ -13,16 +13,16 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Schema(name = "ModelConfigPageReq")
-public class ModelConfigPageReq extends PageRequest {
+public class ModelPageReq extends PageRequest {
 
     @Schema(description = "模型提供商")
     private String provider;
 
     @Schema(description = "模型类型")
-    private ModelType modelType;
+    private ModelType type;
 
     @Schema(description = "模型名称")
-    private String modelName;
+    private String name;
 }
 
 

@@ -3,7 +3,7 @@ package com.wemirr.platform.ai.core.provider.graph.neo4j;
 import com.wemirr.platform.ai.core.provider.embedding.EmbeddingModelService;
 import com.wemirr.platform.ai.core.provider.graph.GraphRetriever;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
 import com.wemirr.platform.ai.service.ModelConfigService;
 import dev.langchain4j.data.embedding.Embedding;
@@ -11,8 +11,9 @@ import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.output.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
+import org.neo4j.driver.Session;
+import org.neo4j.driver.Values;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
@@ -295,13 +296,13 @@ public class Neo4jGraphRetriever implements GraphRetriever {
                 return null;
             }
             
-            ModelConfig modelConfig = modelConfigService.getById(embeddingModelId);
-            if (modelConfig == null) {
+            ModelEntity modelEntity = modelConfigService.getById(embeddingModelId);
+            if (modelEntity == null) {
                 log.warn("向量模型配置不存在: modelId={}", embeddingModelId);
                 return null;
             }
             
-            return embeddingModelService.getModel(modelConfig);
+            return embeddingModelService.getModel(modelEntity);
         } catch (NumberFormatException e) {
             log.error("知识库ID格式错误: {}", knowledgeBaseId);
             return null;

@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.core.provider.text;
 
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.StreamingChatModel;
 import org.springframework.stereotype.Service;
@@ -20,15 +20,15 @@ public class TextModelService {
         this.registry = registry;
     }
 
-    public ChatModel model(ModelConfig config) {
+    public ChatModel model(ModelEntity config) {
         return cache.getModel(config);
     }
 
-    public StreamingChatModel streamModel(ModelConfig config) {
+    public StreamingChatModel streamModel(ModelEntity config) {
         return cache.getStreamModel(config);
     }
 
-    public TextModelProvider getProvider(ModelConfig config) {
+    public TextModelProvider getProvider(ModelEntity config) {
         return registry.getProvider(config);
     }
 

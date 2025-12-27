@@ -5,7 +5,7 @@ import com.wemirr.platform.ai.core.provider.vectorStore.EnhancedVectorStoreFacto
 import com.wemirr.platform.ai.domain.dto.result.BatchVectorResult;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.KnowledgeItem;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.domain.entity.VectorMetadata;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
 import com.wemirr.platform.ai.service.KnowledgeChunkService;
@@ -59,18 +59,18 @@ public class VectorizationProcessor {
      * @param text 文本
      * @param metadata 元数据
      * @param knowledgeBase 知识库
-     * @param modelConfig 模型配置
+     * @param modelEntity 模型配置
      * @return 向量ID
      */
     public CompletableFuture<String> vectorizeAndStore(String text, Map<String, String> metadata, 
-                                                      KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
+                                                      KnowledgeBase knowledgeBase, ModelEntity modelEntity) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 // 获取知识库专用的向量存储
-                EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelConfig);
+                EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
                 
                 // 动态获取嵌入模型
-                EmbeddingModel embeddingModel = embeddingModelService.getModel(modelConfig);
+                EmbeddingModel embeddingModel = embeddingModelService.getModel(modelEntity);
                 
                 // 生成嵌入向量
                 Embedding embedding = embeddingModel.embed(text).content();
@@ -93,17 +93,17 @@ public class VectorizationProcessor {
      *
      * @param text 文本
      * @param metadata 元数据
-     * @param modelConfig 模型配置
+     * @param modelEntity 模型配置
      * @return 向量ID
      */
-    public CompletableFuture<String> vectorizeAndStore(String text, Map<String, String> metadata, ModelConfig modelConfig) {
+    public CompletableFuture<String> vectorizeAndStore(String text, Map<String, String> metadata, ModelEntity modelEntity) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 // 使用默认向量存储
                 EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createefault();
                 
                 // 动态获取嵌入模型
-                EmbeddingModel embeddingModel = embeddingModelService.getModel(modelConfig);
+                EmbeddingModel embeddingModel = embeddingModelService.getModel(modelEntity);
                 
                 // 生成嵌入向量
                 Embedding embedding = embeddingModel.embed(text).content();
@@ -127,18 +127,18 @@ public class VectorizationProcessor {
      * @param texts 文本列表
      * @param metadataList 元数据列表
      * @param knowledgeBase 知识库
-     * @param modelConfig 模型配置
+     * @param modelEntity 模型配置
      * @return 向量ID列表
      */
     public CompletableFuture<BatchVectorResult> batchVectorAndStore(List<String> texts, List<Map<String, String>> metadataList,
-                                                                    KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
+                                                                    KnowledgeBase knowledgeBase, ModelEntity modelEntity) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 // 获取知识库专用的向量存储
-                EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelConfig);
+                EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
                 
                 // 动态获取嵌入模型
-                EmbeddingModel embeddingModel = embeddingModelService.getModel(modelConfig);
+                EmbeddingModel embeddingModel = embeddingModelService.getModel(modelEntity);
                 AtomicInteger totalTokens = new AtomicInteger(0);
                 // 生成嵌入向量
                 List<Embedding> embeddings = texts.stream()
@@ -170,17 +170,17 @@ public class VectorizationProcessor {
      *
      * @param texts 文本列表
      * @param metadataList 元数据列表
-     * @param modelConfig 模型配置
+     * @param modelEntity 模型配置
      * @return 向量ID列表
      */
-    public CompletableFuture<List<String>> batchVectorAndStore(List<String> texts, List<Map<String, String>> metadataList, ModelConfig modelConfig) {
+    public CompletableFuture<List<String>> batchVectorAndStore(List<String> texts, List<Map<String, String>> metadataList, ModelEntity modelEntity) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 // 使用默认向量存储
                 EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createefault();
                 
                 // 动态获取嵌入模型
-                EmbeddingModel embeddingModel = embeddingModelService.getModel(modelConfig);
+                EmbeddingModel embeddingModel = embeddingModelService.getModel(modelEntity);
                 
                 // 生成嵌入向量
                 List<Embedding> embeddings = texts.stream()
@@ -224,13 +224,13 @@ public class VectorizationProcessor {
      *
      * @param vectorId 向量ID
      * @param knowledgeBase 知识库
-     * @param modelConfig 模型配置
+     * @param modelEntity 模型配置
      * @return 是否删除成功
      */
-    public boolean deleteVector(String vectorId, KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
+    public boolean deleteVector(String vectorId, KnowledgeBase knowledgeBase, ModelEntity modelEntity) {
         try {
             // 获取知识库专用的向量存储
-            EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelConfig);
+            EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
             
             // 删除向量
             try {
@@ -276,13 +276,13 @@ public class VectorizationProcessor {
      *
      * @param vectorIds 向量ID列表
      * @param knowledgeBase 知识库
-     * @param modelConfig 模型配置
+     * @param modelEntity 模型配置
      * @return 删除成功的数量
      */
-    public int batchDeleteVectors(List<String> vectorIds, KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
+    public int batchDeleteVectors(List<String> vectorIds, KnowledgeBase knowledgeBase, ModelEntity modelEntity) {
         try {
             // 获取知识库专用的向量存储
-            EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelConfig);
+            EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
             
             int deletedCount = 0;
             for (String vectorId : vectorIds) {

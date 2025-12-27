@@ -9,7 +9,7 @@ import com.wemirr.platform.ai.domain.dto.rep.GraphVisualizationResp;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.KnowledgeChunk;
 import com.wemirr.platform.ai.domain.entity.KnowledgeItem;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.service.*;
 import dev.langchain4j.community.data.document.transformer.graph.LLMGraphTransformer;
 import dev.langchain4j.data.document.Document;
@@ -313,7 +313,7 @@ public class GraphServiceImpl implements GraphService {
         if (chatModelId == null) {
             return null;
         }
-        ModelConfig config = modelConfigService.getById(chatModelId);
+        ModelEntity config = modelConfigService.getById(chatModelId);
         if (config == null) {
             return null;
         }

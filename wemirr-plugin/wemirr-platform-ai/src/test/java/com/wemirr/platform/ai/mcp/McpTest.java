@@ -2,7 +2,7 @@ package com.wemirr.platform.ai.mcp;
 
 import com.wemirr.platform.ai.core.provider.mcp.DynamicMcpToolProvider;
 import com.wemirr.platform.ai.core.provider.mcp.McpClientFactory;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.service.ModelConfigService;
 import dev.langchain4j.agent.tool.ToolSpecification;
 import dev.langchain4j.community.model.dashscope.QwenChatModel;
@@ -46,11 +46,11 @@ public class McpTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        ModelConfig modelConfig = modelConfigService.getById(1L);
+        ModelEntity modelEntity = modelConfigService.getById(1L);
 
         // 创建OpenAI模型实例
         model = QwenChatModel.builder()
-                .apiKey(modelConfig.getApiKey())
+                .apiKey(modelEntity.getApiKey())
                 .modelName("qwen-max")
 //                .timeout(Duration.ofSeconds(60))
                 .build();

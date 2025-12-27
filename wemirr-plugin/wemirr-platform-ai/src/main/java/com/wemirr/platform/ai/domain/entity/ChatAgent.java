@@ -1,13 +1,17 @@
 package com.wemirr.platform.ai.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
+import com.wemirr.framework.db.mybatisplus.handler.type.StringListTypeHandler;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 /**
  * @author xJh
@@ -43,10 +47,10 @@ public class ChatAgent extends SuperEntity<Long> {
     @Schema(description = "关联知识库ID")
     private Long kbId;
 
-    // JSON格式存储工具名称列表，如：["平台菜单查询工具"]
     @Schema(description = "智能体工具配置")
-    private String tools;
-    
+    @TableField(typeHandler = StringListTypeHandler.class)
+    private List<String> tools;
+
     // JSON格式存储MCP服务器ID列表，如：[1, 2, 3]
     @Schema(description = "智能体MCP服务器配置（存储MCP配置ID列表）")
     private String mcpServerIds;

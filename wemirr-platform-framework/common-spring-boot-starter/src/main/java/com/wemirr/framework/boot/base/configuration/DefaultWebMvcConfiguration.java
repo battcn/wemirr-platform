@@ -88,7 +88,7 @@ public class DefaultWebMvcConfiguration implements WebMvcConfigurer {
             builder.timeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
             builder.simpleDateFormat(pattern);
             builder.serializerByType(Long.class, ToStringSerializer.instance);
-            builder.serializerByType(Long.TYPE, ToStringSerializer.instance);
+//            builder.serializerByType(Long.TYPE, ToStringSerializer.instance);
             builder.modules(new LocalJavaTimeModule(), new JavaTimeModule());
         };
     }

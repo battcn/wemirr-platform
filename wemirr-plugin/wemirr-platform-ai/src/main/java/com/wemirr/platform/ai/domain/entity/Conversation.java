@@ -27,14 +27,10 @@ public class Conversation extends SuperEntity<Long> {
     @Schema(description = "会话名称")
     private String title;
 
-    @Schema(title = "对话uuid")
-    @TableField("uuid")
-    private String uuid;
-
     @Schema(description = "用户ID")
     private Long userId;
 
-    @Schema(description = "关联的知识库ids")
+    @Schema(description = "关联的知识库 ids")
     private Long knowledgeBaseIds;
 
     @Schema(description = "智能体ID")

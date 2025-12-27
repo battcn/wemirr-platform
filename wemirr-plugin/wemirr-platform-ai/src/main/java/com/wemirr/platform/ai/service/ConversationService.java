@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.ai.domain.dto.rep.ConversationDetailRep;
 import com.wemirr.platform.ai.domain.dto.rep.ConversationMessageRep;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationPageRep;
+import com.wemirr.platform.ai.domain.dto.rep.ConversationPageResp;
 import com.wemirr.platform.ai.domain.dto.req.ConversationPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ConversationSaveReq;
 import com.wemirr.platform.ai.domain.entity.Conversation;
@@ -60,7 +60,7 @@ public interface ConversationService extends SuperService<Conversation> {
      * @param req 查询条件
      * @return 分页结果
      */
-    IPage<ConversationPageRep> pageList(ConversationPageReq req);
+    IPage<ConversationPageResp> pageList(ConversationPageReq req);
 
     /**
      * 获取会话详情

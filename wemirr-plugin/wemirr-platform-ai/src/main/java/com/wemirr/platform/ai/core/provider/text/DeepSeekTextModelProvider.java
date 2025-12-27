@@ -2,7 +2,7 @@ package com.wemirr.platform.ai.core.provider.text;
 
 import com.wemirr.platform.ai.core.enums.AiProvider;
 import com.wemirr.platform.ai.core.enums.ModelParam;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
@@ -19,19 +19,19 @@ import java.util.Map;
 public class DeepSeekTextModelProvider implements TextModelProvider {
 
     @Override
-    public boolean supports(ModelConfig config) {
+    public boolean supports(ModelEntity config) {
         // 1. 检查提供商是否为 DeepSeek
         // 2. 检查模型是否支持
         return AiProvider.DEEP_SEEK.equals(AiProvider.fromCode(config.getProvider()))
-                && AiProvider.DEEP_SEEK.supportsModel(config.getModelName());
+                && AiProvider.DEEP_SEEK.supportsModel(config.getName());
     }
 
     @Override
-    public ChatModel createModel(ModelConfig config) {
+    public ChatModel createModel(ModelEntity config) {
         OpenAiChatModel.OpenAiChatModelBuilder builder  = OpenAiChatModel.builder()
                 .baseUrl(config.getBaseUrl())
                 .apiKey(config.getApiKey())
-                .modelName(config.getModelName());
+                .modelName(config.getName());
         Map<String, Object> vars = config.getVariables();
         Integer maxTokens = ModelParam.MAX_TOKENS.getValueFrom(vars);
         Double temperature = ModelParam.TEMPERATURE.getValueFrom(vars);
@@ -53,18 +53,18 @@ public class DeepSeekTextModelProvider implements TextModelProvider {
         if (presPenalty != null) {
             builder.presencePenalty(presPenalty);
         }
-        if (AiProvider.DEEP_SEEK.supportsDeepThinking(config.getModelName())&& config.getReturnThinking()){
+        if (AiProvider.DEEP_SEEK.supportsDeepThinking(config.getName())&& config.getReturnThinking()){
             builder.returnThinking(true);
         }
         return builder.build();
     }
 
     @Override
-    public StreamingChatModel createStreamModel(ModelConfig config) {
+    public StreamingChatModel createStreamModel(ModelEntity config) {
         OpenAiStreamingChatModel.OpenAiStreamingChatModelBuilder builder  = OpenAiStreamingChatModel.builder()
                 .baseUrl(config.getBaseUrl())
                 .apiKey(config.getApiKey())
-                .modelName(config.getModelName());
+                .modelName(config.getName());
         Map<String, Object> vars = config.getVariables();
         Integer maxTokens = ModelParam.MAX_TOKENS.getValueFrom(vars);
         Double temperature = ModelParam.TEMPERATURE.getValueFrom(vars);
@@ -86,7 +86,7 @@ public class DeepSeekTextModelProvider implements TextModelProvider {
         if (presPenalty != null) {
             builder.presencePenalty(presPenalty);
         }
-        if (AiProvider.DEEP_SEEK.supportsDeepThinking(config.getModelName())&& config.getReturnThinking()){
+        if (AiProvider.DEEP_SEEK.supportsDeepThinking(config.getName())&& config.getReturnThinking()){
             builder.returnThinking(true);
         }
         return builder.build();

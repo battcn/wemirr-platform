@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.core.provider.embedding;
 
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 
 /**
@@ -12,12 +12,12 @@ public interface EmbeddingModelProvider {
     /**
      * 是否支持该配置
      */
-    boolean supports(ModelConfig config);
+    boolean supports(ModelEntity config);
 
     /**
      * 创建向量模型
      */
-    EmbeddingModel createModel(ModelConfig config);
+    EmbeddingModel createModel(ModelEntity config);
 
     /**
      * 获取提供商标识（使用枚举 code）

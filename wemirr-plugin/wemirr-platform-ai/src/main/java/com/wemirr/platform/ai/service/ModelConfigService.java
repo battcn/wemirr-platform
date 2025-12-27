@@ -2,25 +2,25 @@ package com.wemirr.platform.ai.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.ai.domain.dto.rep.ModelConfigDetailRep;
-import com.wemirr.platform.ai.domain.dto.rep.ModelConfigPageRep;
-import com.wemirr.platform.ai.domain.dto.req.ModelConfigPageReq;
-import com.wemirr.platform.ai.domain.dto.req.ModelConfigSaveReq;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.dto.rep.ModelDetailRep;
+import com.wemirr.platform.ai.domain.dto.rep.ModelPageRep;
+import com.wemirr.platform.ai.domain.dto.req.ModelPageReq;
+import com.wemirr.platform.ai.domain.dto.req.ModelSaveReq;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 
 /**
  * @author xJh
  * @since 2025/10/11
  **/
-public interface ModelConfigService extends SuperService<ModelConfig> {
+public interface ModelConfigService extends SuperService<ModelEntity> {
 
-    IPage<ModelConfigPageRep> pageList(ModelConfigPageReq req);
+    IPage<ModelPageRep> pageList(ModelPageReq req);
 
-    ModelConfigDetailRep detail(Long id);
+    ModelDetailRep detail(Long id);
 
-    void create(ModelConfigSaveReq req);
+    void create(ModelSaveReq req);
 
-    void modify(Long id, ModelConfigSaveReq req);
+    void modify(Long id, ModelSaveReq req);
 
     void remove(Long id);
 }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wemirr.platform.ai.core.provider.embedding.EmbeddingModelService;
 import com.wemirr.platform.ai.core.provider.graph.neo4j.Neo4jGraphStore;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
 import com.wemirr.platform.ai.service.ModelConfigService;
 import dev.langchain4j.community.data.document.graph.GraphDocument;
@@ -25,12 +25,8 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * GraphRAG 服务层
@@ -486,13 +482,13 @@ public class GraphRagService {
                 return null;
             }
 
-            ModelConfig modelConfig = modelConfigService.getById(embeddingModelId);
-            if (modelConfig == null) {
+            ModelEntity modelEntity = modelConfigService.getById(embeddingModelId);
+            if (modelEntity == null) {
                 log.warn("向量模型配置不存在: modelId={}", embeddingModelId);
                 return null;
             }
 
-            return embeddingModelService.getModel(modelConfig);
+            return embeddingModelService.getModel(modelEntity);
         } catch (NumberFormatException e) {
             log.error("知识库ID格式错误: {}", knowledgeBaseId);
             return null;

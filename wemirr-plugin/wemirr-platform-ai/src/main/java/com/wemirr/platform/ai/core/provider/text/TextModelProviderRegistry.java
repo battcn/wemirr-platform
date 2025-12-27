@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.core.provider.text;
 
 import com.wemirr.platform.ai.core.enums.AiProvider;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
@@ -41,12 +41,12 @@ public class TextModelProviderRegistry {
     /**
      * 根据配置查找匹配的提供者
      */
-    public TextModelProvider getProvider(ModelConfig config) {
+    public TextModelProvider getProvider(ModelEntity config) {
         // 1. 检查配置是否合法
         if (config.getProvider() == null) {
             throw new IllegalArgumentException("模型提供商不能为空");
         }
-        if (config.getModelName() == null) {
+        if (config.getName() == null) {
             throw new IllegalArgumentException("模型名称不能为空");
         }
 

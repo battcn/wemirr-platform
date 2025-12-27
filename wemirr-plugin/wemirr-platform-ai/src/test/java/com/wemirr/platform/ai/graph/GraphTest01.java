@@ -4,7 +4,7 @@ import com.wemirr.platform.ai.core.enums.AiProvider;
 import com.wemirr.platform.ai.core.enums.ModelType;
 import com.wemirr.platform.ai.core.provider.graph.*;
 import com.wemirr.platform.ai.core.provider.text.TextModelService;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import dev.langchain4j.community.data.document.graph.GraphDocument;
 import dev.langchain4j.community.data.document.graph.GraphEdge;
 import dev.langchain4j.community.data.document.graph.GraphNode;
@@ -62,7 +62,7 @@ public class GraphTest01 {
     @BeforeEach
     void setUp() {
         if (chatModel == null) {
-            ModelConfig config = ModelConfig.builder()
+            ModelEntity config = ModelEntity.builder()
                     .provider(AiProvider.QWEN.getCode())
                     .modelType(ModelType.TEXT)
                     .modelName("qwen-plus")

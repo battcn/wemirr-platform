@@ -6,7 +6,7 @@ import com.wemirr.platform.ai.core.enums.ModelType;
 import com.wemirr.platform.ai.core.provider.embedding.EmbeddingModelService;
 import com.wemirr.platform.ai.core.provider.text.TextModelService;
 import com.wemirr.platform.ai.core.provider.vectorStore.VectorStoreFactory;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.segment.TextSegment;
@@ -67,7 +67,7 @@ class MetadataFilteringTest {
         embeddingStore = vectorStoreFactory.create();
 
         // 创建真实的嵌入模型配置
-        ModelConfig embeddingModelConfig = ModelConfig.builder()
+        ModelEntity embeddingModelEntity = ModelEntity.builder()
                 .provider(AiProvider.QWEN.getCode())
                 .modelType(ModelType.EMBEDDING)
                 .modelName("text-embedding-v2")
@@ -75,14 +75,14 @@ class MetadataFilteringTest {
                 .build();
 
         // 获取真实的嵌入模型实例
-        embeddingModel = embeddingModelService.getModel(embeddingModelConfig);
+        embeddingModel = embeddingModelService.getModel(embeddingModelEntity);
 
         // 创建聊天模型配置
         Map<String, Object> variables = new HashMap<>();
         variables.put("temperature", 0.7);
         variables.put("max_tokens", 500);
 
-        ModelConfig chatModelConfig = ModelConfig.builder()
+        ModelEntity chatModelEntity = ModelEntity.builder()
                 .provider(AiProvider.QWEN.getCode())
                 .modelType(ModelType.TEXT)
                 .modelName("qwen-plus")
@@ -91,7 +91,7 @@ class MetadataFilteringTest {
                 .build();
 
         // 获取真实的聊天模型实例
-        chatModel = textModelService.model(chatModelConfig);
+        chatModel = textModelService.model(chatModelEntity);
     }
 
     @Test

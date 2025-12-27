@@ -15,7 +15,7 @@ import com.wemirr.platform.ai.core.provider.vectorStore.EnhancedVectorStoreFacto
 import com.wemirr.platform.ai.core.rag.TranslationQueryTransformer;
 import com.wemirr.platform.ai.domain.entity.ChatAgent;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
 import com.wemirr.platform.ai.service.ToolService;
 import dev.langchain4j.data.segment.TextSegment;
@@ -98,17 +98,17 @@ public class AssistantService {
 
     /**
      * 创建普通记忆对话的 Assistant
-     * @param modelConfig 模型配置
+     * @param modelEntity 模型配置
      * @return ChatAssistant 实例
      */
-    public ChatAssistant createMemoryAssistant(ModelConfig modelConfig) {
+    public ChatAssistant createMemoryAssistant(ModelEntity modelEntity) {
 
-        ChatModel chatModel = textModelService.model(modelConfig);
-        StreamingChatModel streamModel = textModelService.streamModel(modelConfig);
+        ChatModel chatModel = textModelService.model(modelEntity);
+        StreamingChatModel streamModel = textModelService.streamModel(modelEntity);
 
         return AiServices.builder(ChatAssistant.class)
                 .chatModel(chatModel)
-                 .streamingChatModel(streamModel)
+                .streamingChatModel(streamModel)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(DEFAULT_MAX_MESSAGES))
                 .chatMemoryProvider(createMemoryProvider())
                 .build();
@@ -119,9 +119,9 @@ public class AssistantService {
      * 创建智能体对话助手 (支持Tools和RAG、MCP工具)
      */
     @SneakyThrows
-    public ChatAssistant createAgentAssistant(ChatAgent chatAgent, ModelConfig modelConfig, RagAssistantParams ragParams) {
-        ChatModel chatModel = textModelService.model(modelConfig);
-        StreamingChatModel streamModel = textModelService.streamModel(modelConfig);
+    public ChatAssistant createAgentAssistant(ChatAgent chatAgent, ModelEntity modelEntity, RagAssistantParams ragParams) {
+        ChatModel chatModel = textModelService.model(modelEntity);
+        StreamingChatModel streamModel = textModelService.streamModel(modelEntity);
 
         var builder = AiServices.builder(ChatAssistant.class)
                 .chatModel(chatModel)
@@ -130,84 +130,82 @@ public class AssistantService {
                 .chatMemoryProvider(createMemoryProvider());
 
         // Configure Tools
-        if (chatAgent.getTools() != null && !chatAgent.getTools().isEmpty()) {
-            List<String> toolNames = objectMapper.readValue(chatAgent.getTools(), new TypeReference<List<String>>() {});
-            if (toolNames != null && !toolNames.isEmpty()) {
-                List<Object> tools = toolNames.stream()
-                        .map(name -> {
-                            try {
-                                return applicationContext.getBean(name);
-                            } catch (Exception e) {
-                                log.warn("Tool bean not found: {}", name);
-                                return null;
-                            }
-                        })
-                        .filter(Objects::nonNull)
-                        .toList();
-                if (!tools.isEmpty()) {
-                    builder.tools(tools);
-                }
+        if (CollUtil.isNotEmpty(chatAgent.getTools())) {
+            List<Object> tools = chatAgent.getTools().stream()
+                    .map(name -> {
+                        try {
+                            return applicationContext.getBean(name);
+                        } catch (Exception e) {
+                            log.warn("Tool bean not found: {}", name);
+                            return null;
+                        }
+                    })
+                    .filter(Objects::nonNull)
+                    .toList();
+            if (!tools.isEmpty()) {
+                builder.tools(tools);
             }
         }
-        
+
         // 配置 MCP 工具提供者
         // 先设置智能体的 MCP 服务器配置
         if (chatAgent.getMcpServerIds() != null && !chatAgent.getMcpServerIds().isEmpty()) {
+            String mcpServerIdsJson = chatAgent.getMcpServerIds().trim();
+
+            // 验证是否为有效的 JSON 格式
+            if (!mcpServerIdsJson.startsWith("[") && !mcpServerIdsJson.startsWith("{")) {
+                log.error("Invalid MCP server IDs JSON format for agent {}: '{}'. Expected JSON array format like [1, 2, 3]",
+                        chatAgent.getId(), mcpServerIdsJson);
+                throw new IllegalArgumentException("MCP 服务器配置格式错误：期望 JSON 数组格式，如 [1, 2, 3]，实际值：" + mcpServerIdsJson);
+            }
+
             try {
-                List<Long> mcpServerIds = objectMapper.readValue(chatAgent.getMcpServerIds(), new TypeReference<List<Long>>() {});
+                List<Long> mcpServerIds = objectMapper.readValue(mcpServerIdsJson, new TypeReference<List<Long>>() {
+                });
                 dynamicMcpToolProvider.setAgentMcpServerIds(mcpServerIds);
                 builder.toolProvider(dynamicMcpToolProvider);
+            } catch (JsonProcessingException e) {
+                log.error("Failed to parse MCP server IDs JSON for agent {}: '{}'. Error: {}",
+                        chatAgent.getId(), chatAgent.getMcpServerIds(), e.getMessage());
+                throw new IllegalArgumentException("MCP 服务器配置 JSON 解析失败：" + e.getMessage() +
+                        "。请确保格式为有效的 JSON 数组，如 [1, 2, 3]", e);
             } catch (Exception e) {
-                log.error("Failed to parse MCP server IDs for agent: {}", chatAgent.getId(), e);
+                log.error("Failed to configure MCP tool provider for agent: {}", chatAgent.getId(), e);
+                throw new IllegalArgumentException("MCP 工具提供者配置失败：" + e.getMessage(), e);
             }
         }
 
         //todo 如果没有预制系统预设，则使用默认。有的话使用系统预设
         builder.systemMessageProvider(memoryId -> {
             StringBuilder sb = new StringBuilder();
-
             // 基础角色预设 (用户配置的 "你是一个XX助手...")
             if (StringUtils.isNotBlank(chatAgent.getAiSystemMessage())) {
                 sb.append(chatAgent.getAiSystemMessage()).append("\n\n");
             }
-
             // 能力自我认知增强
             sb.append("### 当前具备的能力\n");
-
             // RAG 能力
             if (ragParams != null) {
                 sb.append("- 【知识库】：我连接了专属知识库，可以检索文档并回答相关问题。\n");
             }
-
-            // Tools 能力 (利用 ToolService 获取描述)
-            if (chatAgent.getTools() != null) {
-                List<String> toolNames = null;
-                try {
-                    toolNames = objectMapper.readValue(chatAgent.getTools(), new TypeReference<List<String>>() {});
-                } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
-                }
-                if (CollUtil.isNotEmpty(toolNames)) {
-                    sb.append("- 【工具箱】：我可以调用以下工具辅助回答：\n");
-                    // 获取所有工具的详细信息，找到匹配的并追加描述
-                    Map<String, ToolService.ToolDTO> toolMap = toolService.getTools().stream()
-                            .collect(Collectors.toMap(ToolService.ToolDTO::getBeanName, Function.identity()));
-
-                    for (String name : toolNames) {
-                        ToolService.ToolDTO tool = toolMap.get(name);
-                        if (tool != null && CollUtil.isNotEmpty(tool.getMethods())) {
-                            // 取第一个方法的描述作为工具描述（简化处理）
-                            String desc = tool.getMethods().get(0).getDescription();
-                            // 如果注解没写描述，就用方法名
-                            if (StringUtils.isBlank(desc)) {
-                                desc = tool.getMethods().get(0).getName();
-                            }
-                            sb.append(String.format("  * %s: %s\n", name, desc));
+            // Tools 能力
+            if (CollUtil.isNotEmpty(chatAgent.getTools())) {
+                sb.append("- 【工具箱】：我可以调用以下工具辅助回答：\n");
+                // 获取所有工具的详细信息，找到匹配的并追加描述
+                var toolMap = toolService.getTools().stream().collect(Collectors.toMap(ToolService.ToolDTO::getBeanName, Function.identity()));
+                for (String name : chatAgent.getTools()) {
+                    ToolService.ToolDTO tool = toolMap.get(name);
+                    if (tool != null && CollUtil.isNotEmpty(tool.getMethods())) {
+                        // 取第一个方法的描述作为工具描述（简化处理）
+                        String desc = tool.getMethods().getFirst().getDescription();
+                        // 如果注解没写描述，就用方法名
+                        if (StringUtils.isBlank(desc)) {
+                            desc = tool.getMethods().getFirst().getName();
                         }
+                        sb.append(String.format("  * %s: %s\n", name, desc));
                     }
                 }
             }
-
             sb.append("\n请根据上述能力回答用户的问题。当用户询问“你有什么功能”时，请基于以上信息进行总结。");
             return sb.toString();
         });
@@ -225,8 +223,8 @@ public class AssistantService {
      * 创建RAG的 Assistant
      */
     public ChatAssistant createMemoryRagAssistant(RagAssistantParams params) {
-        ChatModel chatModel = textModelService.model(params.getTextModelConfig());
-        StreamingChatModel streamModel = textModelService.streamModel(params.getTextModelConfig());
+        ChatModel chatModel = textModelService.model(params.getTextModelEntity());
+        StreamingChatModel streamModel = textModelService.streamModel(params.getTextModelEntity());
         RetrievalAugmentor retrievalAugmentor = buildRetrievalAugmentor(params, chatModel);
 
         int maxMessages = params.getMaxMessages() != null ? params.getMaxMessages() : DEFAULT_MAX_MESSAGES;
@@ -266,10 +264,10 @@ public class AssistantService {
         Map<ContentRetriever, String> retrieverToDescription = new java.util.LinkedHashMap<>();
 
         // 1. 向量检索器
-        if (Boolean.TRUE.equals(params.getEnableVectorRetrieval()) && params.getEmbeddingModelConfig() != null) {
+        if (Boolean.TRUE.equals(params.getEnableVectorRetrieval()) && params.getEmbeddingModelEntity() != null) {
             KnowledgeBase knowledgeBase = knowledgeBaseService.getById(params.getKbId());
-            EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, params.getEmbeddingModelConfig());
-            EmbeddingModel embeddingModel = embeddingModelProviderRegistry.getProvider(params.getEmbeddingModelConfig()).createModel(params.getEmbeddingModelConfig());
+            EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, params.getEmbeddingModelEntity());
+            EmbeddingModel embeddingModel = embeddingModelProviderRegistry.getProvider(params.getEmbeddingModelEntity()).createModel(params.getEmbeddingModelEntity());
 
             ContentRetriever vectorRetriever = EmbeddingStoreContentRetriever.builder()
                     .embeddingStore(embeddingStore)
@@ -282,7 +280,7 @@ public class AssistantService {
         }
 
         // 2. 图谱检索器
-        if (params.getEnableGraphRetrieval() && graphRagService != null) {
+        if (params.getEnableGraphRetrieval() != null && params.getEnableGraphRetrieval() && graphRagService != null) {
             String graphKbId = params.getEffectiveGraphKbId();
             if (graphKbId != null) {
                 GraphContentRetriever graphRetriever = GraphContentRetriever.builder()
@@ -342,23 +340,23 @@ public class AssistantService {
             return new DefaultContentAggregator();
         }
 
-        ModelConfig rerankConfig = params.getRerankModelConfig();
+        ModelEntity model = params.getRerankModelEntity();
 
         // 检查 API Key
-        if (StringUtils.isBlank(rerankConfig.getApiKey())) {
+        if (StringUtils.isBlank(model.getApiKey())) {
             log.warn("重排序模型 API Key 未配置，降级使用默认聚合器");
             return new DefaultContentAggregator();
         }
 
         try {
             // 通过 ScoringModelService 获取重排序模型（支持 Jina、Cohere 等）
-            ScoringModel scoringModel = scoringModelService.getModel(rerankConfig);
+            ScoringModel scoringModel = scoringModelService.getModel(model);
 
             int maxResults = params.getRerankMaxResults() != null ? params.getRerankMaxResults() : 5;
             double minScore = params.getRerankMinScore() != null ? params.getRerankMinScore() : 0.5;
 
             log.info("启用重排序: provider={}, model={}, maxResults={}, minScore={}",
-                    rerankConfig.getProvider(), rerankConfig.getModelName(), maxResults, minScore);
+                    model.getProvider(), model.getName(), maxResults, minScore);
 
             return ReRankingContentAggregator.builder()
                     .scoringModel(scoringModel)
@@ -382,8 +380,6 @@ public class AssistantService {
                 .chatMemoryStore(chatMemoryStore)
                 .build();
     }
-
-
 
 
 }

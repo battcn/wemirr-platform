@@ -2,7 +2,7 @@ package com.wemirr.platform.ai.controller;
 
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
 import com.wemirr.platform.ai.service.ModelConfigService;
 import com.wemirr.platform.ai.service.VectorSearchService;
@@ -68,7 +68,7 @@ public class VectorSearchController {
             }
 
             // 获取默认模型配置
-            ModelConfig defaultModel = getDefaultEmbeddingModel();
+            ModelEntity defaultModel = getDefaultEmbeddingModel();
             if (defaultModel == null) {
                 return Result.fail("未找到可用的嵌入模型配置");
             }
@@ -85,12 +85,12 @@ public class VectorSearchController {
     /**
      * 获取默认的嵌入模型配置
      */
-    private ModelConfig getDefaultEmbeddingModel() {
+    private ModelEntity getDefaultEmbeddingModel() {
         try {
             // 查询可用的嵌入模型配置
-            List<ModelConfig> embeddingModels = modelConfigService.list(
-                com.wemirr.framework.db.mybatisplus.wrap.Wraps.<ModelConfig>lbQ()
-                    .eq(ModelConfig::getModelType, "EMBEDDING")
+            List<ModelEntity> embeddingModels = modelConfigService.list(
+                com.wemirr.framework.db.mybatisplus.wrap.Wraps.<ModelEntity>lbQ()
+                    .eq(ModelEntity::getType, "EMBEDDING")
             );
             
             if (embeddingModels.isEmpty()) {

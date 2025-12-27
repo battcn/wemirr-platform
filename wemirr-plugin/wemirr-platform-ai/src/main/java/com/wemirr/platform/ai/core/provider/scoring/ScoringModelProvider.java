@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.core.provider.scoring;
 
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import dev.langchain4j.model.scoring.ScoringModel;
 
 /**
@@ -19,7 +19,7 @@ public interface ScoringModelProvider {
      * @param config 模型配置
      * @return 是否支持
      */
-    boolean supports(ModelConfig config);
+    boolean supports(ModelEntity config);
 
     /**
      * 创建重排序模型实例
@@ -27,7 +27,7 @@ public interface ScoringModelProvider {
      * @param config 模型配置
      * @return ScoringModel 实例
      */
-    ScoringModel createModel(ModelConfig config);
+    ScoringModel createModel(ModelEntity config);
 
     /**
      * 获取提供商标识

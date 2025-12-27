@@ -22,29 +22,24 @@ import java.util.Map;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("ai_model_config")
+@TableName("ai_model")
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "多模态模型配置实体")
-public class ModelConfig extends SuperEntity<Long> {
+public class ModelEntity extends SuperEntity<Long> {
 
     @Schema(description = "模型提供商")
-    @TableField("provider")
     private String provider;
 
     @Schema(description = "模型类型")
-    @TableField("model_type")
-    private ModelType modelType;
+    private ModelType type;
 
     @Schema(description = "模型名称")
-    @TableField("model_name")
-    private String modelName;
+    private String name;
 
     @Schema(description = "API密钥")
-    @TableField("api_key")
     private String apiKey;
 
     @Schema(description = "基础URL")
-    @TableField("base_url")
     private String baseUrl;
 
     @Schema(description = "模型配置属性")
@@ -52,14 +47,13 @@ public class ModelConfig extends SuperEntity<Long> {
     protected Map<String, Object> variables;
 
     @Schema(description = "租户ID")
-    @TableField("tenant_id")
     private Long tenantId;
 
     @TableField(exist = false)
     @Schema(description = "是否返回深度思考结果")
-    private Boolean returnThinking;
+    private Boolean returnThinking = false;
 
     @TableField(exist = false)
     @Schema(description = "是否联网搜索")
-    private Boolean enableWebSearch;
+    private Boolean enableWebSearch = false;
 }

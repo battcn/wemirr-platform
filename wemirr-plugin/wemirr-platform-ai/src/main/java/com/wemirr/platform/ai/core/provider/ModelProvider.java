@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.core.provider;
 
 import com.wemirr.platform.ai.core.enums.ModelType;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 
 /**
  * @author xJh
@@ -16,10 +16,10 @@ public interface ModelProvider<T> {
     /**
      * 检查配置是否支持（编译期类型安全）
      */
-    boolean supportsConfig(ModelConfig config);
+    boolean supportsConfig(ModelEntity config);
 
     /**
      * 创建模型实例（返回泛型类型 T）
      */
-    T createModel(ModelConfig config);
+    T createModel(ModelEntity config);
 }

@@ -3,7 +3,7 @@ package com.wemirr.platform.ai.service.impl;
 import com.wemirr.platform.ai.core.provider.embedding.EmbeddingModelService;
 import com.wemirr.platform.ai.core.provider.vectorStore.EnhancedVectorStoreFactory;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.service.VectorSearchService;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
@@ -34,13 +34,13 @@ public class VectorSearchServiceImpl implements VectorSearchService {
     private final EmbeddingModelService embeddingModelService;
 
     @Override
-    public List<EmbeddingMatch<TextSegment>> search(KnowledgeBase knowledgeBase, ModelConfig modelConfig, String query, int topK) {
+    public List<EmbeddingMatch<TextSegment>> search(KnowledgeBase knowledgeBase, ModelEntity modelEntity, String query, int topK) {
         try {
             // 1. 获取向量存储
-            EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelConfig);
+            EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
             
             // 2. 创建嵌入模型实例
-            EmbeddingModel embeddingModel = embeddingModelService.getModel(modelConfig);
+            EmbeddingModel embeddingModel = embeddingModelService.getModel(modelEntity);
             
             // 3. 生成查询向量
             Embedding queryEmbedding = embeddingModel.embed(query).content();
@@ -69,7 +69,7 @@ public class VectorSearchServiceImpl implements VectorSearchService {
     public List<EmbeddingMatch<TextSegment>> search(KnowledgeBase knowledgeBase, String query, int topK) {
         try {
             // 获取默认模型配置
-            ModelConfig defaultModel = getDefaultModelConfig();
+            ModelEntity defaultModel = getDefaultModelConfig();
             if (defaultModel == null) {
                 throw new IllegalStateException("未找到可用的嵌入模型配置");
             }
@@ -83,13 +83,13 @@ public class VectorSearchServiceImpl implements VectorSearchService {
     }
 
     @Override
-    public List<List<EmbeddingMatch<TextSegment>>> batchSearch(KnowledgeBase knowledgeBase, ModelConfig modelConfig, List<String> queries, int topK) {
+    public List<List<EmbeddingMatch<TextSegment>>> batchSearch(KnowledgeBase knowledgeBase, ModelEntity modelEntity, List<String> queries, int topK) {
         try {
             // 1. 获取向量存储
-            EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelConfig);
+            EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
             
             // 2. 创建嵌入模型实例
-            EmbeddingModel embeddingModel = embeddingModelService.getModel(modelConfig);
+            EmbeddingModel embeddingModel = embeddingModelService.getModel(modelEntity);
             
             // 3. 批量执行向量搜索
             List<List<EmbeddingMatch<TextSegment>>> results = new ArrayList<>();
@@ -121,20 +121,20 @@ public class VectorSearchServiceImpl implements VectorSearchService {
 
 
     @Override
-    public boolean isVectorStoreAvailable(KnowledgeBase knowledgeBase, ModelConfig modelConfig) {
+    public boolean isVectorStoreAvailable(KnowledgeBase knowledgeBase, ModelEntity modelEntity) {
         try {
             // 尝试创建向量存储连接
-            vectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelConfig);
+            vectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
             
             // 尝试创建嵌入模型
-            embeddingModelService.getModel(modelConfig);
+            embeddingModelService.getModel(modelEntity);
             
-            log.debug("向量存储可用性检查通过: kbId={}, model={}", knowledgeBase.getId(), modelConfig.getModelName());
+            log.debug("向量存储可用性检查通过: kbId={}, model={}", knowledgeBase.getId(), modelEntity.getName());
             return true;
             
         } catch (Exception e) {
             log.warn("向量存储不可用: kbId={}, model={}, error={}", 
-                    knowledgeBase.getId(), modelConfig.getModelName(), e.getMessage());
+                    knowledgeBase.getId(), modelEntity.getName(), e.getMessage());
             return false;
         }
     }
@@ -144,7 +144,7 @@ public class VectorSearchServiceImpl implements VectorSearchService {
      * 获取默认模型配置
      * 这里需要根据实际业务逻辑来实现
      */
-    private ModelConfig getDefaultModelConfig() {
+    private ModelEntity getDefaultModelConfig() {
         // TODO: 实现获取默认模型配置的逻辑
         // 可以从配置文件中读取，或者从数据库中查询
         throw new UnsupportedOperationException("获取默认模型配置功能尚未实现");

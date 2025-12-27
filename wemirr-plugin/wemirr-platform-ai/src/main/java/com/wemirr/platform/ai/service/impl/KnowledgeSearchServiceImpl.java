@@ -3,7 +3,7 @@ package com.wemirr.platform.ai.service.impl;
 import com.wemirr.platform.ai.domain.dto.rep.EmbeddingMatchRep;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.KnowledgeChunk;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.repository.KnowledgeChunkMapper;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
 import com.wemirr.platform.ai.service.KnowledgeSearchService;
@@ -45,7 +45,7 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
                 throw new IllegalArgumentException("知识库不存在: " + kbId);
             }
 
-            ModelConfig embeddingModel = getEmbeddingModelById(knowledgeBase.getEmbeddingModelId());
+            ModelEntity embeddingModel = getEmbeddingModelById(knowledgeBase.getEmbeddingModelId());
             if (embeddingModel == null) {
                 log.warn("未找到可用的嵌入模型配置....");
                 return null;
@@ -179,7 +179,7 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
                 throw new IllegalArgumentException("知识库不存在: " + kbId);
             }
 
-            ModelConfig embeddingModel = getEmbeddingModelById(knowledgeBase.getEmbeddingModelId());
+            ModelEntity embeddingModel = getEmbeddingModelById(knowledgeBase.getEmbeddingModelId());
             if (embeddingModel == null) {
                 log.warn("未找到可用的嵌入模型配置，使用关键词搜索替代");
                 return keywordSearch(kbId, query, topK);
@@ -238,15 +238,15 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
     /**
      * 获取默认的嵌入模型配置
      */
-    private ModelConfig getEmbeddingModelById(Long modelId) {
+    private ModelEntity getEmbeddingModelById(Long modelId) {
         try {
-            ModelConfig modelConfig = modelConfigService.getById(modelId);
+            ModelEntity modelEntity = modelConfigService.getById(modelId);
 
-            if (modelConfig==null) {
+            if (modelEntity ==null) {
                 log.warn("未找到可用的嵌入模型配置");
                 return null;
             }
-            return modelConfig;
+            return modelEntity;
             
         } catch (Exception e) {
             log.error("获取默认嵌入模型失败", e);

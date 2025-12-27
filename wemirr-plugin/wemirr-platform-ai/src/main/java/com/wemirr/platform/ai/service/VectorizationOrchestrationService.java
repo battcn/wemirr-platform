@@ -69,7 +69,7 @@ public class VectorizationOrchestrationService {
             
             // 获取知识库和模型配置
             KnowledgeBase kb = knowledgeBaseService.getById(item.getKbId());
-            ModelConfig modelConfig = modelConfigService.getById(kb.getEmbeddingModelId());
+            ModelEntity modelEntity = modelConfigService.getById(kb.getEmbeddingModelId());
 
             // 图谱处理：如果启用了图谱，则提取实体关系并存储到 Neo4j
             if (Boolean.TRUE.equals(kb.getEnableGraph())) {
@@ -107,7 +107,7 @@ public class VectorizationOrchestrationService {
                     .collect(Collectors.toList());
             
             // 执行批量向量化
-            CompletableFuture<BatchVectorResult> future = vectorizationProcessor.batchVectorAndStore(texts, metadataList, kb, modelConfig);
+            CompletableFuture<BatchVectorResult> future = vectorizationProcessor.batchVectorAndStore(texts, metadataList, kb, modelEntity);
             // 等待完成
             BatchVectorResult batchVectorDTO = future.get();
             List<String> vectorIds = batchVectorDTO.getVectorIds();
@@ -329,13 +329,13 @@ public class VectorizationOrchestrationService {
                 return;
             }
 
-            ModelConfig chatModelConfig = modelConfigService.getById(chatModelId);
-            if (chatModelConfig == null) {
+            ModelEntity chatModelEntity = modelConfigService.getById(chatModelId);
+            if (chatModelEntity == null) {
                 log.warn("聊天模型配置不存在，跳过图谱提取: chatModelId={}", chatModelId);
                 return;
             }
 
-            ChatModel chatModel = textModelService.model(chatModelConfig);
+            ChatModel chatModel = textModelService.model(chatModelEntity);
 
             // 创建图谱提取器
 //            LLMGraphTransformer graphTransformer = LLMGraphTransformer.builder()

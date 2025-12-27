@@ -17,7 +17,6 @@ public class ConversationSaveReq {
     @Schema(description = "会话名称")
     private String title;
 
-    //绑定的智能体ID
     @Schema(description = "绑定的智能体ID")
     private Long agentId;
 

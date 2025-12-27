@@ -2,7 +2,7 @@ package com.wemirr.platform.ai.core.provider.text;
 
 import com.wemirr.platform.ai.core.enums.AiProvider;
 import com.wemirr.platform.ai.core.enums.ModelParam;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.listener.CustomizeChatModelListener;
 import dev.langchain4j.community.model.dashscope.QwenChatModel;
 import dev.langchain4j.community.model.dashscope.QwenStreamingChatModel;
@@ -25,43 +25,43 @@ public class QwenTextModelProvider implements TextModelProvider {
     private final CustomizeChatModelListener customizeChatModelListener;
 
     @Override
-    public boolean supports(ModelConfig config) {
+    public boolean supports(ModelEntity config) {
         // 1. 检查提供商是否为 QWEN
         // 2. 检查模型是否支持
         return AiProvider.QWEN.equals(AiProvider.fromCode(config.getProvider()))
-                && AiProvider.QWEN.supportsModel(config.getModelName());
+                && AiProvider.QWEN.supportsModel(config.getName());
     }
 
     @Override
-    public ChatModel createModel(ModelConfig config) {
+    public ChatModel createModel(ModelEntity config) {
         QwenChatModel.QwenChatModelBuilder builder  = QwenChatModel.builder()
 //                .baseUrl(config.getBaseUrl())
                 .apiKey(config.getApiKey())
                 .listeners(List.of(customizeChatModelListener))
-                .modelName(config.getModelName());
+                .modelName(config.getName());
         Map<String, Object> vars = config.getVariables();
         Integer maxTokens = ModelParam.MAX_TOKENS.getValueFrom(vars);
         if (maxTokens != null) {
             builder.maxTokens(maxTokens);
         }
-        if (AiProvider.QWEN.supportsWebSearch(config.getModelName())&& config.getEnableWebSearch()!= null && config.getEnableWebSearch()){
+        if (AiProvider.QWEN.supportsWebSearch(config.getName())&& config.getEnableWebSearch()!= null && config.getEnableWebSearch()){
             builder.enableSearch(true);
         }
         return builder.build();
     }
 
     @Override
-    public StreamingChatModel createStreamModel(ModelConfig config) {
+    public StreamingChatModel createStreamModel(ModelEntity config) {
         QwenStreamingChatModel.QwenStreamingChatModelBuilder builder = QwenStreamingChatModel.builder()
 //                .baseUrl(config.getBaseUrl())
-                .modelName(config.getModelName())
+                .modelName(config.getName())
                 .apiKey(config.getApiKey());
         Map<String, Object> vars = config.getVariables();
         Integer maxTokens = ModelParam.MAX_TOKENS.getValueFrom(vars);
         if (maxTokens != null) {
             builder.maxTokens(maxTokens);
         }
-        if (AiProvider.QWEN.supportsWebSearch(config.getModelName())&& config.getEnableWebSearch()){
+        if (AiProvider.QWEN.supportsWebSearch(config.getName())&& config.getEnableWebSearch()){
             builder.enableSearch(true);
         }
         return builder.build();

@@ -1,9 +1,7 @@
-package com.wemirr.platform.ai.domain.dto.req;
+package com.wemirr.platform.ai.domain.dto.rep;
 
 import com.wemirr.platform.ai.core.enums.ModelType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.Map;
@@ -13,22 +11,20 @@ import java.util.Map;
  * @since 2025/10/31
  **/
 @Data
-public class ModelConfigSaveReq {
+public class ModelDetailRep {
+
+    private Long id;
 
     @Schema(description = "模型提供商")
-    @NotBlank(message = "模型提供商不能为空")
     private String provider;
 
     @Schema(description = "模型类型")
-    @NotNull(message = "模型类型不能为空")
-    private ModelType modelType;
+    private ModelType type;
 
     @Schema(description = "模型名称")
-    @NotBlank(message = "模型名称不能为空")
-    private String modelName;
+    private String name;
 
     @Schema(description = "API密钥")
-    @NotBlank(message = "API密钥不能为空")
     private String apiKey;
 
     @Schema(description = "基础URL")
@@ -36,6 +32,7 @@ public class ModelConfigSaveReq {
 
     @Schema(description = "模型配置属性")
     private Map<String, Object> variables;
+
 }
 
 

@@ -3,9 +3,7 @@ package com.wemirr.platform.ai.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.platform.ai.domain.dto.rep.ConversationDetailRep;
 import com.wemirr.platform.ai.domain.dto.rep.ConversationMessageRep;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationPageRep;
-
-import java.util.List;
+import com.wemirr.platform.ai.domain.dto.rep.ConversationPageResp;
 import com.wemirr.platform.ai.domain.dto.req.ConversationPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ConversationSaveReq;
 import com.wemirr.platform.ai.service.ConversationService;
@@ -15,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author xJh
@@ -33,7 +33,7 @@ public class ConversationController {
 
     @Operation(summary = "分页查询会话")
     @GetMapping("/page")
-    public IPage<ConversationPageRep> pageList(ConversationPageReq req) {
+    public IPage<ConversationPageResp> pageList(ConversationPageReq req) {
         return conversationService.pageList(req);
     }
 
@@ -50,10 +50,10 @@ public class ConversationController {
         return conversationService.getMessages(id);
     }
 
+    @GetMapping("/messages")
     @Operation(summary = "获取知识库会话消息列表")
-    @GetMapping("/{id}/messagesByKbid")
-    public List<ConversationMessageRep> messagesByKbid(@PathVariable Long id) {
-        return conversationService.messagesByKbid(id);
+    public List<ConversationMessageRep> messageList(Long kbId) {
+        return conversationService.messagesByKbid(kbId);
     }
 
     @Operation(summary = "获取智能体会话消息列表")
@@ -61,14 +61,6 @@ public class ConversationController {
     public List<ConversationMessageRep> messagesByAgent(@PathVariable Long id) {
         return conversationService.messagesByAgent(id);
     }
-
-
-
-//    @Operation(summary = "通过智能体id获取会话")
-//    @GetMapping("/{agentId}/detailByAgentId")
-//    public ChatAgentDetailRep detailByAgentId(@Parameter(description = "智能体ID") @PathVariable Long agentId) {
-//        return conversationService.detailByAgentId(agentId);
-//    }
 
     @Operation(summary = "新增会话")
     @PostMapping

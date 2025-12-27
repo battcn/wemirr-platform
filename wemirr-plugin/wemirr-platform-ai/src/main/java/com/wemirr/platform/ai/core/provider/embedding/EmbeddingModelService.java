@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.core.provider.embedding;
 
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class EmbeddingModelService {
      * @param config 模型配置
      * @return EmbeddingModel 实例
      */
-    public EmbeddingModel getModel(ModelConfig config) {
+    public EmbeddingModel getModel(ModelEntity config) {
         EmbeddingModelProvider provider = registry.getProvider(config);
         if (provider == null) {
             throw new IllegalArgumentException("未找到支持的向量模型提供商: " + config.getProvider());

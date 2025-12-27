@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.core.assistant.service;
 
 import com.wemirr.platform.ai.core.enums.ChunkType;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import lombok.Builder;
 import lombok.Data;
 
@@ -25,12 +25,12 @@ public class RagAssistantParams {
     /**
      * 文本模型配置
      */
-    private ModelConfig textModelConfig;
+    private ModelEntity textModelEntity;
 
     /**
      * 向量模型配置
      */
-    private ModelConfig embeddingModelConfig;
+    private ModelEntity embeddingModelEntity;
 
     /**
      * 最大记忆消息数
@@ -87,7 +87,7 @@ public class RagAssistantParams {
      * 重排序模型配置（使用 ModelConfig 统一管理）
      * 如果配置了该字段，则启用重排序
      */
-    private ModelConfig rerankModelConfig;
+    private ModelEntity rerankModelEntity;
 
     /**
      * 重排序后返回的最大结果数
@@ -105,7 +105,7 @@ public class RagAssistantParams {
      * 是否启用重排序
      */
     public boolean isRerankingEnabled() {
-        return rerankModelConfig != null;
+        return rerankModelEntity != null;
     }
 
     /**

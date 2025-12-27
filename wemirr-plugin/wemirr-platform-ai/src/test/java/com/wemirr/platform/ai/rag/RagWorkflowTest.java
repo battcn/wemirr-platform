@@ -6,7 +6,7 @@ import com.wemirr.platform.ai.core.enums.ModelType;
 import com.wemirr.platform.ai.core.provider.embedding.EmbeddingModelService;
 import com.wemirr.platform.ai.core.provider.text.TextModelService;
 import com.wemirr.platform.ai.core.provider.vectorStore.VectorStoreFactory;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.segment.TextSegment;
@@ -68,7 +68,7 @@ class RagWorkflowTest {
         embeddingStore = vectorStoreFactory.create();
         
         // 创建真实的嵌入模型配置
-        ModelConfig embeddingModelConfig = ModelConfig.builder()
+        ModelEntity embeddingModelEntity = ModelEntity.builder()
                 .provider(AiProvider.QWEN.getCode())
                 .modelType(ModelType.EMBEDDING)
                 .modelName("text-embedding-v2")
@@ -76,7 +76,7 @@ class RagWorkflowTest {
                 .build();
         
         // 获取真实的嵌入模型实例
-        embeddingModel = embeddingModelService.getModel(embeddingModelConfig);
+        embeddingModel = embeddingModelService.getModel(embeddingModelEntity);
     }
 
     @Test
@@ -86,7 +86,7 @@ class RagWorkflowTest {
         variables.put("temperature", 0.7);
         variables.put("max_tokens", 500);
 
-        ModelConfig chatModelConfig = ModelConfig.builder()
+        ModelEntity chatModelEntity = ModelEntity.builder()
                 .provider(AiProvider.QWEN.getCode())
                 .modelType(ModelType.TEXT)
                 .modelName("qwen-plus")
@@ -95,7 +95,7 @@ class RagWorkflowTest {
                 .build();
 
         // 获取真实的聊天模型实例
-        ChatModel chatModel = textModelService.model(chatModelConfig);
+        ChatModel chatModel = textModelService.model(chatModelEntity);
 
 
         // 创建文档片段
@@ -168,7 +168,7 @@ class RagWorkflowTest {
         variables.put("temperature", 0.7);
         variables.put("max_tokens", 2000);
 
-        ModelConfig textModelConfig = ModelConfig.builder()
+        ModelEntity textModelEntity = ModelEntity.builder()
                 .provider(AiProvider.QWEN.getCode())
                 .modelType(ModelType.TEXT)
                 .modelName("qwen-plus")
@@ -176,23 +176,23 @@ class RagWorkflowTest {
                 .variables(variables)
                 .build();
 
-        assertNotNull(textModelConfig);
-        assertEquals("qwen", textModelConfig.getProvider());
-        assertEquals(ModelType.TEXT, textModelConfig.getModelType());
-        assertEquals("qwen-plus", textModelConfig.getModelName());
+        assertNotNull(textModelEntity);
+        assertEquals("qwen", textModelEntity.getProvider());
+        assertEquals(ModelType.TEXT, textModelEntity.getModelType());
+        assertEquals("qwen-plus", textModelEntity.getModelName());
 
         // 测试创建嵌入模型配置
-        ModelConfig embeddingModelConfig = ModelConfig.builder()
+        ModelEntity embeddingModelEntity = ModelEntity.builder()
                 .provider(AiProvider.QWEN.getCode())
                 .modelType(ModelType.EMBEDDING)
                 .modelName("text-embedding-v2")
                 .apiKey("test-api-key")
                 .build();
 
-        assertNotNull(embeddingModelConfig);
-        assertEquals("qwen", embeddingModelConfig.getProvider());
-        assertEquals(ModelType.EMBEDDING, embeddingModelConfig.getModelType());
-        assertEquals("text-embedding-v2", embeddingModelConfig.getModelName());
+        assertNotNull(embeddingModelEntity);
+        assertEquals("qwen", embeddingModelEntity.getProvider());
+        assertEquals(ModelType.EMBEDDING, embeddingModelEntity.getModelType());
+        assertEquals("text-embedding-v2", embeddingModelEntity.getModelName());
     }
 
     /**

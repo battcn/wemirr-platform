@@ -12,7 +12,7 @@ import java.time.Instant;
  * @since 2025/10/31
  **/
 @Data
-public class ModelConfigPageRep {
+public class ModelPageRep {
 
     @Schema(description = "ID")
     private Long id;
@@ -21,10 +21,10 @@ public class ModelConfigPageRep {
     private String provider;
 
     @Schema(description = "模型类型")
-    private ModelType modelType;
+    private ModelType type;
 
     @Schema(description = "模型名称")
-    private String modelName;
+    private String name;
 
     @Schema(description = "基础URL")
     private String baseUrl;
