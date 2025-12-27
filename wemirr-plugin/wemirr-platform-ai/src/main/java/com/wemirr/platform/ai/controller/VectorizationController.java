@@ -1,8 +1,8 @@
 package com.wemirr.platform.ai.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.platform.ai.domain.dto.rep.VectorizationRep;
 import com.wemirr.platform.ai.domain.dto.req.VectorizationTaskPageReq;
+import com.wemirr.platform.ai.domain.dto.resp.VectorizationResp;
 import com.wemirr.platform.ai.domain.entity.VectorizationTask;
 import com.wemirr.platform.ai.service.VectorService;
 import com.wemirr.platform.ai.service.VectorService.VectorizationTaskStatus;
@@ -75,7 +75,7 @@ public class VectorizationController {
 
     @Operation(summary = "查询文档向量化状态")
     @GetMapping("/{itemId}/vectorize-status")
-    public VectorizationRep getVectorizeStatus(@PathVariable Long itemId) {
+    public VectorizationResp getVectorizeStatus(@PathVariable Long itemId) {
 
         return vectorService.getVectorizeStatus(itemId);
     }

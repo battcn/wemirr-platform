@@ -3,7 +3,6 @@ package com.wemirr.platform.ai.core.provider.graph.neo4j;
 import com.wemirr.platform.ai.core.config.VectorStoreProperties;
 import com.wemirr.platform.ai.core.provider.graph.GraphStore;
 import dev.langchain4j.community.data.document.graph.GraphDocument;
-import dev.langchain4j.community.rag.content.retriever.neo4j.Neo4jGraph;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import jakarta.annotation.PreDestroy;
 import lombok.Getter;
@@ -39,9 +38,6 @@ public class Neo4jGraphStore implements GraphStore {
     private final Driver driver;
 
     @Getter
-    private final Neo4jGraph neo4jGraph;
-
-    @Getter
     private final VectorStoreProperties.Neo4jConfig config;
 
     public Neo4jGraphStore(VectorStoreProperties properties) {
@@ -51,10 +47,6 @@ public class Neo4jGraphStore implements GraphStore {
                 config.getUri(),
                 AuthTokens.basic(config.getUsername(), config.getPassword())
         );
-
-        this.neo4jGraph = Neo4jGraph.builder()
-                .driver(driver)
-                .build();
 
         log.info("Neo4j 图存储初始化成功: uri={}", config.getUri());
         verifyConnection();

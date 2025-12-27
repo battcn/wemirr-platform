@@ -5,7 +5,7 @@ import com.wemirr.platform.ai.core.processor.VectorizationProcessor;
 import com.wemirr.platform.ai.core.provider.graph.GraphRagService;
 import com.wemirr.platform.ai.core.provider.graph.GraphRagTransformerFactory;
 import com.wemirr.platform.ai.core.provider.text.TextModelService;
-import com.wemirr.platform.ai.core.provider.vectorStore.EnhancedVectorStoreFactory;
+import com.wemirr.platform.ai.core.provider.vector.VectorStoreFactory;
 import com.wemirr.platform.ai.domain.dto.result.BatchVectorResult;
 import com.wemirr.platform.ai.domain.dto.result.VectorizationResult;
 import com.wemirr.platform.ai.domain.entity.*;
@@ -42,7 +42,7 @@ public class VectorizationOrchestrationService {
     private final KnowledgeItemService knowledgeItemService;
     private final KnowledgeBaseService knowledgeBaseService;
     private final ModelConfigService modelConfigService;
-    private final EnhancedVectorStoreFactory enhancedVectorStoreFactory;
+    private final VectorStoreFactory vectorStoreFactory;
     private final VectorMetadataService vectorMetadataService;
     private final TextModelService textModelService;
 
@@ -69,7 +69,7 @@ public class VectorizationOrchestrationService {
             
             // 获取知识库和模型配置
             KnowledgeBase kb = knowledgeBaseService.getById(item.getKbId());
-            ModelEntity modelEntity = modelConfigService.getById(kb.getEmbeddingModelId());
+            ModelEntity modelEntity = modelConfigService.getById(kb.getEmbedModelId());
 
             // 图谱处理：如果启用了图谱，则提取实体关系并存储到 Neo4j
             if (Boolean.TRUE.equals(kb.getEnableGraph())) {
@@ -94,7 +94,7 @@ public class VectorizationOrchestrationService {
                         metadata.put("kbId", String.valueOf(chunk.getKbId()));
                         metadata.put("itemId", String.valueOf(chunk.getItemId()));
                         metadata.put("chunkId", String.valueOf(chunk.getId()));
-                        metadata.put("chunkType", chunk.getChunkType().getCode());
+                        metadata.put("chunkType", chunk.getChunkType().getValue());
                         metadata.put("kbName", kb.getName());
                         metadata.put("itemTitle", item.getTitle());
                         if (chunk.getMetadata() != null) {
@@ -121,7 +121,7 @@ public class VectorizationOrchestrationService {
                 Map<String, Object> metadata = new HashMap<>();
                 metadata.put("kbName", kb.getName());
                 metadata.put("itemTitle", item.getTitle());
-                metadata.put("chunkType", chunk.getChunkType().getCode());
+                metadata.put("chunkType", chunk.getChunkType().getValue());
                 metadata.put("chunkIndex", chunk.getChunkIndex());
                 if (chunk.getMetadata() != null) {
                     metadata.putAll(chunk.getMetadata());
@@ -274,7 +274,7 @@ public class VectorizationOrchestrationService {
             log.info("删除了知识库 {} 的 {} 个向量元数据记录", kbId, deletedCount);
             
             // 清除向量存储缓存
-            enhancedVectorStoreFactory.clearCacheForKnowledgeBase(Long.valueOf(kbId));
+            vectorStoreFactory.clearCacheForKnowledgeBase(Long.valueOf(kbId));
             
             return true;
         } catch (Exception e) {

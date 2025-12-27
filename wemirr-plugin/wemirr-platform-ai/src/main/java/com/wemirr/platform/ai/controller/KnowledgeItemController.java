@@ -1,9 +1,9 @@
 package com.wemirr.platform.ai.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.platform.ai.domain.dto.rep.KnowledgeItemResp;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemPageReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.KnowledgeItemResp;
 import com.wemirr.platform.ai.service.KnowledgeItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

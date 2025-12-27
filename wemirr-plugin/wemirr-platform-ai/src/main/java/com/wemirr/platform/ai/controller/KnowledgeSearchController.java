@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.controller;
 
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.platform.ai.domain.dto.rep.EmbeddingMatchRep;
+import com.wemirr.platform.ai.domain.dto.resp.EmbeddingMatchRep;
 import com.wemirr.platform.ai.service.KnowledgeSearchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

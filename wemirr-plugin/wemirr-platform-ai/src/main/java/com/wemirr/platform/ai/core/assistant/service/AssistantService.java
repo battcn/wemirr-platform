@@ -1,18 +1,16 @@
 package com.wemirr.platform.ai.core.assistant.service;
 
 import cn.hutool.core.collection.CollUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wemirr.framework.ai.core.provider.embedding.EmbeddingModelRegistry;
+import com.wemirr.framework.ai.core.rag.TranslationQueryTransformer;
 import com.wemirr.platform.ai.core.assistant.interfaces.ChatAssistant;
-import com.wemirr.platform.ai.core.provider.embedding.EmbeddingModelProviderRegistry;
 import com.wemirr.platform.ai.core.provider.graph.GraphContentRetriever;
 import com.wemirr.platform.ai.core.provider.graph.GraphRagService;
 import com.wemirr.platform.ai.core.provider.mcp.DynamicMcpToolProvider;
 import com.wemirr.platform.ai.core.provider.scoring.ScoringModelService;
 import com.wemirr.platform.ai.core.provider.text.TextModelService;
-import com.wemirr.platform.ai.core.provider.vectorStore.EnhancedVectorStoreFactory;
-import com.wemirr.platform.ai.core.rag.TranslationQueryTransformer;
+import com.wemirr.platform.ai.core.provider.vector.VectorStoreFactory;
 import com.wemirr.platform.ai.domain.entity.ChatAgent;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
@@ -56,27 +54,36 @@ import java.util.concurrent.Executors;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.wemirr.platform.ai.core.constant.AiServiceConstants.DEFAULT_MAX_MESSAGES;
+
 /**
+ * AI助手服务
+ * <p>
+ * 负责创建不同类型的AI助手：
+ * <ul>
+ *   <li>普通记忆对话助手</li>
+ *   <li>RAG知识库对话助手</li>
+ *   <li>智能体助手（支持Tools和RAG）</li>
+ * </ul>
+ *
  * @author xJh
  * @since 2025/10/11
- * todo Langchain4j暂未集成稀疏向量用于多路检索
- **/
+ * @apiNote Langchain4j暂未集成稀疏向量用于多路检索
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AssistantService {
 
-    private static final int DEFAULT_MAX_MESSAGES = 10;
-
     private final TextModelService textModelService;
 
     private final ChatMemoryStore chatMemoryStore;
 
-    private final EnhancedVectorStoreFactory vectorStoreFactory;
+    private final VectorStoreFactory vectorStoreFactory;
 
     private final KnowledgeBaseService knowledgeBaseService;
 
-    private final EmbeddingModelProviderRegistry embeddingModelProviderRegistry;
+    private final EmbeddingModelRegistry embeddingModelRegistry;
 
     private final ApplicationContext applicationContext;
 
@@ -150,25 +157,10 @@ public class AssistantService {
         // 配置 MCP 工具提供者
         // 先设置智能体的 MCP 服务器配置
         if (chatAgent.getMcpServerIds() != null && !chatAgent.getMcpServerIds().isEmpty()) {
-            String mcpServerIdsJson = chatAgent.getMcpServerIds().trim();
-
-            // 验证是否为有效的 JSON 格式
-            if (!mcpServerIdsJson.startsWith("[") && !mcpServerIdsJson.startsWith("{")) {
-                log.error("Invalid MCP server IDs JSON format for agent {}: '{}'. Expected JSON array format like [1, 2, 3]",
-                        chatAgent.getId(), mcpServerIdsJson);
-                throw new IllegalArgumentException("MCP 服务器配置格式错误：期望 JSON 数组格式，如 [1, 2, 3]，实际值：" + mcpServerIdsJson);
-            }
-
             try {
-                List<Long> mcpServerIds = objectMapper.readValue(mcpServerIdsJson, new TypeReference<List<Long>>() {
-                });
+                List<Long> mcpServerIds = chatAgent.getMcpServerIds();
                 dynamicMcpToolProvider.setAgentMcpServerIds(mcpServerIds);
                 builder.toolProvider(dynamicMcpToolProvider);
-            } catch (JsonProcessingException e) {
-                log.error("Failed to parse MCP server IDs JSON for agent {}: '{}'. Error: {}",
-                        chatAgent.getId(), chatAgent.getMcpServerIds(), e.getMessage());
-                throw new IllegalArgumentException("MCP 服务器配置 JSON 解析失败：" + e.getMessage() +
-                        "。请确保格式为有效的 JSON 数组，如 [1, 2, 3]", e);
             } catch (Exception e) {
                 log.error("Failed to configure MCP tool provider for agent: {}", chatAgent.getId(), e);
                 throw new IllegalArgumentException("MCP 工具提供者配置失败：" + e.getMessage(), e);
@@ -179,8 +171,8 @@ public class AssistantService {
         builder.systemMessageProvider(memoryId -> {
             StringBuilder sb = new StringBuilder();
             // 基础角色预设 (用户配置的 "你是一个XX助手...")
-            if (StringUtils.isNotBlank(chatAgent.getAiSystemMessage())) {
-                sb.append(chatAgent.getAiSystemMessage()).append("\n\n");
+            if (StringUtils.isNotBlank(chatAgent.getSystemPrompt())) {
+                sb.append(chatAgent.getSystemPrompt()).append("\n\n");
             }
             // 能力自我认知增强
             sb.append("### 当前具备的能力\n");
@@ -267,7 +259,7 @@ public class AssistantService {
         if (Boolean.TRUE.equals(params.getEnableVectorRetrieval()) && params.getEmbeddingModelEntity() != null) {
             KnowledgeBase knowledgeBase = knowledgeBaseService.getById(params.getKbId());
             EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, params.getEmbeddingModelEntity());
-            EmbeddingModel embeddingModel = embeddingModelProviderRegistry.getProvider(params.getEmbeddingModelEntity()).createModel(params.getEmbeddingModelEntity());
+            EmbeddingModel embeddingModel = embeddingModelRegistry.getFactory(params.getEmbeddingModelEntity()).createModel(params.getEmbeddingModelEntity());
 
             ContentRetriever vectorRetriever = EmbeddingStoreContentRetriever.builder()
                     .embeddingStore(embeddingStore)

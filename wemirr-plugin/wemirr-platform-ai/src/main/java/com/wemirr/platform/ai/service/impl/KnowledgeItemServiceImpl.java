@@ -9,11 +9,11 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemStatus;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemType;
 import com.wemirr.platform.ai.core.processor.DocumentProcessor;
-import com.wemirr.platform.ai.domain.dto.rep.KnowledgeItemResp;
-import com.wemirr.platform.ai.domain.dto.rep.PreviewChunkResp;
 import com.wemirr.platform.ai.domain.dto.req.DocumentSaveReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemPageReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.KnowledgeItemResp;
+import com.wemirr.platform.ai.domain.dto.resp.PreviewChunkResp;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.KnowledgeChunk;
 import com.wemirr.platform.ai.domain.entity.KnowledgeItem;
@@ -164,7 +164,7 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
 
     @Override
     public List<KnowledgeItemResp> listByKbIdAndType(Long kbId, KnowledgeItemType type) {
-        List<KnowledgeItem> items = baseMapper.selectByKbIdAndType(kbId, type.getCode());
+        List<KnowledgeItem> items = baseMapper.selectByKbIdAndType(kbId, type.getValue());
         return items.stream()
                 .map(item -> {
                     KnowledgeItemResp resp = BeanUtil.toBean(item, KnowledgeItemResp.class);

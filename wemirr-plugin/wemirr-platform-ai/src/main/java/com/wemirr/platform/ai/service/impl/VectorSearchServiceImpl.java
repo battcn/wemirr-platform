@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.service.impl;
 
 import com.wemirr.platform.ai.core.provider.embedding.EmbeddingModelService;
-import com.wemirr.platform.ai.core.provider.vectorStore.EnhancedVectorStoreFactory;
+import com.wemirr.platform.ai.core.provider.vector.VectorStoreFactory;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.service.VectorSearchService;
@@ -30,7 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VectorSearchServiceImpl implements VectorSearchService {
 
-    private final EnhancedVectorStoreFactory vectorStoreFactory;
+    private final VectorStoreFactory vectorStoreFactory;
     private final EmbeddingModelService embeddingModelService;
 
     @Override

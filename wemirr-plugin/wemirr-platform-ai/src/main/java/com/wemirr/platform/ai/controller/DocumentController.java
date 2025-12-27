@@ -3,10 +3,10 @@ package com.wemirr.platform.ai.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemType;
-import com.wemirr.platform.ai.domain.dto.rep.KnowledgeItemResp;
-import com.wemirr.platform.ai.domain.dto.rep.PreviewChunkResp;
 import com.wemirr.platform.ai.domain.dto.req.DocumentSaveReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemPageReq;
+import com.wemirr.platform.ai.domain.dto.resp.KnowledgeItemResp;
+import com.wemirr.platform.ai.domain.dto.resp.PreviewChunkResp;
 import com.wemirr.platform.ai.service.KnowledgeItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,7 +40,7 @@ public class DocumentController {
     public IPage<KnowledgeItemResp> page(@PathVariable String kbId, PageRequest req) {
         KnowledgeItemPageReq pageReq = new KnowledgeItemPageReq();
         pageReq.setKbId(kbId);
-        pageReq.setType(KnowledgeItemType.DOCUMENT.getCode());
+        pageReq.setType(KnowledgeItemType.DOCUMENT.getValue());
         BeanUtils.copyProperties(req, pageReq);
         return knowledgeItemService.pageList(pageReq);
     }

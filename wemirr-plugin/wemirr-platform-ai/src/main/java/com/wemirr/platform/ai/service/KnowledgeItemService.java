@@ -3,11 +3,11 @@ package com.wemirr.platform.ai.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemType;
-import com.wemirr.platform.ai.domain.dto.rep.KnowledgeItemResp;
-import com.wemirr.platform.ai.domain.dto.rep.PreviewChunkResp;
 import com.wemirr.platform.ai.domain.dto.req.DocumentSaveReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemPageReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.KnowledgeItemResp;
+import com.wemirr.platform.ai.domain.dto.resp.PreviewChunkResp;
 import com.wemirr.platform.ai.domain.entity.KnowledgeItem;
 import org.springframework.web.multipart.MultipartFile;
 

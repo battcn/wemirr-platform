@@ -3,26 +3,30 @@ package com.wemirr.platform.ai.domain.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
+ * AI聊天消息持久化存储
+ *
  * @author xJh
  * @since 2025/10/11
- * AI记忆消息持久化
- **/
+ */
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("ai_chat_message_store")
+@TableName("ai_message_store")
+@Schema(description = "AI聊天消息存储")
 public class ChatMsgStore {
 
     @TableId(type = IdType.INPUT)
-    private String uid;
+    @Schema(description = "消息唯一标识")
+    private String messageId;
 
-
-    private String message;
+    @Schema(description = "消息内容")
+    private String content;
 }

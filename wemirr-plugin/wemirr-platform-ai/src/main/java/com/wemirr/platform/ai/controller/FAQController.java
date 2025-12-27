@@ -4,10 +4,10 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemType;
-import com.wemirr.platform.ai.domain.dto.rep.KnowledgeItemResp;
 import com.wemirr.platform.ai.domain.dto.req.FAQSaveReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemPageReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.KnowledgeItemResp;
 import com.wemirr.platform.ai.service.KnowledgeItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,7 +46,7 @@ public class FAQController {
     public IPage<KnowledgeItemResp> page(@RequestParam String kbId, PageRequest req) {
         KnowledgeItemPageReq pageReq = new KnowledgeItemPageReq();
         pageReq.setKbId(kbId);
-        pageReq.setType(KnowledgeItemType.QA_PAIR.getCode());
+        pageReq.setType(KnowledgeItemType.QA_PAIR.getValue());
         BeanUtil.copyProperties(req, pageReq);
         return knowledgeItemService.pageList(pageReq);
     }
@@ -95,7 +95,7 @@ public class FAQController {
         KnowledgeItemSaveReq itemReq = new KnowledgeItemSaveReq();
         itemReq.setKbId(req.getKbId());
         itemReq.setTenantId(req.getTenantId());
-        itemReq.setType(KnowledgeItemType.QA_PAIR.getCode());
+        itemReq.setType(KnowledgeItemType.QA_PAIR.getValue());
         itemReq.setContent(Map.of(
                 "question", req.getQuestion(),
                 "answer", req.getAnswer()

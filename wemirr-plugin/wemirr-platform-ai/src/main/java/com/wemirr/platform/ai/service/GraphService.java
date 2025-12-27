@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.service;
 
-import com.wemirr.platform.ai.domain.dto.rep.EntityRecallResp;
-import com.wemirr.platform.ai.domain.dto.rep.GraphVisualizationResp;
+import com.wemirr.platform.ai.domain.dto.resp.EntityRecallResp;
+import com.wemirr.platform.ai.domain.dto.resp.GraphVisualizationResp;
 
 import java.util.List;
 import java.util.Map;

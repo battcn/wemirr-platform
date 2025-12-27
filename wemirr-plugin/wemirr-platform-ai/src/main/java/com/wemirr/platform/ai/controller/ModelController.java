@@ -3,10 +3,10 @@ package com.wemirr.platform.ai.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.ai.domain.dto.rep.ModelDetailRep;
-import com.wemirr.platform.ai.domain.dto.rep.ModelPageRep;
 import com.wemirr.platform.ai.domain.dto.req.ModelPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ModelSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.ModelDetailResp;
+import com.wemirr.platform.ai.domain.dto.resp.ModelPageResp;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.service.ModelConfigService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,21 +38,21 @@ public class ModelController {
 
     @GetMapping("/list")
     @Operation(summary = "分页查询", description = "分页查询模型配置列表")
-    public List<ModelPageRep> list(String type) {
+    public List<ModelPageResp> list(String type) {
         var list = modelService.list(Wraps.<ModelEntity>lbQ().eq(ModelEntity::getType, type));
-        return BeanUtilPlus.toBeans(list, ModelPageRep.class);
+        return BeanUtilPlus.toBeans(list, ModelPageResp.class);
     }
 
 
     @PostMapping("/page")
     @Operation(summary = "分页查询", description = "分页查询模型配置列表")
-    public IPage<ModelPageRep> page(@RequestBody ModelPageReq req) {
+    public IPage<ModelPageResp> page(@RequestBody ModelPageReq req) {
         return modelService.pageList(req);
     }
 
     @GetMapping("/{id}/detail")
     @Operation(summary = "配置详情", description = "获取模型配置详情")
-    public ModelDetailRep detail(@PathVariable Long id) {
+    public ModelDetailResp detail(@PathVariable Long id) {
         return modelService.detail(id);
     }
 

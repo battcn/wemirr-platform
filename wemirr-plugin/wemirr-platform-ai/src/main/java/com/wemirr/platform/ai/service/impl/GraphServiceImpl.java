@@ -4,8 +4,8 @@ import com.wemirr.platform.ai.core.provider.graph.GraphRagService;
 import com.wemirr.platform.ai.core.provider.graph.GraphRagTransformerFactory;
 import com.wemirr.platform.ai.core.provider.graph.GraphStore;
 import com.wemirr.platform.ai.core.provider.text.TextModelService;
-import com.wemirr.platform.ai.domain.dto.rep.EntityRecallResp;
-import com.wemirr.platform.ai.domain.dto.rep.GraphVisualizationResp;
+import com.wemirr.platform.ai.domain.dto.resp.EntityRecallResp;
+import com.wemirr.platform.ai.domain.dto.resp.GraphVisualizationResp;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.KnowledgeChunk;
 import com.wemirr.platform.ai.domain.entity.KnowledgeItem;
@@ -98,7 +98,7 @@ public class GraphServiceImpl implements GraphService {
                     graphKbId, documents, graphTransformer, true);
 
             // 更新知识条目的图谱化状态
-            item.setGraphized(true);
+            item.setGraphed(true);
             knowledgeItemService.updateById(item);
 
             log.info("图谱化完成: itemId={}, nodes={}, relationships={}",
@@ -141,7 +141,7 @@ public class GraphServiceImpl implements GraphService {
             graphRagService.deleteDocument(graphKbId, documentId);
 
             // 更新状态
-            item.setGraphized(false);
+            item.setGraphed(false);
             knowledgeItemService.updateById(item);
 
             log.info("删除知识条目图谱数据: itemId={}", itemId);

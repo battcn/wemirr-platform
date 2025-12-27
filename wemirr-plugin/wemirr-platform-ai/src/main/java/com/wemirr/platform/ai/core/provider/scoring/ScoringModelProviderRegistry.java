@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.core.provider.scoring;
 
-import com.wemirr.platform.ai.core.enums.AiProvider;
+import com.wemirr.framework.ai.core.enums.AiProvider;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -80,7 +80,7 @@ public class ScoringModelProviderRegistry {
                 .map(ScoringModelProvider::providerId)
                 .filter(id -> {
                     try {
-                        return AiProvider.fromCode(id).isEnabled();
+                        return AiProvider.of(id).isEnabled();
                     } catch (Exception e) {
                         return true;
                     }

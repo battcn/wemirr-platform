@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.service;
 
-import com.wemirr.platform.ai.core.annotation.AiTool;
+import com.wemirr.framework.ai.core.annotation.AiTool;
 import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.agent.tool.Tool;
 import lombok.Builder;

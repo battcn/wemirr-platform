@@ -14,50 +14,38 @@ import lombok.experimental.SuperBuilder;
 import java.util.Map;
 
 /**
+ * 向量存储
+ *
  * @author xJh
  * @since 2025/10/17
- **/
+ */
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("ai_kb_vector_store")
+@TableName("ai_vector_store")
 @EqualsAndHashCode(callSuper = true)
+@Schema(description = "向量存储")
 public class VectorStore extends SuperEntity<Long> {
 
-    /**
-     * 所属知识库ID
-     */
-    @TableField("kb_id")
+    @Schema(description = "所属知识库ID")
     private String kbId;
 
-    /**
-     * 文本内容
-     */
-    @TableField("text")
-    private String text;
+    @Schema(description = "文本内容")
+    private String textContent;
 
-    /**
-     * 向量数据
-     */
-    @TableField("vector")
-    private String vector;
+    @Schema(description = "向量数据")
+    private String vectorData;
 
-    /**
-     * 向量维度
-     */
+    @Schema(description = "向量维度")
     @TableField("dimension")
     private Integer dimension;
 
-    /**
-     * 向量存储类型
-     */
+    @Schema(description = "向量存储类型")
     @TableField("store_type")
     private String storeType;
 
-    /**
-     * 元数据
-     */
+    @Schema(description = "元数据")
     @TableField(value = "metadata", typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> metadata;
 

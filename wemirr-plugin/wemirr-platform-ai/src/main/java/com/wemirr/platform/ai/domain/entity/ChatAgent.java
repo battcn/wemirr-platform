@@ -3,6 +3,7 @@ package com.wemirr.platform.ai.domain.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
+import com.wemirr.framework.db.mybatisplus.handler.type.LongListTypeHandler;
 import com.wemirr.framework.db.mybatisplus.handler.type.StringListTypeHandler;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -14,15 +15,17 @@ import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 /**
+ * AI智能体配置
+ *
  * @author xJh
  * @since 2025/11/4
- **/
+ */
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("ai_chat_agent")
-@Schema(description = "聊天智能体实体")
+@TableName("ai_agent")
+@Schema(description = "AI智能体")
 @EqualsAndHashCode(callSuper = true)
 public class ChatAgent extends SuperEntity<Long> {
 
@@ -32,17 +35,17 @@ public class ChatAgent extends SuperEntity<Long> {
     @Schema(description = "智能体名称")
     private String name;
 
-    @Schema(description = "绑定模型名称")
-    private Long chatModelId;
-
     @Schema(description = "智能体描述")
     private String description;
 
-    @Schema(description = "智能体角色预设")
-    private String aiSystemMessage;
-
     @Schema(description = "智能体头像")
     private String avatar;
+
+    @Schema(description = "系统提示词")
+    private String systemPrompt;
+
+    @Schema(description = "绑定模型ID")
+    private Long modelId;
 
     @Schema(description = "关联知识库ID")
     private Long kbId;
@@ -51,9 +54,9 @@ public class ChatAgent extends SuperEntity<Long> {
     @TableField(typeHandler = StringListTypeHandler.class)
     private List<String> tools;
 
-    // JSON格式存储MCP服务器ID列表，如：[1, 2, 3]
-    @Schema(description = "智能体MCP服务器配置（存储MCP配置ID列表）")
-    private String mcpServerIds;
+    @Schema(description = "MCP服务器ID列表")
+    @TableField(typeHandler = LongListTypeHandler.class)
+    private List<Long> mcpServerIds;
 
     @Schema(description = "租户ID")
     private String tenantId;

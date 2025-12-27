@@ -32,14 +32,14 @@ public class PersistentMySqlChatMemoryStore implements ChatMemoryStore {
     @Override
     public List<ChatMessage> getMessages(Object memoryId) {
         ChatMsgStore chatMsg = chatMsgMapper.selectById(memoryId.toString());
-        return chatMsg != null ? messagesFromJson(chatMsg.getMessage()) : new ArrayList<>();
+        return chatMsg != null ? messagesFromJson(chatMsg.getContent()) : new ArrayList<>();
     }
 
     @SneakyThrows
     @Override
     public void updateMessages(Object memoryId, List<ChatMessage> messages) {
-        ChatMsgStore chatMsg = ChatMsgStore.builder().uid(memoryId.toString())
-                .message(messagesToJson(messages)).build();
+        ChatMsgStore chatMsg = ChatMsgStore.builder().messageId(memoryId.toString())
+                .content(messagesToJson(messages)).build();
 
         if (chatMsgMapper.selectById(memoryId.toString()) != null) {
             chatMsgMapper.updateById(chatMsg);

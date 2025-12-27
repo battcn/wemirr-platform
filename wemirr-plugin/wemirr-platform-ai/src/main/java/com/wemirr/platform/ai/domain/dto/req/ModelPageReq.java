@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.domain.dto.req;
 
+import com.wemirr.framework.ai.core.enums.ModelType;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
-import com.wemirr.platform.ai.core.enums.ModelType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

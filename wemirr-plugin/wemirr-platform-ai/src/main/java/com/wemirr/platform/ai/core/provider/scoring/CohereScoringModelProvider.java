@@ -23,7 +23,7 @@ public class CohereScoringModelProvider implements ScoringModelProvider {
 
     @Override
     public boolean supports(ModelEntity config) {
-        String provider = config.getProvider();
+        String provider = config.getProvider().getValue();
         return "cohere".equalsIgnoreCase(provider);
     }
 

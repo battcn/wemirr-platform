@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.controller;
 
-import com.wemirr.platform.ai.domain.dto.rep.EntityRecallResp;
-import com.wemirr.platform.ai.domain.dto.rep.GraphVisualizationResp;
+import com.wemirr.platform.ai.domain.dto.resp.EntityRecallResp;
+import com.wemirr.platform.ai.domain.dto.resp.GraphVisualizationResp;
 import com.wemirr.platform.ai.service.GraphService;
 import com.wemirr.platform.ai.service.GraphService.GraphResult;
 import io.swagger.v3.oas.annotations.Operation;

@@ -3,10 +3,10 @@ package com.wemirr.platform.ai.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemType;
-import com.wemirr.platform.ai.domain.dto.rep.KnowledgeItemResp;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemPageReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemSaveReq;
 import com.wemirr.platform.ai.domain.dto.req.StructuredDataSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.KnowledgeItemResp;
 import com.wemirr.platform.ai.service.KnowledgeItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -61,7 +61,7 @@ public class StructuredDataController {
     public IPage<KnowledgeItemResp> page(@RequestParam String kbId, PageRequest req) {
         KnowledgeItemPageReq pageReq = new KnowledgeItemPageReq();
         pageReq.setKbId(kbId);
-        pageReq.setType(KnowledgeItemType.STRUCTURED.getCode());
+        pageReq.setType(KnowledgeItemType.STRUCTURED.getValue());
         BeanUtils.copyProperties(req, pageReq);
         return knowledgeItemService.pageList(pageReq);
     }
@@ -94,7 +94,7 @@ public class StructuredDataController {
                     KnowledgeItemSaveReq itemReq = new KnowledgeItemSaveReq();
                     itemReq.setKbId(req.getKbId());
                     itemReq.setTenantId(req.getTenantId());
-                    itemReq.setType(KnowledgeItemType.STRUCTURED.getCode());
+                    itemReq.setType(KnowledgeItemType.STRUCTURED.getValue());
                     itemReq.setContent(Map.of(
                             "title", req.getTitle(),
                             "data_type", req.getDataType(),
@@ -114,7 +114,7 @@ public class StructuredDataController {
         KnowledgeItemSaveReq itemReq = new KnowledgeItemSaveReq();
         itemReq.setKbId(req.getKbId());
         itemReq.setTenantId(req.getTenantId());
-        itemReq.setType(KnowledgeItemType.STRUCTURED.getCode());
+        itemReq.setType(KnowledgeItemType.STRUCTURED.getValue());
         itemReq.setContent(Map.of(
                 "title", req.getTitle(),
                 "data_type", req.getDataType(),

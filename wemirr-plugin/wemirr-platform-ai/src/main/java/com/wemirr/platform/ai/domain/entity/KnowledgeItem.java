@@ -2,6 +2,7 @@ package com.wemirr.platform.ai.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemStatus;
@@ -16,109 +17,67 @@ import lombok.experimental.SuperBuilder;
 import java.util.Map;
 
 /**
- * 知识条目实体类
+ * 知识条目
  * 统一管理不同类型的知识，包括文档、问答对、结构化数据等
  *
  * @author xJh
  * @since 2025/10/20
- **/
+ */
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("ai_kb_knowledge_item")
+@TableName("ai_knowledge_item")
 @EqualsAndHashCode(callSuper = true)
+@Schema(description = "知识条目")
 public class KnowledgeItem extends SuperEntity<Long> {
-    
-    /**
-     * 所属知识库ID
-     */
-    @TableField("kb_id")
+
+    @Schema(description = "所属知识库ID")
     private Long kbId;
 
-    /**
-     * 知识条目类型（枚举）
-     */
-    @TableField("item_type")
+    @Schema(description = "知识条目类型")
     private KnowledgeItemType type;
 
-    /**
-     * 标题（文档标题或FAQ的展示文本）
-     */
-    @TableField("title")
+    @Schema(description = "标题")
     private String title;
 
-    /**
-     * 问题，仅当 type = QA_PAIR 有效
-     */
-    @TableField("question")
+    @Schema(description = "问题（仅当类型为问答对时有效）")
     private String question;
 
-    /**
-     * 答案，仅当 type = QA_PAIR 有效
-     */
-    @TableField("answer")
+    @Schema(description = "答案（仅当类型为问答对时有效）")
     private String answer;
 
-    /**
-     * 原始内容（用于分片与向量化）
-     */
-    @TableField("content")
+    @Schema(description = "原始内容")
     private String content;
 
-    /**
-     * 内容类型（如 pdf、text、html），仅对文档类有效
-     */
-    @TableField("content_type")
+    @Schema(description = "内容类型（如 pdf、text、html）")
     private String contentType;
 
-    /**
-     * 文件路径，仅对文档类有效
-     */
-    @TableField("file_path")
+    @Schema(description = "文件路径")
     private String filePath;
 
-    /**
-     * 文件大小，仅对文档类有效
-     */
-    @TableField("file_size")
+    @Schema(description = "文件大小（字节）")
     private Long fileSize;
 
-    /**
-     * 内容哈希，用于去重与变更检测
-     */
-    @TableField("content_hash")
+    @Schema(description = "内容哈希值（用于去重与变更检测）")
     private String contentHash;
 
-    /**
-     * 处理状态（枚举）
-     */
-    @TableField("status")
-    private KnowledgeItemStatus status;
-
-    /**
-     * 是否已向量化
-     */
-    @TableField("vectorized")
+    @Schema(description = "是否已向量化")
     private Boolean vectorized;
 
-    /**
-     * 是否已图谱化
-     */
-    @TableField("graphized")
-    private Boolean graphized;
+    @Schema(description = "是否已图谱化")
+    private Boolean graphed;
 
-    /**
-     * 乐观锁版本
-     */
-    @TableField("version")
-    private Integer version;
+    @Schema(description = "处理状态")
+    private KnowledgeItemStatus status;
 
-    /**
-     * 扩展元数据（JSON）
-     */
+    @Schema(description = "扩展元数据")
     @TableField(value = "metadata", typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> metadata;
+
+    @Version
+    @Schema(description = "乐观锁版本")
+    private Integer version;
 
     @Schema(description = "租户ID")
     private String tenantId;

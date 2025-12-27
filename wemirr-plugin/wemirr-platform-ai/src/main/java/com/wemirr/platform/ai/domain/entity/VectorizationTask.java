@@ -15,82 +15,57 @@ import lombok.experimental.SuperBuilder;
 import java.util.Map;
 
 /**
- * 向量化任务实体
+ * 向量化任务
  *
  * @author xJh
  * @since 2025/10/20
- **/
+ */
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName("ai_kb_vectorization_task")
+@TableName("ai_vectorization_task")
+@Schema(description = "向量化任务")
 public class VectorizationTask extends SuperEntity<Long> {
 
-    /**
-     * 任务ID
-     */
+    @Schema(description = "任务ID")
     @TableField("task_id")
     private String taskId;
     
-    /**
-     * 知识库ID
-     */
-    @TableField("kb_id")
+    @Schema(description = "知识库ID")
+    @TableField("knowledge_base_id")
     private Long kbId;
     
-    /**
-     * 知识条目ID
-     */
+    @Schema(description = "知识条目ID")
     @TableField("item_id")
     private Long itemId;
     
-    /**
-     * 任务类型
-     * SINGLE: 单条文本向量化
-     * BATCH: 批量文本向量化
-     * DOCUMENT: 文档向量化
-     * FAQ: FAQ向量化
-     * STRUCTURED: 结构化数据向量化
-     * KNOWLEDGE_ITEM: 知识条目向量化
-     */
+    @Schema(description = "任务类型")
     @TableField("task_type")
     private String taskType;
     
-    /**
-     * 是否已向量化
-     */
-    @TableField("vectorized")
+    @Schema(description = "是否已向量化")
+    @TableField("is_vectorized")
     private Boolean vectorized;
     
-    /**
-     * 任务状态
-     */
+    @Schema(description = "任务状态")
     @TableField("status")
     private String status;
     
-    /**
-     * 处理进度（百分比）
-     */
+    @Schema(description = "处理进度（百分比）")
     @TableField("progress")
     private Integer progress;
     
-    /**
-     * 结果向量ID列表（JSON格式）
-     */
+    @Schema(description = "结果向量ID列表")
     @TableField(value = "vector_ids", typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> vectorIds;
     
-    /**
-     * 错误信息
-     */
+    @Schema(description = "错误信息")
     @TableField("error_message")
     private String errorMessage;
 
-    /**
-     * 消耗的token
-     */
+    @Schema(description = "消耗的Token数")
     @TableField("token_usage")
     private Integer tokenUsage;
 

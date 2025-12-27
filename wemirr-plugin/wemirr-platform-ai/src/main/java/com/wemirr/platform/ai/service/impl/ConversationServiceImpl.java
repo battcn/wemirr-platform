@@ -6,11 +6,11 @@ import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationDetailRep;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationMessageRep;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationPageResp;
 import com.wemirr.platform.ai.domain.dto.req.ConversationPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ConversationSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationDetailRep;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationMessageResp;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationPageResp;
 import com.wemirr.platform.ai.domain.entity.Conversation;
 import com.wemirr.platform.ai.domain.entity.ConversationMessage;
 import com.wemirr.platform.ai.repository.ConversationMapper;
@@ -205,7 +205,7 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
     }
 
     @Override
-    public List<ConversationMessageRep> getMessages(Long conversationId) {
+    public List<ConversationMessageResp> getMessages(Long conversationId) {
         Long userId = authenticationContext.userId();
         Conversation conversation = this.getById(conversationId);
         if (conversation == null) {
@@ -221,10 +221,10 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
                         .orderByAsc(ConversationMessage::getSequenceNum)
         );
 
-        return messages.stream().map(msg -> ConversationMessageRep.builder()
+        return messages.stream().map(msg -> ConversationMessageResp.builder()
                 .id(String.valueOf(msg.getId()))
                 .role(msg.getRole())
-                .content(msg.getDisplayContent() != null ? msg.getDisplayContent() : msg.getRawContent())
+                .content(msg.getProcessedContent() != null ? msg.getProcessedContent() : msg.getOriginalContent())
                 .thinking(msg.getThinkingContent())
                 .createTime(msg.getCreateTime())
                 .build()
@@ -238,7 +238,7 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
     }
 
     @Override
-    public List<ConversationMessageRep> messagesByKbid(Long id) {
+    public List<ConversationMessageResp> messagesByKbid(Long id) {
         Long userId = authenticationContext.userId();
         Conversation conversation = this.getOne(Wraps.<Conversation>lbQ()
                 .eq(Conversation::getKnowledgeBaseIds, id)
@@ -257,10 +257,10 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
                         .orderByAsc(ConversationMessage::getSequenceNum)
         );
 
-        return messages.stream().map(msg -> ConversationMessageRep.builder()
+        return messages.stream().map(msg -> ConversationMessageResp.builder()
                 .id(String.valueOf(msg.getId()))
                 .role(msg.getRole())
-                .content(msg.getDisplayContent() != null ? msg.getDisplayContent() : msg.getRawContent())
+                .content(msg.getProcessedContent() != null ? msg.getProcessedContent() : msg.getOriginalContent())
                 .thinking(msg.getThinkingContent())
                 .createTime(msg.getCreateTime())
                 .build()
@@ -268,7 +268,7 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
     }
 
     @Override
-    public List<ConversationMessageRep> messagesByAgent(Long id) {
+    public List<ConversationMessageResp> messagesByAgent(Long id) {
         Long userId = authenticationContext.userId();
         Conversation conversation = this.getOne(Wraps.<Conversation>lbQ()
                 .eq(Conversation::getAgentId, id)
@@ -287,10 +287,10 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
                         .orderByAsc(ConversationMessage::getSequenceNum)
         );
 
-        return messages.stream().map(msg -> ConversationMessageRep.builder()
+        return messages.stream().map(msg -> ConversationMessageResp.builder()
                 .id(String.valueOf(msg.getId()))
                 .role(msg.getRole())
-                .content(msg.getDisplayContent() != null ? msg.getDisplayContent() : msg.getRawContent())
+                .content(msg.getProcessedContent() != null ? msg.getProcessedContent() : msg.getOriginalContent())
                 .thinking(msg.getThinkingContent())
                 .createTime(msg.getCreateTime())
                 .build()

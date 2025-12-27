@@ -12,11 +12,6 @@
     <name>${project.artifactId}</name>
     <description>AI 应用服务，提供智能体、知识库、RAG 对话、向量检索等功能</description>
 
-    <properties>
-        <langchain4j.version>1.9.1</langchain4j.version>
-        <langchain4j.community.version>1.9.1-beta17</langchain4j.community.version>
-        <langgraph4j.version>1.6.0-beta3</langgraph4j.version>
-    </properties>
 
     <dependencies>
         <!-- Lombok -->
@@ -26,10 +21,14 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- 内部模块 -->
+        <!-- ==================== 内部模块 ==================== -->
         <dependency>
             <groupId>com.wemirr.framework</groupId>
             <artifactId>common-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wemirr.framework</groupId>
+            <artifactId>ai-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.wemirr.framework</groupId>
@@ -40,7 +39,7 @@
             <artifactId>wemirr-platform-suite-api</artifactId>
         </dependency>
 
-        <!-- Spring Boot -->
+        <!-- ==================== Spring Boot ==================== -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
@@ -54,13 +53,7 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-        <!-- Spring Cloud -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-        </dependency>
-
-        <!-- Spring Cloud Alibaba -->
+        <!-- ==================== Spring Cloud Alibaba ==================== -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
@@ -69,98 +62,7 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-
-        <!-- LangChain4j 核心 -->
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-reactor</artifactId>
-        </dependency>
-
-        <!-- LangChain4j 模型提供者 -->
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-community-dashscope-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-community-qianfan-spring-boot-starter</artifactId>
-        </dependency>
-
-        <!-- LangChain4j 文档解析 -->
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-document-parser-apache-tika</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-document-parser-apache-pdfbox</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-document-parser-apache-poi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-document-transformer-jsoup</artifactId>
-        </dependency>
-
-        <!-- LangChain4j 向量存储 -->
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-pgvector</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-milvus</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-embeddings-all-minilm-l6-v2</artifactId>
-        </dependency>
-
-        <!-- LangChain4j MCP 支持 -->
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-mcp</artifactId>
-        </dependency>
-
-        <!-- LangChain4j 搜索引擎 -->
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-web-search-engine-tavily</artifactId>
-        </dependency>
-
-        <!-- LangGraph4j -->
-        <dependency>
-            <groupId>org.bsc.langgraph4j</groupId>
-            <artifactId>langgraph4j-core</artifactId>
-        </dependency>
-
-        <!-- Apache Tika 文档解析 -->
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parsers-standard-package</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-
-        <!-- 数据库 -->
+        <!-- ==================== 数据库 ==================== -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -171,7 +73,31 @@
             <version>2.6.4</version>
         </dependency>
 
-        <!-- 工具库 -->
+        <!-- ==================== 文档解析器 ==================== -->
+        <!-- Apache Tika 文档解析器（支持 PDF、Word、Excel、PPT 等） -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-document-parser-apache-tika</artifactId>
+        </dependency>
+
+        <!-- ==================== Graph RAG（图谱增强检索） ==================== -->
+        <!-- LangChain4j 图谱转换器（包含 GraphDocument、GraphNode、GraphEdge 等） -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-community-llm-graph-transformer</artifactId>
+        </dependency>
+        <!-- LangChain4j Neo4j 图谱检索 -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-community-neo4j</artifactId>
+        </dependency>
+        <!-- Neo4j Java Driver -->
+        <dependency>
+            <groupId>org.neo4j.driver</groupId>
+            <artifactId>neo4j-java-driver</artifactId>
+        </dependency>
+
+        <!-- ==================== 工具库 ==================== -->
         <dependency>
             <groupId>org.mapdb</groupId>
             <artifactId>mapdb</artifactId>
@@ -182,7 +108,7 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
-        <!-- Test -->
+        <!-- ==================== Test ==================== -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -194,66 +120,10 @@
             <version>1.19.6</version>
             <scope>test</scope>
         </dependency>
-        <!--  neo4j  -->
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-community-neo4j</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-community-neo4j-retriever</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-community-llm-graph-transformer</artifactId>
-        </dependency>
-
-        <!--  Reranker -->
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-jina</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-cohere</artifactId>
-        </dependency>
-
     </dependencies>
 
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>dev.langchain4j</groupId>
-                <artifactId>langchain4j-community-bom</artifactId>
-                <version>${langchain4j.community.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>dev.langchain4j</groupId>
-                <artifactId>langchain4j-bom</artifactId>
-                <version>${langchain4j.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.bsc.langgraph4j</groupId>
-                <artifactId>langgraph4j-bom</artifactId>
-                <version>${langgraph4j.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+
 
     <build>
         <finalName>${project.name}</finalName>

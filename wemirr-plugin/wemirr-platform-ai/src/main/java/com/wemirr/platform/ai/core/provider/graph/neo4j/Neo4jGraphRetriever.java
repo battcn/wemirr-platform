@@ -290,7 +290,7 @@ public class Neo4jGraphRetriever implements GraphRetriever {
                 return null;
             }
             
-            Long embeddingModelId = knowledgeBase.getEmbeddingModelId();
+            Long embeddingModelId = knowledgeBase.getEmbedModelId();
             if (embeddingModelId == null) {
                 log.warn("知识库 {} 未配置向量模型ID", knowledgeBaseId);
                 return null;

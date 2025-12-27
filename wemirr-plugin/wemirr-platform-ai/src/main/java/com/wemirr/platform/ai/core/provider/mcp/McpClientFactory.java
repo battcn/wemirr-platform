@@ -2,7 +2,7 @@ package com.wemirr.platform.ai.core.provider.mcp;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wemirr.platform.ai.domain.entity.McpServerConfig;
+import com.wemirr.platform.ai.domain.entity.McpServerEntity;
 import com.wemirr.platform.ai.service.McpServerConfigService;
 import dev.langchain4j.mcp.client.DefaultMcpClient;
 import dev.langchain4j.mcp.client.McpClient;
@@ -45,7 +45,7 @@ public class McpClientFactory {
             return clientCache.get(configId);
         }
         
-        McpServerConfig config = mcpServerConfigService.getById(configId);
+        McpServerEntity config = mcpServerConfigService.getById(configId);
         if (config == null) {
             throw new IllegalArgumentException("MCP config not found: " + configId);
         }
@@ -59,14 +59,14 @@ public class McpClientFactory {
         return client;
     }
 
-    private McpClient createClient(McpServerConfig config) {
+    private McpClient createClient(McpServerEntity config) {
         McpTransport transport;
         
         if ("STDIO".equalsIgnoreCase(config.getType())) {
             // 解析环境变量
-            Map<String, String> env = parseEnv(config.getEnv());
+            Map<String, String> env = config.getEnv();
             // 解析参数
-            List<String> args = parseArgs(config.getArgs());
+            List<String> args = config.getArgs();
             
             // 构建完整的命令列表：command + args
             List<String> fullCommand = new ArrayList<>();

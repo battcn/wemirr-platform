@@ -1,11 +1,11 @@
 package com.wemirr.platform.ai.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationDetailRep;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationMessageRep;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationPageResp;
 import com.wemirr.platform.ai.domain.dto.req.ConversationPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ConversationSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationDetailRep;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationMessageResp;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationPageResp;
 import com.wemirr.platform.ai.service.ConversationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,19 +46,19 @@ public class ConversationController {
 
     @Operation(summary = "获取普通会话消息列表")
     @GetMapping("/{id}/messages")
-    public List<ConversationMessageRep> getMessages(@PathVariable Long id) {
+    public List<ConversationMessageResp> getMessages(@PathVariable Long id) {
         return conversationService.getMessages(id);
     }
 
     @GetMapping("/messages")
     @Operation(summary = "获取知识库会话消息列表")
-    public List<ConversationMessageRep> messageList(Long kbId) {
+    public List<ConversationMessageResp> messageList(Long kbId) {
         return conversationService.messagesByKbid(kbId);
     }
 
     @Operation(summary = "获取智能体会话消息列表")
     @GetMapping("/{id}/messagesByAgent")
-    public List<ConversationMessageRep> messagesByAgent(@PathVariable Long id) {
+    public List<ConversationMessageResp> messagesByAgent(@PathVariable Long id) {
         return conversationService.messagesByAgent(id);
     }
 

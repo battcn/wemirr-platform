@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.graph;
 
-import com.wemirr.platform.ai.core.enums.AiProvider;
-import com.wemirr.platform.ai.core.enums.ModelType;
+import com.wemirr.framework.ai.core.enums.AiProvider;
+import com.wemirr.framework.ai.core.enums.ModelType;
 import com.wemirr.platform.ai.core.provider.graph.*;
 import com.wemirr.platform.ai.core.provider.text.TextModelService;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
@@ -63,9 +63,9 @@ public class GraphTest01 {
     void setUp() {
         if (chatModel == null) {
             ModelEntity config = ModelEntity.builder()
-                    .provider(AiProvider.QWEN.getCode())
-                    .modelType(ModelType.TEXT)
-                    .modelName("qwen-plus")
+                    .provider(AiProvider.QWEN)
+                    .type(ModelType.TEXT)
+                    .name("qwen-plus")
                     .apiKey(System.getenv("qwen_api_key"))
                     .build();
             chatModel = textModelService.model(config);

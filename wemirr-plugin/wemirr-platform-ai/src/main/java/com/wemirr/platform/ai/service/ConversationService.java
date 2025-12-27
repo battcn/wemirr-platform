@@ -3,11 +3,11 @@ package com.wemirr.platform.ai.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationDetailRep;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationMessageRep;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationPageResp;
 import com.wemirr.platform.ai.domain.dto.req.ConversationPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ConversationSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationDetailRep;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationMessageResp;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationPageResp;
 import com.wemirr.platform.ai.domain.entity.Conversation;
 
 import java.util.List;
@@ -98,11 +98,11 @@ public interface ConversationService extends SuperService<Conversation> {
      * @param conversationId 会话ID
      * @return 消息列表
      */
-    List<ConversationMessageRep> getMessages(Long conversationId);
+    List<ConversationMessageResp> getMessages(Long conversationId);
 
     ConversationDetailRep detailByKbid(Long id);
 
-    List<ConversationMessageRep> messagesByKbid(Long id);
+    List<ConversationMessageResp> messagesByKbid(Long id);
 
-    List<ConversationMessageRep> messagesByAgent(Long id);
+    List<ConversationMessageResp> messagesByAgent(Long id);
 }

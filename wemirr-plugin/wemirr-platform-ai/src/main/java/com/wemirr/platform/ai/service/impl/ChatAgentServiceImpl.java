@@ -7,10 +7,10 @@ import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.ai.domain.dto.rep.ChatAgentDetailRep;
-import com.wemirr.platform.ai.domain.dto.rep.ChatAgentPageRep;
 import com.wemirr.platform.ai.domain.dto.req.ChatAgentPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ChatAgentSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.ChatAgentDetailResp;
+import com.wemirr.platform.ai.domain.dto.resp.ChatAgentPageResp;
 import com.wemirr.platform.ai.domain.entity.ChatAgent;
 import com.wemirr.platform.ai.domain.entity.Conversation;
 import com.wemirr.platform.ai.repository.ChatAgentMapper;
@@ -43,16 +43,16 @@ public class ChatAgentServiceImpl extends SuperServiceImpl<ChatAgentMapper, Chat
     private final ConversationService conversationService;
 
     @Override
-    public IPage<ChatAgentPageRep> pageList(ChatAgentPageReq req) {
+    public IPage<ChatAgentPageResp> pageList(ChatAgentPageReq req) {
         return this.baseMapper.selectPage(req.buildPage(), Wraps.<ChatAgent>lbQ().like(ChatAgent::getName, req.getName())
                 .eq(ChatAgent::getUserId, req.getUserId())
-                .orderByDesc(ChatAgent::getLastModifyTime)).convert(x -> BeanUtil.toBean(x, ChatAgentPageRep.class));
+                .orderByDesc(ChatAgent::getLastModifyTime)).convert(x -> BeanUtil.toBean(x, ChatAgentPageResp.class));
     }
 
     @Override
-    public ChatAgentDetailRep detail(Long id) {
+    public ChatAgentDetailResp detail(Long id) {
         ChatAgent chatAgent = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("智能体不存在"));
-        return BeanUtil.toBean(chatAgent, ChatAgentDetailRep.class);
+        return BeanUtil.toBean(chatAgent, ChatAgentDetailResp.class);
     }
 
     @Override
@@ -126,14 +126,14 @@ public class ChatAgentServiceImpl extends SuperServiceImpl<ChatAgentMapper, Chat
     }
 
     @Override
-    public ChatAgentDetailRep detailByAgentId(Long agentId) {
+    public ChatAgentDetailResp detailByAgentId(Long agentId) {
         Conversation one = conversationService.getOne(Wraps.<Conversation>lbQ().eq(Conversation::getId, agentId));
-        return BeanUtilPlus.toBean(one, ChatAgentDetailRep.class);
+        return BeanUtilPlus.toBean(one, ChatAgentDetailResp.class);
     }
 
     @Override
     public List<ChatAgent> listByModelId(String modelId) {
-        return this.baseMapper.selectList(Wraps.<ChatAgent>lbQ().eq(ChatAgent::getChatModelId, modelId).orderByDesc(ChatAgent::getLastModifyTime));
+        return this.baseMapper.selectList(Wraps.<ChatAgent>lbQ().eq(ChatAgent::getModelId, modelId).orderByDesc(ChatAgent::getLastModifyTime));
 
     }
 }

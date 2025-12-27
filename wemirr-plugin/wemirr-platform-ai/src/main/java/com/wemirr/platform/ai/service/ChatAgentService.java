@@ -2,10 +2,10 @@ package com.wemirr.platform.ai.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.ai.domain.dto.rep.ChatAgentDetailRep;
-import com.wemirr.platform.ai.domain.dto.rep.ChatAgentPageRep;
 import com.wemirr.platform.ai.domain.dto.req.ChatAgentPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ChatAgentSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.ChatAgentDetailResp;
+import com.wemirr.platform.ai.domain.dto.resp.ChatAgentPageResp;
 import com.wemirr.platform.ai.domain.entity.ChatAgent;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +25,7 @@ public interface ChatAgentService extends SuperService<ChatAgent> {
      * @param req 分页查询请求
      * @return 分页结果
      */
-    IPage<ChatAgentPageRep> pageList(ChatAgentPageReq req);
+    IPage<ChatAgentPageResp> pageList(ChatAgentPageReq req);
 
     /**
      * 获取智能体详情
@@ -33,7 +33,7 @@ public interface ChatAgentService extends SuperService<ChatAgent> {
      * @param id 智能体ID
      * @return 智能体详情
      */
-    ChatAgentDetailRep detail(Long id);
+    ChatAgentDetailResp detail(Long id);
 
     /**
      * 创建智能体
@@ -78,7 +78,7 @@ public interface ChatAgentService extends SuperService<ChatAgent> {
 
     String uploadAvatar( MultipartFile file);
 
-    ChatAgentDetailRep detailByAgentId(Long agentId);
+    ChatAgentDetailResp detailByAgentId(Long agentId);
 
     List<ChatAgent> listByModelId(String modelId);
 }

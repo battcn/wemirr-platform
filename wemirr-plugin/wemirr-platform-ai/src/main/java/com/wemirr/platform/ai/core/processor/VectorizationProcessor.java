@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.core.processor;
 
 import com.wemirr.platform.ai.core.provider.embedding.EmbeddingModelService;
-import com.wemirr.platform.ai.core.provider.vectorStore.EnhancedVectorStoreFactory;
+import com.wemirr.platform.ai.core.provider.vector.VectorStoreFactory;
 import com.wemirr.platform.ai.domain.dto.result.BatchVectorResult;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.KnowledgeItem;
@@ -40,18 +40,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class VectorizationProcessor {
 
-    private final EnhancedVectorStoreFactory enhancedVectorStoreFactory;
+    private final VectorStoreFactory vectorStoreFactory;
     private final EmbeddingModelService embeddingModelService;
     private final KnowledgeBaseService knowledgeBaseService;
     private final KnowledgeItemService knowledgeItemService;
     private final KnowledgeChunkService knowledgeChunkService;
     private final VectorMetadataService vectorMetadataService;
-
-//    public VectorizationProcessor(EnhancedVectorStoreFactory enhancedVectorStoreFactory,
-//                                  EmbeddingModelService embeddingModelService) {
-//        this.enhancedVectorStoreFactory = enhancedVectorStoreFactory;
-//        this.embeddingModelService = embeddingModelService;
-//    }
 
     /**
      * 向量化单个文本并存储
@@ -67,7 +61,7 @@ public class VectorizationProcessor {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 // 获取知识库专用的向量存储
-                EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
+                EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
                 
                 // 动态获取嵌入模型
                 EmbeddingModel embeddingModel = embeddingModelService.getModel(modelEntity);
@@ -100,7 +94,7 @@ public class VectorizationProcessor {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 // 使用默认向量存储
-                EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createefault();
+                EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createDefault();
                 
                 // 动态获取嵌入模型
                 EmbeddingModel embeddingModel = embeddingModelService.getModel(modelEntity);
@@ -135,7 +129,7 @@ public class VectorizationProcessor {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 // 获取知识库专用的向量存储
-                EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
+                EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
                 
                 // 动态获取嵌入模型
                 EmbeddingModel embeddingModel = embeddingModelService.getModel(modelEntity);
@@ -177,7 +171,7 @@ public class VectorizationProcessor {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 // 使用默认向量存储
-                EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createefault();
+                EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createDefault();
                 
                 // 动态获取嵌入模型
                 EmbeddingModel embeddingModel = embeddingModelService.getModel(modelEntity);
@@ -230,7 +224,7 @@ public class VectorizationProcessor {
     public boolean deleteVector(String vectorId, KnowledgeBase knowledgeBase, ModelEntity modelEntity) {
         try {
             // 获取知识库专用的向量存储
-            EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
+            EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
             
             // 删除向量
             try {
@@ -257,7 +251,7 @@ public class VectorizationProcessor {
 
         try {
             // 使用默认向量存储
-            EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createefault();
+            EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createDefault();
             KnowledgeItem item = knowledgeItemService.getById(baseItemId);
             //获取向量idList
             List<String> vectorIds = vectorMetadataService.findByItemId(item.getId()).stream().map(VectorMetadata::getVectorId).toList();
@@ -282,7 +276,7 @@ public class VectorizationProcessor {
     public int batchDeleteVectors(List<String> vectorIds, KnowledgeBase knowledgeBase, ModelEntity modelEntity) {
         try {
             // 获取知识库专用的向量存储
-            EmbeddingStore<TextSegment> embeddingStore = enhancedVectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
+            EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
             
             int deletedCount = 0;
             for (String vectorId : vectorIds) {

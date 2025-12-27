@@ -21,7 +21,7 @@ public class JinaScoringModelProvider implements ScoringModelProvider {
 
     @Override
     public boolean supports(ModelEntity config) {
-        String provider = config.getProvider();
+        String provider = config.getProvider().getLabel();
         return "jina".equalsIgnoreCase(provider) || "jina-ai".equalsIgnoreCase(provider);
     }
 

@@ -1,15 +1,16 @@
 package com.wemirr.platform.ai.core.tools;
 
-import com.wemirr.platform.ai.core.annotation.AiTool;
+import com.wemirr.framework.ai.core.annotation.AiTool;
 import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.agent.tool.Tool;
 import org.springframework.stereotype.Service;
 
 /**
+ * 平台功能工具类
+ *
  * @author xJh
  * @since 2025/12/06
- * 平台功能工具类
- **/
+ */
 @Service
 @AiTool(
         name = "平台基础工具集",

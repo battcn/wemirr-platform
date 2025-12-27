@@ -21,7 +21,7 @@ public class ConversationPageReq extends PageRequest {
     private String modelName;
 
     @Schema(description = "知识库ID")
-    private Long knowledgeBaseId;
+    private Long kbId;
 
     @Schema(description = "对话类型")
     private Integer type;

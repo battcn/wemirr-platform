@@ -1,13 +1,15 @@
 package com.wemirr.platform.ai.service.impl;
 
+import com.wemirr.framework.ai.core.enums.ModelType;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.ai.core.assistant.interfaces.ChatAssistant;
 import com.wemirr.platform.ai.core.assistant.service.AssistantService;
 import com.wemirr.platform.ai.core.assistant.service.RagAssistantParams;
+import com.wemirr.platform.ai.core.constant.AiServiceConstants;
 import com.wemirr.platform.ai.core.enums.ConversationType;
-import com.wemirr.platform.ai.core.enums.ModelType;
+import com.wemirr.platform.ai.core.helper.ModelConfigRetriever;
 import com.wemirr.platform.ai.core.sse.SseChatHelper;
 import com.wemirr.platform.ai.domain.dto.req.AskReq;
 import com.wemirr.platform.ai.domain.entity.*;
@@ -20,311 +22,283 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
+import java.util.Map;
 
 /**
+ * 对话服务实现
+ * <p>
+ * 处理不同类型的对话请求：普通文本对话、知识库对话（RAG）、智能体对话
+ *
  * @author xJh
  * @since 2025/10/11
- **/
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {
 
     private final AuthenticationContext authenticationContext;
-
     private final SseChatHelper sseChatHelper;
-
-    private final ModelConfigService modelConfigService;
-
+    private final ModelConfigRetriever modelConfigRetriever;
     private final AssistantService assistantService;
-
     private final ConversationMessageService conversationMessageService;
-
     private final KnowledgeBaseService knowledgeBaseService;
-
     private final ChatAgentService chatAgentService;
-
     private final ConversationService conversationService;
 
     @Override
     @Transactional
     public SseEmitter chatStream(AskReq askReq) {
+        log.info("开始处理对话请求: chatType={}, userId={}",
+                askReq.getChatType(), authenticationContext.userId());
+
         SseEmitter emitter = sseChatHelper.createEmitter(String.valueOf(authenticationContext.userId()));
+
         switch (askReq.getChatType()) {
             case NORMAL_TEXT -> handleTextChat(askReq, emitter);
             case KNOWLEDGE_BASE -> handleKnowledgeChat(askReq, emitter);
             case GENERAL_AGENT, PLATFORM_AGENT -> handleAgentChat(askReq, emitter);
-//            case IMAGE_GENERATION -> handleImageGeneration(askReq, sseEmitter);
-            default -> throw new IllegalArgumentException("不支持的对话类型: " + askReq.getChatType());
+            default ->
+                    throw CheckedException.badRequest(String.format(AiServiceConstants.ERROR_UNSUPPORTED_CHAT_TYPE, askReq.getChatType()));
         }
+
         return emitter;
     }
 
+    /**
+     * 处理普通文本对话
+     */
     private void handleTextChat(AskReq askReq, SseEmitter sseEmitter) {
+        log.debug("处理普通文本对话: conversationId={}, modelId={}",
+                askReq.getConversationId(), askReq.getModelId());
+
         Long userId = authenticationContext.userId();
         Long tenantId = authenticationContext.tenantId();
         Long conversationId = askReq.getConversationId();
         String userPrompt = askReq.getPrompt();
-        String modelId = askReq.getModelId();
+
+        // 保存用户消息
         ConversationMessage conversationMessage = conversationMessageService.saveUserMessage(
-                conversationId,
-                userId,
-                tenantId,
-                userPrompt,
-                // 如拼接知识库
-                userPrompt,
-                0
+                conversationId, userId, tenantId, userPrompt, userPrompt, 0
         );
 
-
-        ModelEntity modelEntity = modelConfigService.getOne(
-                Wraps.<ModelEntity>lbQ().eq(ModelEntity::getId, modelId)
-        );
-        if (modelEntity == null) {
-            throw new IllegalArgumentException("模型未配置: " + modelId);
-        }
+        // 获取模型配置
+        ModelEntity modelEntity = modelConfigRetriever.getRequiredModel(Long.valueOf(askReq.getModelId()));
         modelEntity.setReturnThinking(askReq.getReturnThinking());
         modelEntity.setEnableWebSearch(askReq.getEnableWebSearch());
-        ChatAssistant assistant = assistantService.createMemoryAssistant(modelEntity);
-        TokenStream tokenStream = assistant.chatStream(
-                askReq.getConversationId(),
-                askReq.getPrompt()
-        );
-        sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, (result) -> {
-            String rawContent = (String) result.get("content");
-            Integer promptTokens = (Integer) result.get("inputTokens");
-            Integer completionTokens = (Integer) result.get("outputTokens");
-            conversationMessageService.saveAssistantMessageAsync(
-                    conversationId,
-                    userId,
-                    tenantId,
-                    rawContent,
-                    rawContent, // 脱敏、格式化
-                    null,
-                    modelEntity.getName(),
-                    modelEntity.getProvider(), // 或从 modelConfig 获取
-                    promptTokens,
-                    completionTokens,
-                    null,
-                    null,// 如 CoT、Tool Call,
-                    conversationMessage.getId()
-            );
 
-        });
+        // 创建助手并执行对话
+        ChatAssistant assistant = assistantService.createMemoryAssistant(modelEntity);
+        TokenStream tokenStream = assistant.chatStream(conversationId, userPrompt);
+
+        // 处理流式响应
+        sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, result ->
+                saveAssistantMessage(conversationId, userId, tenantId, modelEntity, conversationMessage.getId(), result)
+        );
     }
 
     /**
-     * 处理知识库对话
-     * 实现RAG（检索增强生成）功能
+     * 处理知识库对话（RAG）
      */
     private void handleKnowledgeChat(AskReq askReq, SseEmitter sseEmitter) {
+        log.debug("处理知识库对话: kbId={}", askReq.getKbId());
+
         Long userId = authenticationContext.userId();
         Long tenantId = authenticationContext.tenantId();
-        KnowledgeBase knowledgeBase = knowledgeBaseService.getById(askReq.getKbId());
-        Conversation one = conversationService.getOne(Wraps.<Conversation>lbQ().eq(Conversation::getUserId, userId)
-                .eq(Conversation::getKnowledgeBaseIds, askReq.getKbId()));
-        if (one == null) {
-            //新建一个会话
-            one = Conversation.builder()
-                    .knowledgeBaseIds(askReq.getKbId())
-                    .title("")
-                    .type(ConversationType.KNOWLEDGE_BASE)
-                    .userId(userId).build();
-            conversationService.save(one);
-        }
-        Long conversationId = one.getId();
         String userPrompt = askReq.getPrompt();
+
+        // 获取或创建会话
+        KnowledgeBase knowledgeBase = knowledgeBaseService.getById(askReq.getKbId());
+        Conversation conversation = getOrCreateConversation(userId, askReq.getKbId(), ConversationType.KNOWLEDGE_BASE);
+        Long conversationId = conversation.getId();
+
+        // 保存用户消息
         ConversationMessage conversationMessage = conversationMessageService.saveUserMessage(
-                conversationId,
-                userId,
-                tenantId,
-                userPrompt,
-                // 如拼接知识库
-                userPrompt,
-                0
+                conversationId, userId, tenantId, userPrompt, userPrompt, 0
         );
 
         try {
-            // 4. 获取模型配置,todo 这些都可以做缓存map，用模型id代替，不用模型名称
-            ModelEntity textModelEntity = modelConfigService.getOne(
-                    Wraps.<ModelEntity>lbQ().eq(ModelEntity::getId, knowledgeBase.getChatModelId())
-                            .eq(ModelEntity::getType, ModelType.TEXT)
-            );
+            // 获取模型配置
+            ModelEntity textModelEntity = modelConfigRetriever.getModelByIdAndType(
+                    knowledgeBase.getChatModelId(), ModelType.TEXT);
             textModelEntity.setEnableWebSearch(askReq.getEnableWebSearch());
             textModelEntity.setReturnThinking(askReq.getReturnThinking());
-            ModelEntity embeddingModelEntity = modelConfigService.getOne(Wraps.<ModelEntity>lbQ().eq(ModelEntity::getId, knowledgeBase.getEmbeddingModelId())
-                    .eq(ModelEntity::getType, ModelType.EMBEDDING));
 
-            // 获取重排序模型配置（如果知识库配置了）
-            ModelEntity rerankModelEntity = null;
-            if (knowledgeBase.getRerankModelId() != null) {
-                rerankModelEntity = modelConfigService.getOne(Wraps.<ModelEntity>lbQ()
-                        .eq(ModelEntity::getId, knowledgeBase.getRerankModelId())
-                        .eq(ModelEntity::getType, ModelType.RERANK));
-            }
+            ModelEntity embeddingModelEntity = modelConfigRetriever.getModelByIdAndType(
+                    knowledgeBase.getEmbedModelId(), ModelType.EMBEDDING);
 
-            // 构造统一参数并创建 RAG Assistant
-            RagAssistantParams params =
-                    RagAssistantParams.builder()
-                            .kbId(askReq.getKbId())
-                            .textModelEntity(textModelEntity)
-                            .embeddingModelEntity(embeddingModelEntity)
-                            .rerankModelEntity(rerankModelEntity)
-                            .enableGraphRetrieval(knowledgeBase.getEnableGraph())
-                            .build();
-            ChatAssistant memoryRagAssistant = assistantService.createMemoryRagAssistant(params);
-            TokenStream tokenStream = memoryRagAssistant.chatStream(conversationId, askReq.getPrompt());
+            // 获取重排序模型配置（可选）
+            ModelEntity rerankModelEntity = modelConfigRetriever.getModel(knowledgeBase.getRerankModelId())
+                    .orElse(null);
 
-            // 7. 处理流式响应
-            sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, (result) -> {
-                String rawContent = (String) result.get("content");
-                Integer promptTokens = (Integer) result.get("inputTokens");
-                Integer completionTokens = (Integer) result.get("outputTokens");
+            // 构建RAG参数并创建助手
+            RagAssistantParams params = RagAssistantParams.builder()
+                    .kbId(askReq.getKbId())
+                    .textModelEntity(textModelEntity)
+                    .embeddingModelEntity(embeddingModelEntity)
+                    .rerankModelEntity(rerankModelEntity)
+                    .enableGraphRetrieval(knowledgeBase.getEnableGraph())
+                    .build();
 
-                // 保存助手回复
-                conversationMessageService.saveAssistantMessageAsync(
-                        conversationId,
-                        userId,
-                        tenantId,
-                        rawContent,
-                        rawContent,
-                        null,
-                        textModelEntity.getName(),
-                        textModelEntity.getProvider(),
-                        promptTokens,
-                        completionTokens,
-                        null,
-                        null,
-                        conversationMessage.getId()
-                );
-            });
+            ChatAssistant assistant = assistantService.createMemoryRagAssistant(params);
+            TokenStream tokenStream = assistant.chatStream(conversationId, userPrompt);
+
+            // 处理流式响应
+            sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, result ->
+                    saveAssistantMessage(conversationId, userId, tenantId, textModelEntity, conversationMessage.getId(), result)
+            );
 
         } catch (Exception e) {
             log.error("知识库对话失败: kbId={}, query={}", askReq.getKbId(), userPrompt, e);
-            try {
-                sseEmitter.send(SseEmitter.event()
-                        .name("error")
-                        .data("知识库对话失败: " + e.getMessage()));
-                sseEmitter.complete();
-            } catch (Exception ex) {
-                log.error("发送错误信息失败", ex);
-            }
+            handleChatError(sseEmitter, "知识库对话失败: " + e.getMessage());
         }
-    }
-
-    private void handleAgentChat(AskReq askReq, SseEmitter sseEmitter) {
-        Long userId = authenticationContext.userId();
-        Long tenantId = authenticationContext.tenantId();
-        String userPrompt = askReq.getPrompt();
-        Conversation one = conversationService.getOne(Wraps.<Conversation>lbQ().eq(Conversation::getUserId, userId)
-                .eq(Conversation::getAgentId, askReq.getAgentId()));
-        if (one == null) {
-            //新建一个会话
-            one = Conversation.builder()
-                    .agentId(askReq.getAgentId())
-                    .title("")
-                    .type(ConversationType.GENERAL_AGENT)
-                    .userId(userId).build();
-            conversationService.save(one);
-        }
-        Long conversationId = one.getId();
-
-        ConversationMessage conversationMessage = conversationMessageService.saveUserMessage(
-                conversationId,
-                userId,
-                tenantId,
-                userPrompt,
-                userPrompt,
-                0
-        );
-
-        ChatAgent chatAgent = chatAgentService.getById(askReq.getAgentId());
-        if (chatAgent == null) {
-            throw new IllegalArgumentException("智能体不存在");
-        }
-
-        ModelEntity textModelEntity = modelConfigService.getById(chatAgent.getChatModelId());
-        if (textModelEntity == null) {
-            throw new IllegalArgumentException("模型配置不存在: " + chatAgent.getChatModelId());
-        }
-        if (textModelEntity.getType() != ModelType.TEXT) {
-            throw CheckedException.badRequest("非 文本模型,操作异常");
-        }
-
-        RagAssistantParams ragParams = null;
-        if (chatAgent.getKbId() != null) {
-            KnowledgeBase knowledgeBase = knowledgeBaseService.getById(chatAgent.getKbId());
-            if (knowledgeBase != null) {
-                ModelEntity embeddingModelEntity = modelConfigService.getOne(Wraps.<ModelEntity>lbQ()
-                        .eq(ModelEntity::getId, knowledgeBase.getEmbeddingModelId())
-                        .eq(ModelEntity::getType, ModelType.EMBEDDING));
-
-                // 获取重排序模型配置（如果知识库配置了）
-                ModelEntity rerankModelEntity = null;
-                if (knowledgeBase.getRerankModelId() != null) {
-                    rerankModelEntity = modelConfigService.getOne(Wraps.<ModelEntity>lbQ()
-                            .eq(ModelEntity::getId, knowledgeBase.getRerankModelId())
-                            .eq(ModelEntity::getType, ModelType.RERANK));
-                }
-
-                ragParams = RagAssistantParams.builder()
-                        .kbId(chatAgent.getKbId())
-                        .textModelEntity(textModelEntity)
-                        .embeddingModelEntity(embeddingModelEntity)
-                        .rerankModelEntity(rerankModelEntity)
-                        .enableGraphRetrieval(knowledgeBase.getEnableGraph())
-                        .build();
-            }
-        }
-
-        ChatAssistant assistant = assistantService.createAgentAssistant(chatAgent, textModelEntity, ragParams);
-        TokenStream tokenStream = assistant.chatStream(conversationId, userPrompt);
-
-        sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, (result) -> {
-            String rawContent = (String) result.get("content");
-            Integer promptTokens = (Integer) result.get("inputTokens");
-            Integer completionTokens = (Integer) result.get("outputTokens");
-            conversationMessageService.saveAssistantMessageAsync(
-                    conversationId,
-                    userId,
-                    tenantId,
-                    rawContent,
-                    rawContent,
-                    null,
-                    String.valueOf(chatAgent.getChatModelId()),//todo 转成模型名称
-                    textModelEntity.getProvider(),
-                    promptTokens,
-                    completionTokens,
-                    null,
-                    null,
-                    conversationMessage.getId()
-            );
-        });
     }
 
     /**
-     * 构建增强的提示词
-     * 将检索到的知识内容与用户问题结合
+     * 处理智能体对话
      */
-    private String buildEnhancedPrompt(String userPrompt, List<String> retrievedContent) {
-        if (retrievedContent == null || retrievedContent.isEmpty()) {
-            return userPrompt;
+    private void handleAgentChat(AskReq askReq, SseEmitter sseEmitter) {
+        log.debug("处理智能体对话: agentId={}", askReq.getAgentId());
+
+        Long userId = authenticationContext.userId();
+        Long tenantId = authenticationContext.tenantId();
+        String userPrompt = askReq.getPrompt();
+
+        // 获取或创建会话
+        Conversation conversation = getOrCreateConversation(userId, askReq.getAgentId(), ConversationType.GENERAL_AGENT);
+        Long conversationId = conversation.getId();
+
+        // 保存用户消息
+        ConversationMessage conversationMessage = conversationMessageService.saveUserMessage(
+                conversationId, userId, tenantId, userPrompt, userPrompt, 0
+        );
+
+        // 获取智能体配置
+        ChatAgent chatAgent = chatAgentService.getById(askReq.getAgentId());
+        if (chatAgent == null) {
+            throw new IllegalArgumentException(
+                    String.format(AiServiceConstants.ERROR_AGENT_NOT_FOUND, askReq.getAgentId())
+            );
         }
 
-        StringBuilder enhancedPrompt = new StringBuilder();
-        enhancedPrompt.append("基于以下知识内容回答问题：\n\n");
+        // 获取文本模型配置
+        ModelEntity textModelEntity = modelConfigRetriever.getRequiredModel(
+                chatAgent.getModelId(), ModelType.TEXT);
 
-        // 添加检索到的知识内容
-        for (int i = 0; i < retrievedContent.size(); i++) {
-            enhancedPrompt.append("知识片段").append(i + 1).append("：\n");
-            enhancedPrompt.append(retrievedContent.get(i)).append("\n\n");
-        }
+        // 构建RAG参数（如果智能体关联了知识库）
+        RagAssistantParams ragParams = buildRagParamsForAgent(chatAgent, textModelEntity);
 
-        enhancedPrompt.append("用户问题：").append(userPrompt).append("\n\n");
-        enhancedPrompt.append("请基于上述知识内容回答用户问题，如果知识内容不足以回答问题，请说明。");
+        // 创建智能体助手并执行对话
+        ChatAssistant assistant = assistantService.createAgentAssistant(chatAgent, textModelEntity, ragParams);
+        TokenStream tokenStream = assistant.chatStream(conversationId, userPrompt);
 
-        return enhancedPrompt.toString();
+        // 处理流式响应
+        sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, result ->
+                saveAssistantMessage(conversationId, userId, tenantId, textModelEntity, conversationMessage.getId(), result)
+        );
     }
 
+    /**
+     * 获取或创建会话
+     */
+    private Conversation getOrCreateConversation(Long userId, Long relatedId, ConversationType type) {
+        Conversation conversation;
 
+        if (type == ConversationType.KNOWLEDGE_BASE) {
+            conversation = conversationService.getOne(
+                    Wraps.<Conversation>lbQ()
+                            .eq(Conversation::getUserId, userId)
+                            .eq(Conversation::getKnowledgeBaseIds, relatedId)
+            );
+        } else {
+            conversation = conversationService.getOne(
+                    Wraps.<Conversation>lbQ()
+                            .eq(Conversation::getUserId, userId)
+                            .eq(Conversation::getAgentId, relatedId)
+            );
+        }
+
+        if (conversation == null) {
+            Conversation.ConversationBuilder builder = Conversation.builder()
+                    .title("")
+                    .type(type)
+                    .userId(userId);
+
+            if (type == ConversationType.KNOWLEDGE_BASE) {
+                builder.knowledgeBaseIds(List.of(relatedId));
+            } else {
+                builder.agentId(relatedId);
+            }
+
+            conversation = builder.build();
+            conversationService.save(conversation);
+            log.info("创建新会话: conversationId={}, type={}, userId={}",
+                    conversation.getId(), type, userId);
+        }
+
+        return conversation;
+    }
+
+    /**
+     * 为智能体构建RAG参数
+     */
+    private RagAssistantParams buildRagParamsForAgent(ChatAgent chatAgent, ModelEntity textModelEntity) {
+        if (chatAgent.getKbId() == null) {
+            return null;
+        }
+
+        KnowledgeBase knowledgeBase = knowledgeBaseService.getById(chatAgent.getKbId());
+        if (knowledgeBase == null) {
+            log.warn("智能体关联的知识库不存在: agentId={}, kbId={}",
+                    chatAgent.getId(), chatAgent.getKbId());
+            return null;
+        }
+
+        ModelEntity embeddingModelEntity = modelConfigRetriever.getModelByIdAndType(
+                knowledgeBase.getEmbedModelId(), ModelType.EMBEDDING);
+
+        ModelEntity rerankModelEntity = modelConfigRetriever.getModel(knowledgeBase.getRerankModelId())
+                .orElse(null);
+
+        return RagAssistantParams.builder()
+                .kbId(chatAgent.getKbId())
+                .textModelEntity(textModelEntity)
+                .embeddingModelEntity(embeddingModelEntity)
+                .rerankModelEntity(rerankModelEntity)
+                .enableGraphRetrieval(knowledgeBase.getEnableGraph())
+                .build();
+    }
+
+    /**
+     * 保存助手消息
+     */
+    private void saveAssistantMessage(Long conversationId, Long userId, Long tenantId,
+                                      ModelEntity modelEntity, Long parentMessageId,
+                                      Map<String, Object> result) {
+        String rawContent = (String) result.get("content");
+        Integer promptTokens = (Integer) result.get("inputTokens");
+        Integer completionTokens = (Integer) result.get("outputTokens");
+
+        conversationMessageService.saveAssistantMessageAsync(
+                conversationId, userId, tenantId,
+                rawContent, rawContent, null,
+                modelEntity.getName(), modelEntity.getProvider().getLabel(),
+                promptTokens, completionTokens,
+                null, null, parentMessageId
+        );
+    }
+
+    /**
+     * 处理对话错误
+     */
+    private void handleChatError(SseEmitter sseEmitter, String errorMessage) {
+        try {
+            sseEmitter.send(SseEmitter.event()
+                    .name("error")
+                    .data(errorMessage));
+            sseEmitter.complete();
+        } catch (Exception ex) {
+            log.error("发送错误信息失败", ex);
+        }
+    }
 }

@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.service;
 
-import com.wemirr.platform.ai.domain.dto.rep.EmbeddingMatchRep;
+import com.wemirr.platform.ai.domain.dto.resp.EmbeddingMatchRep;
 
 import java.util.List;
 import java.util.Map;

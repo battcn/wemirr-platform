@@ -476,7 +476,7 @@ public class GraphRagService {
                 return null;
             }
 
-            Long embeddingModelId = knowledgeBase.getEmbeddingModelId();
+            Long embeddingModelId = knowledgeBase.getEmbedModelId();
             if (embeddingModelId == null) {
                 log.warn("知识库 {} 未配置向量模型ID", knowledgeBaseId);
                 return null;

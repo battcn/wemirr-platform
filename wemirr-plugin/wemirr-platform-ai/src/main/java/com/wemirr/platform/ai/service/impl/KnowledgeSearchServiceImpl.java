@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.service.impl;
 
-import com.wemirr.platform.ai.domain.dto.rep.EmbeddingMatchRep;
+import com.wemirr.platform.ai.domain.dto.resp.EmbeddingMatchRep;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.KnowledgeChunk;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
@@ -45,7 +45,7 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
                 throw new IllegalArgumentException("知识库不存在: " + kbId);
             }
 
-            ModelEntity embeddingModel = getEmbeddingModelById(knowledgeBase.getEmbeddingModelId());
+            ModelEntity embeddingModel = getEmbeddingModelById(knowledgeBase.getEmbedModelId());
             if (embeddingModel == null) {
                 log.warn("未找到可用的嵌入模型配置....");
                 return null;
@@ -179,7 +179,7 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
                 throw new IllegalArgumentException("知识库不存在: " + kbId);
             }
 
-            ModelEntity embeddingModel = getEmbeddingModelById(knowledgeBase.getEmbeddingModelId());
+            ModelEntity embeddingModel = getEmbeddingModelById(knowledgeBase.getEmbedModelId());
             if (embeddingModel == null) {
                 log.warn("未找到可用的嵌入模型配置，使用关键词搜索替代");
                 return keywordSearch(kbId, query, topK);

@@ -1,11 +1,11 @@
 package com.wemirr.platform.ai.advancedRAG;
 
+import com.wemirr.framework.ai.core.enums.AiProvider;
+import com.wemirr.framework.ai.core.enums.ModelType;
 import com.wemirr.platform.ai.core.config.VectorStoreProperties;
-import com.wemirr.platform.ai.core.enums.AiProvider;
-import com.wemirr.platform.ai.core.enums.ModelType;
 import com.wemirr.platform.ai.core.provider.embedding.EmbeddingModelService;
 import com.wemirr.platform.ai.core.provider.text.TextModelService;
-import com.wemirr.platform.ai.core.provider.vectorStore.VectorStoreFactory;
+import com.wemirr.platform.ai.core.provider.vector.VectorStoreFactory;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.message.ChatMessage;
@@ -73,9 +73,9 @@ public class RagTest {
 
         // 创建真实的嵌入模型配置
         ModelEntity embeddingModelEntity = ModelEntity.builder()
-                .provider(AiProvider.QWEN.getCode())
-                .modelType(ModelType.EMBEDDING)
-                .modelName("text-embedding-v2")
+                .provider(AiProvider.QWEN)
+                .type(ModelType.EMBEDDING)
+                .name("text-embedding-v2")
                 .apiKey(System.getenv("qwen_api_key"))
                 .build();
 
@@ -86,9 +86,9 @@ public class RagTest {
         variables.put("temperature", 0.7);
         variables.put("max_tokens", 1000);
         ModelEntity chatModelEntity = ModelEntity.builder()
-                .provider(AiProvider.QWEN.getCode())
-                .modelType(ModelType.TEXT)
-                .modelName("qwen-plus")
+                .provider(AiProvider.QWEN)
+                .type(ModelType.TEXT)
+                .name("qwen-plus")
                 .apiKey(System.getenv("qwen_api_key"))
                 .variables(variables)
                 .build();

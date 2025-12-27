@@ -2,9 +2,9 @@ package com.wemirr.platform.ai.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.ai.domain.dto.rep.KnowledgeBaseResp;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeBasePageReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeBaseSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.KnowledgeBaseResp;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 
 /**

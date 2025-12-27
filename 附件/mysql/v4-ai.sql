@@ -296,10 +296,10 @@ CREATE TABLE `ai_kb_vectorization_task`
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='向量化任务';
 
 -- ----------------------------
--- Table structure for ai_mcp_server_config
+-- Table structure for ai_mcp_server
 -- ----------------------------
-DROP TABLE IF EXISTS `ai_mcp_server_config`;
-CREATE TABLE `ai_mcp_server_config`
+DROP TABLE IF EXISTS `ai_mcp_server`;
+CREATE TABLE `ai_mcp_server`
 (
     `id`               bigint NOT NULL COMMENT 'ID',
     `create_by`        bigint                                                         DEFAULT NULL COMMENT '创建人ID',

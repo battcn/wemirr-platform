@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.Map;
 
 /**
- * 向量元数据实体
+ * 向量元数据
  * 用于存储向量在向量数据库中的元数据信息
  *
  * @author xJh
@@ -26,68 +26,38 @@ import java.util.Map;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("ai_kb_vector_metadata")
+@TableName("ai_vector_metadata")
+@Schema(description = "向量元数据")
 public class VectorMetadata extends SuperEntity<Long> {
 
-    /**
-     * 向量ID（在向量数据库中的唯一标识）
-     */
-    @TableField("vector_id")
+    @Schema(description = "向量ID（在向量数据库中的唯一标识）")
     private String vectorId;
 
-    /**
-     * 所属知识库ID
-     */
-    @TableField("kb_id")
+    @Schema(description = "所属知识库ID")
     private Long kbId;
 
-    /**
-     * 关联的知识条目ID
-     */
-    @TableField("item_id")
+    @Schema(description = "关联的知识条目ID")
     private Long itemId;
 
-    /**
-     * 关联的知识分片ID
-     */
-    @TableField("chunk_id")
+    @Schema(description = "关联的知识分片ID")
     private Long chunkId;
 
-    /**
-     * 分片类型
-     */
-    @TableField("chunk_type")
+    @Schema(description = "分片类型")
     private ChunkType chunkType;
 
-
-    /**
-     * 向量数据库集合名称
-     */
-    @TableField("collection_name")
+    @Schema(description = "向量数据库集合名称")
     private String collectionName;
 
-    /**
-     * 文本内容（用于检索时的显示）
-     */
-    @TableField("text_content")
+    @Schema(description = "文本内容")
     private String textContent;
 
-    /**
-     * 文本哈希值
-     */
-    @TableField("text_hash")
+    @Schema(description = "文本哈希值")
     private String textHash;
 
-    /**
-     * 相似度分数（用于缓存搜索结果）
-     */
-    @TableField("similarity_score")
+    @Schema(description = "相似度分数")
     private Double similarityScore;
 
-
-    /**
-     * 扩展元数据
-     */
+    @Schema(description = "扩展元数据")
     @TableField(value = "metadata", typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> metadata;
 

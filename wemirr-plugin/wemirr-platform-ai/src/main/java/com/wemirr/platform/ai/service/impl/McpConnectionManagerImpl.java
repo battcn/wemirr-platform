@@ -2,8 +2,8 @@ package com.wemirr.platform.ai.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wemirr.platform.ai.domain.entity.McpServerConfig;
-import com.wemirr.platform.ai.repository.McpServerConfigMapper;
+import com.wemirr.platform.ai.domain.entity.McpServerEntity;
+import com.wemirr.platform.ai.repository.McpServerMapper;
 import com.wemirr.platform.ai.service.McpConnectionManager;
 import dev.langchain4j.mcp.client.DefaultMcpClient;
 import dev.langchain4j.mcp.client.McpClient;
@@ -32,7 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class McpConnectionManagerImpl implements McpConnectionManager {
 
-    private final McpServerConfigMapper mcpServerConfigMapper;
+    private final McpServerMapper mcpServerMapper;
     private final ObjectMapper objectMapper;
     
     // 缓存客户端实例: configId -> McpClient
@@ -44,7 +44,7 @@ public class McpConnectionManagerImpl implements McpConnectionManager {
             return clientCache.get(configId);
         }
         
-        McpServerConfig config = mcpServerConfigMapper.selectById(configId);
+        McpServerEntity config = mcpServerMapper.selectById(configId);
         if (config == null) {
             throw new IllegalArgumentException("MCP config not found: " + configId);
         }
@@ -76,12 +76,12 @@ public class McpConnectionManagerImpl implements McpConnectionManager {
         // 下次 getClient 时会自动重新创建
     }
 
-    private McpClient createClient(McpServerConfig config) {
+    private McpClient createClient(McpServerEntity config) {
         McpTransport transport;
         
         if ("STDIO".equalsIgnoreCase(config.getType())) {
-            Map<String, String> env = parseEnv(config.getEnv());
-            List<String> args = parseArgs(config.getArgs());
+            Map<String, String> env = config.getEnv();
+            List<String> args = config.getArgs();
             
             List<String> fullCommand = new ArrayList<>();
             fullCommand.add(config.getCommand());

@@ -31,8 +31,8 @@ public class VectorStoreServiceImpl extends SuperServiceImpl<VectorStoreMapper, 
         // 2. 存储向量
         VectorStore vectorStore = VectorStore.builder()
                 .kbId(kbId)
-                .text(text)
-                .vector(vector)
+                .textContent(text)
+                .vectorData(vector)
                 // 假设向量维度为768
                 .dimension(768)
                 .storeType("elasticsearch")

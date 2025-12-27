@@ -7,12 +7,12 @@ import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.ai.domain.dto.rep.McpConnectionTestRep;
-import com.wemirr.platform.ai.domain.dto.rep.McpToolInfoRep;
 import com.wemirr.platform.ai.domain.dto.req.McpServerConfigPageReq;
 import com.wemirr.platform.ai.domain.dto.req.McpServerConfigSaveReq;
-import com.wemirr.platform.ai.domain.entity.McpServerConfig;
-import com.wemirr.platform.ai.repository.McpServerConfigMapper;
+import com.wemirr.platform.ai.domain.dto.resp.McpConnectionTestRep;
+import com.wemirr.platform.ai.domain.dto.resp.McpToolInfoRsep;
+import com.wemirr.platform.ai.domain.entity.McpServerEntity;
+import com.wemirr.platform.ai.repository.McpServerMapper;
 import com.wemirr.platform.ai.service.McpConnectionManager;
 import com.wemirr.platform.ai.service.McpServerConfigService;
 import dev.langchain4j.agent.tool.ToolSpecification;
@@ -32,21 +32,21 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerConfigMapper, McpServerConfig> implements McpServerConfigService {
+public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerMapper, McpServerEntity> implements McpServerConfigService {
 
     private final McpConnectionManager mcpConnectionManager;
 
     @Override
-    public IPage<McpServerConfig> pageList(McpServerConfigPageReq req) {
-        return this.page(req.buildPage(), Wraps.<McpServerConfig>lbQ()
-                .like(McpServerConfig::getName, req.getName())
-                .eq(McpServerConfig::getStatus, req.getStatus())
-                .orderByDesc(McpServerConfig::getId));
+    public IPage<McpServerEntity> pageList(McpServerConfigPageReq req) {
+        return this.page(req.buildPage(), Wraps.<McpServerEntity>lbQ()
+                .like(McpServerEntity::getName, req.getName())
+                .eq(McpServerEntity::getStatus, req.getStatus())
+                .orderByDesc(McpServerEntity::getId));
     }
 
     @Override
     public void create(McpServerConfigSaveReq req) {
-        McpServerConfig config = BeanUtil.toBean(req, McpServerConfig.class);
+        McpServerEntity config = BeanUtil.toBean(req, McpServerEntity.class);
         this.baseMapper.insert(config);
     }
 
@@ -54,7 +54,7 @@ public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerConfig
     public void modify(Long id, McpServerConfigSaveReq req) {
         Optional.ofNullable(this.baseMapper.selectById(id))
                 .orElseThrow(() -> CheckedException.notFound("MCP配置不存在"));
-        McpServerConfig config = BeanUtilPlus.toBean(id, req, McpServerConfig.class);
+        McpServerEntity config = BeanUtilPlus.toBean(id, req, McpServerEntity.class);
         this.baseMapper.updateById(config);
         // 刷新连接缓存
         mcpConnectionManager.refreshClient(id);
@@ -68,9 +68,9 @@ public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerConfig
     }
 
     @Override
-    public List<McpServerConfig> listEnabled() {
-        return this.list(new LambdaQueryWrapper<McpServerConfig>()
-                .eq(McpServerConfig::getStatus, true));
+    public List<McpServerEntity> listEnabled() {
+        return this.list(new LambdaQueryWrapper<McpServerEntity>()
+                .eq(McpServerEntity::getStatus, true));
     }
 
     @Override
@@ -94,7 +94,7 @@ public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerConfig
             
             long responseTime = System.currentTimeMillis() - startTime;
             
-            McpServerConfig config = Optional.ofNullable(this.baseMapper.selectById(id))
+            McpServerEntity config = Optional.ofNullable(this.baseMapper.selectById(id))
                     .orElseThrow(() -> CheckedException.notFound("MCP配置不存在"));
             
             return McpConnectionTestRep.builder()
@@ -117,7 +117,7 @@ public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerConfig
     }
 
     @Override
-    public List<McpToolInfoRep> getTools(Long id) {
+    public List<McpToolInfoRsep> getTools(Long id) {
         McpClient client = mcpConnectionManager.getClient(id);
         List<ToolSpecification> toolSpecs = client.listTools();
         
@@ -125,9 +125,9 @@ public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerConfig
             return new ArrayList<>();
         }
         
-        List<McpToolInfoRep> result = new ArrayList<>();
+        List<McpToolInfoRsep> result = new ArrayList<>();
         for (ToolSpecification spec : toolSpecs) {
-            McpToolInfoRep toolInfo = McpToolInfoRep.builder()
+            McpToolInfoRsep toolInfo = McpToolInfoRsep.builder()
                     .name(spec.name())
                     .description(spec.description())
                     .build();
@@ -139,7 +139,7 @@ public class McpServerConfigServiceImpl extends SuperServiceImpl<McpServerConfig
 
     @Override
     public void toggleStatus(Long id, Boolean status) {
-        McpServerConfig config = Optional.ofNullable(this.baseMapper.selectById(id))
+        McpServerEntity config = Optional.ofNullable(this.baseMapper.selectById(id))
                 .orElseThrow(() -> CheckedException.notFound("MCP配置不存在"));
         
         config.setStatus(status);
