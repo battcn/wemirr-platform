@@ -9,10 +9,12 @@ import com.wemirr.platform.ai.domain.dto.resp.ModelPageResp;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
 
 /**
+ * 模型配置服务
+ * 
  * @author xJh
  * @since 2025/10/11
  **/
-public interface ModelConfigService extends SuperService<ModelEntity> {
+public interface ModelService extends SuperService<ModelEntity> {
 
     IPage<ModelPageResp> pageList(ModelPageReq req);
 

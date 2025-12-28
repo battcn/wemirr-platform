@@ -40,7 +40,7 @@ public class GraphServiceImpl implements GraphService {
     private final KnowledgeItemService knowledgeItemService;
     private final KnowledgeBaseService knowledgeBaseService;
     private final KnowledgeChunkService knowledgeChunkService;
-    private final ModelConfigService modelConfigService;
+    private final ModelService modelService;
     private final TextModelService textModelService;
     private final ApplicationContext applicationContext;
 
@@ -313,7 +313,7 @@ public class GraphServiceImpl implements GraphService {
         if (chatModelId == null) {
             return null;
         }
-        ModelEntity config = modelConfigService.getById(chatModelId);
+        ModelEntity config = modelService.getById(chatModelId);
         if (config == null) {
             return null;
         }

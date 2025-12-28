@@ -1,13 +1,13 @@
 package com.wemirr.platform.ai.service.impl;
 
-import com.wemirr.platform.ai.domain.dto.resp.EmbeddingMatchRep;
+import com.wemirr.platform.ai.domain.dto.resp.EmbeddingMatchResp;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.KnowledgeChunk;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.repository.KnowledgeChunkMapper;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
 import com.wemirr.platform.ai.service.KnowledgeSearchService;
-import com.wemirr.platform.ai.service.ModelConfigService;
+import com.wemirr.platform.ai.service.ModelService;
 import com.wemirr.platform.ai.service.VectorSearchService;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
@@ -34,11 +34,11 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
 
     private final KnowledgeChunkMapper knowledgeChunkMapper;
     private final KnowledgeBaseService knowledgeBaseService;
-    private final ModelConfigService modelConfigService;
+    private final ModelService modelService;
     private final VectorSearchService vectorSearchService;
 
     @Override
-    public List<EmbeddingMatchRep> semanticSearch(Long kbId, String query, int topK) {
+    public List<EmbeddingMatchResp> semanticSearch(Long kbId, String query, int topK) {
         try {
             KnowledgeBase knowledgeBase = knowledgeBaseService.getById(kbId);
             if (knowledgeBase == null) {
@@ -60,7 +60,7 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
             
             return matches.stream()
                     .map(match -> {
-                        return EmbeddingMatchRep.builder()
+                        return EmbeddingMatchResp.builder()
                                 .content(match.embedded().text())
                                 .score(match.score())
                                 .metadata(match.embedded().metadata().toMap())
@@ -154,24 +154,6 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
         }
     }
 
-    @Override
-    public List<String> retrieveContent(Long kbId, String query, int topK) {
-        try {
-            // 使用混合搜索获取相关内容
-            List<Map<String, Object>> results = hybridSearch(kbId, query, topK);
-            
-            // 提取内容文本
-            return results.stream()
-                    .map(result -> (String) result.get("content"))
-                    .filter(StringUtils::hasText)
-                    .collect(Collectors.toList());
-                    
-        } catch (Exception e) {
-            log.error("内容召回失败: kbId={}, query={}", kbId, query, e);
-            throw new RuntimeException("内容召回失败: " + e.getMessage(), e);
-        }
-    }
-
     public List<Map<String, Object>> semanticSearchMap(Long kbId, String query, int topK) {
         try {
             KnowledgeBase knowledgeBase = knowledgeBaseService.getById(kbId);
@@ -240,7 +222,7 @@ public class KnowledgeSearchServiceImpl implements KnowledgeSearchService {
      */
     private ModelEntity getEmbeddingModelById(Long modelId) {
         try {
-            ModelEntity modelEntity = modelConfigService.getById(modelId);
+            ModelEntity modelEntity = modelService.getById(modelId);
 
             if (modelEntity ==null) {
                 log.warn("未找到可用的嵌入模型配置");

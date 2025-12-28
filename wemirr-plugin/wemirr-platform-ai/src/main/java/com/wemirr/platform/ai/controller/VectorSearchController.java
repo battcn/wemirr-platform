@@ -4,7 +4,7 @@ import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
-import com.wemirr.platform.ai.service.ModelConfigService;
+import com.wemirr.platform.ai.service.ModelService;
 import com.wemirr.platform.ai.service.VectorSearchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,7 +33,7 @@ public class VectorSearchController {
 
     private final VectorSearchService vectorSearchService;
     private final KnowledgeBaseService knowledgeBaseService;
-    private final ModelConfigService modelConfigService;
+    private final ModelService modelService;
 
     @GetMapping("/test")
     @Operation(summary = "测试向量搜索")
@@ -88,7 +88,7 @@ public class VectorSearchController {
     private ModelEntity getDefaultEmbeddingModel() {
         try {
             // 查询可用的嵌入模型配置
-            List<ModelEntity> embeddingModels = modelConfigService.list(
+            List<ModelEntity> embeddingModels = modelService.list(
                 com.wemirr.framework.db.mybatisplus.wrap.Wraps.<ModelEntity>lbQ()
                     .eq(ModelEntity::getType, "EMBEDDING")
             );

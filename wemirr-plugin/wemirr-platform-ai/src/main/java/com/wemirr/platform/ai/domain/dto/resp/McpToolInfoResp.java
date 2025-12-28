@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * MCP工具信息
+ * MCP工具信息响应
  *
  * @author xJh
  * @since 2025/12/07
@@ -17,13 +17,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "MCP工具信息")
-public class McpToolInfoRsep {
+public class McpToolInfoResp {
 
     @Schema(description = "工具名称")
     private String name;
 
     @Schema(description = "工具描述")
     private String description;
-
 }
-

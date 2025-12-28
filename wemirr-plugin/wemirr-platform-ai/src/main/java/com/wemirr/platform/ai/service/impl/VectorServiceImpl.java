@@ -41,7 +41,7 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
     private final KnowledgeItemService knowledgeItemService;
     private final VectorMetadataService vectorMetadataService;
     private final KnowledgeBaseService knowledgeBaseService;
-    private final ModelConfigService modelConfigService;
+    private final ModelService modelService;
 
 
     @Override
@@ -127,7 +127,7 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
             return true;
         }
         KnowledgeBase knowledgeBase = knowledgeBaseService.getById(item.getKbId());
-        ModelEntity modelEntity = modelConfigService.getById(knowledgeBase.getEmbedModelId());
+        ModelEntity modelEntity = modelService.getById(knowledgeBase.getEmbedModelId());
         vectorizationProcessor.batchDeleteVectors(vectorIds, knowledgeBase, modelEntity);
         vectorMetadataService.deleteByItemId(baseItemId);
         // 更新条目标记
@@ -157,7 +157,7 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
             if (kb == null) {
                 continue;
             }
-            ModelEntity modelEntity = modelConfigService.getById(kb.getEmbedModelId());
+            ModelEntity modelEntity = modelService.getById(kb.getEmbedModelId());
             totalDeleted += vectorizationProcessor.batchDeleteVectors(vectorIds, kb, modelEntity);
         }
         // 软删元数据
@@ -175,7 +175,7 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
         if (kb == null) {
             return 0;
         }
-        ModelEntity modelEntity = modelConfigService.getById(kb.getEmbedModelId());
+        ModelEntity modelEntity = modelService.getById(kb.getEmbedModelId());
         int deleted = vectorizationProcessor.batchDeleteVectors(
                 vms.stream().map(VectorMetadata::getVectorId).collect(Collectors.toList()),
                 kb,
@@ -196,7 +196,7 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
             return 0;
         }
         KnowledgeBase kb = knowledgeBaseService.getById(item.getKbId());
-        ModelEntity modelEntity = modelConfigService.getById(kb.getEmbedModelId());
+        ModelEntity modelEntity = modelService.getById(kb.getEmbedModelId());
         int deleted = vectorizationProcessor.batchDeleteVectors(
                 vms.stream().map(VectorMetadata::getVectorId).collect(Collectors.toList()),
                 kb,
@@ -215,7 +215,7 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
             return 0;
         }
         KnowledgeBase kb = knowledgeBaseService.getById(vm.getKbId());
-        ModelEntity modelEntity = modelConfigService.getById(kb.getEmbedModelId());
+        ModelEntity modelEntity = modelService.getById(kb.getEmbedModelId());
         int deleted = vectorizationProcessor.batchDeleteVectors(List.of(vm.getVectorId()), kb, modelEntity);
         vectorMetadataService.deleteByVectorId(vm.getVectorId());
         return deleted;
@@ -253,7 +253,7 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
                 .itemId(itemId)
                 .taskType(taskType)
                 .status(VectorizationTaskStatus.PENDING.name())
-                .vectorized(false)
+//                .vectorized(false)
                 .progress(0)
                 .deleted(false)
                 .build();
@@ -272,17 +272,17 @@ public class VectorServiceImpl extends SuperServiceImpl<VectorizationTaskMapper,
      */
     private void updateTaskStatus(String taskId, VectorizationTaskStatus status, Integer progress, String errorMessage) {
         baseMapper.updateStatus(taskId, status.name(), progress, errorMessage);
-
-        // 如果任务完成，更新vectorized字段
-        if (status == VectorizationTaskStatus.COMPLETED) {
-            VectorizationTask task = baseMapper.selectByTaskId(taskId);
-            if (task != null) {
-                task.setVectorized(false);
-                task.setProgress(progress);
-                task.setTaskStatus(status);
-                baseMapper.updateById(task);
-            }
+        if (status != VectorizationTaskStatus.COMPLETED) {
+            return;
         }
+        // 如果任务完成，更新进度
+        VectorizationTask task = baseMapper.selectByTaskId(taskId);
+        if (task == null) {
+            return;
+        }
+        task.setProgress(progress);
+        task.setTaskStatus(status);
+        baseMapper.updateById(task);
     }
 
     /**

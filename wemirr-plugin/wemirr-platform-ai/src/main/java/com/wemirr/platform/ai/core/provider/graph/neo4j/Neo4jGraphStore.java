@@ -162,7 +162,7 @@ public class Neo4jGraphStore implements GraphStore {
      */
     private void waitForIndexOnline(Session session, String indexName) {
         int maxRetries = 30;
-        int retryInterval = 100; // ms
+        int retryInterval = 100;
 
         for (int i = 0; i < maxRetries; i++) {
             try {
@@ -335,10 +335,10 @@ public class Neo4jGraphStore implements GraphStore {
                 List<String> targetLabels = record.get("targetLabels").asList(v -> v.asString());
                 sourceLabels = sourceLabels.stream()
                         .filter(l -> !l.equals(kbLabel) && !l.equals("Document"))
-                        .collect(Collectors.toList());
+                        .toList();
                 targetLabels = targetLabels.stream()
                         .filter(l -> !l.equals(kbLabel) && !l.equals("Document"))
-                        .collect(Collectors.toList());
+                        .toList();
 
                 relInfo.put("source", sourceLabels.isEmpty() ? "Entity" : sourceLabels.get(0));
                 relInfo.put("target", targetLabels.isEmpty() ? "Entity" : targetLabels.get(0));

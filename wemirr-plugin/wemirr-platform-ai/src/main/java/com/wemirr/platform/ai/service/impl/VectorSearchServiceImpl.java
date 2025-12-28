@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,44 +80,6 @@ public class VectorSearchServiceImpl implements VectorSearchService {
             throw new RuntimeException("向量搜索失败: " + e.getMessage(), e);
         }
     }
-
-    @Override
-    public List<List<EmbeddingMatch<TextSegment>>> batchSearch(KnowledgeBase knowledgeBase, ModelEntity modelEntity, List<String> queries, int topK) {
-        try {
-            // 1. 获取向量存储
-            EmbeddingStore<TextSegment> embeddingStore = vectorStoreFactory.createForKnowledgeBase(knowledgeBase, modelEntity);
-            
-            // 2. 创建嵌入模型实例
-            EmbeddingModel embeddingModel = embeddingModelService.getModel(modelEntity);
-            
-            // 3. 批量执行向量搜索
-            List<List<EmbeddingMatch<TextSegment>>> results = new ArrayList<>();
-            for (String query : queries) {
-                // 生成查询向量
-                Embedding queryEmbedding = embeddingModel.embed(query).content();
-                
-                // 创建搜索请求
-                EmbeddingSearchRequest embeddingSearchRequest = EmbeddingSearchRequest.builder()
-                        .queryEmbedding(queryEmbedding)
-                        .maxResults(topK)
-                        .build();
-                
-                // 执行搜索
-                List<EmbeddingMatch<TextSegment>> matches = embeddingStore.search(embeddingSearchRequest).matches();
-                results.add(matches);
-            }
-            
-            log.info("批量向量搜索完成: kbId={}, queries={}, topK={}", 
-                    knowledgeBase.getId(), queries.size(), topK);
-            
-            return results;
-            
-        } catch (Exception e) {
-            log.error("批量向量搜索失败: kbId={}, queries={}", knowledgeBase.getId(), queries.size(), e);
-            throw new RuntimeException("批量向量搜索失败: " + e.getMessage(), e);
-        }
-    }
-
 
     @Override
     public boolean isVectorStoreAvailable(KnowledgeBase knowledgeBase, ModelEntity modelEntity) {

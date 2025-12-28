@@ -8,7 +8,7 @@ import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.ai.domain.dto.req.ConversationPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ConversationSaveReq;
-import com.wemirr.platform.ai.domain.dto.resp.ConversationDetailRep;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationDetailResp;
 import com.wemirr.platform.ai.domain.dto.resp.ConversationMessageResp;
 import com.wemirr.platform.ai.domain.dto.resp.ConversationPageResp;
 import com.wemirr.platform.ai.domain.entity.Conversation;
@@ -34,22 +34,6 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
 
     private final AuthenticationContext context;
     private final ConversationMessageMapper conversationMessageMapper;
-
-    @Override
-    public List<Conversation> getUserConversations(Long userId) {
-        return this.list(Wraps.<Conversation>lbQ()
-                .eq(Conversation::getUserId, userId)
-                .orderByDesc(Conversation::getPinned)
-                .orderByDesc(Conversation::getLastModifyTime));
-    }
-
-    @Override
-    public IPage<Conversation> pageUserConversations(Long userId, Page<Conversation> page) {
-        return this.page(page, Wraps.<Conversation>lbQ()
-                .eq(Conversation::getUserId, userId)
-                .orderByDesc(Conversation::getPinned)
-                .orderByDesc(Conversation::getLastModifyTime));
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -78,7 +62,7 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
     }
 
     @Override
-    public ConversationDetailRep detail(Long id) {
+    public ConversationDetailResp detail(Long id) {
         Long userId = context.userId();
         Conversation conversation = this.getById(id);
         if (conversation == null) {
@@ -87,12 +71,12 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
         if (!conversation.getUserId().equals(userId)) {
             throw new RuntimeException("无权访问该会话");
         }
-        return convertToDetailRep(conversation);
+        return convertToDetailResp(conversation);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void create(ConversationSaveReq req) {
+    public Conversation create(ConversationSaveReq req) {
         Long userId = context.userId();
         Conversation conversation = BeanUtilPlus.toBean(req, Conversation.class);
         conversation.setUserId(userId);
@@ -100,6 +84,7 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
         conversation.setPinned(false);
         conversation.setLastModifyTime(Instant.now());
         this.save(conversation);
+        return conversation;
     }
 
     @Override
@@ -193,13 +178,13 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
 
     }
 
-    private ConversationDetailRep convertToDetailRep(Conversation conversation) {
+    private ConversationDetailResp convertToDetailResp(Conversation conversation) {
         if (conversation == null) {
             return null;
         }
-        ConversationDetailRep rep = new ConversationDetailRep();
-        BeanUtils.copyProperties(conversation, rep);
-        return rep;
+        ConversationDetailResp resp = new ConversationDetailResp();
+        BeanUtils.copyProperties(conversation, resp);
+        return resp;
     }
 
     @Override
@@ -218,13 +203,12 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
     }
 
     @Override
-    public ConversationDetailRep detailByKbid(Long id) {
-
+    public ConversationDetailResp detailByKbId(Long id) {
         return null;
     }
 
     @Override
-    public List<ConversationMessageResp> messagesByKbid(Long id) {
+    public List<ConversationMessageResp> messagesByKbId(Long id) {
         Long userId = context.userId();
         Conversation conversation = this.getOne(Wraps.<Conversation>lbQ()
                 .eq(Conversation::getKnowledgeBaseIds, id)

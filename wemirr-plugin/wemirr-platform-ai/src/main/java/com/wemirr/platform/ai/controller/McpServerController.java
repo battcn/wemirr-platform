@@ -3,9 +3,9 @@ package com.wemirr.platform.ai.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.platform.ai.domain.dto.req.McpServerConfigPageReq;
 import com.wemirr.platform.ai.domain.dto.req.McpServerConfigSaveReq;
-import com.wemirr.platform.ai.domain.dto.resp.McpConnectionTestRep;
-import com.wemirr.platform.ai.domain.dto.resp.McpToolInfoRsep;
-import com.wemirr.platform.ai.domain.entity.McpServerEntity;
+import com.wemirr.platform.ai.domain.dto.resp.McpConnectionTestResp;
+import com.wemirr.platform.ai.domain.dto.resp.McpToolInfoResp;
+import com.wemirr.platform.ai.domain.entity.McpServer;
 import com.wemirr.platform.ai.service.McpServerConfigService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,7 +34,7 @@ public class McpServerController {
 
     @GetMapping
     @Operation(summary = "分页查询")
-    public IPage<McpServerEntity> pageList(McpServerConfigPageReq req) {
+    public IPage<McpServer> pageList(McpServerConfigPageReq req) {
         return mcpServerConfigService.pageList(req);
     }
 
@@ -64,13 +64,13 @@ public class McpServerController {
 
     @Operation(summary = "测试MCP连接", description = "测试指定MCP服务器的连通性，返回连接状态和可用工具数量")
     @PostMapping("/{id}/test-connection")
-    public McpConnectionTestRep testConnection(@PathVariable Long id) {
+    public McpConnectionTestResp testConnection(@PathVariable Long id) {
         return mcpServerConfigService.testConnection(id);
     }
 
     @Operation(summary = "获取MCP工具列表", description = "获取指定MCP服务器提供的所有工具信息")
     @GetMapping("/{id}/tools")
-    public List<McpToolInfoRsep> getTools(@PathVariable Long id) {
+    public List<McpToolInfoResp> getTools(@PathVariable Long id) {
         return mcpServerConfigService.getTools(id);
     }
 

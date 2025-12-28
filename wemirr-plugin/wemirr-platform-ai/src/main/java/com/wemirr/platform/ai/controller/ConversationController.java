@@ -3,9 +3,10 @@ package com.wemirr.platform.ai.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.platform.ai.domain.dto.req.ConversationPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ConversationSaveReq;
-import com.wemirr.platform.ai.domain.dto.resp.ConversationDetailRep;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationDetailResp;
 import com.wemirr.platform.ai.domain.dto.resp.ConversationMessageResp;
 import com.wemirr.platform.ai.domain.dto.resp.ConversationPageResp;
+import com.wemirr.platform.ai.domain.entity.Conversation;
 import com.wemirr.platform.ai.service.ConversationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,33 +40,33 @@ public class ConversationController {
 
     @Operation(summary = "获取会话详情")
     @GetMapping("/{id}/detail")
-    public ConversationDetailRep detail(@PathVariable Long id) {
+    public ConversationDetailResp detail(@PathVariable Long id) {
         return conversationService.detail(id);
     }
 
 
     @Operation(summary = "获取普通会话消息列表")
     @GetMapping("/{id}/messages")
-    public List<ConversationMessageResp> getMessages(@PathVariable Long id) {
+    public List<ConversationMessageResp> turnList(@PathVariable Long id) {
         return conversationService.turnList(id);
     }
 
     @GetMapping("/messages")
     @Operation(summary = "获取知识库会话消息列表")
     public List<ConversationMessageResp> messageList(Long kbId) {
-        return conversationService.messagesByKbid(kbId);
+        return conversationService.messagesByAgent(kbId);
     }
 
-    @Operation(summary = "获取智能体会话消息列表")
     @GetMapping("/{id}/messagesByAgent")
+    @Operation(summary = "获取智能体会话消息列表")
     public List<ConversationMessageResp> messagesByAgent(@PathVariable Long id) {
         return conversationService.messagesByAgent(id);
     }
 
-    @Operation(summary = "新增会话")
     @PostMapping
-    public void create(@Validated @RequestBody ConversationSaveReq req) {
-        conversationService.create(req);
+    @Operation(summary = "新增会话")
+    public Conversation create(@Validated @RequestBody ConversationSaveReq req) {
+        return conversationService.create(req);
     }
 
     @Operation(summary = "修改会话")

@@ -28,7 +28,7 @@ import java.util.Map;
 @TableName("ai_mcp_server")
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "MCP服务器配置")
-public class McpServerEntity extends SuperEntity<Long> {
+public class McpServer extends SuperEntity<Long> {
 
     @Schema(description = "服务器名称")
     private String name;
@@ -54,6 +54,5 @@ public class McpServerEntity extends SuperEntity<Long> {
     private Boolean status;
 
     @Schema(description = "租户ID")
-    private String tenantId;
+    private Long tenantId;
 }
-

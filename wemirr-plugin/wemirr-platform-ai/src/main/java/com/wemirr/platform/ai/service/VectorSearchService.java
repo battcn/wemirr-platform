@@ -38,18 +38,6 @@ public interface VectorSearchService {
     List<EmbeddingMatch<TextSegment>> search(KnowledgeBase knowledgeBase, String query, int topK);
 
     /**
-     * 批量向量搜索
-     *
-     * @param knowledgeBase 知识库
-     * @param modelEntity 模型配置
-     * @param queries 查询文本列表
-     * @param topK 返回结果数量
-     * @return 搜索结果列表
-     */
-    List<List<EmbeddingMatch<TextSegment>>> batchSearch(KnowledgeBase knowledgeBase, ModelEntity modelEntity, List<String> queries, int topK);
-
-
-    /**
      * 检查向量存储是否可用
      *
      * @param knowledgeBase 知识库

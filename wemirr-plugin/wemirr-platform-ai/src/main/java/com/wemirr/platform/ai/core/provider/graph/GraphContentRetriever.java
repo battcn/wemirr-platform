@@ -5,10 +5,14 @@ import dev.langchain4j.rag.content.Content;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.query.Query;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.List;
+
+import static com.wemirr.platform.ai.core.constant.AiServiceConstants.DEFAULT_GRAPH_MAX_RESULTS;
 
 /**
  * 图谱内容检索器
@@ -27,6 +31,8 @@ import java.util.List;
  */
 @Slf4j
 @Builder
+@ToString
+@EqualsAndHashCode
 public class GraphContentRetriever implements ContentRetriever {
 
     /**
@@ -54,7 +60,7 @@ public class GraphContentRetriever implements ContentRetriever {
      * 最大返回结果数
      */
     @Builder.Default
-    private final int maxResults = 10;
+    private final int maxResults = DEFAULT_GRAPH_MAX_RESULTS;
 
     /**
      * 是否在无结果时静默返回空列表
@@ -70,29 +76,13 @@ public class GraphContentRetriever implements ContentRetriever {
         }
 
         String question = query.text();
-        log.debug("图谱检索开始: question='{}', knowledgeBaseId='{}', useHybrid={}", 
+        log.debug("图谱检索开始: question='{}', knowledgeBaseId='{}', useHybrid={}",
                 question, knowledgeBaseId, useHybridSearch);
 
         try {
-            List<Content> results;
-            
-            // 根据配置选择检索方式
-            if (useHybridSearch && chatModel != null) {
-                // 混合检索（推荐）
-                results = graphRagService.retrieveAsContentHybrid(knowledgeBaseId, question, chatModel);
-            } else {
-                // 纯向量检索
-                results = graphRagService.retrieveAsContentByVector(knowledgeBaseId, question);
-            }
-
-            // 限制返回结果数量
-            if (results.size() > maxResults) {
-                results = results.subList(0, maxResults);
-            }
-
+            List<Content> results = doRetrieve(question);
             log.debug("图谱检索完成: 返回 {} 条结果", results.size());
             return results;
-
         } catch (Exception e) {
             log.error("图谱检索失败: question='{}', knowledgeBaseId='{}'", question, knowledgeBaseId, e);
             if (silentOnEmpty) {
@@ -100,6 +90,26 @@ public class GraphContentRetriever implements ContentRetriever {
             }
             throw e;
         }
+    }
+
+    /**
+     * 执行检索逻辑
+     */
+    private List<Content> doRetrieve(String question) {
+        List<Content> results;
+
+        // 根据配置选择检索方式
+        if (useHybridSearch && chatModel != null) {
+            results = graphRagService.retrieveAsContentHybrid(knowledgeBaseId, question, chatModel);
+        } else {
+            results = graphRagService.retrieveAsContentByVector(knowledgeBaseId, question);
+        }
+
+        // 限制返回结果数量
+        if (results.size() > maxResults) {
+            return results.subList(0, maxResults);
+        }
+        return results;
     }
 
     /**

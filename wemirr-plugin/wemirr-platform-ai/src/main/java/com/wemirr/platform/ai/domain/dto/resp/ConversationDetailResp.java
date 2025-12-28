@@ -6,12 +6,15 @@ import lombok.Data;
 import java.time.Instant;
 
 /**
+ * 会话详情响应
+ *
  * @author xJh
  * @since 2025/10/30
- **/
+ */
 @Data
 @Schema(description = "会话详情响应")
-public class ConversationDetailRep {
+public class ConversationDetailResp {
+
     @Schema(description = "ID")
     private String id;
 

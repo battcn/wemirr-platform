@@ -15,7 +15,6 @@ import com.wemirr.platform.ai.domain.entity.KnowledgeItem;
 import com.wemirr.platform.ai.repository.KnowledgeBaseMapper;
 import com.wemirr.platform.ai.repository.KnowledgeItemMapper;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
-import com.wemirr.platform.ai.service.VectorStoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,8 +33,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class KnowledgeBaseServiceImpl extends SuperServiceImpl<KnowledgeBaseMapper, KnowledgeBase> implements KnowledgeBaseService {
 
-
-    private final VectorStoreService vectorStoreService;
     private final KnowledgeItemMapper knowledgeItemMapper;
 
     @Override

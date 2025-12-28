@@ -80,5 +80,5 @@ public class KnowledgeItem extends SuperEntity<Long> {
     private Integer version;
 
     @Schema(description = "租户ID")
-    private String tenantId;
+    private Long tenantId;
 }

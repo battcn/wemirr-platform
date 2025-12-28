@@ -7,7 +7,7 @@ import com.wemirr.platform.ai.core.provider.graph.neo4j.Neo4jGraphStore;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
-import com.wemirr.platform.ai.service.ModelConfigService;
+import com.wemirr.platform.ai.service.ModelService;
 import dev.langchain4j.community.data.document.graph.GraphDocument;
 import dev.langchain4j.community.data.document.transformer.graph.LLMGraphTransformer;
 import dev.langchain4j.data.document.Document;
@@ -53,7 +53,7 @@ public class GraphRagService {
     private final GraphStore graphStore;
     private final GraphRetriever graphRetriever;
     private final KnowledgeBaseService knowledgeBaseService;
-    private final ModelConfigService modelConfigService;
+    private final ModelService modelService;
     private final EmbeddingModelService embeddingModelService;
 
 
@@ -482,7 +482,7 @@ public class GraphRagService {
                 return null;
             }
 
-            ModelEntity modelEntity = modelConfigService.getById(embeddingModelId);
+            ModelEntity modelEntity = modelService.getById(embeddingModelId);
             if (modelEntity == null) {
                 log.warn("向量模型配置不存在: modelId={}", embeddingModelId);
                 return null;

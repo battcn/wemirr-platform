@@ -12,6 +12,8 @@ import com.wemirr.platform.ai.core.enums.ConversationType;
 import com.wemirr.platform.ai.core.helper.ModelConfigRetriever;
 import com.wemirr.platform.ai.core.sse.SseChatHelper;
 import com.wemirr.platform.ai.domain.dto.req.AskReq;
+import com.wemirr.platform.ai.domain.dto.req.AssistantMessageSaveReq;
+import com.wemirr.platform.ai.domain.dto.req.UserMessageSaveReq;
 import com.wemirr.platform.ai.domain.entity.*;
 import com.wemirr.platform.ai.service.*;
 import dev.langchain4j.service.TokenStream;
@@ -49,6 +51,19 @@ public class ChatServiceImpl implements ChatService {
     @Override
     @Transactional
     public SseEmitter chatStream(AskReq askReq) {
+        String conversationId = String.valueOf(askReq.getConversationId());
+
+        // 防止重复请求
+        if (sseChatHelper.isDuplicateRequest(conversationId)) {
+            SseEmitter emitter = new SseEmitter(0L);
+            try {
+                emitter.send(SseEmitter.event().name("error").data("请求过于频繁，请稍后再试"));
+                emitter.complete();
+            } catch (Exception ignored) {
+            }
+            return emitter;
+        }
+
         log.info("开始处理对话请求: chatType={}, userId={}", askReq.getChatType(), context.userId());
         SseEmitter emitter = sseChatHelper.createEmitter(String.valueOf(context.userId()));
         switch (askReq.getChatType()) {
@@ -73,9 +88,15 @@ public class ChatServiceImpl implements ChatService {
         String userPrompt = askReq.getPrompt();
 
         // 保存用户消息
-        ConversationTurn conversationTurn = conversationMessageService.saveUserMessage(
-                conversationId, userId, tenantId, userPrompt, userPrompt, 0
-        );
+        UserMessageSaveReq userMsgReq = UserMessageSaveReq.builder()
+                .conversationId(conversationId)
+                .userId(userId)
+                .tenantId(tenantId)
+                .rawContent(userPrompt)
+                .promptContent(userPrompt)
+                .promptTokens(0)
+                .build();
+        ConversationTurn conversationTurn = conversationMessageService.saveUserMessage(userMsgReq);
 
         // 获取模型配置
         ModelEntity modelEntity = modelConfigRetriever.getRequiredModel(Long.valueOf(askReq.getModelId()));
@@ -108,9 +129,15 @@ public class ChatServiceImpl implements ChatService {
         Long conversationId = conversation.getId();
 
         // 保存用户消息
-        ConversationTurn conversationTurn = conversationMessageService.saveUserMessage(
-                conversationId, userId, tenantId, userPrompt, userPrompt, 0
-        );
+        UserMessageSaveReq userMsgReq = UserMessageSaveReq.builder()
+                .conversationId(conversationId)
+                .userId(userId)
+                .tenantId(tenantId)
+                .rawContent(userPrompt)
+                .promptContent(userPrompt)
+                .promptTokens(0)
+                .build();
+        ConversationTurn conversationTurn = conversationMessageService.saveUserMessage(userMsgReq);
 
         try {
             // 获取模型配置
@@ -164,9 +191,15 @@ public class ChatServiceImpl implements ChatService {
         Long conversationId = conversation.getId();
 
         // 保存用户消息
-        ConversationTurn conversationTurn = conversationMessageService.saveUserMessage(
-                conversationId, userId, tenantId, userPrompt, userPrompt, 0
-        );
+        UserMessageSaveReq userMsgReq = UserMessageSaveReq.builder()
+                .conversationId(conversationId)
+                .userId(userId)
+                .tenantId(tenantId)
+                .rawContent(userPrompt)
+                .promptContent(userPrompt)
+                .promptTokens(0)
+                .build();
+        ConversationTurn conversationTurn = conversationMessageService.saveUserMessage(userMsgReq);
 
         // 获取智能体配置
         ChatAgent chatAgent = chatAgentService.getById(askReq.getAgentId());
@@ -274,13 +307,19 @@ public class ChatServiceImpl implements ChatService {
         Integer promptTokens = (Integer) result.get("inputTokens");
         Integer completionTokens = (Integer) result.get("outputTokens");
 
-        conversationMessageService.saveAssistantMessageAsync(
-                conversationId, userId, tenantId,
-                rawContent, rawContent, null,
-                modelEntity.getName(), modelEntity.getProvider().getLabel(),
-                promptTokens, completionTokens,
-                null, null, parentMessageId
-        );
+        AssistantMessageSaveReq req = AssistantMessageSaveReq.builder()
+                .conversationId(conversationId)
+                .userId(userId)
+                .tenantId(tenantId)
+                .rawContent(rawContent)
+                .displayContent(rawContent)
+                .modelName(modelEntity.getName())
+                .modelProvider(modelEntity.getProvider().getLabel())
+                .promptTokens(promptTokens)
+                .completionTokens(completionTokens)
+                .parentMessageId(parentMessageId)
+                .build();
+        conversationMessageService.saveAssistantMessageAsync(req);
     }
 
     /**

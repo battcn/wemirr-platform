@@ -27,6 +27,44 @@ public class SseChatHelper {
     private final Map<String, SseEmitter> activeEmitters = new ConcurrentHashMap<>();
 
     /**
+     * 正在处理中的会话（用于防止重复请求）
+     * key: conversationId, value: 请求时间戳
+     */
+    private final Map<String, Long> processingConversations = new ConcurrentHashMap<>();
+
+    /**
+     * 防重复请求的时间窗口（毫秒）
+     */
+    private static final long DUPLICATE_REQUEST_WINDOW_MS = 1000;
+
+    /**
+     * 检查是否为重复请求
+     *
+     * @param conversationId 会话ID
+     * @return true 如果是重复请求
+     */
+    public boolean isDuplicateRequest(String conversationId) {
+        long now = System.currentTimeMillis();
+        Long lastRequestTime = processingConversations.get(conversationId);
+
+        if (lastRequestTime != null && (now - lastRequestTime) < DUPLICATE_REQUEST_WINDOW_MS) {
+            log.warn("[SSE] 检测到重复请求，已忽略: conversationId={}, interval={}ms",
+                    conversationId, now - lastRequestTime);
+            return true;
+        }
+
+        processingConversations.put(conversationId, now);
+        return false;
+    }
+
+    /**
+     * 标记会话处理完成
+     */
+    public void markConversationComplete(String conversationId) {
+        processingConversations.remove(conversationId);
+    }
+
+    /**
      * 创建 SSE 连接
      */
     public SseEmitter createEmitter(String traceId) {
@@ -58,6 +96,7 @@ public class SseChatHelper {
     public void chatStreamToSse(AskReq askReq, SseEmitter emitter, TokenStream tokenStream,
                                 Consumer<Map<String, Object>> onComplete) {
         StringBuilder responseBuilder = new StringBuilder();
+        String conversationId = String.valueOf(askReq.getConversationId());
 
         tokenStream.onPartialResponse(token -> {
             try {
@@ -84,6 +123,9 @@ public class SseChatHelper {
                 }
             } catch (Exception e) {
                 log.error("Error completing SSE", e);
+            } finally {
+                // 标记会话处理完成，允许下一次请求
+                markConversationComplete(conversationId);
             }
         }).onError(error -> {
             try {
@@ -91,6 +133,9 @@ public class SseChatHelper {
                 emitter.complete();
             } catch (IOException e) {
                 log.error("Error sending error to SSE", e);
+            } finally {
+                // 出错时也要标记完成
+                markConversationComplete(conversationId);
             }
         }).start();
     }

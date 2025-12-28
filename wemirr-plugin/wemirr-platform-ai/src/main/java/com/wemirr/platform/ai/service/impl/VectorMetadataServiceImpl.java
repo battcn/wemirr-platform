@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 向量元数据服务实现类
@@ -24,30 +23,6 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class VectorMetadataServiceImpl extends SuperServiceImpl<VectorMetadataMapper, VectorMetadata> implements VectorMetadataService {
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Long saveVectorMetadata(String vectorId, Long kbId, Long itemId, Long chunkId, Map<String, Object> metadata) {
-        VectorMetadata vectorMetadata = VectorMetadata.builder()
-                .vectorId(vectorId)
-                .kbId(kbId)
-                .itemId(itemId)
-                .chunkId(chunkId)
-                .metadata(metadata)
-                .deleted(false)
-                .build();
-        
-        baseMapper.insert(vectorMetadata);
-        return vectorMetadata.getId();
-    }
-
-    @Override
-    public VectorMetadata findByVectorId(String vectorId) {
-        LambdaQueryWrapper<VectorMetadata> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(VectorMetadata::getVectorId, vectorId)
-                .eq(VectorMetadata::getDeleted, false);
-        return baseMapper.selectOne(wrapper);
-    }
 
     @Override
     public List<VectorMetadata> findByKbId(Long kbId) {
@@ -117,12 +92,4 @@ public class VectorMetadataServiceImpl extends SuperServiceImpl<VectorMetadataMa
          baseMapper.insertBatch(metadataList);
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean updateMetadata(String vectorId, Map<String, Object> metadata) {
-        LambdaUpdateWrapper<VectorMetadata> wrapper = new LambdaUpdateWrapper<>();
-        wrapper.eq(VectorMetadata::getVectorId, vectorId)
-                .set(VectorMetadata::getMetadata, metadata);
-        return baseMapper.update(null, wrapper) > 0;
-    }
 }

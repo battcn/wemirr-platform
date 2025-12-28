@@ -2,7 +2,7 @@ package com.wemirr.platform.ai.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wemirr.platform.ai.domain.entity.McpServerEntity;
+import com.wemirr.platform.ai.domain.entity.McpServer;
 import com.wemirr.platform.ai.repository.McpServerMapper;
 import com.wemirr.platform.ai.service.McpConnectionManager;
 import dev.langchain4j.mcp.client.DefaultMcpClient;
@@ -44,7 +44,7 @@ public class McpConnectionManagerImpl implements McpConnectionManager {
             return clientCache.get(configId);
         }
         
-        McpServerEntity config = mcpServerMapper.selectById(configId);
+        McpServer config = mcpServerMapper.selectById(configId);
         if (config == null) {
             throw new IllegalArgumentException("MCP config not found: " + configId);
         }
@@ -76,7 +76,7 @@ public class McpConnectionManagerImpl implements McpConnectionManager {
         // 下次 getClient 时会自动重新创建
     }
 
-    private McpClient createClient(McpServerEntity config) {
+    private McpClient createClient(McpServer config) {
         McpTransport transport;
         
         if ("STDIO".equalsIgnoreCase(config.getType())) {

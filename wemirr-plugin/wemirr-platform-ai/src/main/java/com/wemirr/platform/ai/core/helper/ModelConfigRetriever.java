@@ -4,7 +4,7 @@ import com.wemirr.framework.ai.core.enums.ModelType;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.ai.core.exception.ModelNotFoundException;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
-import com.wemirr.platform.ai.service.ModelConfigService;
+import com.wemirr.platform.ai.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,13 +22,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ModelConfigRetriever {
 
-    private final ModelConfigService modelConfigService;
+    private final ModelService modelService;
 
     /**
      * 根据ID获取模型配置，不存在时抛出异常
      */
     public ModelEntity getRequiredModel(Long modelId) {
-        return Optional.ofNullable(modelConfigService.getById(modelId))
+        return Optional.ofNullable(modelService.getById(modelId))
                 .orElseThrow(() -> {
                     log.error("模型配置不存在: modelId={}", modelId);
                     return new ModelNotFoundException(modelId);
@@ -57,7 +57,7 @@ public class ModelConfigRetriever {
      */
     public ModelEntity getModelByIdAndType(Long modelId, ModelType modelType) {
         return Optional.ofNullable(
-                modelConfigService.getOne(
+                modelService.getOne(
                         Wraps.<ModelEntity>lbQ()
                                 .eq(ModelEntity::getId, modelId)
                                 .eq(ModelEntity::getType, modelType)
@@ -75,6 +75,6 @@ public class ModelConfigRetriever {
         if (modelId == null) {
             return Optional.empty();
         }
-        return Optional.ofNullable(modelConfigService.getById(modelId));
+        return Optional.ofNullable(modelService.getById(modelId));
     }
 }

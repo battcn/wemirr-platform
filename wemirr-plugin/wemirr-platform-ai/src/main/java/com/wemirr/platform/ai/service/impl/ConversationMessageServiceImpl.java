@@ -3,6 +3,8 @@ package com.wemirr.platform.ai.service.impl;
 import com.wemirr.framework.ai.core.enums.AiProvider;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.platform.ai.core.enums.MessageRole;
+import com.wemirr.platform.ai.domain.dto.req.AssistantMessageSaveReq;
+import com.wemirr.platform.ai.domain.dto.req.UserMessageSaveReq;
 import com.wemirr.platform.ai.domain.entity.ConversationTurn;
 import com.wemirr.platform.ai.repository.ConversationMessageMapper;
 import com.wemirr.platform.ai.service.ConversationMessageService;
@@ -13,6 +15,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * 会话消息服务实现类
+ *
  * @author xiao1
  * @since 2025-10
  */
@@ -25,29 +29,25 @@ public class ConversationMessageServiceImpl extends SuperServiceImpl<Conversatio
 
     @Transactional(propagation = Propagation.NESTED)
     @Override
-    public ConversationTurn saveUserMessage(Long conversationId, Long userId,
-                                            Long tenantId, String rawContent, String promptContent, Integer promptTokens) {
+    public ConversationTurn saveUserMessage(UserMessageSaveReq req) {
         ConversationTurn message = null;
         try {
-            Integer sequenceNum = getNextSequence(conversationId);
+            Integer sequenceNum = getNextSequence(req.getConversationId());
             message = ConversationTurn.builder()
-                    .conversationId(conversationId)
-                    .userId(userId)
-                    .tenantId(tenantId)
+                    .conversationId(req.getConversationId())
+                    .userId(req.getUserId())
+                    .tenantId(req.getTenantId())
                     .role(MessageRole.USER)
-                    .userInput(rawContent)
-                    .displayContent(rawContent)
-                    .modelOutput(rawContent)
-                    .inputTokens(promptTokens)
+                    .userInput(req.getRawContent())
+                    .displayContent(req.getRawContent())
+                    .modelOutput(req.getRawContent())
+                    .inputTokens(req.getPromptTokens())
                     .outputTokens(0)
-//                    .totalTokens(promptTokens)
                     .sequenceNum(sequenceNum)
-                    // 用户消息无父消息
-//                    .parentMessageId(null)
                     .deleted(false)
                     .build();
             messageMapper.insert(message);
-            log.debug("用户消息已保存，conversationId={}, messageId={}", conversationId, message.getId());
+            log.debug("用户消息已保存，conversationId={}, messageId={}", req.getConversationId(), message.getId());
         } catch (Exception e) {
             log.error("异步保存用户消息失败", e);
         }
@@ -56,53 +56,40 @@ public class ConversationMessageServiceImpl extends SuperServiceImpl<Conversatio
 
     @Transactional(propagation = Propagation.NESTED)
     @Override
-    public void saveAssistantMessageAsync(
-            Long conversationId,
-            Long userId,
-            Long tenantId,
-            String rawContent,
-            String displayContent,
-            String promptContent,
-            String modelName,
-            String modelProvider,
-            Integer promptTokens,
-            Integer completionTokens,
-            Long responseLatencyMs,
-            String thinkingContent,
-            Long parentMessageId
-    ) {
+    public void saveAssistantMessageAsync(AssistantMessageSaveReq req) {
         try {
             // 查询父消息（最后一条用户消息）
-            if (parentMessageId == null) {
-                log.warn("会话 {} 中未找到用户消息，AI回复无法建立 parent 关系", conversationId);
+            if (req.getParentMessageId() == null) {
+                log.warn("会话 {} 中未找到用户消息，AI回复无法建立 parent 关系", req.getConversationId());
             }
 
-            Integer sequenceNum = getNextSequence(conversationId);
-            Integer totalTokens = (promptTokens != null ? promptTokens : 0) +
-                    (completionTokens != null ? completionTokens : 0);
+            Integer sequenceNum = getNextSequence(req.getConversationId());
+            Integer promptTokens = req.getPromptTokens();
+            Integer completionTokens = req.getCompletionTokens();
 
             ConversationTurn message = ConversationTurn.builder()
-                    .conversationId(conversationId)
-                    .userId(userId)
-                    .tenantId(tenantId)
+                    .conversationId(req.getConversationId())
+                    .userId(req.getUserId())
+                    .tenantId(req.getTenantId())
                     .role(MessageRole.ASSISTANT)
-//                    .originalContent(rawContent)
-//                    .renderedContent(displayContent)
-//                    .processedContent(promptContent)
-                    .modelName(modelName)
-                    .modelProvider(AiProvider.of(modelProvider))
-//                    .promptTokens(promptTokens)
-//                    .completionTokens(completionTokens)
-//                    .totalTokens(totalTokens)
-//                    .responseLatencyMs(responseLatencyMs)
-                    .thinkingContent(thinkingContent)
+                    .modelOutput(req.getRawContent())
+                    .displayContent(req.getDisplayContent())
+                    .finalPrompt(req.getPromptContent())
+                    .modelName(req.getModelName())
+                    .modelProvider(AiProvider.of(req.getModelProvider()))
+                    .inputTokens(promptTokens)
+                    .outputTokens(completionTokens)
+                    .inferenceLatencyMs(req.getResponseLatencyMs())
+                    .thinkingContent(req.getThinkingContent())
                     .sequenceNum(sequenceNum)
-//                    .parentMessageId(parentMessageId)
+                    .previousTurnId(req.getParentMessageId())
                     .deleted(false)
                     .build();
 
             messageMapper.insert(message);
-            log.info("AI回复消息已保存，conversationId={}, messageId={}", conversationId, message.getId());
+            String rawContent = req.getRawContent();
+            log.info("AI回复消息已保存，conversationId={}, messageId={}, content={}",
+                    req.getConversationId(), message.getId(), rawContent != null ? rawContent.substring(0, Math.min(50, rawContent.length())) : "null");
         } catch (Exception e) {
             log.error("异步保存AI回复消息失败", e);
         }

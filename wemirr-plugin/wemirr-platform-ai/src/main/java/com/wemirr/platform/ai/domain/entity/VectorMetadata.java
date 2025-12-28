@@ -62,5 +62,5 @@ public class VectorMetadata extends SuperEntity<Long> {
     private Map<String, Object> metadata;
 
     @Schema(description = "租户ID")
-    private String tenantId;
+    private Long tenantId;
 }

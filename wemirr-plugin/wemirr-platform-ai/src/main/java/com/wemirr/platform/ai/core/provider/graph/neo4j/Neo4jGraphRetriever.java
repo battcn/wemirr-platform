@@ -5,7 +5,7 @@ import com.wemirr.platform.ai.core.provider.graph.GraphRetriever;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.service.KnowledgeBaseService;
-import com.wemirr.platform.ai.service.ModelConfigService;
+import com.wemirr.platform.ai.service.ModelService;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.output.Response;
@@ -39,7 +39,7 @@ public class Neo4jGraphRetriever implements GraphRetriever {
 
     private final Neo4jGraphStore graphStore;
     private final KnowledgeBaseService knowledgeBaseService;
-    private final ModelConfigService modelConfigService;
+    private final ModelService modelService;
     private final EmbeddingModelService embeddingModelService;
 
     // ==================== 向量语义搜索实现 ====================
@@ -296,7 +296,7 @@ public class Neo4jGraphRetriever implements GraphRetriever {
                 return null;
             }
             
-            ModelEntity modelEntity = modelConfigService.getById(embeddingModelId);
+            ModelEntity modelEntity = modelService.getById(embeddingModelId);
             if (modelEntity == null) {
                 log.warn("向量模型配置不存在: modelId={}", embeddingModelId);
                 return null;

@@ -4,6 +4,8 @@ import dev.langchain4j.rag.content.Content;
 
 import java.util.List;
 
+import static com.wemirr.platform.ai.core.constant.AiServiceConstants.*;
+
 /**
  * 图检索抽象接口
  * <p>
@@ -75,7 +77,11 @@ public interface GraphRetriever {
      * @return 三元组上下文列表
      */
     default List<String> retrieveByVector(String knowledgeBaseId, String question) {
-        return retrieveByVector(knowledgeBaseId, question, 0.7, 5, 1, 30);
+        return retrieveByVector(knowledgeBaseId, question,
+                DEFAULT_VECTOR_SCORE_THRESHOLD,
+                DEFAULT_VECTOR_SEARCH_LIMIT,
+                DEFAULT_HOP_DEPTH,
+                DEFAULT_MAX_TRIPLES);
     }
 
     /**

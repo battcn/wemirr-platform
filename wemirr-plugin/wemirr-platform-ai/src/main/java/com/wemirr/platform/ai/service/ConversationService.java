@@ -1,11 +1,10 @@
 package com.wemirr.platform.ai.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.ai.domain.dto.req.ConversationPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ConversationSaveReq;
-import com.wemirr.platform.ai.domain.dto.resp.ConversationDetailRep;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationDetailResp;
 import com.wemirr.platform.ai.domain.dto.resp.ConversationMessageResp;
 import com.wemirr.platform.ai.domain.dto.resp.ConversationPageResp;
 import com.wemirr.platform.ai.domain.entity.Conversation;
@@ -17,16 +16,6 @@ import java.util.List;
  * @since 2025/10/11
  **/
 public interface ConversationService extends SuperService<Conversation> {
-
-    /**
-     * 获取用户的所有会话
-     */
-    List<Conversation> getUserConversations(Long userId);
-
-    /**
-     * 分页获取用户会话
-     */
-    IPage<Conversation> pageUserConversations(Long userId, Page<Conversation> page);
 
     /**
      * 删除会话及其所有消息
@@ -68,14 +57,15 @@ public interface ConversationService extends SuperService<Conversation> {
      * @param id 会话ID
      * @return 会话详情
      */
-    ConversationDetailRep detail(Long id);
+    ConversationDetailResp detail(Long id);
 
     /**
      * 新增会话
      *
      * @param req 会话信息
+     * @return 会话内容
      */
-    void create(ConversationSaveReq req);
+    Conversation create(ConversationSaveReq req);
 
     /**
      * 修改会话
@@ -100,9 +90,9 @@ public interface ConversationService extends SuperService<Conversation> {
      */
     List<ConversationMessageResp> turnList(Long conversationId);
 
-    ConversationDetailRep detailByKbid(Long id);
+    ConversationDetailResp detailByKbId(Long id);
 
-    List<ConversationMessageResp> messagesByKbid(Long id);
+    List<ConversationMessageResp> messagesByKbId(Long id);
 
     List<ConversationMessageResp> messagesByAgent(Long id);
 }

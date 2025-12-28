@@ -55,5 +55,5 @@ public class Conversation extends SuperEntity<Long> {
     private Boolean pinned;
 
     @Schema(description = "租户ID")
-    private String tenantId;
+    private Long tenantId;
 }

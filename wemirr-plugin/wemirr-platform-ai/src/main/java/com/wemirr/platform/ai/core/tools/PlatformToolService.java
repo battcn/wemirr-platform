@@ -6,7 +6,9 @@ import dev.langchain4j.agent.tool.Tool;
 import org.springframework.stereotype.Service;
 
 /**
- * 平台功能工具类
+ * 平台功能工具服务
+ * <p>
+ * 提供平台基础功能的 AI 工具集成
  *
  * @author xJh
  * @since 2025/12/06
@@ -17,10 +19,9 @@ import org.springframework.stereotype.Service;
         description = "提供菜单查询、系统状态检测等基础运维能力",
         icon = "ant-design:tool-outlined"
 )
-public class WpToolService {
+public class PlatformToolService {
 
-
-    @Tool(name = "平台菜单查询工具",value = "查询当前平台的菜单结构")
+    @Tool(name = "平台菜单查询工具", value = "查询当前平台的菜单结构")
     public String getMenu() {
         return "当前平台的菜单有：" + "菜单1, 菜单2, 菜单3";
     }
@@ -52,7 +53,7 @@ public class WpToolService {
                 length > 0 ? text.charAt(0) : "无",
                 length > 0 ? text.charAt(length - 1) : "无");
     }
-    
+
     @Tool(name = "获取平台功能列表")
     public String getPlatformFeatures() {
         return """

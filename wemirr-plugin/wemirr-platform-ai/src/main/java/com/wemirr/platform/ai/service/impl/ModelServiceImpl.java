@@ -11,8 +11,8 @@ import com.wemirr.platform.ai.domain.dto.req.ModelSaveReq;
 import com.wemirr.platform.ai.domain.dto.resp.ModelDetailResp;
 import com.wemirr.platform.ai.domain.dto.resp.ModelPageResp;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
-import com.wemirr.platform.ai.repository.ModelConfigMapper;
-import com.wemirr.platform.ai.service.ModelConfigService;
+import com.wemirr.platform.ai.repository.ModelMapper;
+import com.wemirr.platform.ai.service.ModelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ import java.util.Optional;
  */
 @Slf4j
 @Service
-public class ModelConfigServiceImpl extends SuperServiceImpl<ModelConfigMapper, ModelEntity> implements ModelConfigService {
+public class ModelServiceImpl extends SuperServiceImpl<ModelMapper, ModelEntity> implements ModelService {
 
     @Override
     public IPage<ModelPageResp> pageList(ModelPageReq req) {

@@ -59,5 +59,5 @@ public class ChatAgent extends SuperEntity<Long> {
     private List<Long> mcpServerIds;
 
     @Schema(description = "租户ID")
-    private String tenantId;
+    private Long tenantId;
 }

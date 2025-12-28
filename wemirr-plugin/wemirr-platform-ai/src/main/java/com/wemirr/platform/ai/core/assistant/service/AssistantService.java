@@ -7,7 +7,7 @@ import com.wemirr.framework.ai.core.rag.TranslationQueryTransformer;
 import com.wemirr.platform.ai.core.assistant.interfaces.ChatAssistant;
 import com.wemirr.platform.ai.core.provider.graph.GraphContentRetriever;
 import com.wemirr.platform.ai.core.provider.graph.GraphRagService;
-import com.wemirr.platform.ai.core.provider.mcp.DynamicMcpToolProvider;
+import com.wemirr.platform.ai.core.provider.mcp.McpToolProviderFactory;
 import com.wemirr.platform.ai.core.provider.scoring.ScoringModelService;
 import com.wemirr.platform.ai.core.provider.text.TextModelService;
 import com.wemirr.platform.ai.core.provider.vector.VectorStoreFactory;
@@ -38,8 +38,8 @@ import dev.langchain4j.rag.query.router.QueryRouter;
 import dev.langchain4j.rag.query.transformer.CompressingQueryTransformer;
 import dev.langchain4j.rag.query.transformer.QueryTransformer;
 import dev.langchain4j.service.AiServices;
+import dev.langchain4j.service.tool.ToolProvider;
 import dev.langchain4j.store.embedding.EmbeddingStore;
-import dev.langchain4j.store.memory.chat.ChatMemoryStore;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -76,25 +75,13 @@ import static com.wemirr.platform.ai.core.constant.AiServiceConstants.DEFAULT_MA
 public class AssistantService {
 
     private final TextModelService textModelService;
-
-    private final ChatMemoryStore chatMemoryStore;
-
     private final VectorStoreFactory vectorStoreFactory;
-
     private final KnowledgeBaseService knowledgeBaseService;
-
     private final EmbeddingModelRegistry embeddingModelRegistry;
-
     private final ApplicationContext applicationContext;
-
     private final ObjectMapper objectMapper;
-
-    private final Executor executor = Executors.newCachedThreadPool();
-
     private final ToolService toolService;
-
-    private final DynamicMcpToolProvider dynamicMcpToolProvider;
-
+    private final McpToolProviderFactory mcpToolProviderFactory;
     private final ScoringModelService scoringModelService;
 
     /**
@@ -154,13 +141,16 @@ public class AssistantService {
             }
         }
 
-        // 配置 MCP 工具提供者
-        // 先设置智能体的 MCP 服务器配置
+        // 配置 MCP 工具提供者（使用工厂模式，避免 ThreadLocal 问题）
         if (chatAgent.getMcpServerIds() != null && !chatAgent.getMcpServerIds().isEmpty()) {
             try {
                 List<Long> mcpServerIds = chatAgent.getMcpServerIds();
-                dynamicMcpToolProvider.setAgentMcpServerIds(mcpServerIds);
-                builder.toolProvider(dynamicMcpToolProvider);
+                String sessionId = String.valueOf(System.currentTimeMillis());
+                ToolProvider mcpToolProvider = mcpToolProviderFactory.create(
+                        chatAgent.getId(), mcpServerIds, sessionId);
+                if (mcpToolProvider != null) {
+                    builder.toolProvider(mcpToolProvider);
+                }
             } catch (Exception e) {
                 log.error("Failed to configure MCP tool provider for agent: {}", chatAgent.getId(), e);
                 throw new IllegalArgumentException("MCP 工具提供者配置失败：" + e.getMessage(), e);
@@ -253,8 +243,7 @@ public class AssistantService {
      */
     private RetrievalAugmentor buildRetrievalAugmentor(RagAssistantParams params, ChatModel chatModel) {
         // 收集所有启用的检索器
-        Map<ContentRetriever, String> retrieverToDescription = new java.util.LinkedHashMap<>();
-
+        Map<ContentRetriever, String> retrieverToDescription = new LinkedHashMap<>();
         // 1. 向量检索器
         if (Boolean.TRUE.equals(params.getEnableVectorRetrieval()) && params.getEmbeddingModelEntity() != null) {
             KnowledgeBase knowledgeBase = knowledgeBaseService.getById(params.getKbId());
@@ -317,7 +306,8 @@ public class AssistantService {
                 .queryRouter(queryRouter)
                 .contentAggregator(contentAggregator)
                 .contentInjector(contentInjector)
-                .executor(executor)
+                // 使用虚拟线程执行器
+                .executor(Executors.newVirtualThreadPerTaskExecutor())
                 .build();
     }
 
@@ -363,13 +353,16 @@ public class AssistantService {
 
     /**
      * 创建记忆提供者
+     * <p>
+     * 注意：这里使用内存版 ChatMemoryStore，消息持久化由 ConversationMessageService 负责
+     * 避免与 PersistentMySqlChatMemoryStore 产生重复保存
      */
     private ChatMemoryProvider createMemoryProvider() {
-//        ChatMemoryStore memoryStore = new PersistentMySqlChatMemoryStore(chatMsgMapper);
         return memoryId -> MessageWindowChatMemory.builder()
                 .id(memoryId)
                 .maxMessages(DEFAULT_MAX_MESSAGES)
-                .chatMemoryStore(chatMemoryStore)
+                // 使用内存存储，避免与 ConversationMessageService 重复保存
+                // .chatMemoryStore(chatMemoryStore)
                 .build();
     }
 

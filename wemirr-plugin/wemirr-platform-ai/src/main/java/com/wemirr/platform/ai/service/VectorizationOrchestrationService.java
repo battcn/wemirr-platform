@@ -2,19 +2,12 @@ package com.wemirr.platform.ai.service;
 
 import com.wemirr.platform.ai.core.enums.KnowledgeItemStatus;
 import com.wemirr.platform.ai.core.processor.VectorizationProcessor;
-import com.wemirr.platform.ai.core.provider.graph.GraphRagService;
-import com.wemirr.platform.ai.core.provider.graph.GraphRagTransformerFactory;
-import com.wemirr.platform.ai.core.provider.text.TextModelService;
 import com.wemirr.platform.ai.core.provider.vector.VectorStoreFactory;
 import com.wemirr.platform.ai.domain.dto.result.BatchVectorResult;
 import com.wemirr.platform.ai.domain.dto.result.VectorizationResult;
 import com.wemirr.platform.ai.domain.entity.*;
-import dev.langchain4j.community.data.document.transformer.graph.LLMGraphTransformer;
-import dev.langchain4j.data.document.Document;
-import dev.langchain4j.model.chat.ChatModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,16 +34,10 @@ public class VectorizationOrchestrationService {
     private final KnowledgeChunkService knowledgeChunkService;
     private final KnowledgeItemService knowledgeItemService;
     private final KnowledgeBaseService knowledgeBaseService;
-    private final ModelConfigService modelConfigService;
+    private final ModelService modelService;
     private final VectorStoreFactory vectorStoreFactory;
     private final VectorMetadataService vectorMetadataService;
-    private final TextModelService textModelService;
-
-    /**
-     * GraphRAG 服务（可选，仅在启用图谱功能时注入）
-     */
-    @Autowired(required = false)
-    private GraphRagService graphRagService;
+    private final GraphExtractionService graphExtractionService;
     
     /**
      * 向量化知识条目
@@ -69,11 +56,11 @@ public class VectorizationOrchestrationService {
             
             // 获取知识库和模型配置
             KnowledgeBase kb = knowledgeBaseService.getById(item.getKbId());
-            ModelEntity modelEntity = modelConfigService.getById(kb.getEmbedModelId());
+            ModelEntity modelEntity = modelService.getById(kb.getEmbedModelId());
 
-            // 图谱处理：如果启用了图谱，则提取实体关系并存储到 Neo4j
+            // 图谱处理：如果启用了图谱，则异步提取实体关系并存储到 Neo4j
             if (Boolean.TRUE.equals(kb.getEnableGraph())) {
-                processGraphExtraction(item, kb);
+                graphExtractionService.extractAndStoreAsync(item, kb);
             }
 
             // 获取相关的知识分片
@@ -303,71 +290,4 @@ public class VectorizationOrchestrationService {
         }
     }
 
-    // ================================
-    // 图谱处理
-    // ================================
-
-    /**
-     * 处理图谱提取
-     * <p>
-     * 从知识条目的分片中提取实体关系，并存储到 Neo4j 知识图谱
-     *
-     * @param item 知识条目
-     * @param kb   知识库
-     */
-    private void processGraphExtraction(KnowledgeItem item, KnowledgeBase kb) {
-        if (graphRagService == null) {
-            log.warn("图谱功能已启用但 GraphRagService 未注入，跳过图谱处理: itemId={}", item.getId());
-            return;
-        }
-
-        try {
-            // 获取用于图谱提取的 ChatModel（使用知识库配置的聊天模型）
-            Long chatModelId = kb.getChatModelId();
-            if (chatModelId == null) {
-                log.warn("知识库未配置聊天模型，跳过图谱提取: kbId={}", kb.getId());
-                return;
-            }
-
-            ModelEntity chatModelEntity = modelConfigService.getById(chatModelId);
-            if (chatModelEntity == null) {
-                log.warn("聊天模型配置不存在，跳过图谱提取: chatModelId={}", chatModelId);
-                return;
-            }
-
-            ChatModel chatModel = textModelService.model(chatModelEntity);
-
-            // 创建图谱提取器
-//            LLMGraphTransformer graphTransformer = LLMGraphTransformer.builder()
-//                    .model(chatModel)
-//                    .build();
-            LLMGraphTransformer graphTransformer = GraphRagTransformerFactory.create(chatModel);
-
-            // 获取知识条目的所有分片内容
-            List<KnowledgeChunk> chunks = knowledgeChunkService.listByItemId(item.getId());
-            if (chunks.isEmpty()) {
-                log.debug("知识条目没有分片，跳过图谱提取: itemId={}", item.getId());
-                return;
-            }
-
-            // 将分片转换为文档列表
-            List<Document> documents = chunks.stream()
-                    .map(chunk -> Document.from(chunk.getContent()))
-                    .collect(Collectors.toList());
-
-            // 使用知识库ID作为图谱隔离标识
-            String graphKbId = String.valueOf(kb.getId());
-
-            // 执行图谱提取和存储
-            GraphRagService.ProcessResult result = graphRagService.processDocuments(
-                    graphKbId, documents, graphTransformer, true);
-
-            log.info("图谱提取完成: itemId={}, kbId={}, nodes={}, relationships={}",
-                    item.getId(), kb.getId(), result.nodesCreated(), result.relationshipsCreated());
-
-        } catch (Exception e) {
-            // 图谱提取失败不影响向量化流程，仅记录警告
-            log.warn("图谱提取失败，继续向量化流程: itemId={}, error={}", item.getId(), e.getMessage());
-        }
-    }
 }

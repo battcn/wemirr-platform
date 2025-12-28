@@ -8,7 +8,7 @@ import com.wemirr.platform.ai.domain.dto.req.ModelSaveReq;
 import com.wemirr.platform.ai.domain.dto.resp.ModelDetailResp;
 import com.wemirr.platform.ai.domain.dto.resp.ModelPageResp;
 import com.wemirr.platform.ai.domain.entity.ModelEntity;
-import com.wemirr.platform.ai.service.ModelConfigService;
+import com.wemirr.platform.ai.service.ModelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ import java.util.List;
 @Tag(name = "模型配置", description = "AI 模型配置管理")
 public class ModelController {
 
-    private final ModelConfigService modelService;
+    private final ModelService modelService;
 
     @GetMapping("/list")
     @Operation(summary = "分页查询", description = "分页查询模型配置列表")
