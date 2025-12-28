@@ -31,8 +31,8 @@ public class ConversationController {
     private final ConversationService conversationService;
 
 
-    @Operation(summary = "分页查询会话")
     @GetMapping("/page")
+    @Operation(summary = "分页查询会话")
     public IPage<ConversationPageResp> pageList(ConversationPageReq req) {
         return conversationService.pageList(req);
     }
@@ -47,7 +47,7 @@ public class ConversationController {
     @Operation(summary = "获取普通会话消息列表")
     @GetMapping("/{id}/messages")
     public List<ConversationMessageResp> getMessages(@PathVariable Long id) {
-        return conversationService.getMessages(id);
+        return conversationService.turnList(id);
     }
 
     @GetMapping("/messages")

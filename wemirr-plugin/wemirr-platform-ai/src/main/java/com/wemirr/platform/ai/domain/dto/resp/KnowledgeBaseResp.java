@@ -1,5 +1,7 @@
 package com.wemirr.platform.ai.domain.dto.resp;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,9 +40,6 @@ public class KnowledgeBaseResp {
     @Schema(description = "Embedding模型ID（创建后不可修改）")
     private Long embedModelId;
 
-    /**
-     * 合并 maxResults 和 retrievalLimit，使用行业术语
-     */
     @Schema(description = "单次召回数量(TopK)", defaultValue = "5")
     private Integer topK;
 
@@ -62,10 +61,8 @@ public class KnowledgeBaseResp {
     @Schema(description = "默认预览对话模型ID")
     private Long chatModelId;
 
-    @Schema(description = "乐观锁版本号")
-    private Integer version;
-
     @Schema(description = "扩展元数据")
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> metadata;
 
     @Schema(description = "创建时间")

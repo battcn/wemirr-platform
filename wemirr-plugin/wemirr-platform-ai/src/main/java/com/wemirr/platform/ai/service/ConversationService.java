@@ -98,7 +98,7 @@ public interface ConversationService extends SuperService<Conversation> {
      * @param conversationId 会话ID
      * @return 消息列表
      */
-    List<ConversationMessageResp> getMessages(Long conversationId);
+    List<ConversationMessageResp> turnList(Long conversationId);
 
     ConversationDetailRep detailByKbid(Long id);
 

@@ -2,6 +2,7 @@ package com.wemirr.platform.ai.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -35,7 +36,6 @@ public class KnowledgeBaseServiceImpl extends SuperServiceImpl<KnowledgeBaseMapp
 
 
     private final VectorStoreService vectorStoreService;
-
     private final KnowledgeItemMapper knowledgeItemMapper;
 
     @Override
@@ -62,26 +62,18 @@ public class KnowledgeBaseServiceImpl extends SuperServiceImpl<KnowledgeBaseMapp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void modify(Long id, KnowledgeBaseSaveReq req) {
-        KnowledgeBase knowledgeBase = baseMapper.selectById(id);
-        Optional.ofNullable(knowledgeBase)
-                .orElseThrow(() -> CheckedException.notFound("知识库不存在"));
-
-        KnowledgeBase updateEntity = BeanUtil.toBean(req, KnowledgeBase.class);
-        updateEntity.setId(id);
-        updateEntity.setVersion(knowledgeBase.getVersion() + 1);
-        baseMapper.updateById(updateEntity);
+        var kb = Optional.ofNullable(baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("知识库不存在"));
+        // 直接将请求属性复制到查询出的实体上，保留原始 version 值让乐观锁插件自动处理
+        var entity = BeanUtilPlus.toBean(id, req, KnowledgeBase.class);
+        baseMapper.updateById(entity);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long id) {
-        KnowledgeBase knowledgeBase = baseMapper.selectById(id);
-        Optional.ofNullable(knowledgeBase)
-                .orElseThrow(() -> CheckedException.notFound("知识库不存在"));
-
+        var kb = Optional.ofNullable(baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("知识库不存在"));
         // 删除知识库下的所有向量数据
-        vectorStoreService.deleteByKbId(String.valueOf(id));
-
+//        vectorStoreService.deleteByKbId(String.valueOf(id));
         // 删除知识库
         baseMapper.deleteById(id);
     }

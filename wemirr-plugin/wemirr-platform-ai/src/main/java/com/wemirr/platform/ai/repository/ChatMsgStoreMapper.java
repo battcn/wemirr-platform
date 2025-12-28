@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.repository;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperMapper;
-import com.wemirr.platform.ai.domain.entity.ChatMsgStore;
+import com.wemirr.platform.ai.domain.entity.MessageLog;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  * @since 2025/10/11
  **/
 @Repository
-public interface ChatMsgStoreMapper extends SuperMapper<ChatMsgStore> {
+public interface ChatMsgStoreMapper extends SuperMapper<MessageLog> {
 }

@@ -1,17 +1,17 @@
 package com.wemirr.platform.ai.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.ai.domain.entity.ConversationMessage;
+import com.wemirr.platform.ai.domain.entity.ConversationTurn;
 
 /**
  * @author xiao1
  * @since 2025-10
  */
-public interface ConversationMessageService extends SuperService<ConversationMessage> {
+public interface ConversationMessageService extends SuperService<ConversationTurn> {
     /**
      * 异步保存用户消息
      */
-    ConversationMessage saveUserMessage(
+    ConversationTurn saveUserMessage(
             Long conversationId,
             Long userId,
             Long tenantId,

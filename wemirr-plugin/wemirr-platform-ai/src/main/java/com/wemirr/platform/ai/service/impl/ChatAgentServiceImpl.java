@@ -45,8 +45,8 @@ public class ChatAgentServiceImpl extends SuperServiceImpl<ChatAgentMapper, Chat
     @Override
     public IPage<ChatAgentPageResp> pageList(ChatAgentPageReq req) {
         return this.baseMapper.selectPage(req.buildPage(), Wraps.<ChatAgent>lbQ().like(ChatAgent::getName, req.getName())
-                .eq(ChatAgent::getUserId, req.getUserId())
-                .orderByDesc(ChatAgent::getLastModifyTime)).convert(x -> BeanUtil.toBean(x, ChatAgentPageResp.class));
+                        .eq(ChatAgent::getUserId, req.getUserId()).orderByDesc(ChatAgent::getLastModifyTime))
+                .convert(x -> BeanUtil.toBean(x, ChatAgentPageResp.class));
     }
 
     @Override

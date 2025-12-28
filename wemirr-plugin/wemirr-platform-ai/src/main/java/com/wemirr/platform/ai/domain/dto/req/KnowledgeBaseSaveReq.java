@@ -1,6 +1,7 @@
 package com.wemirr.platform.ai.domain.dto.req;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -32,9 +33,6 @@ public class KnowledgeBaseSaveReq {
     @Schema(description = "Embedding模型ID（创建后不可修改）")
     private Long embedModelId;
 
-    /**
-     * 合并 maxResults 和 retrievalLimit，使用行业术语
-     */
     @Schema(description = "单次召回数量(TopK)", defaultValue = "5")
     private Integer topK;
 

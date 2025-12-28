@@ -38,11 +38,9 @@ public class VectorStore extends SuperEntity<Long> {
     private String vectorData;
 
     @Schema(description = "向量维度")
-    @TableField("dimension")
     private Integer dimension;
 
     @Schema(description = "向量存储类型")
-    @TableField("store_type")
     private String storeType;
 
     @Schema(description = "元数据")

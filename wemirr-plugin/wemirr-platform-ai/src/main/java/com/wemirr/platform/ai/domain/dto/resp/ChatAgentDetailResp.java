@@ -27,7 +27,7 @@ public class ChatAgentDetailResp {
     private String description;
 
     @Schema(description = "智能体角色预设")
-    private String aiSystemMessage;
+    private String systemPrompt;
 
     @Schema(description = "智能体头像")
     private String avatar;

@@ -1,7 +1,12 @@
 package com.wemirr.platform.ai.domain.dto.resp;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.wemirr.framework.db.mybatisplus.handler.type.LongListTypeHandler;
+import com.wemirr.framework.db.mybatisplus.handler.type.StringListTypeHandler;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author xJh
@@ -20,26 +25,29 @@ public class ChatAgentPageResp {
     @Schema(description = "智能体名称")
     private String name;
 
-    @Schema(description = "绑定模型名称")
-    private Long chatModelId;
-
     @Schema(description = "智能体描述")
     private String description;
-
-    @Schema(description = "智能体角色预设")
-    private String aiSystemMessage;
 
     @Schema(description = "智能体头像")
     private String avatar;
 
+    @Schema(description = "系统提示词")
+    private String systemPrompt;
+
+    @Schema(description = "绑定模型ID")
+    private Long modelId;
+
     @Schema(description = "关联知识库ID")
     private Long kbId;
 
-    // JSON格式存储工具名称列表，如：["平台菜单查询工具"]
     @Schema(description = "智能体工具配置")
-    private String tools;
-    
-    // JSON格式存储MCP服务器ID列表，如：[1, 2, 3]
-    @Schema(description = "智能体MCP服务器配置（存储MCP配置ID列表）")
-    private String mcpServerIds;
+    @TableField(typeHandler = StringListTypeHandler.class)
+    private List<String> tools;
+
+    @Schema(description = "MCP服务器ID列表")
+    @TableField(typeHandler = LongListTypeHandler.class)
+    private List<Long> mcpServerIds;
+
+    @Schema(description = "租户ID")
+    private String tenantId;
 }

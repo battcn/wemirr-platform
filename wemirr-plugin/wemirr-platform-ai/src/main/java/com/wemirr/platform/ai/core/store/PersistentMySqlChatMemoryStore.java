@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.core.store;
 
-import com.wemirr.platform.ai.domain.entity.ChatMsgStore;
+import com.wemirr.platform.ai.domain.entity.MessageLog;
 import com.wemirr.platform.ai.repository.ChatMsgStoreMapper;
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.store.memory.chat.ChatMemoryStore;
@@ -31,14 +31,14 @@ public class PersistentMySqlChatMemoryStore implements ChatMemoryStore {
     @SneakyThrows
     @Override
     public List<ChatMessage> getMessages(Object memoryId) {
-        ChatMsgStore chatMsg = chatMsgMapper.selectById(memoryId.toString());
+        MessageLog chatMsg = chatMsgMapper.selectById(memoryId.toString());
         return chatMsg != null ? messagesFromJson(chatMsg.getContent()) : new ArrayList<>();
     }
 
     @SneakyThrows
     @Override
     public void updateMessages(Object memoryId, List<ChatMessage> messages) {
-        ChatMsgStore chatMsg = ChatMsgStore.builder().messageId(memoryId.toString())
+        MessageLog chatMsg = MessageLog.builder().id((Long) memoryId)
                 .content(messagesToJson(messages)).build();
 
         if (chatMsgMapper.selectById(memoryId.toString()) != null) {

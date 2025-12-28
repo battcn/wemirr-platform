@@ -32,8 +32,6 @@ public class KnowledgeBase extends SuperEntity<Long> {
     @Schema(description = "知识库名称")
     private String name;
 
-    @Schema(description = "描述")
-    private String description;
 
     @Schema(description = "租户ID")
     private Long tenantId;
@@ -75,4 +73,7 @@ public class KnowledgeBase extends SuperEntity<Long> {
     @Schema(description = "扩展元数据")
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> metadata;
+
+    @Schema(description = "描述")
+    private String description;
 }

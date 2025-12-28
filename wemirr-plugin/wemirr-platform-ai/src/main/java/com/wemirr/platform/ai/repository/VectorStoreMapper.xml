@@ -4,14 +4,14 @@
 
     <!-- 根据知识库ID查询向量存储 -->
     <select id="selectByKbId" resultType="com.wemirr.platform.ai.domain.entity.VectorStore">
-        SELECT * FROM ai_kb_vector_store
+        SELECT * FROM ai_vector_store
         WHERE kb_id = #{kbId}
         ORDER BY create_time DESC
     </select>
     
     <!-- 根据知识库ID删除向量存储 -->
     <delete id="deleteByKbId">
-        DELETE FROM ai_kb_vector_store
+        DELETE FROM ai_vector_store
         WHERE kb_id = #{kbId}
     </delete>
 

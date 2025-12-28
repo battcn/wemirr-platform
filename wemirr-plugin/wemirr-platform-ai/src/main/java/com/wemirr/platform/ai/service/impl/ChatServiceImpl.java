@@ -37,7 +37,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {
 
-    private final AuthenticationContext authenticationContext;
+    private final AuthenticationContext context;
     private final SseChatHelper sseChatHelper;
     private final ModelConfigRetriever modelConfigRetriever;
     private final AssistantService assistantService;
@@ -49,11 +49,8 @@ public class ChatServiceImpl implements ChatService {
     @Override
     @Transactional
     public SseEmitter chatStream(AskReq askReq) {
-        log.info("开始处理对话请求: chatType={}, userId={}",
-                askReq.getChatType(), authenticationContext.userId());
-
-        SseEmitter emitter = sseChatHelper.createEmitter(String.valueOf(authenticationContext.userId()));
-
+        log.info("开始处理对话请求: chatType={}, userId={}", askReq.getChatType(), context.userId());
+        SseEmitter emitter = sseChatHelper.createEmitter(String.valueOf(context.userId()));
         switch (askReq.getChatType()) {
             case NORMAL_TEXT -> handleTextChat(askReq, emitter);
             case KNOWLEDGE_BASE -> handleKnowledgeChat(askReq, emitter);
@@ -61,7 +58,6 @@ public class ChatServiceImpl implements ChatService {
             default ->
                     throw CheckedException.badRequest(String.format(AiServiceConstants.ERROR_UNSUPPORTED_CHAT_TYPE, askReq.getChatType()));
         }
-
         return emitter;
     }
 
@@ -69,16 +65,15 @@ public class ChatServiceImpl implements ChatService {
      * 处理普通文本对话
      */
     private void handleTextChat(AskReq askReq, SseEmitter sseEmitter) {
-        log.debug("处理普通文本对话: conversationId={}, modelId={}",
-                askReq.getConversationId(), askReq.getModelId());
+        log.debug("处理普通文本对话: conversationId={}, modelId={}", askReq.getConversationId(), askReq.getModelId());
 
-        Long userId = authenticationContext.userId();
-        Long tenantId = authenticationContext.tenantId();
+        Long userId = context.userId();
+        Long tenantId = context.tenantId();
         Long conversationId = askReq.getConversationId();
         String userPrompt = askReq.getPrompt();
 
         // 保存用户消息
-        ConversationMessage conversationMessage = conversationMessageService.saveUserMessage(
+        ConversationTurn conversationTurn = conversationMessageService.saveUserMessage(
                 conversationId, userId, tenantId, userPrompt, userPrompt, 0
         );
 
@@ -93,7 +88,7 @@ public class ChatServiceImpl implements ChatService {
 
         // 处理流式响应
         sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, result ->
-                saveAssistantMessage(conversationId, userId, tenantId, modelEntity, conversationMessage.getId(), result)
+                saveAssistantMessage(conversationId, userId, tenantId, modelEntity, conversationTurn.getId(), result)
         );
     }
 
@@ -103,8 +98,8 @@ public class ChatServiceImpl implements ChatService {
     private void handleKnowledgeChat(AskReq askReq, SseEmitter sseEmitter) {
         log.debug("处理知识库对话: kbId={}", askReq.getKbId());
 
-        Long userId = authenticationContext.userId();
-        Long tenantId = authenticationContext.tenantId();
+        Long userId = context.userId();
+        Long tenantId = context.tenantId();
         String userPrompt = askReq.getPrompt();
 
         // 获取或创建会话
@@ -113,7 +108,7 @@ public class ChatServiceImpl implements ChatService {
         Long conversationId = conversation.getId();
 
         // 保存用户消息
-        ConversationMessage conversationMessage = conversationMessageService.saveUserMessage(
+        ConversationTurn conversationTurn = conversationMessageService.saveUserMessage(
                 conversationId, userId, tenantId, userPrompt, userPrompt, 0
         );
 
@@ -145,7 +140,7 @@ public class ChatServiceImpl implements ChatService {
 
             // 处理流式响应
             sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, result ->
-                    saveAssistantMessage(conversationId, userId, tenantId, textModelEntity, conversationMessage.getId(), result)
+                    saveAssistantMessage(conversationId, userId, tenantId, textModelEntity, conversationTurn.getId(), result)
             );
 
         } catch (Exception e) {
@@ -160,8 +155,8 @@ public class ChatServiceImpl implements ChatService {
     private void handleAgentChat(AskReq askReq, SseEmitter sseEmitter) {
         log.debug("处理智能体对话: agentId={}", askReq.getAgentId());
 
-        Long userId = authenticationContext.userId();
-        Long tenantId = authenticationContext.tenantId();
+        Long userId = context.userId();
+        Long tenantId = context.tenantId();
         String userPrompt = askReq.getPrompt();
 
         // 获取或创建会话
@@ -169,7 +164,7 @@ public class ChatServiceImpl implements ChatService {
         Long conversationId = conversation.getId();
 
         // 保存用户消息
-        ConversationMessage conversationMessage = conversationMessageService.saveUserMessage(
+        ConversationTurn conversationTurn = conversationMessageService.saveUserMessage(
                 conversationId, userId, tenantId, userPrompt, userPrompt, 0
         );
 
@@ -194,7 +189,7 @@ public class ChatServiceImpl implements ChatService {
 
         // 处理流式响应
         sseChatHelper.chatStreamToSse(askReq, sseEmitter, tokenStream, result ->
-                saveAssistantMessage(conversationId, userId, tenantId, textModelEntity, conversationMessage.getId(), result)
+                saveAssistantMessage(conversationId, userId, tenantId, textModelEntity, conversationTurn.getId(), result)
         );
     }
 

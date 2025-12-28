@@ -1,7 +1,9 @@
 package com.wemirr.platform.ai.service.impl;
 
+import com.wemirr.framework.ai.core.enums.AiProvider;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
-import com.wemirr.platform.ai.domain.entity.ConversationMessage;
+import com.wemirr.platform.ai.core.enums.MessageRole;
+import com.wemirr.platform.ai.domain.entity.ConversationTurn;
 import com.wemirr.platform.ai.repository.ConversationMessageMapper;
 import com.wemirr.platform.ai.service.ConversationMessageService;
 import lombok.RequiredArgsConstructor;
@@ -17,38 +19,31 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ConversationMessageServiceImpl extends SuperServiceImpl<ConversationMessageMapper, ConversationMessage> implements ConversationMessageService {
+public class ConversationMessageServiceImpl extends SuperServiceImpl<ConversationMessageMapper, ConversationTurn> implements ConversationMessageService {
 
     private final ConversationMessageMapper messageMapper;
 
     @Transactional(propagation = Propagation.NESTED)
     @Override
-    public ConversationMessage saveUserMessage(
-            Long conversationId,
-            Long userId,
-            Long tenantId,
-            String rawContent,
-            String promptContent,
-            Integer promptTokens
-    ) {
-        ConversationMessage message = null;
+    public ConversationTurn saveUserMessage(Long conversationId, Long userId,
+                                            Long tenantId, String rawContent, String promptContent, Integer promptTokens) {
+        ConversationTurn message = null;
         try {
             Integer sequenceNum = getNextSequence(conversationId);
-            message = ConversationMessage.builder()
+            message = ConversationTurn.builder()
                     .conversationId(conversationId)
                     .userId(userId)
                     .tenantId(tenantId)
-                    .role("user")
-                    .originalContent(rawContent)
-                    .renderedContent(rawContent)
-                    // 用户输入无需处理
-                    .processedContent(rawContent)
-                    .promptTokens(promptTokens)
-                    .completionTokens(0)
-                    .totalTokens(promptTokens)
+                    .role(MessageRole.USER)
+                    .userInput(rawContent)
+                    .displayContent(rawContent)
+                    .modelOutput(rawContent)
+                    .inputTokens(promptTokens)
+                    .outputTokens(0)
+//                    .totalTokens(promptTokens)
                     .sequenceNum(sequenceNum)
                     // 用户消息无父消息
-                    .parentMessageId(null)
+//                    .parentMessageId(null)
                     .deleted(false)
                     .build();
             messageMapper.insert(message);
@@ -86,23 +81,23 @@ public class ConversationMessageServiceImpl extends SuperServiceImpl<Conversatio
             Integer totalTokens = (promptTokens != null ? promptTokens : 0) +
                     (completionTokens != null ? completionTokens : 0);
 
-            ConversationMessage message = ConversationMessage.builder()
+            ConversationTurn message = ConversationTurn.builder()
                     .conversationId(conversationId)
                     .userId(userId)
                     .tenantId(tenantId)
-                    .role("assistant")
-                    .originalContent(rawContent)
-                    .renderedContent(displayContent)
-                    .processedContent(promptContent)
+                    .role(MessageRole.ASSISTANT)
+//                    .originalContent(rawContent)
+//                    .renderedContent(displayContent)
+//                    .processedContent(promptContent)
                     .modelName(modelName)
-                    .modelProvider(modelProvider)
-                    .promptTokens(promptTokens)
-                    .completionTokens(completionTokens)
-                    .totalTokens(totalTokens)
-                    .responseLatencyMs(responseLatencyMs)
+                    .modelProvider(AiProvider.of(modelProvider))
+//                    .promptTokens(promptTokens)
+//                    .completionTokens(completionTokens)
+//                    .totalTokens(totalTokens)
+//                    .responseLatencyMs(responseLatencyMs)
                     .thinkingContent(thinkingContent)
                     .sequenceNum(sequenceNum)
-                    .parentMessageId(parentMessageId)
+//                    .parentMessageId(parentMessageId)
                     .deleted(false)
                     .build();
 
@@ -113,8 +108,8 @@ public class ConversationMessageServiceImpl extends SuperServiceImpl<Conversatio
         }
     }
 
-    @Transactional(propagation = Propagation.NESTED)
     @Override
+    @Transactional(propagation = Propagation.NESTED)
     public void updateMessageStatusAsync(Long messageId, Integer status) {
         try {
             messageMapper.updateStatusById(messageId, status);
