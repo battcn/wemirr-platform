@@ -11,7 +11,7 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 27/12/2025 19:09:10
+ Date: 28/12/2025 21:23:34
 */
 
 SET NAMES utf8mb4;
@@ -79,7 +79,7 @@ CREATE TABLE `ai_conversation` (
                                    `last_message` text COMMENT '最后一条消息内容',
                                    `message_count` int DEFAULT NULL COMMENT '消息数量',
                                    `pinned` tinyint(1) DEFAULT NULL COMMENT '是否置顶',
-                                   `knowledge_base_ids` bigint DEFAULT NULL COMMENT '关联的知识库ids',
+                                   `knowledge_base_ids` varchar(255) DEFAULT NULL COMMENT '关联的知识库ids',
                                    `tenant_id` bigint DEFAULT NULL,
                                    `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
                                    `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
@@ -90,6 +90,46 @@ CREATE TABLE `ai_conversation` (
                                    `last_modify_time` datetime DEFAULT NULL COMMENT '最后修改时间',
                                    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='会话信息';
+
+-- ----------------------------
+-- Table structure for ai_conversation_turn
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_conversation_turn`;
+CREATE TABLE `ai_conversation_turn` (
+                                        `id` bigint NOT NULL COMMENT '主键ID',
+                                        `conversation_id` bigint NOT NULL COMMENT '会话ID，关联 ai_conversation',
+                                        `previous_turn_id` bigint DEFAULT NULL COMMENT '上一轮交互ID（用于重试、分叉、上下文回溯）',
+                                        `user_id` bigint DEFAULT NULL COMMENT '用户ID',
+                                        `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                                        `role` varchar(32) NOT NULL COMMENT '消息角色（SYSTEM / USER / ASSISTANT / TOOL / OBSERVATION）',
+                                        `user_input` longtext COMMENT '用户原始输入内容',
+                                        `final_prompt` longtext COMMENT '最终发送给模型的 Prompt',
+                                        `model_output` longtext COMMENT '模型原始输出内容',
+                                        `display_content` longtext COMMENT '最终展示给用户的内容',
+                                        `thinking_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '模型思考内容',
+                                        `model_provider` varchar(64) DEFAULT NULL COMMENT '模型提供商（openai / deepseek / qwen 等）',
+                                        `model_name` varchar(128) DEFAULT NULL COMMENT '模型名称（如 gpt-4.1 / deepseek-r1）',
+                                        `input_tokens` int DEFAULT NULL COMMENT '输入 Token 数（最终 Prompt）',
+                                        `output_tokens` int DEFAULT NULL COMMENT '输出 Token 数',
+                                        `inference_latency_ms` bigint DEFAULT NULL COMMENT '模型推理耗时（毫秒）',
+                                        `reasoning_summary` longtext COMMENT '模型推理摘要信息（不存完整思维链）',
+                                        `user_feedback` int DEFAULT NULL,
+                                        `feedback_remark` varchar(255) DEFAULT NULL,
+                                        `trace_id` varchar(64) DEFAULT NULL COMMENT '全链路追踪ID',
+                                        `variables` json DEFAULT NULL COMMENT '扩展属性（JSON，如模型参数、调用配置）',
+                                        `sequence_num` int NOT NULL COMMENT '会话内顺序号',
+                                        `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除标志',
+                                        `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
+                                        `create_name` varchar(255) DEFAULT NULL COMMENT '创建人名称',
+                                        `create_time` datetime NOT NULL COMMENT '创建时间',
+                                        `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人ID',
+                                        `last_modify_name` varchar(255) DEFAULT NULL COMMENT '最后修改人名称',
+                                        `last_modify_time` datetime DEFAULT NULL COMMENT '最后修改时间',
+                                        PRIMARY KEY (`id`),
+                                        KEY `idx_conv_seq` (`conversation_id`,`sequence_num`),
+                                        KEY `idx_trace_id` (`trace_id`),
+                                        KEY `idx_user_time` (`user_id`,`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='AI 会话单轮交互记录（Turn 级）';
 
 -- ----------------------------
 -- Table structure for ai_knowledge_base
@@ -192,33 +232,6 @@ CREATE TABLE `ai_mcp_server` (
                                  `last_modify_time` datetime DEFAULT NULL COMMENT '最后修改时间',
                                  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2004865314956963843 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Mcp配置';
-
--- ----------------------------
--- Table structure for ai_message
--- ----------------------------
-DROP TABLE IF EXISTS `ai_message`;
-CREATE TABLE `ai_message` (
-                              `id` bigint NOT NULL COMMENT 'ID',
-                              `conversation_id` bigint DEFAULT NULL COMMENT '会话ID，关联同一轮对话',
-                              `parent_message_id` bigint DEFAULT NULL COMMENT '父消息ID，用于构建消息树（如用户提问 → AI回复）',
-                              `user_id` bigint DEFAULT NULL COMMENT '用户ID',
-                              `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
-                              `role` varchar(50) DEFAULT NULL COMMENT '消息角色：user / assistant / system',
-                              `content` longtext COMMENT '最终展示内容',
-                              `thinking` longtext COMMENT '思维链/CoT内容',
-                              `trace_id` varchar(64) DEFAULT NULL COMMENT '全链路ID',
-                              `meta_data` json DEFAULT NULL COMMENT '元数据',
-                              `model_provider` varchar(100) DEFAULT NULL COMMENT '模型提供商，如 openai, deepseek, qwen',
-                              `sequence_num` int DEFAULT NULL COMMENT '消息在会话中的顺序号，用于排序',
-                              `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
-                              `create_by` bigint DEFAULT NULL COMMENT '创建人ID',
-                              `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-                              `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人名称',
-                              `last_modify_by` bigint DEFAULT NULL COMMENT '最后修改人ID',
-                              `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '最后修改人名称',
-                              `last_modify_time` datetime DEFAULT NULL COMMENT '最后修改时间',
-                              PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='会话信息明细记录';
 
 -- ----------------------------
 -- Table structure for ai_model

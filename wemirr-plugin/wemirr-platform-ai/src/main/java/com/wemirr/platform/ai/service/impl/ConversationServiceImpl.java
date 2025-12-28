@@ -3,6 +3,7 @@ package com.wemirr.platform.ai.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wemirr.framework.commons.BeanUtilPlus;
+import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author xJh
@@ -35,29 +37,14 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
     private final AuthenticationContext context;
     private final ConversationMessageMapper conversationMessageMapper;
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void deleteConversation(Long conversationId) {
-        Conversation conversation = this.getById(conversationId);
-        if (conversation == null) {
-            throw new RuntimeException("会话不存在");
-        }
-        if (!conversation.getUserId().equals(context.userId())) {
-            throw new RuntimeException("无权删除该会话");
-        }
-        this.removeById(conversationId);
-    }
 
     @Override
     public IPage<ConversationPageResp> pageList(ConversationPageReq req) {
         Long userId = context.userId();
-        Page<Conversation> result = this.page(req.buildPage(), Wraps.<Conversation>lbQ()
-                .eq(Conversation::getUserId, userId)
-                .eq(Conversation::getType, req.getType())
-                .like(Conversation::getTitle, req.getTitle())
-                .orderByDesc(Conversation::getPinned)
-                .orderByDesc(Conversation::getLastModifyTime)
-                .orderByDesc(Conversation::getId));
+        Page<Conversation> result = this.page(req.buildPage(), Wraps.<Conversation>lbQ().eq(Conversation::getUserId, userId)
+                .like(Conversation::getTitle, req.getTitle()).eq(Conversation::getType, req.getType())
+                .eq(Conversation::getAgentId, req.getAgentId())
+                .orderByDesc(Conversation::getPinned).orderByDesc(Conversation::getLastModifyTime).orderByDesc(Conversation::getId));
         return result.convert(this::convertToPageRep);
     }
 
@@ -203,43 +190,15 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
     }
 
     @Override
-    public ConversationDetailResp detailByKbId(Long id) {
-        return null;
-    }
-
-    @Override
-    public List<ConversationMessageResp> messagesByKbId(Long id) {
+    public List<ConversationMessageResp> messageList(Long kbId, Long agentId) {
         Long userId = context.userId();
-        Conversation conversation = this.getOne(Wraps.<Conversation>lbQ()
-                .eq(Conversation::getKnowledgeBaseIds, id)
-                .eq(Conversation::getUserId, userId)
-        );
+        var conversation = this.baseMapper.selectOne(Wraps.<Conversation>lbQ().eq(Conversation::getKnowledgeBaseIds, kbId)
+                .eq(Conversation::getAgentId, agentId).eq(Conversation::getUserId, userId));
         if (conversation == null) {
             return List.of();
         }
-        if (!conversation.getUserId().equals(userId)) {
-            throw new RuntimeException("无权访问该会话");
-        }
-
         List<ConversationTurn> turnList = conversationMessageMapper.selectList(Wraps.<ConversationTurn>lbQ()
                 .eq(ConversationTurn::getConversationId, conversation.getId()).orderByAsc(ConversationTurn::getSequenceNum));
         return turnList.stream().map(turn -> BeanUtilPlus.toBean(turn, ConversationMessageResp.class)).toList();
     }
-
-    @Override
-    public List<ConversationMessageResp> messagesByAgent(Long id) {
-        Long userId = context.userId();
-        Conversation conversation = this.getOne(Wraps.<Conversation>lbQ().eq(Conversation::getAgentId, id).eq(Conversation::getUserId, userId));
-        if (conversation == null) {
-            return List.of();
-        }
-        if (!conversation.getUserId().equals(userId)) {
-            throw new RuntimeException("无权访问该会话");
-        }
-        List<ConversationTurn> turnList = conversationMessageMapper.selectList(Wraps.<ConversationTurn>lbQ()
-                .eq(ConversationTurn::getConversationId, conversation.getId()).orderByAsc(ConversationTurn::getSequenceNum));
-        return turnList.stream().map(turn -> BeanUtilPlus.toBean(turn, ConversationMessageResp.class)).toList();
-
-    }
-
 }

@@ -18,11 +18,6 @@ import java.util.List;
 public interface ConversationService extends SuperService<Conversation> {
 
     /**
-     * 删除会话及其所有消息
-     */
-    void deleteConversation(Long conversationId);
-
-    /**
      * 清空会话消息
      *
      * @param id 会话ID
@@ -90,9 +85,6 @@ public interface ConversationService extends SuperService<Conversation> {
      */
     List<ConversationMessageResp> turnList(Long conversationId);
 
-    ConversationDetailResp detailByKbId(Long id);
+    List<ConversationMessageResp> messageList(Long kbId, Long agentId);
 
-    List<ConversationMessageResp> messagesByKbId(Long id);
-
-    List<ConversationMessageResp> messagesByAgent(Long id);
 }

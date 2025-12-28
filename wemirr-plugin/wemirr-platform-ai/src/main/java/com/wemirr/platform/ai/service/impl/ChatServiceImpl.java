@@ -1,5 +1,6 @@
 package com.wemirr.platform.ai.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.wemirr.framework.ai.core.enums.ModelType;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
@@ -125,7 +126,7 @@ public class ChatServiceImpl implements ChatService {
 
         // 获取或创建会话
         KnowledgeBase knowledgeBase = knowledgeBaseService.getById(askReq.getKbId());
-        Conversation conversation = getOrCreateConversation(userId, askReq.getKbId(), ConversationType.KNOWLEDGE_BASE);
+        Conversation conversation = getOrCreateConversation(userId, askReq, ConversationType.KNOWLEDGE_BASE);
         Long conversationId = conversation.getId();
 
         // 保存用户消息
@@ -180,14 +181,14 @@ public class ChatServiceImpl implements ChatService {
      * 处理智能体对话
      */
     private void handleAgentChat(AskReq askReq, SseEmitter sseEmitter) {
-        log.debug("处理智能体对话: agentId={}", askReq.getAgentId());
+        log.debug("处理智能体对话: agentId={}", askReq);
 
         Long userId = context.userId();
         Long tenantId = context.tenantId();
         String userPrompt = askReq.getPrompt();
 
         // 获取或创建会话
-        Conversation conversation = getOrCreateConversation(userId, askReq.getAgentId(), ConversationType.GENERAL_AGENT);
+        Conversation conversation = getOrCreateConversation(userId, askReq, ConversationType.GENERAL_AGENT);
         Long conversationId = conversation.getId();
 
         // 保存用户消息
@@ -229,41 +230,22 @@ public class ChatServiceImpl implements ChatService {
     /**
      * 获取或创建会话
      */
-    private Conversation getOrCreateConversation(Long userId, Long relatedId, ConversationType type) {
+    private Conversation getOrCreateConversation(Long userId, AskReq askReq, ConversationType type) {
         Conversation conversation;
-
         if (type == ConversationType.KNOWLEDGE_BASE) {
-            conversation = conversationService.getOne(
-                    Wraps.<Conversation>lbQ()
-                            .eq(Conversation::getUserId, userId)
-                            .eq(Conversation::getKnowledgeBaseIds, relatedId)
-            );
+            conversation = conversationService.getOne(Wraps.<Conversation>lbQ().eq(Conversation::getUserId, userId)
+                    .eq(Conversation::getId, askReq.getConversationId()).eq(Conversation::getKnowledgeBaseIds, askReq.getKbId()));
         } else {
-            conversation = conversationService.getOne(
-                    Wraps.<Conversation>lbQ()
-                            .eq(Conversation::getUserId, userId)
-                            .eq(Conversation::getAgentId, relatedId)
-            );
+            conversation = conversationService.getOne(Wraps.<Conversation>lbQ().eq(Conversation::getUserId, userId)
+                    .eq(Conversation::getId, askReq.getConversationId()).eq(Conversation::getAgentId, askReq.getAgentId()));
         }
-
         if (conversation == null) {
-            Conversation.ConversationBuilder builder = Conversation.builder()
-                    .title("")
-                    .type(type)
-                    .userId(userId);
-
-            if (type == ConversationType.KNOWLEDGE_BASE) {
-                builder.knowledgeBaseIds(List.of(relatedId));
-            } else {
-                builder.agentId(relatedId);
-            }
-
-            conversation = builder.build();
+            String title = StrUtil.blankToDefault(askReq.getPrompt(), "新对话").substring(0, 20);
+            conversation = Conversation.builder().title(title).type(type).userId(userId)
+                    .knowledgeBaseIds(List.of(askReq.getKbId())).agentId(askReq.getAgentId()).build();
             conversationService.save(conversation);
-            log.info("创建新会话: conversationId={}, type={}, userId={}",
-                    conversation.getId(), type, userId);
+            log.info("创建新会话: conversationId={}, type={}, userId={}", conversation.getId(), type, userId);
         }
-
         return conversation;
     }
 
@@ -288,13 +270,9 @@ public class ChatServiceImpl implements ChatService {
         ModelEntity rerankModelEntity = modelConfigRetriever.getModel(knowledgeBase.getRerankModelId())
                 .orElse(null);
 
-        return RagAssistantParams.builder()
-                .kbId(chatAgent.getKbId())
-                .textModelEntity(textModelEntity)
-                .embeddingModelEntity(embeddingModelEntity)
-                .rerankModelEntity(rerankModelEntity)
-                .enableGraphRetrieval(knowledgeBase.getEnableGraph())
-                .build();
+        return RagAssistantParams.builder().kbId(chatAgent.getKbId())
+                .textModelEntity(textModelEntity).embeddingModelEntity(embeddingModelEntity)
+                .rerankModelEntity(rerankModelEntity).enableGraphRetrieval(knowledgeBase.getEnableGraph()).build();
     }
 
     /**
@@ -327,9 +305,7 @@ public class ChatServiceImpl implements ChatService {
      */
     private void handleChatError(SseEmitter sseEmitter, String errorMessage) {
         try {
-            sseEmitter.send(SseEmitter.event()
-                    .name("error")
-                    .data(errorMessage));
+            sseEmitter.send(SseEmitter.event().name("error").data(errorMessage));
             sseEmitter.complete();
         } catch (Exception ex) {
             log.error("发送错误信息失败", ex);

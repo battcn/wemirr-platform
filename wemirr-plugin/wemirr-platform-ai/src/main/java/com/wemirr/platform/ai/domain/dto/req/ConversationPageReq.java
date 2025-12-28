@@ -25,4 +25,7 @@ public class ConversationPageReq extends PageRequest {
 
     @Schema(description = "对话类型")
     private Integer type;
+
+    @Schema(description = "智能体ID")
+    private Long agentId;
 }

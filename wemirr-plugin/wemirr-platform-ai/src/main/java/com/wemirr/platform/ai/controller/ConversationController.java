@@ -45,22 +45,16 @@ public class ConversationController {
     }
 
 
-    @Operation(summary = "获取普通会话消息列表")
     @GetMapping("/{id}/messages")
+    @Operation(summary = "获取普通会话消息列表")
     public List<ConversationMessageResp> turnList(@PathVariable Long id) {
         return conversationService.turnList(id);
     }
 
     @GetMapping("/messages")
     @Operation(summary = "获取知识库会话消息列表")
-    public List<ConversationMessageResp> messageList(Long kbId) {
-        return conversationService.messagesByAgent(kbId);
-    }
-
-    @GetMapping("/{id}/messagesByAgent")
-    @Operation(summary = "获取智能体会话消息列表")
-    public List<ConversationMessageResp> messagesByAgent(@PathVariable Long id) {
-        return conversationService.messagesByAgent(id);
+    public List<ConversationMessageResp> messageList(Long kbId, Long agentId) {
+        return conversationService.messageList(kbId, agentId);
     }
 
     @PostMapping
