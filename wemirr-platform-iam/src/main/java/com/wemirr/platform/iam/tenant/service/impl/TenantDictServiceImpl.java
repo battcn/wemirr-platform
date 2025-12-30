@@ -38,7 +38,6 @@ import com.wemirr.platform.iam.tenant.domain.dto.req.TenantDictSaveReq;
 import com.wemirr.platform.iam.tenant.domain.entity.TenantDict;
 import com.wemirr.platform.iam.tenant.repository.TenantDictMapper;
 import com.wemirr.platform.iam.tenant.service.TenantDictService;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

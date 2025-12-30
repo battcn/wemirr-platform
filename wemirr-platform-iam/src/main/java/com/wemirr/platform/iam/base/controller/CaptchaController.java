@@ -20,9 +20,7 @@
 package com.wemirr.platform.iam.base.controller;
 
 import cloud.tianai.captcha.application.vo.ImageCaptchaVO;
-import cloud.tianai.captcha.common.response.ApiResponse;
 import cn.dev33.satoken.annotation.SaIgnore;
-import com.wemirr.framework.commons.annotation.IgnoreGlobalResponse;
 import com.wemirr.platform.iam.base.domain.dto.req.CaptchaReq;
 import com.wemirr.platform.iam.base.domain.dto.resp.CaptchaResp;
 import com.wemirr.platform.iam.system.service.CaptchaService;

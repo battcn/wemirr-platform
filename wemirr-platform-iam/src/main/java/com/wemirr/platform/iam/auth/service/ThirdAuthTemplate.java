@@ -29,7 +29,6 @@ import com.wemirr.platform.iam.auth.domain.dto.resp.ThirdAuthResp;
 import com.wemirr.platform.iam.auth.domain.entity.UserThirdAccount;
 import com.wemirr.platform.iam.system.domain.enums.ThirdAuthType;
 import com.wemirr.platform.iam.system.repository.ThirdAccountMapper;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhyd.oauth.config.AuthConfig;

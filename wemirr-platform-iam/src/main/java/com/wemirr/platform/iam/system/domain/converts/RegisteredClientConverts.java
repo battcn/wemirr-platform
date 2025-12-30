@@ -56,11 +56,12 @@ public class RegisteredClientConverts {
             target.setScopes(StrUtil.split(source.getScopes(), ','));
             target.setStatus(source.getStatus());
             final String tokenSettings = source.getTokenSettings();
-            if (StrUtil.isNotBlank(tokenSettings)) {
-                JsonNode settings = JacksonUtils.toObj(tokenSettings);
-                target.setAccessTokenTimeToLive(settings.get("accessTokenTimeToLive").asLong());
-                target.setRefreshTokenTimeToLive(settings.get("refreshTokenTimeToLive").asLong());
+            if (StrUtil.isBlank(tokenSettings)) {
+                return target;
             }
+            JsonNode settings = JacksonUtils.toObj(tokenSettings);
+            settings.optional("accessTokenTimeToLive").ifPresent(jsonNode -> target.setAccessTokenTimeToLive(jsonNode.asLong()));
+            settings.optional("refreshTokenTimeToLive").ifPresent(jsonNode -> target.setRefreshTokenTimeToLive(jsonNode.asLong()));
             return target;
         }
     }

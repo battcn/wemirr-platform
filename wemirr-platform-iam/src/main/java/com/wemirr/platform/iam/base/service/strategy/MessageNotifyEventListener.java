@@ -29,7 +29,6 @@ import com.wemirr.platform.iam.base.domain.entity.MessageChannel;
 import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
 import com.wemirr.platform.iam.base.domain.entity.MessageTemplate;
 import com.wemirr.platform.iam.base.repository.MessageChannelMapper;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;

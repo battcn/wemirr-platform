@@ -20,7 +20,6 @@
 package com.wemirr.platform.iam.system.service;
 
 import cloud.tianai.captcha.application.vo.ImageCaptchaVO;
-import cloud.tianai.captcha.common.response.ApiResponse;
 import cn.hutool.captcha.CircleCaptcha;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.iam.base.domain.dto.req.CaptchaReq;
