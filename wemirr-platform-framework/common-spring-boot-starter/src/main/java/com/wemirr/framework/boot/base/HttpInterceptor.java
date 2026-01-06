@@ -40,6 +40,7 @@ import java.util.Locale;
 public class HttpInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler) {
+        ThreadLocalHolder.clear();
         // 从请求头中获取地区信息
         Locale locale = request.getLocale();
         ThreadLocalHolder.setLocale(locale);
