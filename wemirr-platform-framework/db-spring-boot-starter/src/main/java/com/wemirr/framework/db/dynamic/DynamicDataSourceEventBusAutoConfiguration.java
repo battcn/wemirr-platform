@@ -61,6 +61,7 @@ public class DynamicDataSourceEventBusAutoConfiguration {
         return new DynamicDataSourceHandler();
     }
 
+    @Order(value = Integer.MIN_VALUE)
     @Bean(initMethod = "init")
     @ConditionalOnProperty(prefix = "extend.mybatis-plus.multi-tenant", name = "strategy", havingValue = "feign")
     public DynamicDataSourceLoad tenantDynamicDataSourceLoad(DynamicDataSourceHandler handler, TenantFeignClient tenantFeignClient) {
