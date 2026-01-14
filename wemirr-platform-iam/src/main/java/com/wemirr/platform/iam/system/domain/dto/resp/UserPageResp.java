@@ -54,7 +54,7 @@ public class UserPageResp {
 
     @ExcelProperty("昵称")
     @Schema(description = "昵称")
-    private String nickName;
+    private String nickname;
 
     @ExcelProperty("身份证")
     @Schema(description = "身份证")

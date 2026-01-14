@@ -198,7 +198,7 @@ public class AccessLogAspect {
             logInfo.setTenantId(context.tenantId());
             logInfo.setTenantCode(context.tenantCode());
             logInfo.setCreateBy(context.userId());
-            logInfo.setCreateName(context.nickName());
+            logInfo.setCreateName(context.nickname());
         }
         logInfo.setTrace(MDC.get(accessLogProperties.getRequestId()));
         logInfo.setModule(annotation.module());

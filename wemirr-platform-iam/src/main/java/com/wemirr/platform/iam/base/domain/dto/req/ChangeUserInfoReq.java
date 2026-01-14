@@ -46,7 +46,7 @@ public class ChangeUserInfoReq {
     @Schema(description = "昵称")
     @NotEmpty(message = "昵称不能为空")
     @Length(max = 64, message = "昵称长度不能超过{max}")
-    private String nickName;
+    private String nickname;
     
     @Schema(description = "手机号")
     @NotBlank(message = "手机号不能为空")

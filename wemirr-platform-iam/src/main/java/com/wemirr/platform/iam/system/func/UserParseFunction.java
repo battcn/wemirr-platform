@@ -69,7 +69,7 @@ public class UserParseFunction implements IParseFunction {
      * 格式化用户显示信息，格式：昵称(手机号) 或 昵称
      */
     private String formatUserDisplay(User user) {
-        String nickname = user.getNickName();
+        String nickname = user.getNickname();
         return StrUtil.isEmpty(user.getMobile())
                 ? nickname
                 : "%s(%s)".formatted(nickname, user.getMobile());

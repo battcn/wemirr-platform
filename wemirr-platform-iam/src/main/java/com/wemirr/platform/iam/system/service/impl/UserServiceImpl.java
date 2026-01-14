@@ -131,7 +131,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     public IPage<UserPageResp> pageList(UserPageReq req) {
         return DataScope.run(() -> baseMapper.selectPage(req.buildPage(), Wraps.<User>lbQ()
                 .eq(User::getTenantId, context.tenantId()).eq(User::getStatus, req.getStatus())
-                .like(User::getUsername, req.getUsername()).like(User::getNickName, req.getNickName()).like(User::getEmail, req.getEmail())
+                .like(User::getUsername, req.getUsername()).like(User::getNickname, req.getNickname()).like(User::getEmail, req.getEmail())
                 .eq(User::getEducation, req.getEducation()).eq(User::getSex, req.getSex()).in(User::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
                 .eq(User::getMobile, req.getMobile())).convert(x -> BeanUtil.toBean(x, UserPageResp.class)));
     }
@@ -161,7 +161,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     public void changeInfo(ChangeUserInfoReq req) {
         final Long userId = context.userId();
         User bean = User.builder().id(userId).email(req.getEmail()).mobile(req.getMobile())
-                .nickName(req.getNickName()).birthday(req.getBirthday())
+                .nickname(req.getNickname()).birthday(req.getBirthday())
                 .description(req.getDescription()).build();
         this.baseMapper.updateById(bean);
     }
@@ -204,7 +204,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             info.setTenantId(user.getTenantId());
             info.setUserId(user.getId());
             info.setUsername(user.getUsername());
-            info.setNickName(user.getNickName());
+            info.setNickname(user.getNickname());
             info.setMobile(user.getMobile());
             info.setEmail(user.getEmail());
             info.setDescription(user.getDescription());

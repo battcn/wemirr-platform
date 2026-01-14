@@ -349,7 +349,7 @@ public class GenerateTableServiceImpl extends SuperServiceImpl<GenerateTableMapp
         genTable.setModuleName("GenCode");
         //业务名默认设置=> sys_user => SysUser
         genTable.setBusinessName(convertTableNameToBusinessName(genTable.getName()));
-        genTable.setAuthor(authenticationContext.nickName());
+        genTable.setAuthor(authenticationContext.nickname());
         // 设置默认模板组id
         GenerateTemplateGroup one = generateTemplateGroupService.getOne(Wraps.<GenerateTemplateGroup>lbQ().eq(GenerateTemplateGroup::getIsDefault, true));
         genTable.setDeleted(false);

@@ -19,7 +19,7 @@ public class UserInfoResp {
     private String username;
 
     @Schema(description = "昵称")
-    private String nickName;
+    private String nickname;
 
     @Schema(description = "头像")
     private String avatar;

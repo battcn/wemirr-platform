@@ -169,7 +169,7 @@ public class ReceivingPlanController {
         map.put("currentDate", date);
         pdfTemplate.export(PDFDomain.builder().templateName("pdf/pages/ReceivingPlan.ftl")
                 .fileName(detail.getPlanNum()).model(map)
-                .watermark(context.nickName()).build(), response);
+                .watermark(context.nickname()).build(), response);
     }
 
 }

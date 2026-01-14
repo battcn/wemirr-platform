@@ -79,7 +79,7 @@ public class WpTokenListener implements SaTokenListener {
         LoginLog loginLog = LoginLog.builder().principal(principal).clientId(loginParameter.getDeviceType())
                 .tenantId(info.getTenantId()).tenantCode(info.getTenantCode()).location(region).ip(ip)
                 .platform(userAgent.platform()).engine(userAgent.engine()).browser(userAgent.browser()).os(userAgent.os())
-                .loginType(principalType).createBy(userId).createTime(Instant.now()).createName(info.getNickName()).build();
+                .loginType(principalType).createBy(userId).createTime(Instant.now()).createName(info.getNickname()).build();
         info.setLoginLog(JacksonUtils.readValue(JacksonUtils.toJson(loginLog), new TypeReference<>() {
         }));
         StpUtil.getTokenSessionByToken(tokenValue).set(extProperties.getServer().getTokenInfoKey(), info);

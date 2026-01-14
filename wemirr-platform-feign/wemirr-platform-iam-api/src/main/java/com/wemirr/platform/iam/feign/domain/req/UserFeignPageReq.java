@@ -22,7 +22,7 @@ public class UserFeignPageReq {
     private String username;
 
     @Schema(description = "昵称")
-    private String nickName;
+    private String nickname;
 
     @Schema(description = "邮箱")
     private String email;

@@ -60,7 +60,7 @@ public class User extends SuperEntity<Long> {
     
     @Schema(description = "昵称")
     @DiffField(name = "昵称")
-    private String nickName;
+    private String nickname;
     
     @DiffField(name = "描述")
     @Schema(description = "描述")

@@ -132,7 +132,7 @@ public class CustomGlobalListener implements GlobalListener {
         return permissionList.stream()
                 .map(userId -> {
                     UserInfoResp userInfo = userMap.get(userId);
-                    return userInfo != null ? userInfo.getNickName() : userId;
+                    return userInfo != null ? userInfo.getNickname() : userId;
                 })
                 .collect(Collectors.joining(","));
     }

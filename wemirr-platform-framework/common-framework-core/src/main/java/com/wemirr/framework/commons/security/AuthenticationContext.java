@@ -74,7 +74,7 @@ public interface AuthenticationContext {
      *
      * @return 名称
      */
-    String nickName();
+    String nickname();
 
     /**
      * 手机号

@@ -45,7 +45,7 @@ public class UserRoleResp {
     public static class UserRoleDetail {
         
         private Long id;
-        private String nickName;
+        private String nickname;
         private String username;
         
     }

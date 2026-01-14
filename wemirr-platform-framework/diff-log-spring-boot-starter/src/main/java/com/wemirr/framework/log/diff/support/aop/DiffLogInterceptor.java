@@ -244,7 +244,7 @@ public class DiffLogInterceptor extends DiffLogValueParser implements MethodInte
                 .status(flag)
                 .tenantId(context.tenantId())
                 .createBy(context.userId())
-                .createName(context.nickName())
+                .createName(context.nickname())
                 .createTime(Instant.now())
                 .extra(contextBuilder.build())
                 .variables(fieldChanges)

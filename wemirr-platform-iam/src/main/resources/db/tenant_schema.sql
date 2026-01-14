@@ -494,7 +494,7 @@ CREATE TABLE `t_user` (
                           `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
                           `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '账号',
                           `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '密码',
-                          `nick_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '昵称',
+                          `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '昵称',
                           `org_id` bigint DEFAULT NULL COMMENT '组织ID',
                           `position_id` bigint DEFAULT NULL COMMENT '岗位ID',
                           `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否内置',

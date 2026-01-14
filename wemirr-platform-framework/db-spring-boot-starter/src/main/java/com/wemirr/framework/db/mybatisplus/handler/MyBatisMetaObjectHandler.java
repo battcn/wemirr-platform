@@ -101,7 +101,7 @@ public record MyBatisMetaObjectHandler(AuthenticationContext context) implements
             } else {
                 this.setFieldValByName(Entity.CREATE_USER, userId, metaObject);
             }
-            this.setFieldValByName(Entity.CREATE_USER_NAME, context.nickName(), metaObject);
+            this.setFieldValByName(Entity.CREATE_USER_NAME, context.nickname(), metaObject);
         }
     }
 
@@ -133,7 +133,7 @@ public record MyBatisMetaObjectHandler(AuthenticationContext context) implements
             } else {
                 this.setFieldValByName(SuperEntity.UPDATE_USER, userId, metaObject);
             }
-            this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, context.nickName(), metaObject);
+            this.setFieldValByName(SuperEntity.UPDATE_USER_NAME, context.nickname(), metaObject);
         }
     }
 

@@ -77,11 +77,11 @@ public class MessageNotifyServiceImpl extends SuperServiceImpl<MessageNotifyMapp
                     return typeList.stream().map(type -> MessageNotify.builder().userId(user.getId())
                             .templateId(template.getId()).variables(JacksonUtils.toJson(variables))
                             .title(template.getSubject()).type(type)
-                            .content(content).nickname(user.getNickName())
+                            .content(content).nickname(user.getNickname())
                             .tenantId(context.tenantId())
                             .subscribe(user.getEmail())
                             .deleted(false).createBy(context.userId())
-                            .createName(context.nickName()).createTime(Instant.now())
+                            .createName(context.nickname()).createTime(Instant.now())
                             .build()).toList();
                 }).flatMap(Collection::stream).collect(Collectors.toList());
         CollUtil.split(list, 600).forEach(messageNotifyMapper::insertBatchSomeColumn);

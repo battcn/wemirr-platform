@@ -61,7 +61,7 @@ public class UserInfoDetails implements Serializable, AuthenticationDetails {
     @Schema(description = "租户名称")
     private String tenantName;
     @Schema(description = "昵称")
-    private String nickName;
+    private String nickname;
     @Schema(description = "用户名")
     private String username;
     @JsonIgnore

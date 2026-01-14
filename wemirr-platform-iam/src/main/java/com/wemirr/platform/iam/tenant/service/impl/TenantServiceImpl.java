@@ -246,7 +246,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         user.setAvatar(tenant.getLogo());
         user.setPassword(PasswordEncoderHelper.encode("123456"));
         user.setTenantId(tenant.getId());
-        user.setNickName(tenant.getContactPerson());
+        user.setNickname(tenant.getContactPerson());
         user.setMobile(contactPhone);
         user.setStatus(true);
         this.userMapper.insert(user);
@@ -278,7 +278,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             dict.setId(null);
             dict.setLastModifyTime(Instant.now());
             dict.setLastModifyBy(context.userId());
-            dict.setLastModifyName(context.nickName());
+            dict.setLastModifyName(context.nickname());
             return dict;
         }).toList();
         List<Long> dictIdList = dictList.stream().map(Entity::getId).toList();

@@ -61,7 +61,7 @@ public class UserRoleServiceImpl extends SuperServiceImpl<UserRoleMapper, UserRo
             return null;
         }
         final List<UserRoleResp.UserRoleDetail> userRoleDetails = users.stream().map(user -> UserRoleResp.UserRoleDetail.builder()
-                .id(user.getId()).nickName(user.getNickName()).username(user.getUsername()).build()).collect(Collectors.toList());
+                .id(user.getId()).nickname(user.getNickname()).username(user.getUsername()).build()).collect(Collectors.toList());
         return UserRoleResp.builder().userRoleDetails(userRoleDetails).originTargetKeys(userIdList).build();
     }
 }

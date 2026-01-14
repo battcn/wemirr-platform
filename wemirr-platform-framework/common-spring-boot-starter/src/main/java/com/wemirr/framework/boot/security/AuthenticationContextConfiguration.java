@@ -118,8 +118,8 @@ public class AuthenticationContextConfiguration {
             }
 
             @Override
-            public String nickName() {
-                return Optional.ofNullable(getContext()).map(UserInfoDetails::getNickName).orElse(null);
+            public String nickname() {
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getNickname).orElse(null);
             }
 
             @Override

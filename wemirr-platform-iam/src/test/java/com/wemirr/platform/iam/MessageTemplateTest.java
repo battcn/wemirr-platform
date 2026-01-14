@@ -56,13 +56,13 @@ public class MessageTemplateTest {
     @Test
     void shouldFormatNestedTemplateWithMvel() {
         // 嵌套变量模板
-        String template = "欢迎 ${context.username} 来到 ${os} 系统, 昵称: ${user.nickName}";
+        String template = "欢迎 ${context.username} 来到 ${os} 系统, 昵称: ${user.nickname}";
 
         // 层级变量
         Map<String, Object> variables = new HashMap<>();
         variables.put("context", Map.of("username", "张三"));
         variables.put("os", "WP");
-        variables.put("user", Map.of("nickName", "小三"));
+        variables.put("user", Map.of("nickname", "小三"));
 
         // 提取变量并格式化
         System.out.println("提取的变量: " + MvelHelper.getVariables(template));

@@ -53,7 +53,7 @@ public class TaskExtServiceImpl implements TaskExtService {
     @Transactional(rollbackFor = Exception.class)
     public void pass(Long id, WorkflowTaskReq req) {
         Map<String, Object> variable = ObjUtil.defaultIfNull(req.getVariable(), Maps.newHashMap());
-        variable.put(VariableConstant.VAR_APPROVE_USER, context.nickName());
+        variable.put(VariableConstant.VAR_APPROVE_USER, context.nickname());
         FlowParams flowParams = FlowParams.build()
                 .skipType(ApprovalType.PASS.getValue())
                 .message(req.getMessage())
@@ -69,7 +69,7 @@ public class TaskExtServiceImpl implements TaskExtService {
     @Transactional(rollbackFor = Exception.class)
     public void reject(Long id, WorkflowTaskReq req) {
         Map<String, Object> variable = ObjUtil.defaultIfNull(req.getVariable(), Maps.newHashMap());
-        variable.put(VariableConstant.VAR_APPROVE_USER, context.nickName());
+        variable.put(VariableConstant.VAR_APPROVE_USER, context.nickname());
         FlowParams flowParams = FlowParams.build()
 //                .skipType(ApprovalType.REJECT.getValue())
                 .message(req.getMessage())
@@ -92,7 +92,7 @@ public class TaskExtServiceImpl implements TaskExtService {
     @Transactional(rollbackFor = Exception.class)
     public void termination(Long id, WorkflowTaskReq req) {
         Map<String, Object> variable = ObjUtil.defaultIfNull(req.getVariable(), Maps.newHashMap());
-        variable.put(VariableConstant.VAR_APPROVE_USER, context.nickName());
+        variable.put(VariableConstant.VAR_APPROVE_USER, context.nickname());
         taskService.termination(id, FlowParams.build().message(req.getMessage())
 //                .hisTaskExt(ApprovalAction.TERMINATION.getValue())
                 .variable(variable));

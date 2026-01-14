@@ -218,7 +218,7 @@ public class DefExtServiceImpl implements DefExtService {
         variables.put("ext.businessKey", req.getBusinessKey());
         variables.put("ext.businessGroup", req.getBusinessGroup());
         variables.put("ext.formData", req.getFormData());
-        variables.put("approverName", context.nickName());
+        variables.put("approverName", context.nickname());
         long startTime = System.currentTimeMillis();
         // 增加逻辑判断,根据业务编码查询是否存在流程实例了,若已存在流程实例,则获取流程实例的任务进行审批,
         var instance = insService.start(req.getBusinessKey(), FlowParams.build().variable(variables).flowCode(definition.getFlowCode()));
