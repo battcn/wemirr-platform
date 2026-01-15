@@ -20,6 +20,7 @@
 package com.wemirr.framework.boot.security;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.wemirr.framework.commons.entity.enums.UserType;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.commons.security.DataPermission;
 import com.wemirr.framework.commons.threadlocal.ThreadLocalHolder;
@@ -86,6 +87,11 @@ public class AuthenticationContextConfiguration {
                     log.trace("无法从SaToken获取用户信息（可能是异步线程）: {}", e.getMessage());
                     return null;
                 }
+            }
+
+            @Override
+            public UserType userType() {
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getType).orElse(null);
             }
 
             @Override

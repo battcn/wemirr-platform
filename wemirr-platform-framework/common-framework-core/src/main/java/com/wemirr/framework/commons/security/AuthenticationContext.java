@@ -19,6 +19,8 @@
 
 package com.wemirr.framework.commons.security;
 
+import com.wemirr.framework.commons.entity.enums.UserType;
+
 import java.util.List;
 
 /**
@@ -41,6 +43,7 @@ public interface AuthenticationContext {
         return null;
     }
 
+    UserType userType();
     /**
      * 登录的客户端ID
      *

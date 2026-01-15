@@ -23,6 +23,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.wemirr.framework.commons.BeanUtilPlus;
+import com.wemirr.framework.commons.entity.enums.UserType;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
@@ -47,6 +48,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -83,9 +85,13 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
             var roleResIdList = this.userMapper.selectResByUserId(req.getUserId());
             return CollUtil.union(list, roleResIdList);
         }, () -> {
-            var roleResIdList = this.userMapper.selectResByUserId(req.getUserId());
             var productResIdList = this.planDefResMapper.selectDefRedByTenantId(context.tenantId());
-            return CollUtil.addAll(roleResIdList, productResIdList).stream().distinct().toList();
+            var roleResIdList = this.userMapper.selectResByUserId(req.getUserId());
+            if (CollUtil.isEmpty(productResIdList)) {
+                return roleResIdList;
+            }
+            boolean isAdmin = context.userType() == UserType.TENANT_ADMIN;
+            return isAdmin ? CollUtil.union(roleResIdList, productResIdList) : roleResIdList;
         });
         // 解决租户越权行为,菜单数据直接从主库查询,减少数据分发次数
         List<Resource> list = TenantHelper.executeWithMaster(() -> this.baseMapper.selectList(Wraps.<Resource>lbQ()
@@ -95,6 +101,7 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
                 .eq(Resource::getParentId, req.getParentId()).eq(Resource::getType, req.getType())));
         return BeanUtilPlus.toBeans(list, VisibleResourceResp.class);
     }
+
 
     @Override
     @DSTransactional(rollbackFor = Exception.class)
@@ -127,8 +134,8 @@ public class ResourceServiceImpl extends SuperServiceImpl<ResourceMapper, Resour
     @Override
     @DSTransactional(rollbackFor = Exception.class)
     public void delete(Long id) {
-        final Long count = this.baseMapper.selectCount(Resource::getParentId, id);
-        if (count != null && count > 0) {
+        final long count = this.baseMapper.selectCount(Resource::getParentId, id);
+        if (count > 0) {
             throw CheckedException.badRequest("当前节点存在子节点,请先移除子节点");
         }
         // 删除菜单和按钮

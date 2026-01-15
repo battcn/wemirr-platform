@@ -28,6 +28,7 @@ import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.entity.Entity;
+import com.wemirr.framework.commons.entity.enums.UserType;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.dynamic.DynamicDataSourceHandler;
@@ -241,6 +242,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
 
         User user = new User();
         String contactPhone = tenant.getContactPhone();
+        user.setType(UserType.TENANT_ADMIN);
         user.setUsername(contactPhone);
         user.setEmail(tenant.getEmail());
         user.setAvatar(tenant.getLogo());

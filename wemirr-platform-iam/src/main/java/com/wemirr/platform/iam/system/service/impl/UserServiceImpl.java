@@ -34,6 +34,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.annotation.remote.RemoteResult;
+import com.wemirr.framework.commons.entity.enums.UserType;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.datascope.core.DataScope;
@@ -106,6 +107,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         var bean = BeanUtil.toBean(req, User.class);
         bean.setPassword(PasswordEncoderHelper.encode(req.getPassword()));
         bean.setTenantId(context.tenantId());
+        bean.setType(UserType.IN);
         this.baseMapper.insert(bean);
     }
 
@@ -201,6 +203,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             final UserInfoDetails info = new UserInfoDetails();
             info.setTenantCode(tenant.getCode());
             info.setTenantName(tenant.getName());
+            info.setType(user.getType());
             info.setTenantId(user.getTenantId());
             info.setUserId(user.getId());
             info.setUsername(user.getUsername());

@@ -20,6 +20,7 @@
 package com.wemirr.framework.security.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wemirr.framework.commons.entity.enums.UserType;
 import com.wemirr.framework.commons.security.AuthenticationDetails;
 import com.wemirr.framework.commons.security.DataPermission;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -77,6 +78,9 @@ public class UserInfoDetails implements Serializable, AuthenticationDetails {
     private LocalDate birthday;
     @Schema(description = "机构ID")
     private Long orgId;
+
+    @Schema(description = "用户类型")
+    private UserType type;
 
     @Schema(description = "登录日志")
     private Map<String, Object> loginLog;
