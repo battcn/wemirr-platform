@@ -50,6 +50,14 @@ public enum MultiTenantType {
      * 独立数据源模式
      */
     DATASOURCE("独立数据源模式"),
+
+    /**
+     * DATABASE 为 DATASOURCE 的历史别名，保持向后兼容
+     *
+     * @deprecated 请使用 {@link #DATASOURCE}
+     */
+    @Deprecated
+    DATABASE("独立数据源模式(已废弃，请使用DATASOURCE)"),
     ;
     private final String description;
 
