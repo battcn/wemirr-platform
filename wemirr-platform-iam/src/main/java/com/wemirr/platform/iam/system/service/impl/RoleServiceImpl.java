@@ -29,6 +29,7 @@ import com.wemirr.framework.commons.security.DataResourceType;
 import com.wemirr.framework.commons.security.DataScopeType;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
+import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.platform.iam.system.domain.dto.req.RoleSaveReq;
 import com.wemirr.platform.iam.system.domain.dto.resp.RoleDetailResp;
 import com.wemirr.platform.iam.system.domain.dto.resp.RolePermissionResp;
@@ -164,7 +165,7 @@ public class RoleServiceImpl extends SuperServiceImpl<RoleMapper, Role> implemen
 
     @Override
     public RolePermissionResp findRolePermissionById(Long roleId) {
-        final List<Resource> resourceList = resourceMapper.selectList();
+        final List<Resource> resourceList = TenantHelper.executeWithMaster(resourceMapper::selectList);
         if (CollUtil.isEmpty(resourceList)) {
             return null;
         }
