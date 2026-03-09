@@ -60,6 +60,16 @@
             <groupId>org.dromara.warm</groupId>
             <artifactId>warm-flow-mybatis-plus-sb4-starter</artifactId>
             <version>${warm-flow.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-jsqlparser-4.9</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.dromara.warm</groupId>
