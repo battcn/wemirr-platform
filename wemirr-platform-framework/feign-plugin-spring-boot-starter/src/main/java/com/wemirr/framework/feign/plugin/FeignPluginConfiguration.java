@@ -27,8 +27,8 @@ import feign.Client;
 import feign.Logger;
 import feign.codec.Decoder;
 import feign.codec.ErrorDecoder;
+import feign.optionals.OptionalDecoder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -36,12 +36,13 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.*;
 import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.cloud.openfeign.loadbalancer.LoadBalancerFeignRequestTransformer;
-import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomizer;
+import org.springframework.cloud.openfeign.support.FeignHttpMessageConverters;
+import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
+import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.converter.HttpMessageConverters;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -104,11 +105,9 @@ public class FeignPluginConfiguration {
     }
 
     @Bean
-    public Decoder feignDecoder(ObjectFactory<HttpMessageConverters> messageConverters,
-            ObjectProvider<HttpMessageConverterCustomizer> customizers) {
-        // return new OptionalDecoder((new ResponseEntityDecoder(new
-        // FeignResponseDecoder(new SpringDecoder(messageConverters, customizers)))));
-        return null;
+    public Decoder feignDecoder(ObjectProvider<FeignHttpMessageConverters> messageConverters) {
+        return new OptionalDecoder(new ResponseEntityDecoder(
+                new FeignResponseDecoder(new SpringDecoder(messageConverters))));
     }
 
     @Bean
