@@ -32,13 +32,12 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.wemirr.framework.boot.base.HttpInterceptor;
 import com.wemirr.framework.boot.base.converter.*;
-import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -60,10 +59,7 @@ import java.util.TimeZone;
  */
 @Slf4j
 @Configuration
-@RequiredArgsConstructor
 public class DefaultWebMvcConfiguration implements WebMvcConfigurer {
-
-    private final ObjectMapper objectMapper;
 
     @Value("${spring.jackson.date-format:yyyy-MM-dd HH:mm:ss}")
     private String pattern;
@@ -83,12 +79,13 @@ public class DefaultWebMvcConfiguration implements WebMvcConfigurer {
     }
 
     /**
-     * serializerByType 解决json中返回的 LocalDateTime 格式问题
-     * deserializerByType 解决string类型入参转为 LocalDateTime 格式问题
-     * Spring Boot 4 移除了 Jackson2ObjectMapperBuilderCustomizer，改为直接配置 ObjectMapper
+     * 提供全局 ObjectMapper Bean
+     * Spring Boot 4 模块化了 Jackson 自动配置，手动提供并配置 ObjectMapper
      */
-    @PostConstruct
-    public void customizeObjectMapper() {
+    @Bean
+    @Primary
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setLocale(Locale.CHINA);
         objectMapper.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
         objectMapper.setDateFormat(new java.text.SimpleDateFormat(pattern));
@@ -97,6 +94,7 @@ public class DefaultWebMvcConfiguration implements WebMvcConfigurer {
         objectMapper.registerModule(longModule);
         objectMapper.registerModule(new LocalJavaTimeModule());
         objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
     }
 
     /**
