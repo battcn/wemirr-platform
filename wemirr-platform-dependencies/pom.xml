@@ -55,7 +55,7 @@
         <wemirr-platform.version>4.0.0-SNAPSHOT</wemirr-platform.version>
         <jakarta-validation.version>3.1.0</jakarta-validation.version>
         <sa-token.version>1.45.0</sa-token.version>
-        <warm-flow.version>1.8.3</warm-flow.version>
+        <warm-flow.version>1.8.5-m1</warm-flow.version>
         <!-- LangChain4j 相关版本 -->
         <langchain4j.version>1.9.1</langchain4j.version>
         <langchain4j.community.version>1.9.1-beta17</langchain4j.community.version>
