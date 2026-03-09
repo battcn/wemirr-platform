@@ -12,11 +12,11 @@ networks:
     external: true
 
 services:
-  # ==================== MySQL 8.0 ====================
+  # ==================== MySQL 8.4 LTS ====================
   # 官方镜像: https://hub.docker.com/_/mysql
-  # 版本说明: 8.0.40 (2024-10-15 GA)
+  # 版本说明: 8.4 (LTS 长期支持版本，推荐生产使用)
   mysql:
-    image: mysql:8.0.40
+    image: mysql:8.4
     container_name: wemirr-mysql
     hostname: mysql
     restart: always
@@ -30,7 +30,7 @@ services:
       - --explicit_defaults_for_timestamp=true
       - --lower_case_table_names=1
       - --max_allowed_packet=128M
-      - --default-authentication-plugin=caching_sha2_password
+      - --authentication_policy=caching_sha2_password
       - --sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
     ports:
       - "3306:3306"
@@ -66,11 +66,11 @@ services:
       timeout: 5s
       retries: 5
 
-  # ==================== Nacos 2.4.3 ====================
+  # ==================== Nacos 2.5.2 ====================
   # 官方镜像: https://hub.docker.com/r/nacos/nacos-server
-  # 版本说明: v2.4.3 (2024-10-12 Release)
+  # 版本说明: v2.5.2 (2025 稳定版，兼容 Spring Cloud Alibaba 2023.x)
   nacos:
-    image: nacos/nacos-server:v2.4.3
+    image: nacos/nacos-server:v2.5.2
     container_name: wemirr-nacos
     hostname: nacos
     restart: always
@@ -98,7 +98,7 @@ services:
 
   # ==================== RabbitMQ 4.0 ====================
   # 官方镜像: https://hub.docker.com/_/rabbitmq
-  # 版本说明: 4.0-management (2024-12-15 Release, 带管理界面)
+  # 版本说明: 4.0-management (带管理界面)
   rabbitmq:
     image: rabbitmq:4.0-management
     container_name: wemirr-rabbitmq
