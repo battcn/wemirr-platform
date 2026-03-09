@@ -24,7 +24,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.wemirr.framework.commons.exception.CheckedException;
-import org.springframework.boot.jackson.JsonComponent;
+import org.springframework.boot.jackson.JacksonComponent;
 import org.springframework.web.util.HtmlUtils;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ import java.io.IOException;
  *
  * @author Levin
  */
-@JsonComponent
+@JacksonComponent
 public class GlobalJsonDeserializer {
 
     /**
@@ -44,7 +44,8 @@ public class GlobalJsonDeserializer {
     public static class StringDeserializer extends JsonDeserializer<String> {
 
         @Override
-        public String deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+        public String deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
+                throws IOException {
             final String value = jsonParser.getValueAsString();
             if (SqlInjectionUtils.check(value)) {
                 throw CheckedException.badRequest("存在SQL注入风险,已拦截");

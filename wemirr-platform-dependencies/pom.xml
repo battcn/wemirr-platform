@@ -55,7 +55,7 @@
         <!-- 自定义SDK版本 -->
         <wemirr-platform.version>4.0.0-SNAPSHOT</wemirr-platform.version>
         <jakarta-validation.version>3.1.0</jakarta-validation.version>
-        <sa-token.version>1.44.0</sa-token.version>
+        <sa-token.version>1.45.0</sa-token.version>
         <warm-flow.version>1.8.3</warm-flow.version>
     </properties>
 
@@ -69,7 +69,7 @@
             </dependency>-->
             <dependency>
                 <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-spring-boot3-starter</artifactId>
+                <artifactId>sa-token-spring-boot4-starter</artifactId>
                 <version>${sa-token.version}</version>
             </dependency>
             <!-- Sa-Token 整合 Redis (可选) -->

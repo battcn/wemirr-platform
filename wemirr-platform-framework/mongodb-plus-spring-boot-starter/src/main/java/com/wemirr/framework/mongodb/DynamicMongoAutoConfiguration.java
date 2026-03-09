@@ -5,7 +5,7 @@ import com.wemirr.framework.mongodb.toolkit.DynamicMongoRoutingInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.mongodb.autoconfigure.MongoAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -13,7 +13,9 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 /**
  * MongoDB Plus 自动配置
- * <p>提供动态数据源、审计字段自动填充等功能</p>
+ * <p>
+ * 提供动态数据源、审计字段自动填充等功能
+ * </p>
  *
  * @author levin
  */
