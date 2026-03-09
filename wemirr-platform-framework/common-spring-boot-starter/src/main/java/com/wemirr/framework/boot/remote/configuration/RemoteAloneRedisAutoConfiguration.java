@@ -3,20 +3,31 @@ package com.wemirr.framework.boot.remote.configuration;
 import com.wemirr.framework.boot.remote.exception.RemoteAloneRedisException;
 import com.wemirr.framework.boot.remote.properties.RemoteProperties;
 import com.wemirr.framework.redis.plus.RedisPlusAutoConfiguration;
+import io.lettuce.core.api.StatefulConnection;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.connection.*;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
+ * 远程数据注入服务的独立 Redis 配置。
+ * 支持 standalone / sentinel / cluster 三种模式，可通过 extend.boot.remote.alone 前缀配置独立的
+ * Redis 连接。
+ *
  * @author YanCh
  * @since 2025-05-22 16:03
  **/
@@ -35,131 +46,137 @@ public class RemoteAloneRedisAutoConfiguration implements EnvironmentAware {
 
     /**
      * 创建远程数据注入服务专属的 LettuceConnectionFactory
+     * 支持 standalone / sentinel / cluster 三种模式
      */
     public LettuceConnectionFactory remoteAloneLettuceConnectionFactory() {
-        // 获取cfg对象，解析开发者配置的 extend.boot.remote.alone 相关信息
-        // 检查是否存在配置，如果不存在，则不创建这个独立的连接工厂
+        // 检查是否存在关键配置
         if (!environment.containsProperty(REMOTE_ALONE_PREFIX + ".host") &&
-        // Spring Boot 2.4+
                 !environment.containsProperty(REMOTE_ALONE_PREFIX + ".url") &&
                 !environment.containsProperty(REMOTE_ALONE_PREFIX + ".cluster.nodes") &&
                 !environment.containsProperty(REMOTE_ALONE_PREFIX + ".sentinel.master")) {
-            // 如果没有任何关键配置，可能用户不想为远程数据服务使用独立 Redis
-            // 这种情况下，我们可以抛出异常，或者让后续的 DictLoadService Bean 创建失败
-            // 或者，如果想让 DictLoadService 回退到使用默认 RedisTemplate，则此 Bean 不应创建
-            // 这里我们选择抛出异常，如果配置了前缀但信息不全，Binder 会处理
-            // 如果根本没有配置，我们在这里提前判断，避免 Binder 报错
             log.error("未找到关联数据注入服务的独立 Redis 配置 (" + REMOTE_ALONE_PREFIX + ")，将不会创建独立连接。");
-            // 返回 null 或抛出异常，取决于你希望如何处理缺失配置
             throw new RemoteAloneRedisException("未找到关联数据注入服务的独立 Redis：" + REMOTE_ALONE_PREFIX);
         }
 
         DataRedisProperties cfg = Binder.get(environment).bind(REMOTE_ALONE_PREFIX, DataRedisProperties.class).get();
 
-        // 1. Redis配置
-        RedisConfiguration redisAloneConfig;
+        // 1. 根据配置决定 Redis 连接模式
+        RedisConfiguration redisConfig = buildRedisConfiguration(cfg);
 
-        // Spring Boot 2.x RedisProperties 会自动处理 URL，这里我们简化，直接用 cfg
-        // 但为了兼容 SaToken 的 .pattern 方式，我们保留这部分逻辑
-        // 实际 Spring Boot 的 RedisProperties 已经能根据属性自动判断模式了
-        // 不过为了复用你的逻辑，我们这里沿用
-        //
-        // if (cfg.getSentinel() != null) {
-        // // 哨兵集群模式
-        // RedisSentinelConfiguration redisSentinelConfiguration = new
-        // RedisSentinelConfiguration();
-        // redisSentinelConfiguration.setDatabase(cfg.getDatabase());
-        // trySetUsername(redisSentinelConfiguration, cfg.getUsername());
-        // redisSentinelConfiguration.setPassword(RedisPassword.of(cfg.getPassword()));
-        //
-        // RedisProperties.Sentinel sentinel = cfg.getSentinel();
-        // redisSentinelConfiguration.setMaster(sentinel.getMaster());
-        // // Sentinel 密码，注意 Spring Boot 2.x 中 sentinel.getPassword() 是针对 Sentinel
-        // 服务器认证的
-        // // RedisProperties.getSentinelPassword() 才是节点密码，但这里 cfg.getPassword() 是主密码
-        // // 通常 sentinel 节点密码通过 sentinel.getPassword() 设置
-        // if (sentinel.getPassword() != null && !sentinel.getPassword().isEmpty()) {
-        // redisSentinelConfiguration.setSentinelPassword(RedisPassword.of(sentinel.getPassword()));
-        // }
-        //
-        //
-        // List<RedisNode> serverList = sentinel.getNodes().stream().map(node -> {
-        // String[] ipAndPort = node.split(":");
-        // return new RedisNode(ipAndPort[0].trim(), Integer.parseInt(ipAndPort[1]));
-        // }).collect(Collectors.toList());
-        // redisSentinelConfiguration.setSentinels(serverList);
-        // redisAloneConfig = redisSentinelConfiguration;
-        //
-        // } else if (cfg.getCluster() != null && cfg.getCluster().getNodes() != null &&
-        // !cfg.getCluster().getNodes().isEmpty()) {
-        // // 普通集群模式
-        // RedisClusterConfiguration redisClusterConfig = new
-        // RedisClusterConfiguration();
-        // trySetUsername(redisClusterConfig, cfg.getUsername());
-        // redisClusterConfig.setPassword(RedisPassword.of(cfg.getPassword()));
-        //
-        // RedisProperties.Cluster cluster = cfg.getCluster();
-        // List<RedisNode> serverList = cluster.getNodes().stream().map(node -> {
-        // String[] ipAndPort = node.split(":");
-        // return new RedisNode(ipAndPort[0].trim(), Integer.parseInt(ipAndPort[1]));
-        // }).collect(Collectors.toList());
-        // redisClusterConfig.setClusterNodes(serverList);
-        // if (cluster.getMaxRedirects() != null) {
-        // redisClusterConfig.setMaxRedirects(cluster.getMaxRedirects());
-        // }
-        // redisAloneConfig = redisClusterConfig;
-        // } else {
-        // // 单体模式 (默认)
-        // RedisStandaloneConfiguration redisConfig = new
-        // RedisStandaloneConfiguration();
-        // redisConfig.setHostName(cfg.getHost());
-        // redisConfig.setPort(cfg.getPort());
-        // redisConfig.setDatabase(cfg.getDatabase());
-        // redisConfig.setPassword(RedisPassword.of(cfg.getPassword()));
-        // trySetUsername(redisConfig, cfg.getUsername());
-        // redisAloneConfig = redisConfig;
-        // }
-        // // 注意：你的代码中 socket 和 aws 模式是自定义的 pattern，Spring Boot RedisProperties 不直接支持
-        // // 如果需要这些，你需要像 SaAloneRedisInject 中那样显式地检查 pattern 属性
-        // // 2. 连接池配置
-        // // 使用泛型
-        // GenericObjectPoolConfig<StatefulConnection<?, ?>> poolConfig = new
-        // GenericObjectPoolConfig<>();
-        // LettuceClientConfiguration clientConfig;
-        //
-        // RedisProperties.Lettuce lettuce = cfg.getLettuce();
-        // if (lettuce != null && lettuce.getPool() != null) {
-        // RedisProperties.Pool pool = lettuce.getPool();
-        // poolConfig.setMaxTotal(pool.getMaxActive());
-        // poolConfig.setMaxIdle(pool.getMaxIdle());
-        // poolConfig.setMinIdle(pool.getMinIdle());
-        // if (pool.getMaxWait() != null) {
-        // poolConfig.setMaxWait(pool.getMaxWait());
-        // }
-        // }
-        //
-        // LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder
-        // builder = LettucePoolingClientConfiguration.builder();
-        // if (cfg.getTimeout() != null) {
-        // builder.commandTimeout(cfg.getTimeout());
-        // }
-        // if (lettuce != null && lettuce.getShutdownTimeout() != null) {
-        // builder.shutdownTimeout(lettuce.getShutdownTimeout());
-        // }
-        //
-        // // SSL 配置 (如果需要)
-        // if (cfg.getSsl() != null && cfg.getSsl().isEnabled()) {
-        // builder.useSsl();
-        // }
-        //
-        // clientConfig = builder.poolConfig(poolConfig).build();
+        // 2. 构建 Lettuce 客户端配置（含连接池）
+        LettuceClientConfiguration clientConfig = buildLettuceClientConfiguration(cfg);
 
-        //// 创建Factory对象
-        // LettuceConnectionFactory factory = new
-        // LettuceConnectionFactory(redisAloneConfig, clientConfig);
-        // factory.afterPropertiesSet(); // 初始化
-        // return factory;
-        return null;
+        // 3. 创建并初始化连接工厂
+        LettuceConnectionFactory factory = new LettuceConnectionFactory(redisConfig, clientConfig);
+        factory.afterPropertiesSet();
+        log.info("远程数据注入服务独立 Redis 连接工厂创建成功 [{}]", REMOTE_ALONE_PREFIX);
+        return factory;
+    }
+
+    /**
+     * 根据配置构建 RedisConfiguration（支持 sentinel / cluster / standalone）
+     */
+    private RedisConfiguration buildRedisConfiguration(DataRedisProperties cfg) {
+        if (cfg.getSentinel() != null && cfg.getSentinel().getMaster() != null) {
+            return buildSentinelConfiguration(cfg);
+        }
+        if (cfg.getCluster() != null && cfg.getCluster().getNodes() != null && !cfg.getCluster().getNodes().isEmpty()) {
+            return buildClusterConfiguration(cfg);
+        }
+        return buildStandaloneConfiguration(cfg);
+    }
+
+    /**
+     * 单体模式
+     */
+    private RedisStandaloneConfiguration buildStandaloneConfiguration(DataRedisProperties cfg) {
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
+        config.setHostName(cfg.getHost());
+        config.setPort(cfg.getPort());
+        config.setDatabase(cfg.getDatabase());
+        config.setPassword(RedisPassword.of(cfg.getPassword()));
+        trySetUsername(config, cfg.getUsername());
+        log.info("远程 Redis 使用【单体模式】 {}:{}/{}", cfg.getHost(), cfg.getPort(), cfg.getDatabase());
+        return config;
+    }
+
+    /**
+     * 哨兵模式
+     */
+    private RedisSentinelConfiguration buildSentinelConfiguration(DataRedisProperties cfg) {
+        DataRedisProperties.Sentinel sentinel = cfg.getSentinel();
+        RedisSentinelConfiguration config = new RedisSentinelConfiguration();
+        config.setDatabase(cfg.getDatabase());
+        config.setMaster(sentinel.getMaster());
+        config.setPassword(RedisPassword.of(cfg.getPassword()));
+        trySetUsername(config, cfg.getUsername());
+        if (sentinel.getPassword() != null && !sentinel.getPassword().isEmpty()) {
+            config.setSentinelPassword(RedisPassword.of(sentinel.getPassword()));
+        }
+        List<RedisNode> nodes = sentinel.getNodes().stream().map(node -> {
+            String[] parts = node.split(":");
+            return new RedisNode(parts[0].trim(), Integer.parseInt(parts[1].trim()));
+        }).collect(Collectors.toList());
+        config.setSentinels(nodes);
+        log.info("远程 Redis 使用【哨兵模式】 master={}, nodes={}", sentinel.getMaster(), sentinel.getNodes());
+        return config;
+    }
+
+    /**
+     * 集群模式
+     */
+    private RedisClusterConfiguration buildClusterConfiguration(DataRedisProperties cfg) {
+        DataRedisProperties.Cluster cluster = cfg.getCluster();
+        RedisClusterConfiguration config = new RedisClusterConfiguration();
+        config.setPassword(RedisPassword.of(cfg.getPassword()));
+        trySetUsername(config, cfg.getUsername());
+        List<RedisNode> nodes = cluster.getNodes().stream().map(node -> {
+            String[] parts = node.split(":");
+            return new RedisNode(parts[0].trim(), Integer.parseInt(parts[1].trim()));
+        }).collect(Collectors.toList());
+        config.setClusterNodes(nodes);
+        if (cluster.getMaxRedirects() != null) {
+            config.setMaxRedirects(cluster.getMaxRedirects());
+        }
+        log.info("远程 Redis 使用【集群模式】 nodes={}", cluster.getNodes());
+        return config;
+    }
+
+    /**
+     * 构建 Lettuce 客户端配置（含连接池和超时配置）
+     */
+    private LettuceClientConfiguration buildLettuceClientConfiguration(DataRedisProperties cfg) {
+        DataRedisProperties.Lettuce lettuce = cfg.getLettuce();
+        LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder builder = LettucePoolingClientConfiguration
+                .builder();
+
+        // 连接池配置
+        if (lettuce != null && lettuce.getPool() != null) {
+            DataRedisProperties.Pool pool = lettuce.getPool();
+            GenericObjectPoolConfig<StatefulConnection<?, ?>> poolConfig = new GenericObjectPoolConfig<>();
+            poolConfig.setMaxTotal(pool.getMaxActive());
+            poolConfig.setMaxIdle(pool.getMaxIdle());
+            poolConfig.setMinIdle(pool.getMinIdle());
+            if (pool.getMaxWait() != null) {
+                poolConfig.setMaxWait(pool.getMaxWait());
+            }
+            builder.poolConfig(poolConfig);
+        }
+
+        // 超时配置
+        if (cfg.getTimeout() != null) {
+            builder.commandTimeout(cfg.getTimeout());
+        }
+        if (lettuce != null && lettuce.getShutdownTimeout() != null) {
+            builder.shutdownTimeout(lettuce.getShutdownTimeout());
+        }
+
+        // SSL 配置
+        if (cfg.getSsl() != null && cfg.getSsl().isEnabled()) {
+            builder.useSsl();
+        }
+
+        return builder.build();
     }
 
     /**
