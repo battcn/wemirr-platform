@@ -19,7 +19,9 @@
 
 package com.wemirr.framework.boot.base.configuration;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -81,17 +83,29 @@ public class DefaultWebMvcConfiguration implements WebMvcConfigurer {
     /**
      * 提供全局 ObjectMapper Bean
      * Spring Boot 4 模块化了 Jackson 自动配置，手动提供并配置 ObjectMapper
+     * 配置与 JacksonUtils.createDefaultObjectMapper() 保持一致
      */
     @Bean
     @Primary
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
+        // 基础配置
         objectMapper.setLocale(Locale.CHINA);
         objectMapper.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
         objectMapper.setDateFormat(new java.text.SimpleDateFormat(pattern));
+        // 反序列化时，忽略JSON字符串中存在而Java对象实际没有的属性
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        // 序列化时，如果是空对象，不抛出异常
+        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+        // 时间戳序列化为ISO-8601格式的字符串，而不是数字
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        // Long 类型序列化为 String，防止前端精度丢失（包含包装类型和原始类型）
         SimpleModule longModule = new SimpleModule();
         longModule.addSerializer(Long.class, ToStringSerializer.instance);
+        longModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
+        longModule.addSerializer(long.class, ToStringSerializer.instance);
         objectMapper.registerModule(longModule);
+        // 时间模块
         objectMapper.registerModule(new LocalJavaTimeModule());
         objectMapper.registerModule(new JavaTimeModule());
         return objectMapper;
