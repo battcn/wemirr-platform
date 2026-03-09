@@ -22,22 +22,11 @@ package com.wemirr.framework.websocket.configuration;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * WebSocket 容器配置
  *
  * @author battcn
- *
  */
 @Configuration
 public class WebSocketContainerConfigurer {
 
-//    @Bean
-//    public ServletWebServerFactory servletWebServerFactory() {
-//        UndertowServletWebServerFactory factory = new UndertowServletWebServerFactory();
-//        factory.addDeploymentInfoCustomizers(deploymentInfo -> {
-//            deploymentInfo.addServletContextAttribute(
-//                    "io.undertow.websockets.jsr.WebSocketDeploymentInfo",
-//                    new WebSocketDeploymentInfo()
-//            );
-//        });
-//        return factory;
-//    }
 }

@@ -10,7 +10,7 @@
 
     <artifactId>websocket-spring-boot-starter</artifactId>
     <name>${project.artifactId}</name>
-    <description>WebSocket 模块，基于 Undertow 提供实时消息推送和 Redis 分布式会话管理</description>
+    <description>WebSocket 模块，提供实时消息推送和 Redis 分布式会话管理</description>
 
     <dependencies>
         <!-- 内部模块 -->
@@ -18,20 +18,8 @@
             <groupId>com.wemirr.framework</groupId>
             <artifactId>common-framework-core</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>io.undertow</groupId>
-            <artifactId>undertow-websockets-jsr</artifactId>
-        </dependency>-->
-        <dependency>
-            <groupId>jakarta.websocket</groupId>
-            <artifactId>jakarta.websocket-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.websocket</groupId>
-            <artifactId>jakarta.websocket-client-api</artifactId>
-        </dependency>
 
-        <!-- Spring Boot (使用 Undertow 替代 Tomcat) -->
+        <!-- Spring Boot WebSocket -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>

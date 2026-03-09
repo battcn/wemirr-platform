@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -20,7 +19,7 @@ import java.net.InetAddress;
  */
 @Slf4j
 @EnableDiscoveryClient
-@SpringBootApplication(exclude = RabbitAutoConfiguration.class)
+@SpringBootApplication
 @EnableFeignClients(basePackages = "com.wemirr")
 @MapperScan(value = "com.wemirr.**.repository", annotationClass = Repository.class)
 @EnableOAuth2Client
