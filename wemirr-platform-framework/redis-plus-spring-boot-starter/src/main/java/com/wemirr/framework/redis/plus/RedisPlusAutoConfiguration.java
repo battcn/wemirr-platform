@@ -51,7 +51,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * Redis Plus 自动配置
- * <p>提供分布式锁、限流等功能的自动配置</p>
+ * <p>
+ * 提供分布式锁、限流等功能的自动配置
+ * </p>
  *
  * @author Levin
  */
@@ -114,7 +116,7 @@ public class RedisPlusAutoConfiguration {
     @Order(value = -1)
     @ConditionalOnBean(RedisConnectionFactory.class)
     @Primary
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory, ObjectMapper objectMapper) {
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
         return createRedisTemplate(connectionFactory);
     }
 
@@ -134,7 +136,8 @@ public class RedisPlusAutoConfiguration {
         // 解决查询缓存转换异常的问题
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         // 启用对泛型和多态的支持，自定义规则以支持Kotlin等Final类
-        objectMapper.setDefaultTyping(new ObjectMapper.DefaultTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL, LaissezFaireSubTypeValidator.instance) {
+        objectMapper.setDefaultTyping(new ObjectMapper.DefaultTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL,
+                LaissezFaireSubTypeValidator.instance) {
             @Override
             public boolean useForType(com.fasterxml.jackson.databind.JavaType t) {
                 return !com.fasterxml.jackson.core.TreeNode.class.isAssignableFrom(t.getRawClass());
