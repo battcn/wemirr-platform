@@ -19,9 +19,10 @@
 
 package com.wemirr.platform.iam.base.domain.dto.resp;
 
-import com.alibaba.fastjson2.JSONObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import java.util.Map;
 
 /**
  * @author Levin
@@ -43,6 +44,6 @@ public class SiteSettingDetailResp {
     private String logo;
     
     @Schema(description = "扩展属性")
-    private JSONObject ext;
+    private Map<String, Object> ext;
     
 }

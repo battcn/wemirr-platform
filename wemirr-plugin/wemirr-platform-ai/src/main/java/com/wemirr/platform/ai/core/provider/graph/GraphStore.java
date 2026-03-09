@@ -37,11 +37,13 @@ public interface GraphStore {
     // ==================== 索引操作 ====================
 
     /**
-     * 确保知识库的全文索引存在
+     * 确保知识库的向量索引存在
+     * <p>
+     * 用于语义向量检索，支持基于 embedding 属性的相似度搜索
      *
      * @param knowledgeBaseId 知识库ID
      */
-    void ensureFulltextIndex(String knowledgeBaseId);
+    void ensureVectorIndex(String knowledgeBaseId);
 
     // ==================== 删除操作 ====================
 

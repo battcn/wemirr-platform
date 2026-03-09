@@ -51,7 +51,7 @@ public class TaskAutoApprovalListener implements Listener {
             return;
         }
         Map<String, Object> params = new HashMap<>(2);
-        params.put(VariableConstant.VAR_APPROVE_USER, context.nickName());
+        params.put(VariableConstant.VAR_APPROVE_USER, context.nickname());
         FlowParams flowParams = FlowParams.build()
                 .skipType(ApprovalType.PASS.getValue())
                 .message(TASK_AUTO_APPROVAL_MESSAGE)

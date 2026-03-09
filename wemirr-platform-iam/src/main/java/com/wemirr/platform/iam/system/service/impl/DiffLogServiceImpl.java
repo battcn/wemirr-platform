@@ -20,7 +20,7 @@
 package com.wemirr.platform.iam.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.framework.log.diff.domain.DiffLogInfo;
 import com.wemirr.framework.log.diff.domain.req.DiffLogInfoQueryReq;
@@ -45,7 +45,7 @@ public class DiffLogServiceImpl implements IDiffLogService {
     
     @Override
     public void handler(DiffLogInfo logInfo) {
-        log.info("[diff log] {}", JSON.toJSONString(logInfo));
+        log.info("[diff log] {}", JacksonUtils.toJson(logInfo));
         DiffLogEntity entity = BeanUtil.toBean(logInfo, DiffLogEntity.class);
         this.diffLogMapper.insert(entity);
     }

@@ -19,6 +19,7 @@
 
 package com.wemirr.platform.iam.tenant.domain.dto.resp;
 
+import com.wemirr.framework.db.properties.MultiTenantType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -37,10 +38,10 @@ public class DbInstancePageResp {
     @Schema(description = "租户名称")
     private String tenantName;
 
-    @Schema(description = "隔离策略: DATABASE, SCHEMA, COLUMN")
-    private String strategy;
+    @Schema(description = "隔离策略: DATASOURCE, SCHEMA, COLUMN")
+    private MultiTenantType strategy;
 
-    @Schema(description = "运行时Schema名称")
+    @Schema(description = "运行时 Schema 名称")
     private String schemaName;
 
     @Schema(description = "节点名称")

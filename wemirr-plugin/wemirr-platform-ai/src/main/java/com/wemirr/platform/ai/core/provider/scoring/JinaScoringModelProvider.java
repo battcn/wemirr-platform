@@ -1,7 +1,6 @@
 package com.wemirr.platform.ai.core.provider.scoring;
 
-import com.wemirr.platform.ai.core.enums.AiProvider;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import dev.langchain4j.model.jina.JinaScoringModel;
 import dev.langchain4j.model.scoring.ScoringModel;
 import org.springframework.stereotype.Component;
@@ -21,14 +20,14 @@ public class JinaScoringModelProvider implements ScoringModelProvider {
     private static final String DEFAULT_MODEL = "jina-reranker-v2-base-multilingual";
 
     @Override
-    public boolean supports(ModelConfig config) {
-        String provider = config.getProvider();
+    public boolean supports(ModelEntity config) {
+        String provider = config.getProvider().getLabel();
         return "jina".equalsIgnoreCase(provider) || "jina-ai".equalsIgnoreCase(provider);
     }
 
     @Override
-    public ScoringModel createModel(ModelConfig config) {
-        String modelName = config.getModelName() != null ? config.getModelName() : DEFAULT_MODEL;
+    public ScoringModel createModel(ModelEntity config) {
+        String modelName = config.getName() != null ? config.getName() : DEFAULT_MODEL;
 
         JinaScoringModel.JinaScoringModelBuilder builder = JinaScoringModel.builder()
                 .apiKey(config.getApiKey())

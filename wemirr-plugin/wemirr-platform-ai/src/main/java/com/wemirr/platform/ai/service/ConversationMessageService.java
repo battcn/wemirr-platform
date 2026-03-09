@@ -1,46 +1,38 @@
 package com.wemirr.platform.ai.service;
 
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
-import com.wemirr.platform.ai.domain.entity.ConversationMessage;
+import com.wemirr.platform.ai.domain.dto.req.AssistantMessageSaveReq;
+import com.wemirr.platform.ai.domain.dto.req.UserMessageSaveReq;
+import com.wemirr.platform.ai.domain.entity.ConversationTurn;
 
 /**
+ * 会话消息服务接口
+ *
  * @author xiao1
  * @since 2025-10
  */
-public interface ConversationMessageService extends SuperService<ConversationMessage> {
+public interface ConversationMessageService extends SuperService<ConversationTurn> {
+
     /**
-     * 异步保存用户消息
+     * 保存用户消息
+     *
+     * @param req 用户消息保存请求
+     * @return 会话轮次
      */
-    ConversationMessage saveUserMessage(
-            Long conversationId,
-            Long userId,
-            Long tenantId,
-            String rawContent,
-            String promptContent,
-            Integer promptTokens
-    );
+    ConversationTurn saveUserMessage(UserMessageSaveReq req);
 
     /**
      * 异步保存 AI 回复消息
+     *
+     * @param req AI助手消息保存请求
      */
-    void saveAssistantMessageAsync(
-            Long conversationId,
-            Long userId,
-            Long tenantId,
-            String rawContent,
-            String displayContent,
-            String promptContent,
-            String modelName,
-            String modelProvider,
-            Integer promptTokens,
-            Integer completionTokens,
-            Long responseLatencyMs,
-            String thinkingContent,
-            Long parentMessageId
-    );
+    void saveAssistantMessageAsync(AssistantMessageSaveReq req);
 
     /**
      * 更新消息状态（如重试、失败）
+     *
+     * @param messageId 消息ID
+     * @param status    状态
      */
     void updateMessageStatusAsync(Long messageId, Integer status);
 }

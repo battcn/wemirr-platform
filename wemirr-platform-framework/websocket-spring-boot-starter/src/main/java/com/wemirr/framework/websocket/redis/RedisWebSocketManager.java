@@ -19,7 +19,8 @@
 package com.wemirr.framework.websocket.redis;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.websocket.WebSocket;
 import com.wemirr.framework.websocket.memory.MemWebSocketManager;
 import com.wemirr.framework.websocket.redis.action.Action;
@@ -31,7 +32,9 @@ import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -64,8 +67,8 @@ public class RedisWebSocketManager extends MemWebSocketManager {
         List<String> msgList = listOps.range(queueKey, 0, -1);
         if (!msgList.isEmpty()) {
             for (String msgStr : msgList) {
-                JSONObject msgObj = JSONObject.parseObject(msgStr);
-                String message = msgObj.getString(Action.MESSAGE);
+                JsonNode msgObj = JacksonUtils.toObj(msgStr);
+                String message = msgObj.get(Action.MESSAGE).asText();
                 // 发送消息给用户
                 WebSocketUtil.sendMessage(webSocket.getSession(), message);
             }
@@ -81,11 +84,11 @@ public class RedisWebSocketManager extends MemWebSocketManager {
         if (containsKey) {
             super.remove(identifier);
         } else {
-            JSONObject map = new JSONObject();
+            Map<String, Object> map = new HashMap<>();
             map.put(Action.ACTION, RemoveAction.class.getName());
             map.put(Action.IDENTIFIER, identifier);
             // 在websocket频道上发布发送消息的消息
-            redisTemplate.convertAndSend(getChannel(), map.toJSONString());
+            redisTemplate.convertAndSend(getChannel(), JacksonUtils.toJson(map));
         }
         // 在线数量减1
         countChange(-1);
@@ -111,26 +114,26 @@ public class RedisWebSocketManager extends MemWebSocketManager {
         String queueKey = "offline:messages:" + identifier;
         
         // 构建消息对象（可包含动作、内容等信息）
-        JSONObject map = new JSONObject();
+        Map<String, Object> map = new HashMap<>(3);
         map.put(Action.ACTION, SendMessageAction.class.getName());
         map.put(Action.IDENTIFIER, identifier);
         map.put(Action.MESSAGE, message);
         // 存入队列左侧
-        listOps.leftPush(queueKey, map.toJSONString());
+        listOps.leftPush(queueKey, JacksonUtils.toJson(map));
         // 设置过期时间（7天）
         redisTemplate.expire(queueKey, 7, TimeUnit.DAYS);
         // 在websocket频道上发布发送消息的消息
-        redisTemplate.convertAndSend(getChannel(), map.toJSONString());
+        redisTemplate.convertAndSend(getChannel(), JacksonUtils.toJson(map));
     }
 
     @Override
     public void broadcast(String message) {
-        JSONObject map = new JSONObject();
+        Map<String, Object> map = new HashMap<>();
         map.put(Action.ACTION, BroadCastAction.class.getName());
         map.put(Action.MESSAGE, message);
         final StringRedisTemplate redisTemplate = SpringUtil.getBean(StringRedisTemplate.class);
         // 在websocket频道上发布广播的消息
-        redisTemplate.convertAndSend(getChannel(), map.toJSONString());
+        redisTemplate.convertAndSend(getChannel(), JacksonUtils.toJson(map));
     }
 
     protected String getChannel() {

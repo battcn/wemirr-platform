@@ -27,12 +27,14 @@ import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.wemirr.framework.commons.BeanUtilPlus;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.annotation.remote.RemoteResult;
+import com.wemirr.framework.commons.entity.enums.UserType;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.datascope.core.DataScope;
@@ -75,6 +77,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -104,6 +107,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
         var bean = BeanUtil.toBean(req, User.class);
         bean.setPassword(PasswordEncoderHelper.encode(req.getPassword()));
         bean.setTenantId(context.tenantId());
+        bean.setType(UserType.IN);
         this.baseMapper.insert(bean);
     }
 
@@ -129,7 +133,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     public IPage<UserPageResp> pageList(UserPageReq req) {
         return DataScope.run(() -> baseMapper.selectPage(req.buildPage(), Wraps.<User>lbQ()
                 .eq(User::getTenantId, context.tenantId()).eq(User::getStatus, req.getStatus())
-                .like(User::getUsername, req.getUsername()).like(User::getNickName, req.getNickName()).like(User::getEmail, req.getEmail())
+                .like(User::getUsername, req.getUsername()).like(User::getNickname, req.getNickname()).like(User::getEmail, req.getEmail())
                 .eq(User::getEducation, req.getEducation()).eq(User::getSex, req.getSex()).in(User::getOrgId, orgService.getFullTreeIdPath(req.getOrgId()))
                 .eq(User::getMobile, req.getMobile())).convert(x -> BeanUtil.toBean(x, UserPageResp.class)));
     }
@@ -159,7 +163,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
     public void changeInfo(ChangeUserInfoReq req) {
         final Long userId = context.userId();
         User bean = User.builder().id(userId).email(req.getEmail()).mobile(req.getMobile())
-                .nickName(req.getNickName()).birthday(req.getBirthday())
+                .nickname(req.getNickname()).birthday(req.getBirthday())
                 .description(req.getDescription()).build();
         this.baseMapper.updateById(bean);
     }
@@ -199,10 +203,11 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             final UserInfoDetails info = new UserInfoDetails();
             info.setTenantCode(tenant.getCode());
             info.setTenantName(tenant.getName());
+            info.setType(user.getType());
             info.setTenantId(user.getTenantId());
             info.setUserId(user.getId());
             info.setUsername(user.getUsername());
-            info.setNickName(user.getNickName());
+            info.setNickname(user.getNickname());
             info.setMobile(user.getMobile());
             info.setEmail(user.getEmail());
             info.setDescription(user.getDescription());
@@ -260,11 +265,12 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
                 continue;
             }
             String key = String.format(extProperties.getServer().getTokenInfoKey(), token);
-            UserInfoDetails info = ((JSONObject) StpUtil.getTokenSessionByToken(token).get(key)).to(UserInfoDetails.class);
+            UserInfoDetails info = (UserInfoDetails) StpUtil.getTokenSessionByToken(token).get(key);
             if (info == null || info.getLoginLog() == null) {
                 continue;
             }
-            LoginLog loginLog = JSONObject.from(info.getLoginLog()).toJavaObject(LoginLog.class);
+            LoginLog loginLog = JacksonUtils.readValue(JacksonUtils.toJson(info.getLoginLog()), new TypeReference<>() {
+            });
             if (StrUtil.isNotBlank(req.getClientId()) && !StrUtil.equals(req.getClientId(), loginLog.getClientId())) {
                 continue;
             }
@@ -277,7 +283,7 @@ public class UserServiceImpl extends SuperServiceImpl<UserMapper, User> implemen
             if (ObjUtil.isNotNull(req.getTenantId()) && !NumberUtil.equals(req.getTenantId(), loginLog.getTenantId())) {
                 continue;
             }
-            JSONObject item = JSONObject.from(info.getLoginLog());
+            Map<String, Object> item = info.getLoginLog();
             item.put("token", token);
             list.add(item);
         }

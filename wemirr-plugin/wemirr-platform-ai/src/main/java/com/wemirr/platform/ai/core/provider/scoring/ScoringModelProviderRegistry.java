@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.core.provider.scoring;
 
-import com.wemirr.platform.ai.core.enums.AiProvider;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.framework.ai.core.enums.AiProvider;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -50,11 +50,11 @@ public class ScoringModelProviderRegistry {
      * @param config 模型配置
      * @return 匹配的提供者
      */
-    public ScoringModelProvider getProvider(ModelConfig config) {
+    public ScoringModelProvider getProvider(ModelEntity config) {
         if (config.getProvider() == null) {
             throw new IllegalArgumentException("模型提供商不能为空");
         }
-        if (config.getModelName() == null) {
+        if (config.getName() == null) {
             throw new IllegalArgumentException("模型名称不能为空");
         }
 
@@ -66,7 +66,7 @@ public class ScoringModelProviderRegistry {
 
         throw new IllegalArgumentException(
                 String.format("未找到支持的重排序模型提供商: provider=%s, model=%s",
-                        config.getProvider(), config.getModelName())
+                        config.getProvider(), config.getName())
         );
     }
 
@@ -80,7 +80,7 @@ public class ScoringModelProviderRegistry {
                 .map(ScoringModelProvider::providerId)
                 .filter(id -> {
                     try {
-                        return AiProvider.fromCode(id).isEnabled();
+                        return AiProvider.of(id).isEnabled();
                     } catch (Exception e) {
                         return true;
                     }

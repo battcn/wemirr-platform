@@ -1,6 +1,5 @@
 package com.wemirr.platform.workflow.controller;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.redis.plus.anontation.RedisLock;
 import com.wemirr.framework.redis.plus.anontation.RedisParam;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -112,7 +112,7 @@ public class FlowDefinitionController {
      */
     @GetMapping("/{id}/export")
     @Operation(summary = "导出定义", description = "导出流程定义 JSON")
-    public JSONObject export(@PathVariable Long id) {
+    public Map<String, Object> export(@PathVariable Long id) {
         return defExtService.exportJson(id);
     }
 

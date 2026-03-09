@@ -500,4 +500,21 @@ public final class JacksonUtils {
         }
     }
 
+    public static <T extends TreeNode> T readTree(JsonParser p) {
+        try {
+            return defaultMapper.readTree(p);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static JsonNode readTree(String p) {
+        try {
+            return defaultMapper.readTree(p);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

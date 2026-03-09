@@ -48,7 +48,7 @@ public class CustomPermissionHandler implements PermissionHandler {
     }
 
     public String getHandlerName() {
-        return context.nickName();
+        return context.nickname();
     }
 
     public String getTenantId() {

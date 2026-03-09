@@ -22,8 +22,8 @@ package com.wemirr.platform.iam.base.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.MvelHelper;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
@@ -42,9 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -65,7 +63,7 @@ public class MessageNotifyServiceImpl extends SuperServiceImpl<MessageNotifyMapp
     public void publish(MessageNotifyPublishReq req) {
         MessageTemplate template = Optional.ofNullable(this.messageTemplateMapper.selectById(req.getTemplateId()))
                 .orElseThrow(() -> CheckedException.notFound("消息模板不存在"));
-        JSONObject variables = Optional.ofNullable(req.getVariables()).orElse(new JSONObject());
+        Map<String, Object> variables = Optional.ofNullable(req.getVariables()).orElse(new HashMap<>());
         List<User> userList = this.userMapper.selectByIds(req.getSubscriberIdList());
         if (CollUtil.isEmpty(userList)) {
             log.warn("订阅信息不存在");
@@ -77,13 +75,13 @@ public class MessageNotifyServiceImpl extends SuperServiceImpl<MessageNotifyMapp
                 .map(user -> {
                     List<String> typeList = StrUtil.split(template.getType(), ",");
                     return typeList.stream().map(type -> MessageNotify.builder().userId(user.getId())
-                            .templateId(template.getId()).variables(variables.toJSONString())
+                            .templateId(template.getId()).variables(JacksonUtils.toJson(variables))
                             .title(template.getSubject()).type(type)
-                            .content(content).nickname(user.getNickName())
+                            .content(content).nickname(user.getNickname())
                             .tenantId(context.tenantId())
                             .subscribe(user.getEmail())
                             .deleted(false).createBy(context.userId())
-                            .createName(context.nickName()).createTime(Instant.now())
+                            .createName(context.nickname()).createTime(Instant.now())
                             .build()).toList();
                 }).flatMap(Collection::stream).collect(Collectors.toList());
         CollUtil.split(list, 600).forEach(messageNotifyMapper::insertBatchSomeColumn);

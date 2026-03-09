@@ -2,9 +2,10 @@ package com.wemirr.platform.ai.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.wemirr.framework.commons.entity.SuperEntity;
-import com.wemirr.framework.db.mybatisplus.handler.type.MapTypeHandler;
 import com.wemirr.platform.ai.core.enums.ChunkType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,80 +15,52 @@ import lombok.experimental.SuperBuilder;
 import java.util.Map;
 
 /**
- * 知识分片实体类
+ * 知识分片
  * 用于统一管理不同类型知识的向量化分片
  *
  * @author xJh
  * @since 2025/10/20
- **/
+ */
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("ai_kb_knowledge_chunk")
+@TableName("ai_knowledge_chunk")
 @EqualsAndHashCode(callSuper = true)
+@Schema(description = "知识分片")
 public class KnowledgeChunk extends SuperEntity<Long> {
     
-    /**
-     * 所属知识库ID
-     */
-    @TableField("kb_id")
+    @Schema(description = "所属知识库ID")
     private Long kbId;
     
-    /**
-     * 关联的知识条目ID
-     */
-    @TableField("item_id")
+    @Schema(description = "关联的知识条目ID")
     private Long itemId;
     
-    /**
-     * 分片类型（枚举）
-     */
-    @TableField("chunk_type")
+    @Schema(description = "分片类型")
     private ChunkType chunkType;
     
-    /**
-     * 分片内容
-     * 用于embedding的文本
-     */
-    @TableField("content")
+    @Schema(description = "分片内容")
     private String content;
     
-    /**
-     * 内容哈希值
-     */
-    @TableField("content_hash")
+    @Schema(description = "内容哈希值")
     private String contentHash;
     
-    /**
-     * 外部向量库引用（如 milvus:12345 / pgvector:67890）
-     */
-    @TableField("vector_ref")
+    @Schema(description = "外部向量库引用（如 milvus:12345）")
     private String vectorRef;
     
-    /**
-     * 分片序号
-     * 对于文档分片，表示在原文中的顺序
-     */
-    @TableField("chunk_index")
+    @Schema(description = "分片序号")
     private Integer chunkIndex;
     
-    /**
-     * 在原文中的起始位置
-     */
-    @TableField("start_position")
+    @Schema(description = "在原文中的起始位置")
     private Integer startPosition;
     
-    /**
-     * 在原文中的结束位置
-     */
-    @TableField("end_position")
+    @Schema(description = "在原文中的结束位置")
     private Integer endPosition;
 
-    
-    /**
-     * 分片元数据
-     */
-    @TableField(value = "metadata", typeHandler = MapTypeHandler.class)
+    @Schema(description = "分片元数据")
+    @TableField(value = "metadata", typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> metadata;
+
+    @Schema(description = "租户ID")
+    private Long tenantId;
 }

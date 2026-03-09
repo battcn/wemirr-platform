@@ -22,9 +22,9 @@ package com.wemirr.platform.gateway.configuration.rule;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
-import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.platform.gateway.rest.domain.RouteRule;
 import com.wemirr.platform.gateway.route.RedisRouteDynamicGatewayService;
@@ -78,8 +78,8 @@ public class RouteRuleHelper {
         if (rule.getDynamic() == null) {
             rule.setDynamic(true);
         }
-        log.debug("请求参数 - {}", JSON.toJSONString(rule));
-        stringRedisTemplate.opsForHash().put(GATEWAY_RULE_ROUTE, rule.getId(), JSON.toJSONString(rule));
+        log.debug("请求参数 - {}", JacksonUtils.toJson(rule));
+        stringRedisTemplate.opsForHash().put(GATEWAY_RULE_ROUTE, rule.getId(), JacksonUtils.toJson(rule));
     }
     
     private boolean publish(String id) {
@@ -88,7 +88,7 @@ public class RouteRuleHelper {
         if (object == null) {
             return false;
         }
-        RouteRule rule = JSON.parseObject(object.toString(), RouteRule.class);
+        RouteRule rule = JacksonUtils.toBean(object.toString(), RouteRule.class);
         RouteDefinition routeDefinition = new RouteDefinition();
         routeDefinition.setId(rule.getId());
         routeDefinition.setOrder(rule.getOrder());
@@ -118,7 +118,7 @@ public class RouteRuleHelper {
         if (services.contains(rule.getName())) {
             rule.setStatus(true);
             redisRouteDynamicGatewayService.saveOrUpdate(routeDefinition);
-            stringRedisTemplate.opsForHash().put(GATEWAY_RULE_ROUTE, rule.getId(), JSON.toJSONString(rule));
+            stringRedisTemplate.opsForHash().put(GATEWAY_RULE_ROUTE, rule.getId(), JacksonUtils.toJson(rule));
             return true;
         }
         return false;
@@ -139,10 +139,10 @@ public class RouteRuleHelper {
                 throw CheckedException.badRequest("发布失败,服务未注册");
             }
         } else {
-            RouteRule rule = JSON.parseObject(object.toString(), RouteRule.class);
+            RouteRule rule = JacksonUtils.toBean(object.toString(), RouteRule.class);
             rule.setStatus(null);
             rule.setStatus(false);
-            stringRedisTemplate.opsForHash().put(GATEWAY_RULE_ROUTE, rule.getId(), JSON.toJSONString(rule));
+            stringRedisTemplate.opsForHash().put(GATEWAY_RULE_ROUTE, rule.getId(), JacksonUtils.toJson(rule));
             redisRouteDynamicGatewayService.delete(id);
         }
     }
@@ -158,7 +158,7 @@ public class RouteRuleHelper {
                     if (object == null) {
                         return null;
                     }
-                    RouteRule rule = JSON.parseObject(object.toString(), RouteRule.class);
+                    RouteRule rule = JacksonUtils.toBean(object.toString(), RouteRule.class);
                     if (rule.getStatus() == null) {
                         rule.setStatus(false);
                     } else if (rule.getStatus()) {

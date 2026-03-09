@@ -45,7 +45,6 @@
         <!-- 工具包 -->
         <guava.version>33.5.0-jre</guava.version>
         <hutool.version>5.8.42</hutool.version>
-        <fastjson2.version>2.0.59</fastjson2.version>
         <springdoc-openapi.version>1.8.0</springdoc-openapi.version>
         <knife4j.version>4.6.0</knife4j.version>
         <knife4j-springdoc-ui.version>3.0.3</knife4j-springdoc-ui.version>
@@ -57,6 +56,10 @@
         <jakarta-validation.version>3.1.0</jakarta-validation.version>
         <sa-token.version>1.45.0</sa-token.version>
         <warm-flow.version>1.8.3</warm-flow.version>
+        <!-- LangChain4j 相关版本 -->
+        <langchain4j.version>1.9.1</langchain4j.version>
+        <langchain4j.community.version>1.9.1-beta17</langchain4j.community.version>
+        <langgraph4j.version>1.6.0-beta3</langgraph4j.version>
     </properties>
 
     <dependencyManagement>
@@ -75,7 +78,7 @@
             <!-- Sa-Token 整合 Redis (可选) -->
             <dependency>
                 <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-fastjson2</artifactId>
+                <artifactId>sa-token-jackson</artifactId>
                 <version>${sa-token.version}</version>
             </dependency>
             <!-- Sa-Token 整合 RedisTemplate -->
@@ -213,21 +216,7 @@
                 <artifactId>spring-boot-admin-server-ui</artifactId>
                 <version>${spring-boot-admin.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2</artifactId>
-                <version>${fastjson2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2-extension</artifactId>
-                <version>${fastjson2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2-extension-spring6</artifactId>
-                <version>${fastjson2.version}</version>
-            </dependency>
+
             <!-- redisson -->
             <dependency>
                 <groupId>org.redisson</groupId>
@@ -342,6 +331,39 @@
                 <groupId>org.anyline</groupId>
                 <artifactId>anyline-data-jdbc-mysql</artifactId>
                 <version>${anyline.version}</version>
+            </dependency>
+
+            <!-- ==================== AI 相关依赖 ==================== -->
+            <!-- ai-spring-boot-starter -->
+            <dependency>
+                <groupId>com.wemirr.framework</groupId>
+                <artifactId>ai-spring-boot-starter</artifactId>
+                <version>${wemirr-platform.version}</version>
+            </dependency>
+
+            <!-- LangChain4j BOM -->
+            <dependency>
+                <groupId>dev.langchain4j</groupId>
+                <artifactId>langchain4j-bom</artifactId>
+                <version>${langchain4j.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>dev.langchain4j</groupId>
+                <artifactId>langchain4j-community-bom</artifactId>
+                <version>${langchain4j.community.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- LangGraph4j BOM -->
+            <dependency>
+                <groupId>org.bsc.langgraph4j</groupId>
+                <artifactId>langgraph4j-bom</artifactId>
+                <version>${langgraph4j.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

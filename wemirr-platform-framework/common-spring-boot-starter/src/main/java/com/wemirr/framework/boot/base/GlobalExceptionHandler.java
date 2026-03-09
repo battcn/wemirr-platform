@@ -80,6 +80,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = NullPointerException.class)
     public Result<ResponseEntity<Void>> nullPointerException(NullPointerException e) {
+        log.error("堆栈异常 = > ", e);
         log.error("null exception => http request uri => {},message => {}", SaHolder.getRequest().getUrl(), e.getLocalizedMessage());
         return Result.fail(e.getLocalizedMessage());
     }

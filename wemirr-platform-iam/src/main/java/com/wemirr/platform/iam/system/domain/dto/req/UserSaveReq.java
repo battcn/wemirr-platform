@@ -52,7 +52,7 @@ public class UserSaveReq {
     @Schema(description = "姓名")
     @NotBlank(message = "姓名不能为空")
     @Length(max = 50, message = "姓名长度不能超过50")
-    private String nickName;
+    private String nickname;
     
     @Schema(description = "组织ID")
     private Long orgId;

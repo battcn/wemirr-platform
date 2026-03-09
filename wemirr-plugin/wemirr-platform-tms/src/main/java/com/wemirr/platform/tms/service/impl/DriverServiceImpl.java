@@ -70,7 +70,7 @@ public class DriverServiceImpl extends SuperServiceImpl<DriverMapper, Driver> im
         final Driver driver = Optional.ofNullable(this.baseMapper.selectById(id)).orElseThrow(() -> CheckedException.notFound("司机信息不存在"));
         this.baseMapper.updateById(Driver.builder().id(driver.getId())
                 .approvalStatus(req.getApprovalStatus()).approvalDesc(req.getApprovalDesc())
-                .approvalId(context.userId()).approvalName(context.nickName()).build());
+                .approvalId(context.userId()).approvalName(context.nickname()).build());
     }
 
     @Override

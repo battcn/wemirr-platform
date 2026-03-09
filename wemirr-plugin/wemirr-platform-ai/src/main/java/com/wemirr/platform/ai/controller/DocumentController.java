@@ -3,10 +3,11 @@ package com.wemirr.platform.ai.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.page.PageRequest;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemType;
-import com.wemirr.platform.ai.domain.dto.rep.KnowledgeItemResp;
-import com.wemirr.platform.ai.domain.dto.rep.PreviewChunkResp;
 import com.wemirr.platform.ai.domain.dto.req.DocumentSaveReq;
+import com.wemirr.platform.ai.domain.dto.req.DocumentUpdateReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemPageReq;
+import com.wemirr.platform.ai.domain.dto.resp.KnowledgeItemResp;
+import com.wemirr.platform.ai.domain.dto.resp.PreviewChunkResp;
 import com.wemirr.platform.ai.service.KnowledgeItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,7 +40,7 @@ public class DocumentController {
     public IPage<KnowledgeItemResp> page(@PathVariable String kbId, PageRequest req) {
         KnowledgeItemPageReq pageReq = new KnowledgeItemPageReq();
         pageReq.setKbId(kbId);
-        pageReq.setType(KnowledgeItemType.DOCUMENT.getCode());
+        pageReq.setType(KnowledgeItemType.DOCUMENT.getValue());
         BeanUtils.copyProperties(req, pageReq);
         return knowledgeItemService.pageList(pageReq);
     }
@@ -60,15 +61,16 @@ public class DocumentController {
     @PutMapping("/{id}")
     @Operation(summary = "更新文档")
     public void update(@PathVariable Long id, @Valid @RequestBody DocumentSaveReq req) {
-        knowledgeItemService.updateDocument(
-                id,
-                req.getTitle(),
-                req.getContent(),
-                req.getContentType(),
-                req.getFilePath(),
-                req.getFileSize(),
-                req.getMetadata()
-        );
+        DocumentUpdateReq updateReq = DocumentUpdateReq.builder()
+                .id(id)
+                .title(req.getTitle())
+                .content(req.getContent())
+                .contentType(req.getContentType())
+                .filePath(req.getFilePath())
+                .fileSize(req.getFileSize())
+                .metadata(req.getMetadata())
+                .build();
+        knowledgeItemService.updateDocument(updateReq);
     }
 
     @DeleteMapping("/{id}")
@@ -76,7 +78,7 @@ public class DocumentController {
     public void delete(@PathVariable Long id) {
         knowledgeItemService.delete(id);
     }
-    
+
     @PostMapping("/upload")
     @Operation(summary = "上传文档")
     public Long upload(@RequestParam Long kbId, @RequestParam("file") MultipartFile file) throws IOException {
@@ -100,7 +102,7 @@ public class DocumentController {
     public void bulkUpdateChunks(@RequestBody List<Long> chunkIds){
         knowledgeItemService.bulkUpdateChunks(chunkIds);
     }
-    
+
     @PostMapping("/{id}/reprocess")
     @Operation(summary = "重新处理文档")
     public void reprocess(@PathVariable Long id) throws IOException {

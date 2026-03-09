@@ -19,7 +19,7 @@
 
 package com.wemirr.framework.robot.message.push;
 
-import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.robot.emums.NotifyType;
 import com.wemirr.framework.robot.message.RobotMessage;
 
@@ -76,7 +76,7 @@ public interface RobotMessageHandler {
      */
     default String request(Map<String, Object> body) {
         return cn.hutool.http.HttpRequest.post(this.getUrl())
-                .body(JSON.toJSONString(body))
+                .body(JacksonUtils.toJson(body))
                 .timeout(5000)
                 .execute()
                 .body();

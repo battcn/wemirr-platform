@@ -36,10 +36,11 @@ public class DictLoadService implements LoadService<Object> {
     @SuppressWarnings("unchecked")
     public Map<Object, Object> findByIds(String tag) {
         Locale locale = LocaleContextHolder.getLocale();
-        Map<Object, Object> entries = (Map<Object, Object>) redisTemplate.opsForHash().get(PLAT_DICT_HASH_KEY, tag);
-        if (entries == null) {
+        Object object = redisTemplate.opsForHash().get(PLAT_DICT_HASH_KEY, tag);
+        if (object == null) {
             return null;
         }
+        var entries = (Map<Object, Object>) object;
         for (Map.Entry<Object, Object> entry : entries.entrySet()) {
             String code = tag + "." + entry.getKey();
             String message = i18nMessageProvider.getI18nMessage(code, locale);

@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.service;
 
-import com.wemirr.platform.ai.domain.dto.rep.EmbeddingMatchRep;
+import com.wemirr.platform.ai.domain.dto.resp.EmbeddingMatchResp;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,7 @@ public interface KnowledgeSearchService {
      * @param topK 返回结果数量
      * @return 搜索结果列表
      */
-    List<EmbeddingMatchRep> semanticSearch(Long kbId, String query, int topK);
+    List<EmbeddingMatchResp> semanticSearch(Long kbId, String query, int topK);
 
     /**
      * 关键词搜索
@@ -47,14 +47,4 @@ public interface KnowledgeSearchService {
      */
     List<Map<String, Object>> hybridSearch(Long kbId, String query, int topK);
 
-    /**
-     * 根据知识库ID和查询文本进行内容召回
-     * 用于RAG对话中的知识检索
-     *
-     * @param kbId 知识库ID
-     * @param query 查询文本
-     * @param topK 返回结果数量
-     * @return 召回的内容列表
-     */
-    List<String> retrieveContent(Long kbId, String query, int topK);
 }

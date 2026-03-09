@@ -4,7 +4,6 @@ import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.ai.domain.entity.VectorMetadata;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 向量元数据服务接口
@@ -13,26 +12,6 @@ import java.util.Map;
  * @since 2025/10/20
  */
 public interface VectorMetadataService extends SuperService<VectorMetadata> {
-
-    /**
-     * 保存向量元数据
-     *
-     * @param vectorId 向量ID
-     * @param kbId 知识库ID
-     * @param itemId 知识条目ID
-     * @param chunkId 知识分片ID
-     * @param metadata 元数据
-     * @return 保存的元数据ID
-     */
-    Long saveVectorMetadata(String vectorId, Long kbId, Long itemId, Long chunkId, Map<String, Object> metadata);
-
-    /**
-     * 根据向量ID查找元数据
-     *
-     * @param vectorId 向量ID
-     * @return 向量元数据
-     */
-    VectorMetadata findByVectorId(String vectorId);
 
     /**
      * 根据知识库ID查找所有向量元数据
@@ -90,12 +69,4 @@ public interface VectorMetadataService extends SuperService<VectorMetadata> {
      */
     void batchSave(List<VectorMetadata> metadataList);
 
-    /**
-     * 更新向量元数据
-     *
-     * @param vectorId 向量ID
-     * @param metadata 更新的元数据
-     * @return 是否更新成功
-     */
-    boolean updateMetadata(String vectorId, Map<String, Object> metadata);
 }

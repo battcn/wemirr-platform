@@ -36,7 +36,7 @@ public class UserPageReq extends PageRequest {
     private String username;
     
     @Schema(description = "昵称")
-    private String nickName;
+    private String nickname;
     
     @Schema(description = "性别")
     private Sex sex;

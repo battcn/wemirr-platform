@@ -9,11 +9,12 @@ import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemStatus;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemType;
 import com.wemirr.platform.ai.core.processor.DocumentProcessor;
-import com.wemirr.platform.ai.domain.dto.rep.KnowledgeItemResp;
-import com.wemirr.platform.ai.domain.dto.rep.PreviewChunkResp;
 import com.wemirr.platform.ai.domain.dto.req.DocumentSaveReq;
+import com.wemirr.platform.ai.domain.dto.req.DocumentUpdateReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemPageReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.KnowledgeItemResp;
+import com.wemirr.platform.ai.domain.dto.resp.PreviewChunkResp;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.KnowledgeChunk;
 import com.wemirr.platform.ai.domain.entity.KnowledgeItem;
@@ -164,7 +165,7 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
 
     @Override
     public List<KnowledgeItemResp> listByKbIdAndType(Long kbId, KnowledgeItemType type) {
-        List<KnowledgeItem> items = baseMapper.selectByKbIdAndType(kbId, type.getCode());
+        List<KnowledgeItem> items = baseMapper.selectByKbIdAndType(kbId, type.getValue());
         return items.stream()
                 .map(item -> {
                     KnowledgeItemResp resp = BeanUtil.toBean(item, KnowledgeItemResp.class);
@@ -233,26 +234,6 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Long createDocumentItem(Long kbId, String docId, Map<String, Object> metadata) {
-        // 创建文档知识条目（兼容旧签名：docId 写入 metadata）
-        KnowledgeItem item = KnowledgeItem.builder()
-                .kbId(kbId)
-                .type(KnowledgeItemType.DOCUMENT)
-                .status(KnowledgeItemStatus.PROCESSED)
-                .vectorized(false)
-                .version(1)
-                .metadata(metadata == null ? Map.of("doc_id", docId) : new HashMap<>(metadata))
-                .build();
-        if (item.getMetadata() instanceof HashMap) {
-            ((HashMap<String, Object>) item.getMetadata()).put("doc_id", docId);
-        }
-        
-        baseMapper.insert(item);
-        return item.getId();
-    }
-
-    @Override
     public KnowledgeItem selectBySourceId(Long docId) {
         return baseMapper.selectById(docId);
     }
@@ -305,23 +286,24 @@ public class KnowledgeItemServiceImpl extends SuperServiceImpl<KnowledgeItemMapp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateDocument(Long id, String title, String content, String contentType, String filePath, Long fileSize, Map<String, Object> metadata) {
-        KnowledgeItem item = baseMapper.selectById(id);
+    public void updateDocument(DocumentUpdateReq req) {
+        KnowledgeItem item = baseMapper.selectById(req.getId());
         Optional.ofNullable(item).orElseThrow(() -> CheckedException.notFound("知识条目不存在"));
         KnowledgeItem update = new KnowledgeItem();
-        update.setId(id);
+        update.setId(req.getId());
         update.setVersion(item.getVersion() + 1);
-        update.setTitle(title);
-        update.setContent(content);
-        update.setContentType(contentType);
-        update.setFilePath(filePath);
-        update.setFileSize(fileSize);
-        update.setMetadata(metadata);
+        update.setTitle(req.getTitle());
+        update.setContent(req.getContent());
+        update.setContentType(req.getContentType());
+        update.setFilePath(req.getFilePath());
+        update.setFileSize(req.getFileSize());
+        update.setMetadata(req.getMetadata());
         baseMapper.updateById(update);
         KnowledgeBase kbs = knowledgeBaseService.getById(item.getKbId());
+        String content = req.getContent();
         if (content != null && !content.equals(item.getContent())) {
-            knowledgeChunkService.deleteByItemId(id);
-            knowledgeChunkService.createDocumentChunks(kbs, id, String.valueOf(id), content);
+            knowledgeChunkService.deleteByItemId(req.getId());
+            knowledgeChunkService.createDocumentChunks(kbs, req.getId(), String.valueOf(req.getId()), content);
         }
     }
 

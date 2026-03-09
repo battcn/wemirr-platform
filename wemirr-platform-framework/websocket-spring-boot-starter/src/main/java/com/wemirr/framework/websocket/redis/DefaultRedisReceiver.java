@@ -19,7 +19,9 @@
 
 package com.wemirr.framework.websocket.redis;
 
-import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.websocket.WebSocketManager;
 import com.wemirr.framework.websocket.redis.action.Action;
 import lombok.RequiredArgsConstructor;
@@ -43,13 +45,14 @@ public class DefaultRedisReceiver implements RedisReceiver {
     @Override
     public void receiveMessage(String message) {
         log.info(message);
-        JSONObject object = JSONObject.parseObject(message);
-        if (!object.containsKey(Action.ACTION)) {
+        JsonNode object = JacksonUtils.toObj(message);
+        if (!object.has(Action.ACTION)) {
             return;
         }
-        String actionName = object.getString(Action.ACTION);
+        String actionName = object.get(Action.ACTION).asText();
         Action action = getAction(actionName);
-        action.doMessage(getWebSocketManager(), object);
+        action.doMessage(getWebSocketManager(), JacksonUtils.treeToValue(object, new TypeReference<>() {
+        }));
     }
 
     protected Action getAction(String actionName) {

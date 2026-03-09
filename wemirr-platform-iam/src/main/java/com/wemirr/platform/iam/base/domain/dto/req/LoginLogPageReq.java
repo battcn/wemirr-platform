@@ -36,7 +36,7 @@ public class LoginLogPageReq extends PageRequest {
     private String principal;
     
     @Schema(description = "名称")
-    private String nickName;
+    private String nickname;
     
     @Schema(description = "请求平台")
     private String platform;

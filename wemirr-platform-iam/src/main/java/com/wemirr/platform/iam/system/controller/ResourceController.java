@@ -22,7 +22,6 @@ package com.wemirr.platform.iam.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.Tree;
-import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -72,20 +71,18 @@ public class ResourceController {
 
     @GetMapping("/router")
     @Operation(summary = "菜单路由", description = "只能看到自身权限")
-    public List<Tree<Long>> router(Boolean status) {
-        List<VisibleResourceResp> routers = resourceService.findVisibleResource(ResourceQueryReq.builder()
+    public List<Tree<Long>> router(String clientId, Boolean status) {
+        var routers = resourceService.findVisibleResource(ResourceQueryReq.builder().clientId(clientId)
                 .status(status).userId(context.userId()).build());
-        List<TreeNode<Long>> list = routers.stream()
-                .filter(this::isValidRouterType)
-                .map(VUE_ROUTER_2_TREE_NODE_CONVERTS::convert).collect(toList());
+        var list = routers.stream().filter(this::isValidRouterType).map(VUE_ROUTER_2_TREE_NODE_CONVERTS::convert).collect(toList());
         return TreeUtil.build(list, 0L);
     }
 
     @GetMapping("/trees")
     @Operation(summary = "菜单路由", description = "只能看到自身权限")
-    public List<Tree<Long>> tree() {
-        List<VisibleResourceResp> routers = resourceService.findVisibleResource(ResourceQueryReq.builder().userId(context.userId()).build());
-        List<TreeNode<Long>> list = routers.stream().map(VUE_ROUTER_2_TREE_NODE_CONVERTS::convert).collect(toList());
+    public List<Tree<Long>> tree(String clientId) {
+        var routers = resourceService.findVisibleResource(ResourceQueryReq.builder().clientId(clientId).userId(context.userId()).build());
+        var list = routers.stream().map(VUE_ROUTER_2_TREE_NODE_CONVERTS::convert).collect(toList());
         return TreeUtil.build(list, 0L);
     }
 

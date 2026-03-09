@@ -109,7 +109,7 @@ public class Entity<T> implements Serializable {
     @Schema(description = "ID")
     @TableId(value = FIELD_ID, type = IdType.ASSIGN_ID)
     @OrderBy
-    @NotNull(message = "id不能为空", groups = Update.class)
+    @NotNull(message = "ID不能为空", groups = Update.class)
     private T id;
     
     /**

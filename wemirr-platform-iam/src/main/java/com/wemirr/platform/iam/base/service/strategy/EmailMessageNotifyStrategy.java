@@ -20,7 +20,7 @@
 package com.wemirr.platform.iam.base.service.strategy;
 
 import cn.hutool.core.map.MapUtil;
-import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.platform.iam.base.domain.entity.MessageChannel;
 import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
 import lombok.Builder;
@@ -51,7 +51,7 @@ public class EmailMessageNotifyStrategy implements MessageNotifyStrategy {
     
     public JavaMailSenderImpl getMailSender(MessageChannel channel) {
         // 要判断配置是否又被覆盖过,如果配置覆盖过应该刷新配置
-        ChannelSetting setting = JSON.parseObject(channel.getSetting(), ChannelSetting.class);
+        ChannelSetting setting = JacksonUtils.toBean(channel.getSetting(), ChannelSetting.class);
         MailSendFactory factory = SENDER_QUEUE.get(channel.getId());
         if (factory != null && factory.getSetting() == setting) {
             log.debug("检测到配置未发生变更,当前采用已创建的对象进行短信发送");
@@ -79,7 +79,7 @@ public class EmailMessageNotifyStrategy implements MessageNotifyStrategy {
     public void handler(MessageChannel channel, MessageNotify notify) {
         JavaMailSenderImpl mailSender = getMailSender(channel);
         String setting = channel.getSetting();
-        log.debug("邮箱消息发送配置 => {},通知消息 => {}", setting, JSON.toJSONString(notify));
+        log.debug("邮箱消息发送配置 => {},通知消息 => {}", setting, JacksonUtils.toJson(notify));
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(mailSender.getUsername());
         message.setTo(notify.getSubscribe());

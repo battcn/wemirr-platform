@@ -23,11 +23,12 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson.JSON;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.google.common.collect.Maps;
 import com.wemirr.framework.commons.BeanUtilPlus;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.entity.Entity;
+import com.wemirr.framework.commons.entity.enums.UserType;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.dynamic.DynamicDataSourceHandler;
@@ -209,7 +210,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
         variables.put("tenant_id", tenant.getId());
         variables.put("tenant_name", tenant.getName());
         final DbInstancePageResp dbInstance = this.dbInstanceMapper.getTenantDynamicDatasourceByTenantId(tenant.getId());
-        log.debug("dbInstance => {}", JSON.toJSONString(dbInstance));
+        log.debug("dbInstance => {}", JacksonUtils.toJson(dbInstance));
         final DynamicDataSourceEvent event = BeanUtil.toBean(dbInstance, DynamicDataSourceEvent.class);
         dynamicDataSourceHandler.initSqlScript(event, variables);
         final Role role = selectTenantAdminRole();
@@ -241,12 +242,13 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
 
         User user = new User();
         String contactPhone = tenant.getContactPhone();
+        user.setType(UserType.TENANT_ADMIN);
         user.setUsername(contactPhone);
         user.setEmail(tenant.getEmail());
         user.setAvatar(tenant.getLogo());
         user.setPassword(PasswordEncoderHelper.encode("123456"));
         user.setTenantId(tenant.getId());
-        user.setNickName(tenant.getContactPerson());
+        user.setNickname(tenant.getContactPerson());
         user.setMobile(contactPhone);
         user.setStatus(true);
         this.userMapper.insert(user);
@@ -278,7 +280,7 @@ public class TenantServiceImpl extends SuperServiceImpl<TenantMapper, Tenant> im
             dict.setId(null);
             dict.setLastModifyTime(Instant.now());
             dict.setLastModifyBy(context.userId());
-            dict.setLastModifyName(context.nickName());
+            dict.setLastModifyName(context.nickname());
             return dict;
         }).toList();
         List<Long> dictIdList = dictList.stream().map(Entity::getId).toList();

@@ -19,10 +19,11 @@
 
 package com.wemirr.platform.suite.online.domain.resp;
 
-import com.alibaba.fastjson2.JSONArray;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * @author Levin
@@ -36,7 +37,7 @@ public class OnlineFormDesignerDetailResp extends OnlineFormDesignerPageResp {
     private String formScript;
     
     @Schema(description = "表单配置")
-    private JSONArray formSchemas;
+    private List<Object> formSchemas;
     
     @Schema(description = "表单crud配置")
     private String formCrudConfig;

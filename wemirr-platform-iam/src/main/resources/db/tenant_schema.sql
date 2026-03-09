@@ -41,7 +41,7 @@ CREATE TABLE `b_message_notify` (
     `variables` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '消息变量',
     `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
     `user_id` bigint DEFAULT NULL COMMENT '接收用户ID',
-    `nick_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+    `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
     `subscribe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '订阅人 比如 邮箱,手机号,钉钉ID等',
     `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
     `deleted` bit(1) DEFAULT b'0',
@@ -232,14 +232,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_data_permission_ref`;
 CREATE TABLE `sys_data_permission_ref` (
-    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `owner_id` bigint NOT NULL COMMENT '拥有者',
-    `owner_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '拥有类型（角色，用户）',
-    `data_id` bigint NOT NULL COMMENT '数据ID',
-    `data_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '数据类型（机构、角色、租户等等）',
-    `create_by` bigint DEFAULT NULL COMMENT '创建人id',
-    `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
-    `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+   `scope_type` int DEFAULT NULL COMMENT '权限范围类型: 10-个人, 20-自定义, 30-本级, 40-本级及子级, 50-全部',
+   `owner_id` bigint NOT NULL COMMENT '拥有者',
+   `owner_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '拥有类型（角色，用户）',
+   `data_id` bigint DEFAULT NULL COMMENT '数据ID',
+   `data_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '数据类型（机构、角色、租户等等）',
+   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除标记',
+   `create_by` bigint DEFAULT NULL COMMENT '创建人id',
+   `create_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人名称',
+   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `last_modify_by` bigint DEFAULT NULL COMMENT '最近修改人',
+   `last_modify_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '最近修改人',
+   `last_modify_time` datetime DEFAULT NULL COMMENT '最近修改时间',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='数据权限资源表';
 
@@ -494,7 +499,7 @@ CREATE TABLE `t_user` (
                           `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
                           `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '账号',
                           `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '密码',
-                          `nick_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '昵称',
+                          `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '昵称',
                           `org_id` bigint DEFAULT NULL COMMENT '组织ID',
                           `position_id` bigint DEFAULT NULL COMMENT '岗位ID',
                           `readonly` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否内置',
@@ -502,6 +507,7 @@ CREATE TABLE `t_user` (
                           `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '手机',
                           `id_card` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '身份证',
                           `sex` tinyint DEFAULT '1' COMMENT '性别',
+                          `type` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '0=平台管理员；1=租户管理员',
                           `status` bit(1) DEFAULT b'0' COMMENT '状态 \n1启用 0禁用',
                           `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '头像',
                           `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述',

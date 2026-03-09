@@ -4,12 +4,12 @@ import com.wemirr.platform.ai.core.provider.graph.GraphRagService;
 import com.wemirr.platform.ai.core.provider.graph.GraphRagTransformerFactory;
 import com.wemirr.platform.ai.core.provider.graph.GraphStore;
 import com.wemirr.platform.ai.core.provider.text.TextModelService;
-import com.wemirr.platform.ai.domain.dto.rep.EntityRecallResp;
-import com.wemirr.platform.ai.domain.dto.rep.GraphVisualizationResp;
+import com.wemirr.platform.ai.domain.dto.resp.EntityRecallResp;
+import com.wemirr.platform.ai.domain.dto.resp.GraphVisualizationResp;
 import com.wemirr.platform.ai.domain.entity.KnowledgeBase;
 import com.wemirr.platform.ai.domain.entity.KnowledgeChunk;
 import com.wemirr.platform.ai.domain.entity.KnowledgeItem;
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import com.wemirr.platform.ai.service.*;
 import dev.langchain4j.community.data.document.transformer.graph.LLMGraphTransformer;
 import dev.langchain4j.data.document.Document;
@@ -40,7 +40,7 @@ public class GraphServiceImpl implements GraphService {
     private final KnowledgeItemService knowledgeItemService;
     private final KnowledgeBaseService knowledgeBaseService;
     private final KnowledgeChunkService knowledgeChunkService;
-    private final ModelConfigService modelConfigService;
+    private final ModelService modelService;
     private final TextModelService textModelService;
     private final ApplicationContext applicationContext;
 
@@ -98,7 +98,7 @@ public class GraphServiceImpl implements GraphService {
                     graphKbId, documents, graphTransformer, true);
 
             // 更新知识条目的图谱化状态
-            item.setGraphized(true);
+            item.setGraphed(true);
             knowledgeItemService.updateById(item);
 
             log.info("图谱化完成: itemId={}, nodes={}, relationships={}",
@@ -141,7 +141,7 @@ public class GraphServiceImpl implements GraphService {
             graphRagService.deleteDocument(graphKbId, documentId);
 
             // 更新状态
-            item.setGraphized(false);
+            item.setGraphed(false);
             knowledgeItemService.updateById(item);
 
             log.info("删除知识条目图谱数据: itemId={}", itemId);
@@ -256,8 +256,8 @@ public class GraphServiceImpl implements GraphService {
 
         String graphKbId = String.valueOf(kbId);
 
-        // 确保全文索引存在
-        graphStore.ensureFulltextIndex(graphKbId);
+        // 确保向量索引存在
+        graphStore.ensureVectorIndex(graphKbId);
 
         // 执行实体召回
         var graphRetriever = getGraphRetriever();
@@ -272,8 +272,8 @@ public class GraphServiceImpl implements GraphService {
                     .build();
         }
 
-        // 搜索实体
-        List<String> entityIds = graphRetriever.searchByFulltext(graphKbId, keywords, 0.1, 20);
+        // 使用实体精确匹配搜索（精确路）
+        List<String> entityIds = graphRetriever.searchByEntityMatch(graphKbId, keywords, 20);
 
         // 构建实体信息
         List<EntityRecallResp.RecalledEntity> entities = entityIds.stream()
@@ -313,7 +313,7 @@ public class GraphServiceImpl implements GraphService {
         if (chatModelId == null) {
             return null;
         }
-        ModelConfig config = modelConfigService.getById(chatModelId);
+        ModelEntity config = modelService.getById(chatModelId);
         if (config == null) {
             return null;
         }

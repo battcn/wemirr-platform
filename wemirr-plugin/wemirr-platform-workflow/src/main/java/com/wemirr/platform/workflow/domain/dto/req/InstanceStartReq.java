@@ -1,10 +1,11 @@
 package com.wemirr.platform.workflow.domain.dto.req;
 
-import com.alibaba.fastjson2.JSONObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+import java.util.Map;
 
 /**
  * 启动流程实例需要的参数
@@ -27,6 +28,6 @@ public class InstanceStartReq {
 
     @NotNull(message = "表单数据不能为空")
     @Schema(description = "表单数据")
-    private JSONObject formData;
+    private Map<String, Object> formData;
 
 }

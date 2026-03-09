@@ -21,6 +21,7 @@ package com.wemirr.platform.iam.system.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wemirr.framework.commons.entity.SuperEntity;
+import com.wemirr.framework.commons.entity.enums.UserType;
 import com.wemirr.framework.log.diff.core.DiffFieldStrategy;
 import com.wemirr.framework.log.diff.core.annotation.DiffField;
 import com.wemirr.platform.iam.system.domain.enums.Sex;
@@ -51,6 +52,9 @@ public class User extends SuperEntity<Long> {
     @Schema(description = "用户名")
     @DiffField(name = "用户名", strategy = DiffFieldStrategy.NOT_NULL)
     private String username;
+
+    @Schema(description = "用户类型")
+    private UserType type;
     
     @Schema(description = "租户ID")
     private Long tenantId;
@@ -60,7 +64,7 @@ public class User extends SuperEntity<Long> {
     
     @Schema(description = "昵称")
     @DiffField(name = "昵称")
-    private String nickName;
+    private String nickname;
     
     @DiffField(name = "描述")
     @Schema(description = "描述")

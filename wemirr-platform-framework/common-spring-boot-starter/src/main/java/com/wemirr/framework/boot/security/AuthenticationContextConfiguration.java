@@ -20,7 +20,7 @@
 package com.wemirr.framework.boot.security;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.alibaba.fastjson2.JSONObject;
+import com.wemirr.framework.commons.entity.enums.UserType;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.commons.security.DataPermission;
 import com.wemirr.framework.commons.threadlocal.ThreadLocalHolder;
@@ -78,17 +78,20 @@ public class AuthenticationContextConfiguration {
                     if (tokenInfo == null) {
                         return null;
                     }
-                    UserInfoDetails userInfo = ((JSONObject) tokenInfo).toJavaObject(UserInfoDetails.class);
+                    UserInfoDetails userInfo = (UserInfoDetails) tokenInfo;
                     // 缓存到ThreadLocalHolder，后续异步线程可通过TTL获取
-                    if (userInfo != null) {
-                        ThreadLocalHolder.set(USER_INFO, userInfo);
-                    }
+                    ThreadLocalHolder.set(USER_INFO, userInfo);
                     return userInfo;
                 } catch (Exception e) {
                     // 异步线程中SaToken上下文可能不可用，这是正常情况
                     log.trace("无法从SaToken获取用户信息（可能是异步线程）: {}", e.getMessage());
                     return null;
                 }
+            }
+
+            @Override
+            public UserType userType() {
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getType).orElse(null);
             }
 
             @Override
@@ -121,8 +124,8 @@ public class AuthenticationContextConfiguration {
             }
 
             @Override
-            public String nickName() {
-                return Optional.ofNullable(getContext()).map(UserInfoDetails::getNickName).orElse(null);
+            public String nickname() {
+                return Optional.ofNullable(getContext()).map(UserInfoDetails::getNickname).orElse(null);
             }
 
             @Override

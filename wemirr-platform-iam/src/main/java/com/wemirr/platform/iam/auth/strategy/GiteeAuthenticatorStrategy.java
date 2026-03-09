@@ -19,7 +19,7 @@
 
 package com.wemirr.platform.iam.auth.strategy;
 
-import com.alibaba.fastjson.JSON;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.utils.TenantHelper;
 import com.wemirr.platform.iam.auth.domain.entity.UserThirdAccount;
@@ -77,7 +77,7 @@ public class GiteeAuthenticatorStrategy implements AuthenticatorStrategy {
         ThirdAuthType type = ThirdAuthType.of(principal.getLoginType());
         UserThirdAccount thirdAccount = Optional.ofNullable(thirdAccountMapper.selectOne(UserThirdAccount::getAccountId, username, UserThirdAccount::getType, type))
                 .orElseThrow(() -> CheckedException.notFound("用户未授权"));
-        log.debug("third-account => {}", JSON.toJSONString(thirdAccount));
+        log.debug("third-account => {}", JacksonUtils.toJson(thirdAccount));
         User user = Optional.ofNullable(TenantHelper.executeWithTenantDb(tenantCode, () -> userMapper.selectUserByTenantId("admin", tenant.getId())))
                 .orElseThrow(() -> CheckedException.notFound("账户不存在"));
         return UserTenantAuthentication.builder().user(user).tenant(tenant).build();

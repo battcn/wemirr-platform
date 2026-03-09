@@ -73,7 +73,7 @@
             (
                 #{chunk.kbId}, #{chunk.itemId}, #{chunk.chunkType}, 
                 #{chunk.content}, #{chunk.contentHash}, #{chunk.dimension}, 
-                #{chunk.metadata,typeHandler=com.wemirr.framework.db.mybatisplus.handler.type.JsonTypeHandler}, 
+                #{chunk.metadata,typeHandler=com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler},
                 #{chunk.deleted}, #{chunk.createTime}, #{chunk.updateTime}
             )
         </foreach>

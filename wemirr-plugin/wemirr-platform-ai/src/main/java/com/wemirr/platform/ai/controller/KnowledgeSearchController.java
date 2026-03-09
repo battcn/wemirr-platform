@@ -1,7 +1,7 @@
 package com.wemirr.platform.ai.controller;
 
 import com.wemirr.framework.commons.entity.Result;
-import com.wemirr.platform.ai.domain.dto.rep.EmbeddingMatchRep;
+import com.wemirr.platform.ai.domain.dto.resp.EmbeddingMatchResp;
 import com.wemirr.platform.ai.service.KnowledgeSearchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,7 +32,7 @@ public class KnowledgeSearchController {
 
     @GetMapping("/semantic-search")
     @Operation(summary = "语义搜索，返回topK")
-    public List<EmbeddingMatchRep> semanticSearch(@RequestParam Long kbId, @RequestParam String query,
+    public List<EmbeddingMatchResp> semanticSearch(@RequestParam Long kbId, @RequestParam String query,
                                                   @RequestParam(defaultValue = "5") int topK) {
         try {
             return knowledgeSearchService.semanticSearch(kbId, query, topK);

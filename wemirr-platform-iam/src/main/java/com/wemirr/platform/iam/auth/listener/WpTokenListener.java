@@ -24,7 +24,8 @@ import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.stp.parameter.SaLoginParameter;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.NativeUserAgent;
 import com.wemirr.framework.commons.RegionUtils;
 import com.wemirr.framework.db.utils.TenantHelper;
@@ -78,8 +79,9 @@ public class WpTokenListener implements SaTokenListener {
         LoginLog loginLog = LoginLog.builder().principal(principal).clientId(loginParameter.getDeviceType())
                 .tenantId(info.getTenantId()).tenantCode(info.getTenantCode()).location(region).ip(ip)
                 .platform(userAgent.platform()).engine(userAgent.engine()).browser(userAgent.browser()).os(userAgent.os())
-                .loginType(principalType).createBy(userId).createTime(Instant.now()).createName(info.getNickName()).build();
-        info.setLoginLog(JSONObject.from(loginLog));
+                .loginType(principalType).createBy(userId).createTime(Instant.now()).createName(info.getNickname()).build();
+        info.setLoginLog(JacksonUtils.readValue(JacksonUtils.toJson(loginLog), new TypeReference<>() {
+        }));
         StpUtil.getTokenSessionByToken(tokenValue).set(extProperties.getServer().getTokenInfoKey(), info);
         // 记录登录日志
         TenantHelper.executeWithTenantDb(info.getTenantCode(), () -> this.loginLogMapper.insert(loginLog));

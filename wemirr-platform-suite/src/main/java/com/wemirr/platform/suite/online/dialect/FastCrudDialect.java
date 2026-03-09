@@ -21,13 +21,15 @@ package com.wemirr.platform.suite.online.dialect;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.JSONPath;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wemirr.framework.commons.JacksonUtils;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 暂未优化,没考虑好如何优雅设计
@@ -36,28 +38,49 @@ import java.util.List;
  */
 @Data
 public class FastCrudDialect {
-    
-    public static JSONObject toFastCrud(String text) {
-        // 将JSON字符串解析为对象
-        JSONArray schemas = (JSONArray) JSONPath.eval(text, "$..[?(@.field)]");
-        return toFastCrud(schemas.toJavaList(EpicDesignerField.class));
+
+    public static Map<String, Object> toFastCrud(String text) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = JacksonUtils.readTree(text);
+
+        // 手动遍历查找包含 field 属性的节点
+        List<EpicDesignerField> fields = new ArrayList<>();
+        findFieldNodes(root, fields, mapper);
+
+        return toFastCrud(fields);
     }
-    
-    public static JSONObject toFastCrudField(EpicDesignerField field) {
+
+    private static void findFieldNodes(JsonNode node, List<EpicDesignerField> fields, ObjectMapper mapper) {
+        if (node.isObject() && node.has("field")) {
+            EpicDesignerField field = mapper.convertValue(node, EpicDesignerField.class);
+            fields.add(field);
+        }
+
+        // 递归遍历所有子节点
+        if (node.isObject()) {
+            node.properties().forEach(entry ->
+                    findFieldNodes(entry.getValue(), fields, mapper)
+            );
+        } else if (node.isArray()) {
+            node.forEach(child -> findFieldNodes(child, fields, mapper));
+        }
+    }
+
+    public static Map<String, Object> toFastCrudField(EpicDesignerField field) {
         if (field == null) {
             throw new RuntimeException("Field 不能为空");
         }
-        JSONObject item = new JSONObject() {
-            
+        Map<String, Object> item = new HashMap<>() {
+
             {
-                put("search", new JSONObject() {
-                    
+                put("search", new HashMap<String, Object>() {
+
                     {
                         put("show", true);
                     }
                 });
-                put("column", new JSONObject() {
-                    
+                put("column", new HashMap<String, Object>() {
+
                     {
                         put("show", true);
                         put("width", 200);
@@ -72,10 +95,10 @@ public class FastCrudDialect {
             return item;
         }
         List<EpicDesignerField.Option> options = props.getOptions();
-        item.put("dict", String.format("dict({data:%s})", JSON.toJSONString(options)));
+        item.put("dict", String.format("dict({data:%s})", JacksonUtils.toJson(options)));
         return item;
     }
-    
+
     private static String getType(EpicDesignerField field) {
         if (StrUtil.equalsIgnoreCase(field.getType(), "input")) {
             return "text";
@@ -88,12 +111,12 @@ public class FastCrudDialect {
         }
         return field.getType();
     }
-    
-    public static JSONObject toFastCrud(List<EpicDesignerField> fieldList) {
+
+    public static Map<String, Object> toFastCrud(List<EpicDesignerField> fieldList) {
         if (CollUtil.isEmpty(fieldList)) {
             return null;
         }
-        JSONObject out = new JSONObject();
+        Map<String, Object> out = new HashMap<>();
         for (EpicDesignerField field : fieldList) {
             out.put(field.getField(), toFastCrudField(field));
         }

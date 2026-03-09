@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 /**
  * @author xJh
  * @since 2025/11/4
@@ -19,7 +21,7 @@ public class ChatAgentSaveReq {
     private String name;
 
     @Schema(description = "绑定模型名称")
-    private Long chatModelId;
+    private Long modelId;
 
     @Length(max = 500, message = "智能体描述长度不能超过{max}")
     @Schema(description = "智能体描述")
@@ -27,17 +29,16 @@ public class ChatAgentSaveReq {
 
     @Length(max = 2000, message = "智能体角色预设长度不能超过{max}")
     @Schema(description = "智能体角色预设")
-    private String aiSystemMessage;
+    private String systemPrompt;
 
-    @Schema(description = "智能体头像url")
+    @Schema(description = "智能体头像 url")
     private String avatar;
 
     @Schema(description = "关联知识库ID")
     private Long kbId;
 
-    @Length(max = 2000, message = "智能体工具配置长度不能超过{max}")
     @Schema(description = "智能体工具配置（JSON格式）")
-    private String tools;
+    private List<String> tools;
     
     @Length(max = 1000, message = "MCP服务器配置长度不能超过{max}")
     @Schema(description = "智能体MCP服务器配置（JSON格式，存储MCP配置ID列表，如：[1, 2, 3]）")

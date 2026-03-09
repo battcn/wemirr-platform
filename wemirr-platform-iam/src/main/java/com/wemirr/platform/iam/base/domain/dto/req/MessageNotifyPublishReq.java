@@ -19,12 +19,12 @@
 
 package com.wemirr.platform.iam.base.domain.dto.req;
 
-import com.alibaba.fastjson2.JSONObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Levin
@@ -43,5 +43,5 @@ public class MessageNotifyPublishReq {
     private List<Long> subscriberIdList;
     
     @Schema(description = "变量")
-    private JSONObject variables;
+    private Map<String, Object> variables;
 }

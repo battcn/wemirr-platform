@@ -19,8 +19,9 @@
 
 package com.wemirr.framework.websocket.redis.action;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.websocket.WebSocketManager;
+
+import java.util.Map;
 
 /**
  * 要做的事情
@@ -39,5 +40,5 @@ public interface Action {
      * @param manager webSocket管理器
      * @param object  消息体转化的JSON
      */
-    void doMessage(WebSocketManager manager, JSONObject object);
+    void doMessage(WebSocketManager manager, Map<String,Object> object);
 }

@@ -57,7 +57,7 @@ public class HandlerSelectServiceImpl implements HandlerSelectService {
      * 获取用户列表
      */
     private HandlerSelectVo selectUserList(HandlerQuery query) {
-        var req = UserFeignPageReq.builder().username(query.getHandlerCode()).nickName(query.getHandlerName())
+        var req = UserFeignPageReq.builder().username(query.getHandlerCode()).nickname(query.getHandlerName())
 //                .startTime(query.getBeginTime()).endTime(query.getEndTime())
                 .build();
         req.setCurrent(query.getPageNum());
@@ -66,7 +66,7 @@ public class HandlerSelectServiceImpl implements HandlerSelectService {
         HandlerFunDto<UserInfoResp> handlerFunDto = new HandlerFunDto<>(page.getRecords(), page.getTotal())
                 .setStorageId(x -> x.getId().toString())
                 .setHandlerCode(UserInfoResp::getUsername)
-                .setHandlerName(UserInfoResp::getNickName)
+                .setHandlerName(UserInfoResp::getNickname)
                 // TODO 需要根据客户端 Local 转换时区,等 进出存上线后 TimeZoneUtil 有一个获取方式
                 .setCreateTime(user -> {
                     if (user.getCreateTime() == null) {
@@ -89,7 +89,7 @@ public class HandlerSelectServiceImpl implements HandlerSelectService {
                     .filter(StrUtil::isNotBlank)
                     .map(storageId -> {
                         var userInfo = Optional.ofNullable(userMap.get(storageId)).orElseGet(UserInfoResp::new);
-                        return new HandlerFeedBackVo(storageId, userInfo.getNickName());
+                        return new HandlerFeedBackVo(storageId, userInfo.getNickname());
                     })
                     .collect(Collectors.toList());
         } catch (Exception e) {

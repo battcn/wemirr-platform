@@ -2,10 +2,10 @@ package com.wemirr.platform.ai.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.commons.security.AuthenticationContext;
-import com.wemirr.platform.ai.domain.dto.rep.ChatAgentDetailRep;
-import com.wemirr.platform.ai.domain.dto.rep.ChatAgentPageRep;
 import com.wemirr.platform.ai.domain.dto.req.ChatAgentPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ChatAgentSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.ChatAgentDetailResp;
+import com.wemirr.platform.ai.domain.dto.resp.ChatAgentPageResp;
 import com.wemirr.platform.ai.domain.entity.ChatAgent;
 import com.wemirr.platform.ai.service.ChatAgentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,13 +40,13 @@ public class ChatAgentController {
 
     @GetMapping("/page")
     @Operation(summary = "分页查询", description = "分页查询智能体列表")
-    public IPage<ChatAgentPageRep> page(ChatAgentPageReq req) {
+    public IPage<ChatAgentPageResp> page(ChatAgentPageReq req) {
         return chatAgentService.pageList(req);
     }
 
     @GetMapping("/{id}/detail")
     @Operation(summary = "智能体详情", description = "获取智能体详细配置")
-    public ChatAgentDetailRep detail(@Parameter(description = "智能体 ID") @PathVariable Long id) {
+    public ChatAgentDetailResp detail(@Parameter(description = "智能体 ID") @PathVariable Long id) {
         return chatAgentService.detail(id);
     }
 

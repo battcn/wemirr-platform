@@ -19,7 +19,8 @@
 
 package com.wemirr.framework.websocket.redis.action;
 
-import com.alibaba.fastjson2.JSONObject;
+import cn.hutool.core.util.StrUtil;
+import com.wemirr.framework.commons.MapHelper;
 import com.wemirr.framework.websocket.WebSocket;
 import com.wemirr.framework.websocket.WebSocketManager;
 
@@ -37,11 +38,11 @@ import java.util.Map;
 public class RemoveAction implements Action {
 
     @Override
-    public void doMessage(WebSocketManager manager, JSONObject object) {
-        if (!object.containsKey(IDENTIFIER)) {
+    public void doMessage(WebSocketManager manager, Map<String, Object> object) {
+        String identifier = MapHelper.getAsStr(object, IDENTIFIER);
+        if (StrUtil.isBlank(identifier)) {
             return;
         }
-        String identifier = object.getString(IDENTIFIER);
         Map<String, WebSocket> localWebSocketMap = manager.localWebSocketMap();
         localWebSocketMap.remove(identifier);
     }

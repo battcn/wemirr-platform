@@ -138,7 +138,7 @@ public class OutboundPlanController {
         map.put("currentDate", date);
         pdfTemplate.export(PDFDomain.builder().templateName("pdf/pages/OutboundPlan.ftl")
                 .fileName(detail.getPlanNum()).model(map)
-                .watermark(context.nickName()).build(), response);
+                .watermark(context.nickname()).build(), response);
     }
 
 }

@@ -97,15 +97,15 @@ public class SuperEntity<T> extends Entity<T> {
     public static final String UPDATE_USER_NAME_COLUMN = "last_modify_name";
 
     @Schema(description = "最后修改时间")
-    @TableField(value = UPDATE_TIME_COLUMN, fill = FieldFill.UPDATE)
+    @TableField(value = UPDATE_TIME_COLUMN, fill = FieldFill.INSERT_UPDATE)
     private Instant lastModifyTime;
 
     @Schema(description = "最后修改人ID")
-    @TableField(value = UPDATE_USER_COLUMN, fill = FieldFill.UPDATE)
+    @TableField(value = UPDATE_USER_COLUMN, fill = FieldFill.INSERT_UPDATE)
     private T lastModifyBy;
 
     @Schema(description = "最后修改人名称")
-    @TableField(value = UPDATE_USER_NAME_COLUMN, fill = FieldFill.UPDATE)
+    @TableField(value = UPDATE_USER_NAME_COLUMN, fill = FieldFill.INSERT_UPDATE)
     private String lastModifyName;
 
     @TableLogic(value = "false", delval = "true")

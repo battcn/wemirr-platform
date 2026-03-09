@@ -19,7 +19,6 @@
 
 package com.wemirr.platform.gateway.rest;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.commons.entity.Result;
 import com.wemirr.platform.gateway.configuration.rule.RouteRuleHelper;
 import com.wemirr.platform.gateway.rest.domain.RouteRule;
@@ -29,7 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * http://localhost:15000/actuator/gateway/routes
@@ -45,8 +46,8 @@ public class RouteController {
     private final RouteRuleHelper routeRuleHelper;
     
     @GetMapping
-    public Result<JSONObject> query() {
-        JSONObject data = new JSONObject();
+    public Result<Map<String, Object>> query() {
+        Map<String, Object> data = new HashMap<>(5);
         final List<RouteRule> limitRules = routeRuleHelper.query();
         data.put("total", limitRules.size());
         data.put("records", limitRules);

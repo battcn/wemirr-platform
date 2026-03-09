@@ -42,6 +42,9 @@
         <module>diff-log-spring-boot-starter</module>
         <module>easyexcel-spring-boot-starter</module>
         <module>pdf-spring-boot-starter</module>
+
+        <!-- AI -->
+        <module>ai-spring-boot-starter</module>
     </modules>
 
     <properties>

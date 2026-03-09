@@ -28,7 +28,7 @@ public class AskReq {
     @Schema(description = "知识库id（4.知识库对话）")
     private Long kbId;
 
-    @Schema(description = "会话id")
+    @Schema(description = "会话ID")
     private Long conversationId;
 
     @Schema(description = "提示词")

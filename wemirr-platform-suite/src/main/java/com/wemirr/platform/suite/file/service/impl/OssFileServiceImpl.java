@@ -22,9 +22,9 @@ package com.wemirr.platform.suite.file.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -138,12 +138,12 @@ public class OssFileServiceImpl extends SuperServiceImpl<OssFileMapper, OssFile>
         if (StrUtil.isBlank(detail.getThFilename())) {
             detail.setThFilename(null);
         }
-        detail.setMetadata(JSON.toJSONString(info.getMetadata()));
-        detail.setUserMetadata(JSON.toJSONString(info.getUserMetadata()));
-        detail.setThMetadata(JSON.toJSONString(info.getThMetadata()));
-        detail.setThUserMetadata(JSON.toJSONString(info.getThUserMetadata()));
-        detail.setAttr(JSON.toJSONString(info.getAttr()));
-        detail.setHashInfo(JSON.toJSONString(info.getHashInfo()));
+        detail.setMetadata(JacksonUtils.toJson(info.getMetadata()));
+        detail.setUserMetadata(JacksonUtils.toJson(info.getUserMetadata()));
+        detail.setThMetadata(JacksonUtils.toJson(info.getThMetadata()));
+        detail.setThUserMetadata(JacksonUtils.toJson(info.getThUserMetadata()));
+        detail.setAttr(JacksonUtils.toJson(info.getAttr()));
+        detail.setHashInfo(JacksonUtils.toJson(info.getHashInfo()));
         return detail;
     }
 
@@ -161,9 +161,9 @@ public class OssFileServiceImpl extends SuperServiceImpl<OssFileMapper, OssFile>
         info.setThMetadata(jsonToMetadata(detail.getThMetadata()));
         info.setThUserMetadata(jsonToMetadata(detail.getThUserMetadata()));
         // 这里手动获取数据库中的 json 字符串 并转成 附加属性字典，方便使用
-        info.setAttr(JSON.parseObject(detail.getAttr(), Dict.class));
+        info.setAttr(JacksonUtils.toBean(detail.getAttr(), Dict.class));
         // 这里手动获取数据库中的 json 字符串 并转成 哈希信息，方便使用
-        info.setHashInfo(JSON.parseObject(detail.getHashInfo(), HashInfo.class));
+        info.setHashInfo(JacksonUtils.toBean(detail.getHashInfo(), HashInfo.class));
         return info;
     }
 
@@ -174,7 +174,7 @@ public class OssFileServiceImpl extends SuperServiceImpl<OssFileMapper, OssFile>
         if (StrUtil.isBlank(json)) {
             return null;
         }
-        return JSON.parseObject(json.replaceAll("^\"|\"$", ""), new TypeReference<>() {
+        return JacksonUtils.readValue(json.replaceAll("^\"|\"$", ""), new TypeReference<>() {
         });
     }
 

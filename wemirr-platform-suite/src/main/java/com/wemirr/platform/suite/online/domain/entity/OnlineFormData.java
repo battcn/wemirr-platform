@@ -19,10 +19,9 @@
 
 package com.wemirr.platform.suite.online.domain.entity;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.Fastjson2TypeHandler;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.wemirr.framework.commons.entity.SuperEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -30,6 +29,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.util.Map;
 
 /**
  * @author Levin
@@ -45,9 +46,9 @@ public class OnlineFormData extends SuperEntity<Long> {
     @Schema(defaultValue = "定义KEY")
     private String definitionKey;
     
-    @TableField(typeHandler = Fastjson2TypeHandler.class)
+    @TableField(typeHandler = JacksonTypeHandler.class)
     @Schema(defaultValue = "表单数据")
-    private JSONObject formData;
+    private Map<String, Object> formData;
     
     @Schema(defaultValue = "租户ID")
     private Long tenantId;

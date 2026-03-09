@@ -2,9 +2,9 @@ package com.wemirr.platform.workflow.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.framework.commons.exception.CheckedException;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
@@ -38,6 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -141,8 +142,9 @@ public class DefExtServiceImpl implements DefExtService {
     }
 
     @Override
-    public JSONObject exportJson(Long id) {
-        return JSONObject.parseObject(defService.exportJson(id));
+    public Map<String, Object> exportJson(Long id) {
+        return JacksonUtils.readValue(defService.exportJson(id), new TypeReference<>() {
+        });
     }
 
     @Override
@@ -155,7 +157,7 @@ public class DefExtServiceImpl implements DefExtService {
     @Transactional(rollbackFor = Exception.class)
     public void addFormDesign(Long id, FormDesignSaveReq req) {
         final FlowModelForm modelForm = this.processModelFormMapper.selectOne(FlowModelForm::getModelId, id);
-        String schemasJson = req.getSchemas().toJSONString();
+        String schemasJson = JacksonUtils.toJson(req.getSchemas());
         if (modelForm == null) {
             this.processModelFormMapper.insert(FlowModelForm.builder()
                     .modelId(id)
@@ -177,7 +179,8 @@ public class DefExtServiceImpl implements DefExtService {
         }
         return DesignModelFormResp.builder()
                 .modelId(modelForm.getModelId())
-                .schemas(JSONArray.parseArray(modelForm.getFormSchemas()))
+                .schemas(JacksonUtils.readValue(modelForm.getFormSchemas(), new TypeReference<>() {
+                }))
                 .script(modelForm.getFormScript())
                 .build();
     }
@@ -210,12 +213,12 @@ public class DefExtServiceImpl implements DefExtService {
             throw CheckedException.badRequest("模型未部署");
         }
         // 设置流程参数
-        JSONObject variables = new JSONObject(req.getFormData());
+        Map<String, Object> variables = new LinkedHashMap<>(req.getFormData());
         variables.put("ext.instanceName", req.getInstanceName());
         variables.put("ext.businessKey", req.getBusinessKey());
         variables.put("ext.businessGroup", req.getBusinessGroup());
         variables.put("ext.formData", req.getFormData());
-        variables.put("approverName", context.nickName());
+        variables.put("approverName", context.nickname());
         long startTime = System.currentTimeMillis();
         // 增加逻辑判断,根据业务编码查询是否存在流程实例了,若已存在流程实例,则获取流程实例的任务进行审批,
         var instance = insService.start(req.getBusinessKey(), FlowParams.build().variable(variables).flowCode(definition.getFlowCode()));
@@ -228,7 +231,7 @@ public class DefExtServiceImpl implements DefExtService {
                 .businessType(DefId2Tag.ofBusinessType(definition.getFlowCode()))
                 .instanceId(instance.getId()).businessId(req.getBusinessKey()).businessCode(req.getBusinessKey())
                 .title(definition.getFlowName())
-                .formData(req.getFormData() == null ? null : req.getFormData().toJSONString())
+                .formData(req.getFormData() == null ? null : JacksonUtils.toJson(req.getFormData()))
                 .formSchemas(form.getFormSchemas())
                 .formScript(form.getFormScript())
                 .build();

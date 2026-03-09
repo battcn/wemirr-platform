@@ -19,10 +19,12 @@
 
 package com.wemirr.framework.websocket.redis.action;
 
-import com.alibaba.fastjson2.JSONObject;
+import com.wemirr.framework.commons.MapHelper;
 import com.wemirr.framework.websocket.WebSocket;
 import com.wemirr.framework.websocket.WebSocketManager;
 import com.wemirr.framework.websocket.utils.WebSocketUtil;
+
+import java.util.Map;
 
 /**
  * {
@@ -37,7 +39,7 @@ import com.wemirr.framework.websocket.utils.WebSocketUtil;
 public class SendMessageAction implements Action {
 
     @Override
-    public void doMessage(WebSocketManager manager, JSONObject object) {
+    public void doMessage(WebSocketManager manager, Map<String, Object> object) {
         if (!object.containsKey(IDENTIFIER)) {
             return;
         }
@@ -45,12 +47,12 @@ public class SendMessageAction implements Action {
             return;
         }
 
-        String identifier = object.getString(IDENTIFIER);
+        String identifier = MapHelper.getAsStr(object, IDENTIFIER);
 
         WebSocket webSocket = manager.get(identifier);
         if (null == webSocket) {
             return;
         }
-        WebSocketUtil.sendMessage(webSocket.getSession(), object.getString(MESSAGE));
+        WebSocketUtil.sendMessage(webSocket.getSession(), MapHelper.getAsStr(object, MESSAGE));
     }
 }

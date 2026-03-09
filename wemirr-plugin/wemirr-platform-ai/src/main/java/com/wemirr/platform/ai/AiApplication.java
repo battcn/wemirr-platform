@@ -21,10 +21,12 @@ import java.net.InetAddress;
  */
 @Slf4j
 @EnableAsync
-@SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.wemirr")
 @MapperScan(value = "com.wemirr.**.repository", annotationClass = Repository.class)
+@SpringBootApplication(exclude = {
+        org.springframework.boot.autoconfigure.neo4j.Neo4jAutoConfiguration.class
+})
 public class AiApplication {
 
     /**

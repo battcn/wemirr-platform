@@ -48,12 +48,12 @@
 
 ### 📚 文档与支持
 
-| 资源 | 链接 |
-|------|------|
-| 📖 开发文档 | [docs.battcn.com](https://docs.battcn.com) |
-| 🎯 演示地址 | [cloud.battcn.com](https://cloud.battcn.com/) |
-| 💬 技术交流群 | QQ群：789517089 |
-| 📱 微信 | battcn2022 |
+| 资源 | 链接                                                                                              |
+|------|-------------------------------------------------------------------------------------------------|
+| 📖 开发文档 | [docs.battcn.com](https://docs.battcn.com)                                                      |
+| 🎯 演示地址 | [cloud.battcn.com](https://cloud.battcn.com/)、[h5.battcn.com](https://h5.battcn.com/)(H5 移动APP) |
+| 💬 技术交流群 | QQ群：789517089                                                                                   |
+| 📱 微信 | battcn2022                                                                                      |
 
 **演示账号**：
 - 平台管理员：租户码 `0000`，账号 `admin`，密码 `123456`

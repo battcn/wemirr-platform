@@ -1,6 +1,6 @@
 package com.wemirr.platform.workflow.feign.domain.req;
 
-import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -44,6 +44,6 @@ public class StartInstanceReq {
 
     @NotNull(message = "表单参数不能为空")
     @Schema(description = "表单参数")
-    private JSONObject variables;
+    private JsonNode variables;
 
 }

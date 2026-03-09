@@ -4,33 +4,52 @@ import dev.langchain4j.rag.content.Content;
 
 import java.util.List;
 
+import static com.wemirr.platform.ai.core.constant.AiServiceConstants.*;
+
 /**
  * 图检索抽象接口
  * <p>
  * 定义图数据库的通用检索操作，支持多种检索策略：
- * - 全文索引搜索
+ * - 向量语义搜索（语义路）
+ * - 实体精确匹配（精确路）
+ * - 混合检索（Hybrid Search）
  * - 子图扩展
- * - 关键词检索
- * - Cypher/SPARQL 查询（由具体实现扩展）
  *
  * @author xJh
  * @since 2025/12/18
  */
 public interface GraphRetriever {
 
-    // ==================== 全文搜索 ====================
+    // ==================== 向量语义搜索（语义路） ====================
 
     /**
-     * 基于全文索引搜索实体节点
+     * 基于向量相似度搜索实体节点
+     * <p>
+     * 将用户问题转化为向量，在图数据库中进行语义相似度搜索
      *
      * @param knowledgeBaseId 知识库ID
-     * @param keywords        关键词列表
-     * @param scoreThreshold  相关度阈值 (0-1)
-     * @param limit           每个关键词返回的最大结果数
+     * @param question        用户问题（将被向量化）
+     * @param scoreThreshold  相似度阈值 (0-1)
+     * @param limit           返回的最大结果数
      * @return 匹配的实体节点ID列表
      */
-    List<String> searchByFulltext(String knowledgeBaseId, List<String> keywords,
-                                  double scoreThreshold, int limit);
+    List<String> searchByVector(String knowledgeBaseId, String question,
+                                double scoreThreshold, int limit);
+
+    // ==================== 实体精确匹配（精确路） ====================
+
+    /**
+     * 基于实体名称精确匹配搜索节点
+     * <p>
+     * 使用 CONTAINS 或精确匹配在图数据库中查找实体节点，
+     * 适用于人名、专有名词、ID等需要精确匹配的场景
+     *
+     * @param knowledgeBaseId 知识库ID
+     * @param entities        实体名称列表（由 LLM 提取）
+     * @param limit           每个实体返回的最大结果数
+     * @return 匹配的实体节点ID列表
+     */
+    List<String> searchByEntityMatch(String knowledgeBaseId, List<String> entities, int limit);
 
     // ==================== 子图扩展 ====================
 
@@ -46,33 +65,39 @@ public interface GraphRetriever {
     List<String> expandSubgraph(String knowledgeBaseId, List<String> anchorEntities,
                                 int hopDepth, int maxTriples);
 
-    // ==================== 关键词检索 ====================
+    // ==================== 向量语义检索（推荐） ====================
 
     /**
-     * 一站式关键词检索：全文搜索 + 子图扩展（使用默认参数）
+     * 一站式向量语义检索：向量搜索 + 子图扩展（使用默认参数）
+     * <p>
+     * 推荐使用此方法替代关键词检索，能更好地处理语义查询
      *
      * @param knowledgeBaseId 知识库ID
-     * @param keywords        关键词列表
+     * @param question        用户问题
      * @return 三元组上下文列表
      */
-    default List<String> retrieveByKeywords(String knowledgeBaseId, List<String> keywords) {
-        return retrieveByKeywords(knowledgeBaseId, keywords, 0.3, 5, 1, 30);
+    default List<String> retrieveByVector(String knowledgeBaseId, String question) {
+        return retrieveByVector(knowledgeBaseId, question,
+                DEFAULT_VECTOR_SCORE_THRESHOLD,
+                DEFAULT_VECTOR_SEARCH_LIMIT,
+                DEFAULT_HOP_DEPTH,
+                DEFAULT_MAX_TRIPLES);
     }
 
     /**
-     * 关键词检索
+     * 向量语义检索：向量搜索 + 子图扩展
      *
      * @param knowledgeBaseId 知识库ID
-     * @param keywords        关键词列表
-     * @param scoreThreshold  全文搜索相关度阈值
-     * @param searchLimit     每个关键词的搜索结果数
+     * @param question        用户问题
+     * @param scoreThreshold  向量相似度阈值
+     * @param searchLimit     搜索结果数
      * @param hopDepth        子图扩展深度
      * @param maxTriples      最大三元组数
      * @return 三元组上下文列表
      */
-    List<String> retrieveByKeywords(String knowledgeBaseId, List<String> keywords,
-                                    double scoreThreshold, int searchLimit,
-                                    int hopDepth, int maxTriples);
+    List<String> retrieveByVector(String knowledgeBaseId, String question,
+                                  double scoreThreshold, int searchLimit,
+                                  int hopDepth, int maxTriples);
 
     // ==================== Content 转换 ====================
 

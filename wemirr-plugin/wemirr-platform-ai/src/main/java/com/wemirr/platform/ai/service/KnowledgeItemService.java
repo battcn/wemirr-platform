@@ -3,11 +3,12 @@ package com.wemirr.platform.ai.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.framework.db.mybatisplus.ext.SuperService;
 import com.wemirr.platform.ai.core.enums.KnowledgeItemType;
-import com.wemirr.platform.ai.domain.dto.rep.KnowledgeItemResp;
-import com.wemirr.platform.ai.domain.dto.rep.PreviewChunkResp;
 import com.wemirr.platform.ai.domain.dto.req.DocumentSaveReq;
+import com.wemirr.platform.ai.domain.dto.req.DocumentUpdateReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemPageReq;
 import com.wemirr.platform.ai.domain.dto.req.KnowledgeItemSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.KnowledgeItemResp;
+import com.wemirr.platform.ai.domain.dto.resp.PreviewChunkResp;
 import com.wemirr.platform.ai.domain.entity.KnowledgeItem;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -122,19 +123,17 @@ public interface KnowledgeItemService extends SuperService<KnowledgeItem> {
     /**
      * 创建文档知识条目
      *
-     * @param kbId 知识库ID
-     * @param docId 文档ID
-     * @param metadata 元数据
+     * @param req 文档保存请求
      * @return 知识条目ID
-     */
-    Long createDocumentItem(Long kbId, String docId, Map<String, Object> metadata);
-
-    /**
-     * 直接创建/更新/上传文档型 KnowledgeItem
      */
     Long createDocument(DocumentSaveReq req);
 
-    void updateDocument(Long id, String title, String content, String contentType, String filePath, Long fileSize, Map<String, Object> metadata);
+    /**
+     * 更新文档知识条目
+     *
+     * @param req 文档更新请求
+     */
+    void updateDocument(DocumentUpdateReq req);
 
     Long uploadAndProcess(Long kbId, MultipartFile file) throws IOException;
 

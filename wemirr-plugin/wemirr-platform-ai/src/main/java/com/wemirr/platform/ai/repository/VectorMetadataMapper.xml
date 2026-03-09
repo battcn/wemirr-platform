@@ -12,7 +12,7 @@
             (
                 #{metadata.vectorId}, #{metadata.kbId}, #{metadata.itemId}, 
                 #{metadata.chunkId}, 
-                #{metadata.metadata,typeHandler=com.wemirr.framework.db.mybatisplus.handler.type.JsonTypeHandler}, 
+                #{metadata.metadata,typeHandler=com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler},
                 #{metadata.createTime}, #{metadata.updateTime}
             )
         </foreach>

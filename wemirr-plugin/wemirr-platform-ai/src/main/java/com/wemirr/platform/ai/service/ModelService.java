@@ -1,0 +1,28 @@
+package com.wemirr.platform.ai.service;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wemirr.framework.db.mybatisplus.ext.SuperService;
+import com.wemirr.platform.ai.domain.dto.req.ModelPageReq;
+import com.wemirr.platform.ai.domain.dto.req.ModelSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.ModelDetailResp;
+import com.wemirr.platform.ai.domain.dto.resp.ModelPageResp;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
+
+/**
+ * 模型配置服务
+ * 
+ * @author xJh
+ * @since 2025/10/11
+ **/
+public interface ModelService extends SuperService<ModelEntity> {
+
+    IPage<ModelPageResp> pageList(ModelPageReq req);
+
+    ModelDetailResp detail(Long id);
+
+    void create(ModelSaveReq req);
+
+    void modify(Long id, ModelSaveReq req);
+
+    void remove(Long id);
+}

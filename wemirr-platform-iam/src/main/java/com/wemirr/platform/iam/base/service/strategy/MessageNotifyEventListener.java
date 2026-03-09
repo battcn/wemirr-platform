@@ -29,7 +29,6 @@ import com.wemirr.platform.iam.base.domain.entity.MessageChannel;
 import com.wemirr.platform.iam.base.domain.entity.MessageNotify;
 import com.wemirr.platform.iam.base.domain.entity.MessageTemplate;
 import com.wemirr.platform.iam.base.repository.MessageChannelMapper;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -52,7 +51,7 @@ public class MessageNotifyEventListener {
     private final ThreadPoolExecutor poolExecutor;
     private final MessageChannelMapper messageChannelMapper;
     
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         Map<String, MessageNotifyStrategy> beansOfType = SpringUtil.getBeansOfType(MessageNotifyStrategy.class);
         for (Map.Entry<String, MessageNotifyStrategy> entry : beansOfType.entrySet()) {

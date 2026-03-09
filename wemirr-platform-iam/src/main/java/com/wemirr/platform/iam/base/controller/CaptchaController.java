@@ -20,9 +20,7 @@
 package com.wemirr.platform.iam.base.controller;
 
 import cloud.tianai.captcha.application.vo.ImageCaptchaVO;
-import cloud.tianai.captcha.common.response.ApiResponse;
 import cn.dev33.satoken.annotation.SaIgnore;
-import com.wemirr.framework.commons.annotation.IgnoreGlobalResponse;
 import com.wemirr.platform.iam.base.domain.dto.req.CaptchaReq;
 import com.wemirr.platform.iam.base.domain.dto.resp.CaptchaResp;
 import com.wemirr.platform.iam.system.service.CaptchaService;
@@ -53,8 +51,7 @@ public class CaptchaController {
 
     @SaIgnore
     @GetMapping("/captcha/slider")
-    @IgnoreGlobalResponse(description = "滑块验证码")
-    public ApiResponse<ImageCaptchaVO> captcha() {
+    public ImageCaptchaVO captcha() {
         // 1.生成验证码(该数据返回给前端用于展示验证码数据)
         // 参数1为具体的验证码类型， 默认支持 SLIDER、ROTATE、WORD_IMAGE_CLICK、CONCAT 等验证码类型，详见： `CaptchaTypeConstant`类
         //前端需要特定格式返回。
@@ -62,7 +59,7 @@ public class CaptchaController {
     }
 
     @SaIgnore
-    @PostMapping("/captcha/check")
+    @PostMapping("/captcha/slider/check")
     public CaptchaResp check(@RequestBody CaptchaReq req) {
         return captchaService.check(req);
     }

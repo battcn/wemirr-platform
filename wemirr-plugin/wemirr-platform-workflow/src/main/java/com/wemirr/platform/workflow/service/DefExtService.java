@@ -1,6 +1,5 @@
 package com.wemirr.platform.workflow.service;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wemirr.platform.workflow.domain.dto.req.DefinitionDeployReq;
 import com.wemirr.platform.workflow.domain.dto.req.DefinitionPageReq;
@@ -16,6 +15,7 @@ import org.dromara.warm.flow.core.dto.DefJson;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 操作warm-flow
@@ -102,7 +102,7 @@ public interface DefExtService {
      * @param id id
      * @return 查询结果
      */
-    JSONObject exportJson(Long id);
+    Map<String, Object> exportJson(Long id);
 
     /**
      * 导入流程定义

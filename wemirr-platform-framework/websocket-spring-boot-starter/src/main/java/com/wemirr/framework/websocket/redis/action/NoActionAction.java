@@ -19,8 +19,9 @@
 
 package com.wemirr.framework.websocket.redis.action;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.wemirr.framework.websocket.WebSocketManager;
+
+import java.util.Map;
 
 /**
  * do nothing action
@@ -30,7 +31,7 @@ import com.wemirr.framework.websocket.WebSocketManager;
 public class NoActionAction implements Action {
 
     @Override
-    public void doMessage(WebSocketManager manager, JSONObject object) {
+    public void doMessage(WebSocketManager manager, Map<String, Object> object) {
         // do no thing
     }
 }

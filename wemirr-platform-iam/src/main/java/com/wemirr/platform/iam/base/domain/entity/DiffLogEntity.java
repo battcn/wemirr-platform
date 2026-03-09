@@ -20,8 +20,7 @@
 package com.wemirr.platform.iam.base.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.wemirr.framework.db.mybatisplus.handler.type.JsonListTypeHandler;
-import com.wemirr.framework.db.mybatisplus.handler.type.MapTypeHandler;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.wemirr.framework.log.diff.domain.DiffLogInfo;
 import com.wemirr.framework.log.diff.domain.FieldChange;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -45,11 +44,11 @@ public class DiffLogEntity extends DiffLogInfo {
     @OrderBy
     private Long id;
 
-    @TableField(typeHandler = MapTypeHandler.class)
+    @TableField(typeHandler = JacksonTypeHandler.class)
     @Schema(description = "请求上下文信息（IP、浏览器、URI等）")
     protected Map<String, Object> extra;
 
-    @TableField(typeHandler = JsonListTypeHandler.class)
+    @TableField(typeHandler = JacksonTypeHandler.class)
     @Schema(description = "字段变更记录列表")
     protected List<FieldChange> variables;
 

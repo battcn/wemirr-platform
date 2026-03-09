@@ -21,8 +21,8 @@ package com.wemirr.platform.gateway.configuration.rule;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
-import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Lists;
+import com.wemirr.framework.commons.JacksonUtils;
 import com.wemirr.platform.gateway.rest.domain.BlacklistRule;
 import com.wemirr.platform.gateway.rest.domain.LimitRule;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +61,7 @@ public class LimitHelper implements GatewayRule<LimitRule> {
         }
         return stringRedisTemplate.opsForHash().multiGet(RULE_LIMIT.hashKey(), keys).stream()
                 .map(object -> {
-                    LimitRule rule = JSON.parseObject(object.toString(), LimitRule.class);
+                    LimitRule rule = JacksonUtils.toBean(object.toString(), LimitRule.class);
                     if (rule != null) {
                         final Object visits = Optional.ofNullable(stringRedisTemplate.opsForHash()
                                 .get(RULE_LIMIT.visitsKey(), rule.getId())).orElse("0");
@@ -82,7 +82,7 @@ public class LimitHelper implements GatewayRule<LimitRule> {
         if (rule.getCreateTime() == null) {
             rule.setCreateTime(Instant.now());
         }
-        stringRedisTemplate.opsForHash().put(RULE_LIMIT.hashKey(), rule.getId(), JSON.toJSONString(rule));
+        stringRedisTemplate.opsForHash().put(RULE_LIMIT.hashKey(), rule.getId(), JacksonUtils.toJson(rule));
     }
     
     public void delete(String id) {

@@ -21,7 +21,7 @@ package com.wemirr.framework.redis.plus.listener;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson2.JSON;
+import com.wemirr.framework.commons.JacksonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.Message;
@@ -57,7 +57,7 @@ public interface AbstractMessageEventListener<T> extends MessageEventListener {
         byte[] bodyBytes = message.getBody();
         String body = stringSerializer.deserialize(bodyBytes);
         try {
-            handleMessage(JSON.parseObject(body, type()));
+            handleMessage(JacksonUtils.readValue(body, type()));
         } catch (Exception e) {
             if (type().equals(String.class)) {
                 handleMessage((T) body);

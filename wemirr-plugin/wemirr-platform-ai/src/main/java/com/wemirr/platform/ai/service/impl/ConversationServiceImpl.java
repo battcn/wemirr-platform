@@ -6,18 +6,22 @@ import com.wemirr.framework.commons.BeanUtilPlus;
 import com.wemirr.framework.commons.security.AuthenticationContext;
 import com.wemirr.framework.db.mybatisplus.ext.SuperServiceImpl;
 import com.wemirr.framework.db.mybatisplus.wrap.Wraps;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationDetailRep;
-import com.wemirr.platform.ai.domain.dto.rep.ConversationPageRep;
 import com.wemirr.platform.ai.domain.dto.req.ConversationPageReq;
 import com.wemirr.platform.ai.domain.dto.req.ConversationSaveReq;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationDetailResp;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationMessageResp;
+import com.wemirr.platform.ai.domain.dto.resp.ConversationPageResp;
 import com.wemirr.platform.ai.domain.entity.Conversation;
+import com.wemirr.platform.ai.domain.entity.ConversationTurn;
 import com.wemirr.platform.ai.repository.ConversationMapper;
+import com.wemirr.platform.ai.repository.ConversationMessageMapper;
 import com.wemirr.platform.ai.service.ConversationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -28,54 +32,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper, Conversation> implements ConversationService {
 
-    private final AuthenticationContext authenticationContext;
+    private final AuthenticationContext context;
+    private final ConversationMessageMapper conversationMessageMapper;
+
 
     @Override
-    public List<Conversation> getUserConversations(Long userId) {
-        return this.list(Wraps.<Conversation>lbQ()
-                .eq(Conversation::getUserId, userId)
-                .orderByDesc(Conversation::getPinned)
-                .orderByDesc(Conversation::getLastModifyTime));
-    }
-
-    @Override
-    public IPage<Conversation> pageUserConversations(Long userId, Page<Conversation> page) {
-        return this.page(page, Wraps.<Conversation>lbQ()
-                .eq(Conversation::getUserId, userId)
-                .orderByDesc(Conversation::getPinned)
-                .orderByDesc(Conversation::getLastModifyTime));
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void deleteConversation(Long conversationId) {
-        Conversation conversation = this.getById(conversationId);
-        if (conversation == null) {
-            throw new RuntimeException("会话不存在");
-        }
-        if (!conversation.getUserId().equals(authenticationContext.userId())) {
-            throw new RuntimeException("无权删除该会话");
-        }
-        this.removeById(conversationId);
-    }
-
-    @Override
-    public IPage<ConversationPageRep> pageList(ConversationPageReq req) {
-        Long userId = authenticationContext.userId();
-        Page<Conversation> page = new Page<>(req.getCurrent(), req.getSize());
-        Page<Conversation> result = this.page(page, Wraps.<Conversation>lbQ()
-                .eq(Conversation::getUserId, userId)
-                .eq(Conversation::getType, req.getType())
-                .like(req.getTitle() != null, Conversation::getTitle, req.getTitle())
-                .orderByDesc(Conversation::getPinned)
-                .orderByDesc(Conversation::getLastModifyTime));
-
+    public IPage<ConversationPageResp> pageList(ConversationPageReq req) {
+        Long userId = context.userId();
+        Page<Conversation> result = this.page(req.buildPage(), Wraps.<Conversation>lbQ().eq(Conversation::getUserId, userId)
+                .like(Conversation::getTitle, req.getTitle()).eq(Conversation::getType, req.getType())
+                .eq(Conversation::getAgentId, req.getAgentId())
+                .orderByDesc(Conversation::getPinned).orderByDesc(Conversation::getLastModifyTime).orderByDesc(Conversation::getId));
         return result.convert(this::convertToPageRep);
     }
 
     @Override
-    public ConversationDetailRep detail(Long id) {
-        Long userId = authenticationContext.userId();
+    public ConversationDetailResp detail(Long id) {
+        Long userId = context.userId();
         Conversation conversation = this.getById(id);
         if (conversation == null) {
             throw new RuntimeException("会话不存在");
@@ -83,26 +56,26 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
         if (!conversation.getUserId().equals(userId)) {
             throw new RuntimeException("无权访问该会话");
         }
-        return convertToDetailRep(conversation);
+        return convertToDetailResp(conversation);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void create(ConversationSaveReq req) {
-        Long userId = authenticationContext.userId();
-//        Conversation conversation = new Conversation();
-//        BeanUtils.copyProperties(req, conversation);
+    public Conversation create(ConversationSaveReq req) {
+        Long userId = context.userId();
         Conversation conversation = BeanUtilPlus.toBean(req, Conversation.class);
         conversation.setUserId(userId);
         conversation.setMessageCount(0);
         conversation.setPinned(false);
+        conversation.setLastModifyTime(Instant.now());
         this.save(conversation);
+        return conversation;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void modify(Long id, ConversationSaveReq req) {
-        Long userId = authenticationContext.userId();
+        Long userId = context.userId();
         Conversation conversation = this.getById(id);
         if (conversation == null) {
             throw new RuntimeException("会话不存在");
@@ -118,7 +91,7 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void remove(Long id) {
-        Long userId = authenticationContext.userId();
+        Long userId = context.userId();
         Conversation conversation = this.getById(id);
         if (conversation == null) {
             throw new RuntimeException("会话不存在");
@@ -139,7 +112,7 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void clearMessages(Long id) {
-        Long userId = authenticationContext.userId();
+        Long userId = context.userId();
         Conversation conversation = this.getById(id);
         if (conversation == null) {
             throw new RuntimeException("会话不存在");
@@ -155,7 +128,7 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void pin(Long id) {
-        Long userId = authenticationContext.userId();
+        Long userId = context.userId();
         Conversation conversation = this.getById(id);
         if (conversation == null) {
             throw new RuntimeException("会话不存在");
@@ -170,7 +143,7 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void unpin(Long id) {
-        Long userId = authenticationContext.userId();
+        Long userId = context.userId();
         Conversation conversation = this.getById(id);
         if (conversation == null) {
             throw new RuntimeException("会话不存在");
@@ -182,21 +155,48 @@ public class ConversationServiceImpl extends SuperServiceImpl<ConversationMapper
         this.updateById(conversation);
     }
 
-    private ConversationPageRep convertToPageRep(Conversation conversation) {
+    private ConversationPageResp convertToPageRep(Conversation conversation) {
         if (conversation == null) {
             return null;
         }
-        return BeanUtilPlus.toBean(conversation, ConversationPageRep.class);
+        return BeanUtilPlus.toBean(conversation, ConversationPageResp.class);
 
     }
 
-    private ConversationDetailRep convertToDetailRep(Conversation conversation) {
+    private ConversationDetailResp convertToDetailResp(Conversation conversation) {
         if (conversation == null) {
             return null;
         }
-        ConversationDetailRep rep = new ConversationDetailRep();
-        BeanUtils.copyProperties(conversation, rep);
-        return rep;
+        ConversationDetailResp resp = new ConversationDetailResp();
+        BeanUtils.copyProperties(conversation, resp);
+        return resp;
     }
 
+    @Override
+    public List<ConversationMessageResp> turnList(Long conversationId) {
+        Long userId = context.userId();
+        Conversation conversation = this.getById(conversationId);
+        if (conversation == null) {
+            throw new RuntimeException("会话不存在");
+        }
+        if (!conversation.getUserId().equals(userId)) {
+            throw new RuntimeException("无权访问该会话");
+        }
+        List<ConversationTurn> turnList = conversationMessageMapper.selectList(Wraps.<ConversationTurn>lbQ()
+                .eq(ConversationTurn::getConversationId, conversationId).orderByAsc(ConversationTurn::getSequenceNum));
+        return turnList.stream().map(turn -> BeanUtilPlus.toBean(turn, ConversationMessageResp.class)).toList();
+    }
+
+    @Override
+    public List<ConversationMessageResp> messageList(Long kbId, Long agentId) {
+        Long userId = context.userId();
+        var conversation = this.baseMapper.selectOne(Wraps.<Conversation>lbQ().eq(Conversation::getKnowledgeBaseIds, kbId)
+                .eq(Conversation::getAgentId, agentId).eq(Conversation::getUserId, userId));
+        if (conversation == null) {
+            return List.of();
+        }
+        List<ConversationTurn> turnList = conversationMessageMapper.selectList(Wraps.<ConversationTurn>lbQ()
+                .eq(ConversationTurn::getConversationId, conversation.getId()).orderByAsc(ConversationTurn::getSequenceNum));
+        return turnList.stream().map(turn -> BeanUtilPlus.toBean(turn, ConversationMessageResp.class)).toList();
+    }
 }

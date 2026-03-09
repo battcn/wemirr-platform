@@ -6,9 +6,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.JSONWriter;
 import com.wemirr.framework.boot.log.AccessLogInfo;
 import com.wemirr.framework.boot.log.AccessLogProperties;
 import com.wemirr.framework.boot.log.event.AccessLogEvent;
@@ -139,7 +136,7 @@ public class AccessLogAspect {
                 logInfo.setMessage(result.getMessage());
             }
             if (accessLog.response()) {
-                logInfo.setResponse(truncate(JSON.toJSONString(ret, JSONWriter.Feature.WriteMapNullValue), MAX_LENGTH));
+                logInfo.setResponse(truncate(JacksonUtils.toJson(ret), MAX_LENGTH));
             }
             return ret;
         } catch (Throwable e) {
@@ -201,7 +198,7 @@ public class AccessLogAspect {
             logInfo.setTenantId(context.tenantId());
             logInfo.setTenantCode(context.tenantCode());
             logInfo.setCreateBy(context.userId());
-            logInfo.setCreateName(context.nickName());
+            logInfo.setCreateName(context.nickname());
         }
         logInfo.setTrace(MDC.get(accessLogProperties.getRequestId()));
         logInfo.setModule(annotation.module());
@@ -253,7 +250,7 @@ public class AccessLogAspect {
             List<Object> arguments = Arrays.stream(args)
                     .filter(arg -> !(arg instanceof ServletRequest || arg instanceof ServletResponse || arg instanceof MultipartFile))
                     .collect(Collectors.toList());
-            return JSONObject.toJSONString(arguments, JSONWriter.Feature.WriteMapNullValue);
+            return JacksonUtils.toJson(arguments);
         } catch (Exception e) {
             return "Args serialization failed";
         }

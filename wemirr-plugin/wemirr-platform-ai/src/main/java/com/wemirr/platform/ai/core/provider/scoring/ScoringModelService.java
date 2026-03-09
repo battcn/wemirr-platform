@@ -1,6 +1,6 @@
 package com.wemirr.platform.ai.core.provider.scoring;
 
-import com.wemirr.platform.ai.domain.entity.ModelConfig;
+import com.wemirr.platform.ai.domain.entity.ModelEntity;
 import dev.langchain4j.model.scoring.ScoringModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,11 +36,11 @@ public class ScoringModelService {
      * @param config 模型配置
      * @return ScoringModel 实例
      */
-    public ScoringModel getModel(ModelConfig config) {
+    public ScoringModel getModel(ModelEntity config) {
         String cacheKey = buildCacheKey(config);
         return modelCache.computeIfAbsent(cacheKey, key -> {
             ScoringModelProvider provider = registry.getProvider(config);
-            log.debug("创建重排序模型: provider={}, model={}", config.getProvider(), config.getModelName());
+            log.debug("创建重排序模型: provider={}, model={}", config.getProvider(), config.getName());
             return provider.createModel(config);
         });
     }
@@ -51,7 +51,7 @@ public class ScoringModelService {
      * @param config 模型配置
      * @return 提供者
      */
-    public ScoringModelProvider getProvider(ModelConfig config) {
+    public ScoringModelProvider getProvider(ModelEntity config) {
         return registry.getProvider(config);
     }
 
@@ -96,16 +96,14 @@ public class ScoringModelService {
      *
      * @param config 模型配置
      */
-    public void evictCache(ModelConfig config) {
+    public void evictCache(ModelEntity config) {
         String cacheKey = buildCacheKey(config);
         modelCache.remove(cacheKey);
         log.debug("移除重排序模型缓存: {}", cacheKey);
     }
 
-    private String buildCacheKey(ModelConfig config) {
-        return String.format("%s:%s:%s",
-                config.getProvider(),
-                config.getModelName(),
+    private String buildCacheKey(ModelEntity config) {
+        return String.format("%s:%s:%s", config.getProvider(), config.getName(),
                 config.getBaseUrl() != null ? config.getBaseUrl() : "default"
         );
     }
