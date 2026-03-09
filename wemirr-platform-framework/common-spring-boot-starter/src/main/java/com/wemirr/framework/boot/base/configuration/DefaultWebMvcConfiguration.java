@@ -19,6 +19,7 @@
 
 package com.wemirr.framework.boot.base.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -31,10 +32,11 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.wemirr.framework.boot.base.HttpInterceptor;
 import com.wemirr.framework.boot.base.converter.*;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.jackson2.autoconfigure.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -58,7 +60,10 @@ import java.util.TimeZone;
  */
 @Slf4j
 @Configuration
+@RequiredArgsConstructor
 public class DefaultWebMvcConfiguration implements WebMvcConfigurer {
+
+    private final ObjectMapper objectMapper;
 
     @Value("${spring.jackson.date-format:yyyy-MM-dd HH:mm:ss}")
     private String pattern;
@@ -80,17 +85,18 @@ public class DefaultWebMvcConfiguration implements WebMvcConfigurer {
     /**
      * serializerByType 解决json中返回的 LocalDateTime 格式问题
      * deserializerByType 解决string类型入参转为 LocalDateTime 格式问题
+     * Spring Boot 4 移除了 Jackson2ObjectMapperBuilderCustomizer，改为直接配置 ObjectMapper
      */
-    @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
-        return builder -> {
-            builder.locale(Locale.CHINA);
-            builder.timeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
-            builder.simpleDateFormat(pattern);
-            builder.serializerByType(Long.class, ToStringSerializer.instance);
-            // builder.serializerByType(Long.TYPE, ToStringSerializer.instance);
-            builder.modules(new LocalJavaTimeModule(), new JavaTimeModule());
-        };
+    @PostConstruct
+    public void customizeObjectMapper() {
+        objectMapper.setLocale(Locale.CHINA);
+        objectMapper.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
+        objectMapper.setDateFormat(new java.text.SimpleDateFormat(pattern));
+        SimpleModule longModule = new SimpleModule();
+        longModule.addSerializer(Long.class, ToStringSerializer.instance);
+        objectMapper.registerModule(longModule);
+        objectMapper.registerModule(new LocalJavaTimeModule());
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
     /**
